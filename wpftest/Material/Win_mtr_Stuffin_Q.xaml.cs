@@ -6,9 +6,9 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WizMes_ANT.PopUP;
+using WizMes_HanYoung.PopUP;
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     /// <summary>
     /// Win_mtr_Stuffin_Q_New.xaml에 대한 상호 작용 논리
@@ -29,7 +29,7 @@ namespace WizMes_ANT
         private Microsoft.Office.Interop.Excel.Worksheet copysheet;
         private Microsoft.Office.Interop.Excel.Worksheet pastesheet;
         //(기다림 알림 메시지창)
-        WizMes_ANT.PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
+        WizMes_HanYoung.PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
 
         public Win_mtr_Stuffin_Q()
         {

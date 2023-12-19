@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     [ImplementPropertyChanged]
     public class BaseView : INotifyPropertyChanged

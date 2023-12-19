@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     public static class Global_Event
     {

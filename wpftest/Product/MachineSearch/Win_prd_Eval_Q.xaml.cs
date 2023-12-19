@@ -6,10 +6,10 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WizMes_ANT.PopUP;
+using WizMes_HanYoung.PopUP;
 using WPF.MDI;
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     /// <summary>
     /// Win_com_MCEvalCal_U.xaml에 대한 상호 작용 논리
@@ -432,7 +432,7 @@ namespace WizMes_ANT
             }
             else
             {
-                Type type = Type.GetType("WizMes_ANT." + MainWindow.mMenulist[k].ProgramID.Trim(), true);
+                Type type = Type.GetType("WizMes_HanYoung." + MainWindow.mMenulist[k].ProgramID.Trim(), true);
                 object uie = Activator.CreateInstance(type);
 
                 MainWindow.mMenulist[k].subProgramID = new MdiChild()

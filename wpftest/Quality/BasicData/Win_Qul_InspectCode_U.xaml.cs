@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
-using WizMes_ANT.PopUP;
+using WizMes_HanYoung.PopUP;
 
 //*******************************************************************************
 //프로그램명    Win_Qul_InspectCode_U.cs
@@ -24,7 +24,7 @@ using WizMes_ANT.PopUP;
 //*******************************************************************************
 
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     /// <summary>
     /// Win_Qul_InspectCode_U.xaml에 대한 상호 작용 논리

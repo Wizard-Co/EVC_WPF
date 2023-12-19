@@ -7,10 +7,10 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WizMes_ANT.PopUP;
+using WizMes_HanYoung.PopUP;
 using WPF.MDI;
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     /// <summary>
     /// Win_sbl_Outware_Q.xaml에 대한 상호 작용 논리
@@ -33,7 +33,7 @@ namespace WizMes_ANT
         private Microsoft.Office.Interop.Excel.Worksheet copysheet;
         private Microsoft.Office.Interop.Excel.Worksheet pastesheet;
         //(기다림 알림 메시지창)
-        WizMes_ANT.PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
+        WizMes_HanYoung.PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
 
         // 출고 명세서 인쇄를 위해서
         // 순수 데이터 만 넣기(오더계, 일계, 거래처계, 총계 다 뺌)

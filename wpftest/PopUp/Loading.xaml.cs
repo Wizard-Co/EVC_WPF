@@ -6,7 +6,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 
-namespace WizMes_ANT.PopUp
+namespace WizMes_HanYoung.PopUp
 {
     /// <summary>
     /// LoginPage.xaml에 대한 상호 작용 논리

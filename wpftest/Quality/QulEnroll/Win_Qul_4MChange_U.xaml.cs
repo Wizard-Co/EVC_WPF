@@ -6,9 +6,9 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WizMes_ANT.PopUP;
+using WizMes_HanYoung.PopUP;
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     /// <summary>
     /// Win_Qul_4MChange_U.xaml에 대한 상호 작용 논리

@@ -14,11 +14,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WizMes_ANT.PopUp;
-using WizMes_ANT.PopUP;
+using WizMes_HanYoung.PopUp;
+using WizMes_HanYoung.PopUP;
 using WPF.MDI;
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     /// <summary>
     /// Win_prd_PlanInputView_U_U.xaml에 대한 상호 작용 논리
@@ -33,7 +33,7 @@ namespace WizMes_ANT
         private Microsoft.Office.Interop.Excel.Worksheet pastesheet;
         // 엑셀 활용 용도 (프린트)
 
-        WizMes_ANT.PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
+        WizMes_HanYoung.PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
         //(기다림 알림 메시지창)
         System.Data.DataTable DT;
         Lib lib = new Lib();

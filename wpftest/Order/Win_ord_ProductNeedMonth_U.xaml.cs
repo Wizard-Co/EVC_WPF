@@ -4,8 +4,8 @@ using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WizMes_ANT.PopUp;
-using WizMes_ANT.PopUP;
+using WizMes_HanYoung.PopUp;
+using WizMes_HanYoung.PopUP;
 using Excel = Microsoft.Office.Interop.Excel;
 
 /**************************************************************************************************
@@ -20,7 +20,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 ' 2023.03.30, 장시영, 신규 화면 생성
 '**************************************************************************************************/
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     /// <summary>
     /// Win_ord_ProductNeedMonth_U.xaml에 대한 상호 작용 논리

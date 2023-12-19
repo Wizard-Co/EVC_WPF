@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 
-namespace WizMes_ANT.PopUp
+namespace WizMes_HanYoung.PopUp
 {
     public partial class Stuffin_Inspect : Window
     {

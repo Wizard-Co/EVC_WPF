@@ -1,6 +1,6 @@
 ﻿
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     class Win_dvl_MoldRepair_U_CodeView : BaseView
     {

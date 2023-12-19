@@ -13,8 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WizMes_ANT.PopUp;
-using WizMes_ANT.PopUP;
+using WizMes_HanYoung.PopUp;
+using WizMes_HanYoung.PopUP;
 
 /**************************************************************************************************
 '** 프로그램명 : Win_out_OutwareReq_U
@@ -28,7 +28,7 @@ using WizMes_ANT.PopUP;
 ' 2023.03.29, 장시영, 삼익SDT에서 가져옴
 '**************************************************************************************************/
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     /// <summary>
     /// Win_Out_OutwareReq_U.xaml에 대한 상호 작용 논리

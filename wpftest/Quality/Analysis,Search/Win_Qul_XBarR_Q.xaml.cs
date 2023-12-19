@@ -13,11 +13,11 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using WizMes_ANT.PopUP;
+using WizMes_HanYoung.PopUP;
 using WPF.MDI;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     /// <summary>
     /// Win_Qul_XBarR_Q.xaml에 대한 상호 작용 논리
@@ -1213,7 +1213,7 @@ namespace WizMes_ANT
                     }
                     else
                     {
-                        Type type = Type.GetType("WizMes_ANT." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
+                        Type type = Type.GetType("WizMes_HanYoung." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
                         object uie = Activator.CreateInstance(type);
 
                         MainWindow.mMenulist[i].subProgramID = new MdiChild()

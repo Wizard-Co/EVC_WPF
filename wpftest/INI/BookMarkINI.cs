@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     class BookMarkINI
     {

@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     public class ContainValue : IValueConverter
     {

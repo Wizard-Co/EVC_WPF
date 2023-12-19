@@ -5,10 +5,10 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WizMes_ANT.PopUP;
+using WizMes_HanYoung.PopUP;
 using WPF.MDI;
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     /// <summary>
     /// Win_MIS_CustomArticleInSum_MM_Q.xaml에 대한 상호 작용 논리
@@ -17,7 +17,7 @@ namespace WizMes_ANT
     {
         #region 변수 선언 및 로드
 
-        WizMes_ANT.PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
+        WizMes_HanYoung.PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
         Lib lib = new Lib();
         public Win_MIS_CustomArticleInSum_MM_Q()
         {

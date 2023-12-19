@@ -1,4 +1,4 @@
-﻿using WizMes_ANT.PopUP;
+﻿using WizMes_HanYoung.PopUP;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using WPF.MDI;
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     /// <summary>
     /// Win_dvl_MoldRepair_U1.xaml에 대한 상호 작용 논리

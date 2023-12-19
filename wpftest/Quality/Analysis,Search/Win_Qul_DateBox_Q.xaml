@@ -1,10 +1,10 @@
-﻿<UserControl x:Class="WizMes_ANT.Win_Qul_DateBox_Q"
+﻿<UserControl x:Class="WizMes_HanYoung.Win_Qul_DateBox_Q"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:dgx="clr-namespace:DataGridExtensions;assembly=DataGridExtensions" 
-             xmlns:local="clr-namespace:WizMes_ANT"
+             xmlns:local="clr-namespace:WizMes_HanYoung"
              mc:Ignorable="d" d:DesignHeight="620" d:DesignWidth="820" Loaded="Window_InsDateBox_Loaded" >
     <Grid >
         <Grid.RowDefinitions>
@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
 
         <!-- 화면 상단 / 조회(검색) 조건 화면라인 -->
-        <Grid Grid.Column="0" Grid.Row="0" Background="{DynamicResource WizMes_ANT}">
+        <Grid Grid.Column="0" Grid.Row="0" Background="{DynamicResource WizMes_HanYoung}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100*" />
                 <ColumnDefinition Width="160*" />

@@ -1,7 +1,7 @@
 /*
   In App.xaml:
   <Application.Resources>
-      <vm:ViewModelLocator xmlns:vm="clr-namespace:WizMes_ANT"
+      <vm:ViewModelLocator xmlns:vm="clr-namespace:WizMes_HanYoung"
                            x:Key="Locator" />
   </Application.Resources>
   
@@ -15,7 +15,7 @@
 using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
 
-namespace WizMes_ANT.ViewModel
+namespace WizMes_HanYoung.ViewModel
 {
     /// <summary>
     /// This class contains static references to all the view models in the

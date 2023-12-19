@@ -8,9 +8,9 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WizMes_ANT.PopUP;
+using WizMes_HanYoung.PopUP;
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     /// <summary>
     /// Win_com_ArticleConditioin_U.xaml에 대한 상호 작용 논리
@@ -32,7 +32,7 @@ namespace WizMes_ANT
         private Microsoft.Office.Interop.Excel.Range workrange;
         private Microsoft.Office.Interop.Excel.Worksheet copysheet;
         private Microsoft.Office.Interop.Excel.Worksheet pastesheet;
-        WizMes_ANT.PopUp.NoticeMessage msg = new WizMes_ANT.PopUp.NoticeMessage();
+        WizMes_HanYoung.PopUp.NoticeMessage msg = new WizMes_HanYoung.PopUp.NoticeMessage();
 
         List<Win_com_ArticleConditioin_U_CodeView> lstOutwarePrint = new List<Win_com_ArticleConditioin_U_CodeView>();
         Win_com_ArticleConditioin_U_Sub_CodeView ComboboxSub = new Win_com_ArticleConditioin_U_Sub_CodeView();

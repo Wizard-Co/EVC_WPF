@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using WizMes_ANT.Properties;
+using WizMes_HanYoung.Properties;
 
 //*******************************************************************************
 //프로그램명    DataStore.cs
@@ -21,7 +21,7 @@ using WizMes_ANT.Properties;
 //
 //*******************************************************************************
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     /// <summary> 
     /// 데이터 처리 클래스   s

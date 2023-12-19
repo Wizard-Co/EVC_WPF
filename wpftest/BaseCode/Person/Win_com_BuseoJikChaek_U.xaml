@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="WizMes_ANT.Win_com_BuseoJikChaek_U"
+﻿<UserControl x:Class="WizMes_HanYoung.Win_com_BuseoJikChaek_U"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WizMes_ANT"
+             xmlns:local="clr-namespace:WizMes_HanYoung"
              xmlns:dgx="clr-namespace:DataGridExtensions;assembly=DataGridExtensions"
              mc:Ignorable="d"  Loaded="UserControl_Loaded"
              d:DesignHeight="620" d:DesignWidth="820">
@@ -12,7 +12,7 @@
             <RowDefinition Height="88*" />
             <RowDefinition Height="532*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Margin="1" Background="{DynamicResource WizMes_ANT}" >
+        <Grid Grid.Row="0" Margin="1" Background="{DynamicResource WizMes_HanYoung}" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />

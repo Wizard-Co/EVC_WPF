@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     class Win_Qul_DefectTotal_Q_View : BaseView
     {

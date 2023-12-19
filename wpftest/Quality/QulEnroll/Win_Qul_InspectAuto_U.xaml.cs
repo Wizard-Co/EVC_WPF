@@ -10,8 +10,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Drawing.Printing;
-using WizMes_ANT.PopUP;
-using WizMes_ANT.PopUp;
+using WizMes_HanYoung.PopUP;
+using WizMes_HanYoung.PopUp;
 using WPF.MDI;
 
 /**************************************************************************************************
@@ -29,7 +29,7 @@ using WPF.MDI;
                     , 측정값 저장 로직 변경
 '**************************************************************************************************/
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     /// <summary>
     /// Win_Qul_InspectAuto_U.xaml에 대한 상호 작용 논리
@@ -84,7 +84,7 @@ namespace WizMes_ANT
 
         string rowHeaderNum = string.Empty;
 
-        WizMes_ANT.PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
+        WizMes_HanYoung.PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
 
         // FTP 활용모음.
         string FullPath1 = string.Empty;

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WizMes_ANT.Properties {
+namespace WizMes_HanYoung.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

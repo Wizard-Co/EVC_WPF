@@ -17,7 +17,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using WPF.MDI;
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     public class Lib
     {

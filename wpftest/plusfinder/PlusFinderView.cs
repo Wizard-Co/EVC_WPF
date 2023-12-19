@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     public class PlusFinderView : BaseView
     {

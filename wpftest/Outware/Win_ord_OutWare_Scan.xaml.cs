@@ -8,8 +8,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Drawing.Printing;
-using WizMes_ANT.PopUP;
-using WizMes_ANT.PopUp;
+using WizMes_HanYoung.PopUP;
+using WizMes_HanYoung.PopUp;
 
 /**************************************************************************************************
 '** 프로그램명 : Win_ord_OutWare_Scan
@@ -24,7 +24,7 @@ using WizMes_ANT.PopUp;
 ' 2023.04.28, 장시영, 라벨 스캔 시 선출고 체크
 '**************************************************************************************************/
 
-namespace WizMes_ANT
+namespace WizMes_HanYoung
 {
     /// <summary>
     /// Win_ord_OutWare_Scan.xaml에 대한 상호 작용 논리

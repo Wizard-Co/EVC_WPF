@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace WizMes_ANT.PopUp
+namespace WizMes_HanYoung.PopUp
 {
     /// <summary>
     /// RheoChoice.xaml에 대한 상호 작용 논리
