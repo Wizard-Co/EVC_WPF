@@ -1280,9 +1280,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="WizMes_GLS_1_TemporaryKey.pfx" />
-    <None Include="WizMes_SamJoo_1_TemporaryKey.pfx" />
-    <None Include="WizMes_SamJoo_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -1429,8 +1426,6 @@
     <Resource Include="Images\Unfolder.ico" />
     <Resource Include="Images\wizMES_Largesize_noIcon.jpg" />
     <Resource Include="Images\login.bmp" />
-    <Resource Include="Images\logo.png" />
-    <Resource Include="Images\logo_copy.png" />
     <Resource Include="Images\notice_img.jpg" />
     <Resource Include="Images\Refresh.bmp" />
     <Resource Include="Images\icons8-book-48.png" />
@@ -1441,8 +1436,6 @@
     <Resource Include="Images\icons8-plus-math-40.png" />
     <Resource Include="Images\OpenFolder_64pix.png" />
     <Resource Include="Images\Readingfolder_64pix.png" />
-    <Resource Include="Images\logo_SamJoo.png" />
-    <Resource Include="Images\logo_gls.PNG" />
     <Resource Include="Images\Arrow_Down.png" />
     <Resource Include="Images\Arrow_Up.png" />
     <Resource Include="Images\icons8-subtract-40.png" />
