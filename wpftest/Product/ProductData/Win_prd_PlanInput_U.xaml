@@ -519,7 +519,7 @@
                                 <Grid Grid.Column="1" Grid.Row="3" >
                                     <CheckBox x:Name="chkOutwareExceptYN" 
                                               Style="{DynamicResource CheckBoxInputArea}"
-                                              Content="출고 예외 처리" />
+                                              Content="선입 선출 예외" />
                                 </Grid>
 
                                 <Grid Grid.Column="2" Grid.Row="3" >

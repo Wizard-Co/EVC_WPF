@@ -149,9 +149,7 @@
     <BitmapImage x:Key="btiUnfolder" UriSource="/images/Unfolder.ico" />
     <BitmapImage x:Key="btiLogo_IconMES" UriSource="/images/icon_MES.jpg" />
     <BitmapImage x:Key="btiLogo" UriSource="/images/login.bmp" />
-    <BitmapImage x:Key="btiAFT_Logo" UriSource="/images/logo.png" />
-    <BitmapImage x:Key="btiAFT_CopyLogo" UriSource="/images/logo_copy.png" />
-    <BitmapImage x:Key="btiGLS_Logo" UriSource="/images/logo_GLS.png" />
+   
     <BitmapImage x:Key="btiAFT_Company" UriSource="/images/notice_img.jpg" />
     <BitmapImage x:Key="btiCheck" UriSource="/images/ok.bmp" />
     <TextBlock x:Key="tblCheck" Text="선택(C)" />

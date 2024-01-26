@@ -461,7 +461,7 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         
-                        <DataGridTemplateColumn Header="모델" SortMemberPath="BuyerModel">
+                        <DataGridTemplateColumn Header="모델" SortMemberPath="BuyerModel" Visibility="Hidden">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding BuyerModel}" TextAlignment="Center" Padding="5 0" />

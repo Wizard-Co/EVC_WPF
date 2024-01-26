@@ -162,7 +162,7 @@
                             </Style>
                         </ToggleButton.Style>
                         <Viewbox Margin="4">
-                            <TextBlock Text="예비품" />
+                            <TextBlock Text="설비예비품" />
                         </Viewbox>
                     </ToggleButton>
                 </Border>
@@ -394,7 +394,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="순번" Binding="{Binding Num}" Width="40" CellStyle="{StaticResource DataGridCellAndCentering}"/>
                     <DataGridTextColumn Header="일자" Binding="{Binding IODate_CV}" Width="0.4*" CellStyle="{StaticResource DataGridCellAndCentering}"/>
-                    <DataGridTextColumn Header="예비품" Binding="{Binding MCPartName}" Width="1.5*" x:Name="dgtc_MCPartName"/>
+                    <DataGridTextColumn Header="설비예비품" Binding="{Binding MCPartName}" Width="1.5*" x:Name="dgtc_MCPartName"/>
                     <DataGridTextColumn Header="용도" Binding="{Binding ForUseName}" Width="0.5*" CellStyle="{StaticResource DataGridCellAndCentering}"/>
                     <DataGridTextColumn Header="입출고처" Binding="{Binding CustomName}" Width="1*"/>
                     <DataGridTextColumn Header="단위" Binding="{Binding UnitClssName}" Width="0.3*" CellStyle="{StaticResource DataGridCellAndCentering}"/>

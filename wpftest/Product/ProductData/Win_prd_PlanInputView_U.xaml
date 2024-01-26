@@ -507,7 +507,7 @@
                         <DataGridTextColumn Header="지시번호" Width="auto" Binding="{Binding InstID}" />
                         <DataGridTextColumn Header="지시완료" Width="auto" Binding="{Binding PlanComplete}" />
                         <DataGridTextColumn Header="원자재투입예외관리" Width="auto" Binding="{Binding MtrExceptYN}" />
-                        <DataGridTextColumn Header="출고예외관리" Width="auto" Binding="{Binding OutwareExceptYN}" />
+                        <DataGridTextColumn Header="선입선출예외" Width="auto" Binding="{Binding OutwareExceptYN}" />
                         <DataGridTextColumn Header="LotID" Width="auto" Binding="{Binding LotID}" />
                         <DataGridTemplateColumn Header="진척률(%)" Width="auto" SortMemberPath="Progress">
                             <DataGridTemplateColumn.CellTemplate>
@@ -613,7 +613,7 @@
                             <CheckBox x:Name="chkMtrExceptYN" Grid.Column="2" Content="원자재 투입 예외 관리" 
                                       IsEnabled="False" 
                                       Style="{DynamicResource CheckBoxInputArea}" />
-                            <CheckBox x:Name="chkOutWareExceptYN" Grid.Column="3" Content="출고 예외 처리" 
+                            <CheckBox x:Name="chkOutWareExceptYN" Grid.Column="3" Content="선입 선출 예외" 
                                       IsEnabled="False" 
                                       Style="{DynamicResource CheckBoxInputArea}" />
                             <CheckBox x:Name="chkTheEnd" Grid.Column="4" Content="지시마감 처리" 

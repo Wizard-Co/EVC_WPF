@@ -492,6 +492,7 @@ namespace WizMes_HanYoung
                                 RelLabelID = dr["RelLabelID"].ToString(),
                                 Article = dr["Article"].ToString(),
                                 BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
+                                WorkDate = dr["workdate"].ToString()
                             };
 
                             dgdBoxID.Items.Add(WinBoxID);
@@ -872,6 +873,7 @@ namespace WizMes_HanYoung
         public string RelLabelID { get; set; }
         public string Article { get; set; }
         public string BuyerArticleNo { get; set; }
+        public string WorkDate { get; set; }
     }
 
     class Win_prd_LOTDetail_Q_Work_CodeView : BaseView

@@ -279,11 +279,12 @@
                       Style="{DynamicResource DataGridSet1}"
                       SelectionChanged="dgdBoxID_SelectionChanged" >
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="No" Binding="{Binding Num}" />
+                    <DataGridTextColumn Header="순번" Binding="{Binding Num}" />
                     <DataGridTextColumn Header="라벨" Binding="{Binding LabelID}" />
                     <DataGridTextColumn Header="BoxID" Binding="{Binding RelLabelID}" Visibility="Hidden"/>
                     <DataGridTextColumn Header="품번" Binding="{Binding BuyerArticleNo}" />
                     <DataGridTextColumn Header="품명" Binding="{Binding Article}" />
+                    <DataGridTextColumn Header="생산일자" Binding="{Binding WorkDate}" />
                 </DataGrid.Columns>
             </DataGrid>
 

@@ -256,7 +256,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="예비품" Binding="{Binding MCPartName}" Width="2.5*"/>
+                    <DataGridTextColumn Header="설비예비품" Binding="{Binding MCPartName}" Width="2.5*"/>
                     <DataGridTemplateColumn Header="용도" Width="0.5*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

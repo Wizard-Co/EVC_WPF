@@ -67,28 +67,23 @@ namespace WizMes_HanYoung
         {
             Lib.Instance.UiButtonEnableChange_SCControl(this);
             
-            txtQty.IsEnabled = true;
+            //생산일자 
             dtpProdDate.IsEnabled = true;
             txtProdScanTime.IsEnabled = true;
 
+            //작업일시
             dtpWorkStartDate.IsEnabled = true;
             txtStartTime.IsEnabled = true;
             dtpWorkEndDate.IsEnabled = true;
             txtEndTime.IsEnabled = true;
             txtWorkMinute.IsEnabled = true;
 
-            //dgdResult.IsEnabled = false;
-            dgdResult.IsHitTestVisible = false;
-
-            // 작업조 수정 가능 하도록 추가.
+            // 작업조 
             cboDayOrNight.IsEnabled = true;
-            txtCT.IsEnabled = true;
 
             // 작업자, 호기 수정 가능 하도록
             txtWorker.IsEnabled = true;
-            btnPfWorker.IsEnabled = true;
-            cboMachine.IsEnabled = true;
-
+          
             SaveUpdateHeaderFalseMode();
         }
 
@@ -783,9 +778,6 @@ namespace WizMes_HanYoung
             if (Main != null)
             {
                 SaveUpdateMode();
-
-                // GLS 2020.05.19 수량 변경에 문제가 많아 작업수량을 막음
-                txtQty.IsEnabled = false;
 
                 // 정렬이 생산일자 이기 때문에, 생산일자가 변경되면 행순서도 변경 되어 수정시 찾아갈 수가 없음.
                 // JobId 로 찾아가도록 수정
