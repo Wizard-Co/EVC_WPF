@@ -632,7 +632,7 @@ namespace WizMes_HanYoung
         //조회
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            using(Loading ld = new Loading(beSearch))
+            using (Loading ld = new Loading(beSearch))
             {
                 ld.ShowDialog();
             }
@@ -1086,7 +1086,7 @@ namespace WizMes_HanYoung
 
                                 //FreeStuffinYN = dr["FreeStuffinYN"].ToString(), // 무검사입고품여부
 
-                                //BigMiSmalGbn = dr["BigMiSmalGbn"].ToString(), // 
+                                BigMiSmalGbn = dr["BigMiSmalGbn"].ToString(), // 
 
                                 Exdiameter = stringFormatN2(dr["Exdiameter"]),
                                 InDiameter = stringFormatN2(dr["InDiameter"]),
@@ -1311,6 +1311,7 @@ namespace WizMes_HanYoung
                     sqlParameter.Add("NeedStockQty", ConvertDouble(txtNeedStockQty.Text)); // 적정재고량 소수로 변환            
                     sqlParameter.Add("sUnitClss", cboUnitClss.SelectedValue != null ? cboUnitClss.SelectedValue.ToString() : "");
 
+
                     sqlParameter.Add("ProdQtyPerBox", ConvertDouble(TextBoxProdQtyPerBox.Text));
                     sqlParameter.Add("OutQtyPerBox", ConvertDouble(TextBoxOutQtyPerBox.Text));
                     sqlParameter.Add("sImageFIleName", "");
@@ -1337,6 +1338,8 @@ namespace WizMes_HanYoung
                     sqlParameter.Add("sWeight", txtWeight.Text != null && !txtWeight.Text.Trim().Equals("") ? ConvertDouble(txtWeight.Text) : 0);
                     sqlParameter.Add("sLength", txtLength.Text != null && !txtLength.Text.Trim().Equals("") ? ConvertDouble(txtLength.Text) : 0);
                     sqlParameter.Add("BuyerModelID", txtModel.Tag != null ? txtModel.Tag.ToString() : "");
+                    sqlParameter.Add("sBigMiSmalGbn", cboBigMiSmal.SelectedValue != null ? cboBigMiSmal.SelectedValue.ToString() : ""); //공정구분으로 쓸꺼
+
 
 
 
@@ -1349,7 +1352,7 @@ namespace WizMes_HanYoung
                         pro1.Name = "xp_Article_iArticle";
                         pro1.OutputUseYN = "Y";
                         pro1.OutputName = "sNewArticleID";
-                        
+
                         pro1.OutputLength = "10";
 
                         Prolist.Add(pro1);
@@ -1381,7 +1384,7 @@ namespace WizMes_HanYoung
                         Prolist.Clear();
                         ListParameter.Clear();
 
-                    
+
                         // 공정 선택한거 넣기
                         for (int i = 0; i < dgdProcess.Items.Count; i++)
                         {
@@ -1575,11 +1578,11 @@ namespace WizMes_HanYoung
 
             if (strFlag.Equals("I"))
             {
-                if (txtCode.Text.Length < 5)
-                {
-                    MessageBox.Show("5자리의 코드를 입력해주세요");
-                    return false;
-                }
+                //if (txtCode.Text.Length < 5)
+                //{
+                //    MessageBox.Show("5자리의 코드를 입력해주세요");
+                //    return false;
+                //}
 
                 // 2020.02.20 일단 품명 중복검사 제외
                 // 2021.07.21 일단 품명 중복검사 제외
@@ -1589,14 +1592,14 @@ namespace WizMes_HanYoung
                     return false;
                 }
 
-            #if ANT_2 == false
+#if ANT_2 == false
                 if (txtCode.Text.Trim().Equals(""))
                 {
                     MessageBox.Show("코드가 입력되지 않았습니다.");
                     flag = false;
                     return flag;
                 }
-            #endif
+#endif
 
                 // 2020.02.20 품번이 필수 입력이 되어야함!!!
                 if (txtBuyerArticleNo.Text.Trim().Equals(""))
