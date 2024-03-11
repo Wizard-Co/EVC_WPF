@@ -19,7 +19,7 @@ namespace WizMes_HanYoung
     {
         string stDate = string.Empty;
         string stTime = string.Empty;
-
+        PlusFinder pf = new PlusFinder();
         Lib lib = new Lib();
         int rowNum = 0;
 
@@ -272,17 +272,18 @@ namespace WizMes_HanYoung
             btnCustomer.IsEnabled = false;
         }
 
+
         private void txtCustomer_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 e.Handled = true;
-                MainWindow.pf.ReturnCode(txtCustomer, 68, "");
+                MainWindow.pf.ReturnCode(txtCustomer, 0, "");
             }
         }
         private void btnCustomer_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.pf.ReturnCode(txtCustomer, 68, "");
+            MainWindow.pf.ReturnCode(txtCustomer, 0, "");
         }
 
         // 품명
@@ -314,12 +315,12 @@ namespace WizMes_HanYoung
             if (e.Key == Key.Enter)
             {
                 e.Handled = true;
-                MainWindow.pf.ReturnCode(txtArticle, (int)Defind_CodeFind.DCF_BuyerArticleNo, ""); //2021-07-16
+                MainWindow.pf.ReturnCode(txtArticle, 77, ""); //2021-07-16
             }
         }
         private void btnArticle_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.pf.ReturnCode(txtArticle, (int)Defind_CodeFind.DCF_BuyerArticleNo, "");
+            MainWindow.pf.ReturnCode(txtArticle, 77, "");
         }
 
         // 창고
@@ -887,8 +888,8 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("nChkCustom", chkCustomer.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("sCustomID", chkCustomer.IsChecked == true && txtCustomer.Tag != null ? txtCustomer.Tag.ToString() : "");
 
-                sqlParameter.Add("nChkArticleID", 0);
-                sqlParameter.Add("sArticleID", "");
+                sqlParameter.Add("nChkArticleID", chkArticle.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("sArticleID", chkArticle.IsChecked ==true && txtArticle.Tag != null ?  txtArticle.Tag.ToString() : "");
                 sqlParameter.Add("nChkOrder", chkManageNum.IsChecked == true ? 2 : 0); //이 친구는 주석이라서 무슨 값이 들어가도...
 
                 sqlParameter.Add("sOrder", txtManageNum.Text);
@@ -912,8 +913,8 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("nSupplyType", chkSupplyType.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("sSupplyType", chkSupplyType.IsChecked == true && cboSupplyType.SelectedValue != null ? cboSupplyType.SelectedValue.ToString() : "");
 
-                sqlParameter.Add("nBuyerArticleNo", chkArticle.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("BuyerArticleNo", chkArticle.IsChecked == true && !txtArticle.Text.Trim().Equals("") ? @Escape(txtArticle.Text) : "");
+                sqlParameter.Add("nBuyerArticleNo", chkBuyerArticleNo.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("BuyerArticleNo", chkBuyerArticleNo.IsChecked == true && txtBuyerArticleNo.Text != null ? txtBuyerArticleNo.Text : "");
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_Subul_sSubul", sqlParameter, true, "R");
 
@@ -1230,6 +1231,64 @@ namespace WizMes_HanYoung
             {
                 dgs.ColumnHeaderHeight = dgs.ColumnHeaderHeight * c;
                 dgs.FontSize = dgs.FontSize * c;
+            }
+        }
+
+        private void chkBuyerArticleNo_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (chkBuyerArticleNo.IsChecked == true)
+            {
+                chkBuyerArticleNo.IsChecked = false;
+            }
+            else
+            {
+                chkBuyerArticleNo.IsChecked = true;
+            }
+        }
+
+        private void chkBuyerArticleNo_Checked(object sender, RoutedEventArgs e)
+        {
+            if (chkBuyerArticleNo.IsChecked == true)
+            {
+                chkBuyerArticleNo.IsChecked = true;
+                txtBuyerArticleNo.IsEnabled = true;
+                btnBuyerArticleNo.IsEnabled = true;
+            }     
+        }
+
+        private void btnBuyerArticleNo_Click(object sender, RoutedEventArgs e)
+        {
+            pf.ReturnCode(txtBuyerArticleNo, 84, txtBuyerArticleNo.Text);
+        }
+
+        private void txtBuyerArticleNo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnBuyerArticleNo_Click(null, null);
+            }
+        }
+
+        private void chkBuyerArticleNo_Unchecked(object sender, RoutedEventArgs e)
+        {
+            chkBuyerArticleNo.IsChecked = false;
+            txtBuyerArticleNo.IsEnabled = false;
+            btnBuyerArticleNo.IsEnabled = false;
+        }
+
+        private void lblBuyerArticleNo_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if(chkBuyerArticleNo.IsChecked== true)
+            {
+                chkBuyerArticleNo.IsChecked = true;
+                txtBuyerArticleNo.IsEnabled = true;
+                btnBuyerArticleNo.IsEnabled = true;
+            }
+            else
+            {
+                chkBuyerArticleNo.IsChecked= false;
+                txtBuyerArticleNo.IsEnabled = false;
+                btnBuyerArticleNo.IsEnabled= false;
             }
         }
     }

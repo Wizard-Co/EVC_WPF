@@ -474,12 +474,12 @@
                             <TextBlock x:Name="tbkMsg" Text="자료 입력 중"/>
                         </Label>
 
-                        <Label Grid.Row="1" Grid.Column="4" Style="{DynamicResource LabelInputArea_GB_Q}">
+                        <Label Grid.Row="3" Grid.Column="0" Style="{DynamicResource LabelInputArea_GB_Q}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}" >
                                 <TextBlock Text="품    명"  Style="{DynamicResource TextBlockInViewBoxInput_Q}" />
                             </Viewbox>
                         </Label>
-                        <TextBox x:Name="txtBuyerArticle" Grid.Row="1" Grid.Column="5"  IsReadOnly="True" Style="{DynamicResource TextBoxInputArea_Q}"
+                        <TextBox x:Name="txtBuyerArticle" Grid.Row="3" Grid.Column="1"  IsReadOnly="True" Style="{DynamicResource TextBoxInputArea_Q}"
                                  Text="{Binding Article}"/>
 
 
@@ -491,12 +491,12 @@
                         <TextBox x:Name="txtInspectBasisID" Grid.Row="1" Grid.Column="1" IsReadOnly="True"
                                  Text="{Binding InspectBasisID}" Style="{DynamicResource TextBoxInputAutoCreate}"/>
 
-                        <Label Grid.Row="2" Grid.Column="4" Style="{DynamicResource LabelInputArea_GB_Q}">
+                        <Label Grid.Row="1" Grid.Column="4" Style="{DynamicResource LabelInputArea_GB_Q}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}" >
                                 <TextBlock Text="EO NO"  Style="{DynamicResource TextBlockInViewBoxInput_Q}" />
                             </Viewbox>
                         </Label>
-                        <TextBox x:Name="txtECONO" Grid.Row="2" Grid.Column="5"  Style="{DynamicResource TextBoxInputArea_Q}"
+                        <TextBox x:Name="txtECONO" Grid.Row="1" Grid.Column="5"  Style="{DynamicResource TextBoxInputArea_Q}"
                                  Text="{Binding EcoNo}" Keyboard.KeyDown="txtECONO_KeyDown"/>
 
                         <Label Grid.Row="2" Grid.Column="0" Style="{DynamicResource LabelInputArea_GB_Q}">
@@ -547,7 +547,7 @@
                             </Viewbox>
                         </Label>
                         <TextBox x:Name="txtCarModel" Grid.Row="4" Grid.Column="1" Style="{DynamicResource TextBoxInputArea_Q}"
-                                 Text="{Binding Model}" Tag="{Binding BuyerModelID}" Keyboard.KeyDown="TxtCarModel_KeyDown" Height="23" Margin="1,0" VerticalAlignment="Bottom"/>
+                                 Text="{Binding Model}" Tag="{Binding BuyerModelID}" Keyboard.KeyDown="TxtCarModel_KeyDown" Height="32" Margin="1,0" VerticalAlignment="Bottom"/>
                         <Button x:Name="btnPfCarModel" Grid.Row="4" Grid.Column="2" 
                                 Click="BtnPfCarModel_Click">
                             <Image Source="{DynamicResource btiPlusFind}" />

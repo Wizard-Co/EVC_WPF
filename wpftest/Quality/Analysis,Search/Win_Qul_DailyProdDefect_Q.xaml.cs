@@ -310,6 +310,11 @@ namespace WizMes_HanYoung
 
                                     if (defect_tot) Win.KDefect = "";
                                     else            Win.Article = "";
+
+                                    if (defect_tot)
+                                    { Win.KDefect = ""; Win.ColorGreen = "true"; }
+                                    else
+                                    { Win.BuyerArticleNo = ""; Win.ColorGreen = "true"; }
                                 }
                                 else if (Win.cls.Equals("9")) // 총계
                                 {
@@ -412,6 +417,10 @@ namespace WizMes_HanYoung
         public string KDefect { get; set; }
         public string DefectQty { get; set; }
         public string DefectRate { get; set; }
+
+        public string ColorGreen { get; set; }
+        public string ColorRed { get; set; }
+
     }
     #endregion View 클래스
 }

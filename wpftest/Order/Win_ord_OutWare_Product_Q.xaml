@@ -108,7 +108,7 @@
                 <TextBox x:Name="txtCustomer" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="0"
                          KeyDown="txtCustomer_KeyDown" Style="{DynamicResource TextBoxSearch}"/>
 
-                <Label  Grid.Column="0" Grid.Row="1" MouseLeftButtonUp="chkInCustomer_Click" Style="{DynamicResource LabelSearch}">
+                <Label  Grid.Column="0" Grid.Row="1" MouseLeftButtonUp="chkInCustomer_Click" Style="{DynamicResource LabelSearch}" Visibility="Hidden">
                     <StackPanel Style="{DynamicResource StackPanelInLabel}">
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                             <CheckBox x:Name="chkInCustomer" Click="chkInCustomer_Click" />
@@ -118,10 +118,10 @@
                         </Viewbox>
                     </StackPanel>
                 </Label>
-                <TextBox x:Name="txtInCustomer" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1"
+                <TextBox x:Name="txtInCustomer" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1" Visibility="Hidden"
                          KeyDown="txtInCustomer_KeyDown" Style="{DynamicResource TextBoxSearch}"/>
 
-                <Label  Grid.Column="0" Grid.Row="2" MouseLeftButtonUp="chkBuyerArticleNo_Click" Style="{DynamicResource LabelSearch}">
+                <Label  Grid.Column="0" Grid.Row="1" MouseLeftButtonUp="chkBuyerArticleNo_Click" Style="{DynamicResource LabelSearch}">
                     <StackPanel Style="{DynamicResource StackPanelInLabel}">
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                             <CheckBox x:Name="chkBuyerArticleNo" Click="chkBuyerArticleNo_Click"/>
@@ -131,10 +131,10 @@
                         </Viewbox>
                     </StackPanel>
                 </Label>
-                <TextBox x:Name="txtBuyerArticleNo" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="2"
+                <TextBox x:Name="txtBuyerArticleNo" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1"
                          KeyDown="txtBuyerArticleNo_KeyDown" Style="{DynamicResource TextBoxSearch}"/>
 
-                <Label  Grid.Column="0" Grid.Row="3" MouseLeftButtonUp="chkArticle_Click" Style="{DynamicResource LabelSearch}">
+                <Label  Grid.Column="0" Grid.Row="2" MouseLeftButtonUp="chkArticle_Click" Style="{DynamicResource LabelSearch}">
                     <StackPanel Style="{DynamicResource StackPanelInLabel}">
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                             <CheckBox x:Name="chkArticle" Click="chkArticle_Click"/>
@@ -144,19 +144,19 @@
                         </Viewbox>
                     </StackPanel>
                 </Label>
-                <TextBox x:Name="txtArticle" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="3"
+                <TextBox x:Name="txtArticle" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="2"
                          KeyDown="txtArticle_KeyDown" Style="{DynamicResource TextBoxSearch}"/>
                 
                 <Button x:Name="btnCustomer"  Grid.Column="3" Grid.Row="0" Click="btnCustomer_Click">
                     <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}" Margin="-2"/>
                 </Button>
-                <Button x:Name="btnInCustomer"  Grid.Column="3" Grid.Row="1" Click="btnInCustomer_Click">
+                <Button x:Name="btnInCustomer"  Grid.Column="3" Grid.Row="1" Click="btnInCustomer_Click" Visibility="Hidden">
                     <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}" Margin="-2"/>
                 </Button>
-                <Button x:Name="btnBuyerArticleNo"  Grid.Column="3" Grid.Row="2" Click="btnBuyerArticleNo_Click">
+                <Button x:Name="btnBuyerArticleNo"  Grid.Column="3" Grid.Row="1" Click="btnBuyerArticleNo_Click">
                     <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}" Margin="-2"/>
                 </Button>
-                <Button x:Name="btnArticle"  Grid.Column="3" Grid.Row="3" Click="btnArticle_Click">
+                <Button x:Name="btnArticle"  Grid.Column="3" Grid.Row="2" Click="btnArticle_Click">
                     <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}" Margin="-2"/>
                 </Button>
             </Grid>
@@ -308,11 +308,11 @@
                     <DataGridTextColumn Header="순번" Width="auto" MinWidth="55" Binding="{Binding Path=NUM}"
                                         ElementStyle="{StaticResource DataGridCellCenter}"/>
                     <DataGridTextColumn Header="출고일자" Width="auto" MinWidth="60" Binding="{Binding Path=OutDate}"
-                                        ElementStyle="{StaticResource DataGridCellCenter}"/>
-                    <DataGridTextColumn Header="출고처명" Width="auto" MinWidth="130" Binding="{Binding Path=KCustom}" />
-                    <DataGridTextColumn Header="품번" Width="auto" MinWidth="120" Binding="{Binding Path=BuyerArticleNo}"/>
+                                        ElementStyle="{StaticResource DataGridCellCenter}"/>                    
+                    <DataGridTextColumn Header="거래처" Width="auto" MinWidth="130" Binding="{Binding Path=KCustom}" /><DataGridTextColumn Header="출고처명" Width="auto" MinWidth="130" Binding="{Binding Path=KCustom}" />
+                    <DataGridTextColumn Header="품번" Width="auto" MinWidth="120" Binding="{Binding Path=BuyerArticleNo}" Visibility="Hidden"/>
                     <DataGridTextColumn Header="품명" Width="auto" MinWidth="120" Binding="{Binding Path=Article}"/>
-                    <DataGridTextColumn Header="발주번호" Width="auto" MinWidth="70" Binding="{Binding Path=OrderNo}" >
+                    <DataGridTextColumn Header="OrderNo" Width="auto" MinWidth="70" Binding="{Binding Path=OrderNo}" >
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Style.Triggers>
@@ -325,24 +325,24 @@
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="출고구분" Width="auto" MinWidth="90" Binding="{Binding Path=OutClssname}"
                                         ElementStyle="{StaticResource DataGridCellCenter}"/>
-                    <DataGridTextColumn Header="BOXID" Width="auto" MinWidth="60" Binding="{Binding Path=LabelID}"
+                    <DataGridTextColumn Header="제조번호" Width="auto" MinWidth="60" Binding="{Binding Path=LabelID}"
                                         ElementStyle="{StaticResource DataGridCellCenter}"/>
-                    <DataGridTextColumn Header="LotID" Width="auto" MinWidth="60" Binding="{Binding Path=LotID}"
-                                        ElementStyle="{StaticResource DataGridCellCenter}"/>
+                    <DataGridTextColumn Header="LotID" Width="auto" MinWidth="60" Binding="{Binding Path=LotID}"                                        ElementStyle="{StaticResource DataGridCellCenter}" Visibility="Hidden"/>
+                    
                     <DataGridTextColumn Header="건수" Width="auto" MinWidth="55" Binding="{Binding Path=OutRoll}" 
-                                        ElementStyle="{StaticResource DataGridCellRight}"/>
+                                        ElementStyle="{StaticResource DataGridCellRight}" Visibility="Hidden"/>
                     <DataGridTextColumn Header="수량" Width="auto" MinWidth="80" Binding="{Binding Path=OutQty}"
                                         ElementStyle="{StaticResource DataGridCellRight}"/>
                     <DataGridTextColumn Header="단위" Width="auto" MinWidth="50" Binding="{Binding Path=UnitClssName}"
                                         ElementStyle="{StaticResource DataGridCellCenter}"/>
-                    <DataGridTextColumn Header="단가" MaxWidth="0" Binding="{Binding Path=UnitPrice}"
+                    <DataGridTextColumn Header="단가" MaxWidth="0" Binding="{Binding Path=UnitPrice}" Visibility="Hidden"
                                         ElementStyle="{StaticResource DataGridCellRight}"/>
-                    <DataGridTextColumn Header="금액" MaxWidth="0" Binding="{Binding Path=Amount}"
+                    <DataGridTextColumn Header="금액" MaxWidth="0" Binding="{Binding Path=Amount}" Visibility="Hidden"
                                         ElementStyle="{StaticResource DataGridCellRight}"/>
                     <DataGridTextColumn Header="부가세" MaxWidth="0" Binding="{Binding Path=VatAmount}" Visibility="Hidden"
                                         ElementStyle="{StaticResource DataGridCellRight}"/>
                     <DataGridTextColumn Header="합계금액" MaxWidth="0" Binding="{Binding Path=TotAmount}"
-                                        ElementStyle="{StaticResource DataGridCellRight}"/>
+                                        ElementStyle="{StaticResource DataGridCellRight}" Visibility="Hidden"/>
                     <DataGridTextColumn Header="비고" Width="auto" MinWidth="110" Binding="{Binding Path=Remark}" />
                     <DataGridTextColumn Header="출고번호" Width="auto" MinWidth="110"  Binding="{Binding Path=OutwareID}"
                                         ElementStyle="{StaticResource DataGridCellCenter}"/>
@@ -354,9 +354,9 @@
             <DataGrid x:Name="dgdTotal" Style="{DynamicResource TotalGridSet1}" Grid.Row="1">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header=""         Width="50" Binding="{Binding Path=OutDate}"   ElementStyle="{StaticResource DataGridCellCenter}"/>
-                    <DataGridTextColumn Header="합계건수" Width="*"  Binding="{Binding Path=OutRoll}"   ElementStyle="{StaticResource DataGridCellRight}"/>
-                    <DataGridTextColumn Header="합계수량" Width="*"  Binding="{Binding Path=OutQty}"    ElementStyle="{StaticResource DataGridCellRight}"/>
-                    <DataGridTextColumn Header="합계금액" Width="*"  Binding="{Binding Path=TotAmount}" ElementStyle="{StaticResource DataGridCellRight}"/>
+                        <DataGridTextColumn Header="합계건수" Width="*"  Binding="{Binding Path=OutRoll}"   ElementStyle="{StaticResource DataGridCellRight}"/>
+                        <DataGridTextColumn Header="합계수량" Width="*"  Binding="{Binding Path=OutQty}"    ElementStyle="{StaticResource DataGridCellRight}"/>
+                        <DataGridTextColumn Header="합계금액" Width="*"  Binding="{Binding Path=TotAmount}" ElementStyle="{StaticResource DataGridCellRight}"/>
                     </DataGrid.Columns>
 
             </DataGrid>

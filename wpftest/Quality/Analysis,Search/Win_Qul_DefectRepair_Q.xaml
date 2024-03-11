@@ -170,6 +170,8 @@
                         </StackPanel>
                     </Button>
                 </Grid>
+                
+                
                 <Grid Grid.Row="1" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -177,6 +179,15 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="2" Grid.Row="1">
+                        <Button x:Name="btnCapture" Grid.Column="2" Click="BtnCapture_Click" Margin="1">
+                            <StackPanel Orientation="Horizontal" Margin="-2">
+                                <Image Source="{DynamicResource btiPrint}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                                <TextBlock Text="Capture" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+
                     <Button x:Name="btnPrint" Grid.Column="0" Margin="1" Click="btnPrint_Click"
                             Visibility="Collapsed">
                         <StackPanel Orientation="Horizontal">
@@ -184,14 +195,16 @@
                             <TextBlock Text="{Binding Source={StaticResource tblPrint},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
-
+                    
                     <Button x:Name="btnExcel" Grid.Column="4"  Click="btnExcel_Click" >
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{DynamicResource btiExcel}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
                             <TextBlock Text="{Binding Source={StaticResource tblExcel},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
+                    <Image x:Name="ImgImage" Width="820" Height="620" Visibility="Hidden"/>
                 </Grid>
+                
             </Grid>
         </Grid>
         <Grid Grid.Row="1" Grid.RowSpan="2">

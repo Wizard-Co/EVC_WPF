@@ -115,20 +115,46 @@
                     <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}"/>
                 </Button>
             </Grid>
+            
             <Grid Grid.Column="2" Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="63*" />
                     <ColumnDefinition Width="63*" />
                     <ColumnDefinition Width="13*" />
                 </Grid.ColumnDefinitions>
+                <Label  Grid.Column="0" Grid.Row="0" Style="{DynamicResource LabelSearch}" MouseLeftButtonUp="chkBuyerArticleNo_Click" Height="28" Margin="1,1,1,0" VerticalAlignment="Top">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}" >
+                            <CheckBox x:Name="chkBuyerArticleNo" Click="chkBuyerArticleNo_Click"  />
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <TextBlock Text="품   번" Style="{DynamicResource TextBlockInViewBoxSearch}"/>
+                        </Viewbox>
 
-                <Label  Grid.Column="0" Grid.Row="0" Style="{DynamicResource LabelSearch}" MouseLeftButtonUp="chkArticle_Click">
+                    </StackPanel>
+                </Label>
+                <TextBox x:Name="txtBuyerArticleNo" Grid.Column="1" Style="{DynamicResource TextBoxSearch}" KeyDown="TxtBuyerArticleNo_KeyDown"/>
+                <Button x:Name="btnBuyerArticleNo"  Grid.Column="2"   Click="btnBuyerArticleNo_Click">
+                    <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}"/>
+                </Button>
+            </Grid>
+
+
+
+            <Grid Grid.Column="2" Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="63*" />
+                    <ColumnDefinition Width="63*" />
+                    <ColumnDefinition Width="13*" />
+                </Grid.ColumnDefinitions>
+
+                <Label  Grid.Column="0" Grid.Row="0" Style="{DynamicResource LabelSearch}" MouseLeftButtonUp="chkArticle_Click" Height="28" Margin="1,1,1,0" VerticalAlignment="Top">
                     <StackPanel Style="{DynamicResource StackPanelInLabel}">
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}" >
                             <CheckBox x:Name="chkArticle" Click="chkArticle_Click"  />
                         </Viewbox>
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                            <TextBlock Text="품   번" Style="{DynamicResource TextBlockInViewBoxSearch}"/>
+                            <TextBlock Text="품   명" Style="{DynamicResource TextBlockInViewBoxSearch}"/>
                         </Viewbox>
 
                     </StackPanel>

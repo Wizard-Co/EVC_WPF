@@ -1871,6 +1871,8 @@ namespace WizMes_HanYoung
         #region 조회
         private void FillGrid()
         {
+            dgdTotal.Items.Clear();
+
             try
             {
                 DataSet ds = null;
@@ -1908,6 +1910,10 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("BuyerDirectYN", "Y");     //왜 Y만 검색하지?
 
                 ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_Outware_sOrder", sqlParameter, true, "R");
+
+                var Win_ord_OutWare_Scan_Total = new Win_ord_OutWare_Scan_dgdTotal_CodeView();
+
+                double _sum = 0;
 
                 if (ds != null && ds.Tables.Count > 0)
                 {
@@ -2005,6 +2011,7 @@ namespace WizMes_HanYoung
 
                             };
 
+                            Win_ord_OutWare_Scan_Total.totQty += ConvertDouble(Win_ord_OutWare_Scan_Insert.OutQty);
                             //출고일자 데이트피커 포맷으로 변경
                             Win_ord_OutWare_Scan_Insert.OutDate = DatePickerFormat(Win_ord_OutWare_Scan_Insert.OutDate);
                             //잔량, 수주량, 소요량, 출고량, 누계출고, 단가 소숫점 두자리 변환
@@ -2016,9 +2023,13 @@ namespace WizMes_HanYoung
                             Win_ord_OutWare_Scan_Insert.UnitPrice = Lib.Instance.returnNumStringOne(Win_ord_OutWare_Scan_Insert.UnitPrice);
 
                             dgdOutware.Items.Add(Win_ord_OutWare_Scan_Insert);
-
+                            
                             //MessageBox.Show(Win_ord_OutWare_Scan_Insert.TOLocID);
                         }
+
+                        dgdTotal.Items.Add(Win_ord_OutWare_Scan_Total);
+                   
+                      
                     }
                 }
             }
@@ -3691,4 +3702,10 @@ namespace WizMes_HanYoung
         public double dUnitPrice { get; set; }
     }
 
-}
+    public class Win_ord_OutWare_Scan_dgdTotal_CodeView : BaseView
+    {
+        public double totQty { get; set; }
+    
+    }
+
+    }

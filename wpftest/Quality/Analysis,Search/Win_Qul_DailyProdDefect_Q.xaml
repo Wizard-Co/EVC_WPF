@@ -236,7 +236,7 @@
 
             <!-- 하단의 왼쪽 그리드 -->
             <DataGrid x:Name="dgdMainLeft" Grid.Row="0" Grid.Column="0" Style="{DynamicResource DataGridSet1}" IsReadOnly="True" SizeChanged="dataGrid_SizeChanged" >
-                <DataGrid.RowStyle>
+                <DataGrid.RowStyle>                    
                     <Style TargetType="DataGridRow">
                         <Style.Resources>
                             <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3399FF"/>
@@ -248,6 +248,12 @@
                             <DataTrigger Binding="{Binding Path=ColorGold}" Value="true">
                                 <Setter Property="Background" Value="#365fb1" />
                                 <Setter Property="Foreground" Value="White" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=ColorGreen}" Value="true">
+                                <Setter Property="Background" Value="#EAEAEA" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=ColorRed}" Value="true">
+                                <Setter Property="Background" Value="#CFCFCF" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -279,6 +285,12 @@
                             <DataTrigger Binding="{Binding Path=ColorGold}" Value="true">
                                 <Setter Property="Background" Value="#365fb1" />
                                 <Setter Property="Foreground" Value="White" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=ColorGreen}" Value="true">
+                                <Setter Property="Background" Value="#EAEAEA" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=ColorRed}" Value="true">
+                                <Setter Property="Background" Value="#CFCFCF" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

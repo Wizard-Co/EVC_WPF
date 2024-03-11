@@ -60,7 +60,7 @@ namespace WizMes_HanYoung
             //cboOutClss.IsEnabled = false;  //체크된 채로 로드되기 때문.
             btnArticle.IsEnabled = false;
             btnCustomer.IsEnabled = false;
-
+            btnBuyerArticleNo.IsEnabled = false;
             rbnManageNumber.IsChecked = true;
 
             // 폼 하단 안쓰는 버튼들 가리기.
@@ -69,6 +69,7 @@ namespace WizMes_HanYoung
             txtBuyCustom.Visibility = Visibility.Hidden;
             txtInsertSheetNO.Visibility = Visibility.Hidden;
             btnBuyCustom.Visibility = Visibility.Hidden;
+           
         }
 
         //전일
@@ -421,6 +422,8 @@ namespace WizMes_HanYoung
         private void btnBuyerArticleNo_Click(object sender, RoutedEventArgs e)
         {
             pf.ReturnCode(txtBuyerArticleNo, 81, txtBuyerArticleNo.Text);
+            MessageBox.Show(txtBuyerArticleNo.Tag.ToString());
+
         }
 
         // 품명
@@ -535,7 +538,7 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("InCustomID", txtInCustomer.Tag.ToString());
 
                 sqlParameter.Add("ChkArticleID", ChkBuyerArticleNo);
-                sqlParameter.Add("ArticleID", txtBuyerArticleNo.Tag.ToString());
+                sqlParameter.Add("ArticleID", txtBuyerArticleNo.Tag.ToString() != null? txtBuyerArticleNo.Tag : "");
                 sqlParameter.Add("ChkArticle", ChkArticle);
                 sqlParameter.Add("Article", txtArticle.Text);
 
@@ -814,9 +817,9 @@ namespace WizMes_HanYoung
                                     OutQty = stringFormatN0(item["OutQty"]),
 
                                     UnitPrice = item["UnitPrice"].ToString(),
-                                    Amount = item["Amount"].ToString(),
-                                    VatAmount = item["VatAmount"].ToString(),
-                                    TotAmount = item["TotAmount"].ToString(),
+                                    Amount = stringFormatN0(item["Amount"].ToString()),
+                                    VatAmount = stringFormatN0(item["VatAmount"].ToString()),
+                                    TotAmount = $"{Math.Truncate(Convert.ToDouble(item["TotAmount"])):###,###,###}",
                                     Remark = item["Remark"].ToString(),
                                     ColorGreen = "false",
                                     ColorRed = "true"
@@ -1008,6 +1011,8 @@ namespace WizMes_HanYoung
         }
 
         #region 기타 메서드 모음
+
+
 
         // 천 단위 콤마, 소수점 버리기
         private string stringFormatN0(object obj)

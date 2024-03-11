@@ -1652,9 +1652,9 @@ namespace WizMes_HanYoung
                     sqlParameter.Add("ECONo", cboEcoNO.SelectedValue != null ? cboEcoNO.SelectedValue.ToString() : "");
                     sqlParameter.Add("Comments", txtComments.Text);
                     sqlParameter.Add("InspectLevel", cboInspectClss.SelectedValue.ToString());
-                    sqlParameter.Add("SketchPath", "");  // txtSKetch.Tag != null ? txtSKetch.Tag.ToString() :
+                    sqlParameter.Add("SketchPath", txtSKetch.Text != null ?  txtSKetch.Tag : "");  // txtSKetch.Tag != null ? txtSKetch.Tag.ToString() :
 
-                    sqlParameter.Add("SketchFile", "");
+                    sqlParameter.Add("SketchFile", txtSKetch.Text != null ?  txtSKetch.Text:"");
                     sqlParameter.Add("AttachedPath", "");  //txtFile.Tag !=null ? txtFile.Tag.ToString() :
                     sqlParameter.Add("AttachedFile", "");
                     sqlParameter.Add("InspectUserID", txtInspectUserID.Tag.ToString());
@@ -1770,7 +1770,7 @@ namespace WizMes_HanYoung
                                 pro2.Name = "xp_Inspect_iAutoInspectSub";
                                 pro2.OutputUseYN = "N";
                                 pro2.OutputName = "InspectID";
-                                pro2.OutputLength = "10";
+                                pro2.OutputLength = "12";
 
                                 Prolist.Add(pro2);
                                 ListParameter.Add(sqlParameter);
@@ -1799,7 +1799,7 @@ namespace WizMes_HanYoung
                                 pro3.Name = "xp_Inspect_iAutoInspectSub";
                                 pro3.OutputUseYN = "N";
                                 pro3.OutputName = "InspectID";
-                                pro3.OutputLength = "10";
+                                pro3.OutputLength = "12";
 
                                 Prolist.Add(pro3);
                                 ListParameter.Add(sqlParameter);
@@ -3293,7 +3293,7 @@ namespace WizMes_HanYoung
                 if (ClickPoint == "SKetch") { AttachFilePath = FullPath1.Replace(AttachFileName, ""); }
                 if (ClickPoint == "File") { AttachFilePath = FullPath2.Replace(AttachFileName, ""); }
 
-                StreamReader sr = new StreamReader(OFdlg.FileName);
+                StreamReader sr     = new StreamReader(OFdlg.FileName);
                 long File_size = sr.BaseStream.Length;
                 if (sr.BaseStream.Length > (2048 * 1000))
                 {
@@ -3370,10 +3370,13 @@ namespace WizMes_HanYoung
             {
                 if (!_ftp.UploadTempFilesToFTP(UpdateFilesInfo))
                 {
+                    listFtpFile.Clear();
                     MessageBox.Show("파일업로드에 실패하였습니다.");
                     return false;
+                
                 }
             }
+            listStrArrayFileInfo.Clear();
             return true;
         }
         // 다운받기

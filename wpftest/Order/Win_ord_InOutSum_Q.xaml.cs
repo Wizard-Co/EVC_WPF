@@ -83,6 +83,7 @@ namespace WizMes_HanYoung
             txtArticle.IsEnabled = false;
             btnCustomer.IsEnabled = false;
             btnArticle.IsEnabled = false;
+            btnBuyerArticleNo.IsEnabled = false;
             cboInOutGubun.IsEnabled = false;
             cboInInspectGubun.IsEnabled = false;
         }
@@ -316,7 +317,7 @@ namespace WizMes_HanYoung
         // 품명
         private void btnArticle_Click(object sender, RoutedEventArgs e)
         {
-            pf.ReturnCode(txtArticle, 84, txtArticle.Text);
+            pf.ReturnCode(txtArticle, 77, txtArticle.Text);
         }
 
         #endregion
@@ -403,12 +404,12 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("CustomID", ChkCustomID == 1 ? txtCustomer.Tag.ToString() : "");
                 sqlParameter.Add("ChkArticleID", chkArticle.IsChecked == true ? 1 : 0); //0);// ChkArticleID);
                 sqlParameter.Add("ArticleID", chkArticle.IsChecked == true ? txtArticle.Tag.ToString() : string.Empty);//""); //txtArticle.Tag.ToString());
-                sqlParameter.Add("nGubun", nGubun);
+                sqlParameter.Add("nGubun", 2);
                 sqlParameter.Add("nMainItem", nMainItem);
                 sqlParameter.Add("nCustomItem", nCustomItem);
                 sqlParameter.Add("chkInspect", chkInspect);
                 sqlParameter.Add("sInspect", sInspect);
-                sqlParameter.Add("BuyerArticleNo", chkArticle.IsChecked == true ? txtArticle.Text.Trim() : "");
+                sqlParameter.Add("BuyerArticleNo", chkBuyerArticleNo.IsChecked == true ? txtBuyerArticleNo.Text.Trim() : "");
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Outware_sInOutwareSum_Period", sqlParameter, false);
 
@@ -829,12 +830,12 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("CustomID", txtCustomer.Tag.ToString());
                 sqlParameter.Add("ChkArticleID", chkArticle.IsChecked == true ? 1 : 0); // ChkArticleID);
                 sqlParameter.Add("ArticleID", chkArticle.IsChecked == true ? txtArticle.Tag.ToString() : string.Empty); // txtArticle.Tag.ToString());
-                sqlParameter.Add("nGubun", nGubun);
+                sqlParameter.Add("nGubun", 2);
                 sqlParameter.Add("nMainItem", nMainItem);
                 sqlParameter.Add("nCustomItem", nCustomItem);
                 sqlParameter.Add("chkInspect", chkInspect);
                 sqlParameter.Add("sInspect", sInspect);
-                sqlParameter.Add("BuyerArticleNo", chkArticle.IsChecked == true ? txtArticle.Text.Trim() : "");
+                sqlParameter.Add("BuyerArticleNo", chkBuyerArticleNo.IsChecked == true ? txtBuyerArticleNo.Text.Trim() : "");
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Outware_sInOutwareSum_Day", sqlParameter, false);
 
@@ -1308,12 +1309,12 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("CustomID", txtCustomer.Tag.ToString());
                 sqlParameter.Add("ChkArticleID", chkArticle.IsChecked == true ? 1 : 0);// ChkArticleID);
                 sqlParameter.Add("ArticleID", chkArticle.IsChecked == true ? txtArticle.Tag.ToString() : string.Empty);//txtArticle.Tag.ToString());
-                sqlParameter.Add("nGubun", nGubun);
+                sqlParameter.Add("nGubun", 2);
                 sqlParameter.Add("nMainItem", nMainItem);
                 sqlParameter.Add("nCustomItem", nCustomItem);
                 sqlParameter.Add("chkInspect", chkInspect);
                 sqlParameter.Add("sInspect", sInspect);
-                sqlParameter.Add("BuyerArticleNo", chkArticle.IsChecked == true ? txtArticle.Text.Trim() : "");
+                sqlParameter.Add("BuyerArticleNo", chkBuyerArticleNo.IsChecked == true ? txtBuyerArticleNo.Text.Trim() : "");
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Outware_sInOutwareSum_Month", sqlParameter, false);
 
@@ -1729,12 +1730,12 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("CustomID", txtCustomer.Tag.ToString());
                 sqlParameter.Add("ChkArticleID", chkArticle.IsChecked == true ? 1 : 0);// ChkArticleID);
                 sqlParameter.Add("ArticleID", chkArticle.IsChecked == true ? txtArticle.Tag.ToString() : string.Empty);// txtArticle.Tag.ToString());
-                sqlParameter.Add("nGubun", nGubun);
+                sqlParameter.Add("nGubun", 2);
                 sqlParameter.Add("nMainItem", nMainItem);
                 sqlParameter.Add("nCustomItem", nCustomItem);
                 sqlParameter.Add("chkInspect", chkInspect);
                 sqlParameter.Add("sInspect", sInspect);
-                sqlParameter.Add("BuyerArticleNo", chkArticle.IsChecked == true ? txtArticle.Text.Trim() : "");
+                sqlParameter.Add("BuyerArticleNo", chkBuyerArticleNo.IsChecked == true ? txtBuyerArticleNo.Text.Trim() : "");
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Outware_sInOutwareSum_MonthSpread3", sqlParameter, false);
 
@@ -2704,6 +2705,55 @@ namespace WizMes_HanYoung
                 dgs.FontSize = dgs.FontSize * c;
             }
         }
+
+        private void chkBuyerArticleNo_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (chkBuyerArticleNo.IsChecked == true)
+            {
+                chkBuyerArticleNo.IsChecked = false;
+                txtBuyerArticleNo.IsEnabled = false;
+                btnBuyerArticleNo.IsEnabled = false;
+            }
+            else
+            {
+                chkBuyerArticleNo.IsChecked = true;
+                txtBuyerArticleNo.IsEnabled = true;
+                txtBuyerArticleNo.Focus();
+                btnBuyerArticleNo.IsEnabled = true;
+            }
+        }
+
+        private void chkBuyerArticleNo_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkBuyerArticleNo.IsChecked == true)
+            {
+                chkBuyerArticleNo.IsChecked = true;
+                txtBuyerArticleNo.IsEnabled = true;
+                btnBuyerArticleNo.IsEnabled = true;
+            }
+            else
+            {
+                chkBuyerArticleNo.IsChecked = false;
+                txtBuyerArticleNo.IsEnabled = false;
+                txtBuyerArticleNo.Focus();
+                btnBuyerArticleNo.IsEnabled = false;
+            }
+        }
+
+        private void txtBuyerArticleNo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnBuyerArticleNo_Click(null, null);
+            }
+        }
+
+        private void btnBuyerArticleNo_Click(object sender, RoutedEventArgs e)
+        {
+            pf.ReturnCode(txtBuyerArticleNo, 84, txtBuyerArticleNo.Text);
+        }
+
+      
     }
 
 

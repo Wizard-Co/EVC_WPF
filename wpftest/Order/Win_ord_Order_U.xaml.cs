@@ -579,20 +579,22 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("ChkDate", 1);
                 sqlParameter.Add("SDate", dtpThisMonth.SelectedDate.Value.ToString("yyyyMM") + "1");
                 sqlParameter.Add("EDate", dtpThisMonth.SelectedDate.Value.ToString("yyyyMM") + "31");
+
+
                 sqlParameter.Add("ChkCustom", 0);
                 sqlParameter.Add("CustomID", "");
+                sqlParameter.Add("ChkInCustom", 0);
+                sqlParameter.Add("InCustomID", "");
 
                 sqlParameter.Add("ChkArticleID", 0);
                 sqlParameter.Add("ArticleID", "");
-                sqlParameter.Add("ChkBuyerModelID", "");
-                sqlParameter.Add("BuyerModelID", "");
-                sqlParameter.Add("ChkOrderID", 0);
+                sqlParameter.Add("ChkArticle", 0);
+                sqlParameter.Add("Article", 0);
 
+                sqlParameter.Add("ChkOrderID", 0);
                 sqlParameter.Add("OrderID", "");
                 sqlParameter.Add("ChkCloseClss", "");
-                sqlParameter.Add("CloseClss", "");
-                sqlParameter.Add("ChkWorkID", 0);
-                sqlParameter.Add("WorkID", "");
+                sqlParameter.Add("CloseClss", "");      
 
                 sqlParameter.Add("ChkOrderClss", 0);
                 sqlParameter.Add("OrderClss", "");
@@ -1449,6 +1451,7 @@ namespace WizMes_HanYoung
                     sqlParameter.Add("ExchRate", 0.00);
                     sqlParameter.Add("UnitPriceClss", "0");
                     sqlParameter.Add("OrderSpec", "");
+                  
 
                     sqlParameter.Add("Vat_IND_YN", "Y");
                     sqlParameter.Add("ProductAutoInspectYN", "N");
@@ -2070,20 +2073,25 @@ namespace WizMes_HanYoung
             FillNeedStockQty(txtArticle.Tag.ToString(), txtAmount.Text.Replace(",", ""));
         }
 
+        
+
         //메인 데이터그리드 선택 이벤트
         private void DataGridMain_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
                 var OrderInfo = dgdMain.SelectedItem as Win_ord_Order_U_CodeView;
-
                 if (OrderInfo != null)
                     DataContext = OrderInfo;
+
+                FillNeedStockQty(OrderInfo.ArticleID, txtAmount.Text.Replace(",", ""));
+
             }
             catch (Exception ee)
             {
                 MessageBox.Show("오류지점 - DataGridMain_SelectionChanged : " + ee.ToString());
-            }
+            }     
+
         }
 
         private void txtBuyerArticle_KeyDown(object sender, KeyEventArgs e)

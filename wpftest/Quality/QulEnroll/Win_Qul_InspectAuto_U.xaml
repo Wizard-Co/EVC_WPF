@@ -807,7 +807,7 @@
                             <DataGridTextColumn Header="순" Binding="{Binding Num}" ElementStyle="{StaticResource DataGridCellRight}"/>
                             <DataGridTextColumn Header="InspectID" Binding="{Binding InspectID}" Visibility="Hidden"/>
                             <DataGridTextColumn Header="검사일자" Binding="{Binding InspectDate_CV}" ElementStyle="{StaticResource DataGridCellCenter}"/>
-                            <DataGridTextColumn Header="시리얼번호" Binding="{Binding SerialNo}" ElementStyle="{StaticResource DataGridCellCenter}"/>
+                            <DataGridTextColumn Header="시리얼번호" Binding="{Binding SerialNo}" ElementStyle="{StaticResource DataGridCellCenter}" Visibility="Hidden"/>
                             <DataGridTextColumn Header="품번" Binding="{Binding BuyerArticleNo}"/>
                             <DataGridTextColumn Header="품명" Binding="{Binding Article}"/>
 

@@ -4,10 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using WizMes_HanYoung.PopUP;
 using WPF.MDI;
 
@@ -35,6 +39,9 @@ namespace WizMes_HanYoung
         DataTable DT_CUSTOM = null;
         Lib lib = new Lib();
         string strLastDay = string.Empty;
+
+        //Image 변수 선언
+        System.Windows.Controls.Image ImageData = new System.Windows.Controls.Image();
 
         public Win_Qul_DefectRepair_Q()
         {
@@ -1998,351 +2005,407 @@ namespace WizMes_HanYoung
                 dgs.FontSize = dgs.FontSize * c;
             }
         }
-    }
 
-    public class Win_Qul_DefectRepair_Q_CodeView : BaseView
-    {
-        public int Num { get; set; }
-        public string cls { get; set; }
-        public string DefectQty { get; set; }
-        public string RepairQty { get; set; }
-        public string GroupingName { get; set; }
-        public string RepairRate { get; set; }
-        public string RepairRate1 { get; set; }
-        public string ColorBlue { get; set; }
-    }
+        private void BtnCapture_Click(object sender, RoutedEventArgs e)
+        {
+            ScreenCapture();
 
-    public class Win_Qul_DefectRepair_Q_Daily_CodeView : BaseView
-    {
-        public string step { get; set; }
-        public string OccurDate { get; set; }
+            if (!ImgImage.Source.Equals(null))
+            {
+                //전역변수 ImageData 소스에 원본 ImgImage 소스를 대입
+                ImageData.Source = ImgImage.Source;
 
-        public int Num1 { get; set; }
-        public int Num2 { get; set; }
-        public int Num3 { get; set; }
-        public int Num4 { get; set; }
+                //MainWindow에 imgage리스트에 담아서 ScreenChot페이지로 넘겨준다.
+                MainWindow.ScreenCapture.Clear();
+                MainWindow.ScreenCapture.Add(ImageData);
 
-        public string strGubun1 { get; set; }
-        public string strGubun2 { get; set; }
-        public string strGubun3 { get; set; }
-        public string strGubun4 { get; set; }
+            }
 
-        public string YYYYMMDD1 { get; set; }
-        public string ProdQty1 { get; set; }
-        public string DefectQty1 { get; set; }
-        public string RepairQty1 { get; set; }
-        public string RepairRate1 { get; set; }
+            PopUp.ScreenShot SCshot = new PopUp.ScreenShot();
 
-        public string YYYYMMDD2 { get; set; }
-        public string ProdQty2 { get; set; }
-        public string DefectQty2 { get; set; }
-        public string RepairQty2 { get; set; }
-        public string RepairRate2 { get; set; }
+            //보여줘
+            SCshot.ShowDialog();
+        }
 
-        public string YYYYMMDD3 { get; set; }
-        public string ProdQty3 { get; set; }
-        public string DefectQty3 { get; set; }
-        public string RepairQty3 { get; set; }
-        public string RepairRate3 { get; set; }
+        public void ScreenCapture()
+        {
+            //화면의 크기 정보 
+            int width = (int)SystemParameters.PrimaryScreenWidth + 70;
+            int height = (int)SystemParameters.PrimaryScreenHeight;
 
-        public string YYYYMMDD4 { get; set; }
-        public string ProdQty4 { get; set; }
-        public string DefectQty4 { get; set; }
-        public string RepairQty4 { get; set; }
-        public string RepairRate4 { get; set; }
+            //화면의 크기만큼 bitmap생성
+            using (Bitmap bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
+            {
+                //bitmap 이미지 변경을 위해 Grapics 객체 생성
+                using (Graphics gr = Graphics.FromImage(bmp))
+                {
+                    // 화면을 그대로 카피해서 Bitmap 메모리에 저장 
+                    gr.CopyFromScreen(280, 130, 0, 0, bmp.Size);
+                }
 
-        public string YYYYMMDD5 { get; set; }
-        public string ProdQty5 { get; set; }
-        public string DefectQty5 { get; set; }
-        public string RepairQty5 { get; set; }
-        public string RepairRate5 { get; set; }
+                //Bitmap 데이터를 파일로(저장 경로를 지정해서??)
+                bmp.Save(@"c:\temp\" + DateTime.Now.ToString("yyyy-MM-dd,HHmmss") + ".png", ImageFormat.Png);
 
-        public string YYYYMMDD6 { get; set; }
-        public string ProdQty6 { get; set; }
-        public string DefectQty6 { get; set; }
-        public string RepairQty6 { get; set; }
-        public string RepairRate6 { get; set; }
+                using (MemoryStream memory = new MemoryStream())
+                {
+                    bmp.Save(memory, ImageFormat.Bmp);
+                    memory.Position = 0;
+                    BitmapImage bitmapImage = new BitmapImage();
+                    bitmapImage.BeginInit();
+                    bitmapImage.StreamSource = memory;
+                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmapImage.EndInit();
 
-        public string YYYYMMDD7 { get; set; }
-        public string ProdQty7 { get; set; }
-        public string DefectQty7 { get; set; }
-        public string RepairQty7 { get; set; }
-        public string RepairRate7 { get; set; }
+                    ImgImage.Source = bitmapImage;
 
-        public string YYYYMMDD8 { get; set; }
-        public string ProdQty8 { get; set; }
-        public string DefectQty8 { get; set; }
-        public string RepairQty8 { get; set; }
-        public string RepairRate8 { get; set; }
+                }
+            }
+        }
 
-        public string YYYYMMDD9 { get; set; }
-        public string ProdQty9 { get; set; }
-        public string DefectQty9 { get; set; }
-        public string RepairQty9 { get; set; }
-        public string RepairRate9 { get; set; }
+        public class Win_Qul_DefectRepair_Q_CodeView : BaseView
+        {
+            public int Num { get; set; }
+            public string cls { get; set; }
+            public string DefectQty { get; set; }
+            public string RepairQty { get; set; }
+            public string GroupingName { get; set; }
+            public string RepairRate { get; set; }
+            public string RepairRate1 { get; set; }
+            public string ColorBlue { get; set; }
+        }
 
-        public string YYYYMMDD10 { get; set; }
-        public string ProdQty10 { get; set; }
-        public string DefectQty10 { get; set; }
-        public string RepairQty10 { get; set; }
-        public string RepairRate10 { get; set; }
+        public class Win_Qul_DefectRepair_Q_Daily_CodeView : BaseView
+        {
+            public string step { get; set; }
+            public string OccurDate { get; set; }
 
-        public string YYYYMMDD11 { get; set; }
-        public string ProdQty11 { get; set; }
-        public string DefectQty11 { get; set; }
-        public string RepairQty11 { get; set; }
-        public string RepairRate11 { get; set; }
+            public int Num1 { get; set; }
+            public int Num2 { get; set; }
+            public int Num3 { get; set; }
+            public int Num4 { get; set; }
 
-        public string YYYYMMDD12 { get; set; }
-        public string ProdQty12 { get; set; }
-        public string DefectQty12 { get; set; }
-        public string RepairQty12 { get; set; }
-        public string RepairRate12 { get; set; }
+            public string strGubun1 { get; set; }
+            public string strGubun2 { get; set; }
+            public string strGubun3 { get; set; }
+            public string strGubun4 { get; set; }
 
-        public string YYYYMMDD13 { get; set; }
-        public string ProdQty13 { get; set; }
-        public string DefectQty13 { get; set; }
-        public string RepairQty13 { get; set; }
-        public string RepairRate13 { get; set; }
+            public string YYYYMMDD1 { get; set; }
+            public string ProdQty1 { get; set; }
+            public string DefectQty1 { get; set; }
+            public string RepairQty1 { get; set; }
+            public string RepairRate1 { get; set; }
 
-        public string YYYYMMDD14 { get; set; }
-        public string ProdQty14 { get; set; }
-        public string DefectQty14 { get; set; }
-        public string RepairQty14 { get; set; }
-        public string RepairRate14 { get; set; }
+            public string YYYYMMDD2 { get; set; }
+            public string ProdQty2 { get; set; }
+            public string DefectQty2 { get; set; }
+            public string RepairQty2 { get; set; }
+            public string RepairRate2 { get; set; }
 
-        public string YYYYMMDD15 { get; set; }
-        public string ProdQty15 { get; set; }
-        public string DefectQty15 { get; set; }
-        public string RepairQty15 { get; set; }
-        public string RepairRate15 { get; set; }
+            public string YYYYMMDD3 { get; set; }
+            public string ProdQty3 { get; set; }
+            public string DefectQty3 { get; set; }
+            public string RepairQty3 { get; set; }
+            public string RepairRate3 { get; set; }
 
-        public string YYYYMMDD16 { get; set; }
-        public string ProdQty16 { get; set; }
-        public string DefectQty16 { get; set; }
-        public string RepairQty16 { get; set; }
-        public string RepairRate16 { get; set; }
+            public string YYYYMMDD4 { get; set; }
+            public string ProdQty4 { get; set; }
+            public string DefectQty4 { get; set; }
+            public string RepairQty4 { get; set; }
+            public string RepairRate4 { get; set; }
 
-        public string YYYYMMDD17 { get; set; }
-        public string ProdQty17 { get; set; }
-        public string DefectQty17 { get; set; }
-        public string RepairQty17 { get; set; }
-        public string RepairRate17 { get; set; }
+            public string YYYYMMDD5 { get; set; }
+            public string ProdQty5 { get; set; }
+            public string DefectQty5 { get; set; }
+            public string RepairQty5 { get; set; }
+            public string RepairRate5 { get; set; }
 
-        public string YYYYMMDD18 { get; set; }
-        public string ProdQty18 { get; set; }
-        public string DefectQty18 { get; set; }
-        public string RepairQty18 { get; set; }
-        public string RepairRate18 { get; set; }
+            public string YYYYMMDD6 { get; set; }
+            public string ProdQty6 { get; set; }
+            public string DefectQty6 { get; set; }
+            public string RepairQty6 { get; set; }
+            public string RepairRate6 { get; set; }
 
-        public string YYYYMMDD19 { get; set; }
-        public string ProdQty19 { get; set; }
-        public string DefectQty19 { get; set; }
-        public string RepairQty19 { get; set; }
-        public string RepairRate19 { get; set; }
+            public string YYYYMMDD7 { get; set; }
+            public string ProdQty7 { get; set; }
+            public string DefectQty7 { get; set; }
+            public string RepairQty7 { get; set; }
+            public string RepairRate7 { get; set; }
 
-        public string YYYYMMDD20 { get; set; }
-        public string ProdQty20 { get; set; }
-        public string DefectQty20 { get; set; }
-        public string RepairQty20 { get; set; }
-        public string RepairRate20 { get; set; }
+            public string YYYYMMDD8 { get; set; }
+            public string ProdQty8 { get; set; }
+            public string DefectQty8 { get; set; }
+            public string RepairQty8 { get; set; }
+            public string RepairRate8 { get; set; }
 
-        public string YYYYMMDD21 { get; set; }
-        public string ProdQty21 { get; set; }
-        public string DefectQty21 { get; set; }
-        public string RepairQty21 { get; set; }
-        public string RepairRate21 { get; set; }
+            public string YYYYMMDD9 { get; set; }
+            public string ProdQty9 { get; set; }
+            public string DefectQty9 { get; set; }
+            public string RepairQty9 { get; set; }
+            public string RepairRate9 { get; set; }
 
-        public string YYYYMMDD22 { get; set; }
-        public string ProdQty22 { get; set; }
-        public string DefectQty22 { get; set; }
-        public string RepairQty22 { get; set; }
-        public string RepairRate22 { get; set; }
+            public string YYYYMMDD10 { get; set; }
+            public string ProdQty10 { get; set; }
+            public string DefectQty10 { get; set; }
+            public string RepairQty10 { get; set; }
+            public string RepairRate10 { get; set; }
 
-        public string YYYYMMDD23 { get; set; }
-        public string ProdQty23 { get; set; }
-        public string DefectQty23 { get; set; }
-        public string RepairQty23 { get; set; }
-        public string RepairRate23 { get; set; }
+            public string YYYYMMDD11 { get; set; }
+            public string ProdQty11 { get; set; }
+            public string DefectQty11 { get; set; }
+            public string RepairQty11 { get; set; }
+            public string RepairRate11 { get; set; }
 
-        public string YYYYMMDD24 { get; set; }
-        public string ProdQty24 { get; set; }
-        public string DefectQty24 { get; set; }
-        public string RepairQty24 { get; set; }
-        public string RepairRate24 { get; set; }
+            public string YYYYMMDD12 { get; set; }
+            public string ProdQty12 { get; set; }
+            public string DefectQty12 { get; set; }
+            public string RepairQty12 { get; set; }
+            public string RepairRate12 { get; set; }
 
-        public string YYYYMMDD25 { get; set; }
-        public string ProdQty25 { get; set; }
-        public string DefectQty25 { get; set; }
-        public string RepairQty25 { get; set; }
-        public string RepairRate25 { get; set; }
+            public string YYYYMMDD13 { get; set; }
+            public string ProdQty13 { get; set; }
+            public string DefectQty13 { get; set; }
+            public string RepairQty13 { get; set; }
+            public string RepairRate13 { get; set; }
 
-        public string YYYYMMDD26 { get; set; }
-        public string ProdQty26 { get; set; }
-        public string DefectQty26 { get; set; }
-        public string RepairQty26 { get; set; }
-        public string RepairRate26 { get; set; }
+            public string YYYYMMDD14 { get; set; }
+            public string ProdQty14 { get; set; }
+            public string DefectQty14 { get; set; }
+            public string RepairQty14 { get; set; }
+            public string RepairRate14 { get; set; }
 
-        public string YYYYMMDD27 { get; set; }
-        public string ProdQty27 { get; set; }
-        public string DefectQty27 { get; set; }
-        public string RepairQty27 { get; set; }
-        public string RepairRate27 { get; set; }
+            public string YYYYMMDD15 { get; set; }
+            public string ProdQty15 { get; set; }
+            public string DefectQty15 { get; set; }
+            public string RepairQty15 { get; set; }
+            public string RepairRate15 { get; set; }
 
-        public string YYYYMMDD28 { get; set; }
-        public string ProdQty28 { get; set; }
-        public string DefectQty28 { get; set; }
-        public string RepairQty28 { get; set; }
-        public string RepairRate28 { get; set; }
+            public string YYYYMMDD16 { get; set; }
+            public string ProdQty16 { get; set; }
+            public string DefectQty16 { get; set; }
+            public string RepairQty16 { get; set; }
+            public string RepairRate16 { get; set; }
 
-        public string YYYYMMDD29 { get; set; }
-        public string ProdQty29 { get; set; }
-        public string DefectQty29 { get; set; }
-        public string RepairQty29 { get; set; }
-        public string RepairRate29 { get; set; }
+            public string YYYYMMDD17 { get; set; }
+            public string ProdQty17 { get; set; }
+            public string DefectQty17 { get; set; }
+            public string RepairQty17 { get; set; }
+            public string RepairRate17 { get; set; }
 
-        public string YYYYMMDD30 { get; set; }
-        public string ProdQty30 { get; set; }
-        public string DefectQty30 { get; set; }
-        public string RepairQty30 { get; set; }
-        public string RepairRate30 { get; set; }
+            public string YYYYMMDD18 { get; set; }
+            public string ProdQty18 { get; set; }
+            public string DefectQty18 { get; set; }
+            public string RepairQty18 { get; set; }
+            public string RepairRate18 { get; set; }
 
-        public string YYYYMMDD31 { get; set; }
-        public string ProdQty31 { get; set; }
-        public string DefectQty31 { get; set; }
-        public string RepairQty31 { get; set; }
-        public string RepairRate31 { get; set; }
+            public string YYYYMMDD19 { get; set; }
+            public string ProdQty19 { get; set; }
+            public string DefectQty19 { get; set; }
+            public string RepairQty19 { get; set; }
+            public string RepairRate19 { get; set; }
 
-        public string TProdQty { get; set; }
-        public string TDefectQty { get; set; }
-        public string TRepairQty { get; set; }
-        public string TRepairRate { get; set; }
+            public string YYYYMMDD20 { get; set; }
+            public string ProdQty20 { get; set; }
+            public string DefectQty20 { get; set; }
+            public string RepairQty20 { get; set; }
+            public string RepairRate20 { get; set; }
 
-        public string AvgProdQty { get; set; }
-        public string AvgDefectQty { get; set; }
-        public string AvgRepairQty { get; set; }
-        public string AvgRepairRate { get; set; }
+            public string YYYYMMDD21 { get; set; }
+            public string ProdQty21 { get; set; }
+            public string DefectQty21 { get; set; }
+            public string RepairQty21 { get; set; }
+            public string RepairRate21 { get; set; }
 
-        public string DayCount { get; set; }
-    }
+            public string YYYYMMDD22 { get; set; }
+            public string ProdQty22 { get; set; }
+            public string DefectQty22 { get; set; }
+            public string RepairQty22 { get; set; }
+            public string RepairRate22 { get; set; }
 
-    public class Win_Qul_DefectRepair_Q_Sum_Daily_CodeView : BaseView
-    {
-        public int Num { get; set; }
-        public string InspectDate { get; set; }
-        public string GroupingName { get; set; }
-        public string DefectQty { get; set; }
-        public string RepairQty { get; set; }
-        public string RepairRate { get; set; }
-    }
+            public string YYYYMMDD23 { get; set; }
+            public string ProdQty23 { get; set; }
+            public string DefectQty23 { get; set; }
+            public string RepairQty23 { get; set; }
+            public string RepairRate23 { get; set; }
 
-    public class Win_Qul_DefectRepair_Q_Month_CodeView : BaseView
-    {
-        public string step { get; set; }
-        public string Blank { get; set; }
+            public string YYYYMMDD24 { get; set; }
+            public string ProdQty24 { get; set; }
+            public string DefectQty24 { get; set; }
+            public string RepairQty24 { get; set; }
+            public string RepairRate24 { get; set; }
 
-        public int Num1 { get; set; }
-        public int Num2 { get; set; }
-        public int Num3 { get; set; }
-        public int Num4 { get; set; }
+            public string YYYYMMDD25 { get; set; }
+            public string ProdQty25 { get; set; }
+            public string DefectQty25 { get; set; }
+            public string RepairQty25 { get; set; }
+            public string RepairRate25 { get; set; }
 
-        public string strGubun1 { get; set; }
-        public string strGubun2 { get; set; }
-        public string strGubun3 { get; set; }
-        public string strGubun4 { get; set; }
+            public string YYYYMMDD26 { get; set; }
+            public string ProdQty26 { get; set; }
+            public string DefectQty26 { get; set; }
+            public string RepairQty26 { get; set; }
+            public string RepairRate26 { get; set; }
 
-        public string Month01 { get; set; }
-        public string ProdQty1 { get; set; }
-        public string DefectQty1 { get; set; }
-        public string RepairQty1 { get; set; }
-        public string RepairRate1 { get; set; }
+            public string YYYYMMDD27 { get; set; }
+            public string ProdQty27 { get; set; }
+            public string DefectQty27 { get; set; }
+            public string RepairQty27 { get; set; }
+            public string RepairRate27 { get; set; }
 
-        public string Month02 { get; set; }
-        public string ProdQty2 { get; set; }
-        public string DefectQty2 { get; set; }
-        public string RepairQty2 { get; set; }
-        public string RepairRate2 { get; set; }
+            public string YYYYMMDD28 { get; set; }
+            public string ProdQty28 { get; set; }
+            public string DefectQty28 { get; set; }
+            public string RepairQty28 { get; set; }
+            public string RepairRate28 { get; set; }
 
-        public string Month03 { get; set; }
-        public string ProdQty3 { get; set; }
-        public string DefectQty3 { get; set; }
-        public string RepairQty3 { get; set; }
-        public string RepairRate3 { get; set; }
+            public string YYYYMMDD29 { get; set; }
+            public string ProdQty29 { get; set; }
+            public string DefectQty29 { get; set; }
+            public string RepairQty29 { get; set; }
+            public string RepairRate29 { get; set; }
 
-        public string Month04 { get; set; }
-        public string ProdQty4 { get; set; }
-        public string DefectQty4 { get; set; }
-        public string RepairQty4 { get; set; }
-        public string RepairRate4 { get; set; }
+            public string YYYYMMDD30 { get; set; }
+            public string ProdQty30 { get; set; }
+            public string DefectQty30 { get; set; }
+            public string RepairQty30 { get; set; }
+            public string RepairRate30 { get; set; }
 
-        public string Month05 { get; set; }
-        public string ProdQty5 { get; set; }
-        public string DefectQty5 { get; set; }
-        public string RepairQty5 { get; set; }
-        public string RepairRate5 { get; set; }
+            public string YYYYMMDD31 { get; set; }
+            public string ProdQty31 { get; set; }
+            public string DefectQty31 { get; set; }
+            public string RepairQty31 { get; set; }
+            public string RepairRate31 { get; set; }
 
-        public string Month06 { get; set; }
-        public string ProdQty6 { get; set; }
-        public string DefectQty6 { get; set; }
-        public string RepairQty6 { get; set; }
-        public string RepairRate6 { get; set; }
+            public string TProdQty { get; set; }
+            public string TDefectQty { get; set; }
+            public string TRepairQty { get; set; }
+            public string TRepairRate { get; set; }
 
-        public string Month07 { get; set; }
-        public string ProdQty7 { get; set; }
-        public string DefectQty7 { get; set; }
-        public string RepairQty7 { get; set; }
-        public string RepairRate7 { get; set; }
+            public string AvgProdQty { get; set; }
+            public string AvgDefectQty { get; set; }
+            public string AvgRepairQty { get; set; }
+            public string AvgRepairRate { get; set; }
 
-        public string Month08 { get; set; }
-        public string ProdQty8 { get; set; }
-        public string DefectQty8 { get; set; }
-        public string RepairQty8 { get; set; }
-        public string RepairRate8 { get; set; }
+            public string DayCount { get; set; }
+        }
 
-        public string Month09 { get; set; }
-        public string ProdQty9 { get; set; }
-        public string DefectQty9 { get; set; }
-        public string RepairQty9 { get; set; }
-        public string RepairRate9 { get; set; }
+        public class Win_Qul_DefectRepair_Q_Sum_Daily_CodeView : BaseView
+        {
+            public int Num { get; set; }
+            public string InspectDate { get; set; }
+            public string GroupingName { get; set; }
+            public string DefectQty { get; set; }
+            public string RepairQty { get; set; }
+            public string RepairRate { get; set; }
+        }
 
-        public string Month10 { get; set; }
-        public string ProdQty10 { get; set; }
-        public string DefectQty10 { get; set; }
-        public string RepairQty10 { get; set; }
-        public string RepairRate10 { get; set; }
+        public class Win_Qul_DefectRepair_Q_Month_CodeView : BaseView
+        {
+            public string step { get; set; }
+            public string Blank { get; set; }
 
-        public string Month11 { get; set; }
-        public string ProdQty11 { get; set; }
-        public string DefectQty11 { get; set; }
-        public string RepairQty11 { get; set; }
-        public string RepairRate11 { get; set; }
+            public int Num1 { get; set; }
+            public int Num2 { get; set; }
+            public int Num3 { get; set; }
+            public int Num4 { get; set; }
 
-        public string Month12 { get; set; }
-        public string ProdQty12 { get; set; }
-        public string DefectQty12 { get; set; }
-        public string RepairQty12 { get; set; }
-        public string RepairRate12 { get; set; }
+            public string strGubun1 { get; set; }
+            public string strGubun2 { get; set; }
+            public string strGubun3 { get; set; }
+            public string strGubun4 { get; set; }
 
-        public string TProdQty { get; set; }
-        public string TDefectQty { get; set; }
-        public string TRepairQty { get; set; }
-        public string TRepairRate { get; set; }
+            public string Month01 { get; set; }
+            public string ProdQty1 { get; set; }
+            public string DefectQty1 { get; set; }
+            public string RepairQty1 { get; set; }
+            public string RepairRate1 { get; set; }
 
-        public string AvgProdQty { get; set; }
-        public string AvgDefectQty { get; set; }
-        public string AvgRepairQty { get; set; }
-        public string AvgRepairRate { get; set; }
+            public string Month02 { get; set; }
+            public string ProdQty2 { get; set; }
+            public string DefectQty2 { get; set; }
+            public string RepairQty2 { get; set; }
+            public string RepairRate2 { get; set; }
 
-        public string DayCount { get; set; }
-    }
+            public string Month03 { get; set; }
+            public string ProdQty3 { get; set; }
+            public string DefectQty3 { get; set; }
+            public string RepairQty3 { get; set; }
+            public string RepairRate3 { get; set; }
 
-    public class Win_Qul_DefectRepair_Q_Sum_Month_CodeView : BaseView
-    {
-        public int Num { get; set; }
-        public string InspectMonth { get; set; }
-        public string GroupingName { get; set; }
-        public string DefectQty { get; set; }
-        public string RepairQty { get; set; }
-        public string RepairRate { get; set; }
+            public string Month04 { get; set; }
+            public string ProdQty4 { get; set; }
+            public string DefectQty4 { get; set; }
+            public string RepairQty4 { get; set; }
+            public string RepairRate4 { get; set; }
+
+            public string Month05 { get; set; }
+            public string ProdQty5 { get; set; }
+            public string DefectQty5 { get; set; }
+            public string RepairQty5 { get; set; }
+            public string RepairRate5 { get; set; }
+
+            public string Month06 { get; set; }
+            public string ProdQty6 { get; set; }
+            public string DefectQty6 { get; set; }
+            public string RepairQty6 { get; set; }
+            public string RepairRate6 { get; set; }
+
+            public string Month07 { get; set; }
+            public string ProdQty7 { get; set; }
+            public string DefectQty7 { get; set; }
+            public string RepairQty7 { get; set; }
+            public string RepairRate7 { get; set; }
+
+            public string Month08 { get; set; }
+            public string ProdQty8 { get; set; }
+            public string DefectQty8 { get; set; }
+            public string RepairQty8 { get; set; }
+            public string RepairRate8 { get; set; }
+
+            public string Month09 { get; set; }
+            public string ProdQty9 { get; set; }
+            public string DefectQty9 { get; set; }
+            public string RepairQty9 { get; set; }
+            public string RepairRate9 { get; set; }
+
+            public string Month10 { get; set; }
+            public string ProdQty10 { get; set; }
+            public string DefectQty10 { get; set; }
+            public string RepairQty10 { get; set; }
+            public string RepairRate10 { get; set; }
+
+            public string Month11 { get; set; }
+            public string ProdQty11 { get; set; }
+            public string DefectQty11 { get; set; }
+            public string RepairQty11 { get; set; }
+            public string RepairRate11 { get; set; }
+
+            public string Month12 { get; set; }
+            public string ProdQty12 { get; set; }
+            public string DefectQty12 { get; set; }
+            public string RepairQty12 { get; set; }
+            public string RepairRate12 { get; set; }
+
+            public string TProdQty { get; set; }
+            public string TDefectQty { get; set; }
+            public string TRepairQty { get; set; }
+            public string TRepairRate { get; set; }
+
+            public string AvgProdQty { get; set; }
+            public string AvgDefectQty { get; set; }
+            public string AvgRepairQty { get; set; }
+            public string AvgRepairRate { get; set; }
+
+            public string DayCount { get; set; }
+        }
+
+        public class Win_Qul_DefectRepair_Q_Sum_Month_CodeView : BaseView
+        {
+            public int Num { get; set; }
+            public string InspectMonth { get; set; }
+            public string GroupingName { get; set; }
+            public string DefectQty { get; set; }
+            public string RepairQty { get; set; }
+            public string RepairRate { get; set; }
+        }
     }
 }

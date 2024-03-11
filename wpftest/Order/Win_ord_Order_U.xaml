@@ -372,7 +372,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Button x:Name="btnUpload" Grid.Column="0" Click="btnUpload_Click"  Margin="1" >
+                        <Button x:Name="btnUpload" Grid.Column="0" Click="btnUpload_Click"  Margin="1" Visibility="Hidden" >
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="{DynamicResource btiUpload}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
                                 <TextBlock Text="{Binding Source={StaticResource tblUpload},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
@@ -769,8 +769,8 @@
                                     <TextBlock Text="발주번호"  Style="{DynamicResource TextBlockInViewBoxInput}"/>
                                 </Viewbox>
                             </Label>
-                            <TextBox x:Name="txtPONO" Grid.Row="7" Grid.Column="4" Text="{Binding PONO}"
-                                     Style="{DynamicResource TextBoxInputArea}"/>
+                            <TextBox x:Name="txtPONO" Grid.Row="7" Grid.Column="4" Text="{Binding PoNo}"
+                                     Style="{DynamicResource TextBoxInputArea}" TextAlignment="Right"/>
 
                             <Label Grid.Row="12" Grid.Column="0" 
                                     Style="{DynamicResource LabelInputArea}">

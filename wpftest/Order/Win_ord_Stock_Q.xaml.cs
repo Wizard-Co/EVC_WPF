@@ -65,6 +65,7 @@ namespace WizMes_HanYoung
             btnCustomer.IsEnabled = false;
             txtArticle.IsEnabled = false;
             btnArticle.IsEnabled = false;
+            btnBuyerArticleNo.IsEnabled = false;
             cboArticleGroup.IsEnabled = false;
             cboWareHouse.IsEnabled = false;
             cboInGbn.IsEnabled = false;
@@ -817,7 +818,7 @@ namespace WizMes_HanYoung
         //플러스파인더 _ 품명_클릭. (품번이 검색되도록 수정, 2020.03.18, 장가빈)
         private void btnArticle_Click(object sender, RoutedEventArgs e)
         {
-            pf.ReturnCode(txtArticle, 81, txtArticle.Text);
+            pf.ReturnCode(txtArticle, 77, txtArticle.Text);
         }
         //플러스파인더 _ 품명_키다운
         private void TxtArticle_KeyDown(object sender, KeyEventArgs e)
@@ -1115,6 +1116,53 @@ namespace WizMes_HanYoung
             {
                 dgs.ColumnHeaderHeight = dgs.ColumnHeaderHeight * c;
                 dgs.FontSize = dgs.FontSize * c;
+            }
+        }
+
+        private void chkBuyerArticleNo_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (chkBuyerArticleNo.IsChecked == true)
+            {
+                chkBuyerArticleNo.IsChecked = false;
+                txtBuyerArticleNo.IsEnabled = false;
+                btnBuyerArticleNo.IsEnabled = false;
+            }
+            else
+            {
+                chkBuyerArticleNo.IsChecked = true;
+                txtBuyerArticleNo.IsEnabled = true;
+                txtBuyerArticleNo.Focus();
+                btnBuyerArticleNo.IsEnabled = true;
+            }
+        }
+
+        private void chkBuyerArticleNo_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkBuyerArticleNo.IsChecked == true)
+            {
+                chkBuyerArticleNo.IsChecked = false;
+                txtBuyerArticleNo.IsEnabled = false;
+                btnBuyerArticleNo.IsEnabled = false;
+            }
+            else
+            {
+                chkBuyerArticleNo.IsChecked = true;
+                txtBuyerArticleNo.IsEnabled = true;
+                txtBuyerArticleNo.Focus();
+                btnBuyerArticleNo.IsEnabled = true;
+            }
+        }
+
+        private void btnBuyerArticleNo_Click(object sender, RoutedEventArgs e)
+        {
+            pf.ReturnCode(txtArticle, 84, txtArticle.Text);
+        }
+
+        private void TxtBuyerArticleNo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnBuyerArticleNo_Click(null, null);
             }
         }
     }
