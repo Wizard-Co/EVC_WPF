@@ -39,7 +39,7 @@ namespace WizMes_HanYoung.PopUp
 
         #region 버튼 이벤트 -  닫기, 검색
 
-        public List<Win_mtr_LotStockControl_U_CodeView> lstLotStock = new List<Win_mtr_LotStockControl_U_CodeView>();
+        public List<Win_mtr_StockControl_U_CodeView> lstLotStock = new List<Win_mtr_StockControl_U_CodeView>();
 
 
         //닫기
@@ -628,7 +628,7 @@ namespace WizMes_HanYoung.PopUp
         {
             if (dgdMain.Items.Count > 0)
             {
-                foreach (Win_mtr_LotStockControl_U_CodeView Silsadata in dgdMain.Items)
+                foreach (Win_mtr_StockControl_U_CodeView Silsadata in dgdMain.Items)
                 {
 
                     if (Silsadata != null && Silsadata.Chk == false)
