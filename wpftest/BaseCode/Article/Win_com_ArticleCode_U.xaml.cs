@@ -149,9 +149,9 @@ namespace WizMes_HanYoung
             this.cboFTAMgrYN.DisplayMemberPath = "code_name";
             this.cboFTAMgrYN.SelectedValuePath = "code_id";
 
-            this.cboFreeStuffinYN.ItemsSource = ovcYN;
-            this.cboFreeStuffinYN.DisplayMemberPath = "code_name";
-            this.cboFreeStuffinYN.SelectedValuePath = "code_id";
+            this.cboInsPectYN.ItemsSource = ovcYN;
+            this.cboInsPectYN.DisplayMemberPath = "code_name";
+            this.cboInsPectYN.SelectedValuePath = "code_id";
 
 
             //원재료 속성(입력)
@@ -527,6 +527,7 @@ namespace WizMes_HanYoung
             cboSupplyType.SelectedIndex = 0; //공급유형
             cboUnitClss.SelectedIndex = 0; //단위
             cboLabelPrintYN.SelectedIndex = 0; //라벨관리
+            cboInsPectYN.SelectedIndex = 0; //무검사품YN 
             cboProductGrpID.SelectedIndex = 0; //제품군
             cboPartGBNID.SelectedIndex = 0; //부품분류
             cboFTAMgrYN.SelectedIndex = 1; //FTA중점
@@ -1096,6 +1097,7 @@ namespace WizMes_HanYoung
                                 ProdDiffiLevel = stringFormatN2(dr["ProdDiffiLevel"]),
                                 BuyerModelID = dr["BuyerModelID"].ToString(),
                                 BuyerModel = dr["BuyerModel"].ToString(),
+                                InspectYN = dr["InspectYN"].ToString(),
 
                             };
 
@@ -1339,6 +1341,7 @@ namespace WizMes_HanYoung
                     sqlParameter.Add("sLength", txtLength.Text != null && !txtLength.Text.Trim().Equals("") ? ConvertDouble(txtLength.Text) : 0);
                     sqlParameter.Add("BuyerModelID", txtModel.Tag != null ? txtModel.Tag.ToString() : "");
                     sqlParameter.Add("sBigMiSmalGbn", cboBigMiSmal.SelectedValue != null ? cboBigMiSmal.SelectedValue.ToString() : ""); //공정구분으로 쓸꺼
+                    sqlParameter.Add("sInspectYN", cboInsPectYN.SelectedValue != null ? cboInsPectYN.SelectedValue.ToString() : ""); //무검사품 여부
 
 
 
@@ -2997,7 +3000,7 @@ namespace WizMes_HanYoung
         public string BigMiSmalGbn { get; set; } // 대중소구분 
         public string BuyerModelID { get; set; }
         public string BuyerModel { get; set; }
-
+        public string InspectYN { get; set; } // 무검사품여부 
 
         public BitmapImage ImageView { get; set; }
 

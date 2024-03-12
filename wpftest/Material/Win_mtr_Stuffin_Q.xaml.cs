@@ -779,8 +779,9 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("nChkCustom", 0);
                 sqlParameter.Add("sCustom", "");
 
-                sqlParameter.Add("nChkArticleID", 0);
-                sqlParameter.Add("sArticleID", "");
+                sqlParameter.Add("nChkArticleID", chkArticleNoSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("sArticleID", txtArticleNo.Tag != null && !txtArticleNo.Text.Trim().Equals("") ? txtArticleNo.Tag.ToString() : "");
+                //sqlParameter.Add("sArticleID", chkArticleSrh.IsChecked == true && txtArticleNo.Tag != null ? txtArticleNo.Tag.ToString() : ""); //품명코드 검색
                 sqlParameter.Add("nChkStuffClss", chkStuffClssSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("sStuffClss", cboStuffClssSrh.SelectedValue != null ? cboStuffClssSrh.SelectedValue.ToString() : "");
                 sqlParameter.Add("nChkIncStuffIN", 0);
@@ -799,7 +800,7 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("sToLocID", chkToLocSrh.IsChecked == true && cboToLocSrh.SelectedValue != null ? cboToLocSrh.SelectedValue.ToString() : "");
 
                 sqlParameter.Add("nBuyArticleNo", chkArticleSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("BuyArticleNo", chkArticleSrh.IsChecked == true && !txtArticleSrh.Text.Trim().Equals("") ? @Escape(txtArticleSrh.Text) : "");
+                sqlParameter.Add("BuyArticleNo", chkArticleSrh.IsChecked == true && !txtArticleSrh.Text.Trim().Equals("") ? txtArticleSrh.Text : "");
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_StuffIN_sStuffIN", sqlParameter, true, "R");
 
@@ -1101,5 +1102,52 @@ namespace WizMes_HanYoung
         }
 
         #endregion // 기타메서드
+
+        //품명 라벨체크
+        private void lblArticleNo_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (chkArticleNoSrh.IsChecked == true)
+            {
+                chkArticleNoSrh.IsChecked = false;
+            }
+            else
+            {
+                chkArticleNoSrh.IsChecked = true;
+            }
+        }
+
+        //품명 체크 
+        private void chkArticleNo_Checked(object sender, RoutedEventArgs e)
+        {
+            chkArticleNoSrh.IsChecked = true;
+
+            txtArticleNo.IsEnabled = true;
+
+            btnPfArticleNoSrh.IsEnabled = true;
+        }
+        //품명 안체크
+        private void chkArticleNo_Unchecked(object sender, RoutedEventArgs e)
+        {
+            chkArticleNoSrh.IsChecked = false;
+
+            txtArticleNo.IsEnabled = false;
+
+            btnPfArticleNoSrh.IsEnabled = false;
+        }
+        //품명 키다운 
+        private void txtArticleNo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                e.Handled = true;
+                MainWindow.pf.ReturnCode(txtArticleNo, 77, "");
+            }
+        }
+
+        //품명 플러스파인더
+        private void btnPfArticleNoSrh_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.pf.ReturnCode(txtArticleNo, 77, "");
+        }
     }
 }

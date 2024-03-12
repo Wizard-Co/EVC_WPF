@@ -124,7 +124,7 @@
                     <ColumnDefinition Width="13*" />
                 </Grid.ColumnDefinitions>
 
-                <Label  Grid.Column="0" Grid.Row="0" Style="{DynamicResource LabelSearch}"  MouseLeftButtonUp="chkArticle_Click" >
+                <Label  Grid.Column="0" Grid.Row="0" Style="{DynamicResource LabelSearch}"  MouseLeftButtonUp="chkArticle_Click">
                     <StackPanel Style="{DynamicResource StackPanelInLabel}" >
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                             <CheckBox x:Name="chkArticle" Click="chkArticle_Click"  />
@@ -219,15 +219,40 @@
             </Grid>
 
 
-            <Label Grid.Column="4" Grid.RowSpan="4"  Style="{DynamicResource LabelSearch}" >
-                <StackPanel>
-                    <CheckBox x:Name="chkIn_NotApprovedIncloud" Content="입고미승인건 포함" />
-                    <CheckBox x:Name="chkAutoInOutItemsIncloud" Content="자동입출고건 포함" />
-                    <CheckBox x:Name="chkMainInterestItemsSee" Content="주요관심품목만 보기" />
-                    <CheckBox x:Name="chkRegistItemsByCustomer" Content="거래처별 등록 품목" />
+            <Grid Grid.Column="4" Grid.RowSpan="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Grid.RowSpan="4"  Style="{DynamicResource LabelSearch}" >
+                    <StackPanel>
+                        <CheckBox x:Name="chkIn_NotApprovedIncloud" Content="입고미승인건 포함" Style="{DynamicResource CheckBoxInputArea}" />
+                        <TextBlock/>
+                        <CheckBox x:Name="chkAutoInOutItemsIncloud" Content="자동입출고건 포함" Style="{DynamicResource CheckBoxInputArea}"/>
+                        <TextBlock/>
+                        <CheckBox x:Name="chkMainInterestItemsSee" Content="주요관심품목만 보기" Style="{DynamicResource CheckBoxInputArea}"/>
+                        <TextBlock/>
+                        <CheckBox x:Name="chkRegistItemsByCustomer" Content="거래처별 등록 품목" Style="{DynamicResource CheckBoxInputArea}"/>
 
-                </StackPanel>
-            </Label>
+
+
+                    </StackPanel>
+                </Label>
+                <Label Grid.Column="1" Grid.RowSpan="4"  Style="{DynamicResource LabelSearch}" >
+                    <StackPanel>
+
+                        <CheckBox x:Name="chkStockLacklist" Content="재고 부족분 조회" Style="{DynamicResource CheckBoxInputArea}" />
+                        <TextBlock/>
+                        <CheckBox x:Name="chkIncludingsubProduct" Content="하위품포함조회" Style="{DynamicResource CheckBoxInputArea}"/>
+                        <TextBlock/>
+                        <TextBlock/>
+                        <TextBlock/>
+                    </StackPanel>
+                </Label>
+
+
+            </Grid>
+
 
 
 

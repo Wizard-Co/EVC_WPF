@@ -91,6 +91,30 @@
                     <ColumnDefinition Width="105*" />
                     <ColumnDefinition Width="20*" />
                 </Grid.ColumnDefinitions>
+                <Label x:Name="lblArticleNoSrh" Grid.Column="0" Style="{DynamicResource LabelSearch}"
+                       MouseLeftButtonUp="lblArticleNo_MouseLeftButtonUp">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <CheckBox x:Name="chkArticleNoSrh" Checked="chkArticleNo_Checked" Unchecked="chkArticleNo_Unchecked" VerticalAlignment="Center" />
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <TextBlock Text="품  명" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                        </Viewbox>
+
+                    </StackPanel>
+                </Label>
+                <TextBox x:Name="txtArticleNo" Grid.Column="1" Style="{DynamicResource TextBoxSearch}" IsEnabled="False" KeyDown="txtArticleNo_KeyDown"/>
+                <Button x:Name="btnPfArticleNoSrh" Grid.Column="2"  IsEnabled="False" Click="btnPfArticleNoSrh_Click">
+                    <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}" />
+                </Button>
+            </Grid>
+
+            <Grid Grid.Column="2" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="65*" />
+                    <ColumnDefinition Width="105*" />
+                    <ColumnDefinition Width="20*" />
+                </Grid.ColumnDefinitions>
                 <Label x:Name="lblArticleSrh" Grid.Column="0" Style="{DynamicResource LabelSearch}"
                        MouseLeftButtonUp="lblArticleSrh_MouseLeftButtonUp">
                     <StackPanel Style="{DynamicResource StackPanelInLabel}">
@@ -108,7 +132,8 @@
                     <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}" />
                 </Button>
             </Grid>
-            <Grid Grid.Column="2" Grid.Row="2">
+
+            <Grid Grid.Column="2" Grid.Row="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="67*" />
                     <ColumnDefinition Width="84*" />

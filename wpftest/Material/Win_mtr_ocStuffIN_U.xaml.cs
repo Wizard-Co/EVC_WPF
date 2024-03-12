@@ -35,6 +35,8 @@ namespace WizMes_HanYoung
         string InspectName = string.Empty;
         string AASS = string.Empty;
 
+        string strInspectYN = string.Empty; //무검사품 입고자동여부를 위해서 추가
+
         string strFlag = string.Empty;
         int rowNum = 0;
 
@@ -954,8 +956,8 @@ namespace WizMes_HanYoung
                 return;
             }
 
-            if (cboFreeStuffinYN.SelectedValue == null      || 
-                cboFreeStuffinYN.SelectedValue.Equals("N")  || 
+            if (cboFreeStuffinYN.SelectedValue == null ||
+                cboFreeStuffinYN.SelectedValue.Equals("N") ||
                 cboFreeStuffinYN.SelectedValue.Equals(""))
             {
                 MessageBox.Show("검사필요 여부를 확인해주세요");
@@ -1186,7 +1188,7 @@ namespace WizMes_HanYoung
                     //workrange = worksheet.get_Range("B3");
                     //workrange.Value2 = LeftLabel.Spec;
                     //입고처로트번호
-                    workrange = worksheet.get_Range("C5"); 
+                    workrange = worksheet.get_Range("C5");
                     workrange.Value2 = "'" + LeftLabel.mtrCustomLotno;
 
 
@@ -1600,6 +1602,7 @@ namespace WizMes_HanYoung
                             UnitClss = dr["UnitClss"].ToString(),
                             PartGBNID = dr["PartGBNID"].ToString(),
                             FreeStuffinYN = dr["FreeStuffinYN"].ToString(), // 품명에서 무검사입고품여부 정보들고옴
+                            InspectYN = dr["InspectYN"].ToString()
                         };
 
                         cboArticleGrp.SelectedValue = getArticleInfo.ArticleGrpID;
@@ -1609,6 +1612,7 @@ namespace WizMes_HanYoung
                         //cboProductGrp.SelectedValue = getArticleInfo.PartGBNID;
                         txtUnitPrice.Text = getArticleInfo.UnitPrice;
                         cboFreeStuffinYN.SelectedIndex = 0; //검사필요여부 Y면 검사, N이면 자동검사
+                        strInspectYN = getArticleInfo.InspectYN; //무검사품 입고자동여부를 위해서 
 
                     }
                 }
@@ -1641,12 +1645,12 @@ namespace WizMes_HanYoung
                 if (e.Key == Key.Enter)
                 {
 
-                 //   if (txtCustom.Tag == null || txtCustom.Tag.ToString().Trim().Equals("")
-                 //|| txtCustom.Text.Trim().Equals(""))
-                 //   {
-                 //       MessageBox.Show("거래처를 먼저 선택해주세요.");
-                 //       return;
-                 //   }
+                    //   if (txtCustom.Tag == null || txtCustom.Tag.ToString().Trim().Equals("")
+                    //|| txtCustom.Text.Trim().Equals(""))
+                    //   {
+                    //       MessageBox.Show("거래처를 먼저 선택해주세요.");
+                    //       return;
+                    //   }
 
 
                     if (txtCustom != null && txtCustom.Text != "")
@@ -1887,10 +1891,10 @@ namespace WizMes_HanYoung
             txtCustomInspector.Text = MainWindow.CurrentName;
             // 7. 전창고, 후창고 - 두번째 선택
             //cboFromLoc.SelectedIndex = 0;
-            cboToLoc.SelectedIndex = 1;
+            cboToLoc.SelectedIndex = 0;
             cboFreeStuffinYN.SelectedIndex = 0; //검사필요여부 기본값 Y
 
-            
+
             // 검수일자 오늘날짜
             dtpCustomInspectDate.SelectedDate = DateTime.Today;
 
@@ -2794,7 +2798,8 @@ namespace WizMes_HanYoung
                         sqlParameter.Add("sLOTID", txtLotID.Text != null && !txtLotID.Text.Trim().Equals("") ? txtLotID.Text : "");
                         sqlParameter.Add("mtrCustomLotno", txtmtrCustomLotno.Text != null && !txtmtrCustomLotno.Text.Trim().Equals("") ? txtmtrCustomLotno.Text : "");
 
-                        sqlParameter.Add("InspectYN", cboFreeStuffinYN.SelectedValue == null || cboFreeStuffinYN.SelectedValue.Equals("N") ? "Y" : "N"); // 2023.04.11 검사필요 Y = 검사 O, N이면 자동검사
+                        sqlParameter.Add("InspectYN", strInspectYN); // 2023.04.11 검사필요 Y = 검사 O, N이면 자동검사
+                        //sqlParameter.Add("InspectYN", cboFreeStuffinYN.SelectedValue == null || cboFreeStuffinYN.SelectedValue.Equals("N") ? "Y" : "N"); // 2023.04.11 검사필요 Y = 검사 O, N이면 자동검사
 
                         //sqlParameter.Add("InspectYN", "Y"); // 2020.02.14 삼주 요청사항 : 입고할때 입고검수도 알아서 되게 해달라!!! 
                         sqlParameter.Add("sUserID", MainWindow.CurrentUser);
@@ -3429,6 +3434,8 @@ namespace WizMes_HanYoung
         public string HSCode { get; set; }
         public string OutUnitPrice { get; set; }
         public string FreeStuffinYN { get; set; }
+        public string InspectYN { get; set; }
+
 
     }
     #endregion

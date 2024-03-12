@@ -250,7 +250,7 @@
                 </Label>
                 <ComboBox x:Name="cboOutGbn" Grid.Column="1" Grid.ColumnSpan="2"  Style="{DynamicResource ComboBoxSearchString}" Background="White" IsEnabled="False"/>
             </Grid>
-            <Grid Grid.Column="4">
+            <Grid Grid.Column="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="63*" />
                     <ColumnDefinition Width="63*" />
@@ -272,7 +272,7 @@
             </Grid>
 
 
-            <Grid Grid.Column="4" Grid.Row="1" Grid.RowSpan="3">
+            <Grid Grid.Column="4" Grid.Row="0" Grid.RowSpan="4">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
@@ -285,6 +285,8 @@
                         <CheckBox x:Name="chkMainInterestItemsSee" Content="세부 조회"  Style="{DynamicResource CheckBoxInputArea}"/>
                         <TextBlock/>
                         <CheckBox x:Name="chkRegistItemsByCustomer" Content="거래처별 등록 품목"  Style="{DynamicResource CheckBoxInputArea}"/>
+                        <TextBlock/>
+
                     </StackPanel>
                 </Label>
 
@@ -294,7 +296,10 @@
                         <TextBlock/>
                         <CheckBox x:Name="chkHideInOutReasonNumber" Content="입출고 근거번호 숨김" Style="{DynamicResource CheckBoxInputArea}" Click="chkHideInOutReasonNumber_Click" />
                         <TextBlock/>
+                        <CheckBox x:Name="chkStockLacklist" Content="재고 부족분 조회" Style="{DynamicResource CheckBoxInputArea}"/>
                         <TextBlock/>
+                        <CheckBox x:Name="chkIncludingsubProduct" Content="하위품포함조회" Style="{DynamicResource CheckBoxInputArea}" />
+
 
 
                     </StackPanel>

@@ -617,13 +617,7 @@
                             <TextBox x:Name="txtLength" Grid.Column="5" Grid.Row="0" Style="{DynamicResource TextBoxInput_Number_Right}"
                                      Text="{Binding Length}" />
 
-                            <Label Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2" Style="{DynamicResource LabelInputArea}" Visibility="Hidden">
-                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                    <TextBlock Text="무검사 입고품 여부" Style="{DynamicResource TextBlockInViewBoxInput}"/>
-                                </Viewbox>
-                            </Label>
-                            <ComboBox x:Name="cboFreeStuffinYN" Grid.Column="5" Grid.Row="1" Style="{DynamicResource ComboBoxInputString}" Background="#fff2d2"
-                              SelectedValue="{Binding FreeStuffinYN}" DropDownClosed="cboFreeStuffinYN_DropDownClosed" Visibility="Hidden"/>
+
 
                             <!--<Label Grid.Column="0" Grid.Row="0"  Style="{DynamicResource LabelInputArea}" >
                                 <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
@@ -782,10 +776,30 @@
 
                         </Label>
                         <CheckBox  x:Name="chkNotUse" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="3"/>
-
                     </Grid>
 
 
+                    <Grid Grid.Row="16" Grid.Column="3" Grid.ColumnSpan="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="0.5*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="0.2*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Column="0" Grid.Row="16"  Style="{DynamicResource LabelInputArea}" Visibility="Visible">
+                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                <TextBlock Text="무검사품 여부" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                            </Viewbox>
+                        </Label>
+                        <ComboBox x:Name="cboInsPectYN" Grid.Column="1" Grid.Row="16" Style="{DynamicResource ComboBoxInputString}" Background="#fff2d2"
+                              SelectedValue="{Binding InspectYN}" Visibility="Visible"/>
+
+
+                    </Grid>
 
                     <!-- 15 Row -->
                     <Label Grid.Column="0" Grid.Row="17"  Style="{DynamicResource LabelInputArea}">
