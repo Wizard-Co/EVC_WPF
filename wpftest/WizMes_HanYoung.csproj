@@ -569,6 +569,9 @@
     <Compile Include="Quality\Analysis,Search\Win_Qul_DailyProdDefect_Q.xaml.cs">
       <DependentUpon>Win_Qul_DailyProdDefect_Q.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Quality\Analysis,Search\Win_Qul_InspectDefectResultTotal_Q.xaml.cs">
+      <DependentUpon>Win_Qul_InspectDefectResultTotal_Q.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Quality\Analysis,Search\Win_Qul_DateBox_Q.xaml.cs">
       <DependentUpon>Win_Qul_DateBox_Q.xaml</DependentUpon>
     </Compile>
@@ -1143,6 +1146,10 @@
     <Page Include="Quality\Analysis,Search\Win_Qul_DailyProdDefect_Q.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Quality\Analysis,Search\Win_Qul_InspectDefectResultTotal_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Quality\Analysis,Search\Win_Qul_DateBox_Q.xaml">
       <Generator>MSBuild:Compile</Generator>
