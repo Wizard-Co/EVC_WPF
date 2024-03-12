@@ -575,6 +575,9 @@
     <Compile Include="Quality\Analysis,Search\Win_Qul_DailyProdDefect_Q.xaml.cs">
       <DependentUpon>Win_Qul_DailyProdDefect_Q.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Quality\Analysis,Search\Win_Qul_InspectDefectResultTotal_Q.xaml.cs">
+      <DependentUpon>Win_Qul_InspectDefectResultTotal_Q.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Quality\Analysis,Search\Win_Qul_DateBox_Q.xaml.cs">
       <DependentUpon>Win_Qul_DateBox_Q.xaml</DependentUpon>
     </Compile>
@@ -1158,6 +1161,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Quality\Analysis,Search\Win_Qul_InspectDefectResultTotal_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Quality\Analysis,Search\Win_Qul_DateBox_Q.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1446,8 +1453,6 @@
     <Resource Include="Quality\Analysis,Search\x-bar.PNG" />
     <Resource Include="Images\icon_MES.JPG" />
     <Resource Include="Images\Upload.bmp" />
-    <Resource Include="Image1.png" />
-    <Resource Include="Image2.png" />
     <Content Include="x64\liblept172.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
