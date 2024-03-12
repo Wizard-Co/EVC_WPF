@@ -1139,7 +1139,7 @@ namespace WizMes_HanYoung
             if (dgdMain.Items.Count > 0)
             {
                 dgdMain.SelectedIndex = PrimaryKey.Equals(string.Empty) ? 
-                    selectedIndex : SelectItem(PrimaryKey, dgdMain);
+                    0 : SelectItem(PrimaryKey, dgdMain);
             }
             else
                 DataContext = null;
