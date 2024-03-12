@@ -186,9 +186,6 @@
     <Compile Include="BaseCode\Article\Win_com_ArticleCode_U.xaml.cs">
       <DependentUpon>Win_com_ArticleCode_U.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BaseCode\Article\Win_com_ArticleConditioin_U.xaml.cs">
-      <DependentUpon>Win_com_ArticleConditioin_U.xaml</DependentUpon>
-    </Compile>
     <Compile Include="BaseCode\Article\Win_com_Article_BOM_U.xaml.cs">
       <DependentUpon>Win_com_Article_BOM_U.xaml</DependentUpon>
     </Compile>
@@ -249,17 +246,14 @@
     <Compile Include="INI\LoadINI.cs" />
     <Compile Include="KeyValue.cs" />
     <Compile Include="Lib.cs" />
-    <Compile Include="Material\PopUp\Win_pop_Stock_LotNo_2.xaml.cs">
-      <DependentUpon>Win_pop_Stock_LotNo_2.xaml</DependentUpon>
+    <Compile Include="Material\PopUp\Win_pop_Stock_ArticlePF.xaml.cs">
+      <DependentUpon>Win_pop_Stock_ArticlePF.xaml</DependentUpon>
     </Compile>
     <Compile Include="Material\PopUp\Win_pop_Stock_LotNo.xaml.cs">
       <DependentUpon>Win_pop_Stock_LotNo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Material\PopUp\Win_pop_Stock_LotNoPF.xaml.cs">
       <DependentUpon>Win_pop_Stock_LotNoPF.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Material\Win_mtr_LotStockControl_U.xaml.cs">
-      <DependentUpon>Win_mtr_LotStockControl_U.xaml</DependentUpon>
     </Compile>
     <Compile Include="Material\Win_mtr_LotStock_Q.xaml.cs">
       <DependentUpon>Win_mtr_LotStock_Q.xaml</DependentUpon>
@@ -287,6 +281,9 @@
     </Compile>
     <Compile Include="Material\Win_mtr_ProdLocStock_Q.xaml.cs">
       <DependentUpon>Win_mtr_ProdLocStock_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Material\Win_mtr_StockControl_U.xaml.cs">
+      <DependentUpon>Win_mtr_StockControl_U.xaml</DependentUpon>
     </Compile>
     <Compile Include="Material\Win_mtr_Stock_Q.xaml.cs">
       <DependentUpon>Win_mtr_Stock_Q.xaml</DependentUpon>
@@ -317,9 +314,6 @@
     </Compile>
     <Compile Include="MIS\Win_MIS_DefectArticle_Q.xaml.cs">
       <DependentUpon>Win_MIS_DefectArticle_Q.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MIS\Win_MIS_InOutSum_MM_Q.xaml.cs">
-      <DependentUpon>Win_MIS_InOutSum_MM_Q.xaml</DependentUpon>
     </Compile>
     <Compile Include="MIS\Win_MIS_RunningRate_Q.xaml.cs">
       <DependentUpon>Win_MIS_RunningRate_Q.xaml</DependentUpon>
@@ -662,10 +656,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="BaseCode\Article\Win_com_ArticleConditioin_U.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="BaseCode\Article\Win_com_Article_BOM_U.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -734,7 +724,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Material\PopUp\Win_pop_Stock_LotNo_2.xaml">
+    <Page Include="Material\PopUp\Win_pop_Stock_ArticlePF.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -743,10 +733,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Material\PopUp\Win_pop_Stock_LotNoPF.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Material\Win_mtr_LotStockControl_U.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -783,6 +769,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Material\Win_mtr_ProdLocStock_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Material\Win_mtr_StockControl_U.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -826,10 +816,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MIS\Win_MIS_InOutSum_MM_Q.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="MIS\Win_MIS_RunningRate_Q.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -843,8 +829,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Order\Win_ord_InOutSum_Q.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Order\Win_ord_OrderClose_U.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1446,8 +1432,6 @@
     <Resource Include="Quality\Analysis,Search\x-bar.PNG" />
     <Resource Include="Images\icon_MES.JPG" />
     <Resource Include="Images\Upload.bmp" />
-    <Resource Include="Image1.png" />
-    <Resource Include="Image2.png" />
     <Content Include="x64\liblept172.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
