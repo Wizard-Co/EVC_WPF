@@ -674,6 +674,8 @@ namespace WizMes_HanYoung
                             {
                                 Num = idx,
                                 OutwareReqID = dr["OutwareReqID"].ToString(),
+                                Article = dr["Article"].ToString(),
+                                BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
                                 CustomID = dr["CustomID"].ToString(),
                                 KCustom = dr["KCustom"].ToString(),
                                 OutClss = dr["OutClss"].ToString(),
@@ -770,8 +772,13 @@ namespace WizMes_HanYoung
 
                                 OutwareReqID = dr["OutwareReqID"].ToString(),
                                 OutwareReqSeq = dr["OutwareReqSeq"].ToString(),
+                                AcptDate = dr["AcptDate"].ToString(),
+                                DvlyDate = dr["DvlyDate"].ToString(),
+                                OrderQty = dr["OrderQty"].ToString(),
+                                OutQty = dr["OutQty"].ToString(),                            
                                 OrderID = dr["OrderID"].ToString(),
                                 OrderNo = dr["OrderNo"].ToString(),
+                                RestOrderQty = stringFormatN0(dr["RestOrderQty"]),
                                 InCustomID = dr["InCustomID"].ToString(),
                                 KInCustom = dr["KInCustom"].ToString(),
                                 ArticleID = dr["ArticleID"].ToString(),
@@ -951,7 +958,9 @@ namespace WizMes_HanYoung
                         sqlParameter.Add("OrderID", reqSub.OrderID);
                         sqlParameter.Add("OrderNo", reqSub.OrderNo);
                         sqlParameter.Add("ArticleID", reqSub.ArticleID);
-                        sqlParameter.Add("InCustomID", string.IsNullOrEmpty(reqSub.InCustomID) ? "" : reqSub.InCustomID);
+                        sqlParameter.Add("OrderQty", ConvertDouble(reqSub.OrderQty));
+                        sqlParameter.Add("RestOrderQty", ConvertDouble(reqSub.RestOrderQty));
+                        sqlParameter.Add("InCustomID", string.IsNullOrEmpty(reqTxtCustom.Text) ? "" : reqTxtCustom.Tag.ToString());
                         sqlParameter.Add("StockQty", ConvertDouble(reqSub.StockQty));
                         sqlParameter.Add("ReqQty", ConvertDouble(reqSub.ReqQty));
                         sqlParameter.Add("RemainQty", ConvertDouble(reqSub.RemainQty));
@@ -1294,7 +1303,7 @@ namespace WizMes_HanYoung
         {
             try
             {
-                var OutwareSub = dgdSub.SelectedItem as Win_ord_OutwareReqSub_U_View;
+              var OutwareSub = dgdSub.SelectedItem as Win_ord_OutwareReqSub_U_View;
                 if (OutwareSub != null)
                 {
                     TextBox tbReqQty = sender as TextBox;
@@ -1302,10 +1311,17 @@ namespace WizMes_HanYoung
                     var stockQty = lib.returnDouble(OutwareSub.StockQty.ToString());
                     var reqQty = lib.returnDouble(tbReqQty.Text.ToString());
                     var remainQty = stockQty - reqQty;
+                    var orderQty = lib.returnDouble(OutwareSub.OrderQty.ToString());
+                    var outQty = lib.returnDouble(OutwareSub.OutQty.ToString());
+                    var remainOrderQty = orderQty - outQty;
+                    var remainOrderQtyLast = remainOrderQty - reqQty;
+
 
                     OutwareSub.StockQty = lib.returnNumString(OutwareSub.StockQty);
                     OutwareSub.ReqQty = lib.returnNumString(OutwareSub.ReqQty);
                     OutwareSub.RemainQty = lib.returnNumString(remainQty.ToString());
+                    OutwareSub.OrderQty = lib.returnNumString(OutwareSub.OrderQty);
+                    OutwareSub.RestOrderQty = lib.returnNumString(remainOrderQtyLast.ToString());
                 }
             }
             catch (Exception ee)
@@ -1384,11 +1400,11 @@ namespace WizMes_HanYoung
         private Win_pop_OutwareReq SetPopupAfterOpen()
         {
             Win_pop_OutwareReq popup = new Win_pop_OutwareReq();
-            popup.chkDate = reqChkOrderDay.IsChecked == true ? 1 : 0;
-            popup.startDate = reqChkOrderDay.IsChecked == true ? reqDtpSDate.SelectedDate.Value.ToString("yyyyMMdd") : "";
-            popup.endDate = reqChkOrderDay.IsChecked == true ? reqDtpEDate.SelectedDate.Value.ToString("yyyyMMdd") : "";
-            popup.chkCustomID = (reqTxtCustom.Tag != null && reqTxtCustom.Text.Length > 0) ? 1 : 0;
-            popup.customID = (reqTxtCustom.Tag != null ? reqTxtCustom.Tag.ToString() : "");
+            //popup.chkDate = reqChkOrderDay.IsChecked == true ? 1 : 0;
+            //popup.startDate = reqChkOrderDay.IsChecked == true ? reqDtpSDate.SelectedDate.Value.ToString("yyyyMMdd") : "";
+            //popup.endDate = reqChkOrderDay.IsChecked == true ? reqDtpEDate.SelectedDate.Value.ToString("yyyyMMdd") : "";
+            //popup.chkCustomID = (reqTxtCustom.Tag != null && reqTxtCustom.Text.Length > 0) ? 1 : 0;
+            //popup.customID = (reqTxtCustom.Tag != null ? reqTxtCustom.Tag.ToString() : "");
 
             popup.ShowDialog();
             return popup;
@@ -1515,6 +1531,9 @@ namespace WizMes_HanYoung
         public int Num { get; set; }
         public bool Chk { get; set; }
         public string OutwareReqID { get; set; }
+        public string ArticleID { get; set; }
+        public string Article { get; set; }
+        public string BuyerArticleNo { get; set; }
         public string CustomID { get; set; }
         public string KCustom { get; set; }
         public string OutClss { get; set; }
@@ -1531,6 +1550,12 @@ namespace WizMes_HanYoung
         public bool Chk { get; set; }
         public string LocName { get; set; }
         public string CustomID { get; set; }
+        public string CustomName { get; set; }
+        public string AcptDate { get; set; }
+        public string DvlyDate { get; set; }
+        public string OrderQty { get; set; }
+        public string RestOrderQty { get; set; }
+
         public string KCustom { get; set; }
         public string InCustomID { get; set; }
         public string KInCustom { get; set; }

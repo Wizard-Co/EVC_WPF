@@ -1139,7 +1139,7 @@ namespace WizMes_HanYoung
             if (dgdMain.Items.Count > 0)
             {
                 dgdMain.SelectedIndex = PrimaryKey.Equals(string.Empty) ? 
-                    0 : SelectItem(PrimaryKey, dgdMain);
+                    selectedIndex : SelectItem(PrimaryKey, dgdMain);
             }
             else
                 DataContext = null;
@@ -2084,6 +2084,7 @@ namespace WizMes_HanYoung
                 if (OrderInfo != null)
                     DataContext = OrderInfo;
 
+                if(OrderInfo != null)
                 FillNeedStockQty(OrderInfo.ArticleID, txtAmount.Text.Replace(",", ""));
 
             }

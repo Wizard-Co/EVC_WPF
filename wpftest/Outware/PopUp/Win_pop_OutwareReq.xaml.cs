@@ -60,6 +60,9 @@ namespace WizMes_HanYoung.PopUp
             stTime = DateTime.Now.ToString("HHmm");
             DataStore.Instance.InsertLogByFormS(this.GetType().Name, stDate, stTime, "S");
 
+            dtpSDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+            dtpEDate.Text = DateTime.Now.ToString("yyyy-MM-dd");   // 오늘 날짜 자동 반영
+
             re_Search();
         }
 
@@ -224,13 +227,41 @@ namespace WizMes_HanYoung.PopUp
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                 sqlParameter.Clear();
 
+                //수주일 조건
+                int ChkOrderDay = chkOrderDay.IsChecked == true ? 1 : 0;
+                string sDate = string.Empty;
+                string eDate = string.Empty;
+                if(chkOrderDay.IsChecked == true)
+                {
+                    sDate = dtpSDate.SelectedDate.Value.ToString("yyyyMMdd");
+                    eDate = dtpEDate.SelectedDate.Value.ToString("yyyyMMdd");
+                }
+                else
+                {   sDate = "''";  eDate = "''"; }
+
+
+                //거래처 조건
+                int ChkCustom = chkCustom.IsChecked == true ? 1 : 0;
+                string Custom = string.Empty;
+                if (chkCustom.IsChecked == true)
+                     Custom = txtCustomSrh.Text;
+                else Custom = "''";
+
+
+                //최종거래처
+                int ChkInCustom = chkInCustom.IsChecked == true ? 1 : 0;
+                string InCustom = string.Empty;
+                if (chkInCustom.IsChecked == true)
+                     InCustom = txtInCustomSrh.Text;
+                else InCustom = "''";
+
                 int checkArticleID = chkBuyerArticleNo.IsChecked == true ? 1 : 0;
-                string articleID = checkArticleID == 1 ? (txtBuyerArticleNoSrh.Tag == null ? "" : txtBuyerArticleNoSrh.Tag.ToString()) : "";
+                string articleID = checkArticleID == 1 ? (txtBuyerArticleNoSrh.Tag == null ? "''" : txtBuyerArticleNoSrh.Tag.ToString()) : "''";
 
                 if (checkArticleID == 0)
                 {
                     checkArticleID = chkArticle.IsChecked == true ? 1 : 0;
-                    articleID = checkArticleID == 1 ? (txtArticleSrh.Tag == null ? "" : txtArticleSrh.Tag.ToString()) : "";
+                    articleID = checkArticleID == 1 ? (txtArticleSrh.Tag == null ? "''" : txtArticleSrh.Tag.ToString()) : "''";
                 }
 
                 //string sql = "select  ArticleID	        = fms.ArticleID                                             "
@@ -262,8 +293,19 @@ namespace WizMes_HanYoung.PopUp
                 //           + "      and (fms.StuffINQty - fms.OutQty) > 0                                           "
                 //           + "group by fms.ArticleID, cc.Code_Name, Article, BuyerArticleNo, ArticleGrp, UnitPrice  "             
                 //           ;
-                string sql = "select * from dbo.fn_ord_sLotStock(" + checkArticleID.ToString() + ", '" + articleID + "')";
+                //string sql = "select * from dbo.fn_ord_sLotStock(" + checkArticleID.ToString() + ", '" + articleID + "')";
+
+                string sql      = $" select * from [dbo].[fn_ord_sLotStock_For_OutwareReq] (               " +
+                                  $"                                                                       "+
+                                  $"                                          {ChkOrderDay}      "                +
+                                  $"                                         ,{sDate}"                      +
+                                  $"                                         ,{sDate}"                      +
+                                  $"                                         ,{ChkCustom}"                  +
+                                  $"                                         ,{Custom}"                     +
+                                  $"                                         ,{ChkInCustom}"                +
+                                  $"                                         ,{InCustom}                     )";
                 DataSet ds = DataStore.Instance.QueryToDataSet(sql);
+
                 if (ds != null && ds.Tables.Count > 0)
                 {
                     int i = 0;
@@ -285,6 +327,11 @@ namespace WizMes_HanYoung.PopUp
                                 Chk = false,
                                 OrderID = dr["OrderID"].ToString(),
                                 OrderNo = dr["OrderNo"].ToString(),
+                                OrderQty = dr["OrderQty"].ToString(),
+                                RestOrderQty = stringFormatN0(dr["RestOrderQty"]),
+                                AcptDate = dr["AcptDate"].ToString(),
+                                DvlyDate = dr["DvlyDate"].ToString(),
+                                CustomName = dr["CustomName"].ToString(),
                                 ArticleID = dr["ArticleID"].ToString(),
                                 LocName = dr["LocName"].ToString(),
                                 Article = dr["Article"].ToString(),
@@ -599,5 +646,30 @@ namespace WizMes_HanYoung.PopUp
         }
 
         public List<Win_ord_OutwareReqSub_U_View> GetList() { return listReq; }
+
+        private void chkOrderDay_Checked(object sender, RoutedEventArgs e)
+        {
+            if (dtpSDate != null && dtpEDate != null)
+            {
+                dtpSDate.IsEnabled = true;
+                dtpEDate.IsEnabled = true;
+            }
+        }
+
+        private void chkOrderDay_Unchecked(object sender, RoutedEventArgs e)
+        {
+            dtpSDate.IsEnabled = false;
+            dtpEDate.IsEnabled = false;
+        }
+
+        private void lblOrderDay_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            search_CheckBox_Control(chkOrderDay);
+        }
+
+        private void search_CheckBox_Control(CheckBox checkBox)
+        {
+            checkBox.IsChecked = checkBox.IsChecked == true ? false : true;
+        }
     }
 }

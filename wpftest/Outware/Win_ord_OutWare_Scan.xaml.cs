@@ -1380,7 +1380,13 @@ namespace WizMes_HanYoung
         {
             if (e.Key == Key.Enter)
             {
-                cboFromLoc.IsDropDownOpen = true;
+                pf.ReturnCode(txtOutCustom, 0, "");
+
+                if (txtOutCustom.Text.Length > 0)
+                    txtBuyerName.Text = txtOutCustom.Text;
+                    txtBuyerName.Tag = txtOutCustom.Tag;
+
+                txtBuyerName.Focus();
             }
         }
         #endregion

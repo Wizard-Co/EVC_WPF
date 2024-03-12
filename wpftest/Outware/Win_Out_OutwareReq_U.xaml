@@ -324,10 +324,13 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="지시번호" MinWidth="100" Width="auto" Binding="{Binding OutwareReqID}" ElementStyle="{StaticResource DataGridCellCenter}"/>
+                        <DataGridTextColumn Header="지시번호" MinWidth="100" Width="auto" Binding="{Binding OutwareReqID}" ElementStyle="{StaticResource DataGridCellCenter}" Visibility="Hidden"/>
                         <DataGridTextColumn Header="지시일자" MinWidth="100" Width="auto" Binding="{Binding ReqDate}" ElementStyle="{StaticResource DataGridCellCenter}"/>
                         <DataGridTextColumn Header="거래처" MinWidth="100" Width="auto" Binding="{Binding KCustom}" />
+                        <DataGridTextColumn Header="품번" MinWidth="100" Width="auto" Binding="{Binding BuyerArticleNo}" />
+                        <DataGridTextColumn Header="품명" MinWidth="100" Width="auto" Binding="{Binding Article}" />
                         <DataGridTextColumn Header="지시수량" MinWidth="70" Width="auto" Binding="{Binding ReqQty}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                        <DataGridTextColumn Header="비고" MinWidth="70" Width="auto" Binding="{Binding Remark}"/>
                     </DataGrid.Columns>
                 </DataGrid>
                 <!-- 메인 그리드 -->
@@ -585,7 +588,7 @@
                             </DataGridTemplateColumn.CellStyle>
                         </DataGridTemplateColumn>
 
-                        <DataGridTemplateColumn x:Name="DataGridTemplateColumnInCustom" Header="최종고객사" Width="auto">
+                        <DataGridTemplateColumn x:Name="DataGridTemplateColumnInCustom" Header="거래처" Width="auto">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding KInCustom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -593,19 +596,24 @@
                                                        HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
-                            <DataGridTemplateColumn.CellEditingTemplate>
+                            <!--<DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
                                     <TextBox x:Name="DataGridSubTextBoxInCustom" Text="{Binding KInCustom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                                      Foreground="Black" Tag="{Binding KInCustomID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                      KeyDown="DataGridSubTextBoxInCustom_KeyDown" 
                                                      HorizontalAlignment="Left" VerticalAlignment="Center"></TextBox>
                                 </DataTemplate>
-                            </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>-->
                         </DataGridTemplateColumn>
-
+                        
+                        <DataGridTextColumn Header="OrderNo" Width="auto" Binding="{Binding BuyerArticleNo}" ElementStyle="{StaticResource DataGridCellLeft}" CellStyle="{StaticResource DataGridCellText}"/>
                         <DataGridTextColumn Header="품번" Width="auto" Binding="{Binding BuyerArticleNo}" ElementStyle="{StaticResource DataGridCellLeft}" CellStyle="{StaticResource DataGridCellText}"/>
                         <DataGridTextColumn Header="품명" Width="auto" Binding="{Binding Article}" ElementStyle="{StaticResource DataGridCellLeft}" CellStyle="{StaticResource DataGridCellText}"/>
-                        <DataGridTextColumn Header="재고량" Width="auto" Binding="{Binding StockQty}" ElementStyle="{StaticResource DataGridCellRight}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                        <DataGridTextColumn Header="재고량" Width="auto" Binding="{Binding StockQty}" ElementStyle="{StaticResource DataGridCellRight}" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
+                        <DataGridTextColumn Header="수주일" Width="auto" Binding="{Binding AcptDate}" ElementStyle="{StaticResource DataGridCellRight}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                        <DataGridTextColumn Header="납기일" Width="auto" Binding="{Binding DvlyDate}" ElementStyle="{StaticResource DataGridCellRight}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                        <DataGridTextColumn Header="수주량" Width="auto" Binding="{Binding OrderQty}" ElementStyle="{StaticResource DataGridCellRight}" CellStyle="{StaticResource NumericDataGridCell}"/>
+
 
                         <DataGridTemplateColumn Header="지시량" Width="auto">
                             <DataGridTemplateColumn.CellTemplate>
@@ -626,10 +634,11 @@
                             </DataGridTemplateColumn.CellEditingTemplate>
 
                         </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="출고잔량" Width="auto" Binding="{Binding RestOrderQty}" ElementStyle="{StaticResource DataGridCellRight}" CellStyle="{StaticResource NumericDataGridCell}"/>
 
-                        <DataGridTextColumn Header="재고잔량" Width="auto" Binding="{Binding RemainQty}" ElementStyle="{StaticResource DataGridCellRight}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                        <DataGridTextColumn Header="재고잔량" Width="auto" Binding="{Binding RemainQty}" ElementStyle="{StaticResource DataGridCellRight}" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"  />
                         
-                        <DataGridTemplateColumn Header="비고" Width="auto">
+                        <DataGridTemplateColumn Header="비고" Width="auto" MinWidth="100">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Remark, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"

@@ -17,15 +17,16 @@
         <Grid Grid.Row="0" Background="{StaticResource WizMes_HanYoung}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-
+            
             <!-- 검색조건 -->
             <Grid Grid.Column="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100*" />
-                    <ColumnDefinition Width="300*" />
-                    <ColumnDefinition Width="300*" />
+                    <ColumnDefinition Width="270*" />
+                    <ColumnDefinition Width="160*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -33,8 +34,38 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
+                <Grid Grid.Row="0" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="104" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="lblOrderDay" Grid.Column="0" Style="{DynamicResource LabelSearch}"
+                       MouseLeftButtonUp="lblOrderDay_MouseLeftButtonUp">
+                        <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                <CheckBox x:Name="chkOrderDay" Checked="chkOrderDay_Checked" 
+                                      Unchecked="chkOrderDay_Unchecked" IsChecked="True" />
+                            </Viewbox>
+                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                <TextBlock Text=" 지시일자" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                            </Viewbox>
+
+                        </StackPanel>
+                    </Label>
+                    <DatePicker x:Name="dtpSDate" Grid.Column="1" Style="{DynamicResource DatePickerSearch}" IsEnabled="True"/>                  
+                </Grid>
+                <Grid Grid.Row="0" Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <DatePicker x:Name="dtpEDate" Grid.Column="1" Style="{DynamicResource DatePickerSearch}" IsEnabled="True"/>
+                </Grid>
+
+
+
+
                 <!-- 검색조건 거래처 -->
-                <Grid Grid.Row="0" Grid.Column="1" Visibility="Hidden">
+                <Grid Grid.Row="1" Grid.Column="1" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="130*" />
                         <ColumnDefinition Width="150*" />
@@ -60,7 +91,7 @@
                 </Grid>
 
                 <!-- 검색조건 최종고객사 -->
-                <Grid Grid.Row="1" Grid.Column="1" Visibility="Hidden">
+                <Grid Grid.Row="2" Grid.Column="1" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="130*"/>
                         <ColumnDefinition Width="150*" />
@@ -86,7 +117,7 @@
                 </Grid>
 
                 <!-- 검색조건 품번 -->
-                <Grid Grid.Row="0" Grid.Column="1">
+                <Grid Grid.Row="0" Grid.Column="1" Visibility="Hidden">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="130*" />
                         <ColumnDefinition Width="150*" />
@@ -100,7 +131,7 @@
                                           Checked="chkBuyerArticleNo_Checked" Unchecked="chkBuyerArticleNo_Unchecked" />
                             </Viewbox>
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                <TextBlock Text=" 품   번" Style="{DynamicResource TextBlockInViewBoxSearch}"/>
+                                <TextBlock Text=" 품   번" Style="{DynamicResource TextBlockInViewBoxSearch}" RenderTransformOrigin="0.783,0.783"/>
                             </Viewbox>
 
                         </StackPanel>
@@ -112,7 +143,7 @@
                 </Grid>
 
                 <!-- 검색조건 품명 -->
-                <Grid Grid.Row="1" Grid.Column="1">
+                <Grid Grid.Row="1" Grid.Column="1" Visibility="Hidden" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="130*" />
                         <ColumnDefinition Width="150*" />
@@ -137,9 +168,11 @@
                     </Button>
                 </Grid>
             </Grid>
+            
+            
 
             <!-- 검색 버튼! -->
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="3.5*" />
@@ -199,7 +232,7 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
-                    <DataGridTemplateColumn Header="관리번호" MinWidth="70">
+                    <DataGridTemplateColumn Header="거래처" MinWidth="70" Visibility="Hidden">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock x:Name="txtOrderID" 
@@ -209,7 +242,17 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
-                    <DataGridTemplateColumn Header="발주번호" MinWidth="70">
+                    <DataGridTemplateColumn Header="관리번호" MinWidth="70" Visibility="Hidden">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock x:Name="txtOrderID" 
+                                           Text="{Binding OrderID}" TextAlignment="Left"
+                                          VerticalAlignment="Center"  Padding="5 0" PreviewMouseDown="dgdMain_PreviewMouseDown"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="OrderNo" MinWidth="70">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock x:Name="txtOrderNo" 
@@ -249,7 +292,16 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
-                    <DataGridTemplateColumn Header="품명종류" MinWidth="50">
+                    <DataGridTemplateColumn Header="수주일" MinWidth="50">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock  Text="{Binding AcptDate}" TextAlignment="Left"
+                                          VerticalAlignment="Center"  Padding="5 0" PreviewMouseDown="dgdMain_PreviewMouseDown"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="품명종류" MinWidth="50" Visibility="Hidden">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock  Text="{Binding ArticleGrp}" TextAlignment="Left"
@@ -258,7 +310,25 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
-                    <DataGridTemplateColumn Header="단가" MinWidth="50">
+                    <DataGridTemplateColumn Header="납기일" MinWidth="50">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DvlyDate}" TextAlignment="Right"
+                                              VerticalAlignment="Center"  Padding="5 0" PreviewMouseDown="dgdMain_PreviewMouseDown"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="수주량" MinWidth="50">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding OrderQty}" TextAlignment="Right"
+                                              VerticalAlignment="Center"  Padding="5 0" PreviewMouseDown="dgdMain_PreviewMouseDown"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="단가" MinWidth="50" Visibility="Hidden">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding UnitPrice}" TextAlignment="Right"
@@ -267,7 +337,7 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
-                    <DataGridTemplateColumn Header="입고량" MinWidth="50">
+                    <DataGridTemplateColumn Header="입고량" MinWidth="50" Visibility="Hidden">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding StuffINQty}" TextAlignment="Right"
@@ -285,14 +355,24 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
-                    <DataGridTemplateColumn Header="재고량" MinWidth="50">
+                    <DataGridTemplateColumn Header="출고잔량" MinWidth="50">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding StockQty}" TextAlignment="Right"
+                                <TextBlock Text="{Binding RestOrderQty}" TextAlignment="Right"
                                               VerticalAlignment="Center"  Padding="5 0" PreviewMouseDown="dgdMain_PreviewMouseDown"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="비고"  MinWidth="175" Width="auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Remark, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                               TextAlignment="Left" VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    
                 </DataGrid.Columns>
             </DataGrid>
 
