@@ -453,8 +453,10 @@ namespace WizMes_HanYoung
 
             sqlParameter.Add("Custom", chkCustomSrh.IsChecked == true && !txtCustomSrh.Text.Trim().Equals("") ? txtCustomSrh.Text : "");
 
-            sqlParameter.Add("ChkArticleID", 0);
-            sqlParameter.Add("ArticleID", "");
+            //sqlParameter.Add("ChkArticleID", 0);
+            sqlParameter.Add("ChkArticleID", chkArticleNoSrh.IsChecked == true ? 1 : 0);
+            //sqlParameter.Add("ArticleID", "");
+            sqlParameter.Add("ArticleID", txtArticleNo.Tag != null && !txtArticleNo.Text.Trim().Equals("") ? txtArticleNo.Tag.ToString() : "");
             sqlParameter.Add("ChkOrder", chkOrderID.IsChecked == true ? (rbnManageNumber.IsChecked == true ? 1 : 2) : 0);
             sqlParameter.Add("Order", txtOrderID.Text);
             sqlParameter.Add("OrderFlag", 0);       //무쓸모.
@@ -1280,6 +1282,54 @@ namespace WizMes_HanYoung
                 MessageBox.Show("오류지점 - 거래처 검색 엔터키 : " + ee.ToString());
             }
         }
+
+        //품명 라벨체크
+        private void lblArticleNo_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (chkArticleNoSrh.IsChecked == true)
+            {
+                chkArticleNoSrh.IsChecked = false;
+            }
+            else
+            {
+                chkArticleNoSrh.IsChecked = true;
+            }
+        }
+
+        //품명 체크 
+        private void chkArticleNo_Checked(object sender, RoutedEventArgs e)
+        {
+            chkArticleNoSrh.IsChecked = true;
+
+            txtArticleNo.IsEnabled = true;
+
+            btnPfArticleNoSrh.IsEnabled = true;
+        }
+        //품명 안체크
+        private void chkArticleNo_Unchecked(object sender, RoutedEventArgs e)
+        {
+            chkArticleNoSrh.IsChecked = false;
+
+            txtArticleNo.IsEnabled = false;
+
+            btnPfArticleNoSrh.IsEnabled = false;
+        }
+        //품명 키다운 
+        private void txtArticleNo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                e.Handled = true;
+                MainWindow.pf.ReturnCode(txtArticleNo, 77, "");
+            }
+        }
+
+        //품명 플러스파인더
+        private void btnPfArticleNoSrh_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.pf.ReturnCode(txtArticleNo, 77, "");
+        }
+
     }
 
     /////////////////////////////////////////////////////////////////////
