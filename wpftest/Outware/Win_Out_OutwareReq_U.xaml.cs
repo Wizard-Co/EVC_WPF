@@ -1711,7 +1711,7 @@ namespace WizMes_HanYoung
             }
             else
             {
-                chkCloseReq.IsEnabled = true;
+                chkCloseReq.IsChecked = true;
             }
         }
     }

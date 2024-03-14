@@ -2057,7 +2057,7 @@ namespace WizMes_HanYoung
         //자재필요량조회
         private void btnNeedStuff_Click(object sender, RoutedEventArgs e)
         {
-            if (txtArticle.Tag == null)
+            if (txtBuyerArticleNO.Tag == null   )
             {
                 MessageBox.Show("먼저 품명을 선택해주세요");
                 return;
@@ -2070,7 +2070,7 @@ namespace WizMes_HanYoung
             }
 
             //자재필요량조회에 필요한 파라미터 값을 넘겨주자, 품명이랑 주문량
-            FillNeedStockQty(txtArticle.Tag.ToString(), txtAmount.Text.Replace(",", ""));
+            FillNeedStockQty(txtBuyerArticleNO.Tag.ToString(), txtAmount.Text.Replace(",", ""));
         }
 
         

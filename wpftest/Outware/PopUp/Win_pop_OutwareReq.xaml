@@ -47,7 +47,7 @@
                                       Unchecked="chkOrderDay_Unchecked" IsChecked="True" />
                             </Viewbox>
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                <TextBlock Text=" 지시일자" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                <TextBlock Text=" 수주일자" Style="{DynamicResource TextBlockInViewBoxSearch}" />
                             </Viewbox>
 
                         </StackPanel>

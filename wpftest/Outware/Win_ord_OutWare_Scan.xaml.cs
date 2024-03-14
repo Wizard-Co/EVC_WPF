@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Drawing.Printing;
 using WizMes_HanYoung.PopUP;
 using WizMes_HanYoung.PopUp;
+using System.Runtime.InteropServices.ComTypes;
 
 /**************************************************************************************************
 '** 프로그램명 : Win_ord_OutWare_Scan
@@ -1504,6 +1505,7 @@ namespace WizMes_HanYoung
                             return;
                         }
 
+
                         if (txtScanData.Text.Substring(0, 1) == "P")
                         {
                             //2018.07.05 PACKINGID SCAN 과정 추가._허윤구.
@@ -1607,6 +1609,8 @@ namespace WizMes_HanYoung
                 return false;
             }
         }
+      
+
 
         // 부품식별표 박스ID 스캔 > SUBGRID 추가
         private void FindBoxScanData(string ScanData)
@@ -1667,6 +1671,9 @@ namespace WizMes_HanYoung
 
                         string scanDate = DR["ScanDate"].ToString();
 
+
+
+
                         // 선출고ID의 존재여부
                         string foLotID = DR["FOLotID"].ToString();
                         if (string.IsNullOrEmpty(foLotID) == false)
@@ -1719,9 +1726,9 @@ namespace WizMes_HanYoung
                         {
                             if (txtArticle_InGroupBox.Tag.ToString() != DR["ArticleID"].ToString()) //품명 텍스트 박스에 기재된 품명과 받아온 품명이 다르면
                             {
-                                MessageBox.Show("서로 다른 품명을 동시에 출고처리 할 수 없습니다. \r\n" +
-                                    "바코드 품명 :" + DR["Article"].ToString() + ". \r\n" +
-                                    "출고 품명 :" + txtArticle_InGroupBox.Text + ".");
+                                MessageBox.Show("서로 다른 품명을 동시에 출고처리 할 수 없습니다. \r\n 바코드를 확인해주세요.\n" +
+                                    "바코드    품명 :" + DR["Article"].ToString() + ". \r\n" +
+                                    "출고희망 품명 :" + txtArticle_InGroupBox.Text + ".");
                                 return;
                             }
                         }
