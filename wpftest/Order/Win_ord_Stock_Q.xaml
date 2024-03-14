@@ -82,10 +82,10 @@
                 <Label  Grid.Column="0" Grid.Row="0" Style="{DynamicResource LabelSearch}"   MouseLeftButtonUp="chkArticleGroup_Click">
                     <StackPanel Style="{DynamicResource StackPanelInLabel}" >
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}"  >
-                            <CheckBox x:Name="chkArticleGroup" Click="chkArticleGroup_Click" IsChecked="True"   IsEnabled="False"/>
+                            <CheckBox x:Name="chkArticleGroup" Click="chkArticleGroup_Click" IsChecked="True" IsEnabled="False"/>
                         </Viewbox>
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                            <TextBlock Text="제품그룹" Style="{DynamicResource TextBlockInViewBoxSearch}" IsEnabled="False"/>
+                            <TextBlock Text="제품그룹" Style="{DynamicResource TextBlockInViewBoxSearch}"/>
                         </Viewbox>
 
                     </StackPanel>

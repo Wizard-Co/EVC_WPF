@@ -82,7 +82,28 @@
                 </Button>
             </Grid>
             <!-- 상단의 날짜 컨트롤 -->
+            <Grid Grid.Row="3" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="btnCloseReq" Grid.Column="0" VerticalContentAlignment="Center"  
+                        HorizontalContentAlignment="Center" Click="btnCloseReq_Click" >
+                    <TextBlock x:Name="tbxCloseReq" Text="지시마감처리" />
+                </Button>
+                <Label x:Name="lblCloseReq" Grid.Column="1" MouseLeftButtonUp="lblCloseReq_MouseLeftButtonUp" Style="{DynamicResource LabelSearch}">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <CheckBox x:Name="chkCloseReq"
+                                       />
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <TextBlock Text="지시마감건 조회" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                        </Viewbox>
 
+                    </StackPanel>
+                </Label>
+            </Grid>
             <!-- 상단의 검색 컨트롤 -->
             <Grid Grid.Row="0" Grid.Column="2" >
                 <Grid.ColumnDefinitions>
@@ -293,11 +314,15 @@
                                 <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="White"/>
                             </Style.Resources>
                             <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=ReqCloseClss}" Value="1">
+                                    <Setter Property="Foreground" Value="Red" />
+                                </DataTrigger>
                                 <DataTrigger Binding="{Binding Path=ColorGold}" Value="true">
                                     <Setter Property="Background" Value="#365fb1" />
                                     <Setter Property="Foreground" Value="White" />
                                 </DataTrigger>
-                            </Style.Triggers>
+                             
+                            </Style.Triggers>                            
                         </Style>
                     </DataGrid.RowStyle>
 

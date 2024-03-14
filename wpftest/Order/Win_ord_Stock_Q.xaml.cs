@@ -177,18 +177,18 @@ namespace WizMes_HanYoung
         // 제품그룹
         private void chkArticleGroup_Click(object sender, RoutedEventArgs e)
         {
-            if (chkArticleGroup.IsEnabled == true)
-            {
-                //if (chkArticleGroup.IsChecked == true)
-                //{
-                //    cboArticleGroup.IsEnabled = true;
-                //    cboArticleGroup.Focus();
-                //}
-                //else
-                //{
-                //    cboArticleGroup.IsEnabled = false;
-                //}
-            }
+            //if (chkArticleGroup.IsEnabled == true)
+            //{
+            //    if (chkArticleGroup.IsChecked == true)
+            //    {
+            //        cboArticleGroup.IsEnabled = true;
+            //        cboArticleGroup.Focus();
+            //    }
+            //    else
+            //    {
+            //        cboArticleGroup.IsEnabled = false;
+            //    }
+            //}
         }
         // 제품그룹
         private void chkArticleGroup_Click(object sender, MouseButtonEventArgs e)

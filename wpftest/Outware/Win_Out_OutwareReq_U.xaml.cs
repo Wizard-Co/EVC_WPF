@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WizMes_HanYoung.PopUp;
 using WizMes_HanYoung.PopUP;
+using System.Collections.ObjectModel;
 
 /**************************************************************************************************
 '** 프로그램명 : Win_out_OutwareReq_U
@@ -39,7 +40,9 @@ namespace WizMes_HanYoung
         string stTime = string.Empty;
 
         string strFlag = string.Empty;
+        string reqFlag = string.Empty;
         int rowNum = 0;
+        
 
         Lib lib = new Lib();
 
@@ -56,6 +59,8 @@ namespace WizMes_HanYoung
 
         // 출고증 인쇄시 사용
         List<Win_ord_OutwareReq_U_View> listOutWareReqPrint = new List<Win_ord_OutwareReq_U_View>();
+        ObservableCollection<Win_ord_OutwareReq_U_View> ovcListOutWareReq  = new ObservableCollection<Win_ord_OutwareReq_U_View>();
+
 
         public Win_out_OutwareReq_U()
         {
@@ -71,6 +76,9 @@ namespace WizMes_HanYoung
 
             Lib.Instance.UiLoading(sender);
             btnToday_Click(null, null);
+
+            btnCloseReq.IsEnabled = false;
+           
         }
 
         #region 상단컨트롤
@@ -633,6 +641,8 @@ namespace WizMes_HanYoung
             dgdMain.Items.Clear();
             dgdSub.Items.Clear();
             dgdTotal.Items.Clear();
+            ovcListOutWareReq.Clear();
+            btnCloseReq.IsEnabled = false;
 
             try
             {
@@ -656,6 +666,10 @@ namespace WizMes_HanYoung
                 // 품명
                 sqlParameter.Add("ChkArticle", chkArticle.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("Article", chkArticle.IsChecked == true ? (txtArticle.Text == string.Empty ? "" : txtArticle.Text) : "");
+
+                //지시마감여부
+                sqlParameter.Add("ChkCloseReq", chkCloseReq.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("CloseReq", chkCloseReq.IsChecked == true ? "1" : "");
 
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_Outware_sOutwareRequest", sqlParameter, true, "R");
@@ -681,9 +695,11 @@ namespace WizMes_HanYoung
                                 OutClss = dr["OutClss"].ToString(),
                                 ReqDate = DatePickerFormat(dr["ReqDate"].ToString()),
                                 ReqQty = lib.returnNumString(dr["ReqQty"].ToString()),
+                                ReqCloseClss = dr["ReqCloseClss"].ToString(),
                                 OutWareReqTypeID = dr["OutWareReqTypeID"].ToString(),
                                 RegDate = dr["RegDate"].ToString(),
-                                RegUserID = dr["RegUserID"].ToString()
+                                RegUserID = dr["RegUserID"].ToString(),
+                                Remark = dr["Remark"].ToString(),
                             };
 
                             dgdMain.Items.Add(Win);
@@ -821,6 +837,36 @@ namespace WizMes_HanYoung
 
             btnSave.IsEnabled = true;
         }
+
+        private bool CloseReq(string OutwareReqID, string ReqFlag)
+        {
+            bool flag = false;
+
+            try
+            {
+                Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+                sqlParameter.Clear();
+                sqlParameter.Add("ReqFlag", ReqFlag);
+                sqlParameter.Add("OutwareReqID", OutwareReqID);
+                sqlParameter.Add("CloseReqUserID", MainWindow.CurrentUser);
+
+                string[] result = DataStore.Instance.ExecuteProcedure_NewLog("xp_Outware_uOutwareRequest_Close", sqlParameter, "D");
+
+                if (result[0].Equals("success"))
+                    flag = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("오류지점 - DeleteData : " + ex.ToString());
+            }
+            finally
+            {
+                DataStore.Instance.CloseConnection();
+            }
+
+            return flag;
+        }
+
 
         private bool SaveData()
         {
@@ -960,6 +1006,7 @@ namespace WizMes_HanYoung
                         sqlParameter.Add("ArticleID", reqSub.ArticleID);
                         sqlParameter.Add("OrderQty", ConvertDouble(reqSub.OrderQty));
                         sqlParameter.Add("RestOrderQty", ConvertDouble(reqSub.RestOrderQty));
+                        sqlParameter.Add("ReqEnd", reqSub.ReqEnd != null ? (reqSub.ReqEnd != "1" ? "1" : "") : ""); //reqEnd가 null이 아니면 1인지? 1이면 1 빈칸이면 빈칸 null이면 초기니까 빈칸 
                         sqlParameter.Add("InCustomID", string.IsNullOrEmpty(reqTxtCustom.Text) ? "" : reqTxtCustom.Tag.ToString());
                         sqlParameter.Add("StockQty", ConvertDouble(reqSub.StockQty));
                         sqlParameter.Add("ReqQty", ConvertDouble(reqSub.ReqQty));
@@ -1012,9 +1059,44 @@ namespace WizMes_HanYoung
             Dispatcher.BeginInvoke(new Action(() =>
             {
                 foreach (Win_ord_OutwareReq_U_View remove in listOutWareReqPrint)
-                    DeleteData(remove.OutwareReqID);
+                    if (remove.Remark.Contains("완료"))
+                    {
+                        MessageBoxResult result = MessageBox.Show("선택건 중에 출하 완료 된 건이 있습니다. 완료건은 마감처리 하시겠습니까?\r\n 아니오를 누르면 모두 삭제합니다.", "마감 전 확인", MessageBoxButton.YesNoCancel);
+
+
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            if (remove.Remark.Contains("완료"))
+                            {
+                                reqFlag = "1";
+                                CloseReq(remove.OutwareReqID, reqFlag);
+                            }
+                            else
+                            {
+                                DeleteData(remove.OutwareReqID);
+                            }
+                        }
+                        else if (result == MessageBoxResult.No)
+                        {
+                                DeleteData(remove.OutwareReqID);
+                        }
+                        else
+                        {
+                            FillGrid();
+                            return;
+                        } 
+                    }
+                    else
+                    {
+                        DeleteData(remove.OutwareReqID);
+
+                    }
+
+
+
 
                 rowNum = 0;
+                reqFlag = string.Empty;
                 re_Search();
             }), System.Windows.Threading.DispatcherPriority.Background);
 
@@ -1262,6 +1344,7 @@ namespace WizMes_HanYoung
 
                     if (listOutWareReqPrint.Contains(view) == false)
                         listOutWareReqPrint.Add(view);
+                        ovcListOutWareReq.Add(view);
                 }
                 else
                 {
@@ -1269,7 +1352,57 @@ namespace WizMes_HanYoung
 
                     if (listOutWareReqPrint.Contains(view) == false)
                         listOutWareReqPrint.Remove(view);
+                        ovcListOutWareReq.Remove(view);
                 }
+
+                if(ovcListOutWareReq.Count > 0 )
+                {
+                    if (ovcListOutWareReq.Count > 0 && chkCloseReq.IsChecked == true)
+                    {
+                        bool flag = false;
+                        foreach (Win_ord_OutwareReq_U_View exception in ovcListOutWareReq)
+                        {
+                            if (exception.ReqCloseClss.Equals("1"))
+                                flag = true;
+                        }
+                        if (flag == true)
+                        {
+                            btnCloseReq.IsEnabled = true;
+                            tbxCloseReq.Text = "지시마감취소";
+                        }
+                    }
+                    else if (ovcListOutWareReq.Count > 0 && chkCloseReq.IsChecked == false)
+                    {
+
+                        bool flag = false;
+                        foreach (Win_ord_OutwareReq_U_View exception in ovcListOutWareReq)
+                        {
+                            if (exception.ReqCloseClss.Equals("1"))
+                                flag = true;
+                        }
+                        if (flag == true)
+                        {
+                            btnCloseReq.IsEnabled = true;
+                            tbxCloseReq.Text = "지시마감취소";
+                        }
+                        else
+                        {
+                            btnCloseReq.IsEnabled = false;
+                            tbxCloseReq.Text = "지시마감처리";
+                        }
+                    
+                    }
+
+                    btnCloseReq.IsEnabled = true;
+                }
+                else
+                {
+                    btnCloseReq.IsEnabled =false;
+                 
+                }
+
+               
+                
             }
         }
 
@@ -1523,6 +1656,64 @@ namespace WizMes_HanYoung
             return result;
         }
         #endregion 기타메서드        
+
+        private void btnCloseReq_Click(object sender, RoutedEventArgs e)
+        {
+         
+
+            if (tbxCloseReq.Text.Equals("지시마감처리"))
+            {
+                if (MessageBox.Show("선택하신 지시를 마감하시겠습니까?", "마감 전 확인", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    reqFlag = "1";
+                    using (Loading lw = new Loading(beCloseReq))
+                    {
+                        lw.ShowDialog();
+                    }
+                }
+            }
+            else if (tbxCloseReq.Text.Equals("지시마감취소"))
+            {
+                if (MessageBox.Show("선택하신 지시를 복원하시겠습니까?", "복원 전 확인", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    reqFlag = "2";
+                    using (Loading lw = new Loading(beCloseReq))
+                    {
+                        lw.ShowDialog();
+                    }
+                }
+            }
+
+        }
+
+        private void beCloseReq()
+        {
+            btnCloseReq.IsEnabled = false;
+
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                foreach (Win_ord_OutwareReq_U_View closeReq in ovcListOutWareReq)
+                    CloseReq(closeReq.OutwareReqID, reqFlag);
+
+                rowNum = 0;
+                reqFlag = string.Empty;
+                re_Search();
+            }), System.Windows.Threading.DispatcherPriority.Background);
+
+            btnCloseReq.IsEnabled = true;
+        }
+
+        private void lblCloseReq_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if(chkCloseReq.IsChecked == true)
+            {
+                chkCloseReq.IsChecked = false;
+            }
+            else
+            {
+                chkCloseReq.IsEnabled = true;
+            }
+        }
     }
 
     #region View 클래스
@@ -1539,9 +1730,11 @@ namespace WizMes_HanYoung
         public string OutClss { get; set; }
         public string ReqDate { get; set; }
         public string ReqQty { get; set; }
+        public string ReqCloseClss { get; set; }
         public string OutWareReqTypeID { get; set; }
         public string RegDate { get; set; }
         public string RegUserID { get; set; }
+        public string Remark { get; set; }
     }
 
     public class Win_ord_OutwareReqSub_U_View : BaseView
@@ -1571,6 +1764,7 @@ namespace WizMes_HanYoung
         public string OutQty { get; set; }
         public string StockQty { get; set; }   
         public string ReqQty { get; set; }
+        public string ReqEnd { get; set; }
         public string RemainQty { get; set; }
         public string UnitPrice { get; set; }
         public string Remark { get; set; }
