@@ -311,7 +311,8 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("@sMiddle", smiddle);   //입력된 코드를 추가
                 sqlParameter.Add("@sCustomID", CustomID);
 
-                DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Common_PlusFinder_MTR", sqlParameter, false); //2021-11-09 GLS 자재입고반품을 위해 생성(거래처, ARTICLEID 2개 가지고 가야 됨)
+                DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Common_PlusFinder_MTR", sqlParameter, false); //2021-11-09
+                                                                                                                     //자재입고반품을 위해 생성(거래처, ARTICLEID 2개 가지고 가야 됨)
 
                 if (ds != null && ds.Tables.Count > 0)
                 {
@@ -413,8 +414,9 @@ namespace WizMes_HanYoung
                             {
                                 dtCodeTemp.Rows.Add(dr.ItemArray);
                                 continue;
-                            }
-                            else if (compare1)
+                            }                              //20240314 최대현 compare2 추가
+                            else if (compare1 || compare2) //plusfinder 프로시저로 찾은 데이터들 중 입력한 값이 있는지 compare1, compare2로 여부를 판단하는데
+                                                           //품번검색시 품번이외 텍스트로 검색하면 compare1이 항상 false로 되기때문에 compare2도 추가해줌                                                           
                             {
                                 dtCodeTemp.Rows.Add(dr.ItemArray);
                             }

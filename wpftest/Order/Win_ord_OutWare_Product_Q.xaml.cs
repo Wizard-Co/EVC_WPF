@@ -421,15 +421,14 @@ namespace WizMes_HanYoung
         
         private void btnBuyerArticleNo_Click(object sender, RoutedEventArgs e)
         {
-            pf.ReturnCode(txtBuyerArticleNo, 81, txtBuyerArticleNo.Text);
-            MessageBox.Show(txtBuyerArticleNo.Tag.ToString());
+            pf.ReturnCode(txtBuyerArticleNo, 76, txtBuyerArticleNo.Text);            
 
         }
 
         // 품명
         private void btnArticle_Click(object sender, RoutedEventArgs e)
         {
-            pf.ReturnCode(txtArticle, 82, txtArticle.Text);
+            pf.ReturnCode(txtArticle, 77, txtArticle.Text);
         }
 
         #endregion

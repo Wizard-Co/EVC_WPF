@@ -825,7 +825,7 @@ namespace WizMes_HanYoung
         {
             if (e.Key == Key.Enter)
             {
-                pf.ReturnCode(txtArticle, 81, txtArticle.Text);
+                pf.ReturnCode(txtArticle, 77, txtArticle.Text);
             }
         }
 
@@ -1155,7 +1155,7 @@ namespace WizMes_HanYoung
 
         private void btnBuyerArticleNo_Click(object sender, RoutedEventArgs e)
         {
-            pf.ReturnCode(txtArticle, 84, txtArticle.Text);
+            pf.ReturnCode(txtBuyerArticleNo, 76, txtBuyerArticleNo.Text);
         }
 
         private void TxtBuyerArticleNo_KeyDown(object sender, KeyEventArgs e)

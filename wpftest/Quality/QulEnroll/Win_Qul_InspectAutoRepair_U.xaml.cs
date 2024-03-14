@@ -291,18 +291,18 @@ namespace WizMes_HanYoung
         #endregion
 
 
-        // 플러스 파인더 _ 품명찾기.
+        // 플러스 파인더 _ 품번찾기.
         private void btnArticle_Click(object sender, RoutedEventArgs e)
         {
-            pf.ReturnCode(txtArticle, 83, txtArticle.Text);
+            pf.ReturnCode(txtArticle, 77, txtArticle.Text);
         }
 
-        // 키다운 플러스 파인더 _ 품명찾기.
+        // 키다운 플러스 파인더 _ 품번찾기.
         private void TxtArticle_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                pf.ReturnCode(txtArticle, 83, txtArticle.Text);
+                pf.ReturnCode(txtArticle, 77, txtArticle.Text);
             }
         }
 

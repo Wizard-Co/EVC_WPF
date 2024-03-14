@@ -2749,8 +2749,8 @@ namespace WizMes_HanYoung
         }
 
         private void btnBuyerArticleNo_Click(object sender, RoutedEventArgs e)
-        {
-            pf.ReturnCode(txtBuyerArticleNo, 84, txtBuyerArticleNo.Text);
+        {                      
+            pf.ReturnCode(txtBuyerArticleNo, 76, txtBuyerArticleNo.Text);
         }
 
       

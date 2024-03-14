@@ -162,19 +162,19 @@ namespace WizMes_HanYoung
             btnPfArticle.IsEnabled = false;
         }
 
-        //품명(품번으로 변경요청, 2020.03.23, 장가빈)
+        //품명(품번으로 변경요청, 2020.03.23, 장가빈) 
         private void txtArticle_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                MainWindow.pf.ReturnCode(txtArticle, 81, txtArticle.Text);
+                MainWindow.pf.ReturnCode(txtArticle, 76, txtArticle.Text);
             }
         }
 
         //품명
         private void btnPfArticle_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.pf.ReturnCode(txtArticle, 81, txtArticle.Text);
+            MainWindow.pf.ReturnCode(txtArticle, 76, txtArticle.Text);
         }
 
         #endregion
