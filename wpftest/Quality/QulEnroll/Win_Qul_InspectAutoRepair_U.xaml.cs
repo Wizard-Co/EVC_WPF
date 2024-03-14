@@ -294,7 +294,7 @@ namespace WizMes_HanYoung
         // 플러스 파인더 _ 품번찾기.
         private void btnArticle_Click(object sender, RoutedEventArgs e)
         {
-            pf.ReturnCode(txtArticle, 77, txtArticle.Text);
+            pf.ReturnCode(txtArticle, 76, txtArticle.Text);
         }
 
         // 키다운 플러스 파인더 _ 품번찾기.
@@ -302,7 +302,7 @@ namespace WizMes_HanYoung
         {
             if (e.Key == Key.Enter)
             {
-                pf.ReturnCode(txtArticle, 77, txtArticle.Text);
+                pf.ReturnCode(txtArticle, 76, txtArticle.Text);
             }
         }
 
