@@ -560,7 +560,7 @@
                             </Viewbox>
                         </Label>
                         <TextBox x:Name="txtOutwareReqID"  Grid.Column="1" Grid.Row="0" Style="{DynamicResource TextBoxInputArea}"
-                                 Text="{Binding Path=OutwareReqID}" KeyDown="txtOutwareReqID_KeyDown" TabIndex="12" PreviewTextInput="txtOutwareReqID_PreviewTextInput" />
+                                 Text="{Binding Path=OutwareReqID}" Tag="{Binding Path=RestOrderQty}" KeyDown="txtOutwareReqID_KeyDown" TabIndex="12" PreviewTextInput="txtOutwareReqID_PreviewTextInput" />
                         <Button x:Name="btnOutwareReqID"  Grid.Column="2" Grid.Row="0" Click="btnOutwareReqID_Click">
                             <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}" Margin="1"/>
                         </Button>
@@ -599,7 +599,7 @@
                                      Background="#fff2d2" TabIndex="14" KeyDown="TxtOutRoll_KeyDown" IsReadOnly="True" PreviewTextInput="txtOutRoll_PreviewTextInput"/>
                             <TextBox x:Name="txtOutQty" Grid.Column="1" Style="{StaticResource TextBoxInput_Number_Right}"
                                      Text="{Binding Path=OutQty}"
-                                     Background="#fff2d2" TabIndex="15" KeyDown="TxtOutQty_KeyDown" IsReadOnly="True" PreviewTextInput="txtOutQty_PreviewTextInput"/>
+                                     Background="#fff2d2" TabIndex="15" KeyDown="TxtOutQty_KeyDown" IsReadOnly="True" PreviewTextInput="txtOutQty_PreviewTextInput" />
                         </Grid>
 
                         <Label Grid.Column="0" Grid.Row="4" Style="{DynamicResource LabelInputArea}">
@@ -709,7 +709,9 @@
                 <!-- 우측 중간 스캔공간 -->
                 <TextBox x:Name="txtScanData"  Grid.Row="1" FontSize="50" Grid.ColumnSpan="2"
                          BorderBrush="Black" BorderThickness="1" Background="AliceBlue" 
-                         KeyDown="txtScanData_KeyDown" TabIndex="26"/>
+                         KeyDown="txtScanData_KeyDown" TabIndex="26"
+                         PreviewTextInput="txtScanReqQtyCheck"
+                         />
 
                 <Grid Grid.Row="2" Visibility="Hidden">
                     <Grid.ColumnDefinitions>

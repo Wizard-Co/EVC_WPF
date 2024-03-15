@@ -57,7 +57,11 @@ namespace WizMes_HanYoung
         string GetKey = "";
 
         string orderSeq = "";
-        double outwareReqQty = 0;
+        int ReqQty = 0;
+        int OrderQty = 0;
+        int RestOrderQty = 0;
+        int tmpRestQty = 0;
+        int cnt = 0;
 
         List<string> LabelGroupList = new List<string>();   // packing ID 스캔에 따른 LabelID를 모아 담을 리스트 그릇입니다.
         bool EventStatus = false;                           // 추가 / 수정 상태확인을 위한 이벤트 bool
@@ -1235,6 +1239,7 @@ namespace WizMes_HanYoung
                 {
                     pf.refEvent += new PlusFinder.RefEventHandler(plusFinder_replyArticle);
                     pf.ReturnCode(txtOutwareReqID, 98, "");
+                    //MessageBox.Show(txtOutwareReqID.Tag.ToString());
 
                     if (txtOutwareReqID.Text.Length > 0)
                     {
@@ -2200,6 +2205,8 @@ namespace WizMes_HanYoung
                         sqlParameter.Add("DvlyCustomID", txtBuyerName.Tag == null ? "" : txtBuyerName.Tag.ToString()); //20210526
                         sqlParameter.Add("UserID", MainWindow.CurrentUser);
                         sqlParameter.Add("OutwareReqID", string.IsNullOrEmpty(txtOutwareReqID.Text) ? "" : txtOutwareReqID.Text);
+                        sqlParameter.Add("RestOrderQty", string.IsNullOrEmpty(RestOrderQty.ToString()) ? 0 : RestOrderQty);
+                 
 
                         Procedure pro1 = new Procedure();
                         pro1.Name = "xp_Outware_iOutware";
@@ -2343,6 +2350,7 @@ namespace WizMes_HanYoung
                         sqlParameter.Add("DvlyCustomID", txtBuyerName.Tag == null ? "" : txtBuyerName.Tag.ToString()); //20210526
                         sqlParameter.Add("UserID", MainWindow.CurrentUser);
                         sqlParameter.Add("OutwareReqID", string.IsNullOrEmpty(txtOutwareReqID.Text) ? "" : txtOutwareReqID.Text);
+                        
 
                         Procedure pro3 = new Procedure();
                         pro3.Name = "xp_Outware_uOutware";
@@ -2453,6 +2461,7 @@ namespace WizMes_HanYoung
             finally
             {
                 DataStore.Instance.CloseConnection();
+                tmpRestQty = 0;
             }
 
             return flag;
@@ -2508,24 +2517,24 @@ namespace WizMes_HanYoung
                     MessageBox.Show("스캔된 라벨 정보가 없습니다.");
                     return false;
                 }
-                #region 재고보다 많은거 컷 시키는건데 일단 out
-                //if (strFlag == "I")
-                //{
-                //    for (int i = 0; i < dgdOutwareSub.Items.Count; i++)
-                //    {
-                //        var OutwareSub = dgdOutwareSub.Items[i] as Win_ord_OutWare_Scan_Sub_CodeView;
-                //        Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
-                //        sqlParameter.Add("LabelID", OutwareSub.LabelID);
-                //        sqlParameter.Add("Qty", OutwareSub.OutQty.Replace(",", ""));
-                //        sqlParameter.Add("ArticleID", txtArticleID_InGroupBox.Text != null ? txtArticleID_InGroupBox.Text : "");
-                //        DataTable dt = DataStore.Instance.ProcedureToDataSet("xp_Outware_chkiOutware", sqlParameter, false).Tables[0];
-                //        if (dt.Rows[0][0].Equals("F"))
-                //        {
-                //            MessageBox.Show("재고에 있는 수량보다 많은 수량이 입려되어습니다.");
-                //            return false;
-                //        }
-                //    }
-                //}
+                #region 재고보다 많은것을 중단
+                if (strFlag == "I" && tgnMoveByID.IsChecked == true)
+                {
+                    for (int i = 0; i < dgdOutwareSub.Items.Count; i++)
+                    {
+                        var OutwareSub = dgdOutwareSub.Items[i] as Win_ord_OutWare_Scan_Sub_CodeView;
+                        Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+                        sqlParameter.Add("LabelID", OutwareSub.LabelID);
+                        sqlParameter.Add("Qty", OutwareSub.OutQty.Replace(",", ""));
+                        sqlParameter.Add("ArticleID", txtArticleID_InGroupBox.Text != null ? txtArticleID_InGroupBox.Text : "");
+                        DataTable dt = DataStore.Instance.ProcedureToDataSet("xp_Outware_chkiOutware", sqlParameter, false).Tables[0];
+                        if (dt.Rows[0][0].Equals("F"))
+                        {
+                            MessageBox.Show("재고에 있는 수량보다 많은 수량이 입력되었습니다.");
+                            return false;
+                        }
+                    }
+                }
                 #endregion
 
                 return true;
@@ -2647,7 +2656,9 @@ namespace WizMes_HanYoung
 
                         txtBuyerArticleNo.Text = DR["BuyerArticleNo"].ToString();
                         orderSeq = DR["OrderSeq"].ToString();
-                        //outwareReqQty = ConvertDouble(DR["ReqQty"].ToString());
+                        ReqQty = ConvertInt(DR["ReqQty"].ToString());
+                        OrderQty = ConvertInt(DR["OrderQty"].ToString());
+                        RestOrderQty = ConvertInt(DR["RestOrderQty"].ToString());
                     }
                 }
 
@@ -3450,6 +3461,7 @@ namespace WizMes_HanYoung
             try
             {
                 Lib.Instance.CheckIsNumeric((TextBox)sender, e);
+               
             }
             catch (Exception ee)
             {
@@ -3457,12 +3469,63 @@ namespace WizMes_HanYoung
             }
         }
 
+        //입력값으로 지시잔량 초과하는지 보기
+        private void ValidateInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+          
+
+            // 현재 텍스트박스의 값과 새로 입력하려는 값을 합친 값을 계산합니다.
+            int tot = 0;
+            int.TryParse(txtOutQty.Text, out tot);
+
+            tmpRestQty = RestOrderQty - tot;   //plusfinder로 가져온 지시잔량과 총량을 뺍니다      
+        
+            if(RestOrderQty > tot)      // 총량이 지시잔량보다 적다면 입력해도 되니니까
+            {
+                int currentValue;
+                if (int.TryParse(textBox.Text, out currentValue))
+                {                   
+
+                    int newValue = currentValue;
+                    if (int.TryParse(e.Text, out int inputValue))
+                    {
+                        newValue = currentValue * 10 + inputValue;              
+                    
+
+                        if ( tot > RestOrderQty ) //입력 값이 지시량보다 총량이 더 많아지면
+                        {
+                            e.Handled = true; // 입력을 무시하고 경고창 띄운뒤 텍스트박스를 지움
+                            MessageBox.Show($"해당 지시번호 남은 지시량 [ {RestOrderQty} ](을)를 초과할 수 없습니다.");
+                            txtScanData.Text = string.Empty;
+                        }                               
+                    }             
+                }
+            }
+            else if(tmpRestQty == 0) //입력하고 난 뒤 남은 지시수량이 0이 되었을때
+            {
+                cnt++;
+                e.Handled = true; //입력을 무시합니다
+                if(cnt == 5)
+                {
+                    MessageBox.Show("이미 남은 지시량을 모두 입력하셨습니다."); 
+                    cnt = 0;
+                }
+                
+            }
+
+        }
+
+     
+
+
         //서브 데이터 그리드 수량 변경 이벤트
         private void DataGridTextBoxColorQty_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
             {
                 SumColorQty();
+                
             }
             catch (Exception ee)
             {
@@ -3589,6 +3652,16 @@ namespace WizMes_HanYoung
 
             return result;
         }
+
+        private void txtScanReqQtyCheck(object sender, TextCompositionEventArgs e)
+        {
+            if (tgnMoveByQty.IsChecked == true)
+            {
+                ValidateInput(sender, e);
+            }
+        }
+
+    
     }
 
 
