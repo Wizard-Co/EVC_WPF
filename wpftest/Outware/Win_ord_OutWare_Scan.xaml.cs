@@ -2517,9 +2517,11 @@ namespace WizMes_HanYoung
                     MessageBox.Show("스캔된 라벨 정보가 없습니다.");
                     return false;
                 }
-                #region 재고보다 많은것을 중단
+                #region 재고보다 많이 입력하고 저장하면 중단
                 if (strFlag == "I" && tgnMoveByID.IsChecked == true)
                 {
+               ;
+
                     for (int i = 0; i < dgdOutwareSub.Items.Count; i++)
                     {
                         var OutwareSub = dgdOutwareSub.Items[i] as Win_ord_OutWare_Scan_Sub_CodeView;
@@ -2533,7 +2535,16 @@ namespace WizMes_HanYoung
                             MessageBox.Show("재고에 있는 수량보다 많은 수량이 입력되었습니다.");
                             return false;
                         }
+                
+                        if(int.Parse(OutwareSub.OutQty) > RestOrderQty)
+                        {
+                            MessageBox.Show($"해당 지시번호 남은 지시량 [ {RestOrderQty} ](을)를 초과할 수 없습니다.");
+                            return false;
+                        }
+
                     }
+
+                  
                 }
                 #endregion
 
@@ -3460,7 +3471,7 @@ namespace WizMes_HanYoung
         {
             try
             {
-                Lib.Instance.CheckIsNumeric((TextBox)sender, e);
+                Lib.Instance.CheckIsNumeric((TextBox)sender, e);             
                
             }
             catch (Exception ee)
@@ -3470,8 +3481,10 @@ namespace WizMes_HanYoung
         }
 
         //입력값으로 지시잔량 초과하는지 보기
-        private void ValidateInput(object sender, TextCompositionEventArgs e)
+        private bool ValidateInput(object sender, TextCompositionEventArgs e)
         {
+           
+            
             TextBox textBox = (TextBox)sender;
           
 
@@ -3498,6 +3511,7 @@ namespace WizMes_HanYoung
                             e.Handled = true; // 입력을 무시하고 경고창 띄운뒤 텍스트박스를 지움
                             MessageBox.Show($"해당 지시번호 남은 지시량 [ {RestOrderQty} ](을)를 초과할 수 없습니다.");
                             txtScanData.Text = string.Empty;
+                            return false;
                         }                               
                     }             
                 }
@@ -3510,10 +3524,11 @@ namespace WizMes_HanYoung
                 {
                     MessageBox.Show("이미 남은 지시량을 모두 입력하셨습니다."); 
                     cnt = 0;
+                    return false;
                 }
                 
             }
-
+            return true;
         }
 
      
@@ -3523,7 +3538,7 @@ namespace WizMes_HanYoung
         private void DataGridTextBoxColorQty_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
-            {
+            {   
                 SumColorQty();
                 
             }
@@ -3539,6 +3554,7 @@ namespace WizMes_HanYoung
             try
             {
                 Lib.Instance.CheckIsNumeric((TextBox)sender, e);
+               
             }
             catch (Exception ee)
             {
