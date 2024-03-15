@@ -38,7 +38,7 @@
                        MouseLeftButtonDown="lblDay_MouseLeftButtonDown">
                     <StackPanel Style="{DynamicResource StackPanelInLabel}">
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                            <CheckBox x:Name="chkDay" Click="chkDay_Click" VerticalAlignment="Center" IsEnabled="False"/>
+                            <CheckBox x:Name="chkDay" Click="chkDay_Click" VerticalAlignment="Center"/>
                         </Viewbox>
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}" >
                             <TextBlock Text="작 업 일" 

@@ -180,7 +180,22 @@ namespace WizMes_HanYoung
             grdSrh2.IsEnabled = true;
             grdSrh3.IsEnabled = true;
 
-            GridInputArea.IsEnabled = false;
+            lblInstID.IsEnabled = false;
+            txtInstID.IsEnabled = false;
+            lblInstDate.IsEnabled = false;
+            dtpInstDate.IsEnabled = false;
+            lblArticle.IsEnabled = false;
+            txtOrderArticle.IsEnabled = false;
+            lblBuyerArticleNo.IsEnabled = false;
+            txtArticle.IsEnabled = false;
+            lblProcess.IsEnabled = false;
+            txtProcess.IsEnabled = false;
+            lblInstQty.IsEnabled = false;
+            txtQty.IsEnabled = false;
+            lblInstSeq.IsEnabled = false;
+            txtInstSeq.IsEnabled = false;
+            lblComments.IsEnabled = false;
+            txtComments.IsEnabled = false;
         }
 
         /// <summary>
@@ -189,14 +204,31 @@ namespace WizMes_HanYoung
         private void CantBtnControl()
         {
             Lib.Instance.UiButtonEnableChange_SCControl(this);
-            dgdMain.IsHitTestVisible = false;
+            dgdMain.IsHitTestVisible = true;
             dgdSub.IsHitTestVisible = true;
 
             grdSrh1.IsEnabled = false;
             grdSrh2.IsEnabled = false;
             grdSrh3.IsEnabled = false;
+            grdSrh4.IsEnabled = false;
 
-            GridInputArea.IsEnabled = true;
+            lblInstID.IsEnabled = false;
+            txtInstID.IsEnabled = false;
+            lblInstDate.IsEnabled = false;
+            dtpInstDate.IsEnabled = false;
+            lblArticle.IsEnabled = false;
+            txtOrderArticle.IsEnabled = false;
+            lblBuyerArticleNo.IsEnabled = false;
+            txtArticle.IsEnabled = false;
+            lblProcess.IsEnabled = false;
+            txtProcess.IsEnabled = false;
+            lblInstQty.IsEnabled = false;
+            txtQty.IsEnabled = false;
+            lblInstSeq.IsEnabled = true;
+            txtInstSeq.IsEnabled = true;
+            lblComments.IsEnabled = false;
+            txtComments.IsEnabled = false;
+
         }
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
@@ -265,7 +297,7 @@ namespace WizMes_HanYoung
                 return;
             }
 
-            if (SaveData(WinPlanView.InstID, int.Parse(WinPlanView.InstDetSeq)))
+            if (SaveData(WinPlanView.InstID))
             {
                 CanBtnControl();
                 if (dgdSub.Items.Count > 0)
@@ -367,7 +399,8 @@ namespace WizMes_HanYoung
                 txtQty.Tag = "";
                 txtArticle.Text = "";
                 txtArticle.Tag = "";
-                txtBatjaWeight.Tag = "";
+                txtInstSeq.Text = "";
+                txtInstSeq.Tag = "";
                 txtComments.Tag = "";
                 dtpInstDate.SelectedDate = DateTime.Today;
                 dgdSub.Items.Clear();
@@ -562,7 +595,7 @@ namespace WizMes_HanYoung
         #endregion
 
         #region 저장
-        private bool SaveData(string strInstID, int InstDetSeq)
+        private bool SaveData(string strInstID)
         {
             bool flag = false;
             List<Procedure> Prolist = new List<Procedure>();
@@ -578,7 +611,7 @@ namespace WizMes_HanYoung
                     sqlParameter = new Dictionary<string, object>();
                     sqlParameter.Clear();
                     sqlParameter.Add("sInstID", strInstID);
-                    sqlParameter.Add("sInstSeq", InstDetSeq);
+                    sqlParameter.Add("sInstSeq", txtInstSeq.Text);
                     sqlParameter.Add("ChildSeq", PlanInputArticleView_CodeView.ChildSeq);
                     sqlParameter.Add("sScanExceptYN", PlanInputArticleView_CodeView.ScanExceptYN);
                     sqlParameter.Add("sUpdateUser", MainWindow.CurrentUser);

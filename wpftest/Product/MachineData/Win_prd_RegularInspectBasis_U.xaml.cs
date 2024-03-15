@@ -1048,7 +1048,6 @@ namespace WizMes_HanYoung
                             sqlParameter = new Dictionary<string, object>();
                             sqlParameter.Clear();
                             sqlParameter.Add("McInspectBasisID", GetKey); //2020.01.13 strID는 null값이라
-                            //sqlParameter.Add("McInspectBasisID", strID);
                             sqlParameter.Add("McSeq", WinMcRegularSub.McSeq);
                             sqlParameter.Add("McInsGbn", WinMcRegularSub.McInsGbn);
                             sqlParameter.Add("McInsItemName", WinMcRegularSub.McInsItemName);
@@ -1058,13 +1057,11 @@ namespace WizMes_HanYoung
                             sqlParameter.Add("McInsCycleDate", ConvertInt(WinMcRegularSub.McInsCycleDate));
                             sqlParameter.Add("McInsRecordGbn", WinMcRegularSub.McInsRecordGbn);
                             sqlParameter.Add("McImageFile", WinMcRegularSub.McImageFile);
-                            //sqlParameter.Add("McImagePath", "/ImageData/" + ForderName + "/" + GetKey);
                             sqlParameter.Add("McImagePath", !WinMcRegularSub.McImageFile.Equals("") ? "/ImageData/" + ForderName + "/" + GetKey + "/" : "");
                             sqlParameter.Add("McComments", WinMcRegularSub.McComments);
                             sqlParameter.Add("CreateUserID", MainWindow.CurrentUser);
 
                             Procedure pro2 = new Procedure();
-                            //pro2.Name = "xp_McRegularInspectBasis_iMcRegularInspectBasisSub";
                             pro2.Name = "xp_McRegularInspectBasis_iMcRegularInspectBasisSub";
                             pro2.OutputUseYN = "N";
                             pro2.OutputName = "McInspectBasisID";
@@ -1077,8 +1074,6 @@ namespace WizMes_HanYoung
                             {
                                 string[] FtpFilePathAndName = new string[2];
                                 FtpFilePathAndName[0] = WinMcRegularSub.McImageFile;
-                                //FtpFilePathAndName[1] = WinMcRegularSub.McImagePath;
-                                //이게 null이라서 수정해봄 2020.01.13
                                 FtpFilePathAndName[1] = WinMcRegularSub.LocalImagePath;
                                 FtpFileList.Add(FtpFilePathAndName);
                             }
@@ -1483,25 +1478,22 @@ namespace WizMes_HanYoung
         //하단 그리드 실삭제
         private void SubRemove()
         {
-
             if (dgdSub.Items.Count > 0)
             {
                 if (dgdSub.CurrentItem != null)
                 {
-                    dgdSub.Items.Remove((dgdSub.CurrentItem as Win_prd_RegularInspectBasis_U_CodeView));
+                    dgdSub.Items.Remove(dgdSub.CurrentItem as Win_prd_RegularInspectBasis_U_CodeView);
                 }
                 else
                 {
-                    DelItems.Add(dgdSub.SelectedItem as Win_prd_RegularInspectBasis_U_CodeView);
-                    dgdSub.Items.Remove((dgdSub.Items[dgdSub.SelectedIndex]) as Win_prd_RegularInspectBasis_U_CodeView);
+                    dgdSub.Items.Remove((dgdSub.Items[dgdSub.Items.Count - 1]) as Win_prd_RegularInspectBasis_U_CodeView);
                 }
 
                 dgdSub.Refresh();
             }
         }
 
-        #endregion 하단 그리드 실추가/실삭제 이게 뭘까
-
+        #endregion 
 
 
         #region 삭제(DeleteData)

@@ -233,9 +233,6 @@ namespace WizMes_HanYoung
             //dgdInspect.IsEnabled = false;
             dgdInspect.IsHitTestVisible = false;
 
-            
-
-
         }
 
         #region 오른 상단 버튼 동작
@@ -267,7 +264,7 @@ namespace WizMes_HanYoung
             txtMcRInspectPersonID.Text = MainWindow.CurrentPerson;
             txtMcRInspectPersonID.Tag = MainWindow.CurrentPersonID;
 
-            btnPfMc.IsEnabled = true;
+            txtMc.IsEnabled = true;
             btnPfMc.IsEnabled = true;
 
             //추가버튼 누르면 설비명에 포커스 이동
@@ -517,6 +514,11 @@ namespace WizMes_HanYoung
         {
             try
             {
+                if(dgdInspect.Items.Count > 0)
+                {
+                    dgdInspect.Items.Clear();
+                }
+
                 DataSet ds = null;
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                 sqlParameter.Clear();

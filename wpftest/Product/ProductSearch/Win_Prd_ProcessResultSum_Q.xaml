@@ -514,7 +514,7 @@
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
 
-                                    <DataGridTemplateColumn Header="공정"  Width="auto" >
+                                    <DataGridTemplateColumn Header="공정"  Width="auto" Visibility="Hidden">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding Process}" TextAlignment="Center" Padding="5 0" />
