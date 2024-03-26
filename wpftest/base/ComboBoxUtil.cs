@@ -666,8 +666,54 @@ namespace WizMes_HanYoung
             return retunCollection;
         }
 
+        //전체 빼고
+        public ObservableCollection<CodeView> GetWorkProcess_only(int num, string value)
+        {
+            ObservableCollection<CodeView> retunCollection = new ObservableCollection<CodeView>();
+            Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+            sqlParameter.Add("@nchkProc", num);
+            sqlParameter.Add("@ProcessID", value);
+
+            try
+            {
+                DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Work_sProcess", sqlParameter, false);
+
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataTable dt = ds.Tables[0];
+                    if (dt.Rows.Count == 0)
+                    {
+
+                    }
+                    else
+                    {
+                        DataRowCollection drc = dt.Rows;
+                        foreach (DataRow item in drc)
+                        {
+                            CodeView mCodeView = new CodeView()
+                            {
+                                code_id = item[0].ToString().Trim(),
+                                code_name = item[1].ToString().Trim()
+                            };
+                            retunCollection.Add(mCodeView);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("콤보박스 생성 중 오류 발생 : " + ex.ToString());
+            }
+            finally
+            {
+                DataStore.Instance.CloseConnection();
+            }
+
+            return retunCollection;
+        }
+
         /// <summary>
-        /// 공정ID 가져오기
+        /// 공정ID +  전체 가져오기
         /// </summary>
         /// <param name="num"></param>
         /// <param name="value"></param>

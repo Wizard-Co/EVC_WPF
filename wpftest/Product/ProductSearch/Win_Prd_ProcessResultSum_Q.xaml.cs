@@ -900,26 +900,6 @@ namespace WizMes_HanYoung
                 DataGridThisMonth.Items.Clear();
             }
 
-            //int chkDate = 0;
-            //string sFromDate = string.Empty;
-            //string sToDate = string.Empty;
-            //int chkProcessID = 0;
-            //string sProcessID = string.Empty;
-            //int chkMachineID = 0;
-            //string sMachineID = string.Empty;
-            //int chkWorker = 0;
-            //string sWorker = string.Empty;
-            //int chkOrderID = 0;
-            //string sOrderID = string.Empty;
-            //int chkCustomID = 0;
-            //string sCustomID = string.Empty;
-            //int chkArticleID = 0;
-            //string sArticleID = string.Empty;
-            //int chkBuySaleMainYN = 0;
-            //int chkBuyerArticleNo = 0;
-            //string buyerArticleNo = string.Empty;
-
-
             try
             {
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();

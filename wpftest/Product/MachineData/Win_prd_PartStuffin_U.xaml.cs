@@ -616,7 +616,7 @@ namespace WizMes_HanYoung
                 }
                 else
                 {
-                    MainWindow.pf.ReturnCode(txtMCID, (int)Defind_CodeFind.DCF_MC, "1");
+                    MainWindow.pf.ReturnCode(txtMCID, 13, "1");
                 }
 
                 txtCustom.Focus();

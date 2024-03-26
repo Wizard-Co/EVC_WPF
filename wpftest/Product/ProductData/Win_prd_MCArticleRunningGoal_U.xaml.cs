@@ -79,7 +79,7 @@ namespace WizMes_HanYoung
         #region 콤보박스
         private void SetComboBox()
         {
-            ObservableCollection<CodeView> ovcProcess = ComboBoxUtil.Instance.GetWorkProcess(0, "");
+            ObservableCollection<CodeView> ovcProcess = ComboBoxUtil.Instance.GetWorkProcess_only(0, "");
             this.cboProcess.ItemsSource = ovcProcess;
             this.cboProcess.DisplayMemberPath = "code_name";
             this.cboProcess.SelectedValuePath = "code_id";
@@ -738,8 +738,6 @@ namespace WizMes_HanYoung
                                 CT = stringFormatN1(dr["CT"]),
                                 AutoPassive = dr["AutoPassive"].ToString(),
                                 AutoPassiveName = dr["AutoPassiveName"].ToString(),
-                                ImageFile = dr["ImageFile"].ToString(),
-                                ImageFilePath = dr["ImageFilePath"].ToString()
                             };
 
                             dgdSub.Items.Add(WinSub);
@@ -871,8 +869,7 @@ namespace WizMes_HanYoung
                                 sqlParameter.Add("CT", ConvertDouble(WinSub.CT));
                                 sqlParameter.Add("AutoPassive", cboAutoPassive.SelectedValue != null ? cboAutoPassive.SelectedValue.ToString() : "");
                                 sqlParameter.Add("nProcessAllYN", chkProcessAll.IsChecked == true ? 1 : 0);
-                                sqlParameter.Add("ImageFile", WinSub.ImageFile);
-                                sqlParameter.Add("ImageFilePath", !WinSub.ImageFilePath.Equals("") ? "/ImageData/" + ForderName + "/" + txtYYYY.Text + "/" : "");
+                            
                                 sqlParameter.Add("CreateUserID", MainWindow.CurrentUser);
 
                                 Procedure pro1 = new Procedure();
@@ -884,13 +881,7 @@ namespace WizMes_HanYoung
                                 Prolist.Add(pro1);
                                 ListParameter.Add(sqlParameter);
 
-                                if (!WinSub.ImageFile.Replace(" ", "").Equals(""))
-                                {
-                                    string[] FtpFilePathAndName = new string[2];
-                                    FtpFilePathAndName[0] = WinSub.ImageFile;
-                                    FtpFilePathAndName[1] = WinSub.ImageFilePath;
-                                    listFtpFile.Add(FtpFilePathAndName);
-                                }
+                               
                             }
                         }
 
@@ -1079,7 +1070,6 @@ namespace WizMes_HanYoung
             int colCountOne = dgdSub.Columns.IndexOf(dgdtpeBuyArticleNo);
             int colCountTwo = dgdSub.Columns.IndexOf(dgdtpeArticle);
             int colCountThree = dgdSub.Columns.IndexOf(dgdtpeGoalRunRate);
-            int colCountFour = dgdSub.Columns.IndexOf(dgdtpeImage);
             int colCount = dgdSub.Columns.IndexOf(dgdSub.CurrentCell.Column);
 
             if (e.Key == Key.Enter)
@@ -1087,12 +1077,7 @@ namespace WizMes_HanYoung
                 e.Handled = true;
                 (sender as DataGridCell).IsEditing = false;
 
-                if (dgdSub.Items.Count - 1 > rowCount && colCount == colCountFour)
-                {
-                    dgdSub.SelectedIndex = rowCount + 1;
-                    dgdSub.CurrentCell = new DataGridCellInfo(dgdSub.Items[rowCount + 1], dgdSub.Columns[colCountOne]);
-                }
-                else if (dgdSub.Items.Count - 1 >= rowCount && colCount == colCountOne)
+                if (dgdSub.Items.Count - 1 >= rowCount && colCount == colCountOne)
                 {
                     dgdSub.CurrentCell = new DataGridCellInfo(dgdSub.Items[rowCount], dgdSub.Columns[colCountTwo]);
                 }
@@ -1102,19 +1087,12 @@ namespace WizMes_HanYoung
                 }
                 else if (dgdSub.Items.Count - 1 >= rowCount && colCount == colCountThree)
                 {
-                    dgdSub.CurrentCell = new DataGridCellInfo(dgdSub.Items[rowCount], dgdSub.Columns[colCountThree]);
-                }
-                else if (dgdSub.Items.Count - 1 == rowCount && colCount == colCountFour)
-                {
                     if (MessageBox.Show("선택한 행을 추가하시겠습니까?", "추가 전 확인", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
                         AddDgdSub();
                     }
                 }
-                else
-                {
-                    //MessageBox.Show("있으면 찾아보자...");
-                }
+
             }
             else if (e.Key == Key.Delete)
             {
@@ -1150,8 +1128,7 @@ namespace WizMes_HanYoung
 
                 if (cell.Column == dgdtpeBuyArticleNo
                     || cell.Column == dgdtpeArticle
-                    || cell.Column == dgdtpeGoalRunRate
-                    || cell.Column == dgdtpeImage)
+                    || cell.Column == dgdtpeGoalRunRate)
                 {
                     cell.IsEditing = true;
                 }
@@ -1269,123 +1246,7 @@ namespace WizMes_HanYoung
         }
 
         //
-        private void dgdtxtGoalNonRunHour_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (lblMsg.Visibility == Visibility.Visible)
-            {
-                WinMachineGoal = dgdSub.CurrentItem as Win_prd_MCRunningGoal_U_Sub_CodeView;
-
-                if (WinMachineGoal != null)
-                {
-                    TextBox tb1 = sender as TextBox;
-
-                    if (tb1 != null)
-                    {
-                        WinMachineGoal.CT = tb1.Text;
-                    }
-
-                    sender = tb1;
-                }
-            }
-        }
-
-        private void dgdtpetxtImage_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (lblMsg.Visibility == Visibility.Visible)
-            {
-
-                if (e.Key == Key.Enter)
-                {
-                    WinMachineGoal = dgdSub.CurrentItem as Win_prd_MCRunningGoal_U_Sub_CodeView;
-
-                    if (WinMachineGoal != null)
-                    {
-                        if (!WinMachineGoal.ImageFile.Trim().Equals(string.Empty) && strFlag.Equals("U"))
-                        {
-                            MessageBox.Show("먼저 해당파일의 삭제를 진행 후 진행해주세요.");
-                            return;
-                        }
-                        else
-                        {
-                            FTP_Upload_TextBox(sender as TextBox);
-                        }
-                    }
-                }
-            }
-        }
-
-        private void FTP_Upload_TextBox(TextBox textBox)
-        {
-            if (!textBox.Text.Equals(string.Empty) && strFlag.Equals("U"))
-            {
-                MessageBox.Show("먼저 해당파일의 삭제를 진행 후 진행해주세요.");
-                return;
-            }
-            else
-            {
-                Microsoft.Win32.OpenFileDialog OFdlg = new Microsoft.Win32.OpenFileDialog();
-                //OFdlg.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png, *.pcx, *.pdf) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png; *.pcx; *.pdf | All Files|*.*";
-                //OFdlg.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png;";
-                OFdlg.Filter = MainWindow.OFdlg_Filter;
-
-                Nullable<bool> result = OFdlg.ShowDialog();
-                if (result == true)
-                {
-                    strFullPath = OFdlg.FileName;
-
-                    string ImageFileName = OFdlg.SafeFileName;  //명.
-                    string ImageFilePath = string.Empty;       // 경로
-
-                    ImageFilePath = strFullPath.Replace(ImageFileName, "");
-
-                    StreamReader sr = new StreamReader(OFdlg.FileName);
-                    long FileSize = sr.BaseStream.Length;
-                    if (sr.BaseStream.Length > (2048 * 1000))
-                    {
-                        //업로드 파일 사이즈범위 초과
-                        MessageBox.Show("이미지의 파일사이즈가 2M byte를 초과하였습니다.");
-                        sr.Close();
-                        return;
-                    }
-                    else
-                    {
-                        textBox.Text = ImageFileName;
-                        textBox.Tag = ImageFilePath;
-
-                        Bitmap image = new Bitmap(ImageFilePath + ImageFileName);
-
-                        var Hoit = textBox.DataContext as Win_prd_MCRunningGoal_U_Sub_CodeView;
-                        Hoit.ImageView = BitmapToImageSource(image);
-                        Hoit.imageFlag = true;
-                        //MessageBox.Show(Hoit.McInspectBasisID);
-
-                        //imgSetting.Source = BitmapToImageSource(image);
-
-                        string[] strTemp = new string[] { ImageFileName, ImageFilePath.ToString() };
-                        listFtpFile.Add(strTemp);
-                    }
-                }
-            }
-        }
-
-
-        // 비트맵을 비트맵 이미지로 형태변환시키기.<0823 허윤구> 
-        BitmapImage BitmapToImageSource(Bitmap bitmap)
-        {
-            using (MemoryStream memory = new MemoryStream())
-            {
-                bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
-                memory.Position = 0;
-                BitmapImage bitmapimage = new BitmapImage();
-                bitmapimage.BeginInit();
-                bitmapimage.StreamSource = memory;
-                bitmapimage.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapimage.EndInit();
-
-                return bitmapimage;
-            }
-        }
-
+        
 
         #endregion
 
@@ -1570,15 +1431,7 @@ namespace WizMes_HanYoung
 
         #endregion
 
-        // 서브그리드 수동 자동 콤보박스 세팅
-        private void SetComboBox_AutoPassive()
-        {
-            ObservableCollection<CodeView> ovcAutoPassive = ComboBoxUtil.Instance.GetCMCode_SetComboBox("AUTOPASSIVE", "");
-            this.cboProcess.ItemsSource = ovcAutoPassive;
-            this.cboProcess.DisplayMemberPath = "code_name";
-            this.cboProcess.SelectedValuePath = "code_id";
-        }
-
+ 
         // 서브그리드 설비 자동 수동 콤보박스 세팅
         private void cboAutoPassive_Loaded(object sender, RoutedEventArgs e)
         {
@@ -1589,18 +1442,6 @@ namespace WizMes_HanYoung
                 cboSender.ItemsSource = ovcAutoPassive;
                 cboSender.DisplayMemberPath = "code_name";
                 cboSender.SelectedValuePath = "code_id";
-            }
-        }
-        private void cboAutoPassive_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ComboBox cboSender = sender as ComboBox;
-            var MCSub = cboSender.DataContext as Win_prd_MCRunningGoal_U_Sub_CodeView;
-
-            if (MCSub != null
-                && cboSender.SelectedValue != null)
-            {
-                MCSub.AutoPassive = cboSender.SelectedValue.ToString();
-                MCSub.AutoPassiveName = cboSender.Text;
             }
         }
 
@@ -1754,10 +1595,7 @@ namespace WizMes_HanYoung
             //}
         }
 
-        private void btnSeeImage_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
     }
 
 

@@ -50,10 +50,8 @@ namespace WizMes_HanYoung
         private void SetCombo()
         {
             List<string[]> lstRepairGubun = new List<string[]>();
-            string[] strRepairGubun_0 = { "0", "" };
             string[] strRepairGubun_1 = { "1", "수리" };
             string[] strRepairGubun_2 = { "2", "교체" };
-            lstRepairGubun.Add(strRepairGubun_0);
             lstRepairGubun.Add(strRepairGubun_1);
             lstRepairGubun.Add(strRepairGubun_2);
 

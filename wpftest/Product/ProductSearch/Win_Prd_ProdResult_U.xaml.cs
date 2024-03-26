@@ -66,7 +66,10 @@ namespace WizMes_HanYoung
         private void SaveUpdateMode()
         {
             Lib.Instance.UiButtonEnableChange_SCControl(this);
-            
+            chkDay.IsEnabled = false;
+            dtpSDate.IsEnabled = false;
+            dtpEDate.IsEnabled = false;
+
             //생산일자 
             dtpProdDate.IsEnabled = true;
             txtProdScanTime.IsEnabled = true;
@@ -1081,8 +1084,9 @@ namespace WizMes_HanYoung
 
 
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
-                sqlParameter.Add("sFromDate", dtpSDate.SelectedDate != null ? dtpSDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
-                sqlParameter.Add("sToDate", dtpEDate.SelectedDate != null ? dtpEDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
+                sqlParameter.Add("ChkDate", chkDay.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("sFromDate", chkDay.IsChecked == true && dtpSDate.SelectedDate != null ? dtpSDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
+                sqlParameter.Add("sToDate", chkDay.IsChecked == true && dtpEDate.SelectedDate != null ? dtpEDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
                 sqlParameter.Add("sProcessID", ProcessID);
                 sqlParameter.Add("sMachineID", MachineID);
                 sqlParameter.Add("ArticleID", chkArticle.IsChecked == true && txtArticleSearch.Tag != null ? txtArticleSearch.Tag.ToString() : "");
