@@ -1500,6 +1500,14 @@ namespace WizMes_HanYoung
                         return;
                     }
 
+                    if(ConvertInt(txtScanData.Text) > tmpRestQty || ConvertInt(txtScanData.Text) > RestOrderQty  )
+                    {
+                        MessageBox.Show("출하량이 남은 지시수량"+"("+RestOrderQty+")"+"보다 많습니다");
+                        e.Handled = true;
+                        txtScanData.Text = string.Empty;  
+                        return;
+                    }
+
                     if (tgnMoveByID.IsChecked == true)
                     {
                         //1. 일반 케이스 (사내라벨 스캔시)
@@ -3483,8 +3491,8 @@ namespace WizMes_HanYoung
         //입력값으로 지시잔량 초과하는지 보기
         private bool ValidateInput(object sender, TextCompositionEventArgs e)
         {
-           
-            
+
+
             TextBox textBox = (TextBox)sender;
           
 
@@ -3492,28 +3500,36 @@ namespace WizMes_HanYoung
             int tot = 0;
             int.TryParse(txtOutQty.Text, out tot);
 
+            int inputint = 0;
+            int.TryParse(textBox.Text, out inputint);
+
             tmpRestQty = RestOrderQty - tot;   //plusfinder로 가져온 지시잔량과 총량을 뺍니다      
         
+          
             if(RestOrderQty > tot)      // 총량이 지시잔량보다 적다면 입력해도 되니니까
             {
-                int currentValue;
-                if (int.TryParse(textBox.Text, out currentValue))
-                {                   
+                if (inputint > RestOrderQty)
+                {
 
-                    int newValue = currentValue;
-                    if (int.TryParse(e.Text, out int inputValue))
+                    int currentValue;
+                    if (int.TryParse(textBox.Text, out currentValue))
                     {
-                        newValue = currentValue * 10 + inputValue;              
-                    
 
-                        if ( tot > RestOrderQty ) //입력 값이 지시량보다 총량이 더 많아지면
+                        int newValue = currentValue;
+                        if (int.TryParse(e.Text, out int inputValue))
                         {
-                            e.Handled = true; // 입력을 무시하고 경고창 띄운뒤 텍스트박스를 지움
-                            MessageBox.Show($"해당 지시번호 남은 지시량 [ {RestOrderQty} ](을)를 초과할 수 없습니다.");
-                            txtScanData.Text = string.Empty;
-                            return false;
-                        }                               
-                    }             
+                            newValue = currentValue * 10 + inputValue;
+
+
+                            if (tot > RestOrderQty) //입력 값이 지시량보다 총량이 더 많아지면
+                            {
+                                e.Handled = true; // 입력을 무시하고 경고창 띄운뒤 텍스트박스를 지움
+                                MessageBox.Show($"해당 지시번호 남은 지시량 [ {RestOrderQty} ](을)를 초과할 수 없습니다.");
+                                txtScanData.Text = string.Empty;
+                                return false;
+                            }
+                        }
+                    }
                 }
             }
             else if(tmpRestQty == 0) //입력하고 난 뒤 남은 지시수량이 0이 되었을때
@@ -3522,7 +3538,7 @@ namespace WizMes_HanYoung
                 e.Handled = true; //입력을 무시합니다
                 if(cnt == 5)
                 {
-                    MessageBox.Show("이미 남은 지시량을 모두 입력하셨습니다."); 
+                    MessageBox.Show("이미 남은 지시량"+"("+RestOrderQty+")"+"을 모두 입력하셨습니다."); 
                     cnt = 0;
                     return false;
                 }
