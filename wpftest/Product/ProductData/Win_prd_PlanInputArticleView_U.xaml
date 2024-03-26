@@ -56,7 +56,7 @@
                 <DatePicker x:Name="dtpSDate" Grid.Column="1" 
                             Style="{DynamicResource DatePickerSearch}" />
             </Grid>
-            
+
             <Grid Grid.Column="1" Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="75*" />
@@ -66,7 +66,7 @@
                             Style="{DynamicResource DatePickerSearch}"/>
             </Grid>
 
-            <Grid Grid.Column="1" Grid.Row="2" x:Name="grdSrh4">
+            <Grid Grid.Column="1" Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="10*" />
                     <ColumnDefinition Width="10*" />
@@ -286,13 +286,13 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    
+
                 </Grid>
             </Border>
 
             <GridSplitter Grid.Column="3" Width="1" ResizeBehavior="PreviousAndNext" />
 
-            <Grid Grid.Column="4">
+            <Grid Grid.Column="4" IsHitTestVisible="False">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="22*" />
                     <RowDefinition Height="510*" />
@@ -302,7 +302,7 @@
                     <TextBlock x:Name="tbkMsg" Text="자료 입력 중" VerticalAlignment="Center"/>
                 </Label>
 
-                <Grid x:Name="GridInputArea" Grid.Row="1" >
+                <Grid x:Name="GridInputArea" Grid.Row="1" IsEnabled="False" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="220*" />
                         <RowDefinition Height="290*" />
@@ -326,98 +326,98 @@
                             <RowDefinition Height="22*" />
                             <RowDefinition Height="22*" />
                         </Grid.RowDefinitions>
-                        <Label Grid.Column="0" Grid.Row="0" x:Name="lblInstID" IsEnabled="false"
+                        <Label Grid.Column="0" Grid.Row="0" 
                                Style="{DynamicResource LabelInputArea}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}" >
                                 <TextBlock Style="{DynamicResource TextBlockInViewBoxInput}"
                                            Text="지시번호" />
                             </Viewbox>
                         </Label>
-                        <TextBox x:Name="txtInstID" Grid.Column="1" Grid.Row="0" IsEnabled="false"
+                        <TextBox x:Name="txtInstID" Grid.Column="1" Grid.Row="0" 
                                  Style="{DynamicResource TextBoxInputArea}"
                                  Text="{Binding InstID}" />
 
-                        <Label Grid.Column="0" Grid.Row="1" x:Name="lblInstDate" IsEnabled="false"
+                        <Label Grid.Column="0" Grid.Row="1" 
                                Style="{DynamicResource LabelInputArea}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}" >
                                 <TextBlock Style="{DynamicResource TextBlockInViewBoxInput}"
                                            Text="지시일자" />
                             </Viewbox>
                         </Label>
-                        <DatePicker x:Name="dtpInstDate" Grid.Column="1" Grid.Row="1" IsEnabled="false"
+                        <DatePicker x:Name="dtpInstDate" Grid.Column="1" Grid.Row="1" 
                                     Style="{DynamicResource DatePickerInputArea}"
                                     Text="{Binding InstDate_CV}" />
 
-                        <Label Grid.Column="0" Grid.Row="2" x:Name="lblArticle" IsEnabled="false"
+                        <Label Grid.Column="0" Grid.Row="2" 
                                Style="{DynamicResource LabelInputArea}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}" >
                                 <TextBlock Style="{DynamicResource TextBlockInViewBoxInput}"
                                            Text="품     명" />
                             </Viewbox>
                         </Label>
-                        <TextBox x:Name="txtOrderArticle" Grid.Column="1" Grid.Row="2" IsEnabled="false"
+                        <TextBox x:Name="txtOrderArticle" Grid.Column="1" Grid.Row="2" 
                                  Style="{DynamicResource TextBoxInputArea}"
                                  Text="{Binding Article}" Tag="{Binding OrderArticleID}"/>
 
-                        <Label Grid.Column="0" Grid.Row="3" x:Name="lblBuyerArticleNo" IsEnabled="false"
+                        <Label Grid.Column="0" Grid.Row="3" 
                                Style="{DynamicResource LabelInputArea}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}" >
                                 <TextBlock Style="{DynamicResource TextBlockInViewBoxInput}"
                                            Text="품     번" />
                             </Viewbox>
                         </Label>
-                        <TextBox x:Name="txtArticle" Grid.Column="1" Grid.Row="3" IsEnabled="false"
+                        <TextBox x:Name="txtArticle" Grid.Column="1" Grid.Row="3" 
                                  Style="{DynamicResource TextBoxInputArea}"
                                  Text="{Binding BuyerArticleNo}" Tag="{Binding ArticleID}"/>
 
-                        <Label Grid.Column="0" Grid.Row="4" x:Name="lblProcess" IsEnabled="false"
+                        <Label Grid.Column="0" Grid.Row="4" 
                                Style="{DynamicResource LabelInputArea}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}" >
                                 <TextBlock Style="{DynamicResource TextBlockInViewBoxInput}"
                                            Text="공     정" />
                             </Viewbox>
                         </Label>
-                        <TextBox x:Name="txtProcess" Grid.Column="1" Grid.Row="4" IsEnabled="false"
+                        <TextBox x:Name="txtProcess" Grid.Column="1" Grid.Row="4" 
                                  Style="{DynamicResource TextBoxInputArea}"
                                  Text="{Binding Process}" Tag="{Binding ProcessID}"/>
 
-                        <Label Grid.Column="0" Grid.Row="5" x:Name="lblInstQty" IsEnabled="false"
+                        <Label Grid.Column="0" Grid.Row="5" 
                                Style="{DynamicResource LabelInputArea}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}" >
                                 <TextBlock Style="{DynamicResource TextBlockInViewBoxInput}"
                                            Text="지시수량" />
                             </Viewbox>
                         </Label>
-                        <TextBox x:Name="txtQty" Grid.Column="1" Grid.Row="5" IsEnabled="false"
+                        <TextBox x:Name="txtQty" Grid.Column="1" Grid.Row="5" 
                                  Style="{DynamicResource TextBoxInputArea}"
                                  Text="{Binding InstQty}" />
 
-                        <Label Grid.Column="0" Grid.Row="6" x:Name="lblInstSeq" IsEnabled="false"
+                        <Label Grid.Column="0" Grid.Row="6" 
                                Style="{DynamicResource LabelInputArea}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}" >
                                 <TextBlock Style="{DynamicResource TextBlockInViewBoxInput}"
                                            Text="지시순번" />
                             </Viewbox>
                         </Label>
-                        <TextBox x:Name="txtInstSeq" Grid.Column="1" Grid.Row="6" IsEnabled="false"
+                        <TextBox x:Name="txtBatjaWeight" Grid.Column="1" Grid.Row="6" 
                                  Style="{DynamicResource TextBoxInputArea}"
                                  Text="{Binding InstDetSeq}" />
 
-                        <Label Grid.Column="0" Grid.Row="7" x:Name="lblComments" IsEnabled="false"
+                        <Label Grid.Column="0" Grid.Row="7" 
                                Style="{DynamicResource LabelInputArea}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}" >
                                 <TextBlock Style="{DynamicResource TextBlockInViewBoxInput}"
                                            Text="비     고" />
                             </Viewbox>
                         </Label>
-                        <TextBox x:Name="txtComments" Grid.Column="1" Grid.Row="7" Grid.RowSpan="2" IsEnabled="false"
+                        <TextBox x:Name="txtComments" Grid.Column="1" Grid.Row="7" Grid.RowSpan="2" 
                                  Style="{DynamicResource TextBoxMultiLine}"
                                  Text="{Binding InstRemark}" />
 
                     </Grid>
-                    
+
                 </Grid>
-                
+
             </Grid>
 
         </Grid>
