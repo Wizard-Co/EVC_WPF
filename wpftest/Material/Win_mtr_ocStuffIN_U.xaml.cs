@@ -1098,23 +1098,17 @@ namespace WizMes_HanYoung
 
                     var LabelPrint = new LabelPrint()
                     {
-                        Custom = OcStuffin.Custom, // 업체명
-                        Article = OcStuffin.Article, //품명
+                        Custom = OcStuffin.Custom,
+                        Article = OcStuffin.Article,
                         Spec = OcStuffin.Spec,
-
                         StuffDate = OcStuffin.StuffDate,
                         CustomInspector = OcStuffin.CustomInspector,
 
-                        Qty = OcStuffin.StuffQty, //  수량
+                        Qty = OcStuffin.StuffQty,
                         QtyPerBox = OcStuffin.ProdQtyPerBox,
-                        LotID = OcStuffin.Lotid, //라벨
-                        UnitClssName = OcStuffin.UnitClssName, //단위
-                        BuyerArticleNo = OcStuffin.BuyerArticleNo, //품번 
-                        mtrCustomLotno = OcStuffin.mtrCustomLotno, //입고처로트번호 
-
-                        kCompany = OcStuffin.kCompany,
-
-
+                        LotID = OcStuffin.Lotid,
+                        UnitClssName = OcStuffin.UnitClssName,
+                        BuyerArticleNo = OcStuffin.BuyerArticleNo
                     };
 
                     if (OcStuffin.LabelPrintYN.Trim().Equals("N"))
@@ -1125,9 +1119,6 @@ namespace WizMes_HanYoung
                     {
                         setLabePrint(LabelPrint);
                     }
-
-
-
                 }
 
                 // 페이지 계산 등
@@ -1135,118 +1126,103 @@ namespace WizMes_HanYoung
 
                 int copyLine = 0;
                 int Page = 0;
-                int PageAll = (int)Math.Ceiling(rowCount / 1.0);
+                int PageAll = (int)Math.Ceiling(rowCount / 2.0);
                 int DataCount = 0;
 
 
                 // 총 금액 계산하기
                 //double SumAmount = 0;
-                //DataCount <= ovcLabelPrint.Count - 1
+
                 for (int k = 0; k < PageAll; k++)
                 {
                     Page++;
-                    //copyLine = ((Page - 1) * 9);
                     copyLine = ((Page - 1) * 9);
 
                     // 기존에 있는 데이터 지우기 "A7", "W41"
                     // 왼쪽 정보(거래처, 품명, 수량) 초기화
-                    worksheet.Range["C2", "E3"].ClearContents();
+                    worksheet.Range["B1", "D5"].ClearContents();
                     // 오른쪽 정보(입고일, 품번, 검수자) 초기화
-                    worksheet.Range["F3", "G3"].ClearContents();
+                    worksheet.Range["G1", "I5"].ClearContents();
                     // 라벨 초기화
-                    worksheet.Range["C4", "G5"].ClearContents();
+                    worksheet.Range["A6", "I6"].ClearContents();
                     //worksheet.Range["A4", "E5"].ClearContents();
 
                     // 왼쪽 라벨 입력
                     var LeftLabel = ovcLabelPrint[DataCount];
 
                     // 거래처
-                    workrange = worksheet.get_Range("C2");
+                    workrange = worksheet.get_Range("B1");
                     workrange.Value2 = LeftLabel.Custom;
 
                     // 품번
-                    workrange = worksheet.get_Range("C3");
+                    workrange = worksheet.get_Range("B2");
                     workrange.Value2 = LeftLabel.BuyerArticleNo;
 
-                    // 품번
-                    workrange = worksheet.get_Range("C4");
-                    workrange.Value2 = LeftLabel.Article;
-
                     // 입고일
-                    //workrange = worksheet.get_Range("B4");
-                    //workrange.Value2 = DatePickerFormat(LeftLabel.StuffDate);
+                    workrange = worksheet.get_Range("B4");
+                    workrange.Value2 = DatePickerFormat(LeftLabel.StuffDate);
 
                     // 수량
-                    workrange = worksheet.get_Range("F3");
+                    workrange = worksheet.get_Range("B5");
                     workrange.Value2 = LeftLabel.Qty;
 
                     // 단위
-                    workrange = worksheet.get_Range("G3");
+                    workrange = worksheet.get_Range("D5");
                     workrange.Value2 = LeftLabel.UnitClssName;
 
                     // 스펙 
-                    //workrange = worksheet.get_Range("B3");
-                    //workrange.Value2 = LeftLabel.Spec;
-                    //입고처로트번호
-                    workrange = worksheet.get_Range("C5");
-                    workrange.Value2 = "'" + LeftLabel.mtrCustomLotno;
-
+                    workrange = worksheet.get_Range("B3");
+                    workrange.Value2 = LeftLabel.Spec;
 
                     // 바코드
-                    workrange = worksheet.get_Range("B6");
+                    workrange = worksheet.get_Range("A6");
                     workrange.Value2 = "*" + LeftLabel.LotID + "*";
-                    //mtrCustomLotno
-                    workrange = worksheet.get_Range("B7");
-                    workrange.Value2 = "'" + LeftLabel.LotID;
 
-                    //workrange = worksheet.get_Range("A8");
-                    //workrange.Value2 = "'" + LeftLabel.kCompany;
+                    workrange = worksheet.get_Range("A7");
+                    workrange.Value2 = "'" + LeftLabel.LotID;
 
                     DataCount++;
 
 
-                    //if (DataCount <= ovcLabelPrint.Count - 1)
-                    //{
-                    //    var rightLabel = ovcLabelPrint[DataCount];
+                    if (DataCount <= ovcLabelPrint.Count - 1)
+                    {
+                        var rightLabel = ovcLabelPrint[DataCount];
 
-                    //    // 거래처
-                    //    workrange = worksheet.get_Range("G1");
-                    //    workrange.Value2 = rightLabel.Custom;
+                        // 거래처
+                        workrange = worksheet.get_Range("G1");
+                        workrange.Value2 = rightLabel.Custom;
 
-                    //    // 품명
-                    //    workrange = worksheet.get_Range("G2");
-                    //    workrange.Value2 = rightLabel.BuyerArticleNo;
+                        // 품명
+                        workrange = worksheet.get_Range("G2");
+                        workrange.Value2 = rightLabel.BuyerArticleNo;
 
-                    //    // 입고일
-                    //    workrange = worksheet.get_Range("G4");
-                    //    workrange.Value2 = DatePickerFormat(rightLabel.StuffDate);
+                        // 입고일
+                        workrange = worksheet.get_Range("G4");
+                        workrange.Value2 = DatePickerFormat(rightLabel.StuffDate);
 
-                    //    // 수량
-                    //    workrange = worksheet.get_Range("G5");
-                    //    workrange.Value2 = rightLabel.Qty;
+                        // 수량
+                        workrange = worksheet.get_Range("G5");
+                        workrange.Value2 = rightLabel.Qty;
 
-                    //    // 단위
-                    //    workrange = worksheet.get_Range("I5");
-                    //    workrange.Value2 = rightLabel.UnitClssName;
+                        // 단위
+                        workrange = worksheet.get_Range("I5");
+                        workrange.Value2 = rightLabel.UnitClssName;
 
-                    //    // 스펙 
-                    //    workrange = worksheet.get_Range("G3");
-                    //    workrange.Value2 = rightLabel.Spec;
+                        // 스펙 
+                        workrange = worksheet.get_Range("G3");
+                        workrange.Value2 = rightLabel.Spec;
 
-                    //    // 바코드
-                    //    workrange = worksheet.get_Range("F6");
-                    //    workrange.Value2 = "*" + rightLabel.LotID + "*";
+                        // 바코드
+                        workrange = worksheet.get_Range("F6");
+                        workrange.Value2 = "*" + rightLabel.LotID + "*";
 
-                    //    workrange = worksheet.get_Range("F7");
-                    //    workrange.Value2 = "'" + rightLabel.LotID;
+                        workrange = worksheet.get_Range("F7");
+                        workrange.Value2 = "'" + rightLabel.LotID;
 
-                    //    workrange = worksheet.get_Range("F8");
-                    //    workrange.Value2 = "'" + LeftLabel.kCompany;
-
-                    //    DataCount++;
+                        DataCount++;
 
 
-                    //}
+                    }
 
                     //Form 시트 내용 Print 시트에 복사 붙여넣기
                     worksheet.Select();
@@ -1255,7 +1231,6 @@ namespace WizMes_HanYoung
                     workrange = pastesheet.Cells[copyLine + 1, 1];
                     workrange.Select();
                     pastesheet.Paste();
-
                     //pastesheet.Paste();
 
                 }
