@@ -451,9 +451,9 @@
                     </Style>
                 </DataGrid.RowStyle>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="검사수량" Width="*" Binding="{Binding Path=CtrlQty, StringFormat='0'}" CellStyle="{StaticResource NumericDataGridCell}"  />
-                    <DataGridTextColumn Header="불량수량" Width="*" Binding="{Binding Path=DefectQty}" CellStyle="{StaticResource NumericDataGridCell}"  />
-                    <DataGridTextColumn Header="불량률(%)" Width="*" Binding="{Binding Path=DefectRate}" CellStyle="{StaticResource NumericDataGridCell}"  />
+                    <DataGridTextColumn Header="검사수량" Width="*" Binding="{Binding Path=CtrlQty, StringFormat='0'}" CellStyle="{StaticResource DataGridCellAndCentering}"  />
+                    <DataGridTextColumn Header="불량수량" Width="*" Binding="{Binding Path=DefectQty}" CellStyle="{DynamicResource DataGridCellAndCentering}"  />
+                    <DataGridTextColumn Header="불량률(%)" Width="*" Binding="{Binding Path=DefectRate}" CellStyle="{DynamicResource DataGridCellAndCentering}"  />
                 </DataGrid.Columns>
             </DataGrid>
            

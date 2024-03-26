@@ -345,14 +345,14 @@
                                 ElementStyle="{StaticResource DataGridCellCenter}"/>
 
                         <DataGridTextColumn Header="검사" Width="1*"  Binding="{Binding Path=CtrlQty}" 
-                                ElementStyle="{StaticResource DataGridCellRight}"/>
+                                ElementStyle="{StaticResource DataGridCellCenter}"/>
                         <DataGridTextColumn Header="합격박스" Width="1*" Binding="{Binding Path=PassRoll}" 
-                                ElementStyle="{StaticResource DataGridCellRight}"/>
+                                ElementStyle="{StaticResource DataGridCellCenter}"/>
                         <DataGridTextColumn Header="합격량" Width="1*"  Binding="{Binding Path=PassQty}" 
-                                ElementStyle="{StaticResource DataGridCellRight}"/>
+                                ElementStyle="{StaticResource DataGridCellCenter}"/>
                         <DataGridTextColumn Header="불량박스" Width="1*"  Binding="{Binding Path=DefectRoll}" Visibility="Hidden"
-                                ElementStyle="{StaticResource DataGridCellRight}"/>
-                        <DataGridTextColumn Header="불량수량" Width="1*" Binding="{Binding Path=DefectQty}" ElementStyle="{StaticResource DataGridCellRight}"/>
+                                ElementStyle="{StaticResource DataGridCellCenter}"/>
+                        <DataGridTextColumn Header="불량수량" Width="1*" Binding="{Binding Path=DefectQty}" ElementStyle="{StaticResource DataGridCellCenter}"/>
 
 
                     </DataGrid.Columns>

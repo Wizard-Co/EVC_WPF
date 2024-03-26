@@ -354,9 +354,9 @@
             <DataGrid x:Name="dgdTotal" Style="{DynamicResource TotalGridSet1}" Grid.Row="1">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header=""         Width="50" Binding="{Binding Path=OutDate}"   ElementStyle="{StaticResource DataGridCellCenter}"/>
-                        <DataGridTextColumn Header="합계건수" Width="*"  Binding="{Binding Path=OutRoll}"   ElementStyle="{StaticResource DataGridCellRight}"/>
-                        <DataGridTextColumn Header="합계수량" Width="*"  Binding="{Binding Path=OutQty}"    ElementStyle="{StaticResource DataGridCellRight}"/>
-                        <DataGridTextColumn Header="합계금액" Width="*"  Binding="{Binding Path=TotAmount}" ElementStyle="{StaticResource DataGridCellRight}"/>
+                        <DataGridTextColumn Header="합계건수" Width="*"  Binding="{Binding Path=OutRoll}"   ElementStyle="{StaticResource DataGridCellCenter}"/>
+                        <DataGridTextColumn Header="합계수량" Width="*"  Binding="{Binding Path=OutQty}"    ElementStyle="{StaticResource DataGridCellCenter}"/>
+                        <DataGridTextColumn Header="합계금액" Width="*"  Binding="{Binding Path=TotAmount}" ElementStyle="{StaticResource DataGridCellCenter}" Visibility="Hidden"/>
                     </DataGrid.Columns>
 
             </DataGrid>

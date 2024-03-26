@@ -200,11 +200,18 @@
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30*"/>
-                    <ColumnDefinition Width="675*"/>
+                    <ColumnDefinition Width="400*"/>
+                    <ColumnDefinition Width="350*"/>
                 </Grid.ColumnDefinitions>
-                <CheckBox x:Name="chkAll" Grid.Column="0" VerticalContentAlignment="Center" 
+                <CheckBox x:Name="chkAll" Grid.Column="0" VerticalContentAlignment="Center"  Visibility="Hidden"
                                 Checked="AllCheck_Checked" Unchecked="AllCheck_Unchecked" Width="17" />
-                <TextBlock Grid.Column="1" Text="전체선택" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Grid.Column="1" Text="전체선택" VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="Hidden"/>
+                <Expander Header="목록에 없나요?" IsExpanded="False" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <TextBlock TextWrapping="Wrap" TextAlignment="Left">
+                    * 먼저 출하하고자 하는 상품의 재고를 확인해주세요.
+                    </TextBlock>
+                </Expander>
+
             </Grid>
 
             <DataGrid x:Name="dgdMain" Grid.Row="1" Margin="1" IsReadOnly="True" Grid.ColumnSpan="2" Style="{DynamicResource DataGridSet1}">

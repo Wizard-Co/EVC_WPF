@@ -790,8 +790,8 @@ namespace WizMes_HanYoung
                                 OutwareReqSeq = dr["OutwareReqSeq"].ToString(),
                                 AcptDate = dr["AcptDate"].ToString(),
                                 DvlyDate = dr["DvlyDate"].ToString(),
-                                OrderQty = dr["OrderQty"].ToString(),
-                                OutQty = dr["OutQty"].ToString(),                            
+                                OrderQty = stringFormatN0(dr["OrderQty"]),
+                                OutQty = stringFormatN0(dr["OutQty"]),                            
                                 OrderID = dr["OrderID"].ToString(),
                                 OrderNo = dr["OrderNo"].ToString(),
                                 RestOrderQty = stringFormatN0(dr["RestOrderQty"]),
@@ -800,9 +800,9 @@ namespace WizMes_HanYoung
                                 ArticleID = dr["ArticleID"].ToString(),
                                 Article = dr["Article"].ToString(),
                                 BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
-                                StockQty = dr["StockQty"].ToString(),
-                                ReqQty = dr["ReqQty"].ToString(),
-                                RemainQty = dr["RemainQty"].ToString(),
+                                StockQty = stringFormatN0(dr["StockQty"]),
+                                ReqQty = stringFormatN0(dr["ReqQty"]),
+                                RemainQty = stringFormatN0(dr["RemainQty"]),
                                 Remark = dr["Remark"].ToString()
                             };
 
@@ -913,10 +913,10 @@ namespace WizMes_HanYoung
                     sqlParameter.Add("CustomID", reqTxtCustom.Tag != null ? reqTxtCustom.Tag.ToString() : "");
                     sqlParameter.Add("OutClss", "");
                     sqlParameter.Add("ReqDate", DateTime.Today.ToString("yyyyMMdd"));
-                    sqlParameter.Add("ReqQty", ConvertDouble(totReqQty.ToString()));
+                    sqlParameter.Add("ReqQty", totReqQty.ToString());
                     sqlParameter.Add("OutWareReqTypeID", "");
                     sqlParameter.Add("RegDate", "");
-                    sqlParameter.Add("RegUserID", "");
+                    sqlParameter.Add("RegUserID", MainWindow.CurrentUser);
 
                     string sGetID = strFlag.Equals("I") ? string.Empty : txtOutwareReqID.Text;
 
@@ -1441,9 +1441,9 @@ namespace WizMes_HanYoung
                 {
                     TextBox tbReqQty = sender as TextBox;
 
-                    var stockQty = lib.returnDouble(OutwareSub.StockQty.ToString());
+                    //var stockQty = lib.returnDouble(OutwareSub.StockQty.ToString());
                     var reqQty = lib.returnDouble(tbReqQty.Text.ToString());
-                    var remainQty = stockQty - reqQty;
+                    //var remainQty = stockQty - reqQty;
                     var orderQty = lib.returnDouble(OutwareSub.OrderQty.ToString());
                     var outQty = lib.returnDouble(OutwareSub.OutQty.ToString());
                     var remainOrderQty = orderQty - outQty;
@@ -1452,7 +1452,7 @@ namespace WizMes_HanYoung
 
                     OutwareSub.StockQty = lib.returnNumString(OutwareSub.StockQty);
                     OutwareSub.ReqQty = lib.returnNumString(OutwareSub.ReqQty);
-                    OutwareSub.RemainQty = lib.returnNumString(remainQty.ToString());
+                    //OutwareSub.RemainQty = lib.returnNumString(remainQty.ToString());
                     OutwareSub.OrderQty = lib.returnNumString(OutwareSub.OrderQty);
                     OutwareSub.RestOrderQty = lib.returnNumString(remainOrderQtyLast.ToString());
                 }

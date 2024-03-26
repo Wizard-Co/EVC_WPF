@@ -1652,7 +1652,7 @@ namespace WizMes_HanYoung
                     sqlParameter.Add("ECONo", cboEcoNO.SelectedValue != null ? cboEcoNO.SelectedValue.ToString() : "");
                     sqlParameter.Add("Comments", txtComments.Text);
                     sqlParameter.Add("InspectLevel", cboInspectClss.SelectedValue.ToString());
-                    sqlParameter.Add("SketchPath", txtSKetch.Text != null ?  txtSKetch.Tag : "");  // txtSKetch.Tag != null ? txtSKetch.Tag.ToString() :
+                    sqlParameter.Add("SketchPath", txtSKetch.Text != null ?(txtSKetch.Text != ""?  txtSKetch.Tag :""): "");  // txtSKetch.Tag != null ? txtSKetch.Tag.ToString() :
 
                     sqlParameter.Add("SketchFile", txtSKetch.Text != null ?  txtSKetch.Text:"");
                     sqlParameter.Add("AttachedPath", "");  //txtFile.Tag !=null ? txtFile.Tag.ToString() :

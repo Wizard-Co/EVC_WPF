@@ -334,7 +334,7 @@
                                 <Label Grid.Row="0" Grid.Column="6" Content="품명코드" />
                                 <Label Grid.Row="0" Grid.Column="7" Content="건수" />
                                 <Label Grid.Row="0" Grid.Column="8" Content="수량" />
-                                <Label Grid.Row="0" Grid.Column="9" Content="단위" />
+                                <Label Grid.Row="0" Grid.Column="9" Content="단위"/>
                                 <Label Grid.Row="0" Grid.Column="10" Content="점유율" />
                             </Grid>
                         </ScrollViewer>
@@ -393,7 +393,7 @@
                                 <DataGridTextColumn Header="수량" Binding="{Binding P_Qty}" Width="*"
                                                     ElementStyle="{StaticResource DataGridCellRight}"/>
                                 <DataGridTextColumn Header="단위" Binding="{Binding P_UnitClssName}" Width="*"
-                                                    ElementStyle="{StaticResource DataGridCellRight}"/>
+                                                    ElementStyle="{StaticResource DataGridCellCenter}"/>
                                 <DataGridTextColumn Header="점유율" Binding="{Binding P_CustomRate}" Width="*"
                                                     ElementStyle="{StaticResource DataGridCellRight}"/>
                             </DataGrid.Columns>
@@ -507,7 +507,7 @@
                                 <DataGridTextColumn Header="수량" Binding="{Binding D_Qty}" Width="*"
                                                     ElementStyle="{StaticResource DataGridCellRight}"/>
                                 <DataGridTextColumn Header="단위" Binding="{Binding D_UnitClssName}" Width="*"
-                                                    ElementStyle="{StaticResource DataGridCellRight}"/>
+                                                    ElementStyle="{StaticResource DataGridCellCenter}"/>
                                 <DataGridTextColumn Header="금액" Binding="{Binding D_Amount}" Width="*"
                                                     ElementStyle="{StaticResource DataGridCellRight}"/>
                                 <DataGridTextColumn Header="부가세" Binding="{Binding D_VatAmount}" Width="*"
@@ -623,7 +623,7 @@
                                 <DataGridTextColumn Header="수량" Binding="{Binding V_Qty}" Width="*"
                                                     ElementStyle="{StaticResource DataGridCellRight}"/>
                                 <DataGridTextColumn Header="단위" Binding="{Binding V_UnitClssName}" Width="*"
-                                                    ElementStyle="{StaticResource DataGridCellRight}"/>
+                                                    ElementStyle="{StaticResource DataGridCellCenter}"/>
                                 <DataGridTextColumn Header="점유율" Binding="{Binding V_CustomRate}" Width="*"
                                                     ElementStyle="{StaticResource DataGridCellRight}"/>
                             </DataGrid.Columns>

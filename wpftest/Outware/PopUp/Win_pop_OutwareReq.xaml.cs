@@ -337,8 +337,8 @@ namespace WizMes_HanYoung.PopUp
                                 Article = dr["Article"].ToString(),
                                 BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
                                 ArticleGrp = dr["ArticleGrp"].ToString(),
-                                UnitPrice = dr["UnitPrice"].ToString(),
-                                StuffINQty = lib.returnNumString(dr["StuffINQty"].ToString()),
+                                //UnitPrice = dr["UnitPrice"].ToString(),
+                                //StuffINQty = lib.returnNumString(dr["StuffINQty"].ToString()),
                                 OutQty = lib.returnNumString(dr["OutQty"].ToString()),
                                 StockQty = lib.returnNumString(dr["StockQty"].ToString()),
                             };

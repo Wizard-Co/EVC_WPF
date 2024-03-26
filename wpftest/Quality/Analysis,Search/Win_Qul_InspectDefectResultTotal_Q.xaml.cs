@@ -448,8 +448,8 @@ namespace WizMes_HanYoung
                                     Article = dr["Article"].ToString(),
                                     DefectID = dr["DefectID"].ToString(),
                                     KDefect = dr["KDefect"].ToString(),
-                                    DefectQty = stringFormatN0(dr["DefectQty"].ToString()),
-                                    DefectRate = dr["DefectRate"].ToString(),
+                                    DefectQty = stringFormatN0(dr["DefectQty"]),
+                                    DefectRate = stringFormatN2(dr["DefectRate"]),
                                 };
 
                                 if (Win.cls.Equals("1"))
@@ -682,6 +682,12 @@ namespace WizMes_HanYoung
         private string stringFormatN0(object obj)
         {
             return string.Format("{0:N0}", obj);
+        }
+
+        // 천단위 콤마, 소수점 두자리
+        private string stringFormatN2(object obj)
+        {
+            return string.Format("{0:N2}", obj);
         }
         #endregion
 

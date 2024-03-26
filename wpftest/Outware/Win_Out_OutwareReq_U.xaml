@@ -354,7 +354,7 @@
                         <DataGridTextColumn Header="거래처" MinWidth="100" Width="auto" Binding="{Binding KCustom}" />
                         <DataGridTextColumn Header="품번" MinWidth="100" Width="auto" Binding="{Binding BuyerArticleNo}" />
                         <DataGridTextColumn Header="품명" MinWidth="100" Width="auto" Binding="{Binding Article}" />
-                        <DataGridTextColumn Header="지시수량" MinWidth="70" Width="auto" Binding="{Binding ReqQty}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                        <DataGridTextColumn Header="지시수량" MinWidth="70" Width="auto" Binding="{Binding ReqQty, StringFormat={}{0:N0}}" CellStyle="{StaticResource NumericDataGridCell}"/>
                         <DataGridTextColumn Header="비고" MinWidth="70" Width="auto" Binding="{Binding Remark}"/>
                     </DataGrid.Columns>
                 </DataGrid>
@@ -637,7 +637,7 @@
                         <DataGridTextColumn Header="재고량" Width="auto" Binding="{Binding StockQty}" ElementStyle="{StaticResource DataGridCellRight}" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
                         <DataGridTextColumn Header="수주일" Width="auto" Binding="{Binding AcptDate}" ElementStyle="{StaticResource DataGridCellRight}" CellStyle="{StaticResource NumericDataGridCell}"/>
                         <DataGridTextColumn Header="납기일" Width="auto" Binding="{Binding DvlyDate}" ElementStyle="{StaticResource DataGridCellRight}" CellStyle="{StaticResource NumericDataGridCell}"/>
-                        <DataGridTextColumn Header="수주량" Width="auto" Binding="{Binding OrderQty}" ElementStyle="{StaticResource DataGridCellRight}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                        <DataGridTextColumn Header="수주량" Width="auto" Binding="{Binding OrderQty, StringFormat='#,###,###'}" ElementStyle="{StaticResource DataGridCellRight}" CellStyle="{StaticResource NumericDataGridCell}"/>
 
 
                         <DataGridTemplateColumn Header="지시량" Width="auto">

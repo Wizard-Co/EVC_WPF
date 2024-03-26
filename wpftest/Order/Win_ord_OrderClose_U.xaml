@@ -365,7 +365,7 @@
                                         ElementStyle="{StaticResource  DataGridCellCenter}" />
                     <DataGridTextColumn x:Name="dgdtxtWork" Header="가공구분" Width="auto" Binding="{Binding WorkName}" MinWidth="100"
                                         ElementStyle="{StaticResource  DataGridCellCenter}"/>
-                    <DataGridTextColumn x:Name="dgdtxtOrderQty" Header="수주수량" Width="auto" Binding="{Binding ColorQty}" 
+                    <DataGridTextColumn x:Name="dgdtxtOrderQty" Header="수주수량" Width="auto" Binding="{Binding ColorQty, StringFormat='#,###,##'}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}"/>
                     <!--<DataGridTextColumn x:Name="dgdtxtColorQty" Header="수주수량2" Width="auto" Binding="{Binding ColorQty}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}"/>-->

@@ -725,7 +725,7 @@ namespace WizMes_HanYoung
                                 WorkName = item["WorkName"].ToString(),
                                 //WorkWidth = item["WorkWidth"] as string,
                                 OrderQty = item["OrderQty"].ToString(),
-                                ColorQty = item["ColorQty"].ToString(),
+                                ColorQty =  stringFormatN0(item["ColorQty"]),
 
                                 UnitClss = item["UnitClss"] as string,  //주문기준 value
                                 InspectQty = item["InspectQty"].ToString(),
@@ -1380,6 +1380,12 @@ namespace WizMes_HanYoung
                 dgs.ColumnHeaderHeight = dgs.ColumnHeaderHeight * c;
                 dgs.FontSize = dgs.FontSize * c;
             }
+        }
+
+        // 천자리 콤마, 소수점 버리기
+        private string stringFormatN0(object obj)
+        {
+            return string.Format("{0:N0}", obj);
         }
     }
 
