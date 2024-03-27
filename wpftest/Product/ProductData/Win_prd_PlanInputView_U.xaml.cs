@@ -445,17 +445,6 @@ namespace WizMes_HanYoung
         //
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
-            //var IC = dgdSub.Items[0] as ItemCollection;
-
-            //object item = dgdSub.Items[0];
-
-            //ContentPresenter CP = (ContentPresenter)(dgdSub.Columns[6].GetCellContent(item));
-            ////TextBox ele = CP as TextBox;
-            //DataTemplate dtpSender = CP.ContentTemplate;
-            //TextBox txtSender = (TextBox)dtpSender.FindName("TextBox", CP);
-
-            //MessageBox.Show(txtSender.Name);
-
 
             WinPlanView = dgdMain.SelectedItem as Win_prd_PlanInputView_U_CodeView;
 
@@ -466,7 +455,7 @@ namespace WizMes_HanYoung
                 chkMtrExceptYN.IsEnabled = true;
                 chkOutWareExceptYN.IsEnabled = true;
                 chkTheEnd.IsEnabled = true;
-
+                txtInstSeq.IsEnabled = true;
                 rowNum = dgdMain.SelectedIndex;
 
             }
@@ -627,6 +616,7 @@ namespace WizMes_HanYoung
                             LotID = dr["LotID"].ToString(),
                             PlanTheEnd = dr["PlanTheEnd"].ToString(),
                             Progress = dr["Progress"].ToString() + "%",               //진척률
+                            InstSeq = dr["InstSeq"].ToString()           
 
                         };
 
@@ -651,6 +641,7 @@ namespace WizMes_HanYoung
                         if (!WinPlanOrder.cls.Trim().Equals("9"))
                         {
                             dgdMain.Items.Add(WinPlanOrder);
+                            txtInstSeq.Text = WinPlanOrder.InstSeq;
                         }
                         // 총계
                         else
@@ -677,6 +668,7 @@ namespace WizMes_HanYoung
 
             if (WinPlanView != null)
             {
+                txtInstSeq.Text = WinPlanView.InstSeq;
                 FillGridSub(WinPlanView.InstID);
 
                 if (WinPlanView.MtrExceptYN.Equals("Y"))
@@ -805,6 +797,7 @@ namespace WizMes_HanYoung
                 chkOutWareExceptYN.IsEnabled = false;
                 chkTheEnd.IsChecked = false;
                 chkTheEnd.IsEnabled = false;
+                txtInstSeq.IsEnabled = false;
 
                 //dgdMain.IsEnabled = true;
                 dgdMain.IsHitTestVisible = true;
@@ -852,6 +845,7 @@ namespace WizMes_HanYoung
         {
             chkMtrExceptYN.IsEnabled = false;
             chkOutWareExceptYN.IsEnabled = false;
+            txtInstSeq.IsEnabled = false;
 
             dgdMain.IsHitTestVisible = true;
             Lib.Instance.UiButtonEnableChange_IUControl(this);
@@ -888,6 +882,7 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("OutwareExceptYN", chkOutWareExceptYN.IsChecked == true ? 'Y' : 'N');
                 sqlParameter.Add("OrderInstQty", WinPlanView.OrderInstQy);
                 sqlParameter.Add("UpdateUserID", MainWindow.CurrentUser);
+                sqlParameter.Add("InstSeq", txtInstSeq.Text);
 
                 //string[] result = DataStore.Instance.ExecuteProcedure("xp_PlanInput_uPlanInput", sqlParameter, true);
                 //if (!result[0].Equals("success"))
@@ -2486,6 +2481,7 @@ namespace WizMes_HanYoung
         public string ArticleGrpName { get; set; }
         public string PlanTheEnd { get; set; }
         public string Progress { get; set; }
+        public string InstSeq { get; set; }
 
         // 체크 되었는지 안되었는지
         public bool IsCheck { get; set; }

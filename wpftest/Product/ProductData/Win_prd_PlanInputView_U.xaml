@@ -828,11 +828,7 @@
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>
-                        
-                        
-                        
-                        
-                        
+                                                
                     </Grid>
                 </Border>
                 <Grid Grid.Column="1" Margin="2,10,2,10">
@@ -847,6 +843,15 @@
                         <ColumnDefinition Width="10*" />
                         <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="0" Grid.ColumnSpan="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="지시번호" FontSize="30" Margin="0,0,0,20" HorizontalAlignment="Center" ></Label>
+                        <TextBox Grid.Column="1" x:Name="txtInstSeq" FontSize="18" Margin="0,0,0,20" VerticalContentAlignment="Center" IsEnabled="False"
+                                 Text="{Binding InstSeq, Mode=TwoWay}"></TextBox>
+                    </Grid>
                     <Button x:Name="btnSave" Grid.Row="1" Grid.Column="1" Margin="1" Click="btnSave_Click" Visibility="Hidden">
                         <StackPanel>
                             <Image Source="{DynamicResource btiSave}" Style="{DynamicResource imgSize}" />

@@ -201,7 +201,7 @@
                 <DataGrid x:Name="dgdGonsu" IsReadOnly="True"
                       Style="{DynamicResource DataGridSet1}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="GBN" Width="0" MinWidth="0" Binding="{Binding gbn}" FontSize="20" />
+                        <DataGridTextColumn Header="GBN" Width="*" MinWidth="0" Binding="{Binding GbnName}" FontSize="20" />
                         <DataGridTextColumn Header="품번" Width="*" MinWidth="150" Binding="{Binding ArticleNo}" Visibility="Hidden" 
                                         ElementStyle="{StaticResource DataGridCellLeft}" FontSize="20" />
                         <DataGridTextColumn Header="품명" Width="*" MinWidth="150" Binding="{Binding Article}"  Visibility="Hidden" 
@@ -227,14 +227,14 @@
                 <DataGrid x:Name="dgdOut" Grid.Row="1" IsReadOnly="True" 
                       Style="{DynamicResource DataGridSet1}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="GBN" Width="0" MinWidth="0" Binding="{Binding gbn}" FontSize="20" />
+                        <DataGridTextColumn Header="GBN" Width="*" MinWidth="0" Binding="{Binding GbnName}" FontSize="20" />
                         <DataGridTextColumn Header="품번" Width="*" MinWidth="150" Binding="{Binding ArticleNo}"  Visibility="Hidden" 
                                         ElementStyle="{StaticResource DataGridCellLeft}" FontSize="20"  />
                         <DataGridTextColumn Header="품명" Width="*" MinWidth="150" Binding="{Binding Article}"  Visibility="Hidden" 
                                         ElementStyle="{StaticResource DataGridCellLeft}" FontSize="20" />
                         <DataGridTextColumn Header="주문량" Width="*" MinWidth="150" Binding="{Binding OrderQty, StringFormat='#,##0'}" 
                                         ElementStyle="{StaticResource DataGridCellRight}" FontSize="20" />
-                        <DataGridTextColumn Header="소요일" Width="*" MinWidth="150" Binding="{Binding DiffOutDayPerQty, StringFormat='#,##0'}" 
+                        <DataGridTextColumn Header="소요일" Width="*" MinWidth="150" Binding="{Binding DiffOutDate, StringFormat='#,##0'}" 
                                         ElementStyle="{StaticResource DataGridCellRight}" FontSize="20" />
                         <DataGridTextColumn Header="목표(%)" Width="*" MinWidth="150" Binding="{Binding Goal}" 
                                         ElementStyle="{StaticResource DataGridCellRight}" FontSize="20" />
