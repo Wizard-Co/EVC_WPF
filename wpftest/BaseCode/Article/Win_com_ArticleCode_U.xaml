@@ -250,7 +250,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="코드" Binding="{Binding ArticleID}"  Visibility="Hidden"/>
+                        <DataGridTextColumn Header="코드" Binding="{Binding ArticleID}"  Visibility="Visible"/>
                         <!--<DataGridTextColumn Header="품번" Binding="{Binding BuyerArticleNo}" />-->
                         <DataGridTextColumn Header="품명" Binding="{Binding Article}" />
                         <DataGridTextColumn Header="품번" Binding="{Binding BuyerArticleNo}" />
@@ -349,7 +349,7 @@
                     </Label>
                     <TextBox x:Name="txtCode" Grid.Column="1" Grid.Row="0" Style="{DynamicResource TextBoxInputAutoCreate}"
                              MaxLength="5"
-                             IsReadOnly="False" Text="{Binding ArticleID}"/>
+                             IsReadOnly="True" Text="{Binding ArticleID}"/>
 
                     <!-- 주요관심품목, 사용안함 -->
                     <Label Grid.Column="3" Grid.Row="13"  Style="{DynamicResource LabelInputArea}" Visibility="Visible">
