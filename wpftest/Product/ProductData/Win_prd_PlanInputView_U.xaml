@@ -848,7 +848,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Content="지시번호" FontSize="30" Margin="0,0,0,20" HorizontalAlignment="Center" ></Label>
+                        <Label Grid.Column="0" Content="지시순번" FontSize="30" Margin="0,0,0,20" HorizontalAlignment="Center" ></Label>
                         <TextBox Grid.Column="1" x:Name="txtInstSeq" FontSize="18" Margin="0,0,0,20" VerticalContentAlignment="Center" IsEnabled="False"
                                  Text="{Binding InstSeq, Mode=TwoWay}"></TextBox>
                     </Grid>
