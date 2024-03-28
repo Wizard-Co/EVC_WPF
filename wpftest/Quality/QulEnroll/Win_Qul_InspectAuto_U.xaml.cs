@@ -3083,7 +3083,7 @@ namespace WizMes_HanYoung
                     }
                     else
                     {
-                        MessageBox.Show("더이상 등록할 수 없는 LabelID입니다.");
+                        MessageBox.Show("더이상 등록할 수 없거나 검사기준이 등록되지 않은 LabelID입니다.");
 
                         dgdSub1.Items.Clear();
                         dgdSub2.Items.Clear();

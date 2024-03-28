@@ -1499,7 +1499,7 @@ namespace WizMes_HanYoung
                         MessageBox.Show("선택된 출고지시가 없습니다");
                         return;
                     }
-
+                    
                     if(ConvertInt(txtScanData.Text) > tmpRestQty || ConvertInt(txtScanData.Text) > RestOrderQty  )
                     {
                         MessageBox.Show("출하량이 남은 지시수량"+"("+RestOrderQty+")"+"보다 많습니다");
