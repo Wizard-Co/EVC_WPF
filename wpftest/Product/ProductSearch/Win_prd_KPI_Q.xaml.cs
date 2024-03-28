@@ -206,23 +206,29 @@ namespace WizMes_HanYoung
                                 GbnName = dr["GbnName"].ToString(),
                                 ArticleNo = dr["ARTICLENO"].ToString(),
                                 Article = dr["article"].ToString(),
-                                WorkQty = Convert.ToDouble(dr["WorkQty"].ToString()),
+                                WorkQty = stringFormatN0(dr["WorkQty"]),
                                 WorkTime = lib.returnNumStringOne(dr["WorkTime"].ToString()),
-                                WorkQtyPerHour = Convert.ToDouble(dr["WorkQtyPerHour"].ToString()),
-                                DefectQty = Convert.ToDouble(dr["DefectQty"].ToString()),
-                                DefectWorkQty = Convert.ToDouble(dr["DefectWorkQty"].ToString()),
-                                DefectRate = stringFormatN1(dr["DefectRate"]),
+                                WorkQtyPerHour = stringFormatN1(dr["WorkQtyPerHour"]),
+                                OrderQty = stringFormatN0(dr["OrderQty"]),
+                                DiffOutDate = stringFormatN0(dr["DiffOutDate"]),
+                                DiffOutDayPerQty = stringFormatN1(dr["DiffOutDayPerQty"]),
+                                DiffOutUpRate = stringFormatN1(dr["DiffOutUpRate"]),
+                                DiffOutGoalRate = stringFormatN1(dr["DiffOutGoalRate"]),
                                 gbn = dr["gbn"].ToString(),
                                 Sort = dr["Sort"].ToString(),
+                                WorkUpRate = dr["WorkUpRate"].ToString(),
+                                WorkGoalRate = dr["WorkGoalRate"].ToString()
                             };
 
-                            if (WPKQC.gbn == "Q")
+                            if (WPKQC.gbn == "D")
                             {
+                                WPKQC.Goal = "19.1";
                                 dgdOut.Items.Add(WPKQC);
                             }
 
                             if (WPKQC.gbn == "P")
                             {
+                                WPKQC.Goal = "213";
                                 dgdGonsu.Items.Add(WPKQC);
                             }
 
@@ -440,6 +446,12 @@ namespace WizMes_HanYoung
             }
         }
 
+        // 천마리 콤마, 소수점 버리기
+        private string stringFormatN0(object obj)
+        {
+            return string.Format("{0:N0}", obj);
+        }
+
         // 천마리 콤마, 소수점 두자리
         private string stringFormatN2(object obj)
         {
@@ -465,19 +477,22 @@ namespace WizMes_HanYoung
         public string GbnName { get; set; }
         public string ArticleNo { get; internal set; }
         public string Article { get; internal set; }
-        public double WorkQty { get; internal set; }
+        public string WorkQty { get; internal set; }
         public string WorkTime { get; internal set; }
-        public double WorkQtyPerHour { get; internal set; }
+        public string WorkQtyPerHour { get; internal set; }
         public string WorkMan { get; set; }
+        public string WorkUpRate { get; set; }
+        public string WorkGoalRate { get; set; }
         public string Gonsu { get; set; }
         public string OrderQty { get; set; }
         public string DiffOutDate { get; set; }
         public string DiffOutDayPerQty { get; set; }
-        public double DefectQty { get; set; }
-        public double DefectWorkQty { get; set; }
+        public string DiffOutUpRate { get; set; }
+        public string DiffOutGoalRate { get; set; }
         public string DefectRate { get; set; }
         public string gbn { get; set; }
         public string Sort { get; set; }
+        public string Goal { get; set; }
 
 
     }
