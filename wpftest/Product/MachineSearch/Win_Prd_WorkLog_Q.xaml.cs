@@ -340,8 +340,9 @@ namespace WizMes_HanYoung
                                 LogID = dr["LogID"].ToString(),
                                 WorkDate = dr["WorkDate"].ToString(),
                                 WorkDate_CV = DatePickerFormat(dr["WorkDate"].ToString()),
-                                WorkQty = Convert.ToDouble(dr["WorkQty"]),
-                                DefectQty = Convert.ToDouble(dr["DefectQty"]),
+                                WorkQty =stringFormatN0(dr["WorkQty"]),
+                                TotalWorkQty = stringFormatN0(dr["TotalWorkQty"]),
+                                DefectQty = stringFormatN0(dr["DefectQty"]),
                                 WorkTime = dr["WorkTime"].ToString(),
                                 WorkTime_CV = ConvertTimeFormat(dr["WorkTime"].ToString()),
                                 StationNO = dr["StationNO"].ToString(),
@@ -351,119 +352,8 @@ namespace WizMes_HanYoung
                                 MachineID = dr["MachineID"].ToString(),
                                 Machine = dr["Machine"].ToString(),
                                 MachineNo = dr["MachineNo"].ToString(),
-
-                                SachulPressure = dr["SachulPressure"].ToString(),
-                                SachulSpeed = dr["SachulSpeed"].ToString(),
-                                SachulLocation = dr["SachulLocation"].ToString(),
-
-                                BoApPressure = dr["BoApPressure"].ToString(),
-                                BoApSpeed = dr["BoApSpeed"].ToString(),
-                                BoApTime = dr["BoApTime"].ToString(),
-                                Cushun = dr["Cushun"].ToString(),
-                                SachulTime = dr["SachulTime"].ToString(),
-                                CoolingTime = dr["CoolingTime"].ToString(),
-                                MeasurSpeed = dr["MeasurSpeed"].ToString(),
-                                BaeAp = dr["BaeAp"].ToString(),
-                                SukBaekMeasureBefore = dr["SukBaekMeasureBefore"].ToString(),
-                                SukBaekMeasureAfter = dr["SukBaekMeasureAfter"].ToString(),
-                                MeasurLocation = dr["MeasurLocation"].ToString(),
-                                OilTemper = dr["OilTemper"].ToString(),
-
-                                JobID = dr["JobID"].ToString(),
-                                SetDateTime = dr["SetDateTime"].ToString(),
-                                TotalWorkQty = dr["TotalWorkQty"].ToString(),
-                                WorkComments = dr["WorkComments"].ToString(),
-                                BuyerArticleID = dr["BuyerArticleID"].ToString(),
-                                Jakup1CutLength = dr["Jakup1CutLength"].ToString(),
-                                Jakup1SetQty = dr["Jakup1SetQty"].ToString(),
-                                Jakup1WorkQty = dr["Jakup1WorkQty"].ToString(),
-                                Jakup2CutLength = dr["Jakup2CutLength"].ToString(),
-                                Jakup2SetQty = dr["Jakup2SetQty"].ToString(),
-                                Jakup2WorkQty = dr["Jakup2WorkQty"].ToString(),
-                                Jakup3CutLength = dr["Jakup3CutLength"].ToString(),
-                                Jakup3SetQty = dr["Jakup3SetQty"].ToString(),
-                                Jakup3WorkQty = dr["Jakup3WorkQty"].ToString(),
-                                Jakup4CutLength = dr["Jakup4CutLength"].ToString(),
-                                Jakup4SetQty = dr["Jakup4SetQty"].ToString(),
-                                Jakup4WorkQty = dr["Jakup4WorkQty"].ToString(),
-                                Jakup5CutLength = dr["Jakup5CutLength"].ToString(),
-                                Jakup5SetQty = dr["Jakup5SetQty"].ToString(),
-                                Jakup5WorkQty = dr["Jakup5WorkQty"].ToString(),
-                                Cavity = dr["Cavity"].ToString(),
-                                CycleTime = dr["CycleTime"].ToString(),
-                                BoAp1Time = dr["BoAp1Time"].ToString(),
-                                BoAp2Time = dr["BoAp2Time"].ToString(),
-                                BoAp3Time = dr["BoAp3Time"].ToString(),
-                                MeasurTime = dr["MeasurTime"].ToString(),
-                                MeasurDelyTime = dr["MeasurDelyTime"].ToString(),
-                                HangJungTime = dr["HangJungTime"].ToString(),
-                                Sachul1Pressure = dr["Sachul1Pressure"].ToString(),
-                                Sachul2Pressure = dr["Sachul2Pressure"].ToString(),
-                                Sachul3Pressure = dr["Sachul3Pressure"].ToString(),
-                                Sachul4Pressure = dr["Sachul4Pressure"].ToString(),
-                                Sachul5Pressure = dr["Sachul5Pressure"].ToString(),
-                                BoAp1Pressure = dr["BoAp1Pressure"].ToString(),
-                                BoAp2Pressure = dr["BoAp2Pressure"].ToString(),
-                                BoAp3Pressure = dr["BoAp3Pressure"].ToString(),
-                                Measur1BaeAp = dr["Measur1BaeAp"].ToString(),
-                                Measur2BaeAp = dr["Measur2BaeAp"].ToString(),
-                                Sachul1Speed = dr["Sachul1Speed"].ToString(),
-                                Sachul2Speed = dr["Sachul2Speed"].ToString(),
-                                Sachul3Speed = dr["Sachul3Speed"].ToString(),
-                                Sachul4Speed = dr["Sachul4Speed"].ToString(),
-                                Sachul5Speed = dr["Sachul5Speed"].ToString(),
-                                BoAp1Speed = dr["BoAp1Speed"].ToString(),
-                                BoAp2Speed = dr["BoAp2Speed"].ToString(),
-                                Measur1Speed = dr["Measur1Speed"].ToString(),
-                                Measur2Speed = dr["Measur2Speed"].ToString(),
-                                Measur3Speed = dr["Measur3Speed"].ToString(),
-                                BaeAp1 = dr["BaeAp1"].ToString(),
-                                BaeAp2 = dr["BaeAp2"].ToString(),
-                                BaeAp3 = dr["BaeAp3"].ToString(),
-                                Sachul1JulHWan = dr["Sachul1JulHWan"].ToString(),
-                                Sachul2JulHWan = dr["Sachul2JulHWan"].ToString(),
-                                Sachul3JulHWan = dr["Sachul3JulHWan"].ToString(),
-                                Sachul1Location = dr["Sachul1Location"].ToString(),
-                                Sachul2Location = dr["Sachul2Location"].ToString(),
-                                Sachul3Location = dr["Sachul3Location"].ToString(),
-                                Sachul4Location = dr["Sachul4Location"].ToString(),
-                                Sachul5Location = dr["Sachul5Location"].ToString(),
-                                BoApLocation = dr["BoApLocation"].ToString(),
-                                CushunLocation = dr["CushunLocation"].ToString(),
-                                Measur1Location = dr["Measur1Location"].ToString(),
-                                Measur2Location = dr["Measur2Location"].ToString(),
-                                Measur3Location = dr["Measur3Location"].ToString(),
-                                FlowPreventLocation = dr["FlowPreventLocation"].ToString(),
-                                CushunLowLimit = dr["CushunLowLimit"].ToString(),
-                                CushunMaxLimit = dr["CushunMaxLimit"].ToString(),
-                                NozzleTemper = dr["NozzleTemper"].ToString(),
-                                ClinderHESetTemper = dr["ClinderHESetTemper"].ToString(),
-                                ClinderHNZSetTemper = dr["ClinderHNZSetTemper"].ToString(),
-                                Clinder1SetTemper = dr["Clinder1SetTemper"].ToString(),
-                                Clinder2SetTemper = dr["Clinder2SetTemper"].ToString(),
-                                Clinder3SetTemper = dr["Clinder3SetTemper"].ToString(),
-                                Clinder4SetTemper = dr["Clinder4SetTemper"].ToString(),
-                                Clinder5SetTemper = dr["Clinder5SetTemper"].ToString(),
-                                ClinderHETemper = dr["ClinderHETemper"].ToString(),
-                                ClinderHNZTemper = dr["ClinderHNZTemper"].ToString(),
-                                Clinder1Temper = dr["Clinder1Temper"].ToString(),
-                                Clinder2Temper = dr["Clinder2Temper"].ToString(),
-                                Clinder3Temper = dr["Clinder3Temper"].ToString(),
-                                Clinder4Temper = dr["Clinder4Temper"].ToString(),
-                                Clinder5Temper = dr["Clinder5Temper"].ToString(),
-                                CoolWaterInTemper = dr["CoolWaterInTemper"].ToString(),
-                                CoolWaterOutTemper = dr["CoolWaterOutTemper"].ToString(),
-                                CoolWaterTemper = dr["CoolWaterTemper"].ToString(),
-                                MachineSate = dr["MachineSate"].ToString(),
-                                MachineRunState = dr["MachineRunState"].ToString(),
-                                DefectYN = dr["DefectYN"].ToString(),
-                                LOTID = dr["LOTID"].ToString(),
-                                Reset = dr["Reset"].ToString(),
                                 Comments = dr["Comments"].ToString(),
-                                CreateDate = dr["CreateDate"].ToString(),
-                                CreateUserID = dr["CreateUserID"].ToString(),
-                                UpdateDate = dr["UpdateDate"].ToString(),
-                                UpdateUserID = dr["UpdateUserID"].ToString(),
+                                CT = dr["CT"].ToString()
                             };
 
                             dgdMain.Items.Add(WinR);
@@ -652,122 +542,19 @@ namespace WizMes_HanYoung
         public string WorkTime_CV { get; set; }
         public string ProcessID { get; set; }
         public string Process { get; set; }
-        public double WorkQty { get; set; }
-        public double DefectQty { get; set; }
-        public string MachineID { get; set; }
-        public string MachineNo { get; set; }
-        public string SachulPressure { get; set; }
-        public string SachulSpeed { get; set; }
-        public string SachulLocation { get; set; }
-        public string BoApPressure { get; set; }
-        public string BoApSpeed { get; set; }
-        public string BoApTime { get; set; }
-        public string Cushun { get; set; }
-        public string SachulTime { get; set; }
-        public string CoolingTime { get; set; }
-        public string MeasurSpeed { get; set; }
-        public string BaeAp { get; set; }
-        public string SukBaekMeasureBefore { get; set; }
-        public string SukBaekMeasureAfter { get; set; }
-        public string MeasurLocation { get; set; }
-        public string OilTemper { get; set; }
-        public string Machine { get; set; }
-        public string StationNO { get; set; }
-        public string JobID { get; set; }
-        public string SetDateTime { get; set; }
+        public string WorkQty { get; set; }
         public string TotalWorkQty { get; set; }
-        public string WorkComments { get; set; }
-        public string BuyerArticleID { get; set; }
-        public string Jakup1CutLength { get; set; }
-        public string Jakup1SetQty { get; set; }
-        public string Jakup1WorkQty { get; set; }
-        public string Jakup2CutLength { get; set; }
-        public string Jakup2SetQty { get; set; }
-        public string Jakup2WorkQty { get; set; }
-        public string Jakup3CutLength { get; set; }
-        public string Jakup3SetQty { get; set; }
-        public string Jakup3WorkQty { get; set; }
-        public string Jakup4CutLength { get; set; }
-        public string Jakup4SetQty { get; set; }
-        public string Jakup4WorkQty { get; set; }
-        public string Jakup5CutLength { get; set; }
-        public string Jakup5SetQty { get; set; }
-        public string Jakup5WorkQty { get; set; }
-        public string Cavity { get; set; }
-        public string CycleTime { get; set; }
-        public string BoAp1Time { get; set; }
-        public string BoAp2Time { get; set; }
-        public string BoAp3Time { get; set; }
-        public string MeasurTime { get; set; }
-        public string MeasurDelyTime { get; set; }
-        public string HangJungTime { get; set; }
-        public string Sachul1Pressure { get; set; }
-        public string Sachul2Pressure { get; set; }
-        public string Sachul3Pressure { get; set; }
-        public string Sachul4Pressure { get; set; }
-        public string Sachul5Pressure { get; set; }
-        public string BoAp1Pressure { get; set; }
-        public string BoAp2Pressure { get; set; }
-        public string BoAp3Pressure { get; set; }
-        public string Measur1BaeAp { get; set; }
-        public string Measur2BaeAp { get; set; }
-        public string Sachul1Speed { get; set; }
-        public string Sachul2Speed { get; set; }
-        public string Sachul3Speed { get; set; }
-        public string Sachul4Speed { get; set; }
-        public string Sachul5Speed { get; set; }
-        public string BoAp1Speed { get; set; }
-        public string BoAp2Speed { get; set; }
-        public string Measur1Speed { get; set; }
-        public string Measur2Speed { get; set; }
-        public string Measur3Speed { get; set; }
-        public string BaeAp1 { get; set; }
-        public string BaeAp2 { get; set; }
-        public string BaeAp3 { get; set; }
-        public string Sachul1JulHWan { get; set; }
-        public string Sachul2JulHWan { get; set; }
-        public string Sachul3JulHWan { get; set; }
-        public string Sachul1Location { get; set; }
-        public string Sachul2Location { get; set; }
-        public string Sachul3Location { get; set; }
-        public string Sachul4Location { get; set; }
-        public string Sachul5Location { get; set; }
-        public string BoApLocation { get; set; }
-        public string CushunLocation { get; set; }
-        public string Measur1Location { get; set; }
-        public string Measur2Location { get; set; }
-        public string Measur3Location { get; set; }
-        public string FlowPreventLocation { get; set; }
-        public string CushunLowLimit { get; set; }
-        public string CushunMaxLimit { get; set; }
-        public string NozzleTemper { get; set; }
-        public string ClinderHESetTemper { get; set; }
-        public string ClinderHNZSetTemper { get; set; }
-        public string Clinder1SetTemper { get; set; }
-        public string Clinder2SetTemper { get; set; }
-        public string Clinder3SetTemper { get; set; }
-        public string Clinder4SetTemper { get; set; }
-        public string Clinder5SetTemper { get; set; }
-        public string ClinderHETemper { get; set; }
-        public string ClinderHNZTemper { get; set; }
-        public string Clinder1Temper { get; set; }
-        public string Clinder2Temper { get; set; }
-        public string Clinder3Temper { get; set; }
-        public string Clinder4Temper { get; set; }
-        public string Clinder5Temper { get; set; }
-        public string CoolWaterInTemper { get; set; }
-        public string CoolWaterOutTemper { get; set; }
-        public string CoolWaterTemper { get; set; }
-        public string MachineSate { get; set; }
-        public string MachineRunState { get; set; }
-        public string DefectYN { get; set; }
-        public string LOTID { get; set; }
-        public string Reset { get; set; }
+        public string DefectQty { get; set; }
+        public string MachineID { get; set; }
+        public string Machine { get; set; }
+        public string MachineNo { get; set; }
+        public string StationNO { get; set; }
         public string Comments { get; set; }
         public string CreateDate { get; set; }
         public string CreateUserID { get; set; }
         public string UpdateDate { get; set; }
         public string UpdateUserID { get; set; }
+        public string CT { get; set; }
 
 
 

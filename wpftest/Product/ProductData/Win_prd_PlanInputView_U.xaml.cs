@@ -884,14 +884,6 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("UpdateUserID", MainWindow.CurrentUser);
                 sqlParameter.Add("InstSeq", txtInstSeq.Text);
 
-                //string[] result = DataStore.Instance.ExecuteProcedure("xp_PlanInput_uPlanInput", sqlParameter, true);
-                //if (!result[0].Equals("success"))
-                //{
-                //    MessageBox.Show("이상발생, 관리자에게 문의하세요.");
-                //    flag = false;
-                //    return flag;
-                //}
-
                 Procedure pro1 = new Procedure();
                 pro1.Name = "xp_PlanInput_uPlanInput";
                 pro1.OutputUseYN = "N";
@@ -911,21 +903,12 @@ namespace WizMes_HanYoung
                     sqlParameter.Add("sStartDate", WinPlanSub.StartDate);
                     sqlParameter.Add("sEndDate", WinPlanSub.EndDate);
                     sqlParameter.Add("nInstQty", int.Parse(WinPlanSub.InstQty.Replace(",", "")));
-                    //temp = pidOne.InstQty.Replace(",", "");
                     sqlParameter.Add("sInstSubRemark", WinPlanSub.InstRemark);
                     sqlParameter.Add("MachineID", WinPlanSub.MachineID);
                     sqlParameter.Add("TheEnd", chkTheEnd.IsChecked == true ? 1 : 0);
                     sqlParameter.Add("MtrExceptYN", WinPlanSub.MtrExceptYN == null ? "" : WinPlanSub.MtrExceptYN);
                     sqlParameter.Add("FirstInFirstOut", WinPlanSub.FirstInFirstOutYN == null ? "" : WinPlanSub.FirstInFirstOutYN);
                     sqlParameter.Add("UpdateUserID", MainWindow.CurrentUser);
-
-                    //string[] result2 = DataStore.Instance.ExecuteProcedure("xp_PlanInput_uPlanInputSub", sqlParameter, false);
-                    //if (!result2[0].Equals("success"))
-                    //{
-                    //    MessageBox.Show("result2 이상발생, 관리자에게 문의하세요.");
-                    //    reUp = false;
-                    //    return reUp;
-                    //}
 
                     Procedure pro2 = new Procedure();
                     pro2.Name = "xp_PlanInput_uPlanInputSub_WPF";
