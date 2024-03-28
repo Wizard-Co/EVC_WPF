@@ -1142,6 +1142,33 @@ namespace WizMes_HanYoung
                                 SubInsAutoBasis.stringFlag = "I";
                             }
 
+                            if (SubInsAutoBasis.insTypeText.ToString() == "DIM's")
+                            {
+                                if (!IsNumberic(SubInsAutoBasis.SpecMax) && !(IsNumberic(SubInsAutoBasis.SpecMin)))
+                                {
+                                    MessageBox.Show("검사 상/하한 수치가 입력되지 않았거나 숫자형식이 아닙니다.");
+                                    flag = false;
+                                    return flag;
+                                }
+                                if (SubInsAutoBasis.SpecMax == "" || SubInsAutoBasis.SpecMin == "")
+                                {
+                                    MessageBox.Show("검사 상/하한 수치가 입력되지 않았거나 숫자형식이 아닙니다.");
+                                    flag = false;
+                                    return flag;
+                                }
+                                if (SubInsAutoBasis.InsSampleQty == "" || SubInsAutoBasis.InsSampleQty == "0")
+                                {
+                                    MessageBox.Show("샘플수량을 입력해주세요.");
+                                    flag = false;
+                                    return flag;
+                                }
+                                else if (SubInsAutoBasis.InsSampleQty != "" && !IsNumberic(SubInsAutoBasis.InsSampleQty))
+                                {
+                                    MessageBox.Show("샘플수량은 숫자만 입력이 가능합니다.");
+                                    flag = false;
+                                    return flag;
+                                }
+                            }
 
                             if (SubInsAutoBasis != null)
                             {
@@ -1185,7 +1212,7 @@ namespace WizMes_HanYoung
                             flag = true;
                         }
                     }
-                    else //수정일 때 
+                    else if(strFlag == "U") //수정일 때 
                     {
                         sqlParameter.Add("UpdateUserID", MainWindow.CurrentUser);
 
@@ -1214,10 +1241,16 @@ namespace WizMes_HanYoung
                                 {
                                     if (!IsNumberic(SubInsAutoBasis.SpecMax) && !(IsNumberic(SubInsAutoBasis.SpecMin)))
                                     {
+                                        MessageBox.Show("검사 상/하한 수치가 입력되지 않았거나 숫자형식이 아닙니다.");
                                         flag = false;
                                         return flag;
                                     }
-
+                                    if(SubInsAutoBasis.SpecMax =="" || SubInsAutoBasis.SpecMin == "")
+                                    {
+                                        MessageBox.Show("검사 상/하한 수치가 입력되지 않았거나 숫자형식이 아닙니다.");
+                                        flag = false;
+                                        return flag;
+                                    }
                                     if (SubInsAutoBasis.InsSampleQty == "" || SubInsAutoBasis.InsSampleQty == "0")
                                     {
                                         MessageBox.Show("샘플수량을 입력해주세요.");
@@ -1497,13 +1530,14 @@ namespace WizMes_HanYoung
                     return flag;
                 }
             }
-            else if (tbnInCome.IsChecked == true || tbnOutCome.IsChecked == true)
+            else if (tbnInCome.IsChecked == true || tbnOutCome.IsChecked == true) //수입이랑 출하는 공정칸을 숨겨놨기때문에 2024-03-28
             {
                 if (txtProcess.Text.Length > 0 || !txtProcess.Text.Equals(""))
                 {
-                    MessageBox.Show("공정 입력하지 않아도 됩니다.");
-                    flag = false;
-                    return flag;
+                    txtProcess.Text = "";
+                    //MessageBox.Show("공정 입력하지 않아도 됩니다.");
+                    //flag = false;
+                    //return flag;
                 }
             }
 

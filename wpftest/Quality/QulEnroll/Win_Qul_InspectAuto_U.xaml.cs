@@ -3013,9 +3013,15 @@ namespace WizMes_HanYoung
             int largeNum = strPoint.Equals("1") ? 101 : 100;
             MainWindow.pf.ReturnCode(txtLotNO, largeNum, txtLotNO.Text);
 
+
             if (!string.IsNullOrEmpty(txtLotNO.Text))
+            {
                 GetLotID(txtLotNO.Text);
+            }
         }
+
+
+    
 
         //
         private void GetLotID(string LotNo)
@@ -3200,6 +3206,8 @@ namespace WizMes_HanYoung
             totalCount = sub1Count + sub2Count;
             cboDefectYN.SelectedValue = strDefectYN;
             txtTotalDefectQty.Text = defectCount.ToString();
+            txtSumInspectQty.Text = totalCount.ToString();
+            txtSumDefectQty.Text = defectCount.ToString();
 
             return totalCount;
         }
