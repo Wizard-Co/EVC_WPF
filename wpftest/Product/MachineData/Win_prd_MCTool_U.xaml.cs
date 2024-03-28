@@ -1083,11 +1083,11 @@ namespace WizMes_HanYoung
                 string[] fileListDetail;
                 fileListDetail = _ftp.directoryListSimple(FolderName, Encoding.Default);
 
-                //ExistFile = FileInfoAndFlag(fileListDetail, ImageName);
-                //if (ExistFile)
-                //{
-                bit = _ftp.DrawingImageByByte(FTP_ADDRESS + '/' + FolderName + '/' + ImageName + "");
-                //}
+                ExistFile = FileInfoAndFlag(fileListDetail, ImageName);
+                if (ExistFile)
+                {
+                    bit = _ftp.DrawingImageByByte(FTP_ADDRESS + '/' + FolderName + '/' + ImageName + "");
+                }
             }
             catch (Exception ex)
             {
