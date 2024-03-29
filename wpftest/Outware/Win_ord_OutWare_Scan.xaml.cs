@@ -1920,7 +1920,7 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("ArticleID", chkArticle.IsChecked == true ? (txtArticle.Tag != null ? txtArticle.Tag.ToString() : "") : "");
                 // 지시번호
                 sqlParameter.Add("ChkOutwareReq", chkReqID.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("OutwareReqID", chkReqID.IsChecked == true ? (txtReqID.Tag != null ? txtReqID.Tag.ToString() : "") : "");
+                sqlParameter.Add("OutwareReqID", chkReqID.IsChecked == true ? (txtReqID.Text != null ? txtReqID.Text.ToString() : "") : "");
 
 
                 // 지시번호로 검색, 관리번호 사용안함
