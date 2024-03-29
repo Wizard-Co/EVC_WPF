@@ -231,8 +231,27 @@ namespace WizMes_HanYoung
             dtpFromDate.SelectedDate = DateTime.Today;
             dtpToDate.SelectedDate = DateTime.Today.AddYears(500);
 
-            txtParentArticle.Tag = null;
-            txtArticle.Tag = null;
+
+            var WinBomList = tlvItemList.SelectedItem as TreeViewItem;
+
+            if (WinBomList == null)
+            {
+                txtParentArticle.Tag = null;
+                txtArticle.Tag = null;
+            }
+            else if (WinBomList != null)
+            {
+                WinArticleBomList = WinBomList.Header as Win_com_ArticleBOM_ItemList;
+
+                if (WinArticleBomList != null)
+                {
+                    this.DataContext = WinArticleBomList;
+
+                    txtArticle.Text = null;
+                    txtArticle.Tag = null;
+                }
+
+            }
         }
 
         //수정

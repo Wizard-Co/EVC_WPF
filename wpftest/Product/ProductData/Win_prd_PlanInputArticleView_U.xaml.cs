@@ -179,6 +179,7 @@ namespace WizMes_HanYoung
             grdSrh1.IsEnabled = true;
             grdSrh2.IsEnabled = true;
             grdSrh3.IsEnabled = true;
+            dtpEDate.IsEnabled = true;
 
             GridInputArea.IsEnabled = false;
         }
@@ -193,6 +194,7 @@ namespace WizMes_HanYoung
             dgdSub.IsHitTestVisible = true;
 
             grdSrh1.IsEnabled = false;
+            dtpEDate.IsEnabled = false;
             grdSrh2.IsEnabled = false;
             grdSrh3.IsEnabled = false;
 
