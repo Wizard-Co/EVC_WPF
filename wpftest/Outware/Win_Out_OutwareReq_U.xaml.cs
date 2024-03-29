@@ -1455,6 +1455,9 @@ namespace WizMes_HanYoung
                     //OutwareSub.RemainQty = lib.returnNumString(remainQty.ToString());
                     OutwareSub.OrderQty = lib.returnNumString(OutwareSub.OrderQty);
                     OutwareSub.RestOrderQty = lib.returnNumString(remainOrderQtyLast.ToString());
+
+                    tbReqQty.SelectionStart = tbReqQty.Text.Length;
+                    tbReqQty.SelectionLength = 0;
                 }
             }
             catch (Exception ee)
