@@ -532,8 +532,8 @@ namespace WizMes_HanYoung
             cboPartGBNID.SelectedIndex = 0; //부품분류
             cboFTAMgrYN.SelectedIndex = 1; //FTA중점
             cboBigMiSmal.SelectedIndex = 3; //대중소 구분
-            
-            //txtCode.IsReadOnly = true;
+
+            txtCode.IsReadOnly = true;
             txtBuyerArticleNo.Focus();
         }
 
@@ -1024,7 +1024,6 @@ namespace WizMes_HanYoung
                                 Article = dr["Article"].ToString(),
                                 BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
                                 ArticleGrpID = dr["ArticleGrpID"].ToString(),
-                                ArticleGrpName = dr["ArticleGrpName"].ToString(),
 
                                 SupplyType = dr["SupplyType"].ToString(),
                                 SupplyTypeName = dr["SupplyTypeName"].ToString(),
@@ -1596,14 +1595,14 @@ namespace WizMes_HanYoung
                     return false;
                 }
 
-#if ANT_2 == false
+
                 //if (txtCode.Text.Trim().Equals(""))
                 //{
                 //    MessageBox.Show("코드가 입력되지 않았습니다.");
                 //    flag = false;
                 //    return flag;
-                }
-#endif
+                //}
+
 
                 // 2020.02.20 품번이 필수 입력이 되어야함!!!
                 if (txtBuyerArticleNo.Text.Trim().Equals(""))
@@ -2952,7 +2951,6 @@ namespace WizMes_HanYoung
         public string NeedStockQty { get; set; }
         public string ArticleGrpID { get; set; }
         public string ArticleGrp { get; set; }
-        public string ArticleGrpName { get; set; }
 
         public string QtyPerBox { get; set; }
         public string BuyerArticleNo { get; set; }
