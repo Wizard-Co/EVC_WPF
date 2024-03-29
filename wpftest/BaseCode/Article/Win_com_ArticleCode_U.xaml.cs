@@ -532,8 +532,8 @@ namespace WizMes_HanYoung
             cboPartGBNID.SelectedIndex = 0; //부품분류
             cboFTAMgrYN.SelectedIndex = 1; //FTA중점
             cboBigMiSmal.SelectedIndex = 3; //대중소 구분
-
-            txtCode.IsReadOnly = true;
+            
+            //txtCode.IsReadOnly = true;
             txtBuyerArticleNo.Focus();
         }
 
@@ -1024,6 +1024,7 @@ namespace WizMes_HanYoung
                                 Article = dr["Article"].ToString(),
                                 BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
                                 ArticleGrpID = dr["ArticleGrpID"].ToString(),
+                                ArticleGrpName = dr["ArticleGrpName"].ToString(),
 
                                 SupplyType = dr["SupplyType"].ToString(),
                                 SupplyTypeName = dr["SupplyTypeName"].ToString(),
@@ -2951,6 +2952,7 @@ namespace WizMes_HanYoung
         public string NeedStockQty { get; set; }
         public string ArticleGrpID { get; set; }
         public string ArticleGrp { get; set; }
+        public string ArticleGrpName { get; set; }
 
         public string QtyPerBox { get; set; }
         public string BuyerArticleNo { get; set; }

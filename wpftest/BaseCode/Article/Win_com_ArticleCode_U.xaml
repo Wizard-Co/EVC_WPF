@@ -259,8 +259,8 @@
                         <DataGridTextColumn Header="세부내역" Binding="{Binding Spec}" />
                         <DataGridTextColumn Header="이미지명" Binding="{Binding ImageName}" />
                         <DataGridTextColumn Header="사용여부" Binding="{Binding UseClssName}" />
-                        <DataGridTextColumn Header="품명그룹" Binding="{Binding ArticleGrpID}" />
-                        <DataGridTextColumn Header="공급유형" Binding="{Binding SupplyType}" />
+                        <DataGridTextColumn Header="품명그룹" Binding="{Binding ArticleGrpName}" />
+                        <DataGridTextColumn Header="공급유형" Binding="{Binding SupplyTypeName}" />
                         <DataGridTextColumn Header="용도" Binding="{Binding UseingTypeName}" />
                         <DataGridTextColumn Header="단위" Binding="{Binding UnitClssName}" />
                         <DataGridTextColumn Header="적정재고량" Binding="{Binding NeedStockQty}" 
@@ -348,7 +348,7 @@
                         </Viewbox>
                     </Label>
                     <TextBox x:Name="txtCode" Grid.Column="1" Grid.Row="0" Style="{DynamicResource TextBoxInputAutoCreate}"
-                             MaxLength="5"
+                             MaxLength="5" 
                              IsReadOnly="True" Text="{Binding ArticleID}"/>
 
                     <!-- 주요관심품목, 사용안함 -->
