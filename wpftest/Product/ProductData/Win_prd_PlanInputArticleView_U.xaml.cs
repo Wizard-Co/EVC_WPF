@@ -180,6 +180,9 @@ namespace WizMes_HanYoung
             grdSrh2.IsEnabled = true;
             grdSrh3.IsEnabled = true;
             dtpEDate.IsEnabled = true;
+            dtpSDate.IsEnabled = true;
+            chkDateSrh.IsEnabled = true;
+            chkDateSrh.IsChecked = true;
 
             GridInputArea.IsEnabled = false;
         }

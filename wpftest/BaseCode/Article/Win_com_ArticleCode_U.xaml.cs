@@ -533,7 +533,7 @@ namespace WizMes_HanYoung
             cboFTAMgrYN.SelectedIndex = 1; //FTA중점
             cboBigMiSmal.SelectedIndex = 3; //대중소 구분
 
-            txtCode.IsReadOnly = false;
+            txtCode.IsReadOnly = true;
             txtBuyerArticleNo.Focus();
         }
 
