@@ -1597,11 +1597,11 @@ namespace WizMes_HanYoung
                 }
 
 #if ANT_2 == false
-                if (txtCode.Text.Trim().Equals(""))
-                {
-                    MessageBox.Show("코드가 입력되지 않았습니다.");
-                    flag = false;
-                    return flag;
+                //if (txtCode.Text.Trim().Equals(""))
+                //{
+                //    MessageBox.Show("코드가 입력되지 않았습니다.");
+                //    flag = false;
+                //    return flag;
                 }
 #endif
 

@@ -437,7 +437,7 @@ namespace WizMes_HanYoung
 
                 MainWindow.mMenulist[k].subProgramID = new MdiChild()
                 {
-                    Title = "(주)ANT [" + MainWindow.mMenulist[k].MenuID.Trim() + "] " + MainWindow.mMenulist[k].Menu.Trim() + 
+                    Title = "(주)HanYoung [" + MainWindow.mMenulist[k].MenuID.Trim() + "] " + MainWindow.mMenulist[k].Menu.Trim() + 
                             " (→" + MainWindow.mMenulist[k].ProgramID + ")",
                     Height = SystemParameters.PrimaryScreenHeight * 0.8,
                     MaxHeight = SystemParameters.PrimaryScreenHeight * 0.85,

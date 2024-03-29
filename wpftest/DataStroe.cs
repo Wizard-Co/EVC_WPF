@@ -45,10 +45,10 @@ namespace WizMes_HanYoung
         //private string LogConnectionString = "Data Source=wizis.iptime.org,20150;Initial Catalog=WizLog;UID=DBUser;PWD=Wizardis; Connection Timeout=0";
 
 #if DEBUG
-        //private string ConnectionString = "Data Source=121.254.224.196, 20220;Initial Catalog=MES_HanYoung;UID=DBUser;PWD=Wizardis; Connection Timeout=180";
-        //private string LogConnectionString = "Data Source=121.254.224.196, 20220;Initial Catalog=WizLog;UID=DBUser;PWD=Wizardis; Connection Timeout=180";
-        private string ConnectionString = "Data Source=wizis.iptime.org, 20220;Initial Catalog=MES_HanYoung;UID=DBUser;PWD=Wizardis; Connection Timeout=180";
-        private string LogConnectionString = "Data Source=wizis.iptime.org, 20220;Initial Catalog=WizLog;UID=DBUser;PWD=Wizardis; Connection Timeout=180";
+        private string ConnectionString = "Data Source=121.254.224.196, 20220;Initial Catalog=MES_HanYoung;UID=DBUser;PWD=Wizardis; Connection Timeout=180";
+        private string LogConnectionString = "Data Source=121.254.224.196, 20220;Initial Catalog=WizLog;UID=DBUser;PWD=Wizardis; Connection Timeout=180";
+        //private string ConnectionString = "Data Source=wizis.iptime.org, 20220;Initial Catalog=MES_HanYoung;UID=DBUser;PWD=Wizardis; Connection Timeout=180";
+        //private string LogConnectionString = "Data Source=wizis.iptime.org, 20220;Initial Catalog=WizLog;UID=DBUser;PWD=Wizardis; Connection Timeout=180";
         //private string ConnectionString = "Data Source=" + LoadINI.server + ";Initial Catalog=" + LoadINI.Database + ";UID=DBUser;PWD=Wizardis; Connection Timeout= 0";
         //private string LogConnectionString = "Data Source=" + LoadINI.server + ";Initial Catalog=WizLog;UID=DBUser;PWD=Wizardis; Connection Timeout= 0";
 #else
