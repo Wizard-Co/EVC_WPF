@@ -47,6 +47,7 @@ namespace WizMes_HanYoung
         {
             //lblMsg.Visibility = Visibility.Visible;
             gbxCodeInfo.IsEnabled = true;
+            rbnUseY.IsChecked = true;
         }
 
         //하단 텍스트 사용불가

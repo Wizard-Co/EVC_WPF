@@ -223,6 +223,8 @@ namespace WizMes_HanYoung
         //추가
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
+
+
             CantBtnControl();
             tbkMsg.Text = "자료 입력 중";
             strFlag = "I";
@@ -252,6 +254,13 @@ namespace WizMes_HanYoung
                 }
 
             }
+
+
+
+
+
+
+
         }
 
         //수정

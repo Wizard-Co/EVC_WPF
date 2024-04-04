@@ -259,8 +259,8 @@
                         <DataGridTextColumn Header="세부내역" Binding="{Binding Spec}" />
                         <DataGridTextColumn Header="이미지명" Binding="{Binding ImageName}" />
                         <DataGridTextColumn Header="사용여부" Binding="{Binding UseClssName}" />
-                        <DataGridTextColumn Header="품명그룹" Binding="{Binding ArticleGrpName}" />
-                        <DataGridTextColumn Header="공급유형" Binding="{Binding SupplyTypeName}" />
+                        <DataGridTextColumn Header="품명그룹" Binding="{Binding ArticleGrpID}" />
+                        <DataGridTextColumn Header="공급유형" Binding="{Binding SupplyType}" />
                         <DataGridTextColumn Header="용도" Binding="{Binding UseingTypeName}" />
                         <DataGridTextColumn Header="단위" Binding="{Binding UnitClssName}" />
                         <DataGridTextColumn Header="적정재고량" Binding="{Binding NeedStockQty}" 
@@ -348,16 +348,16 @@
                         </Viewbox>
                     </Label>
                     <TextBox x:Name="txtCode" Grid.Column="1" Grid.Row="0" Style="{DynamicResource TextBoxInputAutoCreate}"
-                             MaxLength="5" 
+                             MaxLength="5"
                              IsReadOnly="True" Text="{Binding ArticleID}"/>
 
                     <!-- 주요관심품목, 사용안함 -->
-                    <Label Grid.Column="3" Grid.Row="13"  Style="{DynamicResource LabelInputArea}" Visibility="Visible">
+                    <Label Grid.Column="3" Grid.Row="12"  Style="{DynamicResource LabelInputArea}" Visibility="Visible">
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                             <TextBlock Text="부품분류" Style="{DynamicResource TextBlockInViewBoxInput}"/>
                         </Viewbox>
                     </Label>
-                    <ComboBox x:Name="cboPartGBNID" Grid.Row="13" Grid.Column="4" Style="{DynamicResource ComboBoxInputString}" Background="#fff2d2"
+                    <ComboBox x:Name="cboPartGBNID" Grid.Row="12" Grid.Column="4" Style="{DynamicResource ComboBoxInputString}" Background="#fff2d2"
                               SelectedValue="{Binding PartGBNID}" DropDownClosed="cboPartGBNID_DropDownClosed" Visibility="Visible"/>
 
 
@@ -714,14 +714,14 @@
                         </Viewbox>
                     </Label>
 
-                    <Label Grid.Row="12" Grid.Column="3" 
+                    <Label Grid.Row="12" Grid.Column="3" Visibility="Hidden"
                                     Style="{DynamicResource LabelInputArea}">
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
 
                             <TextBlock Text="차   종" Style="{DynamicResource TextBlockInViewBoxInput}" />
                         </Viewbox>
                     </Label>
-                    <Grid Grid.Column="4" Grid.Row="12">
+                    <Grid Grid.Column="4" Grid.Row="12" Visibility="Hidden">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="4*" />
                             <ColumnDefinition Width="*" />

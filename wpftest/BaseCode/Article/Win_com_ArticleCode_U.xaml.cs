@@ -533,7 +533,7 @@ namespace WizMes_HanYoung
             cboFTAMgrYN.SelectedIndex = 1; //FTA중점
             cboBigMiSmal.SelectedIndex = 3; //대중소 구분
 
-            txtCode.IsReadOnly = true;
+            txtCode.IsReadOnly = false;
             txtBuyerArticleNo.Focus();
         }
 
@@ -1595,14 +1595,14 @@ namespace WizMes_HanYoung
                     return false;
                 }
 
-
-                //if (txtCode.Text.Trim().Equals(""))
-                //{
-                //    MessageBox.Show("코드가 입력되지 않았습니다.");
-                //    flag = false;
-                //    return flag;
-                //}
-
+#if ANT_2 == false
+                if (txtCode.Text.Trim().Equals(""))
+                {
+                    MessageBox.Show("코드가 입력되지 않았습니다.");
+                    flag = false;
+                    return flag;
+                }
+#endif
 
                 // 2020.02.20 품번이 필수 입력이 되어야함!!!
                 if (txtBuyerArticleNo.Text.Trim().Equals(""))
