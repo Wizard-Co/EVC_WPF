@@ -548,6 +548,17 @@ namespace WizMes_HanYoung
         private void re_Search(int selectedIndex)
         {
             FillGrid2();
+
+            //임시
+            if (tlvItemList.Items.Count > 0
+                && strFlag.Equals("I"))
+            {
+                txtParentArticle.Text = "";
+                txtArticle.Text = "";
+                txtQty.Text = "";
+                txtLossQty.Text = "";
+            }
+
             FillGridExcel();
 
         }
