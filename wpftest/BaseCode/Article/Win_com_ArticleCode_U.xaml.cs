@@ -1098,6 +1098,7 @@ namespace WizMes_HanYoung
                                 BuyerModelID = dr["BuyerModelID"].ToString(),
                                 BuyerModel = dr["BuyerModel"].ToString(),
                                 InspectYN = dr["InspectYN"].ToString(),
+                                ArticleGrpName = dr["ArticleGrpName"].ToString(),
 
                             };
 
@@ -3001,6 +3002,7 @@ namespace WizMes_HanYoung
         public string BuyerModelID { get; set; }
         public string BuyerModel { get; set; }
         public string InspectYN { get; set; } // 무검사품여부 
+        public string ArticleGrpName { get; set; }
 
         public BitmapImage ImageView { get; set; }
 
