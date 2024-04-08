@@ -1732,11 +1732,8 @@ namespace WizMes_HanYoung
             if (e.Key == Key.Enter)
             {
                 MainWindow.pf.ReturnCode(txtModel, (int)Defind_CodeFind.DCF_BUYERMODEL, "");
-
-                //주문 형태 콤보박스 열기
-                //cboOrderForm.IsDropDownOpen = true; //2020.02.14 장가빈, 수정시 콤보박스 자동 열리는 것 불편하대서 주석처리 함
+              
                 cboOrderForm.Focus();
-
             }
         }
 
@@ -1841,7 +1838,7 @@ namespace WizMes_HanYoung
                                 BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
                                 Article = dr["Article"].ToString(),
                                 NeedQty = dr["NeedQty"].ToString(),
-                                UnitClss = dr["UnitClss"].ToString(),
+                                //UnitClss = dr["UnitClss"].ToString(),
                                 UnitClssName = dr["UnitClssName"].ToString()
                             };
 
@@ -1905,7 +1902,7 @@ namespace WizMes_HanYoung
         private string DatePickerFormat(string str)
         {
             string result = "";
-
+        
             if (str.Length == 8)
             {
                 if (!str.Trim().Equals(""))

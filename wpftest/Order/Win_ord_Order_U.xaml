@@ -678,8 +678,9 @@
                                 </Viewbox>
                             </Label>
                             <TextBox x:Name="txtModel" Grid.Row="11" Grid.Column="1" IsReadOnly="True"
-                                     Tag="{Binding BuyerModelID}" Text="{Binding BuyerModel}" Style="{DynamicResource TextBoxInputArea}"/>
-                            <Button x:Name="btnPfModel" Grid.Row="11" Grid.Column="2" Click="btnPfModel_Click" Visibility="Hidden">
+                                     Tag="{Binding BuyerModelID}" Text="{Binding BuyerModel}" Style="{DynamicResource TextBoxInputArea}"
+                                     KeyDown="txtModel_KeyDown"/>
+                            <Button x:Name="btnPfModel" Grid.Row="11" Grid.Column="2" Click="btnPfModel_Click">
                                 <Image Source="{DynamicResource btiPlusFind}" />
                             </Button>
 
