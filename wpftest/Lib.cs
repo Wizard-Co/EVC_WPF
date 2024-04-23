@@ -373,8 +373,9 @@ namespace WizMes_HanYoung
         public void CheckIsNumeric(TextBox sender, TextCompositionEventArgs e)
         {
             decimal result;
+            bool isNegative = e.Text.Equals("-") && sender.SelectionStart == 0 && !sender.Text.Contains("-");
             bool dot = sender.Text.IndexOf(".") < 0 && e.Text.Equals(".") && sender.Text.Length > 0;
-            if (!(Decimal.TryParse(e.Text, out result) || dot))
+            if (!(Decimal.TryParse(e.Text, out result) || dot || isNegative))
             {
                 e.Handled = true;
             }

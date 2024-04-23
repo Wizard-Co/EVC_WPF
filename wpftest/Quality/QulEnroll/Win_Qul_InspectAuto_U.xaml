@@ -416,13 +416,21 @@
                             </ContextMenu>
                         </Button.ContextMenu>
                     </Button>
-                        
+
+                    <Button x:Name="btnTensileReportUpload" Grid.Column="0" Click="btnTensileReportUpload_Click" Margin="1">
+                        <StackPanel Orientation="Vertical" >
+                            <TextBlock Text="인장테스트" />
+                            <TextBlock Text="업로드" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    
                     <Button x:Name="btnSearch" Grid.Column="1" Click="btnSearch_Click" Margin="1">
                         <StackPanel Orientation="Horizontal" >
                             <Image Source="{DynamicResource btiSearch}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
                             <TextBlock Text="{Binding Source={StaticResource tblSearch},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
+                    
                     <Button x:Name="btnSave" Grid.Column="2"  Visibility="Hidden" Click="btnSave_Click"  Margin="1">
                         <StackPanel Orientation="Horizontal" >
                             <Image Source="{DynamicResource btiSave}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>

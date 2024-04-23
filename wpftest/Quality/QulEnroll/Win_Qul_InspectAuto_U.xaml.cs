@@ -12,7 +12,11 @@ using System.Windows.Input;
 using System.Drawing.Printing;
 using WizMes_HanYoung.PopUP;
 using WizMes_HanYoung.PopUp;
+using Microsoft.Win32;
+using ExcelDataReader;
 using WPF.MDI;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using System.Windows.Markup;
 
 /**************************************************************************************************
 '** 프로그램명 : Win_Qul_DefectRepair_Q
@@ -57,9 +61,18 @@ namespace WizMes_HanYoung
         int DFCount9 = 0;
         int DFCount10 = 0;
 
+        string InspectBasisID_Global;
+        string ArticleID_Global;
+        string ForderName = "InspectAutoBasis";
+        string EcoNo_Global = string.Empty;
+        string ModelID_Global = string.Empty;
+        string ProcessID_Global = string.Empty;
+        string MachineID_Global = string.Empty;
+        string LabelID_Global = string.Empty;
 
         string strPoint = string.Empty;     //  1: 수입, 3:자주, 5:출하
         string strFlag = string.Empty;
+
 
         int Wh_Ar_SelectedLastIndex = 0;        // 그리드 마지막 선택 줄 임시저장 그릇
 
@@ -137,6 +150,7 @@ namespace WizMes_HanYoung
             cboFML.SelectedIndex = 1;
 
             tbnOutcomeInspect_Click(null, null);
+            btnTensileReportUpload.Visibility = Visibility.Hidden;
         }
 
         //
@@ -247,6 +261,8 @@ namespace WizMes_HanYoung
                 cboMachine.Visibility = Visibility.Hidden;
 
                 btnPrint.Visibility = Visibility.Hidden;
+                btnTensileReportUpload.Visibility = Visibility.Visible;
+
             }
             else
             {
@@ -277,6 +293,8 @@ namespace WizMes_HanYoung
                 cboMachine.Visibility = Visibility.Visible;
 
                 btnPrint.Visibility = Visibility.Hidden;
+                btnTensileReportUpload.Visibility = Visibility.Visible;
+
             }
             else
             {
@@ -308,6 +326,7 @@ namespace WizMes_HanYoung
                 cboMachine.Visibility = Visibility.Visible;
 
                 btnPrint.Visibility = Visibility.Hidden;
+                btnTensileReportUpload.Visibility = Visibility.Visible;
             }
             else
             {
@@ -341,7 +360,8 @@ namespace WizMes_HanYoung
                 lblMachine.Visibility = Visibility.Hidden;
                 cboMachine.Visibility = Visibility.Hidden;
 
-                btnPrint.Visibility = Visibility.Visible;
+                btnPrint.Visibility = Visibility.Hidden;
+                btnTensileReportUpload.Visibility = Visibility.Hidden;
             }
             else
             {
@@ -3719,6 +3739,630 @@ namespace WizMes_HanYoung
                 }
             }
         }
+        
+        private bool CheckIsLabelIDExist(string LabelID)
+        {
+            bool flag = true;
+
+            List<Procedure> Prolist = new List<Procedure>();
+            List<Dictionary<string, object>> ListParameter = new List<Dictionary<string, object>>();
+
+            Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+            sqlParameter.Clear();
+            sqlParameter.Add("LabelID", LabelID);
+            sqlParameter.Add("InspectBasisID", "");
+            sqlParameter.Add("InspectPoint", strPoint);
+
+            Procedure pro1 = new Procedure();
+            pro1.Name = "xp_Inspect_CheckInspectAutoBasisExist";
+            pro1.OutputUseYN = "Y";
+            pro1.OutputName = "InspectBasisID";
+            pro1.OutputLength = "20";
+
+            Prolist.Add(pro1);
+            ListParameter.Add(sqlParameter);
+
+            //동운씨가 만든 아웃풋 값 찾는 방법
+            List<KeyValue> list_Result = new List<KeyValue>();
+            list_Result = DataStore.Instance.ExecuteAllProcedureOutputGetCS(Prolist, ListParameter);
+
+            //Prolist.RemoveAt(0);
+            //ListParameter.RemoveAt(0);
+
+            string sGetID = string.Empty;
+
+            if (list_Result[0].key.ToLower() == "success")
+            {
+                //list_Result.RemoveAt(0);
+                for (int i = 0; i < list_Result.Count; i++)
+                {
+                    KeyValue kv = list_Result[i];
+                    if (kv.key == "InspectBasisID")
+                    {
+                        sGetID = kv.value;
+
+                        if (sGetID.Equals("NO_ARTICLE"))
+                        {
+                            MessageBox.Show("생산정보를 읽지 못하였습니다. 공정라벨ID를 확인해 주세요.");
+                            flag = false;
+                        }
+                        else if (sGetID.Contains("NO_BASISID"))
+                        {
+                            string msg = string.Empty;
+                            switch(strPoint)
+                            {
+                                case "1":
+                                    msg = "입고";
+                                    break;
+                                case "3":
+                                    msg = "공정";
+                                    break;
+                                case "9":
+                                    msg = "자주";
+                                    break;
+                            }
+                            string ExtractedArticleID = sGetID.Substring(sGetID.IndexOf(',') + 1).Trim(); //리턴값에 ArticleID를 달아놓고 분리하여 사용
+                            ArticleID_Global = ExtractedArticleID;
+                           
+                            //MessageBox.Show("등록하고자 하는 품목의 "+msg+"검사기준이 등록 되지 않았습니다.\r\n검사기준등록 화면에서 검사기준을 등록하세요.")
+
+                            MessageBoxResult msgresult = MessageBox.Show("등록하고자 하는 품목의 "+ msg+"검사기준이 없습니다.\r\n자동 등록 후 업로드 하시겠습니까?"
+                                                                        , "등록 전 확인", MessageBoxButton.YesNo); //인장 강도 테스트 양식을 보니 검사기준은 한개 인거 같은데 자동등록을 원하면 이것을 살려서 쓰세요...
+                            if (msgresult == MessageBoxResult.Yes)
+                            {
+                                AutoGenerateInspectBasis(LabelID);
+                                //MessageBox.Show("등록 ㅋㅋㅋㅋㅋ");
+                            }
+                            else
+                            {
+                                flag = false;
+                            }
+                              
+                        }
+                        else
+                        {
+                            InspectBasisID_Global = sGetID;
+                            continue;
+                        }
+                    }
+                }
+            }
+            Prolist.Clear();
+            ListParameter.Clear();
+
+            return flag;
+        }
+
+        private bool AutoGenerateInspectBasis(string LabelID)
+        {
+            bool flag = true;
+
+            DataTable dt = AutoGeneratedBasisTable();
+
+
+            List<Procedure> Prolist = new List<Procedure>();
+            List<Dictionary<string, object>> ListParameter = new List<Dictionary<string, object>>();
+
+            strFlag = "I";
+
+            Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+            sqlParameter.Clear();
+            sqlParameter.Add("InspectBasisID", "");
+            sqlParameter.Add("Seq", 1);
+            sqlParameter.Add("ArticleID", ArticleID_Global);
+            sqlParameter.Add("EcoNo", "");
+            sqlParameter.Add("Comments", "인장강도 성적서 업로드 기능에 의한 자동생성");
+
+            sqlParameter.Add("BuyerModelID", "");
+            sqlParameter.Add("InspectPoint", strPoint);
+            sqlParameter.Add("MoldNo", DateTime.Now.ToString("yyyyMMdd"));
+            sqlParameter.Add("ProcessID", ""); //공정은 프로시저 안에서 만들자..
+
+
+            if (strFlag.Equals("I"))   //추가일 때 
+            {
+                sqlParameter.Add("CreateUserID", MainWindow.CurrentUser);
+
+                Procedure pro1 = new Procedure();
+                pro1.Name = "xp_Code_iInspectAutoBasis";
+                pro1.OutputUseYN = "Y";
+                pro1.OutputName = "InspectBasisID";
+                pro1.OutputLength = "30";
+
+                Prolist.Add(pro1);
+                ListParameter.Add(sqlParameter);
+
+
+                List<KeyValue> list_Result = new List<KeyValue>();
+                list_Result = DataStore.Instance.ExecuteAllProcedureOutputGetCS_NewLog(Prolist, ListParameter, "C");
+                string sGetID = string.Empty;
+
+                if (list_Result[0].key.ToLower() == "success")
+                {
+                    list_Result.RemoveAt(0);
+                    for (int i = 0; i < list_Result.Count; i++)
+                    {
+                        KeyValue kv = list_Result[i];
+                        if (kv.key == "InspectBasisID")
+                        {
+                            sGetID = kv.value;
+
+                            InspectBasisID_Global = kv.value;
+
+                            Prolist.Clear();
+                            ListParameter.Clear();
+                        }
+
+                    }
+
+                }
+                else
+                {
+                    MessageBox.Show("[저장실패]\r\n" + list_Result[0].value.ToString());
+                    flag = false;
+                }
+
+
+                //Sub 저장 프로시저 돌리기 
+                for (int i = 0; i < dt.Columns.Count; i++)
+                {
+                    Dictionary<string, object> sqlParameterSub = new Dictionary<string, object>();
+                    sqlParameterSub.Clear();
+                    sqlParameterSub.Add("InspectBasisID", InspectBasisID_Global);
+                    sqlParameterSub.Add("Seq", 1);
+                    sqlParameterSub.Add("SubSeq", i+1); 
+                    sqlParameterSub.Add("InsType", 2); //DIM으로 고정
+                    sqlParameterSub.Add("InsItemName", dt.Columns[i].ToString());
+
+                    sqlParameterSub.Add("InsTPSpec", "0 ~ 999");
+                    sqlParameterSub.Add("InsTPSpecMin", "");
+                    sqlParameterSub.Add("InsTPSpecMax", "");
+                    sqlParameterSub.Add("InsRASpec", "0 ~ 999");
+                    sqlParameterSub.Add("InsRASpecMin", 0);
+                    sqlParameterSub.Add("InsRASpecMax", 999);
+
+                    //샘플수량은 빈값 들어가면 안돼, 0 이거나 숫자가 들어가도록.
+                    sqlParameterSub.Add("InsSampleQty", 1);
+                    sqlParameterSub.Add("ManageGubun", "4"); //관리구분 콤보박스-> .
+                    sqlParameterSub.Add("InspectGage", "05"); //인장력측정기 05
+                    sqlParameterSub.Add("InspectCycleGubun", "4");
+
+                    sqlParameterSub.Add("InspectCycle", 1);
+                    sqlParameterSub.Add("Comments", "인장강도 성적서 업로드 기능에 의한 자동생성SUB");
+
+                    sqlParameterSub.Add("InsImageFile", "");
+                    sqlParameterSub.Add("InsImagePath", "/ImageData/" + ForderName + "/" + InspectBasisID_Global); //파일은 없어도 폴더는 만들기
+
+                    Procedure proSub = new Procedure();
+                    proSub.Name = "xp_Code_iInspectAutoBasisSub";
+                    proSub.OutputUseYN = "N";
+                    proSub.OutputName = "InspectBasisID";
+                    proSub.OutputLength = "30";
+
+                    Prolist.Add(proSub);
+                    ListParameter.Add(sqlParameterSub);
+
+                }
+
+                string[] Confirm = new string[2];
+                Confirm = DataStore.Instance.ExecuteAllProcedureOutputNew_NewLog(Prolist, ListParameter, "I");
+                if (Confirm[0] != "success")
+                {
+                    MessageBox.Show("[저장실패]\r\n" + Confirm[1].ToString());
+                    flag = false;
+                }
+                else
+                    flag = true;
+            }
+
+            return flag;
+        }
+
+        private void btnTensileReportUpload_Click(object sender, RoutedEventArgs e)
+        {
+            using (Loading ld = new Loading("excel", beUploadExcel))
+            {
+                ld.ShowDialog();
+            }
+
+            re_Search(0);
+        }
+
+        private void GetArticleInfoByArticleID(string ArticleID)
+        {
+            try
+            {
+                //ArticleID_Global = string.Empty;
+                EcoNo_Global = string.Empty;
+                ModelID_Global = string.Empty;
+                //InspectBasisID_Global = string.Empty;
+
+                Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+                //sqlParameter.Add("BuyerArticleNo", BuyerArticleNo);
+                sqlParameter.Add("ArticleID", ArticleID);
+
+                DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Inspect_sBasisInfoInfoByArticleID", sqlParameter, false);
+
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataTable dt = ds.Tables[0];
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        DataRow dr = dt.Rows[0];
+
+                        ArticleID_Global = dr["ArticleID"].ToString();
+                        EcoNo_Global = dr["EcoNo"].ToString();
+                        ModelID_Global = dr["BuyerModelID"].ToString();
+                        //InspectBasisID_Global = dr["InspectBasisID"].ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("오류 발생, 오류 내용 : " + ex.ToString());
+            }
+            finally
+            {
+                DataStore.Instance.CloseConnection();
+            }
+        }
+
+
+        private void GetArticleInfoByLabelID(string LabelID)
+        {
+            try
+            {
+                //ArticleID_Global = string.Empty;
+                EcoNo_Global = string.Empty;
+                ModelID_Global = string.Empty;
+                //InspectBasisID_Global = string.Empty;
+
+                Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+                //sqlParameter.Add("BuyerArticleNo", BuyerArticleNo);
+                sqlParameter.Add("LabelID", LabelID);
+                
+
+                DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Inspect_sArticleInfoByLabelID", sqlParameter, false);
+
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataTable dt = ds.Tables[0];
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        DataRow dr = dt.Rows[0];
+
+
+                        ArticleID_Global = dr["ArticleID"].ToString();//전역변수로 담은게 있으면 그거 쓰고 아니면 새로 받아오기
+                        EcoNo_Global = dr["EcoNo"].ToString();
+                        ModelID_Global = dr["BuyerModelID"].ToString();
+                        MachineID_Global = dr["MachineID"].ToString();
+                        ProcessID_Global = dr["ProcessID"].ToString();
+
+                        //InspectBasisID_Global = dr["InspectBasisID"].ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("오류 발생, 오류 내용 : " + ex.ToString());
+            }
+            finally
+            {
+                DataStore.Instance.CloseConnection();
+            }
+        }
+
+        private DataTable AutoGeneratedBasisTable() //기준값 없을때 빈테이블 만들고 sub에다가 넣을거
+        {
+            DataTable dt = new DataTable();
+
+            //dt.Columns.Add("Sample_No", typeof(string));
+            //dt.Columns.Add("규격_D", typeof(string));
+            dt.Columns.Add("단면적_mm2", typeof(double));
+            dt.Columns.Add("최대하중_kgf", typeof(double));
+            //dt.Columns.Add("표점거리_mm", typeof(double));
+            //dt.Columns.Add("최대변위_mm", typeof(double));
+            dt.Columns.Add("항복강도_kgf_mm2", typeof(double));
+            dt.Columns.Add("인장강도_kgf_mm2", typeof(double));
+            dt.Columns.Add("연신율_%", typeof(double));
+            //dt.Columns.Add("메모", typeof(string));
+
+            return dt;
+        }
+
+        private void beUploadExcel()
+        {
+
+            List<Procedure> Prolist = new List<Procedure>();
+            List<Dictionary<string, object>> ListParameter = new List<Dictionary<string, object>>();
+
+            Stopwatch watch = new Stopwatch();
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.DefaultExt = ".xls";
+            openFileDialog.Filter = "Excel Files (*.xlsx)|*.xlsx";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+                string[] split_path = filePath.Split('\\'); // 1줄 경로를 \\로 나누어 문자배열에 넣기
+                string fileName = split_path[split_path.Length - 1]; //나눈 갯수 배열의 제일 마지막은 파일 이름
+                //string fileNameNoExtension = System.IO.Path.GetFileNameWithoutExtension(filePath);
+
+                string ExtractedLabeID = "";
+
+                int index = fileName.IndexOf("C"); //파일명에 C를 찾아서 인덱스 지정
+                if (index >= 0 && index + 11 <= fileName.Length) //인덱스로부터 파일명 검증..
+                {
+                    ExtractedLabeID = fileName.Substring(index, 11); //괜찮으면 C지점부터 11자리
+                    LabelID_Global = ExtractedLabeID;
+                }
+
+                if (ExtractedLabeID != null && ExtractedLabeID != string.Empty)
+                {
+                    //GetArticleInfoByArticleID(ArticleID_Global); 
+
+                    if (CheckIsLabelIDExist(ExtractedLabeID)) //공정라벨로 검사기준등록에 있는지 확인
+                    {
+                        GetArticleInfoByLabelID(ExtractedLabeID); //없어도 일단 만들어짐
+
+                        try
+                        {
+                            // 엑셀 파일 읽기
+                            using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
+                            {
+                                using (var reader = ExcelReaderFactory.CreateReader(stream))
+                                {
+                                    // 엑셀 데이터를 DataSet으로 읽어들이기
+                                    var dataSet = reader.AsDataSet();
+
+                                    // 첫 번째 워크시트의 데이터 가져오기
+
+                                    bool startSave = false;
+                                    DataTable resultTable = new DataTable();
+
+                                    foreach (DataTable dataTable in dataSet.Tables) //엑셀에 있는 모든 시트를  하나의 datatable에 저장하기
+                                    {
+                                        if (dataTable.Rows.Count > 0) //데이터 테이블에 행이 있으면.. 없을리는 없겠지만
+                                        {
+                                            foreach (DataRow row in dataTable.Rows)
+                                            {
+                                                if (row[0].ToString().Contains("Sample")) //만약에 엑셀의 A열에서 "Name"을 만난다면
+                                                {
+                                                    startSave = true; //저장시작으로 돌림
+
+
+                                                    for (int i = 0; i < row.ItemArray.Length; i++) //행의 열 갯수만큼 반복해서 데이터테이블에 넣기 시작함
+                                                    {
+                                                        string columnName = row[i].ToString();
+                                                        if (!resultTable.Columns.Contains(columnName)) //데이터테이블에 열이름이 없을때 넣음
+                                                        {
+                                                            resultTable.Columns.Add(columnName);
+                                                        }
+                                                    }
+                                                }
+                                                else if (startSave) //그 외에는 계속 데이터를 넣음 어차피 열 이름은 각 검사성적서 마다 똑같음..
+                                                {
+
+                                                    DataRow newRow = resultTable.NewRow();
+                                                    for (int i = 0; i < row.ItemArray.Length; i++)
+                                                    {
+                                                        string columnName = resultTable.Columns[i].ColumnName;
+                                                        newRow[columnName] = row[i];
+                                                    }
+                                                    resultTable.Rows.Add(newRow);
+                                                }
+                                            }
+                                        }
+
+                                        startSave = false; //한 시트가 끝나면 일단 저장하는 것을 멈춤 다음 시트에서 Name을 만나면
+                                                           //열 이름은 이미 저장되어 있으니 넘어가고 startSave가 true로 바뀌고 계속 이어서 
+                                                           //데이터 테이블에 값을 저장함
+                                    }
+
+                                    ReadUploadExcel(resultTable); //여기까지 오면 각 시트의 데이터를 하나의 테이블로 만듬
+                                }
+                            }
+
+                            //MessageBox.Show("파일이 성공적으로 업로드되었습니다.");
+                        }
+                        catch (Exception ex)
+                        {
+                            if (ex.ToString().Contains("다른 프로세스에서 사용"))
+                            {
+
+                                MessageBox.Show("[오류 발생]\r\n 업로드 하려는 엑셀 파일이 열려있습니다.\r\n 해당 엑셀 프로그램을 먼저 종료해주세요.");
+
+                            }
+                            else
+                            {
+                                MessageBox.Show("파일 업로드 중 오류가 발생했습니다: " + ex.Message);
+
+                            }
+                        }
+                        finally
+                        {
+                            DataStore.Instance.CloseConnection();
+                        }
+                    }                  
+                }
+            }
+        }
+
+        private bool ReadUploadExcel(DataTable dt)
+        {
+            bool flag = true;
+            bool innerFlag = false;
+            string SgetID = string.Empty;
+
+            DataRowCollection drc = dt.Rows;
+
+            try
+            {
+
+                List<Procedure> Prolist = new List<Procedure>();
+                List<Dictionary<string, object>> ListParameter = new List<Dictionary<string, object>>();
+
+
+                //우선 AutoInspect에 먼저 만들어야 fk충돌이 안난다
+                Dictionary<string, object> sqlParameter1 = new Dictionary<string, object>();
+                sqlParameter1.Clear();
+
+                sqlParameter1.Add("InspectID", "");  //output받아 오니 빈값
+                sqlParameter1.Add("ArticleID", ArticleID_Global != string.Empty ? ArticleID_Global : ""); //파일 이름으로 품번을 찾아 전역변수에 저장한 값
+                sqlParameter1.Add("InspectGubun", "2"); //1= 전수 // 2= 샘플 // 3= 일반
+                sqlParameter1.Add("InspectDate", DateTime.Today.ToString("yyyyMMdd")); //오늘날짜
+                sqlParameter1.Add("LotID", LabelID_Global); 
+
+                sqlParameter1.Add("InspectQty", 1); //나중에 sub에서 합계해서 해주자
+                sqlParameter1.Add("ECONo", EcoNo_Global); //콤보 이벤트를 업로드 전에 걸었고 나중에 완료되면 clear해줘야 하는거 잊지 말기
+                sqlParameter1.Add("Comments", "인장력테스트 업로드 기능으로 생성"); //자동생성이라고 프로시저에서 적어주자
+                sqlParameter1.Add("InspectLevel", "1"); //유검사
+                sqlParameter1.Add("SketchPath", "");  // txtSKetch.Tag != null ? txtSKetch.Tag.ToString() :
+
+                sqlParameter1.Add("SketchFile", "");
+                sqlParameter1.Add("AttachedPath", "");  //txtFile.Tag !=null ? txtFile.Tag.ToString() :
+                sqlParameter1.Add("AttachedFile", "");
+                sqlParameter1.Add("InspectUserID", MainWindow.CurrentUser);
+                //sqlParamet1er.Add("CreateUserID", MainWindow.CurrentUser);
+
+                sqlParameter1.Add("sInspectBasisID", InspectBasisID_Global);
+                //sqlParamet1er.Add("InspectBasisIDSeq", BasisSeq);
+                sqlParameter1.Add("sDefectYN", "Y");//우선 Y하고 나중에 update
+                sqlParameter1.Add("sProcessID", ProcessID_Global);
+                sqlParameter1.Add("InspectPoint", "3"); //공정 고정
+
+                sqlParameter1.Add("ImportSecYN", "N");
+                sqlParameter1.Add("ImportlawYN", "N");
+                sqlParameter1.Add("ImportImpYN", "N");
+                sqlParameter1.Add("ImportNorYN", "N");
+                sqlParameter1.Add("IRELevel", "");
+
+                sqlParameter1.Add("InpCustomID", "");
+                sqlParameter1.Add("InpDate", ""); //입고일
+                sqlParameter1.Add("OutCustomID", "");
+                sqlParameter1.Add("OutDate", "");
+                sqlParameter1.Add("MachineID", MachineID_Global);
+
+                sqlParameter1.Add("BuyerModelID", ModelID_Global);
+                sqlParameter1.Add("FMLGubun", "1"); //초중종 구분인데 일단 초
+                sqlParameter1.Add("TotalDefectQty", 0); //총 불량수 서브 프로시저에서 불량 업데이트 해줄거임
+                sqlParameter1.Add("MilSheetNo", "");//밀시트
+
+                sqlParameter1.Add("SumInspectQty", 0);
+                sqlParameter1.Add("SumDefectQty", 0);
+                sqlParameter1.Add("DayOrNightID", "");
+                sqlParameter1.Add("CreateUserID", MainWindow.CurrentUser);
+
+                Procedure pro1 = new Procedure();
+                //pro1.Name = "xp_Ins_chkInspectAuto_InspectID";
+                pro1.Name = "xp_Inspect_iAutoInspect";
+                pro1.OutputUseYN = "Y";
+                pro1.OutputName = "InspectID";
+                pro1.OutputLength = "10";
+
+                Prolist.Add(pro1);
+                ListParameter.Add(sqlParameter1);
+
+                List<KeyValue> list_Result1 = new List<KeyValue>();
+                list_Result1 = DataStore.Instance.ExecuteAllProcedureOutputGetCS(Prolist, ListParameter);
+
+                string sGetID = string.Empty;
+
+                if (list_Result1[0].key.ToLower() == "success")
+                {
+                    //list_Result.RemoveAt(0);
+
+                    for (int i = 0; i < list_Result1.Count; i++)
+                    {
+                        KeyValue kv = list_Result1[i];
+                        if (kv.key == "InspectID") //output으로 지정한 검사번호를 할당
+                        {
+                            sGetID = kv.value;
+                            SgetID = kv.value;
+
+                            if (sGetID.Equals(""))
+                            {
+                                continue;
+                            }
+                        }
+                    }
+                }
+                Prolist.Clear();
+                ListParameter.Clear();
+                innerFlag = true; //검사번호 따왔으면 서브 인서트도 하자
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("오류 : 업로드 중 Ins_inspectAuto_Table에 업로드에 오류가 있습니다." + e.Message.ToString());
+            }
+            finally
+            {
+                DataStore.Instance.CloseConnection();
+            }
+
+
+            if (innerFlag == true) //검사번호 output이 있으면
+            {
+                try
+                {
+
+                    foreach (DataRow dr in drc)
+                    {
+                        Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+                        List<Procedure> Prolist = new List<Procedure>();
+                        List<Dictionary<string, object>> ListParameter = new List<Dictionary<string, object>>();
+
+                        sqlParameter.Clear();
+
+                        sqlParameter.Add("InspectID", SgetID);
+                        sqlParameter.Add("InspectBasisID", InspectBasisID_Global);
+                        //sqlParameter.Add("InspectBasisSeq", i);
+                        sqlParameter.Add("InspectBasisSubSeq", 0);
+                        sqlParameter.Add("InspectText", dr["Test"].ToString()); //성적서에 검사 합불여부 적힌거 ins_inspectAutoSub에 DefectYN의 여부를 판단하기 위한 파라미터
+                        sqlParameter.Add("Name", dr["Name"].ToString()); //검사항목명
+                        sqlParameter.Add("Meas", dr["Meas"].ToString()); //검사값
+                        sqlParameter.Add("Tol", 0); //공차 쓸려고 했는데 이미 성적서에 합불이 있음 굳이 계산식은 안 만들어도 될거 같은? 일단 받아오자
+                        sqlParameter.Add("Message", "");
+                        sqlParameter.Add("CreateUserID", MainWindow.CurrentUser);
+
+                        Procedure pro2 = new Procedure();
+                        pro2.Name = "xp_Inspect_iAutoInspectSub_Report"; //문제 생기면 방금까지 ins_inspectAuto, ins_inspectAutoSub에 넣은거 삭제하는 쿼리 넣음
+                        pro2.OutputUseYN = "Y";
+                        pro2.OutputName = "Message";
+                        pro2.OutputLength = "400";
+
+                        Prolist.Add(pro2);
+                        ListParameter.Add(sqlParameter);
+
+                        List<KeyValue> list_Result2 = new List<KeyValue>();
+                        list_Result2 = DataStore.Instance.ExecuteAllProcedureOutputGetCS(Prolist, ListParameter);
+
+                        string sGetID = string.Empty;
+
+                        if (list_Result2[0].key.ToLower() == "success")
+                        {
+                            innerFlag = false;
+                            continue;
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("오류 : 업로드 중 Ins_InspectAutoSub_Table 업로드에 오류가 있습니다." + e.Message.ToString());
+                }
+                finally
+                {
+                    DataStore.Instance.CloseConnection();
+                }
+            }
+
+
+            return flag;
+        }
+
     }
 
     class Win_Qul_InspectAuto_U_CodeView : BaseView

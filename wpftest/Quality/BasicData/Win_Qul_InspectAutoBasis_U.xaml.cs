@@ -578,6 +578,10 @@ namespace WizMes_HanYoung
                     , "InspectBasisID", "Seq", "xp_Code_dInspectAutoBasis"))
                 {
                     rowNum = dgdMain.SelectedIndex - 1;
+                    if(rowNum < 0)
+                    {
+                        dgdSub.Items.Clear();
+                    }
                     re_Search(rowNum);
                 }
             }), System.Windows.Threading.DispatcherPriority.Background);
@@ -1081,7 +1085,6 @@ namespace WizMes_HanYoung
                     sqlParameter.Add("InspectPoint", sInspectPoint);
                     sqlParameter.Add("MoldNo", dtpMoldNo.SelectedDate.Value.ToString("yyyyMMdd"));
                     sqlParameter.Add("ProcessID", txtProcess.Tag != null ? txtProcess.Tag.ToString() : "");
-
 
 
 

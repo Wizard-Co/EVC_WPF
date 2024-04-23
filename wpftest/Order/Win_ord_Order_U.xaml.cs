@@ -170,10 +170,16 @@ namespace WizMes_HanYoung
             cboOrderClassSrh.SelectedIndex = 0;
 
             // 주문 기준
-            ObservableCollection<CodeView> ovcWorkUnitClss = ComboBoxUtil.Instance.Gf_DB_CM_GetComCodeDataset(null, "CMMUNIT", "Y", "", "");
+            //ObservableCollection<CodeView> ovcWorkUnitClss = ComboBoxUtil.Instance.Gf_DB_CM_GetComCodeDataset(null, "CMMUNIT", "Y", "", "");
+            ObservableCollection<CodeView> ovcWorkUnitClss = ComboBoxUtil.Instance.Gf_DB_CM_GetComCodeDataset(null, "MTRUNIT", "Y", "", "");
             cboUnitClss.ItemsSource = ovcWorkUnitClss;
             cboUnitClss.DisplayMemberPath = "code_name";
             cboUnitClss.SelectedValuePath = "code_id";
+
+            //ObservableCollection<CodeView> ovcUnitClss = ComboBoxUtil.Instance.Gf_DB_CM_GetComCodeDataset(null, "MTRUNIT", "Y", "");
+            //this.cboUnitClss.ItemsSource = ovcUnitClss;
+            //this.cboUnitClss.DisplayMemberPath = "code_name";
+            //this.cboUnitClss.SelectedValuePath = "code_id";
 
             // 품명 종류
             ObservableCollection<CodeView> ovcArticleGrpID = ComboBoxUtil.Instance.GetArticleCode_SetComboBox("", 0);
