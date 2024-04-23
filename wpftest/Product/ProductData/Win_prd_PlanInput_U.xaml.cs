@@ -685,9 +685,6 @@ namespace WizMes_HanYoung
                         {
                             DataRowCollection drc = dt.Rows;
 
-
-
-  
                             foreach (DataRow dr in drc)
                             {
                                 var WinPlanArticle = new Win_prd_PlanArticleOne_CodeView()
@@ -696,17 +693,18 @@ namespace WizMes_HanYoung
                                     PatternSeq = dr["PatternSeq"].ToString(),
                                     ProcessID = dr["ProcessID"].ToString(),
                                     Process = dr["Process"].ToString(),
-                                    Qty = stringFormatN0(dr["Qty"]),
+                                    Qty = dr["Qty"].ToString(),
                                     Article = dr["Article"].ToString(),
                                     ArticleID = dr["ArticleID"].ToString(),
                                     BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
                                     LVL = dr["LVL"].ToString(),
-                                    InstQty = stringFormatN0(txtQty.Text),
                                     StartDate = dtpInstDate.SelectedDate.Value.ToString("yyyyMMdd"),
                                     EndDate = dtpInstCompleteDate.SelectedDate.Value.ToString("yyyyMMdd"),
                                     ChildBuyerArticleNo = dr["ChildBuyerArticleNo"].ToString(),
                                 };
 
+                                //지시수량
+                                WinPlanArticle.InstQty = stringFormatN2(ConvertDouble(WinPlanArticle.Qty) * ConvertDouble(txtQty.Text));
 
                                 // 날짜 세팅
                                 WinPlanArticle.StartDate_CV = DatePickerFormat(WinPlanArticle.StartDate);
@@ -829,13 +827,6 @@ namespace WizMes_HanYoung
             if (WinPlan.ArticleID == null)
             {
                 MessageBox.Show("해당 수주에 품명 정보가 없습니다.");
-                return false;
-            }
-
-            // 지시 완료가 되어 있다면!!!
-            if (WinPlan.PlanComplete.Trim().Equals("*"))
-            {
-                MessageBox.Show("지시완료가 된 작업지시입니다.");
                 return false;
             }
 

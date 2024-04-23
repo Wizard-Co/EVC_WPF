@@ -1482,11 +1482,11 @@ namespace WizMes_HanYoung
             {
                 if (dgdSub.CurrentItem != null)
                 {
-                    dgdSub.Items.Remove(dgdSub.CurrentItem as Win_prd_RegularInspectBasis_U_CodeView);
+                    dgdSub.Items.Remove((dgdSub.Items[dgdSub.Items.Count - 1]) as Win_prd_RegularInspectBasis_U_CodeView);
                 }
                 else
                 {
-                    dgdSub.Items.Remove((dgdSub.Items[dgdSub.Items.Count - 1]) as Win_prd_RegularInspectBasis_U_CodeView);
+                    dgdSub.Items.Remove((dgdSub.SelectedItem) as Win_prd_RegularInspectBasis_U_CodeView);
                 }
 
                 dgdSub.Refresh();
