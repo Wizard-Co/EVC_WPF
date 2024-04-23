@@ -737,7 +737,7 @@ namespace WizMes_HanYoung
                                 InstID = dr["InstID"].ToString(),
                                 InstDetSeq = dr["InstDetSeq"].ToString(),
 
-                                InstQty = stringFormatN0(dr["InstQty"]),
+                                InstQty = stringFormatN2(dr["InstQty"]),
                                 StartDate = dr["StartDate"].ToString(),
                                 StartDate_CV = DatePickerFormat(dr["StartDate"].ToString()),
                                 EndDate = dr["EndDate"].ToString(),
