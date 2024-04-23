@@ -1676,6 +1676,7 @@ namespace WizMes_HanYoung
                         //단가 대입
                         txtUnitPrice.Text = articleData.OutUnitPrice;
 
+
                     }
 
                     //플러스 파인더 작동 후 규격으로 커서 이동
@@ -1711,6 +1712,7 @@ namespace WizMes_HanYoung
                     CallArticleData(txtArticle.Tag.ToString());
                     //품명종류 대입(ex.제품 등)
                     cboArticleGroup.SelectedValue = articleData.ArticleGrpID;
+
                     //품번 대입
                     //txtBuyerArticleNO.Text = articleData.BuyerArticleNo;
                     //품명 대입
@@ -2121,6 +2123,7 @@ namespace WizMes_HanYoung
 
                         //품명종류 대입(ex.제품 등)
                         cboArticleGroup.SelectedValue = articleData.ArticleGrpID;
+                        cboUnitClss.SelectedValue = articleData.UnitClss;
                         //품명 대입
                         txtArticle.Text = articleData.Article;
                         //단가 대입
@@ -2164,6 +2167,8 @@ namespace WizMes_HanYoung
 
                     //품명종류 대입(ex.제품 등)
                     cboArticleGroup.SelectedValue = articleData.ArticleGrpID;
+                    cboUnitClss.SelectedValue = articleData.UnitClss;
+
                     //품명 대입
                     txtArticle.Text = articleData.Article;
                     //단가 대입
@@ -2199,6 +2204,8 @@ namespace WizMes_HanYoung
             dgdtxtOrderID.Visibility = Visibility.Visible;
             dgdtxtOrderNo.Visibility = Visibility.Hidden;
         }
+
+   
     }
 
 

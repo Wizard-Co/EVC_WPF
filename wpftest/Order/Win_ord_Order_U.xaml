@@ -570,7 +570,7 @@
                             </Label>
                             <TextBox x:Name="txtBuyerArticleNO" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1"  Text="{Binding BuyerArticleNo}" Tag="{Binding ArticleID}"
                                     Style="{StaticResource TextBoxInputNecessary}"
-                                     Keyboard.KeyDown="txtBuyerArticle_KeyDown"
+                                     Keyboard.KeyDown="txtBuyerArticle_KeyDown" Height="24" Margin="1,1,1,0" Grid.RowSpan="2" VerticalAlignment="Top"
                                      />
                             <Button x:Name="ButtonBuyerArticleNo" Grid.Column="2" Grid.Row="6"  
                                     Click="btnPfBuyerArticle_Click"
