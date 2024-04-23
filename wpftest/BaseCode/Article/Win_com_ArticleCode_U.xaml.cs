@@ -1596,14 +1596,6 @@ namespace WizMes_HanYoung
                     return false;
                 }
 
-#if ANT_2 == false
-                if (txtCode.Text.Trim().Equals(""))
-                {
-                    MessageBox.Show("코드가 입력되지 않았습니다.");
-                    flag = false;
-                    return flag;
-                }
-#endif
 
                 // 2020.02.20 품번이 필수 입력이 되어야함!!!
                 if (txtBuyerArticleNo.Text.Trim().Equals(""))
