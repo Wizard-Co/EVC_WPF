@@ -137,7 +137,8 @@ namespace WizMes_HanYoung
             DataStore.Instance.InsertLogByFormS(this.GetType().Name, stDate, stTime, "S");
 
             Lib.Instance.UiLoading(this);
-            TbnOutCome_Click(tbnOutCome, null);
+            //TbnOutCome_Click(tbnOutCome, null);
+            TbnProcessCycle_Click(tbnProcessCycle, null);
             SetComboBox();
             //dtpMoldNo.SelectedDate = DateTime.Today;
         }
@@ -577,11 +578,7 @@ namespace WizMes_HanYoung
                 if (Procedure.Instance.DeleteData(InsAutoBasis.InspectBasisID, InsAutoBasis.Seq
                     , "InspectBasisID", "Seq", "xp_Code_dInspectAutoBasis"))
                 {
-                    rowNum = dgdMain.SelectedIndex - 1;
-                    if(rowNum < 0)
-                    {
-                        dgdSub.Items.Clear();
-                    }
+                    rowNum = dgdMain.SelectedIndex - 1;                
                     re_Search(rowNum);
                 }
             }), System.Windows.Threading.DispatcherPriority.Background);

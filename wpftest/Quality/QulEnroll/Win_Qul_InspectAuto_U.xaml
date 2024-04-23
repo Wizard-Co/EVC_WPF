@@ -558,7 +558,7 @@
                     </Border>
                     <Border Grid.Column="3" Grid.Row="1" BorderThickness="1 1 1 1" BorderBrush="#424242" CornerRadius="0 0 0 0"
                             Background="White">
-                        <ToggleButton x:Name="tbnOutcomeInspect" Grid.Column="0" Click="tbnOutcomeInspect_Click" FontWeight="Normal" IsChecked="True">
+                        <ToggleButton x:Name="tbnOutcomeInspect" Grid.Column="0" Click="tbnOutcomeInspect_Click" FontWeight="Normal">
                             <StackPanel Orientation="Horizontal">
                                 <Viewbox Margin="0.5">
                                     <TextBlock Text="출하검사" />
