@@ -35,7 +35,7 @@
                        MouseLeftButtonUp="lblDate_MouseLeftButtonUp">
                     <StackPanel Style="{DynamicResource StackPanelInLabel}">
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                            <CheckBox x:Name="chkDate" 
+                            <CheckBox x:Name="chkDate"
                                       Checked="chkDate_Checked" Unchecked="chkDate_Unchecked" VerticalAlignment="Center" />
                         </Viewbox>
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">

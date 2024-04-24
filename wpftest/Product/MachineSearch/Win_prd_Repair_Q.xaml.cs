@@ -37,6 +37,7 @@ namespace WizMes_HanYoung
             Lib.Instance.UiLoading(sender);
             dtpSDate.SelectedDate = DateTime.Today;
             dtpEDate.SelectedDate = DateTime.Today;
+            chkDate.IsChecked = true;
         }
 
         #endregion
