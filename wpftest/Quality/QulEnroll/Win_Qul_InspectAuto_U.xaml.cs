@@ -1555,6 +1555,18 @@ namespace WizMes_HanYoung
                                 R = dr["R"].ToString(),
                                 Sigma = "",  //dr["Sigma"].ToString(),
                                 xBar = dr["xBar"].ToString(),
+
+
+                                ValueDefect1 = "",
+                                ValueDefect2 = "",
+                                ValueDefect3 = "",
+                                ValueDefect4 = "",
+                                ValueDefect5 = "",
+                                ValueDefect6 = "",
+                                ValueDefect7 = "",
+                                ValueDefect8 = "",
+                                ValueDefect9 = "",
+                                ValueDefect10 = "",
                             };
 
                             for (int i = 0; i < 10; i++)
@@ -1573,18 +1585,123 @@ namespace WizMes_HanYoung
                             }
                             else if (strType.Equals("2"))
                             {
+                                #region 유성코드
+                                //유성에서 긁어온 코드
+                                //double maxValue = 0.0;
+                                //double minValue = 0.0;
+                                //double value1 = 0.0;
+                                //double value2 = 0.0;
+                                //double value3 = 0.0;
+                                //double value4 = 0.0;
+                                //double value5 = 0.0;
+                                //double value6 = 0.0;
+                                //double value7 = 0.0;
+                                //double value8 = 0.0;
+                                //double value9 = 0.0;
+                                //double value10 = 0.0;
+
+
+                                //if (!WinQulInsAutoSub.SpecMax.ToString().Equals(""))
+                                //{
+                                //    maxValue = Convert.ToDouble(WinQulInsAutoSub.SpecMax.ToString());
+                                //}
+                                //if (!WinQulInsAutoSub.SpecMin.ToString().Equals(""))
+                                //{
+                                //    minValue = Convert.ToDouble(WinQulInsAutoSub.SpecMin.ToString());
+                                //}
+                                //if (!WinQulInsAutoSub.InspectValue1.ToString().Equals(""))
+                                //{
+                                //    value1 = Convert.ToDouble(WinQulInsAutoSub.InspectValue1.ToString());
+                                //}
+                                //if (!WinQulInsAutoSub.InspectValue2.ToString().Equals(""))
+                                //{
+                                //    value2 = Convert.ToDouble(WinQulInsAutoSub.InspectValue2.ToString());
+                                //}
+                                //if (!WinQulInsAutoSub.InspectValue3.ToString().Equals(""))
+                                //{
+                                //    value3 = Convert.ToDouble(WinQulInsAutoSub.InspectValue3.ToString());
+                                //}
+                                //if (!WinQulInsAutoSub.InspectValue4.ToString().Equals(""))
+                                //{
+                                //    value4 = Convert.ToDouble(WinQulInsAutoSub.InspectValue3.ToString());
+                                //}
+                                //if (!WinQulInsAutoSub.InspectValue5.ToString().Equals(""))
+                                //{
+                                //    value5 = Convert.ToDouble(WinQulInsAutoSub.InspectValue3.ToString());
+                                //}
+                                //if (!WinQulInsAutoSub.InspectValue6.ToString().Equals(""))
+                                //{
+                                //    value6 = Convert.ToDouble(WinQulInsAutoSub.InspectValue3.ToString());
+                                //}
+                                //if (!WinQulInsAutoSub.InspectValue7.ToString().Equals(""))
+                                //{
+                                //    value7 = Convert.ToDouble(WinQulInsAutoSub.InspectValue3.ToString());
+                                //}
+                                //if (!WinQulInsAutoSub.InspectValue8.ToString().Equals(""))
+                                //{
+                                //    value8 = Convert.ToDouble(WinQulInsAutoSub.InspectValue3.ToString());
+                                //}
+                                //if (!WinQulInsAutoSub.InspectValue9.ToString().Equals(""))
+                                //{
+                                //    value9 = Convert.ToDouble(WinQulInsAutoSub.InspectValue3.ToString());
+                                //}
+                                //if (!WinQulInsAutoSub.InspectValue10.ToString().Equals(""))
+                                //{
+                                //    value10 = Convert.ToDouble(WinQulInsAutoSub.InspectValue3.ToString());
+                                //}
+
+
+
+                                //if (!(value1 >= minValue && value1 <= maxValue)) //1번값
+                                //{
+                                //    WinQulInsAutoSub.ValueDefect1 = "true";
+                                //}
+                                //if (!(value2 >= minValue && value2 <= maxValue)) //2번값
+                                //{
+                                //    WinQulInsAutoSub.ValueDefect2 = "true";
+                                //}
+                                //if (!(value3 >= minValue && value3 <= maxValue)) //3번값
+                                //{
+                                //    WinQulInsAutoSub.ValueDefect3 = "true";
+                                //}
+                                //if (!(value4 >= minValue && value4 <= maxValue)) //4번값
+                                //{
+                                //    WinQulInsAutoSub.ValueDefect4 = "true";
+                                //}
+                                //if (!(value5 >= minValue && value5 <= maxValue)) //5번값
+                                //{
+                                //    WinQulInsAutoSub.ValueDefect5 = "true";
+                                //}
+                                //if (!(value6 >= minValue && value7 <= maxValue)) //5번값
+                                //{
+                                //    WinQulInsAutoSub.ValueDefect7 = "true";
+                                //}
+                                //if (!(value8 >= minValue && value8 <= maxValue))
+                                //{
+                                //    WinQulInsAutoSub.ValueDefect8 = "true";
+                                //}
+                                //if (!(value9 >= minValue && value9 <= maxValue))
+                                //{
+                                //    WinQulInsAutoSub.ValueDefect9 = "true";
+                                //}
+                                //if (!(value10 >= minValue && value10 <= maxValue))
+                                //{
+                                //    WinQulInsAutoSub.ValueDefect10 = "true";
+                                //}
+                                #endregion
+                                #region 기존코드
                                 double maxValue = WinQulInsAutoSub.SpecMax.Equals("") ? 0.0 : Convert.ToDouble(WinQulInsAutoSub.SpecMax);
                                 double minValue = WinQulInsAutoSub.SpecMin.Equals("") ? 0.0 : Convert.ToDouble(WinQulInsAutoSub.SpecMin);
 
                                 for (int i = 0; i < WinQulInsAutoSub.arrInspectValue.Length; i++)
                                 {
-                                    string inspectValue = WinQulInsAutoSub.arrInspectValue[0];
+                                    string inspectValue = WinQulInsAutoSub.arrInspectValue[i];
                                     double value = inspectValue.Equals("") ? 0.0 : Convert.ToDouble(inspectValue);
 
                                     if (!(value >= minValue && value <= maxValue))
-                                        WinQulInsAutoSub.arrValueDefect[0] = "true";
+                                        WinQulInsAutoSub.arrValueDefect[i] = "true";
                                 }
-
+                                #endregion
                                 dgdSub2.Items.Add(WinQulInsAutoSub);
 
                                 defectCheck2.Clear(); //이전에 들어있던 데이터는 지우고 추가해보자
@@ -1713,11 +1830,11 @@ namespace WizMes_HanYoung
 
                     sqlParameter.Add("SumInspectQty", lib.CheckNullZero(txtSumInspectQty.Text.Replace(",", "")));
                     sqlParameter.Add("SumDefectQty", lib.CheckNullZero(txtSumDefectQty.Text.Replace(",", "")));
-                    sqlParameter.Add("chkUseReport", 0);
 
                     #region 추가
                     if (strFlag.Equals("I"))
                     {
+                        sqlParameter.Add("chkUseReport", 0);
                         sqlParameter.Add("CreateUserID", MainWindow.CurrentUser);
 
                         Procedure pro1 = new Procedure();
@@ -1816,7 +1933,7 @@ namespace WizMes_HanYoung
                                 sqlParameter.Add("InspectBasisSubSeq", WinInsAutoSub.SubSeq);
                                 sqlParameter.Add("InspectText", "");
 
-                                string inspectValue = WinInsAutoSub.arrInspectValue[j] != "" ? lib.CheckNullZero(WinInsAutoSub.arrInspectValue[j].Replace(",", "")) : "0";
+                                string inspectValue = WinInsAutoSub.arrInspectValue[j] != "" ? lib.CheckNullZero(WinInsAutoSub.arrInspectValue[j].Replace(",", "")) : "";
                                 sqlParameter.Add("InspectValue", inspectValue);
                                 sqlParameter.Add("CreateUserID", MainWindow.CurrentUser);
 
@@ -3608,6 +3725,260 @@ namespace WizMes_HanYoung
             return flag;
         }
 
+        #region 로스트포커스...
+        private void ValueText_LostFocus_1(object sender, RoutedEventArgs e)
+        {
+
+            WinInsAutoSub = dgdSub2.CurrentItem as Win_Qul_InspectAuto_U_Sub_CodeView;
+            double maxValue = Convert.ToDouble(WinInsAutoSub.SpecMax);
+            double minValue = Convert.ToDouble(WinInsAutoSub.SpecMin);
+
+
+            if (WinInsAutoSub.InspectValue1 != null && WinInsAutoSub.InspectValue1 != "")
+            {
+                double value1 = Convert.ToDouble(WinInsAutoSub.InspectValue1);
+
+                if (!(value1 >= minValue && value1 <= maxValue))
+                {
+                    WinInsAutoSub.ValueDefect1 = "true";
+                }
+                else
+                {
+                    WinInsAutoSub.ValueDefect1 = "";
+                }
+
+                txtInspectQty.Text = GetValueCount().ToString();
+            }
+
+        }
+
+        private void ValueText_LostFocus_2(object sender, RoutedEventArgs e)
+        {
+
+            WinInsAutoSub = dgdSub2.CurrentItem as Win_Qul_InspectAuto_U_Sub_CodeView;
+            double maxValue = Convert.ToDouble(WinInsAutoSub.SpecMax);
+            double minValue = Convert.ToDouble(WinInsAutoSub.SpecMin);
+
+            if (WinInsAutoSub.InspectValue2 != null && WinInsAutoSub.InspectValue2 != "")
+            {
+
+                double value2 = Convert.ToDouble(WinInsAutoSub.InspectValue2);
+
+                if (!(value2 >= minValue && value2 <= maxValue))
+                {
+                    WinInsAutoSub.ValueDefect2 = "true";
+                }
+                else
+                {
+                    WinInsAutoSub.ValueDefect2 = "";
+                }
+
+                txtInspectQty.Text = GetValueCount().ToString();
+            }
+
+        }
+
+        private void ValueText_LostFocus_3(object sender, RoutedEventArgs e)
+        {
+
+            WinInsAutoSub = dgdSub2.CurrentItem as Win_Qul_InspectAuto_U_Sub_CodeView;
+            double maxValue = Convert.ToDouble(WinInsAutoSub.SpecMax);
+            double minValue = Convert.ToDouble(WinInsAutoSub.SpecMin);
+
+            if (WinInsAutoSub.InspectValue3 != null && WinInsAutoSub.InspectValue3 != "")
+            {
+                double value3 = Convert.ToDouble(WinInsAutoSub.InspectValue3);
+
+                if (!(value3 >= minValue && value3 <= maxValue))
+                {
+                    WinInsAutoSub.ValueDefect3 = "true";
+                }
+                else
+                {
+                    WinInsAutoSub.ValueDefect3 = "";
+                }
+
+                txtInspectQty.Text = GetValueCount().ToString();
+            }
+
+        }
+
+        private void ValueText_LostFocus_4(object sender, RoutedEventArgs e)
+        {
+
+            WinInsAutoSub = dgdSub2.CurrentItem as Win_Qul_InspectAuto_U_Sub_CodeView;
+            double maxValue = Convert.ToDouble(WinInsAutoSub.SpecMax);
+            double minValue = Convert.ToDouble(WinInsAutoSub.SpecMin);
+            if (WinInsAutoSub.InspectValue4 != null && WinInsAutoSub.InspectValue4 != "")
+            {
+                double value4 = Convert.ToDouble(WinInsAutoSub.InspectValue4);
+
+                if (!(value4 >= minValue && value4 <= maxValue))
+                {
+                    WinInsAutoSub.ValueDefect4 = "true";
+                }
+                else
+                {
+                    WinInsAutoSub.ValueDefect4 = "";
+                }
+
+                txtInspectQty.Text = GetValueCount().ToString();
+            }
+        }
+
+        private void ValueText_LostFocus_5(object sender, RoutedEventArgs e)
+        {
+
+            WinInsAutoSub = dgdSub2.CurrentItem as Win_Qul_InspectAuto_U_Sub_CodeView;
+            double maxValue = Convert.ToDouble(WinInsAutoSub.SpecMax);
+            double minValue = Convert.ToDouble(WinInsAutoSub.SpecMin);
+            if (WinInsAutoSub.InspectValue5 != null && WinInsAutoSub.InspectValue5 != "")
+            {
+                double value5 = Convert.ToDouble(WinInsAutoSub.InspectValue5);
+
+                if (!(value5 >= minValue && value5 <= maxValue))
+                {
+                    WinInsAutoSub.ValueDefect5 = "true";
+                }
+                else
+                {
+                    WinInsAutoSub.ValueDefect5 = "";
+                }
+
+                txtInspectQty.Text = GetValueCount().ToString();
+            }
+
+        }
+        private void ValueText_LostFocus_6(object sender, RoutedEventArgs e)
+        {
+
+            WinInsAutoSub = dgdSub2.CurrentItem as Win_Qul_InspectAuto_U_Sub_CodeView;
+            double maxValue = Convert.ToDouble(WinInsAutoSub.SpecMax);
+            double minValue = Convert.ToDouble(WinInsAutoSub.SpecMin);
+
+            if (WinInsAutoSub.InspectValue6 != null && WinInsAutoSub.InspectValue6 != "")
+            {
+                double value6 = Convert.ToDouble(WinInsAutoSub.InspectValue6);
+
+                if (!(value6 >= minValue && value6 <= maxValue))
+                {
+                    WinInsAutoSub.ValueDefect6 = "true";
+                }
+                else
+                {
+                    WinInsAutoSub.ValueDefect6 = "";
+                }
+
+                txtInspectQty.Text = GetValueCount().ToString();
+
+
+            }
+
+        }
+
+        private void ValueText_LostFocus_7(object sender, RoutedEventArgs e)
+        {
+
+            WinInsAutoSub = dgdSub2.CurrentItem as Win_Qul_InspectAuto_U_Sub_CodeView;
+            double maxValue = Convert.ToDouble(WinInsAutoSub.SpecMax);
+            double minValue = Convert.ToDouble(WinInsAutoSub.SpecMin);
+
+            if (WinInsAutoSub.InspectValue7 != null && WinInsAutoSub.InspectValue7 != "")
+            {
+                double value7 = Convert.ToDouble(WinInsAutoSub.InspectValue7);
+
+                if (!(value7 >= minValue && value7 <= maxValue))
+                {
+                    WinInsAutoSub.ValueDefect7 = "true";
+                }
+                else
+                {
+                    WinInsAutoSub.ValueDefect7 = "";
+                }
+
+                txtInspectQty.Text = GetValueCount().ToString();
+            }
+
+        }
+
+        private void ValueText_LostFocus_8(object sender, RoutedEventArgs e)
+        {
+
+            WinInsAutoSub = dgdSub2.CurrentItem as Win_Qul_InspectAuto_U_Sub_CodeView;
+            double maxValue = Convert.ToDouble(WinInsAutoSub.SpecMax);
+            double minValue = Convert.ToDouble(WinInsAutoSub.SpecMin);
+
+            if (WinInsAutoSub.InspectValue8 != null && WinInsAutoSub.InspectValue8 != "")
+            {
+                double value8 = Convert.ToDouble(WinInsAutoSub.InspectValue8);
+
+
+                if (!(value8 >= minValue && value8 <= maxValue))
+                {
+                    WinInsAutoSub.ValueDefect8 = "true";
+                }
+                else
+                {
+                    WinInsAutoSub.ValueDefect8 = "";
+                }
+
+                txtInspectQty.Text = GetValueCount().ToString();
+            }
+
+        }
+        private void ValueText_LostFocus_9(object sender, RoutedEventArgs e)
+        {
+
+            WinInsAutoSub = dgdSub2.CurrentItem as Win_Qul_InspectAuto_U_Sub_CodeView;
+            double maxValue = Convert.ToDouble(WinInsAutoSub.SpecMax);
+            double minValue = Convert.ToDouble(WinInsAutoSub.SpecMin);
+
+            if (WinInsAutoSub.InspectValue9 != null && WinInsAutoSub.InspectValue9 != "")
+            {
+                double value9 = Convert.ToDouble(WinInsAutoSub.InspectValue9);
+
+                if (!(value9 >= minValue && value9 <= maxValue))
+                {
+                    WinInsAutoSub.ValueDefect9 = "true";
+                }
+                else
+                {
+                    WinInsAutoSub.ValueDefect9 = "";
+                }
+
+                txtInspectQty.Text = GetValueCount().ToString();
+
+            }
+
+        }
+
+        private void ValueText_LostFocus_10(object sender, RoutedEventArgs e)
+        {
+
+            WinInsAutoSub = dgdSub2.CurrentItem as Win_Qul_InspectAuto_U_Sub_CodeView;
+            double maxValue = Convert.ToDouble(WinInsAutoSub.SpecMax);
+            double minValue = Convert.ToDouble(WinInsAutoSub.SpecMin);
+
+            if (WinInsAutoSub.InspectValue10 != null && WinInsAutoSub.InspectValue10 != "")
+            {
+                double value10 = Convert.ToDouble(WinInsAutoSub.InspectValue10);
+
+                if (!(value10 >= minValue && value10 <= maxValue))
+                {
+                    WinInsAutoSub.ValueDefect10 = "true";
+                }
+                else
+                {
+                    WinInsAutoSub.ValueDefect10 = "";
+                }
+
+                txtInspectQty.Text = GetValueCount().ToString();
+            }
+
+
+        }
+        #endregion
+
 
         private void clear()
         {
@@ -3981,7 +4352,7 @@ namespace WizMes_HanYoung
             {
                 ld.ShowDialog();
             }
-
+         
             re_Search(0);
         }
 
@@ -4213,6 +4584,7 @@ namespace WizMes_HanYoung
 
         private bool ReadUploadExcel(DataTable dt)
         {
+            int cnt = 0;
             bool flag = true;
             bool innerFlag = false;
             string SgetID = string.Empty;
@@ -4292,9 +4664,8 @@ namespace WizMes_HanYoung
 
                 string sGetID = string.Empty;
 
-                if (list_Result1[0].key.ToLower() == "success")
-                {
-                    //list_Result.RemoveAt(0);
+                if (list_Result1[0].key.ToLower() == "success") //InspectID값은 다르지만 lotno가 같아서 두개이상 반환 오류가 생겼을때
+                {                                              //dgdMain selectionchanged에서 받아온 값을 사용하도록 하였습니다.
 
                     for (int i = 0; i < list_Result1.Count; i++)
                     {
@@ -4313,7 +4684,7 @@ namespace WizMes_HanYoung
                 }
                 Prolist.Clear();
                 ListParameter.Clear();
-                innerFlag = true; //검사번호 따왔으면 서브 인서트도 하자
+                innerFlag = true; //서브 인서트로...
             }
             catch (Exception e)
             {
@@ -4328,6 +4699,8 @@ namespace WizMes_HanYoung
          
             if (innerFlag == true) //검사번호 output이 있으면
             {
+              
+
                 try
                 {
 
@@ -4339,18 +4712,18 @@ namespace WizMes_HanYoung
 
                         sqlParameter.Clear();
 
-                        sqlParameter.Add("InspectID", SgetID != "" ? SgetID : InspectID_Global);
+                        sqlParameter.Add("InspectID", SgetID != "" ? SgetID : InspectID_Global); //혹시나 같은 라벨아이디로 여러번 검사했을경우를 방지하기 위함
                         sqlParameter.Add("InspectBasisID", InspectBasisID_Global);
                         //sqlParameter.Add("InspectBasisSeq", i);
                         sqlParameter.Add("InspectBasisSubSeq", 0);
                         sqlParameter.Add("InspectText", "");
                         sqlParameter.Add("Name", dr["SampleNo"].ToString()); //검사항목명
-                        sqlParameter.Add("Meas", dr[7].ToString()); //검사값
+                        sqlParameter.Add("Meas", dr[3].ToString()); //검사값
                         //sqlParameter.Add("Tol", 0); //공차 쓸려고 했는데 이미 성적서에 합불이 있음 굳이 계산식은 안 만들어도 될거 같은? 일단 받아오자
                         sqlParameter.Add("Message", "");
                         sqlParameter.Add("CreateUserID", MainWindow.CurrentUser);
 
-                        Procedure pro2 = new Procedure();
+                         Procedure pro2 = new Procedure();
                         pro2.Name = "xp_Inspect_iAutoInspectSub_Report"; //문제 생기면 방금까지 ins_inspectAuto, ins_inspectAutoSub에 넣은거 삭제하는 쿼리 넣음
                         pro2.OutputUseYN = "Y";
                         pro2.OutputName = "Message";
@@ -4366,11 +4739,23 @@ namespace WizMes_HanYoung
 
                         if (list_Result2[0].key.ToLower() == "success")
                         {
+                            KeyValue kv = list_Result2[1];
+                            if (kv.value.Contains("검사샘플"))
+                            {
+                                MessageBox.Show(kv.value);
+                                cnt++;
+                                flag = false;                 
+                               
+                            }
+                            else
+                            {                              
+                                continue;
+                            }
+
                             innerFlag = false;
-                            continue;
                         }
                     }
-                }
+                }              
                 catch (Exception e)
                 {
                     MessageBox.Show("오류 : 업로드 중 Ins_InspectAutoSub_Table 업로드에 오류가 있습니다." + e.Message.ToString());
@@ -4436,6 +4821,16 @@ namespace WizMes_HanYoung
             //    }
             //}
             #endregion
+
+            if(cnt > 0)
+            {
+                MessageBox.Show("일부 검사항목을 제외하고 인장테스트 결과값 업로드가 완료되었습니다.");
+                cnt = 0;
+            }
+            else
+            {
+                MessageBox.Show("인장테스트 검사결과값 업로드가 완료되었습니다.");
+            }
 
             return flag;
         }
