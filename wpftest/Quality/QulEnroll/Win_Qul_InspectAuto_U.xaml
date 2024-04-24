@@ -1500,7 +1500,7 @@
                                         <TextBox Text="{Binding InspectValue1,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                  Tag="1" TextChanged="InspectValue_TextChanged"
                                                  PreviewTextInput="NumValue_PreviewTextInput"
-                                                 LostFocus="ValueText_LostFocus"
+                                                 LostFocus="ValueText_LostFocus_1"
                                                  KeyDown="ValueText_KeyDown" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
@@ -1529,7 +1529,7 @@
                                         <TextBox Text="{Binding InspectValue2,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                  Tag="2" TextChanged="InspectValue_TextChanged"
                                                  PreviewTextInput="NumValue_PreviewTextInput"
-                                                 LostFocus="ValueText_LostFocus"
+                                                 LostFocus="ValueText_LostFocus_2"
                                                  KeyDown="ValueText_KeyDown" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
@@ -1557,7 +1557,7 @@
                                         <TextBox Text="{Binding InspectValue3,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                  Tag="3" TextChanged="InspectValue_TextChanged"
                                                  PreviewTextInput="NumValue_PreviewTextInput"
-                                                 LostFocus="ValueText_LostFocus"
+                                                 LostFocus="ValueText_LostFocus_3"
                                                  KeyDown="ValueText_KeyDown" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
@@ -1585,7 +1585,7 @@
                                         <TextBox Text="{Binding InspectValue4,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                  Tag="4" TextChanged="InspectValue_TextChanged"
                                                  PreviewTextInput="NumValue_PreviewTextInput"
-                                                 LostFocus="ValueText_LostFocus"
+                                                 LostFocus="ValueText_LostFocus_4"
                                                  KeyDown="ValueText_KeyDown"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
@@ -1612,7 +1612,7 @@
                                         <TextBox Text="{Binding InspectValue5,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                  Tag="5" TextChanged="InspectValue_TextChanged"
                                                  PreviewTextInput="NumValue_PreviewTextInput"
-                                                 LostFocus="ValueText_LostFocus"
+                                                 LostFocus="ValueText_LostFocus_5"
                                                  KeyDown="ValueText_KeyDown"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
@@ -1639,7 +1639,7 @@
                                         <TextBox Text="{Binding InspectValue6,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                  Tag="6" TextChanged="InspectValue_TextChanged"
                                                  PreviewTextInput="NumValue_PreviewTextInput"
-                                                 LostFocus="ValueText_LostFocus"
+                                                 LostFocus="ValueText_LostFocus_6"
                                                  KeyDown="ValueText_KeyDown"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
@@ -1666,7 +1666,7 @@
                                         <TextBox Text="{Binding InspectValue7,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                  Tag="7" TextChanged="InspectValue_TextChanged"
                                                  PreviewTextInput="NumValue_PreviewTextInput"
-                                                 LostFocus="ValueText_LostFocus"
+                                                 LostFocus="ValueText_LostFocus_7"
                                                  KeyDown="ValueText_KeyDown"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
@@ -1693,7 +1693,7 @@
                                         <TextBox Text="{Binding InspectValue8,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                  Tag="8" TextChanged="InspectValue_TextChanged"
                                                  PreviewTextInput="NumValue_PreviewTextInput"
-                                                 LostFocus="ValueText_LostFocus"
+                                                 LostFocus="ValueText_LostFocus_8"
                                                  KeyDown="ValueText_KeyDown"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
@@ -1721,7 +1721,7 @@
                                         <TextBox Text="{Binding InspectValue9,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                  Tag="9" TextChanged="InspectValue_TextChanged"
                                                  PreviewTextInput="NumValue_PreviewTextInput"
-                                                 LostFocus="ValueText_LostFocus"
+                                                 LostFocus="ValueText_LostFocus_9"
                                                  KeyDown="ValueText_KeyDown"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
@@ -1748,7 +1748,7 @@
                                         <TextBox Text="{Binding InspectValue10,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                  Tag="10" TextChanged="InspectValue_TextChanged"
                                                  PreviewTextInput="NumValue_PreviewTextInput"
-                                                 LostFocus="ValueText_LostFocus"
+                                                 LostFocus="ValueText_LostFocus_10"
                                                  KeyDown="ValueText_KeyDown"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
