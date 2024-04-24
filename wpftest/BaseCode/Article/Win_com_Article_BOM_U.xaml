@@ -212,18 +212,18 @@
                             <TextBlock Text="{Binding Source={StaticResource tblCancle},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
-                    <Button x:Name="btnExcel" Grid.Column="3" Margin="1" Click="btnExcelUp_Click" Visibility="Visible">
+                    <Button x:Name="btnExcel" Grid.Column="3" Margin="1" Click="btnExcel_Click" Visibility="Visible">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{DynamicResource btiExcel}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
                             <TextBlock Text="{Binding Source={StaticResource tblExcel},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
                         </StackPanel>
-                        <Button.ContextMenu>
+                        <!--<Button.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="미리보기" Click="menuSeeAhead_Click" ></MenuItem>
                                 <MenuItem Header="바로인쇄" Click="menuRightPrint_Click" ></MenuItem>
                                 <MenuItem Header="닫   기" Click="menuClose_Click" ></MenuItem>
                             </ContextMenu>
-                        </Button.ContextMenu>
+                        </Button.ContextMenu>-->
                         
                     </Button>
                 </Grid>
@@ -433,6 +433,13 @@
                                     <Button x:Name="btnPfParentArticle" Grid.Column="1" Click="btnPfParentArticle_Click">
                                         <Image Source="{DynamicResource btiPlusFind}" />
                                     </Button>
+
+                                    <TextBox x:Name="txtParentBuyArticle" Grid.Column="2"  Style="{DynamicResource TextBoxInputNecessary}" Visibility="Hidden"
+                                             Keyboard.KeyDown="txtParentBuyArticle_KeyDown" Text="{Binding ParentBuyerArticleNO}" Tag="{Binding PARENTArticleID}"/>
+                                    <Button x:Name="btnPfParentBuyArticle" Grid.Column="3" Click="btnPfParentBuyArticle_Click" Visibility="Hidden">
+                                        <Image Source="{DynamicResource btiPlusFind}" />
+                                    </Button>
+                                    
                                 </Grid>
                                 <Label Grid.Row="1" Grid.Column="0" Style="{DynamicResource LabelInputArea}">
                                     <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
@@ -443,17 +450,22 @@
 
                                 <Grid Grid.Row="1" Grid.Column="1" Margin="1">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="139*" />
-                                        <ColumnDefinition Width="76*"/>
-                                        <ColumnDefinition Width="22*" />
-                                        <ColumnDefinition Width="64*" />
+                                        <ColumnDefinition Width="10*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="3*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBox x:Name="txtArticle" Grid.Column="0" Margin="1" Style="{DynamicResource TextBoxInputNecessary}"
-                                             Keyboard.KeyDown="txtArticle_KeyDown" Text="{Binding Article}" Tag="{Binding ArticleID}" Grid.ColumnSpan="2"/>
-                                    <Button x:Name="btnPfArticle" Grid.Column="2" Click="btnPfArticle_Click">
+                                    <TextBox x:Name="txtArticle" Grid.Column="0" Style="{DynamicResource TextBoxInputNecessary}"
+                                             Keyboard.KeyDown="txtArticle_KeyDown" Text="{Binding Article}" Tag="{Binding ArticleID}" />
+                                    <Button x:Name="btnPfArticle" Grid.Column="1" Click="btnPfArticle_Click">
                                         <Image Source="{DynamicResource btiPlusFind}" />
                                     </Button>
 
+                                    <TextBox x:Name="txtBuyArticle" Grid.Column="2"  Style="{DynamicResource TextBoxInputNecessary}" Visibility="Hidden"
+                                             Keyboard.KeyDown="txtBuyArticle_KeyDown" Text="{Binding ChildBuyerArticleNO}" Tag="{Binding ArticleID}" />
+                                    <Button x:Name="btnPfBuyArticle" Grid.Column="3" Click="btnPfBuyArticle_Click" Visibility="Hidden">
+                                        <Image Source="{DynamicResource btiPlusFind}" />
+                                    </Button>
+                                    
                                     <!--<Label Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1">
                                         <TextBlock Text="품     번" Margin="2" />
                                     </Label>
@@ -605,26 +617,18 @@
                                 <DataGrid x:Name="dgdExcel"  Grid.Row="3"  Margin="1"  IsReadOnly="True" Style="{DynamicResource DataGridSet1}" Visibility="Hidden">
 
                                     <DataGrid.Columns>
-                                        <DataGridTextColumn x:Name="Lv1" Header="LVL1" Binding="{Binding LVL1}" Width="auto" />
-
-                                        <DataGridTextColumn Header="품명코드" Binding="{Binding ArticleID}" Width="auto" />
-                                        <DataGridTextColumn x:Name="Lv2" Header="LVL2" Binding="{Binding LVL2}" Width="auto" />
-                                        <DataGridTextColumn Header="품명코드" Binding="{Binding ArticleID}" Width="auto" />
-                                        <DataGridTextColumn x:Name="Lv3" Header="LVL3" Binding="{Binding LVL3}" Width="auto" />
-                                        <DataGridTextColumn Header="품명코드" Binding="{Binding ArticleID}" Width="auto" />
-                                        <DataGridTextColumn x:Name="Lv4" Header="LVL4" Binding="{Binding LVL4}" Width="auto" />
-                                        <DataGridTextColumn Header="품명코드" Binding="{Binding ArticleID}" Width="auto" />
-                                        
-                                        
-                                        <!--<DataGridTextColumn Header="품번" Binding="{Binding ChildBuyerArticleNO}" Width="*"  />
+                                        <DataGridTextColumn Header="품번" Binding="{Binding ChildBuyerArticleNO}" Width="*"  />
                                         <DataGridTextColumn Header="품명" Binding="{Binding Article}" Width="*"/>
                                         <DataGridTextColumn Header="소요량" Binding="{Binding Qty, StringFormat=N0}" Width="*"/>
                                         <DataGridTextColumn Header="단위" Binding="{Binding UnitClssName}" Width="*"/>
                                         <DataGridTextColumn Header="중량" Binding="{Binding Weight, StringFormat=N0}" Width="*"/>
-                                        <DataGridTextColumn Header="스크랩발생률" Binding="{Binding ScraptRate, StringFormat=N0}" Width="*"/>
-                                        <DataGridTextColumn Header="적용시작일" Binding="{Binding FromDate_CV}" Width="*"/>
+                                        <!--<DataGridTextColumn Header="스크랩발생률" Binding="{Binding ScraptRate, StringFormat=N0}" Width="*"/>-->
+                                        <!--<DataGridTextColumn Header="적용시작일" Binding="{Binding FromDate_CV}" Width="*"/>
                                         <DataGridTextColumn Header="적용종료일" Binding="{Binding ToDate_CV}" Width="*"/>-->
                                         <!--<DataGridTextColumn Header="FirstColumnCV" Binding="{Binding Article}" Width="*"/>-->
+                                        
+                                        
+                                       
                                     </DataGrid.Columns>
                                 </DataGrid>
                                 <DataGrid x:Name="dgdArticleP" Grid.Row="3" Margin="1" Style="{StaticResource DataGridSet1}" Visibility="Visible"

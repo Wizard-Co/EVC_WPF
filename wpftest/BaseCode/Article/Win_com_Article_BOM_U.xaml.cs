@@ -26,6 +26,9 @@ namespace WizMes_HanYoung
 
         string strFlag = string.Empty;
         string strDirection = string.Empty;
+
+        string PChildArticle = string.Empty; //상하위 구분자 상위 - "P" 하위 - "C"
+
         int rowNum = 0;
         int ArticleBomCnt = 0;
         Lib lib = new Lib();
@@ -549,7 +552,7 @@ namespace WizMes_HanYoung
         {
             FillGrid2();
 
-            //임시
+            //임시 
             if (tlvItemList.Items.Count > 0
                 && strFlag.Equals("I"))
             {
@@ -898,7 +901,7 @@ namespace WizMes_HanYoung
 
 
                             dgdExcel.Items.Add(WinExcel);
-                            ovcArticleBom.Add(WinExcel);
+                            //ovcArticleBom.Add(WinExcel);
                         }
                     }
                 }
@@ -1209,10 +1212,13 @@ namespace WizMes_HanYoung
                 MainWindow.pf.ReturnCodeGLS(txtParentArticle, 77, "");
                 //MainWindow.pf.ReturnCode(txtParentArticle, (int)Defind_CodeFind.DCF_BuyerArticleNo, "");
 
+                PChildArticle = "P";
+
                 if (txtParentArticle.Tag != null)
                 {
                     getArticleInfo(txtParentArticle.Tag.ToString());
                 }
+                PChildArticle = "";
 
             }
         }
@@ -1220,6 +1226,7 @@ namespace WizMes_HanYoung
         //상위품명
         private void btnPfParentArticle_Click(object sender, RoutedEventArgs e)
         {
+            PChildArticle = "P";
             MainWindow.pf.ReturnCodeGLS(txtParentArticle, 77, "");
             //MainWindow.pf.ReturnCode(txtParentArticle, (int)Defind_CodeFind.DCF_BuyerArticleNo, "");
 
@@ -1227,6 +1234,9 @@ namespace WizMes_HanYoung
             {
                 getArticleInfo(txtParentArticle.Tag.ToString());
             }
+
+            PChildArticle = "";
+
         }
 
         //하위품명
@@ -1236,11 +1246,13 @@ namespace WizMes_HanYoung
             {
                 MainWindow.pf.ReturnCodeGLS(txtArticle, 77, "");
                 //MainWindow.pf.ReturnCode(txtArticle, (int)Defind_CodeFind.DCF_BuyerArticleNo, "");
+                PChildArticle = "C";
 
                 if (txtArticle.Tag != null)
                 {
                     getArticleInfo(txtArticle.Tag.ToString());
                 }
+                PChildArticle = "";
             }
         }
 
@@ -1252,10 +1264,15 @@ namespace WizMes_HanYoung
                 MainWindow.pf.ReturnCodeGLS(txtArticle, 77, "");
                 //MainWindow.pf.ReturnCode(txtArticle, (int)Defind_CodeFind.DCF_BuyerArticleNo, "");
 
+                PChildArticle = "C";
+
                 if (txtArticle.Tag != null)
                 {
                     getArticleInfo(txtArticle.Tag.ToString());
                 }
+
+                PChildArticle = "";
+
             }
             catch (Exception ex)
             {
@@ -2167,9 +2184,68 @@ namespace WizMes_HanYoung
         }
 
 
+
         #endregion // 거래명세서 인쇄 메서드
 
+        private void txtParentBuyArticle_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                MainWindow.pf.ReturnCodeGLS(txtParentBuyArticle, 76, "");
+                //MainWindow.pf.ReturnCode(txtParentArticle, (int)Defind_CodeFind.DCF_BuyerArticleNo, "");
 
+                if (txtParentBuyArticle.Tag != null)
+                {
+                    getArticleInfo(txtParentBuyArticle.Tag.ToString());
+                }
+
+            }
+        }
+
+        private void btnPfParentBuyArticle_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.pf.ReturnCodeGLS(txtParentBuyArticle, 76, "");
+            //MainWindow.pf.ReturnCode(txtParentArticle, (int)Defind_CodeFind.DCF_BuyerArticleNo, "");
+
+            if (txtParentBuyArticle.Tag != null)
+            {
+                getArticleInfo(txtParentBuyArticle.Tag.ToString());
+            }
+        }
+
+
+
+        private void txtBuyArticle_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                MainWindow.pf.ReturnCodeGLS(txtBuyArticle, 76, "");
+                //MainWindow.pf.ReturnCode(txtArticle, (int)Defind_CodeFind.DCF_BuyerArticleNo, "");
+
+                if (txtBuyArticle.Tag != null)
+                {
+                    getArticleInfo(txtBuyArticle.Tag.ToString());
+                }
+            }
+        }
+
+        private void btnPfBuyArticle_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                MainWindow.pf.ReturnCodeGLS(txtBuyArticle, 76, "");
+                //MainWindow.pf.ReturnCode(txtArticle, (int)Defind_CodeFind.DCF_BuyerArticleNo, "");
+
+                if (txtBuyArticle.Tag != null)
+                {
+                    getArticleInfo(txtBuyArticle.Tag.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("오류 발생, 오류 내용 : " + ex.ToString());
+            }
+        }
     }
 
     class Win_com_ArticleBOM_ItemList : BaseView
