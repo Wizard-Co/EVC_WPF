@@ -38,7 +38,7 @@
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                             <CheckBox x:Name="chkInDay" 
                                       Checked="chkInDay_Checked" Unchecked="chkInDay_Unchecked" VerticalAlignment="Center"
-                                      IsChecked="False"/>
+                                      />
                         </Viewbox>
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}" >
                             <TextBlock Text="입고 일자" 

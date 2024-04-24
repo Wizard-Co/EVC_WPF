@@ -43,6 +43,7 @@ namespace WizMes_HanYoung
             Lib.Instance.UiLoading(sender);
             dtpSDate.SelectedDate = DateTime.Today;
             dtpEDate.SelectedDate = DateTime.Today;
+            chkRepairDaySrh.IsChecked = true;
 
             SetCombo();
         }
@@ -439,6 +440,10 @@ namespace WizMes_HanYoung
         //조회
         private void FillGrid()
         {
+            if(dgdMCRepair.Items.Count > 0)
+            {
+                dgdMCRepair.Items.Clear();
+            }
             try
             {
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
