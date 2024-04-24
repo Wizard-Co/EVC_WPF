@@ -17,6 +17,7 @@ using ExcelDataReader;
 using WPF.MDI;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using System.Windows.Markup;
+using System.Data.SqlClient;
 
 /**************************************************************************************************
 '** 프로그램명 : Win_Qul_DefectRepair_Q
@@ -69,6 +70,7 @@ namespace WizMes_HanYoung
         string ProcessID_Global = string.Empty;
         string MachineID_Global = string.Empty;
         string LabelID_Global = string.Empty;
+        string InspectID_Global = string.Empty;
 
         string strPoint = string.Empty;     //  1: 수입, 3:자주, 5:출하
         string strFlag = string.Empty;
@@ -1460,6 +1462,7 @@ namespace WizMes_HanYoung
                 {
                     tmpBasisID = WinInsAuto.InspectBasisID;
                     tmpMachineID = WinInsAuto.MachineID;
+                    InspectID_Global = WinInsAuto.InspectID;
 
                     txtArticleName.Tag = WinInsAuto.ArticleID;
 
@@ -1710,7 +1713,8 @@ namespace WizMes_HanYoung
 
                     sqlParameter.Add("SumInspectQty", lib.CheckNullZero(txtSumInspectQty.Text.Replace(",", "")));
                     sqlParameter.Add("SumDefectQty", lib.CheckNullZero(txtSumDefectQty.Text.Replace(",", "")));
-                    
+                    sqlParameter.Add("chkUseReport", 0);
+
                     #region 추가
                     if (strFlag.Equals("I"))
                     {
@@ -4119,7 +4123,7 @@ namespace WizMes_HanYoung
 
                     if (CheckIsLabelIDExist(ExtractedLabeID)) //공정라벨로 검사기준등록에 있는지 확인
                     {
-                        GetArticleInfoByLabelID(ExtractedLabeID); //없어도 일단 만들어짐
+                        GetArticleInfoByLabelID(ExtractedLabeID); 
 
                         try
                         {
@@ -4271,6 +4275,7 @@ namespace WizMes_HanYoung
                 sqlParameter1.Add("SumDefectQty", 0);
                 sqlParameter1.Add("DayOrNightID", "");
                 sqlParameter1.Add("CreateUserID", MainWindow.CurrentUser);
+                sqlParameter1.Add("chkUseReport", 1);
 
                 Procedure pro1 = new Procedure();
                 //pro1.Name = "xp_Ins_chkInspectAuto_InspectID";
@@ -4320,86 +4325,28 @@ namespace WizMes_HanYoung
             }
 
             #region 기존 가로형태로 읽는 방식
-            //조금 수정을 가해야 할 겁니다
-            //if (innerFlag == true) //검사번호 output이 있으면
-            //{
-            //    try
-            //    {
-
-            //        foreach (DataRow dr in drc)
-            //        {
-            //            Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
-            //            List<Procedure> Prolist = new List<Procedure>();
-            //            List<Dictionary<string, object>> ListParameter = new List<Dictionary<string, object>>();
-
-            //            sqlParameter.Clear();
-
-            //            sqlParameter.Add("InspectID", SgetID);
-            //            sqlParameter.Add("InspectBasisID", InspectBasisID_Global);
-            //            //sqlParameter.Add("InspectBasisSeq", i);
-            //            sqlParameter.Add("InspectBasisSubSeq", 0);
-            //            sqlParameter.Add("InspectText", dr["Test"].ToString()); //성적서에 검사 합불여부 적힌거 ins_inspectAutoSub에 DefectYN의 여부를 판단하기 위한 파라미터
-            //            sqlParameter.Add("Name", dr["Name"].ToString()); //검사항목명
-            //            sqlParameter.Add("Meas", dr["Meas"].ToString()); //검사값
-            //            sqlParameter.Add("Tol", 0); //공차 쓸려고 했는데 이미 성적서에 합불이 있음 굳이 계산식은 안 만들어도 될거 같은? 일단 받아오자
-            //            sqlParameter.Add("Message", "");
-            //            sqlParameter.Add("CreateUserID", MainWindow.CurrentUser);
-
-            //            Procedure pro2 = new Procedure();
-            //            pro2.Name = "xp_Inspect_iAutoInspectSub_Report"; //문제 생기면 방금까지 ins_inspectAuto, ins_inspectAutoSub에 넣은거 삭제하는 쿼리 넣음
-            //            pro2.OutputUseYN = "Y";
-            //            pro2.OutputName = "Message";
-            //            pro2.OutputLength = "400";
-
-            //            Prolist.Add(pro2);
-            //            ListParameter.Add(sqlParameter);
-
-            //            List<KeyValue> list_Result2 = new List<KeyValue>();
-            //            list_Result2 = DataStore.Instance.ExecuteAllProcedureOutputGetCS(Prolist, ListParameter);
-
-            //            string sGetID = string.Empty;
-
-            //            if (list_Result2[0].key.ToLower() == "success")
-            //            {
-            //                innerFlag = false;
-            //                continue;
-            //            }
-            //        }
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        MessageBox.Show("오류 : 업로드 중 Ins_InspectAutoSub_Table 업로드에 오류가 있습니다." + e.Message.ToString());
-            //    }
-            //    finally
-            //    {
-            //        DataStore.Instance.CloseConnection();
-            //    }
-            //}
-            #endregion
-
-            #region 세로 형태로 읽는 방식
+         
             if (innerFlag == true) //검사번호 output이 있으면
             {
                 try
                 {
-                    for (int i = 0; i < dt.Columns.Count; i++)
+
+                    foreach (DataRow dr in drc)
                     {
                         Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                         List<Procedure> Prolist = new List<Procedure>();
                         List<Dictionary<string, object>> ListParameter = new List<Dictionary<string, object>>();
 
                         sqlParameter.Clear();
-                        sqlParameter.Add("InspectID", SgetID);
+
+                        sqlParameter.Add("InspectID", SgetID != "" ? SgetID : InspectID_Global);
                         sqlParameter.Add("InspectBasisID", InspectBasisID_Global);
+                        //sqlParameter.Add("InspectBasisSeq", i);
                         sqlParameter.Add("InspectBasisSubSeq", 0);
-
-                        //string columnName = dt.Columns[i].ColumnName; //정상적으로 한줄이면 이거 쓰고
-                        string columnName = dt.Columns[i].ColumnName.Replace("\n", ""); //엔터쳐서 두줄 만들었으면 이걸 쓰고..
-                        string columnValue = dt.Rows[0][columnName].ToString();
-
-                        sqlParameter.Add("InspectText", ""); //성적서에 검사 합불여부 적힌거 ins_inspectAutoSub에 DefectYN의 여부를 판단하기 위한 파라미터
-                        sqlParameter.Add("Name", columnName); //검사항목명
-                        sqlParameter.Add("Meas", columnValue); //검사값
+                        sqlParameter.Add("InspectText", "");
+                        sqlParameter.Add("Name", dr["SampleNo"].ToString()); //검사항목명
+                        sqlParameter.Add("Meas", dr[7].ToString()); //검사값
+                        //sqlParameter.Add("Tol", 0); //공차 쓸려고 했는데 이미 성적서에 합불이 있음 굳이 계산식은 안 만들어도 될거 같은? 일단 받아오자
                         sqlParameter.Add("Message", "");
                         sqlParameter.Add("CreateUserID", MainWindow.CurrentUser);
 
@@ -4422,14 +4369,72 @@ namespace WizMes_HanYoung
                             innerFlag = false;
                             continue;
                         }
-
                     }
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-                    MessageBox.Show("오류 발생, 오류 내용 : " + ex.ToString());
+                    MessageBox.Show("오류 : 업로드 중 Ins_InspectAutoSub_Table 업로드에 오류가 있습니다." + e.Message.ToString());
+                }
+                finally
+                {
+                    DataStore.Instance.CloseConnection();
                 }
             }
+            #endregion
+
+            #region 세로 형태로 읽는 방식
+            //if (innerFlag == true) //검사번호 output이 있으면
+            //{
+            //    try
+            //    {
+            //        for (int i = 0; i < dt.Columns.Count; i++)
+            //        {
+            //            Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+            //            List<Procedure> Prolist = new List<Procedure>();
+            //            List<Dictionary<string, object>> ListParameter = new List<Dictionary<string, object>>();
+
+            //            sqlParameter.Clear();
+            //            sqlParameter.Add("InspectID", SgetID);
+            //            sqlParameter.Add("InspectBasisID", InspectBasisID_Global);
+            //            sqlParameter.Add("InspectBasisSubSeq", 0);
+
+            //            //string columnName = dt.Columns[i].ColumnName; //정상적으로 한줄이면 이거 쓰고
+            //            string columnName = dt.Columns[i].ColumnName.Replace("\n", ""); //엔터쳐서 두줄 만들었으면 이걸 쓰고..
+            //            string columnValue = dt.Rows[0][columnName].ToString();
+
+            //            sqlParameter.Add("InspectText", ""); //성적서에 검사 합불여부 적힌거 ins_inspectAutoSub에 DefectYN의 여부를 판단하기 위한 파라미터
+            //            sqlParameter.Add("Name", columnName); //검사항목명
+            //            sqlParameter.Add("Meas", columnValue); //검사값
+            //            sqlParameter.Add("Message", "");
+            //            sqlParameter.Add("CreateUserID", MainWindow.CurrentUser);
+
+            //            Procedure pro2 = new Procedure();
+            //            pro2.Name = "xp_Inspect_iAutoInspectSub_Report"; //문제 생기면 방금까지 ins_inspectAuto, ins_inspectAutoSub에 넣은거 삭제하는 쿼리 넣음
+            //            pro2.OutputUseYN = "Y";
+            //            pro2.OutputName = "Message";
+            //            pro2.OutputLength = "400";
+
+            //            Prolist.Add(pro2);
+            //            ListParameter.Add(sqlParameter);
+
+            //            List<KeyValue> list_Result2 = new List<KeyValue>();
+            //            list_Result2 = DataStore.Instance.ExecuteAllProcedureOutputGetCS(Prolist, ListParameter);
+
+            //            string sGetID = string.Empty;
+
+            //            if (list_Result2[0].key.ToLower() == "success")
+            //            {
+            //                innerFlag = false;
+            //                continue;
+            //            }
+
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show("오류 발생, 오류 내용 : " + ex.ToString());
+            //    }
+            //}
             #endregion
 
             return flag;
