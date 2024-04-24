@@ -1682,7 +1682,7 @@ namespace WizMes_HanYoung
                     //sqlParameter.Add("CreateUserID", MainWindow.CurrentUser);
 
                     sqlParameter.Add("sInspectBasisID", strBasisID);
-                    sqlParameter.Add("InspectBasisIDSeq", BasisSeq);
+                    //sqlParameter.Add("InspectBasisIDSeq", BasisSeq);
                     sqlParameter.Add("sDefectYN", cboDefectYN.SelectedValue == null ? "" : cboDefectYN.SelectedValue.ToString());
                     sqlParameter.Add("sProcessID", cboProcess.SelectedValue == null ? "" : cboProcess.SelectedValue.ToString());
                     sqlParameter.Add("InspectPoint", strPoint);
@@ -3037,7 +3037,15 @@ namespace WizMes_HanYoung
 
             if (!string.IsNullOrEmpty(txtLotNO.Text))
             {
+                GetArticleInfoByLabelID(txtLotNO.Text);
+                cboProcess.SelectedValue = ProcessID_Global;
+                cboMachine.SelectedValue = MachineID_Global;
                 GetLotID(txtLotNO.Text);
+                if(dgdSub1.Items.Count == 0 && dgdSub2.Items.Count == 0)
+                {
+                    MessageBox.Show("검사기준이 등록되지 않았습니다.\r\n검사기준등록에서 품번과 공정이 등록하고자 하는\r\n공정라벨의 정보와 일치하는지 확인하세요.","검사기준없음");
+                    clear();
+                }
             }
         }
 
@@ -3066,7 +3074,7 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("LotNo", LotNo);
                 sqlParameter.Add("InspectPoint", strPoint);
                 sqlParameter.Add("ArticleID", txtArticleName.Tag != null ? txtArticleName.Tag.ToString() : "");
-                sqlParameter.Add("ProcessID", processID);
+                sqlParameter.Add("ProcessID", ProcessID_Global);
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Inspect_sLotNo", sqlParameter, false);
 
@@ -4018,7 +4026,7 @@ namespace WizMes_HanYoung
         {
             try
             {
-                //ArticleID_Global = string.Empty;
+                ArticleID_Global = string.Empty;
                 EcoNo_Global = string.Empty;
                 ModelID_Global = string.Empty;
                 //InspectBasisID_Global = string.Empty;
