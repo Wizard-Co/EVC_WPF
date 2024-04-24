@@ -462,6 +462,7 @@ namespace WizMes_HanYoung
             lib.UiButtonEnableChange_IUControl(this);
             //grdInput.IsEnabled = false;
             grdInput.IsHitTestVisible = false;
+            btnTensileReportUpload.IsEnabled = true;
         }
 
         /// <summary>
@@ -472,6 +473,7 @@ namespace WizMes_HanYoung
             lib.UiButtonEnableChange_SCControl(this);
             //grdInput.IsEnabled = true;
             grdInput.IsHitTestVisible = true;
+            btnTensileReportUpload.IsEnabled = false;
         }
 
         private void SetControlsWhenAdd()
