@@ -1695,11 +1695,11 @@ namespace WizMes_HanYoung
 
                                 for (int i = 0; i < WinQulInsAutoSub.arrInspectValue.Length; i++)
                                 {
-                                    string inspectValue = WinQulInsAutoSub.arrInspectValue[0];
+                                    string inspectValue = WinQulInsAutoSub.arrInspectValue[i];
                                     double value = inspectValue.Equals("") ? 0.0 : Convert.ToDouble(inspectValue);
 
                                     if (!(value >= minValue && value <= maxValue))
-                                        WinQulInsAutoSub.arrValueDefect[0] = "true";
+                                        WinQulInsAutoSub.arrValueDefect[i] = "true";
                                 }
                                 #endregion
                                 dgdSub2.Items.Add(WinQulInsAutoSub);
@@ -4352,7 +4352,7 @@ namespace WizMes_HanYoung
             {
                 ld.ShowDialog();
             }
-
+         
             re_Search(0);
         }
 
@@ -4584,6 +4584,7 @@ namespace WizMes_HanYoung
 
         private bool ReadUploadExcel(DataTable dt)
         {
+            int cnt = 0;
             bool flag = true;
             bool innerFlag = false;
             string SgetID = string.Empty;
@@ -4698,6 +4699,8 @@ namespace WizMes_HanYoung
          
             if (innerFlag == true) //검사번호 output이 있으면
             {
+              
+
                 try
                 {
 
@@ -4715,7 +4718,7 @@ namespace WizMes_HanYoung
                         sqlParameter.Add("InspectBasisSubSeq", 0);
                         sqlParameter.Add("InspectText", "");
                         sqlParameter.Add("Name", dr["SampleNo"].ToString()); //검사항목명
-                        sqlParameter.Add("Meas", dr[7].ToString()); //검사값
+                        sqlParameter.Add("Meas", dr[3].ToString()); //검사값
                         //sqlParameter.Add("Tol", 0); //공차 쓸려고 했는데 이미 성적서에 합불이 있음 굳이 계산식은 안 만들어도 될거 같은? 일단 받아오자
                         sqlParameter.Add("Message", "");
                         sqlParameter.Add("CreateUserID", MainWindow.CurrentUser);
@@ -4740,19 +4743,19 @@ namespace WizMes_HanYoung
                             if (kv.value.Contains("검사샘플"))
                             {
                                 MessageBox.Show(kv.value);
-                                flag = false;                              
+                                cnt++;
+                                flag = false;                 
                                
                             }
                             else
-                            {
-                              
+                            {                              
                                 continue;
                             }
 
                             innerFlag = false;
                         }
                     }
-                }
+                }              
                 catch (Exception e)
                 {
                     MessageBox.Show("오류 : 업로드 중 Ins_InspectAutoSub_Table 업로드에 오류가 있습니다." + e.Message.ToString());
@@ -4818,6 +4821,16 @@ namespace WizMes_HanYoung
             //    }
             //}
             #endregion
+
+            if(cnt > 0)
+            {
+                MessageBox.Show("일부 검사항목을 제외하고 인장테스트 결과값 업로드가 완료되었습니다.");
+                cnt = 0;
+            }
+            else
+            {
+                MessageBox.Show("인장테스트 검사결과값 업로드가 완료되었습니다.");
+            }
 
             return flag;
         }
