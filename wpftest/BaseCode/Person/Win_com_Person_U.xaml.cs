@@ -22,6 +22,7 @@ namespace WizMes_HanYoung
     /// </summary>
     public partial class Win_com_Person_U : UserControl
     {
+        string chkUserid = string.Empty; //기존 userid 비교
         Lib lib = new Lib();
         string strBasisID = string.Empty;
         string InspectName = string.Empty;
@@ -336,6 +337,9 @@ namespace WizMes_HanYoung
 
             cboTeam.SelectedValue = false;
             cboTeam.SelectedIndex = 0;
+
+
+
         }
 
         //수정
@@ -519,6 +523,8 @@ namespace WizMes_HanYoung
             }
 
             dgdMain.IsEnabled = true;
+
+
         }
 
         //엑셀
@@ -748,6 +754,8 @@ namespace WizMes_HanYoung
                     chkEndDate.IsChecked = true;
                 else
                     chkEndDate.IsChecked = false;
+
+                chkUserid = txtUserID.Text;
             }
 
             //보기 버튼체크
@@ -1491,7 +1499,7 @@ namespace WizMes_HanYoung
 
             try
             {
-                if (CheckData())
+                if (CheckData(txtUserID.Text))
                 {
                     int Seq = 0;
                     Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
@@ -1816,13 +1824,68 @@ namespace WizMes_HanYoung
             return flag;
         }
 
+        //같은 userid가 있는지 체크(추가시에만)
+        private bool GetPersonByName(string strPersonName)
+        {
+            bool flag = true;
+
+            try
+            {
+                Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+                sqlParameter.Add("@sUserID", strPersonName);
+
+                // DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Article_sArticleByName", sqlParameter, false); 2021-07-21
+                DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Person_sPersonByPersonID", sqlParameter, false);
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataTable dt = ds.Tables[0];
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        //string strName = dt.Rows[0]["Article"].ToString(); 2021-07-21
+                        string strName = dt.Rows[0]["UserID"].ToString();
+                        //string strName = dt.Rows[0]["BuyerArticleNo"].ToString();
+                        if (!strName.Replace(" ", "").Equals(""))
+                        {
+                            flag = false;
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("오류 발생, 오류 내용 : " + ex.ToString());
+            }
+            finally
+            {
+                DataStore.Instance.CloseConnection();
+            }
+
+            return flag;
+        }
+
         /// <summary>
         /// 입력사항 체크
         /// </summary>
         /// <returns></returns>
-        private bool CheckData()
+        private bool CheckData(string strName)
         {
             bool flag = true;
+
+
+            //if (!GetPersonByName(strName))
+            //{
+            //    MessageBox.Show("이미 같은 이름의 아이디가 존재합니다.(사용안함 포함)"); //2021-07-21 품번이 같을 경우 MessageBox.Show("이미 같은 이름의 품명이 존재합니다.");
+            //    return false;
+            //}
+
+            //if(chkUserid == txtUserID.Text)
+            //{
+            //    MessageBox.Show("기존 아이디와 같습니다.");
+            //    flag = false;
+            //    return flag;
+            //}
 
             if (txtName.Text.Length <= 0 || txtName.Text.Equals(""))
             {
@@ -1870,6 +1933,29 @@ namespace WizMes_HanYoung
                     return flag;
                 }
             }
+            else if (strFlag == "U")
+            {
+                //btnPWChange.Content.ToString().Trim().Replace(" ", "").ToUpper()
+                if (chkUserid.ToString().Trim().Replace(" ", "").ToUpper()
+                    != txtUserID.Text.ToString().Trim().Replace(" ", "").ToUpper()) //기존 userid랑 txtuserid가 같지 않을 경우, 비교 2024.04.24
+                {
+                    Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+                    sqlParameter.Add("UserID", txtUserID.Text);
+                    DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Person_sCheckUserID", sqlParameter, false);
+                    DataTable dt = ds.Tables[0];
+                    DataRow dr = dt.Rows[0];
+                    int count = Convert.ToInt32(dr["count"].ToString());
+
+                    if (count > 0) // 회원 아이디 개수가 0보다 클경우 중복 메시지 팝업
+                    {
+                        MessageBox.Show("회원 아이디가 이미 존재합니다.");
+                        flag = false;
+                        return flag;
+                    }
+                }
+
+            }
+
 
             // 퇴사일자가 체크 일때는 반드시 날짜를 입력하도록
             if (strFlag.Equals("I") || strFlag.Equals("U"))
