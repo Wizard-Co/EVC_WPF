@@ -104,6 +104,7 @@ namespace WizMes_HanYoung
             txtEProcess.IsHitTestVisible = false;
             txtFProcess.IsHitTestVisible = false;
             cboChildCheckYN.IsHitTestVisible = false;
+            chkUseClss.IsHitTestVisible = false;
 
             grdSrh1.IsHitTestVisible = true;
             grdSrh2.IsHitTestVisible = true;
@@ -152,6 +153,7 @@ namespace WizMes_HanYoung
             txtEProcess.IsHitTestVisible = true;
             txtFProcess.IsHitTestVisible = true;
             cboChildCheckYN.IsHitTestVisible = true;
+            chkUseClss.IsHitTestVisible = true;
 
             grdSrh1.IsHitTestVisible = false;
             grdSrh2.IsHitTestVisible = false;

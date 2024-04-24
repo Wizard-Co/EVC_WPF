@@ -1006,7 +1006,7 @@ namespace WizMes_HanYoung
         {
             bool flag = true;
 
-            if (txtCustom.Text.Equals(""))
+            if (txtCustom.Text.Equals("") || txtCustom.Tag == null)
             {
                 MessageBox.Show("거래처는 필수입력 항목입니다.");
                 flag = false;
@@ -1020,7 +1020,7 @@ namespace WizMes_HanYoung
             //    return flag;
             //}
 
-            if (txtMCID.Tag.ToString().Equals("") || txtMCID.Text.Equals(""))
+            if (txtMCID.Tag == null || txtMCID.Tag.ToString().Equals("") || txtMCID.Text.Equals(""))
             {
                 MessageBox.Show("설비명은 필수입력 항목입니다.");
                 flag = false;

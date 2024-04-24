@@ -515,7 +515,7 @@
                                 </Viewbox>
                             </Label>
                             <TextBox x:Name="txtNeedStockQty" Grid.Column="1" Grid.Row="5" 
-                                     Style="{DynamicResource TextBoxInputArea}"
+                                     Style="{DynamicResource TextBoxInputNecessary}"
                                      Text="{Binding NeedStockQty}" 
                                      PreviewTextInput="txtBox_PreviewTextInput"
                                      KeyDown="txtNeedStockQty_KeyDown"/>

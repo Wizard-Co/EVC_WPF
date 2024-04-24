@@ -229,6 +229,7 @@ namespace WizMes_HanYoung
 
             //Tool 추가 2021-05-27
             cboForUse.SelectedValue = 3;
+            cboUnitClss.SelectedIndex = 0;
         }
 
         //수정

@@ -896,30 +896,22 @@ namespace WizMes_HanYoung
                         flag = false;
                         return flag;
                     }
-                    if (WinSubGrid.reason == null || WinSubGrid.reason == "")
-                    {
-                        MessageBox.Show("사유를 입력하지 않았습니다.");
-                        flag = false;
-                        return flag;
-                    }
+                    //if (WinSubGrid.reason == null || WinSubGrid.reason == "")
+                    //{
+                    //    MessageBox.Show("사유를 입력하지 않았습니다.");
+                    //    flag = false;
+                    //    return flag;
+                    //}
                 }
-                //if (WinSub != null)
-                //{
-                //    if (WinSub.MCPartID == null)
-                //    {
-                //        MessageBox.Show("부품수리 내역을 입력하지 않았습니다. 부품추가하여 부품수리내역을 입력하여 주세요.");
-                //        flag = false;
-                //        return flag;
-                //    }
-                //}
+               
 
             }
-            else
-            {
-                MessageBox.Show("부품수리 내역을 입력하지 않았습니다. 부품추가하여 부품수리내역을 입력하여 주세요.");
-                flag = false;
-                return flag;
-            }
+            //else
+            //{
+            //    MessageBox.Show("부품수리 내역을 입력하지 않았습니다. 부품추가하여 부품수리내역을 입력하여 주세요.");
+            //    flag = false;
+            //    return flag;
+            //}
 
             return flag;
         }
@@ -949,7 +941,7 @@ namespace WizMes_HanYoung
                 MCPartName = "",
                 reason = "",
                 partcnt = "",
-                partprice = "",
+                partprice = "0",
                 partremark = "",
                 CustomID = "",
                 customname = "",
@@ -1048,15 +1040,61 @@ namespace WizMes_HanYoung
                 TextBox tb1 = sender as TextBox;
                 MainWindow.pf.ReturnCode(tb1, (int)Defind_CodeFind.DCF_PART, "");
 
-                if (tb1.Tag != null)
+                if (tb1.Tag != null && !tb1.Tag.ToString().Equals(""))
                 {
                     WinMCRepairSub.MCPartName = tb1.Text;
                     WinMCRepairSub.MCPartID = tb1.Tag.ToString();
-                }
+       
+                    String[] lst = GetMcPart(WinMCRepairSub.MCPartID);
+                    if (lst != null)
+                    {
+                        WinMCRepairSub.CustomID = lst[0];
+                        WinMCRepairSub.customname = lst[1];
 
+                    }
+
+                }
                 sender = tb1;
             }
         }
+
+        //예비품 입력시 거래처,종류 가져오게 
+        private String[] GetMcPart(string McPartID)
+        {
+            String[] lst = new string[3];
+            string sql = "select CustomID, Custom, ForUse from mt_McPart mmp left join mc_PartStuffIN mps on mps.MCPartID = mmp.MCPartID where mmp.MCPartID = " + McPartID;
+
+            try
+            {
+                DataSet ds = DataStore.Instance.QueryToDataSet(sql);
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataTable dt = ds.Tables[0];
+                    if (dt.Rows.Count > 0)
+                    {
+                        DataRowCollection drc = dt.Rows;
+                        DataRow dr = drc[0];
+
+                        lst[0] = dr["CustomID"].ToString();
+                        lst[1] = dr["Custom"].ToString();
+
+                    }
+                    return lst;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                DataStore.Instance.CloseConnection();
+            }
+            return null;
+        }
+
+
 
         //부품
         private void EditableMCPartName_MouseDoubleClick(object sender, MouseButtonEventArgs e)

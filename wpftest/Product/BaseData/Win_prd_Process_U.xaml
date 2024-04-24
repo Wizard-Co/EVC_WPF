@@ -554,7 +554,7 @@
                                            Style="{DynamicResource TextBlockInViewBoxInput}"/>
                             </Viewbox>
                         </Label>
-                        <CheckBox x:Name="chkUseClss" Grid.Column="1" Grid.Row="8" 
+                        <CheckBox x:Name="chkUseClss" Grid.Column="1" Grid.Row="8" IsHitTestVisible="False"
                                   Style="{DynamicResource CheckBoxInputArea}"/>
                     </Grid>
 
