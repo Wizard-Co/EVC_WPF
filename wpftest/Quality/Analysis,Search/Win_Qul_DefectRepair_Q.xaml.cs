@@ -1086,63 +1086,85 @@ namespace WizMes_HanYoung
                             day30 = Convert.ToDouble(dr["RepairRate30"].ToString());
                             day31 = Convert.ToDouble(dr["RepairRate31"].ToString());
 
-                            ColumnSeries columnSeries = null;
+                           
+                            //day25 = 50000;
 
                             if (WinDaily.DayCount.Equals("28"))
                             {
-                                columnSeries = new ColumnSeries
+                                SeriesCollection SeriesCollection = new SeriesCollection
                                 {
-                                    Title = "일별 불량율",
-                                    Values = new ChartValues<double>
+                                    new ColumnSeries
                                     {
-                                        0, day1, day2, day3, day4, day5, day6, day7, day8, day9, day10,
-                                        day11, day12, day13, day14, day15, day16, day17, day18, day19, day20,
-                                        day21, day22, day23, day24, day25, day26, day27, day28
+                                        Title = "일별 불량율",
+                                        Values = new ChartValues<double>
+                                        {
+                                            0, day1, day2, day3, day4, day5, day6, day7, day8, day9, day10,
+                                            day11, day12, day13, day14, day15, day16, day17, day18, day19, day20,
+                                            day21, day22, day23, day24, day25, day26, day27, day28
+                                        },
+                                        DataLabels = false
                                     }
                                 };
+                                lvcDayChart.Series = SeriesCollection;
+
                             }
                             else if (WinDaily.DayCount.Equals("29"))
                             {
-                                columnSeries = new ColumnSeries
+                                SeriesCollection SeriesCollection = new SeriesCollection
                                 {
-                                    Title = "일별 불량율",
-                                    Values = new ChartValues<double>
+                                    new ColumnSeries
                                     {
-                                        0, day1, day2, day3, day4, day5, day6, day7, day8, day9, day10,
-                                        day11, day12, day13, day14, day15, day16, day17, day18, day19, day20,
-                                        day21, day22, day23, day24, day25, day26, day27, day28, day29
+                                        Title = "일별 불량율",
+                                        Values = new ChartValues<double>
+                                        {
+                                            0, day1, day2, day3, day4, day5, day6, day7, day8, day9, day10,
+                                            day11, day12, day13, day14, day15, day16, day17, day18, day19, day20,
+                                            day21, day22, day23, day24, day25, day26, day27, day28, day29
+                                        },
+                                        DataLabels = false
                                     }
                                 };
+                                lvcDayChart.Series = SeriesCollection;
                             }
                             else if (WinDaily.DayCount.Equals("30"))
                             {
-                                columnSeries = new ColumnSeries
+                                SeriesCollection SeriesCollection = new SeriesCollection
                                 {
-                                    Title = "일별 불량율",
-                                    Values = new ChartValues<double>
+                                    new ColumnSeries
                                     {
-                                        0, day1, day2, day3, day4, day5, day6, day7, day8, day9, day10,
-                                        day11, day12, day13, day14, day15, day16, day17, day18, day19, day20,
-                                        day21, day22, day23, day24, day25, day26, day27, day28, day29, day30
+                                        Title = "일별 불량율",
+                                        Values = new ChartValues<double>
+                                        {
+                                            0, day1, day2, day3, day4, day5, day6, day7, day8, day9, day10,
+                                            day11, day12, day13, day14, day15, day16, day17, day18, day19, day20,
+                                            day21, day22, day23, day24, day25, day26, day27, day28, day29, day30
+                                        },
+                                        DataLabels = false
                                     }
                                 };
+                                lvcDayChart.Series = SeriesCollection;
                             }
                             else
                             {
-                                columnSeries = new ColumnSeries
+                                SeriesCollection SeriesCollection = new SeriesCollection
                                 {
-                                    Title = "일별 불량율",
-                                    Values = new ChartValues<double>
+                                    new ColumnSeries
                                     {
-                                        0, day1, day2, day3, day4, day5, day6, day7, day8, day9, day10,
-                                        day11, day12, day13, day14, day15, day16, day17, day18, day19, day20,
-                                        day21, day22, day23, day24, day25, day26, day27, day28, day29, day30, day31
+                                        Title = "일별 불량율",
+                                        Values = new ChartValues<double>
+                                        {
+                                            0, day1, day2, day3, day4, day5, day6, day7, day8, day9, day10,
+                                            day11, day12, day13, day14, day15, day16, day17, day18, day19, day20,
+                                            day21, day22, day23, day24, day25, day26, day27, day28, day29, day30
+                                        },
+                                        DataLabels = false
                                     }
-                                };
+                                }; 
+                                lvcDayChart.Series = SeriesCollection;
                             }
 
-                            SeriesCollection SeriesCollection = new SeriesCollection(columnSeries);
-                            lvcDayChart.Series = SeriesCollection;
+                            //SeriesCollection SeriesCollection = new SeriesCollection(columnSeries);
+                            //lvcDayChart.Series = SeriesCollection;
 
                             dgdDefectRepairDaily.Items.Add(WinDaily);
                             i++;

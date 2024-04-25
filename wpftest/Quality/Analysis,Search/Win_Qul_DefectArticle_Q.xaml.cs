@@ -876,7 +876,8 @@ namespace WizMes_HanYoung
             if (cboOccurStepSrh.SelectedValue.ToString().Equals("0")) { InsPoint = ""; } //전체
             else if (cboOccurStepSrh.SelectedValue.ToString().Equals("2")) { InsPoint = "3"; }
             else if (cboOccurStepSrh.SelectedValue.ToString().Equals("3")) { InsPoint = "2"; }
-            else if (cboOccurStepSrh.SelectedValue.ToString().Equals("4")) { InsPoint = "0"; } //
+            //else if (cboOccurStepSrh.SelectedValue.ToString().Equals("4")) { InsPoint = "0"; } //
+            else if (cboOccurStepSrh.SelectedValue.ToString().Equals("4")) { InsPoint = "3"; } //
             else if (cboOccurStepSrh.SelectedValue.ToString().Equals("6")) { InsPoint = "5"; } //
             else { InsPoint = cboOccurStepSrh.SelectedValue.ToString(); }
 
@@ -1271,7 +1272,8 @@ namespace WizMes_HanYoung
             if (cboOccurStepSrh.SelectedValue.ToString().Equals("0")) { InsPoint = ""; } //전체
             else if (cboOccurStepSrh.SelectedValue.ToString().Equals("2")) { InsPoint = "3"; }
             else if (cboOccurStepSrh.SelectedValue.ToString().Equals("3")) { InsPoint = "2"; }
-            else if (cboOccurStepSrh.SelectedValue.ToString().Equals("4")) { InsPoint = "0"; } //
+            //else if (cboOccurStepSrh.SelectedValue.ToString().Equals("4")) { InsPoint = "0"; } //
+            else if (cboOccurStepSrh.SelectedValue.ToString().Equals("4")) { InsPoint = "3"; } //
             else if (cboOccurStepSrh.SelectedValue.ToString().Equals("6")) { InsPoint = "5"; } //
             else { InsPoint = cboOccurStepSrh.SelectedValue.ToString(); }
 
@@ -1667,7 +1669,8 @@ namespace WizMes_HanYoung
             if (cboOccurStepSrh.SelectedValue.ToString().Equals("0")) { InsPoint = ""; } //전체
             else if (cboOccurStepSrh.SelectedValue.ToString().Equals("2")) { InsPoint = "3"; }
             else if (cboOccurStepSrh.SelectedValue.ToString().Equals("3")) { InsPoint = "2"; }
-            else if (cboOccurStepSrh.SelectedValue.ToString().Equals("4")) { InsPoint = "0"; } //
+            //else if (cboOccurStepSrh.SelectedValue.ToString().Equals("4")) { InsPoint = "0"; } //
+            else if (cboOccurStepSrh.SelectedValue.ToString().Equals("4")) { InsPoint = "3"; } //
             else if (cboOccurStepSrh.SelectedValue.ToString().Equals("6")) { InsPoint = "5"; } //
             else { InsPoint = cboOccurStepSrh.SelectedValue.ToString(); }
 
