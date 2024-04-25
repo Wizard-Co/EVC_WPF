@@ -138,7 +138,7 @@ namespace WizMes_HanYoung
             dtpInOutDate.SelectedDate = DateTime.Today;
             dtpInspectDate.SelectedDate = DateTime.Today;
 
-            strPoint = "5"; // 출하검사로 시작
+            strPoint = "3"; // 출하검사로 시작
 
             tbnInspect.IsChecked = false;
             tbnIncomeInspect.IsChecked = false;
@@ -1320,8 +1320,10 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("sDefectYN", chkResultSrh.IsChecked == true ? cboResultSrh.SelectedValue.ToString() : "");
                 //sqlParameter.Add("BuyerArticleNo", chkArticleNo.IsChecked == true ? txtArticleNo.Text : "");
 
-                sqlParameter.Add("ChkBuyerArticle", chkArticleSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("BuyerArticle", chkArticleSrh.IsChecked == true && !txtArticleSrh.Text.Trim().Equals("") ? txtArticleSrh.Text : "");
+                sqlParameter.Add("ChkArticle", chkArticleSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("ArticleID", chkArticleSrh.IsChecked == true ? (txtArticleSrh.Tag != null ? txtArticleSrh.Tag : ""): "");
+                sqlParameter.Add("ChkBuyerArticleNo", chkBuyerArticleNo.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("BuyerArticleNo", chkBuyerArticleNo.IsChecked == true ? (txtBuyerArticleNo.Tag != null ? txtBuyerArticleNo.Tag : ""):"");
                 ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_Inspect_sAutoInspect", sqlParameter, true, "R");
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -4837,6 +4839,35 @@ namespace WizMes_HanYoung
             return flag;
         }
 
+        private void lblBuyerArticleNo_Click(object sender, MouseButtonEventArgs e)
+        {
+            if(chkBuyerArticleNo.IsChecked == true)
+            {
+                chkBuyerArticleNo.IsChecked = false;
+                txtBuyerArticleNo.IsEnabled = false;
+                btnBuyerArticleNo.IsEnabled = false;
+            }
+            else
+            {
+                chkBuyerArticleNo.IsChecked = true;
+                txtBuyerArticleNo.IsEnabled = true;
+                btnBuyerArticleNo.IsEnabled = true;
+                txtBuyerArticleNo.Focus();
+            }
+        }
+
+        private void txtBuyerArticleNo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+               MainWindow.pf.ReturnCode(txtBuyerArticleNo, 76, txtBuyerArticleNo.Text);
+            }
+        }
+
+        private void btnBuyerArticleNo_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.pf.ReturnCode(txtBuyerArticleNo, 76, txtBuyerArticleNo.Text);
+        }
     }
 
     class Win_Qul_InspectAuto_U_CodeView : BaseView
