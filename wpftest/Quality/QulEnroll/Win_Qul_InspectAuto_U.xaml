@@ -297,29 +297,29 @@
                 </Button>
             </Grid>
 
-            <Grid Grid.Column="3" Grid.Row="1" Visibility="Hidden">
+            <Grid Grid.Column="2" Grid.Row="1" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="75*" />
                     <ColumnDefinition Width="90*" />
                     <ColumnDefinition Width="15*" />
                 </Grid.ColumnDefinitions>
-                <Label  Grid.Column="0" MouseLeftButtonUp="chkArticleNo_Click" Style="{DynamicResource LabelSearch_Q}">
+                <Label  x:Name="lblBuyerArticleNo" Grid.Column="0" MouseLeftButtonUp="lblBuyerArticleNo_Click" Style="{DynamicResource LabelSearch_Q}">
                     <StackPanel Orientation="Horizontal" Style="{DynamicResource StackPanelInLabel_Q}">
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
-                            <CheckBox x:Name="chkArticleNo" Click="chkArticleNo_Click" ></CheckBox>
+                            <CheckBox x:Name="chkBuyerArticleNo" Click="chkBuyerArticleNo_Click" ></CheckBox>
                         </Viewbox>
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
-                            <TextBlock Text="품     번" Style="{DynamicResource TextBlockInViewBoxSearch_Q}"/>
+                            <TextBlock Text=" 품   번" Style="{DynamicResource TextBlockInViewBoxSearch_Q}"/>
                         </Viewbox>
                     </StackPanel>
                 </Label>
-                <TextBox x:Name="txtArticleNo" Grid.Column="1" KeyDown="TxtArticleNo_KeyDown" Style="{DynamicResource TextBoxSearch_Q}"/>
-                <Button x:Name="btnArticleNo"  Grid.Column="2" Click="btnArticleNo_Click"  >
+                <TextBox x:Name="txtBuyerArticleNo" Grid.Column="1" KeyDown="txtBuyerArticleNo_KeyDown" Style="{DynamicResource TextBoxSearch_Q}"/>
+                <Button x:Name="btnBuyerArticleNo"  Grid.Column="2" Click="btnBuyerArticleNo_Click" Height="22" VerticalAlignment="Top"  IsEnabled="False" >
                     <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}"/>
                 </Button>
             </Grid>
 
-            <Grid Grid.Column="2" Grid.Row="1">
+            <Grid Grid.Column="2" Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="75*" />
                     <ColumnDefinition Width="90*" />
