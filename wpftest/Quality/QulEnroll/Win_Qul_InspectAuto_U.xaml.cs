@@ -84,6 +84,10 @@ namespace WizMes_HanYoung
         string strTotalCount = string.Empty;
         string strDefectYN = string.Empty;
 
+        string replyProcess = "";
+        string replyProcessID = "";
+
+
         Win_Qul_InspectAuto_U_CodeView WinInsAuto = new Win_Qul_InspectAuto_U_CodeView();
         Win_Qul_InspectAuto_U_Sub_CodeView WinInsAutoSub = new Win_Qul_InspectAuto_U_Sub_CodeView();
         ObservableCollection<EcoNoAndBasisID> ovcEvoBasis = new ObservableCollection<EcoNoAndBasisID>();
@@ -122,6 +126,24 @@ namespace WizMes_HanYoung
         public Win_Qul_InspectAuto_U()
         {
             InitializeComponent();
+        }
+
+        private void plusFinder_replyProcess(string data)
+        {
+            string[] values = data.Split(',');
+            if (values.Length > 1)
+                replyProcess = values[0].Trim();
+            else
+                replyProcess = string.Empty;
+        }
+
+        private void plusFinder_replyProcessID(string data)
+        {
+            string[] values = data.Split(',');
+            if (values.Length > 0)
+                replyProcessID = values[1].Trim();
+            else
+                replyProcessID = string.Empty;
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -3157,13 +3179,17 @@ namespace WizMes_HanYoung
         private void LotNo_Click()
         {
             int largeNum = strPoint.Equals("1") ? 101 : 100;
-            MainWindow.pf.ReturnCode(txtLotNO, largeNum, txtLotNO.Text);
+
+            MainWindow.pf.refEvent += new PlusFinder.RefEventHandler(plusFinder_replyProcess);
+            MainWindow.pf.refEvent += new PlusFinder.RefEventHandler(plusFinder_replyProcessID);
+
+            MainWindow.pf.ReturnCode(txtLotNO, largeNum, txtLotNO.Text);        
 
 
             if (!string.IsNullOrEmpty(txtLotNO.Text))
             {
                 GetArticleInfoByLabelID(txtLotNO.Text);
-                cboProcess.SelectedValue = ProcessID_Global;
+                cboProcess.SelectedValue = replyProcessID; //플러스 파인더에서 얻어온 값
                 cboMachine.SelectedValue = MachineID_Global;
                 GetLotID(txtLotNO.Text);
                 if(dgdSub1.Items.Count == 0 && dgdSub2.Items.Count == 0)
@@ -3199,7 +3225,7 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("LotNo", LotNo);
                 sqlParameter.Add("InspectPoint", strPoint);
                 sqlParameter.Add("ArticleID", txtArticleName.Tag != null ? txtArticleName.Tag.ToString() : "");
-                sqlParameter.Add("ProcessID", ProcessID_Global);
+                sqlParameter.Add("ProcessID", replyProcessID); //플러스파인더에서 얻어온 값
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Inspect_sLotNo", sqlParameter, false);
 
@@ -4476,6 +4502,8 @@ namespace WizMes_HanYoung
             openFileDialog.DefaultExt = ".xls";
             openFileDialog.Filter = "Excel Files (*.xlsx)|*.xlsx";
 
+
+
             if (openFileDialog.ShowDialog() == true)
             {
                 string filePath = openFileDialog.FileName;
@@ -4722,8 +4750,9 @@ namespace WizMes_HanYoung
                         sqlParameter.Add("InspectBasisSubSeq", 0);
                         sqlParameter.Add("InspectText", "");
                         sqlParameter.Add("Name", dr["SampleNo"].ToString()); //검사항목명
-                        sqlParameter.Add("Meas", dr[3].ToString()); //검사값
+                        sqlParameter.Add("Meas", dr[3].ToString() != "" ? Convert.ToDecimal(dr[3]): 0); //검사값
                         //sqlParameter.Add("Tol", 0); //공차 쓸려고 했는데 이미 성적서에 합불이 있음 굳이 계산식은 안 만들어도 될거 같은? 일단 받아오자
+                        sqlParameter.Add("LabelID", LabelID_Global);
                         sqlParameter.Add("Message", "");
                         sqlParameter.Add("CreateUserID", MainWindow.CurrentUser);
 

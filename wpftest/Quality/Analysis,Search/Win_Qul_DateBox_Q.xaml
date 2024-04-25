@@ -127,8 +127,8 @@
                         <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}"/>
                     </Button>
 
-                <Grid Grid.Column="0" Grid.Row="1" Visibility="Hidden">
-                    <Label  Grid.Column="0" MouseLeftButtonUp="chkArticleNo_Click" Style="{DynamicResource LabelSearch_Q}">
+       
+                <Label  Grid.Column="0" Grid.Row="2" MouseLeftButtonUp="chkArticleNo_Click" Style="{DynamicResource LabelSearch_Q}">
                         <StackPanel Style="{DynamicResource StackPanelInLabel_Q}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
                                 <CheckBox x:Name="chkArticleNo" Click="chkArticleNo_Click" ></CheckBox>
@@ -138,29 +138,26 @@
                             </Viewbox>
                         </StackPanel>
                     </Label>
-                    <TextBox x:Name="txtArticleNo" Grid.Column="1" KeyDown="TxtArticleNo_KeyDown" Style="{DynamicResource TextBoxSearch_Q}"/>
-                    <Button x:Name="btnArticleNo"  Grid.Column="2" Click="btnArticleNo_Click"  >
+                    <TextBox x:Name="txtArticleNo" Grid.Column="1" Grid.Row="2" KeyDown="TxtArticleNo_KeyDown" Style="{DynamicResource TextBoxSearch_Q}"/>
+                    <Button x:Name="btnArticleNo"  Grid.Column="2" Grid.Row="2" Click="btnArticleNo_Click"  >
                         <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}"/>
                     </Button>
-                </Grid>
-                
-                <Label  Grid.Column="0" Grid.Row="2" MouseLeftButtonUp="chkOrderID_Click" Style="{DynamicResource LabelSearch}">
-                    <StackPanel Style="{DynamicResource StackPanelInLabel}">
-                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                            <CheckBox x:Name="chkOrderID" Click="chkOrderID_Click" ></CheckBox>
-                        </Viewbox>
-                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                            <TextBlock x:Name="txbOrderID" Text="관리번호" Style="{DynamicResource TextBlockInViewBoxSearch_Q}"/>
-                        </Viewbox>
-                    </StackPanel>
-                </Label>
-                <TextBox x:Name="txtOrderID"  Grid.Column="1" Grid.Row="2" Style="{DynamicResource TextBoxSearch}"/>
-                <Label Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="3" Style="{DynamicResource LabelSearch}">
-                    <StackPanel Style="{DynamicResource StackPanelInLabel}">
-                        <RadioButton x:Name="rbnOrderNO" Content="Order No." Click="rbnOrderNO_Click" Margin="1"></RadioButton>
-                        <RadioButton x:Name="rbnManageNumber" Content="관리 번호" Click="rbnManageNumber_Click" Margin="1"  ></RadioButton>
-                    </StackPanel>
-                </Label>
+              
+
+              
+                    <Label  Grid.Column="0" Grid.Row="3" MouseLeftButtonUp="chkOrderID_Click" Style="{DynamicResource LabelSearch}">
+                        <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                <CheckBox x:Name="chkOrderID" Click="chkOrderID_Click" ></CheckBox>
+                            </Viewbox>
+                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                <TextBlock x:Name="txbOrderID" Text="관리번호" Style="{DynamicResource TextBlockInViewBoxSearch_Q}"/>
+                            </Viewbox>
+                        </StackPanel>
+                    </Label>
+                    <TextBox x:Name="txtOrderID"  Grid.Column="1" Grid.Row="3" Style="{DynamicResource TextBoxSearch}"/>
+          
+
                 <!--<Button x:Name="btnArticle"  Grid.Column="3" Grid.Row="1" Click="btnArticle_Click">
                     <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}"/>
                 </Button>-->
@@ -215,8 +212,16 @@
                     </StackPanel>
                 </Label>
                 <TextBox x:Name="txtBoxID" Grid.Column="1" Grid.Row="2" Style="{DynamicResource TextBoxSearch}" />
+
+                <Label Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="3" Style="{DynamicResource LabelSearch}">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                        <RadioButton x:Name="rbnOrderNO" Content="Order No." Click="rbnOrderNO_Click" Margin="1"></RadioButton>
+                        <RadioButton x:Name="rbnManageNumber" Content="관리 번호" Click="rbnManageNumber_Click" Margin="1"  ></RadioButton>
+                    </StackPanel>
+                </Label>
             </Grid>
 
+                
             <!-- 검색/닫기/엑셀 버튼 -->
             <Grid  Grid.Column="5" Grid.Row="0">
                 <Grid.ColumnDefinitions>

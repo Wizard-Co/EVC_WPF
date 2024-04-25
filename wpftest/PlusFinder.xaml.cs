@@ -673,15 +673,32 @@ namespace WizMes_HanYoung
                         colID = dataRow.Row.ItemArray[1].ToString();
                         colName = dataRow.Row.ItemArray[2].ToString();
                     }
-                    else if (refEvent != null)
+                    if (mDataGrid.Columns[0].Header.ToString() == "품명"
+                         && mDataGrid.Columns[5].Header.ToString() == "공정명")
                     {
+                        string Process = dataRow.Row.ItemArray[5].ToString();
+                        string ProcessID = dataRow.Row.ItemArray[6].ToString();
+                        refEvent?.Invoke($"{Process},{ProcessID}");
+                        //refEvent?.Invoke(dataRow.Row.ItemArray[6].ToString());
+                        //refEvent?.Invoke(dataRow.Row.ItemArray[11].ToString());
+                    }
+                    if (mDataGrid.Columns[1].Header.ToString() == "출고지시번호")
+                    {                    
+
                         // Large가 98번인 경우 품명(Article) callback
                         if (mDataGrid.Columns[1].Header.ToString() == "출고지시번호")
+                        {
                             refEvent?.Invoke(dataRow.Row.ItemArray[4].ToString());
+                        }
                         else
+                        {
                             refEvent?.Invoke(dataRow.Row.ItemArray[2].ToString());
+                        }
+
                     }
-                        
+                    
+
+
                     txtBox.Text = colName;
                     txtBox.Tag = colID;                    
 
