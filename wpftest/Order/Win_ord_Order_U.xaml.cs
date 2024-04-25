@@ -1855,7 +1855,8 @@ namespace WizMes_HanYoung
                                 if (Lib.Instance.IsNumOrAnother(strQty))
                                 {
                                     double doubleTemp = double.Parse(NeedStockQty.NeedQty) * double.Parse(strQty);
-                                    NeedStockQty.NeedQty = string.Format("{0:N0}", doubleTemp);
+                                    //NeedStockQty.NeedQty = string.Format("{0:N4}", doubleTemp);
+                                    NeedStockQty.NeedQty = doubleTemp % 1 == 0 ? doubleTemp.ToString("N0") : doubleTemp.ToString("N4");
                                 }
                             }
 
