@@ -677,7 +677,7 @@
                                     <TextBlock Text="차   종" Style="{DynamicResource TextBlockInViewBoxInput}" />
                                 </Viewbox>
                             </Label>
-                            <TextBox x:Name="txtModel" Grid.Row="11" Grid.Column="1" IsReadOnly="True"
+                            <TextBox x:Name="txtModel" Grid.Row="11" Grid.Column="1"
                                      Tag="{Binding BuyerModelID}" Text="{Binding BuyerModel}" Style="{DynamicResource TextBoxInputArea}"
                                      KeyDown="txtModel_KeyDown"/>
                             <Button x:Name="btnPfModel" Grid.Row="11" Grid.Column="2" Click="btnPfModel_Click">

@@ -299,7 +299,7 @@ namespace WizMes_HanYoung.PopUp
                                   $"                                                                       "+
                                   $"                                          {ChkOrderDay}      "                +
                                   $"                                         ,{sDate}"                      +
-                                  $"                                         ,{sDate}"                      +
+                                  $"                                         ,{eDate}"                      +
                                   $"                                         ,{ChkCustom}"                  +
                                   $"                                         ,{Custom}"                     +
                                   $"                                         ,{ChkInCustom}"                +
