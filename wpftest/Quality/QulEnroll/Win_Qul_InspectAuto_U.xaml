@@ -787,7 +787,7 @@
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
                     
-                    <DataGrid x:Name="dgdMain" Grid.Row="0" SelectionChanged="dgdMain_SelectionChanged" Style="{DynamicResource DataGridSet1}">
+                    <DataGrid x:Name="dgdMain" Grid.Row="0" SelectionChanged="dgdMain_SelectionChanged"  Style="{DynamicResource DataGridSet1}">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="선택" >
                                 <DataGridTemplateColumn.CellTemplate>

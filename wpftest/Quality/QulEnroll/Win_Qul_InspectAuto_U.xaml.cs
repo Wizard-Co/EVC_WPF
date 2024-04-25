@@ -62,6 +62,7 @@ namespace WizMes_HanYoung
         int DFCount9 = 0;
         int DFCount10 = 0;
 
+        //엑셀 업로드에 쓸 Global변수들
         string InspectBasisID_Global;
         string ArticleID_Global;
         string ForderName = "InspectAutoBasis";
@@ -71,10 +72,12 @@ namespace WizMes_HanYoung
         string MachineID_Global = string.Empty;
         string LabelID_Global = string.Empty;
         string InspectID_Global = string.Empty;
+        int chkUserReport = 0;
 
         string strPoint = string.Empty;     //  1: 수입, 3:자주, 5:출하
         string strFlag = string.Empty;
 
+        string LabelID_dgdMainSelectionChanged_Occur = string.Empty;
 
         int Wh_Ar_SelectedLastIndex = 0;        // 그리드 마지막 선택 줄 임시저장 그릇
 
@@ -1489,6 +1492,7 @@ namespace WizMes_HanYoung
                     tmpBasisID = WinInsAuto.InspectBasisID;
                     tmpMachineID = WinInsAuto.MachineID;
                     InspectID_Global = WinInsAuto.InspectID;
+                    LabelID_dgdMainSelectionChanged_Occur = WinInsAuto.LotID;
 
                     txtArticleName.Tag = WinInsAuto.ArticleID;
 
@@ -4239,7 +4243,7 @@ namespace WizMes_HanYoung
                         }
                         else
                         {
-                            InspectBasisID_Global = sGetID;
+                            InspectBasisID_Global = sGetID; //업로드 하려는 엑셀파일의 검사기준번호가 있으면 전역변수에 대입
                             continue;
                         }
                     }
@@ -4434,6 +4438,7 @@ namespace WizMes_HanYoung
                 ArticleID_Global = string.Empty;
                 EcoNo_Global = string.Empty;
                 ModelID_Global = string.Empty;
+                ProcessID_Global = string.Empty;
                 //InspectBasisID_Global = string.Empty;
 
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
@@ -4451,8 +4456,7 @@ namespace WizMes_HanYoung
                     {
                         DataRow dr = dt.Rows[0];
 
-
-                        ArticleID_Global = dr["ArticleID"].ToString();//전역변수로 담은게 있으면 그거 쓰고 아니면 새로 받아오기
+                        ArticleID_Global = dr["ArticleID"].ToString();
                         EcoNo_Global = dr["EcoNo"].ToString();
                         ModelID_Global = dr["BuyerModelID"].ToString();
                         MachineID_Global = dr["MachineID"].ToString();
@@ -4506,6 +4510,7 @@ namespace WizMes_HanYoung
 
             if (openFileDialog.ShowDialog() == true)
             {
+                
                 string filePath = openFileDialog.FileName;
                 string[] split_path = filePath.Split('\\'); // 1줄 경로를 \\로 나누어 문자배열에 넣기
                 string fileName = split_path[split_path.Length - 1]; //나눈 갯수 배열의 제일 마지막은 파일 이름
@@ -4519,14 +4524,19 @@ namespace WizMes_HanYoung
                     ExtractedLabeID = fileName.Substring(index, 11); //괜찮으면 C지점부터 11자리
                     LabelID_Global = ExtractedLabeID;
                 }
+                else
+                {
+                    MessageBox.Show("업로드하려는 파일명에 공정라벨이 포함되어 있어야 합니다.");
+                    return;
+                }
 
                 if (ExtractedLabeID != null && ExtractedLabeID != string.Empty)
                 {
                     //GetArticleInfoByArticleID(ArticleID_Global); 
-
+                  
                     if (CheckIsLabelIDExist(ExtractedLabeID)) //공정라벨로 검사기준등록에 있는지 확인
                     {
-                        GetArticleInfoByLabelID(ExtractedLabeID); 
+                        GetArticleInfoByLabelID(ExtractedLabeID); //미리 설정해놓은 전역변수에 정보를 저장
 
                         try
                         {
@@ -4560,7 +4570,7 @@ namespace WizMes_HanYoung
                                                         if (!resultTable.Columns.Contains(columnName)) //데이터테이블에 열이름이 없을때 넣음
                                                         {
                                                             if (columnName.Contains("\n"))
-                                                            columnName = columnName.Replace("\n", "");
+                                                                columnName = columnName.Replace("\n", "");
 
                                                             resultTable.Columns.Add(columnName);
                                                         }
@@ -4581,11 +4591,30 @@ namespace WizMes_HanYoung
                                         }
 
                                         startSave = false; //한 시트가 끝나면 일단 저장하는 것을 멈춤 다음 시트에서 Name을 만나면
-                                                           //열 이름은 이미 저장되어 있으니 넘어가고 startSave가 true로 바뀌고 계속 이어서 
-                                                           //데이터 테이블에 값을 저장함
+                                                            //열 이름은 이미 저장되어 있으니 넘어가고 startSave가 true로 바뀌고 계속 이어서 
+                                                            //데이터 테이블에 값을 저장함
+                                    }
+                                    if(ExtractedLabeID == LabelID_dgdMainSelectionChanged_Occur) //데이터그리드에서 선택한 라벨아이디와 업로드 라벨아이디가 똑같으면 그냥 진행
+                                    {
+                                        chkUserReport = 1;
+                                        ReadUploadExcel(resultTable); //여기까지 오면 각 시트의 데이터를 하나의 테이블로 만듬
+                                        
+                                    }
+                                    else
+                                    {
+                                        MessageBoxResult msgresult = MessageBox.Show("선택하신 항목의 공정라벨번호( "+ LabelID_dgdMainSelectionChanged_Occur+" )와 업로드하려는 엑셀파일의 라벨번호("+ ExtractedLabeID +")가 서로 다릅니다.\r\n새로운 업로드를 진행하시겠습니까?", "확인", MessageBoxButton.YesNo);
+                                        if (msgresult == MessageBoxResult.Yes)
+                                        {
+                                            chkUserReport = 0;
+                                            ReadUploadExcel(resultTable); //여기까지 오면 각 시트의 데이터를 하나의 테이블로 만듬
+
+                                        }
+                                        else
+                                        {
+                                            return;
+                                        }
                                     }
 
-                                    ReadUploadExcel(resultTable); //여기까지 오면 각 시트의 데이터를 하나의 테이블로 만듬
                                 }
                             }
 
@@ -4609,7 +4638,9 @@ namespace WizMes_HanYoung
                         {
                             DataStore.Instance.CloseConnection();
                         }
-                    }                  
+                    }
+
+                                       
                 }
             }
         }
@@ -4679,8 +4710,9 @@ namespace WizMes_HanYoung
                 sqlParameter1.Add("SumDefectQty", 0);
                 sqlParameter1.Add("DayOrNightID", "");
                 sqlParameter1.Add("CreateUserID", MainWindow.CurrentUser);
-                sqlParameter1.Add("chkUseReport", 1);
-
+                sqlParameter1.Add("chkUseReport", chkUserReport); //전역변수로 설정된 체크 값으로 사용자가 ins_inspectAuto에 이미 있는 같은 라벨이지만 새로 만들겠다고 하면 0이고
+                                                                  //또는 데이터그리드에 선택한것에 넣겠다고 하면 1
+                                                                  //그러면 프로시저 내부에서 return 걸리면서 ins_inspectAuto에서의 insert는 건너뛰고 sub로 직행함
                 Procedure pro1 = new Procedure();
                 //pro1.Name = "xp_Ins_chkInspectAuto_InspectID";
                 pro1.Name = "xp_Inspect_iAutoInspect";
@@ -4752,7 +4784,6 @@ namespace WizMes_HanYoung
                         sqlParameter.Add("Name", dr["SampleNo"].ToString()); //검사항목명
                         sqlParameter.Add("Meas", dr[3].ToString() != "" ? Convert.ToDecimal(dr[3]): 0); //검사값
                         //sqlParameter.Add("Tol", 0); //공차 쓸려고 했는데 이미 성적서에 합불이 있음 굳이 계산식은 안 만들어도 될거 같은? 일단 받아오자
-                        sqlParameter.Add("LabelID", LabelID_Global);
                         sqlParameter.Add("Message", "");
                         sqlParameter.Add("CreateUserID", MainWindow.CurrentUser);
 
@@ -4913,6 +4944,7 @@ namespace WizMes_HanYoung
                 chkBuyerArticleNo.IsChecked = false;
             }
         }
+     
     }
 
     class Win_Qul_InspectAuto_U_CodeView : BaseView
