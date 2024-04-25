@@ -4077,32 +4077,32 @@ namespace WizMes_HanYoung
         //품번
         private void chkArticleNo_Click(object sender, RoutedEventArgs e)
         {
-            if (chkArticleNo.IsChecked == true)
-            {
-                txtArticleNo.IsEnabled = true;
-                txtArticleNo.Focus();
-                btnArticleNo.IsEnabled = true;
-            }
-            else
-            {
-                txtArticleNo.IsEnabled = false;
-                btnArticleNo.IsEnabled = false;
-            }
+            //if (chkArticleNo.IsChecked == true)
+            //{
+            //    txtArticleNo.IsEnabled = true;
+            //    txtArticleNo.Focus();
+            //    btnArticleNo.IsEnabled = true;
+            //}
+            //else
+            //{
+            //    txtArticleNo.IsEnabled = false;
+            //    btnArticleNo.IsEnabled = false;
+            //}
         }
 
         // 플러스파인더 _ 품번 찾기
         private void btnArticleNo_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.pf.ReturnCode(txtArticleNo, 76, txtArticleNo.Text);
+            //MainWindow.pf.ReturnCode(txtArticleNo, 76, txtArticleNo.Text);
         }
 
         // 품번 키다운 
         private void TxtArticleNo_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
-            {
-                MainWindow.pf.ReturnCode(txtArticleNo, 76, txtArticleNo.Text);
-            }
+            //if (e.Key == Key.Enter)
+            //{
+            //    MainWindow.pf.ReturnCode(txtArticleNo, 76, txtArticleNo.Text);
+            //}
         }
 
         private void chkInspect_Click(object sender, RoutedEventArgs e)
@@ -4867,6 +4867,22 @@ namespace WizMes_HanYoung
         private void btnBuyerArticleNo_Click(object sender, RoutedEventArgs e)
         {
             MainWindow.pf.ReturnCode(txtBuyerArticleNo, 76, txtBuyerArticleNo.Text);
+        }
+
+        private void chkBuyerArticleNo_Click(object sender, RoutedEventArgs e)
+        {
+            if(chkBuyerArticleNo.IsChecked == true)
+            {
+                txtBuyerArticleNo.IsEnabled = true;
+                btnBuyerArticleNo.IsEnabled = true;
+                txtBuyerArticleNo.Focus();
+            }
+            else
+            {
+                txtBuyerArticleNo.IsEnabled = false;
+                btnBuyerArticleNo.IsEnabled = false;
+                chkBuyerArticleNo.IsChecked = false;
+            }
         }
     }
 
