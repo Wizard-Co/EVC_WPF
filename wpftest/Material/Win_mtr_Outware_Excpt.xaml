@@ -501,14 +501,14 @@
                                         <Image Source="{DynamicResource btiPlusFind}" />
                                     </Button>
                                     <!--품번-->
-                                    <Label x:Name="lblBuyerAritcle" Grid.Column="0" Grid.Row="4" Style="{DynamicResource LabelInputArea}">
+                                    <Label x:Name="lblBuyerAritcle" Grid.Column="0" Grid.Row="2" Style="{DynamicResource LabelInputArea}">
                                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                             <TextBlock Text="품   번"  Style="{DynamicResource TextBlockInViewBoxInput}"/>
                                         </Viewbox>
                                     </Label>
-                                    <TextBox x:Name="txtBuyerAritcle" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4" Style="{DynamicResource TextBoxInputArea}" Background="#fff2d2" 
+                                    <TextBox x:Name="txtBuyerAritcle" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2" Style="{DynamicResource TextBoxInputArea}" Background="#fff2d2" 
                                          KeyDown="TxtBuyerAritcle_KeyDown" Text="{Binding BuyerArticleNo}" Tag="{Binding ArticleID}"/>
-                                    <Button x:Name="btnPfBuyerAritcle"  Grid.Column="4" Grid.Row="4" Click="BtnPfBuyerAritcle_Click">
+                                    <Button x:Name="btnPfBuyerAritcle"  Grid.Column="4" Grid.Row="2" Click="BtnPfBuyerAritcle_Click">
                                         <Image Source="{DynamicResource btiPlusFind}" />
                                     </Button>
 
@@ -539,14 +539,14 @@
 
 
                                     <!--거래처-->
-                                    <Label x:Name="lblCustom" Grid.Column="0" Grid.Row="2"  Style="{DynamicResource LabelInputArea}">
+                                    <Label x:Name="lblCustom" Grid.Column="0" Grid.Row="4"  Style="{DynamicResource LabelInputArea}">
                                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                             <TextBlock Text="거래처" Style="{DynamicResource TextBlockInViewBoxInput}"/>
                                         </Viewbox>
                                     </Label>
-                                    <TextBox x:Name="txtCustom" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2"  Style="{DynamicResource TextBoxInputNecessary}" 
+                                    <TextBox x:Name="txtCustom" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4"  Style="{DynamicResource TextBoxInputNecessary}" 
                                          Text="{Binding CustomName}" Tag="{Binding OutCustomID}" Keyboard.KeyDown="txtCustom_KeyDown" />
-                                    <Button x:Name="btnCustom" Grid.Column="4" Grid.Row="2"  Click="btnCustom_Click" >
+                                    <Button x:Name="btnCustom" Grid.Column="4" Grid.Row="4"  Click="btnCustom_Click" >
                                         <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}" />
                                     </Button>
 

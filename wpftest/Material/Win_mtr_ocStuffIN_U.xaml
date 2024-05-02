@@ -638,18 +638,18 @@
                         <ComboBox x:Name="cboCompanySite" Grid.Row="1" Grid.Column="5" 
                                   Style="{StaticResource ComboBoxInputString}" SelectedValue="{Binding CompanyID}"/>
 
-                        <Label Grid.Row="2" Grid.Column="0" Style="{DynamicResource LabelInputArea}" >
+                        <Label Grid.Row="4" Grid.Column="0" Style="{DynamicResource LabelInputArea}" >
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                 <TextBlock Text="거 래 처" Style="{DynamicResource TextBlockInViewBoxInput}"/>
                             </Viewbox>
                         </Label>
 
-                        <TextBox x:Name="txtCustom" Grid.Row="2" Grid.Column="1" 
+                        <TextBox x:Name="txtCustom" Grid.Row="4" Grid.Column="1" 
                                  Style="{StaticResource TextBoxInputNecessary}" Grid.ColumnSpan="2"
                                  Text="{Binding kCompany}" Tag="{Binding CustomID}"
                                  Keyboard.KeyDown="txtCustomID_KeyDown"
                                  />
-                        <Button x:Name="btnPfCustomID" Grid.Row="2" Grid.Column="3" 
+                        <Button x:Name="btnPfCustomID" Grid.Row="4" Grid.Column="3" 
                                 Click="btnPfCustomID_Click">
                             <Image Source="{DynamicResource btiPlusFind}" />
                         </Button>
@@ -679,16 +679,16 @@
                         <ComboBox x:Name="cboOrderFlag" Grid.Row="2" Grid.Column="5" Margin="1" Background="White"
                                   SelectedValue="{Binding OrderFlag}"></ComboBox>-->
 
-                        <Label Grid.Row="4" Grid.Column="0" Style="{DynamicResource LabelInputArea}" >
+                        <Label Grid.Row="2" Grid.Column="0" Style="{DynamicResource LabelInputArea}" >
                             <Viewbox  Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                 <TextBlock Text="품     번" Style="{DynamicResource TextBlockInViewBoxInput}"/>
                             </Viewbox>
                         </Label>
-                        <TextBox x:Name="txtArticle" Grid.Row="4" Grid.Column="1" 
+                        <TextBox x:Name="txtArticle" Grid.Row="2" Grid.Column="1" 
                                  Style="{StaticResource TextBoxInputNecessary}" Grid.ColumnSpan="2"
                                  Text="{Binding BuyerArticleNo}" Tag="{Binding ArticleID}"
                                  Keyboard.KeyDown="txtArticle_KeyDown" IsHitTestVisible="True"/>
-                        <Button x:Name="btnPfArticle" Grid.Row="4" Grid.Column="3" Margin="1"
+                        <Button x:Name="btnPfArticle" Grid.Row="2" Grid.Column="3" Margin="1"
                                 Click="btnPfArticle_Click" IsEnabled="True">
                             <Image Source="{DynamicResource btiPlusFind}" />
                         </Button>
@@ -775,7 +775,7 @@
                         </Label>
 
                         <ComboBox x:Name="cboToLoc" Grid.Row="6" Grid.Column="5" Style="{StaticResource ComboBoxInputString}"
-                                  SelectedValue="{Binding TOLocID}"/>
+                                  SelectedValue="{Binding TOLocID}" IsEnabled="False"/>
 
                         <Label Grid.Row="8" Grid.Column="0" Style="{DynamicResource LabelInputArea}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
