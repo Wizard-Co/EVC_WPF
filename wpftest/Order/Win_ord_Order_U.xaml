@@ -546,21 +546,21 @@
                                           SelectedValue="{Binding OrderFlag}"/>
                             </Grid>-->
 
-                            <Label Grid.Row="7" Grid.Column="0" 
+                            <Label Grid.Row="4" Grid.Column="0" 
                                     Style="{DynamicResource LabelInputArea}">
                                 <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                     <TextBlock Text="품   명" Style="{DynamicResource TextBlockInViewBoxInput}"/>
 
                                 </Viewbox>
                             </Label>
-                            <TextBox x:Name="txtArticle" Grid.Row="7" Grid.Column="1" Text="{Binding Article}" Tag="{Binding ArticleID}" IsReadOnly="True"
+                            <TextBox x:Name="txtArticle" Grid.Row="4" Grid.Column="1" Text="{Binding Article}" Tag="{Binding ArticleID}" IsReadOnly="True"
                                    Style="{StaticResource TextBoxInputArea}" Keyboard.KeyDown="txtArticle_KeyDown"/>
                           
-                            <Button x:Name="btnPfArticle" Grid.Row="7" Grid.Column="2" Click="btnPfArticle_Click"  Visibility="Hidden">
+                            <Button x:Name="btnPfArticle" Grid.Row="4" Grid.Column="2" Click="btnPfArticle_Click"  Visibility="Hidden">
                                 <Image Source="{DynamicResource btiPlusFind}" />
                             </Button>
-
-                            <Label Grid.Row="6" Grid.Column="0" 
+                            <!--품번-->
+                            <Label Grid.Row="3" Grid.Column="0" 
                                    Style="{DynamicResource LabelInputArea}">
                                 <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                     <TextBlock Text="품   번"  Style="{DynamicResource TextBlockInViewBoxInput}"/>
@@ -568,37 +568,37 @@
                                 </Viewbox>
                                 
                             </Label>
-                            <TextBox x:Name="txtBuyerArticleNO" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1"  Text="{Binding BuyerArticleNo}" Tag="{Binding ArticleID}"
+                            <TextBox x:Name="txtBuyerArticleNO" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1"  Text="{Binding BuyerArticleNo}" Tag="{Binding ArticleID}"
                                     Style="{StaticResource TextBoxInputNecessary}"
-                                     Keyboard.KeyDown="txtBuyerArticle_KeyDown" Height="24" Margin="1,1,1,0" Grid.RowSpan="2" VerticalAlignment="Top"
+                                     Keyboard.KeyDown="txtBuyerArticle_KeyDown" Height="24" Margin="1,1,1,0" VerticalAlignment="Top"
                                      />
-                            <Button x:Name="ButtonBuyerArticleNo" Grid.Column="2" Grid.Row="6"  
+                            <Button x:Name="ButtonBuyerArticleNo" Grid.Column="2" Grid.Row="3"  
                                     Click="btnPfBuyerArticle_Click"
                                   >
                                 <Image Source="{DynamicResource btiPlusFind}" />
                             </Button>
-
-                            <Label Grid.Row="3" Grid.Column="0" 
+                            <!--거래처-->
+                            <Label Grid.Row="5" Grid.Column="0" 
                                     Style="{DynamicResource LabelInputArea}">
                                 <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                     <TextBlock Text="거래처" Style="{DynamicResource TextBlockInViewBoxInput}"/>
 
                                 </Viewbox>
                             </Label>
-                            <TextBox x:Name="txtCustom" Grid.Row="3" Grid.Column="1" Text="{Binding KCustom}" 
+                            <TextBox x:Name="txtCustom" Grid.Row="5" Grid.Column="1" Text="{Binding KCustom}" 
                                     Keyboard.KeyDown="txtCustom_KeyDown" Tag="{Binding CustomID}"
                                      Style="{StaticResource TextBoxInputNecessary}"/>
-                            <Button x:Name="btnPfCustom" Grid.Row="3" Grid.Column="2" Click="btnPfCustom_Click">
+                            <Button x:Name="btnPfCustom" Grid.Row="5" Grid.Column="2" Click="btnPfCustom_Click">
                                 <Image Source="{DynamicResource btiPlusFind}"  />
                             </Button>
 
-                            <Label Grid.Row="4" Grid.Column="0"
+                            <Label Grid.Row="7" Grid.Column="0"
                                     Style="{DynamicResource LabelInputArea}">
                                 <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                     <TextBlock Text="납품 장소" Style="{DynamicResource TextBlockInViewBoxInput}" />
                                 </Viewbox>
                             </Label>
-                            <TextBox x:Name="txtDylvLoc" Grid.Row="4" Grid.Column="1" 
+                            <TextBox x:Name="txtDylvLoc" Grid.Row="7" Grid.Column="1" 
                                      Text="{Binding DvlyPlace}" 
                                      Style="{DynamicResource TextBoxInputArea}"/>
 
@@ -800,16 +800,16 @@
 
 
 
-                            <Label Grid.Row="5" Grid.Column="0" 
+                            <Label Grid.Row="6" Grid.Column="0" 
                                     Style="{DynamicResource LabelInputArea}">
                                 <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
 
                                     <TextBlock Text="최종고객사"  Style="{DynamicResource TextBlockInViewBoxInput}"/>
                                 </Viewbox>
                             </Label>
-                            <TextBox x:Name="txtInCustom" Grid.Row="5" Grid.Column="1" Text="{Binding KInCustom}" 
+                            <TextBox x:Name="txtInCustom" Grid.Row="6" Grid.Column="1" Text="{Binding KInCustom}" 
                                      Style="{StaticResource TextBoxInputNecessary}" Keyboard.KeyDown="txtInCustom_KeyDown" Tag="{Binding InCustomID}"/>
-                            <Button x:Name="btnPfInCustom" Grid.Row="5" Grid.Column="2" Click="btnPfInCustom_Click">
+                            <Button x:Name="btnPfInCustom" Grid.Row="6" Grid.Column="2" Click="btnPfInCustom_Click">
                                 <Image Source="{DynamicResource btiPlusFind}"  />
                             </Button>
 
