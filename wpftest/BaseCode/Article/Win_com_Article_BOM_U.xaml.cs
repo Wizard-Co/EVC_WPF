@@ -202,9 +202,18 @@ namespace WizMes_HanYoung
             txtParentArticle.IsReadOnly = false;
             btnPfParentArticle.IsEnabled = true;
 
+            txtParentBuyArticle.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#fff2d2");
+            txtParentBuyArticle.IsReadOnly = false;
+            btnPfParentBuyArticle.IsEnabled = true;
+
+
             txtArticle.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#fff2d2");
             txtArticle.IsReadOnly = false;
             btnPfArticle.IsEnabled = true;
+
+            txtBuyArticle.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#fff2d2");
+            txtBuyArticle.IsReadOnly = false;
+            btnPfBuyArticle.IsEnabled = true;
 
             Lib.Instance.UiButtonEnableChange_IUControl(this);
             gbxInput.IsHitTestVisible = false;
@@ -243,6 +252,8 @@ namespace WizMes_HanYoung
             {
                 txtParentArticle.Tag = null;
                 txtArticle.Tag = null;
+                txtParentBuyArticle.Tag = null; //오른쪽것도 지웁시다
+                txtBuyArticle.Tag = null;
             }
             else if (WinBomList != null)
             {
@@ -254,14 +265,13 @@ namespace WizMes_HanYoung
 
                     txtArticle.Text = null;
                     txtArticle.Tag = null;
+
+                    txtBuyArticle.Text = null; //오른쪽것도 지웁시다
+                    txtBuyArticle.Tag = null;
+
                 }
 
             }
-
-
-
-
-
 
 
         }
@@ -286,9 +296,19 @@ namespace WizMes_HanYoung
                     txtParentArticle.IsReadOnly = true;
                     btnPfParentArticle.IsEnabled = false;
 
+                    // 상위품목, 품명은 수정 불가능 설정
+                    txtParentBuyArticle.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#c2fdc3");
+                    txtParentBuyArticle.IsReadOnly = true;
+                    btnPfParentBuyArticle.IsEnabled = false;
+
+
                     txtArticle.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#c2fdc3");
                     txtArticle.IsReadOnly = true;
                     btnPfArticle.IsEnabled = false;
+
+                    txtBuyArticle.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#c2fdc3");
+                    txtBuyArticle.IsReadOnly = true;
+                    btnPfBuyArticle.IsEnabled = false;
 
                     // 상위품목, 하위품목 리스트는 수정일때는 비활성화
                     gbxDataGrid.IsEnabled = false;
@@ -447,8 +467,16 @@ namespace WizMes_HanYoung
 
             txtParentArticle.Text = "";
             txtParentArticle.Tag = null;
+
+            txtParentBuyArticle.Text = ""; //오른쪽 품번도 지웁시다
+            txtParentBuyArticle.Tag = null;
+
             txtArticle.Text = "";
             txtArticle.Tag = null;
+
+            txtBuyArticle.Text = ""; //오른쪽 품번도 지웁시다
+            txtBuyArticle.Tag = null;
+
             txtQty.Text = "";
             txtLossQty.Text = "";
 
@@ -558,6 +586,9 @@ namespace WizMes_HanYoung
             {
                 txtParentArticle.Text = "";
                 txtArticle.Text = "";
+                txtParentBuyArticle.Text = "";
+                txtBuyArticle.Text = "";
+
                 txtQty.Text = "";
                 txtLossQty.Text = "";
             }
@@ -771,6 +802,13 @@ namespace WizMes_HanYoung
                                     {
                                         continue;
                                     }
+                                    //else if (lstParentArticleID[ItemList.LVL - 1].Equals(ItemList.PARENTArticleID))
+                                    //{
+                                    //    lstTree[ItemList.LVL].Items.Add(mTreeViewItemC);
+
+                                    //    lstParentArticleID[ItemList.LVL] = ItemList.ArticleID;
+                                    //    lstTree[ItemList.LVL] = mTreeViewItemC;
+                                    //}
 
                                     else if (lstParentArticleID[ItemList.LVL - 2].Equals(ItemList.PARENTArticleID))
                                     {
@@ -1309,10 +1347,30 @@ namespace WizMes_HanYoung
                             UnitPriceClss = dr["UnitPriceClss"].ToString(),
                             UnitClss = dr["UnitClss"].ToString(),
                             PartGBNID = dr["PartGBNID"].ToString(),
-                            ProductGrpID = dr["ProductGrpID"].ToString()
+                            ProductGrpID = dr["ProductGrpID"].ToString(),
+                            Article = dr["Article"].ToString(),
+                            BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
+                            ArticleID = dr["ArticleID"].ToString()
                         };
 
                         cboUnitClss.SelectedValue = getArticleInfo.UnitClss;
+
+                        if (PChildArticle.Equals("P"))
+                        {
+                            txtParentBuyArticle.Text = getArticleInfo.BuyerArticleNo;
+                            txtParentArticle.Text = getArticleInfo.Article;
+                            txtParentArticle.Tag = getArticleInfo.ArticleID;
+
+                        }
+                        else
+                        {
+                            txtBuyArticle.Text = getArticleInfo.BuyerArticleNo;
+                            txtArticle.Text = getArticleInfo.Article;
+                            txtArticle.Tag = getArticleInfo.ArticleID;
+
+                        }
+
+
                     }
                 }
             }
@@ -1363,6 +1421,7 @@ namespace WizMes_HanYoung
                 DataTable dt = dataTableArticle;
                 sql += " ArticleGrpID = '" + cbosArticleGrpP.SelectedValue.ToString() + "' ";
                 sql += "and Article like '%" + txtSrhArticleP.Text + "%' ";
+
 
                 //GLS에서 요청 2021-10-21
                 if (dt.Rows.Count == 0)
@@ -2187,6 +2246,7 @@ namespace WizMes_HanYoung
 
         #endregion // 거래명세서 인쇄 메서드
 
+        //오른쪽 상위품번
         private void txtParentBuyArticle_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -2194,16 +2254,23 @@ namespace WizMes_HanYoung
                 MainWindow.pf.ReturnCodeGLS(txtParentBuyArticle, 76, "");
                 //MainWindow.pf.ReturnCode(txtParentArticle, (int)Defind_CodeFind.DCF_BuyerArticleNo, "");
 
+                PChildArticle = "P";
+
                 if (txtParentBuyArticle.Tag != null)
                 {
                     getArticleInfo(txtParentBuyArticle.Tag.ToString());
                 }
 
+                PChildArticle = "";
+
             }
         }
+        //오른쪽 상위품번
 
         private void btnPfParentBuyArticle_Click(object sender, RoutedEventArgs e)
         {
+            PChildArticle = "P";
+
             MainWindow.pf.ReturnCodeGLS(txtParentBuyArticle, 76, "");
             //MainWindow.pf.ReturnCode(txtParentArticle, (int)Defind_CodeFind.DCF_BuyerArticleNo, "");
 
@@ -2211,35 +2278,45 @@ namespace WizMes_HanYoung
             {
                 getArticleInfo(txtParentBuyArticle.Tag.ToString());
             }
+            PChildArticle = "";
+
         }
 
 
-
+        //우측 하위품번 
         private void txtBuyArticle_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 MainWindow.pf.ReturnCodeGLS(txtBuyArticle, 76, "");
                 //MainWindow.pf.ReturnCode(txtArticle, (int)Defind_CodeFind.DCF_BuyerArticleNo, "");
+                PChildArticle = "C";
 
                 if (txtBuyArticle.Tag != null)
                 {
                     getArticleInfo(txtBuyArticle.Tag.ToString());
                 }
+
+                PChildArticle = "";
+
             }
         }
-
+        //우측 하위품번 버튼
         private void btnPfBuyArticle_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 MainWindow.pf.ReturnCodeGLS(txtBuyArticle, 76, "");
                 //MainWindow.pf.ReturnCode(txtArticle, (int)Defind_CodeFind.DCF_BuyerArticleNo, "");
+                PChildArticle = "C";
 
                 if (txtBuyArticle.Tag != null)
                 {
                     getArticleInfo(txtBuyArticle.Tag.ToString());
                 }
+
+                PChildArticle = "";
+
             }
             catch (Exception ex)
             {
@@ -2360,5 +2437,8 @@ namespace WizMes_HanYoung
         public string UnitClss { get; set; }
         public string PartGBNID { get; set; }
         public string ProductGrpID { get; set; }
+        public string Article { get; set; }
+        public string BuyerArticleNo { get; set; }
+        public string ArticleID { get; set; }
     }
 }

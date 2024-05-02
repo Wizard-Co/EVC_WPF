@@ -380,9 +380,9 @@ namespace WizMes_HanYoung
                         DataStore.Instance.InsertLogByForm(this.GetType().Name, "E");
                         if (ExpExc.Check.Equals("Y"))
                             if (ExpExc.Check.Equals("Y"))
-                            dt = Lib.Instance.DataGridToDTinHidden(dgdBuseo);
-                        else
-                            dt = Lib.Instance.DataGirdToDataTable(dgdBuseo);
+                                dt = Lib.Instance.DataGridToDTinHidden(dgdBuseo);
+                            else
+                                dt = Lib.Instance.DataGirdToDataTable(dgdBuseo);
 
                         Name = dgdBuseo.Name;
                         if (Lib.Instance.GenerateExcel(dt, Name))
@@ -493,7 +493,8 @@ namespace WizMes_HanYoung
                                 Num = i + "",
                                 DepartID = dr["DepartID"].ToString(),
                                 Depart = dr["Depart"].ToString(),
-                                UseClss = dr["UseClss"].ToString()
+                                UseClss = dr["UseClss"].ToString(),
+                                Seq = dr["Seq"].ToString(),
                             };
 
                             dgdBuseo.Items.Add(BuseoInfo);
@@ -529,7 +530,8 @@ namespace WizMes_HanYoung
                                 Num = i + "",
                                 ResablyID = dr["ResablyID"].ToString(),
                                 Resably = dr["Resably"].ToString(),
-                                UseClss = dr["UseClss"].ToString()
+                                UseClss = dr["UseClss"].ToString(),
+                                Seq = dr["Seq"].ToString(),
                             };
 
                             dgdJikChaek.Items.Add(JikChaekInfo);
@@ -639,6 +641,8 @@ namespace WizMes_HanYoung
                     {
                         sqlParameter.Add("sID", txtDepartID.Text);
                         sqlParameter.Add("sData", txtDepart.Text);
+                        sqlParameter.Add("sSeq", txtDepartSeq.Text);
+
                         sqlParameter.Add("UseClss", chkBuseoUseClss.IsChecked == true ? "*" : "");
 
                         if (strFlag.Equals("I"))
@@ -674,6 +678,8 @@ namespace WizMes_HanYoung
                     {
                         sqlParameter.Add("sID", txtResablyID.Text);
                         sqlParameter.Add("sData", txtResably.Text);
+                        sqlParameter.Add("sSeq", txtResablySeq.Text);
+
                         sqlParameter.Add("UseClss", chANTikChaekUseClss.IsChecked == true ? "*" : "");
 
                         if (strFlag.Equals("I"))
@@ -707,7 +713,7 @@ namespace WizMes_HanYoung
                     }
 
                     string[] Confirm = new string[2];
-                    Confirm = DataStore.Instance.ExecuteAllProcedureOutputNew_NewLog(Prolist, ListParameter,"C");
+                    Confirm = DataStore.Instance.ExecuteAllProcedureOutputNew_NewLog(Prolist, ListParameter, "C");
                     if (Confirm[0] != "success")
                     {
                         MessageBox.Show("[저장실패]\r\n" + Confirm[1].ToString());
@@ -921,6 +927,7 @@ namespace WizMes_HanYoung
         public string DepartID { get; set; }
         public string Depart { get; set; }
         public string UseClss { get; set; }
+        public string Seq { get; set; }
     }
 
     class Win_com_JikChaek_U_CodeView : BaseView
@@ -934,5 +941,7 @@ namespace WizMes_HanYoung
         public string ResablyID { get; set; }
         public string Resably { get; set; }
         public string UseClss { get; set; }
+        public string Seq { get; set; }
+
     }
 }

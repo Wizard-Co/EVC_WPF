@@ -164,7 +164,7 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Grid Grid.Column="0">
-                                
+
                                 <DataGrid Name="dgdBuseo" Grid.Row="1" SelectionChanged="dgdBuseo_SelectionChanged" Style="{StaticResource DataGridSet1}">
                                     <DataGrid.RowStyle>
                                         <Style TargetType="DataGridRow">
@@ -177,7 +177,8 @@
                                         </Style>
                                     </DataGrid.RowStyle>
                                     <DataGrid.Columns>
-                                        <DataGridTextColumn Header="순" Binding="{Binding Path=Num}" Width="auto" />
+                                        <DataGridTextColumn Header="순" Binding="{Binding Path=Num}" Width="auto" Visibility="Hidden"/>
+                                        <DataGridTextColumn Header="순" Binding="{Binding Path=Seq}" Width="auto" />
                                         <DataGridTextColumn Header="코 드" Binding="{Binding Path=DepartID}" Width="*" HeaderTemplate="{StaticResource ResourceKey=HorizonalCenter}" Visibility="Hidden"/>
                                         <!--<DataGridTextColumn Header="부 서" Binding="{Binding Path=Depart}" Width="*" />-->
                                         <DataGridTemplateColumn Header="부 서" Width="*" SortMemberPath="Depart" HeaderTemplate="{StaticResource ResourceKey=HorizonalCenter}">
@@ -221,14 +222,24 @@
                                     <TextBox x:Name="txtDepartID" Grid.Column="1"  Grid.Row="1" 
                                              Style="{DynamicResource TextBoxInputAutoCreate }" 
                                              Text="{Binding DepartID}" IsHitTestVisible="False"/>
-                                    <TextBlock x:Name="infoDepartID" Grid.Column="2" Grid.Row="1" Text="" VerticalAlignment="Center" Margin="10 0 0 0"/>
+
                                     <Label Grid.Column="0" Grid.Row="2" Style="{DynamicResource LabelInputArea}">
+                                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                            <TextBlock Text="순 서" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                        </Viewbox>
+                                    </Label>
+                                    <TextBox x:Name="txtDepartSeq" Grid.Column="1"  Grid.Row="2" 
+                                             Style="{DynamicResource TextBoxInputArea }" 
+                                             Text="{Binding Seq}" />
+
+                                    <TextBlock x:Name="infoDepartID" Grid.Column="2" Grid.Row="1" Text="" VerticalAlignment="Center" Margin="10 0 0 0"/>
+                                    <Label Grid.Column="0" Grid.Row="3" Style="{DynamicResource LabelInputArea}">
                                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                             <TextBlock Text="부 서" Style="{DynamicResource TextBlockInViewBoxInput}"/>
                                         </Viewbox>
                                     </Label>
-                                    <TextBox x:Name="txtDepart" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Background="#fff2d2" Margin="1" Text="{Binding Depart}" KeyDown="txtDepart_KeyDown"/>
-                                    <CheckBox Grid.Row="3" x:Name="chkBuseoUseClss" Content="사용안함" Margin="10 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left" >
+                                    <TextBox x:Name="txtDepart" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Background="#fff2d2" Margin="1" Text="{Binding Depart}" KeyDown="txtDepart_KeyDown"/>
+                                    <CheckBox Grid.Row="4" x:Name="chkBuseoUseClss" Content="사용안함" Margin="10 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left" >
                                         <CheckBox.Style>
                                             <Style TargetType="CheckBox">
                                                 <Style.Triggers>
@@ -257,7 +268,8 @@
                             </Grid.ColumnDefinitions>
                             <DataGrid x:Name="dgdJikChaek" Grid.Column="0" SelectionChanged="dgdJikChaek_SelectionChanged"  Style="{StaticResource DataGridSet1}">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="순" Binding="{Binding Num}" />
+                                    <DataGridTextColumn Header="순" Binding="{Binding Num}" Visibility="Hidden"/>
+                                    <DataGridTextColumn Header="순" Binding="{Binding Seq}" />
                                     <DataGridTextColumn Header="코드" Binding="{Binding ResablyID}" Visibility="Hidden" />
                                     <DataGridTextColumn Header="직책" Binding="{Binding Resably}" Width="*"/>
                                     <DataGridTextColumn Header="사용안함" Binding="{Binding UseClss}" Width="*" Visibility="Hidden"/>
@@ -272,7 +284,8 @@
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="*" />
-                                        <RowDefinition Height="16*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="15*" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="95*" />
@@ -292,15 +305,25 @@
                                     <TextBox x:Name="txtResablyID"  Grid.Column="1" Grid.Row="1" Style="{DynamicResource TextBoxInputAutoCreate}"
                                              Text="{Binding ResablyID}" IsHitTestVisible="False"/>
 
-                                    <TextBlock x:Name="infoResablyID" Grid.Column="2" Grid.Row="1" Text="" VerticalAlignment="Center" />
                                     <Label Grid.Column="0" Grid.Row="2" Style="{DynamicResource LabelInputArea}">
+                                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                            <TextBlock Text="순 서" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                        </Viewbox>
+                                    </Label>
+                                    <TextBox x:Name="txtResablySeq" Grid.Column="1"  Grid.Row="2" 
+                                             Style="{DynamicResource TextBoxInputArea }" 
+                                             Text="{Binding Seq}" />
+
+
+                                    <TextBlock x:Name="infoResablyID" Grid.Column="2" Grid.Row="1" Text="" VerticalAlignment="Center" />
+                                    <Label Grid.Column="0" Grid.Row="3" Style="{DynamicResource LabelInputArea}">
                                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                             <TextBlock Text="직  책" Style="{DynamicResource TextBlockInViewBoxInput}"/>
                                         </Viewbox>
                                     </Label>
-                                    <TextBox x:Name="txtResably" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Style="{DynamicResource TextBoxInputNecessary}" 
+                                    <TextBox x:Name="txtResably" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Style="{DynamicResource TextBoxInputNecessary}" 
                                              Text="{Binding Resably}" KeyDown="txtResably_KeyDown"/>
-                                    <CheckBox Grid.Row="3" x:Name="chANTikChaekUseClss" Content="사용안함" Margin="10 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left" >
+                                    <CheckBox Grid.Row="4" x:Name="chANTikChaekUseClss" Content="사용안함" Margin="10 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left" >
                                         <CheckBox.Style>
                                             <Style TargetType="CheckBox">
                                                 <Style.Triggers>
