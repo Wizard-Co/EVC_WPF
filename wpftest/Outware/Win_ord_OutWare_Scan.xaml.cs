@@ -2031,7 +2031,7 @@ namespace WizMes_HanYoung
                                 Buyer_Address3 = dr["Buyer_Address3"].ToString(), //공급받는 자 주소
                                 CustomNo = dr["CustomNo"].ToString(),             //사업자등록번호
                                 Chief = dr["Chief"].ToString(),                   //공급하는 대표자명
-
+                                OutTime = dr["OutTime"].ToString(),
                                 //Condition = dr["Condition"].ToString(),           //업테 2021-05-31
                                 //Category = dr["Category"].ToString(),             //종목 2021-05-31
 
@@ -2040,6 +2040,7 @@ namespace WizMes_HanYoung
                             Win_ord_OutWare_Scan_Total.totQty += ConvertDouble(Win_ord_OutWare_Scan_Insert.OutQty);
                             //출고일자 데이트피커 포맷으로 변경
                             Win_ord_OutWare_Scan_Insert.OutDate = DatePickerFormat(Win_ord_OutWare_Scan_Insert.OutDate);
+                            tboxOutTime.Text = Win_ord_OutWare_Scan_Insert.OutTime;
                             //잔량, 수주량, 소요량, 출고량, 누계출고, 단가 소숫점 두자리 변환
                             Win_ord_OutWare_Scan_Insert.RemainQty = Lib.Instance.returnNumStringZero(Win_ord_OutWare_Scan_Insert.RemainQty);
                             Win_ord_OutWare_Scan_Insert.OrderQty = Lib.Instance.returnNumStringZero(Win_ord_OutWare_Scan_Insert.OrderQty);
@@ -3767,6 +3768,8 @@ namespace WizMes_HanYoung
         //2021-05-31
         public string Category { get; set; }
         public string Condition { get; set; }
+
+        public string OutTime { get; set; }
 
     }
 

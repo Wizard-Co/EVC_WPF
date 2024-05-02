@@ -239,6 +239,63 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
+                    <DataGridTemplateColumn Header="수주일" MinWidth="50">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock  Text="{Binding AcptDate}" TextAlignment="Left"
+                                          VerticalAlignment="Center"  Padding="5 0" PreviewMouseDown="dgdMain_PreviewMouseDown"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="품명" MinWidth="50">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock x:Name="txtArticle" 
+                                           Text="{Binding Article}" TextAlignment="Left"
+                                          VerticalAlignment="Center"  Padding="5 0" PreviewMouseDown="dgdMain_PreviewMouseDown"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="품번" MinWidth="50">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock x:Name="txtBuyerArticleNo" 
+                                           Text="{Binding BuyerArticleNo}" TextAlignment="Left"
+                                          VerticalAlignment="Center"  Padding="5 0" PreviewMouseDown="dgdMain_PreviewMouseDown"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+
+                    <DataGridTemplateColumn Header="수주량" MinWidth="50">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding OrderQty}" TextAlignment="Right"
+                                              VerticalAlignment="Center"  Padding="5 0" PreviewMouseDown="dgdMain_PreviewMouseDown"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="출고량" MinWidth="50">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding OutQty}" TextAlignment="Right"
+                                              VerticalAlignment="Center"  Padding="5 0" PreviewMouseDown="dgdMain_PreviewMouseDown"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="출고잔량" MinWidth="50">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding RestOrderQty}" TextAlignment="Right"
+                                              VerticalAlignment="Center"  Padding="5 0" PreviewMouseDown="dgdMain_PreviewMouseDown"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
                     <DataGridTemplateColumn Header="거래처" MinWidth="70" Visibility="Hidden">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -277,37 +334,8 @@
                                           VerticalAlignment="Center"  Padding="5 0" PreviewMouseDown="dgdMain_PreviewMouseDown"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-
-                    <DataGridTemplateColumn Header="품번" MinWidth="50">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock x:Name="txtBuyerArticleNo" 
-                                           Text="{Binding BuyerArticleNo}" TextAlignment="Left"
-                                          VerticalAlignment="Center"  Padding="5 0" PreviewMouseDown="dgdMain_PreviewMouseDown"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-
-                    <DataGridTemplateColumn Header="품명" MinWidth="50">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock x:Name="txtArticle" 
-                                           Text="{Binding Article}" TextAlignment="Left"
-                                          VerticalAlignment="Center"  Padding="5 0" PreviewMouseDown="dgdMain_PreviewMouseDown"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-
-                    <DataGridTemplateColumn Header="수주일" MinWidth="50">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock  Text="{Binding AcptDate}" TextAlignment="Left"
-                                          VerticalAlignment="Center"  Padding="5 0" PreviewMouseDown="dgdMain_PreviewMouseDown"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-
+                    </DataGridTemplateColumn>  
+                    
                     <DataGridTemplateColumn Header="품명종류" MinWidth="50" Visibility="Hidden">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -326,14 +354,6 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
-                    <DataGridTemplateColumn Header="수주량" MinWidth="50">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding OrderQty}" TextAlignment="Right"
-                                              VerticalAlignment="Center"  Padding="5 0" PreviewMouseDown="dgdMain_PreviewMouseDown"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
 
                     <DataGridTemplateColumn Header="단가" MinWidth="50" Visibility="Hidden">
                         <DataGridTemplateColumn.CellTemplate>
@@ -353,23 +373,7 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
-                    <DataGridTemplateColumn Header="출고량" MinWidth="50">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding OutQty}" TextAlignment="Right"
-                                              VerticalAlignment="Center"  Padding="5 0" PreviewMouseDown="dgdMain_PreviewMouseDown"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-
-                    <DataGridTemplateColumn Header="출고잔량" MinWidth="50">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding RestOrderQty}" TextAlignment="Right"
-                                              VerticalAlignment="Center"  Padding="5 0" PreviewMouseDown="dgdMain_PreviewMouseDown"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                   
 
                     <DataGridTemplateColumn Header="비고"  MinWidth="175" Width="auto">
                         <DataGridTemplateColumn.CellTemplate>

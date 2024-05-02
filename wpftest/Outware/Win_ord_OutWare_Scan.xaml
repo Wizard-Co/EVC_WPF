@@ -497,7 +497,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <ToggleButton x:Name="tgnMoveByID" Grid.Row="0"  Margin="1" Click="tgnMoveByID_Click" IsChecked="true" IsHitTestVisible="False">
+                    <ToggleButton x:Name="tgnMoveByID" Grid.Row="0"  Margin="1" Click="tgnMoveByID_Click" IsChecked="False" IsHitTestVisible="False">
                         <Viewbox Margin="5">
                             <StackPanel>
                                 <TextBlock Text="ID" HorizontalAlignment="Center" />
@@ -506,7 +506,7 @@
                             </StackPanel>
                         </Viewbox>
                     </ToggleButton>
-                    <ToggleButton x:Name="tgnMoveByQty" Grid.Row="1" Grid.RowSpan="1" Margin="1" Click="tgnMoveByQty_Click" IsChecked="False" IsHitTestVisible="False" >
+                    <ToggleButton x:Name="tgnMoveByQty" Grid.Row="1" Grid.RowSpan="1" Margin="1" Click="tgnMoveByQty_Click" IsChecked="True" IsHitTestVisible="False" >
                         <Viewbox Margin="5">
                             <StackPanel>
                                 <TextBlock Text="수량" HorizontalAlignment="Center" />
@@ -573,16 +573,25 @@
                         <ComboBox x:Name="cboOutClss" Grid.Column="1" Grid.Row="1" 
                                   SelectedValue="{Binding Path=OutClss}" Background="#fff2d2" Style="{DynamicResource ComboBoxInputString}"
                                   DropDownClosed="cboOutClss_DropDownClosed" TabIndex="13"/>
-
+                        
+                        
                         <Label Grid.Column="0" Grid.Row="2" Style="{DynamicResource LabelInputArea}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                 <TextBlock Text="작성일자"  Style="{DynamicResource TextBlockInViewBoxInput}"/>
                             </Viewbox>
                         </Label>
-                        <DatePicker x:Name="dtpOutDate" Grid.Column="1" Grid.Row="2" Padding="0" Text="{Binding Path=OutDate}" Style="{DynamicResource DatePickerInputArea}"
-                                
-                                    CalendarClosed="DtpOutDate_CalendarClosed"/>
 
+                        <Grid Grid.Column="1" Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <DatePicker x:Name="dtpOutDate" Grid.Column="0"  Padding="0" Text="{Binding Path=OutDate}" Style="{DynamicResource DatePickerInputArea}"
+                                CalendarClosed="DtpOutDate_CalendarClosed"/>
+                            <TextBox x:Name="tboxOutTime" Grid.Column="1" IsReadOnly="True" Padding="5" Text="{Binding Path=OutTime}" Margin="0.3"/>
+                        </Grid>
+                        
+                    
                         <Label Grid.Column="0" Grid.Row="3" Style="{DynamicResource LabelInputArea}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                 <TextBlock Text="박스/수량"  Style="{DynamicResource TextBlockInViewBoxInput}"/>
