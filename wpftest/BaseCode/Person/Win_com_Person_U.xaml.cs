@@ -694,6 +694,7 @@ namespace WizMes_HanYoung
                                 Bank = dr["Bank"].ToString(),
                                 Sketch1Path = dr["Sketch1Path"].ToString(),
                                 Sketch1File = dr["Sketch1File"].ToString(),
+                                Seq = dr["Seq"].ToString(),
                             };
 
                             dgdMain.Items.Add(PersonView);
@@ -1540,6 +1541,7 @@ namespace WizMes_HanYoung
 
                     sqlParameter.Add("CustomID", txtCustom.Tag == null ? "" : txtCustom.Tag.ToString());
                     sqlParameter.Add("Bank", txtBank.Text);
+                    sqlParameter.Add("sSeq", txtPersonSeq.Text);
                     //sqlParameter.Add("sPgGubun", "7");
 
                     #region 추가
@@ -3393,6 +3395,7 @@ namespace WizMes_HanYoung
         public string CustomID { get; set; }
         public string KCustom { get; set; }
         public string Bank { get; set; }
+        public string Seq { get; set; }
 
         public string StartDate_CV { get; set; }
         public string EndDate_CV { get; set; }
