@@ -271,6 +271,27 @@
                 <ComboBox x:Name="cboOrderFlag" Grid.Column="1" Style="{DynamicResource ComboBoxSearchString}" IsEnabled="False"/>
             </Grid>
 
+            <Grid Grid.Row="3" Grid.Column="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*" />
+                    <ColumnDefinition Width="90*" />
+                    <ColumnDefinition Width="15*" />
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblProductGrpID" Grid.Column="0" Style="{DynamicResource LabelSearch}"
+                       VerticalContentAlignment="Center" MouseLeftButtonUp="lblProductGrpID_MouseLeftButtonUp" >
+                    <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <CheckBox x:Name="chkProductGrpID" Checked="ChkProductGrpID_Checked" 
+                                      Unchecked="ChkProductGrpID_Unchecked"  />
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <TextBlock Text="제품군" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                        </Viewbox>
+                    </StackPanel>
+                </Label>
+                <ComboBox x:Name="cboProductGrpID" Grid.Column="1" Style="{DynamicResource ComboBoxSearchString}" IsEnabled="False"/>
+            </Grid>
+
             <Grid Grid.Column="4" Grid.RowSpan="4" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -342,6 +363,11 @@
                             <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3399FF" />
                             <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="White"/>
                         </Style.Resources>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=RowColor}" Value="true">
+                                <Setter Property="Background" Value="#D8D8D8" />
+                            </DataTrigger>                         
+                        </Style.Triggers>
                     </Style>
                 </DataGrid.RowStyle>
                 <DataGrid.Columns>
@@ -355,9 +381,12 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+                    <DataGridTextColumn x:Name="dgdtxtcls" Header="cls" Width="0" Binding="{Binding cls}" Visibility="Hidden"/>
                     <DataGridTextColumn x:Name="dgdtxtOrderNo" Header="OrderNo" Width="auto" Binding="{Binding OrderNo}" MinWidth="100" Visibility="Hidden"/>
                     <DataGridTextColumn x:Name="dgdtxtOrderID" Header="관리번호" Width="auto" Binding="{Binding OrderID_CV}" MinWidth="100"/>
                     <DataGridTextColumn x:Name="dgdtxtCustom" Header="거래처" Width="auto" Binding="{Binding KCustom}" MinWidth="100"/>
+                    <DataGridTextColumn x:Name="dgdtxtProductGrpID" Header="제품군ID" Width="auto" Binding="{Binding ProductGrpID}" MinWidth="100" Visibility="Hidden" />
+                    <DataGridTextColumn x:Name="dgdtxtProductGrpName" Header="제품군" Width="auto" Binding="{Binding ProductGrpName}" MinWidth="100"/>
                     <DataGridTextColumn x:Name="dgdtxtArticleID" Header="품번" Width="auto" Binding="{Binding BuyerArticleNo}" MinWidth="100"/>
                     <DataGridTextColumn x:Name="dgdtxtArticle" Header="품명" Width="auto" Binding="{Binding Article}" MinWidth="100"/>
                     <DataGridTextColumn x:Name="dgdtxtModel" Header="차종" Width="auto" Binding="{Binding BuyerModel}" MinWidth="100"/>
@@ -385,6 +414,26 @@
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}"/>
                     <DataGridTextColumn x:Name="dgdtxtOverandShort" Header="과부족" Width="auto" Binding="{Binding OverAndShort,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}"/>
+                    <DataGridTextColumn x:Name="dgdtxtProcess1" Header="신선" Width="auto" Binding="{Binding p1ProcessName,StringFormat={}{0:N0}}" 
+                                        MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}"  Visibility="Hidden"/>
+                    <DataGridTextColumn x:Name="dgdtxtProcess2" Header="압연" Width="auto" Binding="{Binding p2ProcessName,StringFormat={}{0:N0}}" 
+                                        MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
+                    <DataGridTextColumn x:Name="dgdtxtProcess3" Header="와인딩" Width="auto" Binding="{Binding p3ProcessName,StringFormat={}{0:N0}}" 
+                                        MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
+                    <DataGridTextColumn x:Name="dgdtxtProcess4" Header="코팅" Width="auto" Binding="{Binding p4ProcessName,StringFormat={}{0:N0}}" 
+                                        MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
+                    <DataGridTextColumn x:Name="dgdtxtProcess5" Header="스트레인딩" Width="auto" Binding="{Binding p5ProcessName,StringFormat={}{0:N0}}" 
+                                        MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
+                    <DataGridTextColumn x:Name="dgdtxtProcess6" Header="절단" Width="auto" Binding="{Binding p6ProcessName,StringFormat={}{0:N0}}" 
+                                        MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
+                    <DataGridTextColumn x:Name="dgdtxtProcess7" Header="사출" Width="auto" Binding="{Binding p7ProcessName,StringFormat={}{0:N0}}" 
+                                        MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
+                    <DataGridTextColumn x:Name="dgdtxtProcess8" Header="HOOD조립" Width="auto" Binding="{Binding p8ProcessName,StringFormat={}{0:N0}}" 
+                                        MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
+                    <DataGridTextColumn x:Name="dgdtxtProcess9" Header="F/F,TL조립" Width="auto" Binding="{Binding p9ProcessName,StringFormat={}{0:N0}}" 
+                                        MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
+                    <DataGridTextColumn x:Name="dgdtxtProcess10" Header="검사" Width="auto" Binding="{Binding p10ProcessName,StringFormat={}{0:N0}}" 
+                                        MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
                 </DataGrid.Columns>
             </DataGrid>
             <Grid Grid.Row="1">
