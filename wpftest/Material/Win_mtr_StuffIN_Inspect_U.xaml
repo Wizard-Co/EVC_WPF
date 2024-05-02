@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
         <!-- 메시지 -->
         <Popup x:Name="Hoit">
-            
+
         </Popup>
         <Grid Grid.Row="0" Background="{DynamicResource WizMes_HanYoung}" Margin="1">
             <Grid.RowDefinitions>
@@ -615,13 +615,13 @@
                         <ComboBox x:Name="cboCompanySite" Grid.Row="1" Grid.Column="5" 
                                   Style="{StaticResource ComboBoxInputString}" SelectedValue="{Binding CompanyID}"/>
 
-                        <Label Grid.Row="2" Grid.Column="0" Style="{DynamicResource LabelInputArea}" >
+                        <Label Grid.Row="4" Grid.Column="0" Style="{DynamicResource LabelInputArea}" >
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                 <TextBlock Text="거 래 처" Style="{DynamicResource TextBlockInViewBoxInput}"/>
                             </Viewbox>
                         </Label>
 
-                        <TextBox x:Name="txtCustom" Grid.Row="2" Grid.Column="1" 
+                        <TextBox x:Name="txtCustom" Grid.Row="4" Grid.Column="1" 
                                  Style="{StaticResource TextBoxInputNecessary}" Grid.ColumnSpan="2"
                                  Text="{Binding kCompany}" Tag="{Binding CustomID}"
                                  
@@ -650,12 +650,12 @@
                         <ComboBox x:Name="cboOrderFlag" Grid.Row="2" Grid.Column="5" Margin="1" Background="White"
                                   SelectedValue="{Binding OrderFlag}"></ComboBox>-->
 
-                        <Label Grid.Row="4" Grid.Column="0" Style="{DynamicResource LabelInputArea}" >
+                        <Label Grid.Row="2" Grid.Column="0" Style="{DynamicResource LabelInputArea}" >
                             <Viewbox  Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                 <TextBlock Text="품     번" Style="{DynamicResource TextBlockInViewBoxInput}"/>
                             </Viewbox>
                         </Label>
-                        <TextBox x:Name="txtArticle" Grid.Row="4" Grid.Column="1" 
+                        <TextBox x:Name="txtArticle" Grid.Row="2" Grid.Column="1" 
                                  Style="{StaticResource TextBoxInputNecessary}" Grid.ColumnSpan="2"
                                  Text="{Binding BuyerArticleNo}" Tag="{Binding ArticleID}"
                                   IsHitTestVisible="True"/>
