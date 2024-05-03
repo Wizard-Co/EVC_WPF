@@ -456,7 +456,10 @@ namespace WizMes_HanYoung
                 chkOutWareExceptYN.IsEnabled = true;
                 chkTheEnd.IsEnabled = true;
                 txtInstSeq.IsEnabled = true;
+                txtOrderInstQty.IsEnabled = true;
+                txtRemark.IsEnabled = true;
                 rowNum = dgdMain.SelectedIndex;
+                btnReWrite.Visibility = Visibility.Visible;
 
             }
             else
@@ -590,7 +593,7 @@ namespace WizMes_HanYoung
 
                             TotOrderinstqty = Convert.ToDouble(dr["TotOrderinstqty"]),
                             notOrderInstQty = Convert.ToDouble(dr["notOrderInstQty"]),
-                            OrderInstQy = Convert.ToDouble(dr["OrderInstQy"]),
+                            OrderInstQty = Convert.ToDouble(dr["OrderInstQty"]),
                             p1WorkQty = Convert.ToDouble(dr["p1WorkQty"]),
                             p1ProcessID = dr["p1ProcessID"].ToString(),
 
@@ -669,6 +672,9 @@ namespace WizMes_HanYoung
             if (WinPlanView != null)
             {
                 txtInstSeq.Text = WinPlanView.InstSeq;
+                txtOrderInstQty.Text = WinPlanView.OrderInstQty.ToString();
+                txtRemark.Text = WinPlanView.Remark;
+
                 FillGridSub(WinPlanView.InstID);
 
                 if (WinPlanView.MtrExceptYN.Equals("Y"))
@@ -779,6 +785,12 @@ namespace WizMes_HanYoung
 
         #endregion
 
+        //재지시 
+        private void btnReWrite_Click(object sender, RoutedEventArgs e)
+        {
+           
+        }
+
         //저장
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
@@ -798,10 +810,13 @@ namespace WizMes_HanYoung
                 chkTheEnd.IsChecked = false;
                 chkTheEnd.IsEnabled = false;
                 txtInstSeq.IsEnabled = false;
+                txtOrderInstQty.IsEnabled = false;
+                txtRemark.IsEnabled = false;
 
                 //dgdMain.IsEnabled = true;
                 dgdMain.IsHitTestVisible = true;
                 Lib.Instance.UiButtonEnableChange_IUControl(this);
+                btnReWrite.Visibility = Visibility;
 
                 dgdMain.Items.Clear();
                 dgdSub.Items.Clear();
@@ -846,9 +861,12 @@ namespace WizMes_HanYoung
             chkMtrExceptYN.IsEnabled = false;
             chkOutWareExceptYN.IsEnabled = false;
             txtInstSeq.IsEnabled = false;
+            txtOrderInstQty.IsEnabled = false;
+            txtRemark.IsEnabled = false;
 
             dgdMain.IsHitTestVisible = true;
             Lib.Instance.UiButtonEnableChange_IUControl(this);
+            btnReWrite.Visibility = Visibility.Hidden;
 
             using (Loading lw = new Loading(FillGrid))
             {
@@ -878,11 +896,12 @@ namespace WizMes_HanYoung
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                 sqlParameter.Clear();
                 sqlParameter.Add("InstID", WinPlanView.InstID);
-                sqlParameter.Add("MtrExceptYN", chkMtrExceptYN.IsChecked == true ? 'Y' : 'N');
-                sqlParameter.Add("OutwareExceptYN", chkOutWareExceptYN.IsChecked == true ? 'Y' : 'N');
-                sqlParameter.Add("OrderInstQty", WinPlanView.OrderInstQy);
+                sqlParameter.Add("MtrExceptYN", chkMtrExceptYN.IsChecked == true ? "Y" : "N");
+                sqlParameter.Add("OutwareExceptYN", chkOutWareExceptYN.IsChecked == true ? "Y" : "N");
+                sqlParameter.Add("OrderInstQty", WinPlanView.OrderInstQty);
                 sqlParameter.Add("UpdateUserID", MainWindow.CurrentUser);
                 sqlParameter.Add("InstSeq", txtInstSeq.Text);
+                sqlParameter.Add("Remark", WinPlanView.Remark);
 
                 Procedure pro1 = new Procedure();
                 pro1.Name = "xp_PlanInput_uPlanInput";
@@ -902,7 +921,7 @@ namespace WizMes_HanYoung
                     sqlParameter.Add("nInstDetSeq", i + 1);
                     sqlParameter.Add("sStartDate", WinPlanSub.StartDate);
                     sqlParameter.Add("sEndDate", WinPlanSub.EndDate);
-                    sqlParameter.Add("nInstQty", int.Parse(WinPlanSub.InstQty.Replace(",", "")));
+                    sqlParameter.Add("nInstQty", ConvertDouble(WinPlanSub.InstQty.Replace(",", "")));
                     sqlParameter.Add("sInstSubRemark", WinPlanSub.InstRemark);
                     sqlParameter.Add("MachineID", WinPlanSub.MachineID);
                     sqlParameter.Add("TheEnd", chkTheEnd.IsChecked == true ? 1 : 0);
@@ -1168,11 +1187,10 @@ namespace WizMes_HanYoung
         {
             Lib.Instance.DataGridINTextBoxFocusByMouseUP(sender, e);
         }
+            #endregion // Content 부분 - 데이터 그리드 키 이벤트
 
-        #endregion // Content 부분 - 데이터 그리드 키 이벤트
-
-        //enter 시 Control 포커스
-        private void TextBoxFocusInDataGrid(object sender, KeyEventArgs e)
+            //enter 시 Control 포커스
+            private void TextBoxFocusInDataGrid(object sender, KeyEventArgs e)
         {
             Lib.Instance.DataGridINControlFocus(sender, e);
         }
@@ -1202,6 +1220,11 @@ namespace WizMes_HanYoung
                     }
                 }
             }
+        }
+
+        private void dgdtxtOrderInstQty_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Lib.Instance.CheckIsNumeric((TextBox)sender, e);
         }
 
         //지시수량
@@ -2437,7 +2460,7 @@ namespace WizMes_HanYoung
 
         public double TotOrderinstqty { get; set; }
         public double notOrderInstQty { get; set; }
-        public double OrderInstQy { get; set; }
+        public double OrderInstQty { get; set; }
         public double p1WorkQty { get; set; }
         public string p1ProcessID { get; set; }
 

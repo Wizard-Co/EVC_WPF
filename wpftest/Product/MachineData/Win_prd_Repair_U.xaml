@@ -232,20 +232,19 @@
                               Style="{DynamicResource DataGridSet1}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="" Binding="{Binding Num}" />
-                        <DataGridTextColumn Header="수리일자" Binding="{Binding repairdate_CV}" />
-                        <DataGridTextColumn Header="구분" Binding="{Binding RepairGubun_CV}"/>
-                        <DataGridTextColumn Header="기계코드" Binding="{Binding mcid}"/>
-                        <DataGridTextColumn Header="기계명" Binding="{Binding mcname}"/>
+                        <DataGridTextColumn Header="수리일자" Binding="{Binding repairdate_CV}" CellStyle="{DynamicResource DataGridCellAndCentering}"/>
+                        <DataGridTextColumn Header="구분" Binding="{Binding RepairGubun_CV}" CellStyle="{DynamicResource DataGridCellAndCentering}"/>
+                        <DataGridTextColumn Header="기계코드" Binding="{Binding mcid}" CellStyle="{DynamicResource DataGridCellAndCentering}" />
+                        <DataGridTextColumn Header="기계명" Binding="{Binding mcname}" CellStyle="{DynamicResource DataGridCellText}"/>
                         <DataGridTextColumn Header="managerid" Binding="{Binding managerid}" Visibility="Hidden"/>
-                        <DataGridTextColumn Header="customid" Binding="{Binding customid}" Visibility="Hidden"/>
-                        <DataGridTextColumn Header="거래처" Binding="{Binding customname}"/>
+                            <DataGridTextColumn Header="거래처" Binding="{Binding customname}" CellStyle="{DynamicResource DataGridCellText}"/>
                         <DataGridTextColumn Header="buycustomid" Binding="{Binding buycustomid}" Visibility="Hidden"/>
                         <DataGridTextColumn Header="buycustomname" Binding="{Binding BuyCustomName}" Visibility="Hidden"/>
                         <DataGridTextColumn Header="personid" Binding="{Binding personid}" Visibility="Hidden"/>
-                        <DataGridTextColumn Header="작업자" Binding="{Binding personname}"/>
-                        <DataGridTextColumn Header="비고" Binding="{Binding RepairRemark}"/>
-                        <DataGridTextColumn Header="RepairID" Binding="{Binding RepairID}"/>
-                        <DataGridTextColumn Header="수리시간" Binding="{Binding repairTime}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                        <DataGridTextColumn Header="작업자" Binding="{Binding personname}" CellStyle="{DynamicResource DataGridCellAndCentering}"/>
+                         <DataGridTextColumn Header="RepairID" Binding="{Binding RepairID}" />
+                            <DataGridTextColumn Header="수리시간" Binding="{Binding repairTime}" CellStyle="{DynamicResource DataGridCellAndCentering}"/>
+                        <DataGridTextColumn Header="비용" Binding="{Binding price,StringFormat={}{0:#\,#.##}}" CellStyle="{DynamicResource NumericDataGridCell}"/>
                     </DataGrid.Columns>
                 </DataGrid>
                     <TextBlock x:Name="tbkCount" Grid.Row="1" VerticalAlignment="Center" Text="▶ 검색 결과 : "/>
@@ -403,6 +402,17 @@
                                      Text="{Binding repairTime}" 
                                      Style="{DynamicResource TextBoxInputArea}"
                                      KeyDown="txtRepairTime_KeyDown"/>
+
+                            <Label Grid.Column="3" Grid.Row="4" 
+                                   Style="{DynamicResource LabelInputArea}">
+                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}" >
+                                    <TextBlock Text="비      용" 
+                                               Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                </Viewbox>
+                            </Label>
+                            <TextBox x:Name="txtPrice" Grid.Column="4" Grid.Row="4" 
+                                     Text="{Binding price,StringFormat={}{0:#\,#.##}}" 
+                                     Style="{DynamicResource TextBoxInputArea}"/>
 
 
                             <Label Grid.Column="0" Grid.Row="5" 

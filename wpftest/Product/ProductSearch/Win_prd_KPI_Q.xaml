@@ -46,7 +46,7 @@
                         </Viewbox>
                     </StackPanel>
                 </Label>
-                <DatePicker x:Name="DatePickerStartDateSearch" Grid.Column="1" IsEnabled="True"
+                <DatePicker x:Name="dtpSDate" Grid.Column="1" IsEnabled="True"
                             Style="{DynamicResource DatePickerSearch}" />
             </Grid>
 
@@ -55,38 +55,27 @@
                     <ColumnDefinition Width="75*" />
                     <ColumnDefinition Width="85*" />
                 </Grid.ColumnDefinitions>
-                <DatePicker x:Name="DatePickerEndDateSearch" Grid.Column="1" IsEnabled="True"
+                <DatePicker x:Name="dtpEDate" Grid.Column="1" IsEnabled="True"
                             Style="{DynamicResource DatePickerSearch}" />
             </Grid>
 
-            <Grid Grid.Column="1" Grid.Row="2" Visibility="Hidden">
+            <Grid Grid.Column="1" Grid.Row="2" >
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="10*" />
+                    <ColumnDefinition Width="10*" />
+                    <ColumnDefinition Width="10*" />
+                    <ColumnDefinition Width="10*" />
                 </Grid.ColumnDefinitions>
-                <Button x:Name="ButtonLastYear" Grid.Column="0" 
-                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
-                        Click="ButtonLastYear_Click">
-                    <TextBlock Text="전년" Margin="0" ></TextBlock>
-                </Button>
-                <Button x:Name="ButtonLastMonth" Grid.Column="1" 
-                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
-                        Click="ButtonLastMonth_Click">
-                    <TextBlock Text="전월" Margin="0"></TextBlock>
-                </Button>
-                <Button x:Name="ButtonThisYear" Grid.Column="2" 
-                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
-                        Click="ButtonThisYear_Click" >
-                    <TextBlock Text="금년" Margin="0" ></TextBlock>
-                </Button>
-                <Button x:Name="ButtonThisMonth" Grid.Column="3" 
-                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
-                        Click="ButtonThisMonth_Click">
-                    <TextBlock Text="금월" Margin="0" ></TextBlock>
-                </Button>
+                <Button x:Name="btnLastMonth" Grid.Column="0" Content="전월"
+                        Click="btnLastMonth_Click" />
+                <Button x:Name="btnYesterday" Grid.Column="1" Content="전일"
+                        Click="btnYesterday_Click" />
+                <Button x:Name="btnThisMonth" Grid.Column="2" Content="금월" 
+                            Click="btnThisMonth_Click" />
+                <Button x:Name="btnToday" Grid.Column="3" Content="금일" 
+                            Click="btnToday_Click" />
             </Grid>
+
 
             <Grid Grid.Column="2" Grid.Row="0" Visibility="Visible">
                 <Grid.ColumnDefinitions>
@@ -202,9 +191,9 @@
                       Style="{DynamicResource DataGridSet1}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="GBN" Width="*" MinWidth="0" Binding="{Binding GbnName}" FontSize="20" />
-                        <DataGridTextColumn Header="품번" Width="*" MinWidth="150" Binding="{Binding ArticleNo}" Visibility="Hidden" 
+                        <DataGridTextColumn Header="품번" Width="*" MinWidth="150" Binding="{Binding ArticleNo}" Visibility="Visible" 
                                         ElementStyle="{StaticResource DataGridCellLeft}" FontSize="20" />
-                        <DataGridTextColumn Header="품명" Width="*" MinWidth="150" Binding="{Binding Article}"  Visibility="Hidden" 
+                        <DataGridTextColumn Header="품명" Width="*" MinWidth="150" Binding="{Binding Article}"  Visibility="Visible" 
                                         ElementStyle="{StaticResource DataGridCellLeft}" FontSize="20" />
                         <DataGridTextColumn Header="생산수량(EA)" Width="*" MinWidth="150" Binding="{Binding WorkQty, StringFormat='#,##0'}" 
                                         ElementStyle="{StaticResource DataGridCellRight}" FontSize="20" />
@@ -228,9 +217,9 @@
                       Style="{DynamicResource DataGridSet1}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="GBN" Width="*" MinWidth="0" Binding="{Binding GbnName}" FontSize="20" />
-                        <DataGridTextColumn Header="품번" Width="*" MinWidth="150" Binding="{Binding ArticleNo}"  Visibility="Hidden" 
+                        <DataGridTextColumn Header="품번" Width="*" MinWidth="150" Binding="{Binding ArticleNo}"  
                                         ElementStyle="{StaticResource DataGridCellLeft}" FontSize="20"  />
-                        <DataGridTextColumn Header="품명" Width="*" MinWidth="150" Binding="{Binding Article}"  Visibility="Hidden" 
+                        <DataGridTextColumn Header="품명" Width="*" MinWidth="150" Binding="{Binding Article}" 
                                         ElementStyle="{StaticResource DataGridCellLeft}" FontSize="20" />
                         <DataGridTextColumn Header="주문량" Width="*" MinWidth="150" Binding="{Binding OrderQty, StringFormat='#,##0'}" 
                                         ElementStyle="{StaticResource DataGridCellRight}" FontSize="20" />

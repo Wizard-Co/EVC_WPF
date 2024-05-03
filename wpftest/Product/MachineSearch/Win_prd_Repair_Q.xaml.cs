@@ -347,7 +347,8 @@ namespace WizMes_HanYoung
                                 repairsubseq = dr["repairsubseq"].ToString(),
                                 MCCustom = dr["MCCustom"].ToString(),
                                 partprice = stringFormatN0(dr["partprice"]),
-                                reason = dr["reason"].ToString()
+                                reason = dr["reason"].ToString(),
+                                price = Convert.ToDouble(dr["price"]),
                             };
 
                             if (WinRepairQ.RepairGubun.Equals("1"))
@@ -470,5 +471,6 @@ namespace WizMes_HanYoung
         public string MCCustom { get; set; }
         public string partprice { get; set; }
         public string reason { get; set; }
+        public double price { get; set; }
     }
 }

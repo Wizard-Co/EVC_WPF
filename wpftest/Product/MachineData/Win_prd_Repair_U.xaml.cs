@@ -485,7 +485,8 @@ namespace WizMes_HanYoung
                                 BuyCustomName = dr["BuyCustomName"].ToString(),
                                 personid = dr["personid"].ToString(),
                                 personname = dr["personname"].ToString(),
-                                RepairRemark = dr["RepairRemark"].ToString()
+                                RepairRemark = dr["RepairRemark"].ToString(),
+                                price = Convert.ToDouble(dr["price"])
                             };
 
                             if (WinMCRepair.repairdate != null && !WinMCRepair.repairdate.Equals(""))
@@ -665,6 +666,7 @@ namespace WizMes_HanYoung
                     sqlParameter.Add("personid", txtpersonname.Tag.ToString().Replace(" ", ""));
                     sqlParameter.Add("personname", txtpersonname.Text);
                     sqlParameter.Add("repairremark", txtRepairRemark.Text);
+                    sqlParameter.Add("price", !txtPrice.Text.Equals("") ? Convert.ToDouble(txtPrice.Text) : 0);
 
                     if (strflag.Equals("I"))
                     {
@@ -1804,8 +1806,8 @@ namespace WizMes_HanYoung
         public string personname { get; set; }
         public string RepairRemark { get; set; }
         public string repairdate_CV { get; set; }
-
         public string RepairGubun_CV { get; set; }
+        public double price { get; set; }
     }
 
     class Win_prd_Repair_U_Sub_CodeView : BaseView

@@ -221,7 +221,7 @@
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="기계명" Binding="{Binding mcname}" Width="auto" 
-                                        CellStyle="{DynamicResource DataGridCellAndCentering}">
+                                        CellStyle="{DynamicResource DataGridCellText}">
                         <DataGridTextColumn.ElementStyle>
                             <Style>
                                 <Setter Property="TextBlock.TextWrapping" Value="NoWrap" />
@@ -236,7 +236,8 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="설비_비고" Binding="{Binding repairremark}" Width="auto">
+                    <DataGridTextColumn Header="설비_비고" Binding="{Binding repairremark}" Width="auto" 
+                                        CellStyle="{DynamicResource DataGridCellText}">
                         <DataGridTextColumn.ElementStyle>
                             <Style>
                                 <Setter Property="TextBlock.TextWrapping" Value="NoWrap" />
@@ -251,14 +252,16 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="예비품명" Binding="{Binding MCPartName}" Width="auto">
+                    <DataGridTextColumn Header="예비품명" Binding="{Binding MCPartName}" Width="auto"
+                                        CellStyle="{DynamicResource DataGridCellText}">
                         <DataGridTextColumn.ElementStyle>
                             <Style>
                                 <Setter Property="TextBlock.TextWrapping" Value="NoWrap" />
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="부품구입처" Binding="{Binding MCCustom}" Width="auto">
+                    <DataGridTextColumn Header="부품구입처" Binding="{Binding MCCustom}" Width="auto"
+                                        CellStyle="{DynamicResource DataGridCellText}">
                         <DataGridTextColumn.ElementStyle>
                             <Style>
                                 <Setter Property="TextBlock.TextWrapping" Value="NoWrap" />
@@ -273,7 +276,8 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="수리비용" Binding="{Binding partprice}" Width="auto" 
+                    <DataGridTextColumn Header="수리비용" Width="auto" Binding="{Binding price,StringFormat={}{0:#\,#.##}}" CellStyle="{DynamicResource NumericDataGridCell}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="예비품비용" Binding="{Binding partprice}" Width="auto" 
                                         CellStyle="{StaticResource NumericDataGridCell}">
                         <DataGridTextColumn.ElementStyle>
                             <Style>
@@ -281,14 +285,16 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="사유" Binding="{Binding reason}" Width="auto">
+                    <DataGridTextColumn Header="사유" Binding="{Binding reason}" Width="auto"
+                                        CellStyle="{DynamicResource DataGridCellText}">
                         <DataGridTextColumn.ElementStyle>
                             <Style>
                                 <Setter Property="TextBlock.TextWrapping" Value="NoWrap" />
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="부품_비고" Binding="{Binding partremark}" Width="auto">
+                    <DataGridTextColumn Header="부품_비고" Binding="{Binding partremark}" Width="auto"
+                                        CellStyle="{DynamicResource DataGridCellText}">
                         <DataGridTextColumn.ElementStyle>
                             <Style>
                                 <Setter Property="TextBlock.TextWrapping" Value="NoWrap" />

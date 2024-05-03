@@ -53,7 +53,7 @@
                 <DatePicker x:Name="dtpSDate" Grid.Column="1" 
                             Style="{DynamicResource DatePickerSearch}"/>
             </Grid>
-            
+
             <Grid Grid.Row="1" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="75*" />
@@ -139,7 +139,7 @@
                     <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}"/>
                 </Button>
             </Grid>
-            
+
             <!--품명-->
             <Grid Grid.Row="2" Grid.Column="2" >
                 <Grid.ColumnDefinitions>
@@ -168,7 +168,7 @@
                     <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}"/>
                 </Button>
             </Grid>
-            
+
             <!--품번-->
             <Grid  Grid.Row="3" Grid.Column="2" >
                 <Grid.ColumnDefinitions>
@@ -244,7 +244,7 @@
                     </StackPanel>
                 </Label>
             </Grid>
-            
+
             <Grid Grid.Row="2" Grid.Column="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100*" />
@@ -252,7 +252,7 @@
                     <ColumnDefinition Width="15*" />
                 </Grid.ColumnDefinitions>
             </Grid>
-            
+
             <Grid Grid.Row="3" Grid.Column="3" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="95*" />
@@ -311,7 +311,7 @@
                         </StackPanel>
                     </Button>
                 </Grid>
-                
+
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -355,7 +355,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="10*" />
                 <RowDefinition Height="65" />
-                <RowDefinition Height="5*" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="3*" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
                 <Grid.RowDefinitions>
@@ -407,7 +408,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        
+
                         <DataGridTemplateColumn Header="마감" Width="auto" >
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -430,7 +431,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        
+
                         <DataGridTextColumn Header="지시일자" Width="auto" Binding="{Binding InstDate}" />
                         <DataGridTextColumn Header="거래처" Width="auto" Binding="{Binding KCustom}" />
 
@@ -450,13 +451,22 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="  계 획 량  " Width="auto" SortMemberPath="OrderInstQy">
+                        <DataGridTemplateColumn Header="  계 획 량  " Width="auto" SortMemberPath="OrderInstQty">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding OrderInstQy,StringFormat={}{0:#\,#.##}}" TextAlignment="Right"/>
+                                    <TextBlock Text="{Binding OrderInstQty,StringFormat={}{0:#\,#.##}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TextAlignment="Right"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="지시사항" Width="auto" SortMemberPath="Remark">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Remark, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TextAlignment="Right"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
                         <DataGridTemplateColumn Header="합계 계획량" Width="auto" SortMemberPath="TotOrderinstqty">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -503,7 +513,8 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
 
-                        <DataGridTextColumn Header="지시사항" Width="auto" Binding="{Binding Remark}" />
+
+
                         <DataGridTextColumn Header="지시번호" Width="auto" Binding="{Binding InstID}" />
                         <DataGridTextColumn Header="지시완료" Width="auto" Binding="{Binding PlanComplete}" />
                         <DataGridTextColumn Header="원자재투입예외관리" Width="auto" Binding="{Binding MtrExceptYN}" />
@@ -519,7 +530,7 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
-            
+
             <Border Grid.Row="1" Background="White">
                 <Grid >
                     <Grid.ColumnDefinitions>
@@ -590,7 +601,33 @@
                     </DataGrid>
                 </Grid>
             </Border>
-            <Grid Grid.Row="2" >
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*" />
+                    <ColumnDefinition Width="0.5*" />
+                    <ColumnDefinition Width="0.1*" />
+                    <ColumnDefinition Width="0.5*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="0.1*" />
+                    <ColumnDefinition Width="0.5*" />
+                    <ColumnDefinition Width="0.5*" />
+                    <ColumnDefinition Width="0.5*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="지시수량" VerticalAlignment="Center" Height="30"></Label>
+                <TextBox Grid.Column="1" x:Name="txtOrderInstQty" VerticalContentAlignment="Center" IsEnabled="False"
+                                 Text="{Binding OrderInstQty, Mode=TwoWay}"></TextBox>
+                <Label Grid.Column="3" Content="지시사항"  VerticalAlignment="Center" Height="30"></Label>
+                <TextBox Grid.Column="4" Grid.ColumnSpan="2" x:Name="txtRemark" VerticalContentAlignment="Center" IsEnabled="False"
+                                 Text="{Binding Remark, Mode=TwoWay}"></TextBox>
+                <Label Grid.Column="7" Content="지시순번" VerticalAlignment="Center" Height="30"></Label>
+                <TextBox Grid.Column="8" x:Name="txtInstSeq" FontSize="18" VerticalContentAlignment="Center" IsEnabled="False"
+                                 Text="{Binding InstSeq, Mode=TwoWay}"></TextBox>
+
+            </Grid>
+
+            <Grid Grid.Row="3" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="9*" />
                     <ColumnDefinition Width="*" />
@@ -828,12 +865,11 @@
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>
-                                                
+
                     </Grid>
                 </Border>
-                <Grid Grid.Column="1" Margin="2,10,2,10">
+                <Grid Grid.Column="1" >
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
@@ -843,15 +879,7 @@
                         <ColumnDefinition Width="10*" />
                         <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
-                    <Grid Grid.Row="0" Grid.ColumnSpan="3">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Content="지시순번" FontSize="30" Margin="0,0,0,20" HorizontalAlignment="Center" ></Label>
-                        <TextBox Grid.Column="1" x:Name="txtInstSeq" FontSize="18" Margin="0,0,0,20" VerticalContentAlignment="Center" IsEnabled="False"
-                                 Text="{Binding InstSeq, Mode=TwoWay}"></TextBox>
-                    </Grid>
+
                     <Button x:Name="btnSave" Grid.Row="1" Grid.Column="1" Margin="1" Click="btnSave_Click" Visibility="Hidden">
                         <StackPanel>
                             <Image Source="{DynamicResource btiSave}" Style="{DynamicResource imgSize}" />
