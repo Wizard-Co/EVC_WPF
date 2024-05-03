@@ -4764,10 +4764,8 @@ namespace WizMes_HanYoung
             if (innerFlag == true) //검사번호 output이 있으면
             {
               
-
                 try
                 {
-
                     foreach (DataRow dr in drc)
                     {
                         Dictionary<string, object> sqlParameter = new Dictionary<string, object>();

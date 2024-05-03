@@ -19,8 +19,8 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100*" />
                 <ColumnDefinition Width="160*" />
-                <ColumnDefinition Width="220*" />
-                <ColumnDefinition Width="140*" />
+                <ColumnDefinition Width="200*" />
+                <ColumnDefinition Width="160*" />
                 <ColumnDefinition Width="200*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -127,8 +127,33 @@
                 </Button>
             </Grid>
 
-            <!--품명-->
+            <!--품번-->
             <Grid Grid.Column="2" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*" />
+                    <ColumnDefinition Width="90*" />
+                    <ColumnDefinition Width="15*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" MouseLeftButtonUp="lblpfBuyerArticleNo_Click"  Style="{DynamicResource LabelSearch}">
+                    <StackPanel  Style="{DynamicResource StackPanelInLabel}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <CheckBox x:Name="chkpfBuyerArticleNo" Checked="ChkpfBuyerArticleNo_Checked" Unchecked="ChkpfBuyerArticleNo_Unchecked"></CheckBox>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <TextBlock Text=" 품   번" Style="{DynamicResource TextBlockInViewBoxSearch}"/>
+                        </Viewbox>
+
+                    </StackPanel>
+                </Label>
+                <TextBox x:Name="txtpfBuyerArticleNo" Grid.Column="1" Style="{DynamicResource TextBoxSearch}" KeyDown="txtpfBuyerArticleNo_KeyDown" IsEnabled="False"/>
+                <Button x:Name="btnpfBuyerArticleNo"  Grid.Column="2" Click="btnpfBuyerArticleNo_Click" IsEnabled="False">
+                    <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}" Margin="-2"/>
+                </Button>
+            </Grid>
+
+            <!--품명-->
+            <Grid Grid.Column="2" Grid.Row="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="75*" />
                     <ColumnDefinition Width="90*" />
@@ -153,7 +178,7 @@
             </Grid>
 
             <!--지시번호-->
-            <Grid Grid.Column="2" Grid.Row="3">
+            <Grid Grid.Column="3" Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="75*" />
                     <ColumnDefinition Width="90*" />

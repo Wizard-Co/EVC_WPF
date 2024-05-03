@@ -1084,7 +1084,7 @@ namespace WizMes_HanYoung
 
 
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
-                //sqlParameter.Add("ChkDate", chkDay.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("ChkDate", chkDay.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("sFromDate", chkDay.IsChecked == true && dtpSDate.SelectedDate != null ? dtpSDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
                 sqlParameter.Add("sToDate", chkDay.IsChecked == true && dtpEDate.SelectedDate != null ? dtpEDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
                 sqlParameter.Add("sProcessID", ProcessID);

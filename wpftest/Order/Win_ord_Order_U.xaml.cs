@@ -9,6 +9,7 @@ using System.Windows.Input;
 using WizMes_HanYoung.PopUP;
 using WizMes_HanYoung.PopUp;
 using Excel = Microsoft.Office.Interop.Excel;
+using System.Linq;
 
 /**************************************************************************************************
 '** 프로그램명 : Win_Qul_DefectRepair_Q
@@ -1198,6 +1199,7 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("ChkOrderFlag", chkOrderFlag.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("OrderFlag", chkOrderFlag.IsChecked == true ? (cboOrderFlag.SelectedValue == null ? "" : cboOrderFlag.SelectedValue.ToString()) : "");
 
+            
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_ord_sOrder", sqlParameter, true, "R");
 
@@ -1829,6 +1831,7 @@ namespace WizMes_HanYoung
             {
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                 sqlParameter.Add("ArticleID", strArticleID);
+                sqlParameter.Add("OrderQty", Convert.ToDecimal(txtAmount.Text) != 0 ? Convert.ToDecimal(txtAmount.Text):0);
                 DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Order_sArticleNeedStockQty", sqlParameter, false);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -1839,13 +1842,14 @@ namespace WizMes_HanYoung
                     {
                         DataRowCollection drc = dt.Rows;
 
-                        foreach (DataRow dr in drc)
+                        foreach (DataRow dr in drc.Cast<DataRow>().Skip(1))
                         {
                             var NeedStockQty = new ArticleNeedStockQty()
                             {
                                 BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
                                 Article = dr["Article"].ToString(),
                                 NeedQty = dr["NeedQty"].ToString(),
+                                FinalNeedQty = dr["FinalNeedQty"].ToString(),
                                 //UnitClss = dr["UnitClss"].ToString(),
                                 UnitClssName = dr["UnitClssName"].ToString()
                             };
@@ -1857,6 +1861,19 @@ namespace WizMes_HanYoung
                                     double doubleTemp = double.Parse(NeedStockQty.NeedQty) * double.Parse(strQty);
                                     //NeedStockQty.NeedQty = string.Format("{0:N4}", doubleTemp);
                                     NeedStockQty.NeedQty = doubleTemp % 1 == 0 ? doubleTemp.ToString("N0") : doubleTemp.ToString("N4");
+                                }
+                            }
+
+                            if (Lib.Instance.IsNumOrAnother(NeedStockQty.FinalNeedQty))
+                            {
+                                double finalNeedQty;
+                                if (double.TryParse(NeedStockQty.FinalNeedQty, out finalNeedQty))
+                                {
+                                    // FinalNeedQty의 소숫점 아래가 전부 0이면 정수형태로 표현, 아니면 소숫점 5자리까지 표현
+                                    string formattedFinalNeedQty = finalNeedQty % 1 == 0 ? finalNeedQty.ToString("N0") : finalNeedQty.ToString("N5");
+
+                                    // 결과 할당
+                                    NeedStockQty.FinalNeedQty = formattedFinalNeedQty;
                                 }
                             }
 
@@ -2377,6 +2394,7 @@ namespace WizMes_HanYoung
         public string BuyerArticleNo { get; set; }
         public string Article { get; set; }
         public string NeedQty { get; set; }
+        public string FinalNeedQty { get; set; }
         public string UnitClss { get; set; }
         public string UnitClssName { get; set; }
     }

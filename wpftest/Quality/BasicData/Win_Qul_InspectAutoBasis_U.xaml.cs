@@ -140,6 +140,8 @@ namespace WizMes_HanYoung
             //TbnOutCome_Click(tbnOutCome, null);
             TbnProcessCycle_Click(tbnProcessCycle, null);
             SetComboBox();
+
+        
             //dtpMoldNo.SelectedDate = DateTime.Today;
         }
 
@@ -781,6 +783,8 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("InspectBasisID", chkInspectBasisSrh.IsChecked == true ? txtInspectBasisSrh.Text : "");
                 sqlParameter.Add("chkArticleID", chkArticleSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("ArticleID", chkArticleSrh.IsChecked == true ? txtArticleSrh.Tag : "");
+                sqlParameter.Add("chkArticleNo", chkArticleNo.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("ArticleNo", chkArticleNo.IsChecked == true ? (txtArticleNo.Tag != null ? txtArticleNo.Tag.ToString() : "") : "");
                 sqlParameter.Add("chkEcoNo", chkECONOSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("EcoNo", chkECONOSrh.IsChecked == true ? txtECONOSrh.Text : "");
                 sqlParameter.Add("chkMoldNo", chkMoldNoSrh.IsChecked == true ? 1 : 0);
@@ -2446,6 +2450,55 @@ namespace WizMes_HanYoung
             {
                 dgs.ColumnHeaderHeight = dgs.ColumnHeaderHeight * c;
                 dgs.FontSize = dgs.FontSize * c;
+            }
+        }
+
+       
+
+        private void chkArticleNo_Click(object sender, RoutedEventArgs e)
+        {
+            if(chkArticleNo.IsChecked == true)
+            {
+                chkArticleNo.IsChecked = true;
+                txtArticleNo.IsEnabled = true;
+                btnArticleNo.IsEnabled = true;
+            }
+            else
+            {
+                chkArticleNo.IsChecked = false;
+                txtArticleNo.IsEnabled = false;
+                btnArticleNo.IsEnabled = false;
+            }
+        }
+
+        private void TxtArticleNo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                MainWindow.pf.ReturnCode(txtArticleNo, 77, txtArticleNo.Text);
+            }
+        }
+
+        private void btnArticleNo_Click(object sender, RoutedEventArgs e)
+        {
+           
+            MainWindow.pf.ReturnCode(txtArticleNo, 77, txtArticleNo.Text);
+         
+        }
+
+        private void chkArticleNo_Click(object sender, MouseButtonEventArgs e)
+        {
+            if(chkArticleNo.IsChecked == true)
+            {
+                chkArticleNo.IsChecked = false;
+                txtArticleNo.IsEnabled = false;
+                btnArticleNo.IsEnabled = false;
+            }
+            else
+            {
+                chkArticleNo.IsChecked = true;
+                txtArticleNo.IsEnabled = true;
+                btnArticleNo.IsEnabled = true;
             }
         }
     }

@@ -62,7 +62,7 @@
             </Grid>
 
             <!--품명, 제품그룹-->
-            <Grid Grid.Column="2" Grid.Row="0">
+            <Grid Grid.Column="2" Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="75*" />
                     <ColumnDefinition Width="90*" />
@@ -79,13 +79,12 @@
                     </StackPanel>
                 </Label>
                 <TextBox x:Name="txtArticle" Grid.Column="1" KeyDown="TxtArticle_KeyDown" Style="{DynamicResource TextBoxSearch_Q}"/>
-                <Button x:Name="btnArticle"  Grid.Column="2" Click="btnArticle_Click"  >
+                <Button x:Name="btnArticle"  Grid.Column="2" Click="btnArticle_Click"  IsEnabled="False">
                     <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}"/>
                 </Button>
-
             </Grid>
 
-            <Grid Grid.Column="3" Grid.Row="0" Visibility="Hidden">
+            <Grid Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left" Width="180">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="75*" />
                     <ColumnDefinition Width="90*" />
@@ -102,7 +101,7 @@
                     </StackPanel>
                 </Label>
                 <TextBox x:Name="txtArticleNo" Grid.Column="1" KeyDown="TxtArticleNo_KeyDown" Style="{DynamicResource TextBoxSearch_Q}"/>
-                <Button x:Name="btnArticleNo"  Grid.Column="2" Click="btnArticleNo_Click"  >
+                <Button x:Name="btnArticleNo"  Grid.Column="2" Click="btnArticleNo_Click"  IsEnabled="False">
                     <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}"/>
                 </Button>
             </Grid>
@@ -133,7 +132,7 @@
 
 
 
-            <Grid Grid.Column="2" Grid.Row="1">
+            <Grid Grid.Column="2" Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="75*" />
                     <ColumnDefinition Width="90*" />
@@ -154,7 +153,7 @@
                 <ComboBox x:Name="cboProductGrpID" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Padding="0" Visibility="Visible" Style="{DynamicResource ComboBoxSearchString_Q}"/>
 
             </Grid>
-            <Grid Grid.Column="2" Grid.Row="2">
+            <Grid Grid.Column="2" Grid.Row="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="75*" />
                     <ColumnDefinition Width="90*" />

@@ -1918,6 +1918,11 @@ namespace WizMes_HanYoung
                 // 품명
                 sqlParameter.Add("ChkArticleID", chkArticle.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("ArticleID", chkArticle.IsChecked == true ? (txtArticle.Tag != null ? txtArticle.Tag.ToString() : "") : "");
+
+                // 품번
+                sqlParameter.Add("ChkBuyerArticleNo", chkpfBuyerArticleNo.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("BuyerArticleNo", chkpfBuyerArticleNo.IsChecked == true ? (txtpfBuyerArticleNo.Tag != null ? txtpfBuyerArticleNo.Tag.ToString() : "") : "");
+
                 // 지시번호
                 sqlParameter.Add("ChkOutwareReq", chkReqID.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("OutwareReqID", chkReqID.IsChecked == true ? (txtReqID.Text != null ? txtReqID.Text.ToString() : "") : "");
@@ -2791,6 +2796,8 @@ namespace WizMes_HanYoung
             // 토글버튼
             tgnMoveByID.IsHitTestVisible = true;
             tgnMoveByQty.IsHitTestVisible = true;
+
+            
         }
         //저장, 취소일 때
         private void CantBtnControl()
@@ -3693,8 +3700,60 @@ namespace WizMes_HanYoung
                 ValidateInput(sender, e);
             }
         }
+       
 
-    
+        private void lblpfBuyerArticleNo_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (chkpfBuyerArticleNo.IsChecked == true)
+            {
+                txtpfBuyerArticleNo.IsEnabled = false;
+                btnpfBuyerArticleNo.IsEnabled = false;
+                chkpfBuyerArticleNo.IsChecked = false;
+            }
+            else
+            {
+                txtpfBuyerArticleNo.IsEnabled = true;
+                btnpfBuyerArticleNo.IsEnabled = true;
+                chkpfBuyerArticleNo.IsChecked = true;
+            }
+        }
+
+        private void ChkpfBuyerArticleNo_Checked(object sender, RoutedEventArgs e)
+        {
+            if(chkpfBuyerArticleNo.IsChecked == true)
+            {
+                txtpfBuyerArticleNo.IsEnabled = true;
+                btnpfBuyerArticleNo.IsEnabled = true;
+                chkpfBuyerArticleNo.IsChecked = true;
+            }
+        }
+
+        private void ChkpfBuyerArticleNo_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if(chkpfBuyerArticleNo.IsChecked == false)
+            {
+                txtpfBuyerArticleNo.IsEnabled = false;
+                btnpfBuyerArticleNo.IsEnabled = false;
+                chkpfBuyerArticleNo.IsChecked = false;
+            }
+        }
+
+        private void txtpfBuyerArticleNo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                pf.ReturnCode(txtpfBuyerArticleNo, 76, txtpfBuyerArticleNo.Text);
+
+
+            }
+
+        }
+
+        private void btnpfBuyerArticleNo_Click(object sender, RoutedEventArgs e)
+        {
+            pf.ReturnCode(txtInCustomer, 76, txtpfBuyerArticleNo.Text);
+
+        }
     }
 
 

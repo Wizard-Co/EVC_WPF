@@ -65,6 +65,8 @@ namespace WizMes_HanYoung
             txtArticle.IsEnabled = false;
             btnArticle.IsEnabled = false;
             rbnChoiceAll.IsChecked = true;
+            txtBuyerArticleNo.IsEnabled = false;
+            btnBuyerArticleNo.IsEnabled = false;
 
             btnSave.Visibility = Visibility.Hidden;
             btnCancel.Visibility = Visibility.Hidden;
@@ -294,7 +296,7 @@ namespace WizMes_HanYoung
         // 플러스 파인더 _ 품번찾기.
         private void btnArticle_Click(object sender, RoutedEventArgs e)
         {
-            pf.ReturnCode(txtArticle, 76, txtArticle.Text);
+            pf.ReturnCode(txtArticle, 77, txtArticle.Text);
         }
 
         // 키다운 플러스 파인더 _ 품번찾기.
@@ -302,7 +304,7 @@ namespace WizMes_HanYoung
         {
             if (e.Key == Key.Enter)
             {
-                pf.ReturnCode(txtArticle, 76, txtArticle.Text);
+                pf.ReturnCode(txtArticle, 77, txtArticle.Text);
             }
         }
 
@@ -447,11 +449,12 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("InspectPoint", InspectPoint);
                 sqlParameter.Add("FromDate", FromDate);
                 sqlParameter.Add("ToDate", ToDate);
-                //sqlParameter.Add("nchkArticleID", nchkArticleID);    //int.
-                sqlParameter.Add("ArticleID", ""); // ArticleID);
-                                                   //sqlParameter.Add("Article", Article);
+                sqlParameter.Add("nchkArticleID", chkArticle.IsChecked == true ? 1:0);    //int.
+                sqlParameter.Add("ArticleID", chkArticle.IsChecked == true ? (txtArticle.Tag != null ? txtArticle.Tag.ToString() : ""):""); 
+                                                  
                 sqlParameter.Add("nTargetGubun", nTargetGubun);       //int.
-                sqlParameter.Add("BuyerArticleNo", chkArticle.IsChecked == true && !txtArticle.Text.Trim().Equals("") ? @Escape(txtArticle.Text) : "");       //int.
+                sqlParameter.Add("nchkBuyerArticleNo", chkBuyerArticleNo.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("BuyerArticleNo",chkBuyerArticleNo.IsChecked == true? (txtBuyerArticleNo.Tag != null ? txtBuyerArticleNo.Tag.ToString() : ""):"");       //int.
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Inspect_sAutoInspectRepair", sqlParameter, false);
 
@@ -1173,6 +1176,52 @@ namespace WizMes_HanYoung
             rbnChoiceING.IsChecked = false;
             rbnChoiceFinished.IsChecked = true;
             rbnChoiceAll.IsChecked = false;
+        }
+
+        private void chkBuyerArticleNo_Click(object sender, MouseButtonEventArgs e)
+        {
+            if(chkBuyerArticleNo.IsChecked == true)
+            {
+                chkBuyerArticleNo.IsChecked = false;
+                txtBuyerArticleNo.IsEnabled = false;
+                btnBuyerArticleNo.IsEnabled = false;
+            }
+            else
+            {
+                chkBuyerArticleNo.IsChecked = true;
+                txtBuyerArticleNo.IsEnabled = true;
+                btnBuyerArticleNo.IsEnabled = true;
+            }
+        }
+
+        private void chkBuyerArticleNo_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkBuyerArticleNo.IsChecked == true)
+            {
+                chkBuyerArticleNo.IsChecked = true;
+                txtBuyerArticleNo.IsEnabled = true;
+                btnBuyerArticleNo.IsEnabled = true;
+            }
+            else
+            {
+                chkBuyerArticleNo.IsChecked = false;
+                txtBuyerArticleNo.IsEnabled = false;
+                btnBuyerArticleNo.IsEnabled = false;
+            }
+        }
+
+        private void TxtBuyerArticleNo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                pf.ReturnCode(txtBuyerArticleNo, 76, txtBuyerArticleNo.Text);
+            }
+        }
+
+        private void btnBuyerArticleNo_Click(object sender, RoutedEventArgs e)
+        {
+            pf.ReturnCode(txtBuyerArticleNo, 76, txtBuyerArticleNo.Text);
+
         }
     }
 

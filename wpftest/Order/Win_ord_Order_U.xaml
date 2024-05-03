@@ -889,6 +889,8 @@
                                     <DataGridTextColumn Header="품 번" Binding="{Binding BuyerArticleNo}" Width="15*"/>
                                     <DataGridTextColumn Header="품 명" Binding="{Binding Article}" Width="14*"/>
                                     <DataGridTextColumn Header="수 량" Binding="{Binding NeedQty}" Width="10*"
+                                                        CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
+                                    <DataGridTextColumn Header="수 량" Binding="{Binding FinalNeedQty}" Width="10*"
                                                         CellStyle="{StaticResource NumericDataGridCell}"/>
                                     <DataGridTextColumn Header="단 위" Binding="{Binding UnitClssName}" Width="5*"/>
                                 </DataGrid.Columns>
