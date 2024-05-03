@@ -1848,21 +1848,21 @@ namespace WizMes_HanYoung
                             {
                                 BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
                                 Article = dr["Article"].ToString(),
-                                NeedQty = dr["NeedQty"].ToString(),
+                                //NeedQty = dr["NeedQty"].ToString(),
                                 FinalNeedQty = dr["FinalNeedQty"].ToString(),
                                 //UnitClss = dr["UnitClss"].ToString(),
                                 UnitClssName = dr["UnitClssName"].ToString()
                             };
 
-                            if (Lib.Instance.IsNumOrAnother(NeedStockQty.NeedQty))
-                            {
-                                if (Lib.Instance.IsNumOrAnother(strQty))
-                                {
-                                    double doubleTemp = double.Parse(NeedStockQty.NeedQty) * double.Parse(strQty);
-                                    //NeedStockQty.NeedQty = string.Format("{0:N4}", doubleTemp);
-                                    NeedStockQty.NeedQty = doubleTemp % 1 == 0 ? doubleTemp.ToString("N0") : doubleTemp.ToString("N4");
-                                }
-                            }
+                            ////if (Lib.Instance.IsNumOrAnother(NeedStockQty.NeedQty))
+                            ////{
+                            ////    if (Lib.Instance.IsNumOrAnother(strQty))
+                            ////    {
+                            ////        double doubleTemp = double.Parse(NeedStockQty.NeedQty) * double.Parse(strQty);
+                            ////        //NeedStockQty.NeedQty = string.Format("{0:N4}", doubleTemp);
+                            ////        NeedStockQty.NeedQty = doubleTemp % 1 == 0 ? doubleTemp.ToString("N0") : doubleTemp.ToString("N4");
+                            ////    }
+                            ////}
 
                             if (Lib.Instance.IsNumOrAnother(NeedStockQty.FinalNeedQty))
                             {
@@ -1870,7 +1870,7 @@ namespace WizMes_HanYoung
                                 if (double.TryParse(NeedStockQty.FinalNeedQty, out finalNeedQty))
                                 {
                                     // FinalNeedQty의 소숫점 아래가 전부 0이면 정수형태로 표현, 아니면 소숫점 5자리까지 표현
-                                    string formattedFinalNeedQty = finalNeedQty % 1 == 0 ? finalNeedQty.ToString("N0") : finalNeedQty.ToString("N5");
+                                    string formattedFinalNeedQty = finalNeedQty % 1 == 0 ? finalNeedQty.ToString("N0") : finalNeedQty.ToString("N2");
 
                                     // 결과 할당
                                     NeedStockQty.FinalNeedQty = formattedFinalNeedQty;

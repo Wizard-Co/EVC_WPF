@@ -1216,37 +1216,31 @@ namespace WizMes_HanYoung
 
 
             //고정 공정컬럼
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "신선");
-            if (column != null) column.Visibility = Visibility.Visible;
+            for (int i = 0; i < 10; i++)
+            {
+                string columnName = "dgdtxtProcess"  + i;
+                string columnName1 = "dgdtxtProcess" + i + "WorkDateTime";
+                string columnName2 = "dgdtxtProcess" + i + "UnitClss";
+                string columnName3 = "dgdtxtProcess" + i + "WorkQty";
 
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "압연");
-            if (column != null) column.Visibility = Visibility.Visible;
+                var columninner = this.FindName(columnName) as DataGridTextColumn;
+                var columninner1 = this.FindName(columnName1) as DataGridTextColumn;
+                var columninner2 = this.FindName(columnName2) as DataGridTextColumn;
+                var columninner3 = this.FindName(columnName3) as DataGridTextColumn;
 
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "와인딩");
-            if (column != null) column.Visibility = Visibility.Visible;
+                if (columninner != null)
+                    columninner.Visibility = Visibility.Visible;
+                if (columninner1 != null)
+                    columninner1.Visibility = Visibility.Visible;
+                if (columninner2 != null)
+                    columninner2.Visibility = Visibility.Visible;
+                if (columninner3 != null)
+                    columninner3.Visibility = Visibility.Visible;
+            }
 
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "코팅");
-            if (column != null) column.Visibility = Visibility.Visible;
 
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "스트레인딩");
-            if (column != null) column.Visibility = Visibility.Visible;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "절단");
-            if (column != null) column.Visibility = Visibility.Visible;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "사출");
-            if (column != null) column.Visibility = Visibility.Visible;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "HOOD조립");
-            if (column != null) column.Visibility = Visibility.Visible;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "F/F,TL조립");
-            if (column != null) column.Visibility = Visibility.Visible;
-
-            dgdtxtProcess10.Visibility = Visibility.Visible;
-            //column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "검사");
-            //if (column != null) column.Visibility = Visibility.Visible;
-
+            
+ 
          
         }
 
@@ -1306,38 +1300,29 @@ namespace WizMes_HanYoung
             column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "수주수량");
             if (column != null) column.Visibility = Visibility.Visible;
 
-            //고정 공정컬럼
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "신선");
-            if (column != null) column.Visibility = Visibility.Hidden;
+            //고정 공정컬럼     
 
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "압연");
-            if (column != null) column.Visibility = Visibility.Hidden;
+            for (int i = 0; i < 10; i++)
+            {
+                string columnName = "dgdtxtProcess" + i;
+                string columnName1 = "dgdtxtProcess" + i + "WorkDateTime";
+                string columnName2 = "dgdtxtProcess" + i + "UnitClss";
+                string columnName3 = "dgdtxtProcess" + i + "WorkQty";
 
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "와인딩");
-            if (column != null) column.Visibility = Visibility.Hidden;
+                var columninner = this.FindName(columnName) as DataGridTextColumn;
+                var columninner1 = this.FindName(columnName1) as DataGridTextColumn;
+                var columninner2 = this.FindName(columnName2) as DataGridTextColumn;
+                var columninner3 = this.FindName(columnName3) as DataGridTextColumn;
 
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "코팅");
-            if (column != null) column.Visibility = Visibility.Hidden;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "스트레인딩");
-            if (column != null) column.Visibility = Visibility.Hidden;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "절단");
-            if (column != null) column.Visibility = Visibility.Hidden;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "사출");
-            if (column != null) column.Visibility = Visibility.Hidden;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "HOOD조립");
-            if (column != null) column.Visibility = Visibility.Hidden;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "F/F,TL조립");
-            if (column != null) column.Visibility = Visibility.Hidden;
-
-            dgdtxtProcess10.Visibility = Visibility.Hidden;
-            //column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "검사");
-            //if (column != null) column.Visibility = Visibility.Hidden;
-
+                if (columninner != null)
+                    columninner.Visibility = Visibility.Hidden;
+                if (columninner1 != null)
+                    columninner1.Visibility = Visibility.Hidden;
+                if (columninner2 != null)
+                    columninner2.Visibility = Visibility.Hidden;
+                if (columninner3 != null)
+                    columninner3.Visibility = Visibility.Hidden;
+            }
         }
 
         private bool HasNonNullValue(DataRowCollection drc, string propertyName)
