@@ -73,6 +73,10 @@ namespace WizMes_HanYoung
             btnCustomer.IsEnabled = false;
             txtArticle.IsEnabled = false;
             btnArticle.IsEnabled = false;
+
+            txtArticleNo.IsEnabled = false;
+            btnArticleNo.IsEnabled = false;
+
             txtOrderID.IsEnabled = false;
             cboFaultyGBN.IsEnabled = false;
             txtBoxID.IsEnabled = false;

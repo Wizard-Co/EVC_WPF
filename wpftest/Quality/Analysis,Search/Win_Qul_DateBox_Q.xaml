@@ -112,7 +112,7 @@
                 <TextBox x:Name="txtArticle" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1" 
                          KeyDown="txtArticle_KeyDown" Style="{DynamicResource TextBoxSearch}"/>-->
 
-                    <Label Grid.Column="0" Grid.Row="1" x:Name="lblArticle" MouseLeftButtonUp="chkArticle_Click" Style="{DynamicResource LabelSearch_Q}">
+                    <Label Grid.Column="0" Grid.Row="2" x:Name="lblArticle" MouseLeftButtonUp="chkArticle_Click" Style="{DynamicResource LabelSearch_Q}">
                         <StackPanel Style="{DynamicResource StackPanelInLabel_Q}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
                                 <CheckBox x:Name="chkArticle" Checked="ChkArticle_Checked" Unchecked="ChkArticle_Unchecked" VerticalAlignment="Center"/>
@@ -122,13 +122,13 @@
                             </Viewbox>
                         </StackPanel>
                     </Label>
-                <TextBox x:Name="txtArticle" Grid.Row="1" Grid.Column="1" KeyDown="TxtArticle_KeyDown" Style="{DynamicResource TextBoxSearch_Q}"/>
-                <Button x:Name="btnArticle" Grid.Row="1" Grid.Column="2" Click="btnArticle_Click"  >
+                <TextBox x:Name="txtArticle" Grid.Row="2" Grid.Column="1" KeyDown="TxtArticle_KeyDown" Style="{DynamicResource TextBoxSearch_Q}"/>
+                <Button x:Name="btnArticle" Grid.Row="2" Grid.Column="2" Click="btnArticle_Click"  >
                         <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}"/>
                     </Button>
 
        
-                <Label  Grid.Column="0" Grid.Row="2" MouseLeftButtonUp="chkArticleNo_Click" Style="{DynamicResource LabelSearch_Q}">
+                <Label  Grid.Column="0" Grid.Row="1" MouseLeftButtonUp="chkArticleNo_Click" Style="{DynamicResource LabelSearch_Q}">
                         <StackPanel Style="{DynamicResource StackPanelInLabel_Q}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
                                 <CheckBox x:Name="chkArticleNo" Click="chkArticleNo_Click" ></CheckBox>
@@ -138,8 +138,8 @@
                             </Viewbox>
                         </StackPanel>
                     </Label>
-                    <TextBox x:Name="txtArticleNo" Grid.Column="1" Grid.Row="2" KeyDown="TxtArticleNo_KeyDown" Style="{DynamicResource TextBoxSearch_Q}"/>
-                    <Button x:Name="btnArticleNo"  Grid.Column="2" Grid.Row="2" Click="btnArticleNo_Click"  >
+                    <TextBox x:Name="txtArticleNo" Grid.Column="1" Grid.Row="1" KeyDown="TxtArticleNo_KeyDown" Style="{DynamicResource TextBoxSearch_Q}"/>
+                    <Button x:Name="btnArticleNo"  Grid.Column="2" Grid.Row="1" Click="btnArticleNo_Click"  >
                         <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}"/>
                     </Button>
               

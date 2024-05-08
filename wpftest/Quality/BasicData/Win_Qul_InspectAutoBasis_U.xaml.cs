@@ -689,6 +689,18 @@ namespace WizMes_HanYoung
                     dgdMain.SelectedIndex = Wh_Ar_SelectedLastIndex;
                     dgdMain.Focus();
                 }
+                else
+                {
+                    //검사기준이 아무것도 등록 안되어 있는
+                    //상태에서 입력하다 취소를 했을 때 비워주기
+                    this.DataContext = null;
+                    txtArticle.Text = string.Empty;
+                    txtArticle.Tag = null;
+                    txtProcess.Text = string.Empty;
+                    txtProcess.Tag = null;
+                    ovcInspectAutoBasisSub.Clear();
+
+                }
             }
             else        //2. 수정하다가 취소했다면
             {

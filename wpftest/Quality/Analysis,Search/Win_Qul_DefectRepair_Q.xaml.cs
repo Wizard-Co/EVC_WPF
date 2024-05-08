@@ -580,7 +580,9 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("CustomID", chkCustom.IsChecked == true ? txtCustom.Tag.ToString() : "");
                 sqlParameter.Add("nchkArticleID", chkArticle.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("ArticleID", chkArticle.IsChecked == true ? txtArticle.Tag.ToString() : "");
-                sqlParameter.Add("BuyerArticleNo", chkArticle.IsChecked == true ? txtArticle.Text : "");
+                //sqlParameter.Add("BuyerArticleNo", chkArticle.IsChecked == true ? txtArticle.Text : "");
+                sqlParameter.Add("nchkBuyerArticleNo", chkArticleNo.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("BuyerArticleNo", chkArticleNo.IsChecked == true ? (txtArticleNo.Tag != null ? txtArticleNo.Tag.ToString(): ""): "");
                 sqlParameter.Add("sGrouping", 1);   //불량유형
                 ds1 = DataStore.Instance.ProcedureToDataSet("xp_Qul_sStsDefectRepair_Sum", sqlParameter, false);
 
@@ -834,7 +836,9 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("CustomID", chkCustom.IsChecked == true ? txtCustom.Tag.ToString() : "");
                 sqlParameter.Add("nchkArticleID", 0); // chkArticle.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("ArticleID", ""); // chkArticle.IsChecked == true ? txtArticle.Tag.ToString() : "");
-                sqlParameter.Add("BuyerArticleNo", chkArticle.IsChecked == true ? txtArticle.Text : "");
+                                                   //sqlParameter.Add("BuyerArticleNo", chkArticle.IsChecked == true ? txtArticle.Text : "");
+                sqlParameter.Add("nchkBuyerArticleNo", chkArticleNo.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("BuyerArticleNo", chkArticleNo.IsChecked == true ? (txtArticleNo.Tag != null ? txtArticleNo.Tag.ToString() : "") : "");
                 ds = DataStore.Instance.ProcedureToDataSet("xp_Qul_sStsDefectRepair_Daily", sqlParameter, false);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -1233,7 +1237,9 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("nchkArticleID", 0); //chkArticle.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("ArticleID", ""); // chkArticle.IsChecked == true ? txtArticle.Tag.ToString() : "");
                 sqlParameter.Add("sGrouping", 1);
-                sqlParameter.Add("BuyerArticleNo", chkArticle.IsChecked == true ? txtArticle.Text : "");
+                //sqlParameter.Add("BuyerArticleNo", chkArticle.IsChecked == true ? txtArticle.Text : "");
+                sqlParameter.Add("nchkBuyerArticleNo", chkArticleNo.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("BuyerArticleNo", chkArticleNo.IsChecked == true ? (txtArticleNo.Tag != null ? txtArticleNo.Tag.ToString() : "") : "");
                 ds1 = DataStore.Instance.ProcedureToDataSet("xp_Qul_sStsDefectRepair_Sum_Daily", sqlParameter, false);
 
                 sqlParameter.Remove("sGrouping");
@@ -1486,7 +1492,9 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("CustomID", chkCustom.IsChecked == true ? txtCustom.Tag.ToString() : "");
                 sqlParameter.Add("nchkArticleID", 0);// chkArticle.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("ArticleID", "");// chkArticle.IsChecked == true ? txtArticle.Tag.ToString() : "");
-                sqlParameter.Add("BuyerArticleNo", chkArticle.IsChecked == true ? txtArticle.Text : "");
+                //sqlParameter.Add("BuyerArticleNo", chkArticle.IsChecked == true ? txtArticle.Text : "");
+                sqlParameter.Add("nchkBuyerArticleNo", chkArticleNo.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("BuyerArticleNo", chkArticleNo.IsChecked == true ? (txtArticleNo.Tag != null ? txtArticleNo.Tag.ToString() : "") : "");
                 ds = DataStore.Instance.ProcedureToDataSet("xp_Qul_sStsDefectRepair_Monthly", sqlParameter, false);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -1689,7 +1697,9 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("CustomID", chkCustom.IsChecked == true ? txtCustom.Tag.ToString() : "");
                 sqlParameter.Add("nchkArticleID", 0); // chkArticle.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("ArticleID", ""); // chkArticle.IsChecked == true ? txtArticle.Tag.ToString() : "");
-                sqlParameter.Add("BuyerArticleNo", chkArticle.IsChecked == true ? txtArticle.Text : "");
+                                                   //sqlParameter.Add("BuyerArticleNo", chkArticle.IsChecked == true ? txtArticle.Text : "");
+                sqlParameter.Add("nchkBuyerArticleNo", chkArticleNo.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("BuyerArticleNo", chkArticleNo.IsChecked == true ? (txtArticleNo.Tag != null ? txtArticleNo.Tag.ToString() : "") : "");
                 sqlParameter.Add("sGrouping", 1);
                 ds1 = DataStore.Instance.ProcedureToDataSet("xp_Qul_sStsDefectRepair_Sum_Monthly", sqlParameter, false);
 
@@ -1986,6 +1996,57 @@ namespace WizMes_HanYoung
         {
             dtpEDate.Visibility = Visibility.Visible;
             btnLastSixMonth.Visibility = Visibility.Visible;
+        }
+
+        private void lblArticleNo_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if(chkArticleNo.IsChecked == true)
+            {
+                txtArticleNo.IsEnabled = false;
+                btnPfArticle.IsEnabled = false;
+                chkArticleNo.IsChecked = false;
+            }
+            else
+            {
+                txtArticleNo.IsEnabled = true;
+                btnPfArticle.IsEnabled = true;
+                chkArticleNo.IsChecked = true;
+            }
+        }
+
+
+        private void txtArticleNo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                MainWindow.pf.ReturnCode(txtArticleNo, 77, txtArticleNo.Text);
+            }
+            
+        }
+
+        private void btnPfArticleNo_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.pf.ReturnCode(txtArticleNo, 77, txtArticleNo.Text);
+        }
+
+        private void chkArticleNo_Checked(object sender, RoutedEventArgs e)
+        {
+            if(chkArticleNo.IsChecked == true)
+            {
+                txtArticleNo.IsEnabled = true;
+                btnPfArticleNo.IsEnabled = true;
+                chkArticleNo.IsChecked = true;
+            }
+        }
+
+        private void chkArticleNo_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (chkArticleNo.IsChecked == false)
+            {
+                txtArticleNo.IsEnabled = false;
+                btnPfArticleNo.IsEnabled = false;
+                chkArticleNo.IsChecked = false;
+            }
         }
 
         // 천단위 콤마, 소수점 버리기
@@ -2429,5 +2490,6 @@ namespace WizMes_HanYoung
             public string RepairQty { get; set; }
             public string RepairRate { get; set; }
         }
+
     }
 }

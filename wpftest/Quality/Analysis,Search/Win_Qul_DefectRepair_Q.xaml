@@ -144,6 +144,32 @@
                 </Button>
             </Grid>
 
+            <Grid Grid.Column="2" Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*" />
+                    <ColumnDefinition Width="90*" />
+                    <ColumnDefinition Width="15*" />
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblArticleNo" Grid.Column="0" 
+                       MouseLeftButtonUp="lblArticleNo_MouseLeftButtonUp" Style="{DynamicResource LabelSearch_Q}">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel_Q}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                            <CheckBox x:Name="chkArticleNo"
+                                      Checked="chkArticleNo_Checked" Unchecked="chkArticleNo_Unchecked"/>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                            <TextBlock Text=" 품     명" Style="{DynamicResource TextBlockInViewBoxSearch_Q}"/>
+                        </Viewbox>
+                    </StackPanel>
+                </Label>
+                <TextBox x:Name="txtArticleNo" Grid.Column="1" Background="White"
+                         Keyboard.KeyDown="txtArticleNo_KeyDown" IsEnabled="False"/>
+                <Button x:Name="btnPfArticleNo" Grid.Column="2" 
+                        Click="btnPfArticleNo_Click" IsEnabled="False">
+                    <Image Source="{DynamicResource btiPlusFind}" />
+                </Button>
+            </Grid>
+
             <Grid Grid.Column="4" Grid.RowSpan="4">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />

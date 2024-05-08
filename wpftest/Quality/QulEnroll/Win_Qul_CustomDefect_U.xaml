@@ -105,7 +105,7 @@
                     <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}"/>
                 </Button>
             </Grid>
-            <Grid Grid.Column="2" Grid.Row="1">
+            <Grid Grid.Column="2" Grid.Row="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="75*" />
                         <ColumnDefinition Width="90*" />
@@ -128,7 +128,7 @@
                 
             </Grid>
 
-            <Grid Grid.Column="3" Grid.Row="1" Visibility="Hidden">
+            <Grid Grid.Column="2" Grid.Row="1">
                 <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="75*" />
                         <ColumnDefinition Width="90*" />
@@ -150,7 +150,7 @@
                     </Button>
             </Grid>
             
-            <Grid Grid.Column="2" Grid.Row="2">
+            <Grid Grid.Column="3" Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="75*" />
                     <ColumnDefinition Width="90*" />
@@ -169,7 +169,7 @@
                 </Label>
                 <TextBox x:Name="txtDefectContent" Grid.Column="1" Style="{DynamicResource TextBoxSearch_Q}"/>
             </Grid>
-            <Grid Grid.Column="2" Grid.Row="3">
+            <Grid Grid.Column="3" Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="75*" />
                     <ColumnDefinition Width="90*" />

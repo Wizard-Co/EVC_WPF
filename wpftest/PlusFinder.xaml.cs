@@ -360,7 +360,11 @@ namespace WizMes_HanYoung
                 if (_txtBox.Text.Trim().Length > 0)
                 {
                     string ColID = rs_dt.Columns[0].Caption;//명칭
-                    string ColName = rs_dt.Columns[1].Caption;//코드
+                    string ColName = rs_dt.Columns[1].Caption;//코드                   
+                    //검색어 입력후 엔터 눌렀을때 다른 열의 데이터 값을 넣기 위한 변수
+                    string colID2 = string.Empty;
+                    string colName2 = string.Empty;
+
                     string ColArticle = "";
                     if (ColID == "사번")
                     {
@@ -368,6 +372,8 @@ namespace WizMes_HanYoung
                     }
                     string sql = "";
                     string Data = _txtBox.Text.Trim();
+
+            
 
                     //[1]코드로 찾기
                     if (Data != "")
@@ -429,6 +435,30 @@ namespace WizMes_HanYoung
 
                             txtBox.Text = col_Name;
                             txtBox.Tag = col_ID;
+
+                            //검사기준등록에서 쓰기 위해 추가한 부분 2024-05-08 최대현
+                            //검사기준등록에서 품번을 직접 일부 또는 전부 입력후 매칭되는 값이 있을 때 
+                            //공정, 공정코드를 가지고 오지 못하는 것을 수정하기 위해 추가
+
+                            //동작과정은
+                            //빈 텍스트박스에 엔터를 눌러 팝업창에서 직접 선택시 plusFinder.xaml.cs에서 selectedItem()
+                            //Win_Qul_InspectAutoBasis_U의 SetBuyerArticleNo()쪽으로 가고
+                            //직접 텍스트를 입력하면 이쪽 함수를 거치게 되어있는 것 같습니다.
+
+                            //공정은 품목코드 등록화는 화면에서 선택한 공정을 가지고 오는데 하나의 상품에
+                            //두 가지 이상 공정이 있으면 플러스파인더가 팝업으로 뜹니다.
+                            if (ColID == "품목코드")
+                            {
+                                if (rs_dt.Columns[3] != null && rs_dt.Columns[3].Caption == "공정")
+                                {
+                                    colName2 = dtCodeTemp.Rows[0].ItemArray[3].ToString();
+                                    colID2 = dtCodeTemp.Rows[0].ItemArray[4].ToString();
+                                    
+                                    txtLot.Text = colName2;
+                                    txtLot.Tag = colID2;                              
+                                }
+
+                            }
                         }
                         //dt count가 0일때
                         //[2]명칭으로 찾기

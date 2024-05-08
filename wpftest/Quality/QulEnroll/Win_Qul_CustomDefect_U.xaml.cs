@@ -84,6 +84,9 @@ namespace WizMes_HanYoung
             btnCustomer.IsEnabled = false;
             txtArticle.IsEnabled = false;
             btnArticle.IsEnabled = false;
+            txtArticleNo.IsEnabled = false;
+            btnArticleNo.IsEnabled = false;
+
             txtDefectContent.IsEnabled = false;
             txtDefectNO.IsEnabled = false;
             cboCloseYN.IsEnabled = false;

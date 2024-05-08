@@ -78,13 +78,13 @@
                         </Viewbox>
                     </StackPanel>
                 </Label>
-                <TextBox x:Name="txtArticle" Grid.Column="1" KeyDown="TxtArticle_KeyDown" Style="{DynamicResource TextBoxSearch_Q}"/>
+                <TextBox x:Name="txtArticle" Grid.Column="1" KeyDown="TxtArticle_KeyDown" Style="{DynamicResource TextBoxSearch_Q}" />
                 <Button x:Name="btnArticle"  Grid.Column="2" Click="btnArticle_Click"  IsEnabled="False">
                     <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}"/>
                 </Button>
             </Grid>
 
-            <Grid Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left" Width="180">
+            <Grid Grid.Column="2" Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="75*" />
                     <ColumnDefinition Width="90*" />
