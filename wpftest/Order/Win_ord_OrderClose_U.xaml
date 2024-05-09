@@ -197,7 +197,45 @@
                     <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}" Margin="-2"/>
                 </Button>
             </Grid>
-            
+
+            <Grid Grid.Row="3" Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*" />
+                    <ColumnDefinition Width="90*" />
+                    <ColumnDefinition Width="15*" />
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblrbnArticleGrpFilter" Grid.Column="0" MouseLeftButtonUp="lblrbnArticleGrpFilter_MouseLeftButtonUp" Style="{DynamicResource LabelSearch}">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <CheckBox x:Name="chkrbnArticleGrpFilter" Checked="chkrbnArticleGrpFilter_Checked" 
+                                      Unchecked="chkrbnArticleGrpFilter_Unchecked" IsEnabled="False"
+                                      />
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <TextBlock Text="제품군 필터링" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                        </Viewbox>
+
+                    </StackPanel>
+                </Label>
+                <Border  Grid.Column="1" Grid.Row="1" Margin="1"
+                        HorizontalAlignment="Stretch" Background="#ededed" BorderBrush="Gray" BorderThickness="1">
+                    <Grid VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <RadioButton x:Name="rbnDayAndTime" Grid.Column="0" Margin="-5,0,0,0" 
+                                      Click="rbnDayAndTime_Click" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False">
+                            <TextBlock Text="투입일" FontSize="10" Style="{DynamicResource TextBlockInViewBoxSearch}" Margin="0,1,0,0"/>
+                        </RadioButton>
+                        <RadioButton x:Name="rbnWorkQty" Grid.Column="1" Margin="-5,0,0,0" IsChecked="True"
+                                      Click="rbnWorkQty_Click" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False">
+                            <TextBlock Text="투입량" FontSize="10" Style="{DynamicResource TextBlockInViewBoxSearch}" Margin="0,1,0,0"/>
+                        </RadioButton>
+                    </Grid>
+                </Border>
+            </Grid>
+
             <Grid Grid.Row="0" Grid.Column="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="75*" />
@@ -224,7 +262,7 @@
                     <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}"  />
                 </Button>
             </Grid>
-            
+
             <Grid Grid.Row="1" Grid.Column="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="75*" />
@@ -289,7 +327,8 @@
                         </Viewbox>
                     </StackPanel>
                 </Label>
-                <ComboBox x:Name="cboProductGrpID" Grid.Column="1" Style="{DynamicResource ComboBoxSearchString}" IsEnabled="False"/>
+                <ComboBox x:Name="cboProductGrpID" Grid.Column="1" Style="{DynamicResource ComboBoxSearchString}" 
+                          IsEnabled="False" SelectionChanged="cboProductGrpID_SelectionChanged"/>
                 <Image x:Name="msgProductGrpID" Source="{DynamicResource btiInfomation}" Grid.Column="2" 
                        Style="{DynamicResource imgSize}" VerticalAlignment="Center"
                        MouseEnter="msgProductGrpID_MouseEnter"
@@ -350,6 +389,9 @@
         <!-- //전체 중 상단 -->
 
         <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="20*"/>
                 <RowDefinition Height="auto"/>
@@ -358,7 +400,7 @@
                 <RowDefinition Height="10"/>
             </Grid.RowDefinitions>
 
-            <DataGrid x:Name="dgdMain" Grid.Row="0" Style="{DynamicResource DataGridSet1}" IsReadOnly="True" MouseDoubleClick="DgdMain_MouseDoubleClick" SizeChanged="DataGrid_SizeChange" >
+            <DataGrid x:Name="dgdMain" Grid.Row="0" Style="{DynamicResource DataGridSet1}" IsReadOnly="True" MouseDoubleClick="DgdMain_MouseDoubleClick" SizeChanged="DataGrid_SizeChange" Margin="0,0,0,23" Grid.RowSpan="3" >
                 <DataGrid.RowStyle>
                     <Style TargetType="DataGridRow">
                         <Style.Resources>
@@ -370,7 +412,7 @@
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Path=RowColor}" Value="true">
                                 <Setter Property="Background" Value="#D8D8D8" />
-                            </DataTrigger>                         
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </DataGrid.RowStyle>
@@ -427,7 +469,7 @@
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}"  Visibility="Hidden"/>
                     <DataGridTextColumn x:Name="dgdtxtProcess1WorkQty" Header="신선/투입수량" Width="auto" Binding="{Binding p1WorkQty,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}"  Visibility="Hidden"/>
-                    
+
                     <!--압연-->
                     <DataGridTextColumn x:Name="dgdtxtProcess2" Header="압연" Width="auto" Binding="{Binding p2ProcessName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
@@ -437,7 +479,7 @@
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
                     <DataGridTextColumn x:Name="dgdtxtProcess2WorkQty" Header="압연/투입수량" Width="auto" Binding="{Binding p2WorkQty,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    
+
                     <!--와인딩-->
                     <DataGridTextColumn x:Name="dgdtxtProcess3" Header="와인딩" Width="auto" Binding="{Binding p3ProcessName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
@@ -447,7 +489,7 @@
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
                     <DataGridTextColumn x:Name="dgdtxtProcess3WorkQty" Header="와인딩/투입수량" Width="auto" Binding="{Binding p3WorkQty,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    
+
                     <!--코팅-->
                     <DataGridTextColumn x:Name="dgdtxtProcess4" Header="코팅" Width="auto" Binding="{Binding p4ProcessName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
@@ -457,7 +499,7 @@
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
                     <DataGridTextColumn x:Name="dgdtxtProcess4WorkQty" Header="코팅/투입수량" Width="auto" Binding="{Binding p4WorkQty,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    
+
                     <!--스트레인딩-->
                     <DataGridTextColumn x:Name="dgdtxtProcess5" Header="스트레인딩" Width="auto" Binding="{Binding p5ProcessName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
@@ -467,7 +509,7 @@
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
                     <DataGridTextColumn x:Name="dgdtxtProcess5WorkQty" Header="스트레인딩/투입수량" Width="auto" Binding="{Binding p5WorkQty,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    
+
                     <!--절단-->
                     <DataGridTextColumn x:Name="dgdtxtProcess6" Header="절단" Width="auto" Binding="{Binding p6ProcessName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
@@ -477,7 +519,7 @@
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
                     <DataGridTextColumn x:Name="dgdtxtProcess6WorkQty" Header="절단/투입수량" Width="auto" Binding="{Binding p6WorkQty,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    
+
                     <!--사출-->
                     <DataGridTextColumn x:Name="dgdtxtProcess7" Header="사출" Width="auto" Binding="{Binding p7ProcessName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
@@ -487,7 +529,7 @@
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
                     <DataGridTextColumn x:Name="dgdtxtProcess7WorkQty" Header="사출/투입수량" Width="auto" Binding="{Binding p7WorkQty,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    
+
                     <!--HOOD조립-->
                     <DataGridTextColumn x:Name="dgdtxtProcess8" Header="HOOD조립" Width="auto" Binding="{Binding p8ProcessName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
@@ -500,11 +542,11 @@
                     <!--F/F,TL조립-->
                     <DataGridTextColumn x:Name="dgdtxtProcess9" Header="F/F,TL조립" Width="auto" Binding="{Binding p9ProcessName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess9WorkDateTime" Header="F/F,TL조립" Width="auto" Binding="{Binding p9DayAndTime,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess9WorkDateTime" Header="F/F,TL조립/투입일시" Width="auto" Binding="{Binding p9DayAndTime,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess9UnitClss" Header="F/F,TL조립" Width="auto" Binding="{Binding UnitClssName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess9UnitClss" Header="F/F,TL조립/투입단위" Width="auto" Binding="{Binding UnitClssName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess9WorkQty" Header="F/F,TL조립" Width="auto" Binding="{Binding p9WorkQty,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess9WorkQty" Header="F/F,TL조립/투입수량" Width="auto" Binding="{Binding p9WorkQty,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
                     <!--검사-->
                     <DataGridTextColumn x:Name="dgdtxtProcess10" Header="검사" Width="auto" Binding="{Binding p10ProcessName,StringFormat={}{0:N0}}" 
@@ -515,10 +557,10 @@
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
                     <DataGridTextColumn x:Name="dgdtxtProcess10WorkQty" Header="검사/투입수량" Width="auto" Binding="{Binding p10WorkQty,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    
+
                 </DataGrid.Columns>
             </DataGrid>
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" Margin="0,0,0,23" Grid.RowSpan="2">
                 <!--<Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*" />
                     <ColumnDefinition Width="7*" />

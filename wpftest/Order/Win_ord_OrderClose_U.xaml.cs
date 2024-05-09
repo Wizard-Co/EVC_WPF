@@ -33,6 +33,7 @@ namespace WizMes_HanYoung
         Lib lib = new Lib();
         string rowHeaderNum = string.Empty;
         int rowNum = 0;
+        int rbnOrder = 0;
 
         NoticeMessage msg = new NoticeMessage();
         DataTable DT;
@@ -500,6 +501,7 @@ namespace WizMes_HanYoung
 
         private void rbnOrderNo_Click(object sender, RoutedEventArgs e)
         {
+
             Check_bdrOrder();
         }
 
@@ -521,6 +523,156 @@ namespace WizMes_HanYoung
                 tbkOrder.Text = "Order No";
                 dgdtxtOrderID.Visibility = Visibility.Hidden;
                 dgdtxtOrderNo.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void Check_rbnGrpID()
+        {
+            if (cboProductGrpID.SelectedValue.ToString() != "99" && chkrbnArticleGrpFilter.IsChecked == true)
+            {
+                if(rbnOrder == 1)
+                {
+                    if (chkrbnArticleGrpFilter.IsChecked == true && rbnDayAndTime.IsChecked == true && rbnDayAndTime.IsEnabled == true)
+                    {
+                        ShowColums_rbnWorkQtyClicked();
+                        HideColums_rbnDayAndTimeClicked();
+                    }
+                  
+                }
+                else if(rbnOrder == 2)
+                {
+                    if (chkrbnArticleGrpFilter.IsChecked == true && rbnWorkQty.IsChecked == true && rbnWorkQty.IsEnabled == true)
+                    {
+                        ShowColums_rbnDayAndTimeClicked();
+                        HideColums_rbnWorkQtyClicked();
+                    }
+                 
+                }      
+            }
+            else
+            {
+                
+            }
+        }
+
+        private void HideColums_rbnDayAndTimeClicked()
+        {
+            string[] columnsToHide = { 
+                "신선/투입단위",  "신선/투입수량",
+                "압연/투입단위",  "압연/투입수량",
+                "와인딩/투입단위","와인딩/투입수량",
+                "코팅/투입단위", "코팅/투입수량",
+                "스트레인딩/투입단위", "스트레인딩/투입수량",
+                "절단/투입단위", "절단/투입수량",
+                "사출/투입단위", "사출/투입수량",
+                "HOOD조립/투입단위", "HOOD조립/투입수량",
+                "F/F,TL조립/투입단위", "F/F,TL조립/투입수량",
+                };
+
+            foreach (string columnName in columnsToHide)
+            {
+                var column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == columnName);
+                if (column != null)
+                {
+                    column.Visibility = Visibility.Hidden;
+                }
+            }
+        }
+
+        private void HideColums_rbnWorkQtyClicked()
+        {
+            string[] columnsToHide = {
+                "신선/투입단위",  "신선/투입일",
+                "압연/투입단위",  "압연/투입일",
+                "와인딩/투입단위","와인딩/투입일",
+                "코팅/투입단위", "코팅/투입일시",
+                "스트레인딩/투입단위", "스트레인딩/투입일",
+                "절단/투입단위", "절단/투입일",
+                "사출/투입단위", "사출/투입일",
+                "HOOD조립/투입단위", "HOOD조립/투입일",
+                "F/F,TL조립/투입단위", "F/F,TL조립/투입일",
+                };
+
+            foreach (string columnName in columnsToHide)
+            {
+                var column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == columnName);
+                if (column != null)
+                {
+                    column.Visibility = Visibility.Hidden;
+                }
+            }
+        }
+
+        private void ShowColums_rbnDayAndTimeClicked()
+        {
+            string[] columnsToShow = {
+                "신선/투입단위",  "신선/투입수량",
+                "압연/투입단위",  "압연/투입수량",
+                "와인딩/투입단위","와인딩/투입수량",
+                "코팅/투입단위", "코팅/투입수량",
+                "스트레인딩/투입단위", "스트레인딩/투입수량",
+                "절단/투입단위", "절단/투입수량",
+                "사출/투입단위", "사출/투입수량",
+                "HOOD조립/투입단위", "HOOD조립/투입수량",
+                "F/F,TL조립/투입단위", "F/F,TL조립/투입수량",
+                };
+
+            foreach (string columnName in columnsToShow)
+            {
+                var column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == columnName);
+                if (column != null)
+                {
+                    column.Visibility = Visibility.Visible;
+                }
+            }
+        }
+
+
+        private void ShowColums_ALL()
+        {
+            string[] columnsToShow = {
+                "신선/투입단위",  "신선/투입일", "신선/투입수량",
+                "압연/투입단위",  "압연/투입일",  "압연/투입수량",
+                "와인딩/투입단위","와인딩/투입일", "와인딩/투입수량",
+                "코팅/투입단위", "코팅/투입일", "코팅/투입수량",
+                "스트레인딩/투입단위", "스트레인딩/투입일", "스트레인딩/투입수량",
+                "절단/투입단위", "절단/투입일", "절단/투입수량",
+                "사출/투입단위", "사출/투입일", "사출/투입수량",
+                "HOOD조립/투입단위", "HOOD조립/투입일", "HOOD조립/투입수량",
+                "F/F,TL조립/투입단위", "F/F,TL조립/투입일", "F/F,TL조립/투입수량"
+                };
+
+            foreach (string columnName in columnsToShow)
+            {
+                var column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == columnName);
+                if (column != null)
+                {
+                    column.Visibility = Visibility.Visible;
+                }
+            }
+        }
+
+        private void ShowColums_rbnWorkQtyClicked()
+        {
+            string[] columnsToHide = {
+                "신선/투입단위",  "신선/투입일",
+                "압연/투입단위",  "압연/투입일",
+                "와인딩/투입단위","와인딩/투입일",
+                "코팅/투입단위", "코팅/투입일시",
+                "스트레인딩/투입단위", "스트레인딩/투입일",
+                "절단/투입단위", "절단/투입일",
+                "사출/투입단위", "사출/투입일",
+                "HOOD조립/투입단위", "HOOD조립/투입일",
+                "F/F,TL조립/투입단위", "F/F,TL조립/투입일",
+                };
+
+            foreach (string columnName in columnsToHide)
+            {
+                var column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == columnName);
+                if (column != null)
+                {
+                    column.Visibility = Visibility.Visible;
+                }
             }
         }
 
@@ -740,6 +892,7 @@ namespace WizMes_HanYoung
                                     OrderNo = item["OrderNO"] as string,
                                     CustomID = item["CustomID"] as string,
                                     KCustom = item["KCustom"] as string,
+                                    UnitClssName = item["UnitClssName"] as string,
 
                                     p1ProcessID = item["ProcessID1"].ToString(),
                                     p1StartWorkDate = item["ProcessWorkDate1"].ToString(),
@@ -1245,7 +1398,15 @@ namespace WizMes_HanYoung
             //column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "OrderNo");
             //if (column != null) column.Visibility = Visibility.Hidden;
 
+            
+
             var column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "거래처");
+            if (column != null) column.Visibility = Visibility.Hidden;
+
+            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "수주수량");
+            if (column != null) column.Visibility = Visibility.Hidden;
+
+            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "투입수량");
             if (column != null) column.Visibility = Visibility.Hidden;
 
             column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "품번");
@@ -1269,7 +1430,7 @@ namespace WizMes_HanYoung
             column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "투입일시");
             if (column != null) column.Visibility = Visibility.Hidden;
 
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "투입수량");
+            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "투입일시");
             if (column != null) column.Visibility = Visibility.Hidden;
 
             dgdtxtInspect.Visibility = Visibility.Hidden;
@@ -1288,7 +1449,7 @@ namespace WizMes_HanYoung
             column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "과부족");
             if (column != null) column.Visibility = Visibility.Hidden;
 
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "수주수량");
+            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "수주일시");
             if (column != null) column.Visibility = Visibility.Hidden;
 
 
@@ -1337,6 +1498,12 @@ namespace WizMes_HanYoung
             column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "품번");
             if (column != null) column.Visibility = Visibility.Visible;
 
+            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "수주수량");
+            if (column != null) column.Visibility = Visibility.Hidden;
+
+            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "투입수량");
+            if (column != null) column.Visibility = Visibility.Hidden;
+
             column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "품명");
             if (column != null) column.Visibility = Visibility.Visible;
 
@@ -1355,7 +1522,7 @@ namespace WizMes_HanYoung
             column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "투입일시");
             if (column != null) column.Visibility = Visibility.Visible;
 
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "투입수량");
+            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "투입일시");
             if (column != null) column.Visibility = Visibility.Visible;
 
             dgdtxtInspect.Visibility = Visibility.Visible;
@@ -1374,7 +1541,7 @@ namespace WizMes_HanYoung
             column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "과부족");
             if (column != null) column.Visibility = Visibility.Visible;
 
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "수주수량");
+            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "수주일시");
             if (column != null) column.Visibility = Visibility.Visible;
 
             //고정 공정컬럼     
@@ -1716,7 +1883,7 @@ namespace WizMes_HanYoung
                     workrange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
                     workrange.Font.Size = 10;
 
-                    workrange = pastesheet.get_Range("AJ" + totalLine, "AL" + totalLine);    // 총 검수량
+                    workrange = pastesheet.get_Range("AJ" + totalLine, "AL" + totalLine);    // 총 검일시
                     workrange.Value2 = Sum.InspectSum;
                     workrange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
                     workrange.Font.Size = 10;
@@ -1955,6 +2122,91 @@ namespace WizMes_HanYoung
         private void msgProductGrpID_MouseLeave(object sender, MouseEventArgs e)
         {
             toolTip.IsOpen = false;
+        }
+
+        private void rbnDayAndTime_Click(object sender, RoutedEventArgs e)
+        {
+            rbnOrder = 1;
+            Check_rbnGrpID();
+        }
+
+        private void rbnWorkQty_Click(object sender, RoutedEventArgs e)
+        {
+            rbnOrder = 2;
+            Check_rbnGrpID();
+        }
+
+        //private void cboProductGrpID_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    if(cboProductGrpID.SelectedValue.ToString() != "99")
+        //    {
+        //        rbnDayAndTime.IsEnabled = true;
+        //        rbnWorkQty.IsEnabled = true;
+        //    }
+        //    else
+        //    {
+        //        rbnDayAndTime.IsEnabled = false;
+        //        rbnWorkQty.IsEnabled = false;
+        //    }
+        //}
+
+        private void lblrbnArticleGrpFilter_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if(chkrbnArticleGrpFilter.IsChecked == true)
+            {
+                rbnDayAndTime.IsEnabled = false;
+                rbnWorkQty.IsEnabled = false;
+                chkrbnArticleGrpFilter.IsChecked = false;
+                ShowColums_ALL();
+            }
+            else
+            {
+                rbnDayAndTime.IsEnabled = true;
+                rbnWorkQty.IsEnabled = true;
+                chkrbnArticleGrpFilter.IsChecked = true;
+                if(rbnDayAndTime.IsChecked == true)
+                {
+                    rbnDayAndTime_Click(null, null);
+                }
+                else
+                {
+                    rbnWorkQty_Click(null, null);
+
+                }
+            }
+        }
+
+        private void chkrbnArticleGrpFilter_Checked(object sender, RoutedEventArgs e)
+        {
+            if(chkrbnArticleGrpFilter.IsChecked == true)
+            {
+                rbnDayAndTime.IsEnabled = true;
+                rbnWorkQty.IsEnabled = true;
+                chkrbnArticleGrpFilter.IsChecked = true;
+            }   
+        }
+
+        private void chkrbnArticleGrpFilter_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if(chkrbnArticleGrpFilter.IsChecked == false)
+            {
+                rbnDayAndTime.IsEnabled = false;
+                rbnWorkQty.IsEnabled = false;
+                chkrbnArticleGrpFilter.IsChecked = false;
+            }   
+        }
+
+        private void cboProductGrpID_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(cboProductGrpID.SelectedValue.ToString()!= "99")
+            {
+                chkrbnArticleGrpFilter.IsEnabled = true;
+            }
+            else
+            {
+                chkrbnArticleGrpFilter.IsEnabled = false;
+
+            }
         }
     }
 
