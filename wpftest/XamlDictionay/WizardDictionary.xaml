@@ -114,7 +114,10 @@
 
     <BitmapImage x:Key="btiMathPlus" UriSource="/images/icons8-plus-math-40.png" />
     <BitmapImage x:Key="btiMathMinus" UriSource="/images/icons8-subtract-40.png" />
-    
+
+    <BitmapImage x:Key="btiInfomation" UriSource="/images/icon_informationMark_32.png" />
+
+
     <BitmapImage x:Key="btiSearch" UriSource="/images/Search.bmp" />
     <TextBlock x:Key="tblSearch" Text="검색(F)" />
     <BitmapImage x:Key="btiUpdate" UriSource="/images/Edit.bmp" />

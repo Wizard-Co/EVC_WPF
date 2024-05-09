@@ -28,6 +28,7 @@ namespace WizMes_HanYoung
         private Microsoft.Office.Interop.Excel.Worksheet copysheet;
         private Microsoft.Office.Interop.Excel.Worksheet pastesheet;
 
+        private ToolTip toolTip = new ToolTip();
         Win_ord_OrderClose_U_CodeView WinOrderClose = new Win_ord_OrderClose_U_CodeView();
         Lib lib = new Lib();
         string rowHeaderNum = string.Empty;
@@ -84,7 +85,7 @@ namespace WizMes_HanYoung
             cboProductGrpID.ItemsSource = ovcProductGrp;
             cboProductGrpID.DisplayMemberPath = "code_name";
             cboProductGrpID.SelectedValuePath = "code_id";
-            cboProductGrpID.SelectedIndex = 10;            
+            cboProductGrpID.SelectedIndex = 11;            
 
         }
 
@@ -724,39 +725,105 @@ namespace WizMes_HanYoung
                         double OutSum = 0;
                         double OasSum = 0;
 
+
                         if (chkProductGrpID.IsChecked == true && cboProductGrpID.SelectedValue.ToString() != "99")
                         {
+                            int j = 1;
                             foreach (DataRow item in drc)
                             {
                                 var Window_OrderClose_DTO = new Win_ord_OrderClose_U_CodeView()
                                 {
                                     IsCheck = false,
-                                    cls = item["cls"].ToString(),
-                                    ProductGrpName = item["ProductGrpName"].ToString(),
-                                    p1ProcessName = item["신선"].ToString(),
-                                    p2ProcessName = item["압연"].ToString(),
-                                    p3ProcessName = item["와인딩"].ToString(),
-                                    p4ProcessName = item["코팅"].ToString(),
-                                    p5ProcessName = item["스트레인딩"].ToString(),
-                                    p6ProcessName = item["절단"].ToString(),
-                                    p7ProcessName = item["사출"].ToString(),
-                                    p8ProcessName = item["HOOD조립"].ToString(),
-                                    p9ProcessName = item["F/F&TL조립"].ToString(),
-                                    p10ProcessName = item["검사"].ToString(),
+                                    ProductGrpID = item["ProductGrpID"] as string,
+                                    ProductGrpName = item["ProductGrpName"] as string,
+                                    OrderID = item["OrderID"].ToString(),
+                                    OrderNo = item["OrderNO"] as string,
+                                    CustomID = item["CustomID"] as string,
+                                    KCustom = item["KCustom"] as string,
+
+                                    p1ProcessID = item["ProcessID1"].ToString(),
+                                    p1StartWorkDate = item["ProcessWorkDate1"].ToString(),
+                                    p1StartWorkDTime = item["ProcessWorkStartTime1"].ToString(),
+                                    p1WorkQty = item["ProcessWorkQty1"].ToString(),
+
+                                    p2ProcessID = item["ProcessID2"].ToString(),
+                                    p2StartWorkDate = item["ProcessWorkDate2"].ToString(),
+                                    p2StartWorkDTime = item["ProcessWorkStartTime2"].ToString(),
+                                    p2WorkQty = item["ProcessWorkQty2"].ToString(),
+
+                                    p3ProcessID = item["ProcessID3"].ToString(),
+                                    p3StartWorkDate = item["ProcessWorkDate3"].ToString(),
+                                    p3StartWorkDTime = item["ProcessWorkStartTime3"].ToString(),
+                                    p3WorkQty = item["ProcessWorkQty3"].ToString(),
+
+                                    p4ProcessID = item["ProcessID4"].ToString(),
+                                    p4StartWorkDate = item["ProcessWorkDate4"].ToString(),
+                                    p4StartWorkDTime = item["ProcessWorkStartTime4"].ToString(),
+                                    p4WorkQty = item["ProcessWorkQty4"].ToString(),
+
+                                    p5ProcessID = item["ProcessID5"].ToString(),
+                                    p5StartWorkDate = item["ProcessWorkDate5"].ToString(),
+                                    p5StartWorkDTime = item["ProcessWorkStartTime5"].ToString(),
+                                    p5WorkQty = item["ProcessWorkQty5"].ToString(),
+
+                                    p6ProcessID = item["ProcessID6"].ToString(),
+                                    p6StartWorkDate = item["ProcessWorkDate6"].ToString(),
+                                    p6StartWorkDTime = item["ProcessWorkStartTime6"].ToString(),
+                                    p6WorkQty = item["ProcessWorkQty6"].ToString(),
+
+                                    p7ProcessID = item["ProcessID7"].ToString(),
+                                    p7StartWorkDate = item["ProcessWorkDate7"].ToString(),
+                                    p7StartWorkDTime = item["ProcessWorkStartTime7"].ToString(),
+                                    p7WorkQty = item["ProcessWorkQty7"].ToString(),
+
+                                    p8ProcessID = item["ProcessID8"].ToString(),
+                                    p8StartWorkDate = item["ProcessWorkDate8"].ToString(),
+                                    p8StartWorkDTime = item["ProcessWorkStartTime8"].ToString(),
+                                    p8WorkQty = item["ProcessWorkQty8"].ToString(),
+
+                                    p9ProcessID = item["ProcessID9"].ToString(),
+                                    p9StartWorkDate = item["ProcessWorkDate9"].ToString(),
+                                    p9StartWorkDTime = item["ProcessWorkStartTime9"].ToString(),
+                                    p9WorkQty = item["ProcessWorkQty9"].ToString(),
+
+                                    p10ProcessID = item["ProcessID10"].ToString(),
+                                    p10StartWorkDate = item["ProcessWorkDate10"].ToString(),
+                                    p10StartWorkDTime = item["ProcessWorkStartTime10"].ToString(),
+                                    p10WorkQty = item["ProcessWorkQty10"].ToString(),
+
                                     Num = i + 1,
+
                                 };
 
-                                if (item["cls"].ToString() == "1" || item["cls"].ToString() == "2")
+
+                                if (Window_OrderClose_DTO.OrderID_CV == null)
                                 {
-                                    Window_OrderClose_DTO.RowColor = true;
-                                }
-                                else
-                                {
-                                    Window_OrderClose_DTO.RowColor = false;
+                                    Window_OrderClose_DTO.OrderID_CV = Window_OrderClose_DTO.OrderID.Substring(0, 4) + "-" +
+                                    Window_OrderClose_DTO.OrderID.Substring(4, 2) + "-" + Window_OrderClose_DTO.OrderID.Substring(6, 4);
                                 }
 
+                                //Window_OrderClose_DTO.p1DayAndTime = item["p1ProcessWorkDate"].ToString().Substring(4, 2) + "-" + item["p1ProcessWorkDate"].ToString().Substring(6) + " "
+                                //   + item["p1ProcessStartTime"].ToString().Substring(0, 2) + ":" + item["p1ProcessStartTime"].ToString().Substring(2);
+
+                                string dayAndTimeProperty = $"p{j}DayAndTime";
+                                string processWorkDateProperty = $"ProcessWorkDate{j}";
+                                string processWorkStartTimeProperty = $"ProcessWorkStartTime{j}";
+
+                                string processWorkDate = item[processWorkDateProperty].ToString();
+                                string processWorkStartTime = item[processWorkStartTimeProperty].ToString();
+
+                                if((processWorkDate != null && processWorkStartTime != null) && (processWorkDate!="" && processWorkStartTime != ""))
+                                {
+                                    string dayAndTime = processWorkDate.Substring(4, 2) + "-" + processWorkDate.Substring(6) + " "
+                                                    + processWorkStartTime.Substring(0, 2) + ":" + processWorkStartTime.Substring(2);
+
+                                    Window_OrderClose_DTO.GetType().GetProperty(dayAndTimeProperty).SetValue(Window_OrderClose_DTO, dayAndTime);
+                                }
+
+                                j++;
+
                                 dgdMain.Items.Add(Window_OrderClose_DTO);
-                            }                            
+                            }
                         }
 
 
@@ -930,7 +997,7 @@ namespace WizMes_HanYoung
                                 ////}
                                 #endregion
 
-                                if (Window_OrderClose_DTO.OrderID_CV != null)
+                                if (Window_OrderClose_DTO.OrderID_CV == null)
                                 {
                                     Window_OrderClose_DTO.OrderID_CV = Window_OrderClose_DTO.OrderID.Substring(0, 4) + "-" +
                                     Window_OrderClose_DTO.OrderID.Substring(4, 2) + "-" + Window_OrderClose_DTO.OrderID.Substring(6, 4);
@@ -1066,37 +1133,47 @@ namespace WizMes_HanYoung
 
                         }
 
-                      
+
+                        
 
 
-                        ////if (chkProductGrpID.IsChecked == true && cboProductGrpID.SelectedValue.ToString() != "99")
-                        ////{
+                        //UNION ALL로 총합 보여주는 화면처럼 가로로 보여줄려고 했던 것
+                        
+                        //if (chkProductGrpID.IsChecked == true && cboProductGrpID.SelectedValue.ToString() != "99")
+                        //{
+                        //    foreach (DataRow item in drc)
+                        //    {
+                        //        var Window_OrderClose_DTO = new Win_ord_OrderClose_U_CodeView()
+                        //        {
+                        //            IsCheck = false,
+                        //            cls = item["cls"].ToString(),
+                        //            ProductGrpName = item["ProductGrpName"].ToString(),
+                        //            p1ProcessName = item["신선"].ToString(),
+                        //            p2ProcessName = item["압연"].ToString(),
+                        //            p3ProcessName = item["와인딩"].ToString(),
+                        //            p4ProcessName = item["코팅"].ToString(),
+                        //            p5ProcessName = item["스트레인딩"].ToString(),
+                        //            p6ProcessName = item["절단"].ToString(),
+                        //            p7ProcessName = item["사출"].ToString(),
+                        //            p8ProcessName = item["HOOD조립"].ToString(),
+                        //            p9ProcessName = item["F/F&TL조립"].ToString(),
+                        //            p10ProcessName = item["검사"].ToString(),
+                        //            Num = i + 1,
+                        //        };
 
-                        ////    foreach (DataRow item in drc)
-                        ////    {
+                        //        if (item["cls"].ToString() == "1" || item["cls"].ToString() == "2")
+                        //        {
+                        //            Window_OrderClose_DTO.RowColor = true;
+                        //        }
+                        //        else
+                        //        {
+                        //            Window_OrderClose_DTO.RowColor = false;
+                        //        }
 
-                        ////        var Window_OrderClose_DTO = new Win_ord_OrderClose_U_CodeView()
-                        ////        {
+                        //        dgdMain.Items.Add(Window_OrderClose_DTO);
+                        //    }
+                        //}
 
-                        ////            IsCheck = false,
-                        ////            cls = item["cls"].ToString(),
-                        ////            ProductGrpName = item["ProductGrpName"].ToString(),
-                        ////            p1ProcessName = item["신선"].ToString(),
-                        ////            p2ProcessName = item["압연"].ToString(),
-                        ////            p3ProcessName = item["와인딩"].ToString(),
-                        ////            p4ProcessName = item["코팅"].ToString(),
-                        ////            p5ProcessName = item["스트레인딩"].ToString(),
-                        ////            p6ProcessName = item["절단"].ToString(),
-                        ////            p7ProcessName = item["사출"].ToString(),
-                        ////            p8ProcessName = item["HOOD조립"].ToString(),
-                        ////            p9ProcessName = item["F/F&TL조립"].ToString(),
-                        ////            p10ProcessName = item["검사"].ToString(),
-
-                        ////            Num = i + 1,
-
-                        ////        };
-                        ////    }
-                        ////}
 
 
                         if (chkProductGrpID.IsChecked == true && cboProductGrpID.SelectedValue.ToString() != "99")
@@ -1160,15 +1237,15 @@ namespace WizMes_HanYoung
 
         private void HideColumns()
         {
-            dgdtpechkChoice.Visibility = Visibility.Hidden;
+            //dgdtpechkChoice.Visibility = Visibility.Hidden;
 
-            var column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "관리번호");
-            if (column != null) column.Visibility = Visibility.Hidden;
+            //var column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "관리번호");
+            //if (column != null) column.Visibility = Visibility.Hidden;
 
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "OrderNo");
-            if (column != null) column.Visibility = Visibility.Hidden;
+            //column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "OrderNo");
+            //if (column != null) column.Visibility = Visibility.Hidden;
 
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "거래처");
+            var column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "거래처");
             if (column != null) column.Visibility = Visibility.Hidden;
 
             column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "품번");
@@ -1218,18 +1295,18 @@ namespace WizMes_HanYoung
             //고정 공정컬럼
             for (int i = 0; i < 10; i++)
             {
-                string columnName = "dgdtxtProcess"  + i;
+                //string columnName = "dgdtxtProcess"  + i;
                 string columnName1 = "dgdtxtProcess" + i + "WorkDateTime";
                 string columnName2 = "dgdtxtProcess" + i + "UnitClss";
                 string columnName3 = "dgdtxtProcess" + i + "WorkQty";
 
-                var columninner = this.FindName(columnName) as DataGridTextColumn;
+                //var columninner = this.FindName(columnName) as DataGridTextColumn;
                 var columninner1 = this.FindName(columnName1) as DataGridTextColumn;
                 var columninner2 = this.FindName(columnName2) as DataGridTextColumn;
                 var columninner3 = this.FindName(columnName3) as DataGridTextColumn;
 
-                if (columninner != null)
-                    columninner.Visibility = Visibility.Visible;
+                //if (columninner != null)
+                //   columninner.Visibility = Visibility.Visible;
                 if (columninner1 != null)
                     columninner1.Visibility = Visibility.Visible;
                 if (columninner2 != null)
@@ -1246,15 +1323,15 @@ namespace WizMes_HanYoung
 
         private void ShowColumns()
         {
-            dgdtpechkChoice.Visibility = Visibility.Visible;
+            //dgdtpechkChoice.Visibility = Visibility.Visible;
 
-            var column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "관리번호");
-            if (column != null) column.Visibility = Visibility.Visible;
+            //var column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "관리번호");
+            //if (column != null) column.Visibility = Visibility.Visible;
 
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "OrderNo");
-            if (column != null) column.Visibility = Visibility.Visible;
+            //column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "OrderNo");
+            //if (column != null) column.Visibility = Visibility.Visible;
 
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "거래처");
+            var column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "거래처");
             if (column != null) column.Visibility = Visibility.Visible;
 
             column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "품번");
@@ -1304,18 +1381,18 @@ namespace WizMes_HanYoung
 
             for (int i = 0; i < 10; i++)
             {
-                string columnName = "dgdtxtProcess" + i;
+                //string columnName = "dgdtxtProcess" + i;
                 string columnName1 = "dgdtxtProcess" + i + "WorkDateTime";
                 string columnName2 = "dgdtxtProcess" + i + "UnitClss";
                 string columnName3 = "dgdtxtProcess" + i + "WorkQty";
 
-                var columninner = this.FindName(columnName) as DataGridTextColumn;
+                //var columninner = this.FindName(columnName) as DataGridTextColumn;
                 var columninner1 = this.FindName(columnName1) as DataGridTextColumn;
                 var columninner2 = this.FindName(columnName2) as DataGridTextColumn;
                 var columninner3 = this.FindName(columnName3) as DataGridTextColumn;
 
-                if (columninner != null)
-                    columninner.Visibility = Visibility.Hidden;
+                //if (columninner != null)
+                //    columninner.Visibility = Visibility.Hidden;
                 if (columninner1 != null)
                     columninner1.Visibility = Visibility.Hidden;
                 if (columninner2 != null)
@@ -1832,16 +1909,16 @@ namespace WizMes_HanYoung
 
         private void lblProductGrpID_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if(chkProductGrpID.IsChecked == true)
-            {
-                chkProductGrpID.IsChecked = false;
-                cboProductGrpID.IsEnabled = false;
-            }
-            else
-            {
-                chkProductGrpID.IsChecked = true;
-                cboProductGrpID.IsEnabled = true;
-            }
+            //if(chkProductGrpID.IsChecked == true)
+            //{
+            //    chkProductGrpID.IsChecked = false;
+            //    cboProductGrpID.IsEnabled = false;
+            //}
+            //else
+            //{
+            //    chkProductGrpID.IsChecked = true;
+            //    cboProductGrpID.IsEnabled = true;
+            //}
         }
 
         private void ChkProductGrpID_Checked(object sender, RoutedEventArgs e)
@@ -1862,7 +1939,23 @@ namespace WizMes_HanYoung
             }
         }
 
-       
+        private void msgProductGrpID_MouseEnter(object sender, MouseEventArgs e)
+        {
+            toolTip.Content = "제품군을 '기타'로 설정시\r\n처음 화면 열 설정내용으로\r\n보실 수 있습니다.";
+
+            // ToolTip 위치 설정 (이미지 아래쪽에 표시)
+            Image img = sender as Image;
+            Point position = img.PointToScreen(new Point(img.ActualWidth / 2, img.ActualHeight));
+            toolTip.PlacementRectangle = new Rect(position.X, position.Y, 0, 0);
+
+            // ToolTip 표시
+            toolTip.IsOpen = true;
+        }
+
+        private void msgProductGrpID_MouseLeave(object sender, MouseEventArgs e)
+        {
+            toolTip.IsOpen = false;
+        }
     }
 
     class Win_ord_OrderClose_U_CodeView : BaseView
@@ -1901,11 +1994,14 @@ namespace WizMes_HanYoung
         public string BuyerModelID { get; set; }
         public string BuyerArticleNo { get; set; }
         public string UnitClssName { get; set; }
+
+
         public string p1StartWorkDate { get; set; }
         public string p1StartWorkDTime { get; set; }
         public string p1WorkQty { get; set; }
         public string p1ProcessID { get; set; }
         public string p1ProcessName { get; set; }
+        public string p1DayAndTime { get; set; }
 
 
         public string p2StartWorkDate { get; set; }
@@ -1913,54 +2009,66 @@ namespace WizMes_HanYoung
         public string p2WorkQty { get; set; }
         public string p2ProcessID { get; set; }
         public string p2ProcessName { get; set; }
+        public string p2DayAndTime { get; set; }
+
 
         public string p3StartWorkDate { get; set; }
         public string p3StartWorkDTime { get; set; }
         public string p3WorkQty { get; set; }
         public string p3ProcessID { get; set; }
         public string p3ProcessName { get; set; }
+        public string p3DayAndTime { get; set; }
+
 
         public string p4StartWorkDate { get; set; }
         public string p4StartWorkDTime { get; set; }
         public string p4WorkQty { get; set; }
         public string p4ProcessID { get; set; }
         public string p4ProcessName { get; set; }
+        public string p4DayAndTime { get; set; }
+
 
         public string p5StartWorkDate { get; set; }
         public string p5StartWorkDTime { get; set; }
         public string p5WorkQty { get; set; }
         public string p5ProcessID { get; set; }
         public string p5ProcessName { get; set; }
+        public string p5DayAndTime { get; set; }
 
         public string p6StartWorkDate { get; set; }
         public string p6StartWorkDTime { get; set; }
         public string p6WorkQty { get; set; }
         public string p6ProcessID { get; set; }
         public string p6ProcessName { get; set; }
+        public string p6DayAndTime { get; set; }
 
         public string p7StartWorkDate { get; set; }
         public string p7StartWorkDTime { get; set; }
         public string p7WorkQty { get; set; }
         public string p7ProcessID { get; set; }
         public string p7ProcessName { get; set; }
+        public string p7DayAndTime { get; set; }
 
         public string p8StartWorkDate { get; set; }
         public string p8StartWorkDTime { get; set; }
         public string p8WorkQty { get; set; }
         public string p8ProcessID { get; set; }
         public string p8ProcessName { get; set; }
+        public string p8DayAndTime { get; set; }
 
         public string p9StartWorkDate { get; set; }
         public string p9StartWorkDTime { get; set; }
         public string p9WorkQty { get; set; }
         public string p9ProcessID { get; set; }
         public string p9ProcessName { get; set; }
+        public string p9DayAndTime { get; set; }
 
         public string p10StartWorkDate { get; set; }
         public string p10StartWorkDTime { get; set; }
         public string p10WorkQty { get; set; }
         public string p10ProcessID { get; set; }
         public string p10ProcessName { get; set; }
+        public string p10DayAndTime { get; set; }
 
         public string DayAndTime { get; set; }
         public string DvlyDateEdit { get; set; }

@@ -282,7 +282,7 @@
                     <StackPanel Style="{DynamicResource StackPanelInLabel}">
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                             <CheckBox x:Name="chkProductGrpID" Checked="ChkProductGrpID_Checked" 
-                                      Unchecked="ChkProductGrpID_Unchecked"  />
+                                      Unchecked="ChkProductGrpID_Unchecked"  IsEnabled="False"/>
                         </Viewbox>
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                             <TextBlock Text="제품군" Style="{DynamicResource TextBlockInViewBoxSearch}" />
@@ -290,6 +290,10 @@
                     </StackPanel>
                 </Label>
                 <ComboBox x:Name="cboProductGrpID" Grid.Column="1" Style="{DynamicResource ComboBoxSearchString}" IsEnabled="False"/>
+                <Image x:Name="msgProductGrpID" Source="{DynamicResource btiInfomation}" Grid.Column="2" 
+                       Style="{DynamicResource imgSize}" VerticalAlignment="Center"
+                       MouseEnter="msgProductGrpID_MouseEnter"
+                       MouseLeave="msgProductGrpID_MouseLeave"/>
             </Grid>
 
             <Grid Grid.Column="4" Grid.RowSpan="4" >
@@ -417,99 +421,99 @@
                     <!--신선-->
                     <DataGridTextColumn x:Name="dgdtxtProcess1" Header="신선" Width="auto" Binding="{Binding p1ProcessName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}"  Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess1WorkDateTime" Header="신선/투입일" Width="auto" Binding="{Binding p1ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess1WorkDateTime" Header="신선/투입일" Width="auto" Binding="{Binding p1DayAndTime,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}"  Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess1UnitClss" Header="신선/투입단위" Width="auto" Binding="{Binding p1ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess1UnitClss" Header="신선/투입단위" Width="auto" Binding="{Binding UnitClssName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}"  Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess1WorkQty" Header="신선/투입수량" Width="auto" Binding="{Binding p1ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess1WorkQty" Header="신선/투입수량" Width="auto" Binding="{Binding p1WorkQty,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}"  Visibility="Hidden"/>
                     
                     <!--압연-->
                     <DataGridTextColumn x:Name="dgdtxtProcess2" Header="압연" Width="auto" Binding="{Binding p2ProcessName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess2WorkDateTime" Header="압연/투입일" Width="auto" Binding="{Binding p2ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess2WorkDateTime" Header="압연/투입일" Width="auto" Binding="{Binding p2DayAndTime,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess2UnitClss" Header="압연/투입단위" Width="auto" Binding="{Binding p2ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess2UnitClss" Header="압연/투입단위" Width="auto" Binding="{Binding UnitClssName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess2WorkQty" Header="압연/투입수량" Width="auto" Binding="{Binding p2ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess2WorkQty" Header="압연/투입수량" Width="auto" Binding="{Binding p2WorkQty,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
                     
                     <!--와인딩-->
                     <DataGridTextColumn x:Name="dgdtxtProcess3" Header="와인딩" Width="auto" Binding="{Binding p3ProcessName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess3WorkDateTime" Header="와인딩/투입일" Width="auto" Binding="{Binding p3ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess3WorkDateTime" Header="와인딩/투입일" Width="auto" Binding="{Binding p3DayAndTime,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess3UnitClss" Header="와인딩/투입단위" Width="auto" Binding="{Binding p3ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess3UnitClss" Header="와인딩/투입단위" Width="auto" Binding="{Binding UnitClssName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess3WorkQty" Header="와인딩/투입수량" Width="auto" Binding="{Binding p3ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess3WorkQty" Header="와인딩/투입수량" Width="auto" Binding="{Binding p3WorkQty,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
                     
                     <!--코팅-->
                     <DataGridTextColumn x:Name="dgdtxtProcess4" Header="코팅" Width="auto" Binding="{Binding p4ProcessName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess4WorkDateTime" Header="코팅/투입일" Width="auto" Binding="{Binding p4ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess4WorkDateTime" Header="코팅/투입일" Width="auto" Binding="{Binding p4DayAndTime,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess4UnitClss" Header="코팅/투입단위" Width="auto" Binding="{Binding p4ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess4UnitClss" Header="코팅/투입단위" Width="auto" Binding="{Binding UnitClssName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess4WorkQty" Header="코팅/투입수량" Width="auto" Binding="{Binding p4ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess4WorkQty" Header="코팅/투입수량" Width="auto" Binding="{Binding p4WorkQty,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
                     
                     <!--스트레인딩-->
                     <DataGridTextColumn x:Name="dgdtxtProcess5" Header="스트레인딩" Width="auto" Binding="{Binding p5ProcessName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess5WorkDateTime" Header="스트레인딩/투입일" Width="auto" Binding="{Binding p5ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess5WorkDateTime" Header="스트레인딩/투입일" Width="auto" Binding="{Binding p5DayAndTime,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess5UnitClss" Header="스트레인딩/투입단위" Width="auto" Binding="{Binding p5ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess5UnitClss" Header="스트레인딩/투입단위" Width="auto" Binding="{Binding UnitClssName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess5WorkQty" Header="스트레인딩/투입수량" Width="auto" Binding="{Binding p5ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess5WorkQty" Header="스트레인딩/투입수량" Width="auto" Binding="{Binding p5WorkQty,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
                     
                     <!--절단-->
                     <DataGridTextColumn x:Name="dgdtxtProcess6" Header="절단" Width="auto" Binding="{Binding p6ProcessName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess6WorkDateTime" Header="절단/투입일시" Width="auto" Binding="{Binding p6ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess6WorkDateTime" Header="절단/투입일시" Width="auto" Binding="{Binding p6DayAndTime,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess6UnitClss" Header="절단/투입단위" Width="auto" Binding="{Binding p6ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess6UnitClss" Header="절단/투입단위" Width="auto" Binding="{Binding UnitClssName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess6WorkQty" Header="절단/투입수량" Width="auto" Binding="{Binding p6ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess6WorkQty" Header="절단/투입수량" Width="auto" Binding="{Binding p6WorkQty,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
                     
                     <!--사출-->
                     <DataGridTextColumn x:Name="dgdtxtProcess7" Header="사출" Width="auto" Binding="{Binding p7ProcessName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess7WorkDateTime" Header="사출/투입일시" Width="auto" Binding="{Binding p7ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess7WorkDateTime" Header="사출/투입일시" Width="auto" Binding="{Binding p7DayAndTime,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess7UnitClss" Header="사출/투입단위" Width="auto" Binding="{Binding p7ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess7UnitClss" Header="사출/투입단위" Width="auto" Binding="{Binding UnitClssName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess7WorkQty" Header="사출/투입수량" Width="auto" Binding="{Binding p7ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess7WorkQty" Header="사출/투입수량" Width="auto" Binding="{Binding p7WorkQty,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
                     
                     <!--HOOD조립-->
                     <DataGridTextColumn x:Name="dgdtxtProcess8" Header="HOOD조립" Width="auto" Binding="{Binding p8ProcessName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess8WorkDateTime" Header="HOOD조립/투입일시" Width="auto" Binding="{Binding p8ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess8WorkDateTime" Header="HOOD조립/투입일시" Width="auto" Binding="{Binding p8DayAndTime,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess8UnitClss" Header="HOOD조립/투입단위" Width="auto" Binding="{Binding p8ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess8UnitClss" Header="HOOD조립/투입단위" Width="auto" Binding="{Binding UnitClssName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess8WorkQty" Header="HOOD조립/투입수량" Width="auto" Binding="{Binding p8ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess8WorkQty" Header="HOOD조립/투입수량" Width="auto" Binding="{Binding p8WorkQty,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
                     <!--F/F,TL조립-->
                     <DataGridTextColumn x:Name="dgdtxtProcess9" Header="F/F,TL조립" Width="auto" Binding="{Binding p9ProcessName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess9WorkDateTime" Header="F/F,TL조립" Width="auto" Binding="{Binding p9ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess9WorkDateTime" Header="F/F,TL조립" Width="auto" Binding="{Binding p9DayAndTime,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess9UnitClss" Header="F/F,TL조립" Width="auto" Binding="{Binding p9ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess9UnitClss" Header="F/F,TL조립" Width="auto" Binding="{Binding UnitClssName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess9WorkQty" Header="F/F,TL조립" Width="auto" Binding="{Binding p9ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess9WorkQty" Header="F/F,TL조립" Width="auto" Binding="{Binding p9WorkQty,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
                     <!--검사-->
                     <DataGridTextColumn x:Name="dgdtxtProcess10" Header="검사" Width="auto" Binding="{Binding p10ProcessName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess10WorkDateTime" Header="검사/투입일시" Width="auto" Binding="{Binding p10ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess10WorkDateTime" Header="검사/투입일시" Width="auto" Binding="{Binding p10DayAndTime,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess10UnitClss" Header="검사/투입단위" Width="auto" Binding="{Binding p10ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess10UnitClss" Header="검사/투입단위" Width="auto" Binding="{Binding UnitClssName,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
-                    <DataGridTextColumn x:Name="dgdtxtProcess10WorkQty" Header="검사/투입수량" Width="auto" Binding="{Binding p10ProcessName,StringFormat={}{0:N0}}" 
+                    <DataGridTextColumn x:Name="dgdtxtProcess10WorkQty" Header="검사/투입수량" Width="auto" Binding="{Binding p10WorkQty,StringFormat={}{0:N0}}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}" Visibility="Hidden"/>
                     
                 </DataGrid.Columns>
