@@ -2108,7 +2108,8 @@ namespace WizMes_HanYoung
 
         private void msgProductGrpID_MouseEnter(object sender, MouseEventArgs e)
         {
-            toolTip.Content = "제품군을 '기타'로 설정시\r\n처음 화면 열 설정내용으로\r\n보실 수 있습니다.";
+            toolTip.Content = "제품군을 '기타'로 설정시\r\n처음 화면 열 설정내용으로\r\n보실 수 있습니다.\r\n\r\n" +
+                "제품군을 '기타'이외로 설정 후 검색하면 \r\n필터링 기능을 이용하여 화면에 보이는 열을\r\n조정할 수 있습니다.";
 
             // ToolTip 위치 설정 (이미지 아래쪽에 표시)
             Image img = sender as Image;
