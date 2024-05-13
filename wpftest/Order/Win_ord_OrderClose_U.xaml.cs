@@ -534,7 +534,7 @@ namespace WizMes_HanYoung
                 {
                     if (chkrbnArticleGrpFilter.IsChecked == true && rbnDayAndTime.IsChecked == true && rbnDayAndTime.IsEnabled == true)
                     {
-                        ShowColums_rbnWorkQtyClicked();
+                        ShowColums_ALL();
                         HideColums_rbnDayAndTimeClicked();
                     }
                   
@@ -543,7 +543,7 @@ namespace WizMes_HanYoung
                 {
                     if (chkrbnArticleGrpFilter.IsChecked == true && rbnWorkQty.IsChecked == true && rbnWorkQty.IsEnabled == true)
                     {
-                        ShowColums_rbnDayAndTimeClicked();
+                        ShowColums_ALL();
                         HideColums_rbnWorkQtyClicked();
                     }
                  
@@ -585,7 +585,7 @@ namespace WizMes_HanYoung
                 "신선/투입단위",  "신선/투입일",
                 "압연/투입단위",  "압연/투입일",
                 "와인딩/투입단위","와인딩/투입일",
-                "코팅/투입단위", "코팅/투입일시",
+                "코팅/투입단위", "코팅/투입일",
                 "스트레인딩/투입단위", "스트레인딩/투입일",
                 "절단/투입단위", "절단/투입일",
                 "사출/투입단위", "사출/투입일",
@@ -880,7 +880,7 @@ namespace WizMes_HanYoung
 
                         if (chkProductGrpID.IsChecked == true && cboProductGrpID.SelectedValue.ToString() != "99")
                         {
-                            int j = 1;
+                         
                             foreach (DataRow item in drc)
                             {
                                 var Window_OrderClose_DTO = new Win_ord_OrderClose_U_CodeView()
@@ -958,23 +958,25 @@ namespace WizMes_HanYoung
                                 //Window_OrderClose_DTO.p1DayAndTime = item["p1ProcessWorkDate"].ToString().Substring(4, 2) + "-" + item["p1ProcessWorkDate"].ToString().Substring(6) + " "
                                 //   + item["p1ProcessStartTime"].ToString().Substring(0, 2) + ":" + item["p1ProcessStartTime"].ToString().Substring(2);
 
-                                string dayAndTimeProperty = $"p{j}DayAndTime";
-                                string processWorkDateProperty = $"ProcessWorkDate{j}";
-                                string processWorkStartTimeProperty = $"ProcessWorkStartTime{j}";
-
-                                string processWorkDate = item[processWorkDateProperty].ToString();
-                                string processWorkStartTime = item[processWorkStartTimeProperty].ToString();
-
-                                if((processWorkDate != null && processWorkStartTime != null) && (processWorkDate!="" && processWorkStartTime != ""))
+                                for(int j= 1; j < 11; j++)
                                 {
-                                    string dayAndTime = processWorkDate.Substring(4, 2) + "-" + processWorkDate.Substring(6) + " "
-                                                    + processWorkStartTime.Substring(0, 2) + ":" + processWorkStartTime.Substring(2);
+                                    string dayAndTimeProperty = $"p{j}DayAndTime";
+                                    string processWorkDateProperty = $"ProcessWorkDate{j}";
+                                    string processWorkStartTimeProperty = $"ProcessWorkStartTime{j}";
 
-                                    Window_OrderClose_DTO.GetType().GetProperty(dayAndTimeProperty).SetValue(Window_OrderClose_DTO, dayAndTime);
-                                }
+                                    string processWorkDate = item[processWorkDateProperty].ToString();
+                                    string processWorkStartTime = item[processWorkStartTimeProperty].ToString();
 
-                                j++;
+                                    if ((processWorkDate != null && processWorkStartTime != null) && (processWorkDate != "" && processWorkStartTime != ""))
+                                    {
+                                        string dayAndTime = processWorkDate.Substring(4, 2) + "-" + processWorkDate.Substring(6) + " "
+                                                        + processWorkStartTime.Substring(0, 2) + ":" + processWorkStartTime.Substring(2);
 
+                                        Window_OrderClose_DTO.GetType().GetProperty(dayAndTimeProperty).SetValue(Window_OrderClose_DTO, dayAndTime);
+                                    }
+                                }                               
+
+                          
                                 dgdMain.Items.Add(Window_OrderClose_DTO);
                             }
                         }

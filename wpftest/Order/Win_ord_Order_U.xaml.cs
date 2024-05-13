@@ -1821,6 +1821,46 @@ namespace WizMes_HanYoung
         {
             dtpDvlyDate.IsEnabled = false;
         }
+        
+        //최상위는 찾았는데 적용이 힘드네...
+        private void FindParentID(string strArticleID)
+        {
+            //if (cboParentArticleID.Items.Count > 0)
+            //    cboParentArticleID.Items.Clear();            
+
+            try
+            {
+                Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+                sqlParameter.Add("ArticleID", strArticleID);
+                DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Order_sFindParentArticleID", sqlParameter, false);
+
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataTable dt = ds.Tables[0];
+                    if (dt.Rows.Count > 0)
+                    {
+                        List<string[]> strArray = new List<string[]>();
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            strArray.Add(new string[] { row["ArticleID"].ToString(), row["BuyerArticleNo"].ToString() });
+                        }
+                        ObservableCollection<CodeView> ovcComboSource = ComboBoxUtil.Instance.Direct_SetComboBox(strArray);
+                        cboParentArticleID.ItemsSource = ovcComboSource;
+                        cboParentArticleID.DisplayMemberPath = "code_name";
+                        cboParentArticleID.SelectedValuePath = "code_id";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("오류 발생, 오류 내용 : " + ex.ToString());
+            }
+            finally
+            {
+                DataStore.Instance.CloseConnection();
+            }
+
+        }
 
         private void FillNeedStockQty(string strArticleID, string strQty)
         {
@@ -2109,7 +2149,10 @@ namespace WizMes_HanYoung
 
                 if(OrderInfo != null)
                 FillNeedStockQty(OrderInfo.ArticleID, txtAmount.Text.Replace(",", ""));
-
+                //if(OrderInfo != null &&OrderInfo.ArticleID != null)
+                //{
+                //    FindParentID(OrderInfo.ArticleID);
+                //}
             }
             catch (Exception ee)
             {

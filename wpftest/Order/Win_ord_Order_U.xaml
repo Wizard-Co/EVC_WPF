@@ -413,6 +413,7 @@
                             <DataGridTextColumn Header="" Binding="{Binding Num}" />
                             <DataGridTextColumn Header="완료" Visibility="Hidden"/>
                             <DataGridTextColumn x:Name="dgdtxtOrderID" Header="관리번호" Binding="{Binding OrderID}" />
+                            <DataGridTextColumn x:Name="dgdtxtAcptDate" Header="수주일자" Binding="{Binding AcptDate_CV}"/>
                             <DataGridTextColumn x:Name="dgdtxtOrderNo" Header="Order No" Binding="{Binding OrderNO}" Visibility="Hidden" />
                             <DataGridTextColumn Header="거래처명" Binding="{Binding KCustom}" />
                             <DataGridTextColumn Header="품  번" Binding="{Binding BuyerArticleNo}" />
@@ -877,12 +878,14 @@
                                 <ColumnDefinition Width="12*" />
                                 <ColumnDefinition Width="35*" />
                                 <ColumnDefinition Width="12*" />
+                                <!--<ColumnDefinition Width="12*" />-->
                             </Grid.ColumnDefinitions>
 
                            
 
                             <Button x:Name="btnNeedStuff" Grid.Row="0" Grid.Column="1" Margin="1"  Visibility="Visible"
                                     Content="자재 필요량 조회" Click="btnNeedStuff_Click" IsEnabled="False"/>
+                            <ComboBox x:Name="cboParentArticleID" Grid.Row="0" Grid.Column="1" Height="20" VerticalAlignment="Bottom" Visibility="Hidden"/>
                             <DataGrid x:Name="dgdNeedStuff" Grid.Row="1" Grid.Column="0"  Style="{DynamicResource DataGridSet1}" Visibility="Visible"
                                       Grid.ColumnSpan="3" Margin="1" SizeChanged="DataGrid_SizeChange" >
                                 <DataGrid.Columns>
