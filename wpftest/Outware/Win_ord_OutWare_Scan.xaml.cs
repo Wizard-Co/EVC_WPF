@@ -85,6 +85,10 @@ namespace WizMes_HanYoung
                 dtpFromDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 dtpToDate.Text = DateTime.Now.ToString("yyyy-MM-dd");   // 오늘 날짜 자동 반영
 
+                rbnOrderNumber.IsChecked = true;
+
+                rbnOrderNumber_Click(null, null);
+
                 CantBtnControl();
                 SetComboBox();
             }
@@ -574,6 +578,38 @@ namespace WizMes_HanYoung
                 dgdtxtcol_OrderNo.Visibility = Visibility.Visible;
             }
         }
+
+        private void Check_SwitchOrderNoAndReqID()
+        {
+            if (rbnOrderNumber.IsChecked == true) //관리번호 클릭
+            {
+        
+                txtOutwareReqID.Visibility = Visibility.Hidden;
+                btnOutwareReqID.Visibility = Visibility.Hidden;
+                lblReqID.Visibility = Visibility.Hidden;
+                txtOrderID.Visibility = Visibility.Visible;
+                btnOrderID.Visibility = Visibility.Visible;
+                lblOrderID.Visibility = Visibility.Visible;
+
+                dgdtxtcol_ManageNum.Visibility = Visibility.Visible;
+                dgdtxtcol_ReqID.Visibility = Visibility.Hidden;
+
+            }
+            else if (rbnReqID.IsChecked == true) //지시번호 클릭
+            {
+                txtOutwareReqID.Visibility = Visibility.Visible;
+                btnOutwareReqID.Visibility = Visibility.Visible;
+                lblReqID.Visibility = Visibility.Visible;
+                txtOrderID.Visibility = Visibility.Hidden;
+                btnOrderID.Visibility = Visibility.Hidden;
+                lblOrderID.Visibility = Visibility.Hidden;
+
+                dgdtxtcol_ManageNum.Visibility = Visibility.Hidden;
+                dgdtxtcol_ReqID.Visibility = Visibility.Visible;
+            }
+        }
+
+
         #endregion
 
         #region 버튼 모음
@@ -1221,12 +1257,70 @@ namespace WizMes_HanYoung
         }
         #endregion
 
+
         // 플러스 파인더 품명 이벤트
         string replyArticle = "";
-        private void plusFinder_replyArticle(string article)
+        string replyOrderQty = "";
+        string replyReqQty = "";
+        string replyReqRemainQty = "";
+
+        //private void plusFinder_replyArticle(string article)
+        //{
+        //    replyArticle = article;
+        //    pf.refEvent -= new PlusFinder.RefEventHandler(plusFinder_replyArticle);
+        //}
+
+        private void plusFinder_replyArticle(string data)
         {
-            replyArticle = article;
-            pf.refEvent -= new PlusFinder.RefEventHandler(plusFinder_replyArticle);
+            string[] values = data.Split(',');
+            if (values.Length > 0)
+                replyArticle = values[0].Trim();
+            else
+                replyArticle = string.Empty;
+        }
+
+        //플러스파인더에서 대리자 이벤트로 가져온 수주량
+        private void plusFinder_replyOrderQty(string data)
+        {
+            if(rbnReqID.IsChecked == true)
+            {
+             
+                string[] values = data.Split(','); 
+              
+                if (values.Length > 1)
+                    replyOrderQty = values[1].Trim();
+                else
+                    replyOrderQty = string.Empty;
+            }
+            else
+            {
+                string[] values = data.Split(',');
+                if (values.Length > 1)
+                    replyOrderQty = values[0].Trim();
+                else
+                    replyOrderQty = string.Empty;
+            }
+  
+        }
+
+        //플러스파인더에서 대리자 이벤트로 가져온 지시량
+        private void plusFinder_replyReqQty(string data)
+        {
+            string[] values = data.Split(',');
+            if (values.Length > 1)
+                replyReqQty = values[2].Trim();
+            else
+                replyReqQty = string.Empty;
+        }
+
+        //플러스파인더에서 대리자 이벤트로 가져온 남은지시량
+        private void plusFinder_replyReqRemainQty(string data)
+        {
+            string[] values = data.Split(',');
+            if (values.Length > 1)
+                replyReqRemainQty = values[3].Trim();
+            else
+                replyReqRemainQty = string.Empty;
         }
 
         #region 키다운 이동 모음
@@ -1238,10 +1332,13 @@ namespace WizMes_HanYoung
                 if (e.Key == Key.Enter)
                 {
                     pf.refEvent += new PlusFinder.RefEventHandler(plusFinder_replyArticle);
+                    pf.refEvent += new PlusFinder.RefEventHandler(plusFinder_replyOrderQty);
+                    pf.refEvent += new PlusFinder.RefEventHandler(plusFinder_replyReqQty);
+                    pf.refEvent += new PlusFinder.RefEventHandler(plusFinder_replyReqRemainQty);
                     pf.ReturnCode(txtOutwareReqID, 98, "");
                     //MessageBox.Show(txtOutwareReqID.Tag.ToString());
 
-                    if (txtOutwareReqID.Text.Length > 0)
+                    if (txtOutwareReqID.Text.Length > 0 )
                     {
                         //관리번호 기반_ 항목 뿌리기 작업.
                         string orderID = txtOutwareReqID.Tag != null ? txtOutwareReqID.Tag.ToString() : "";
@@ -1266,6 +1363,7 @@ namespace WizMes_HanYoung
             {
                 if (e.Key == Key.Enter)
                 {
+                    pf.refEvent += new PlusFinder.RefEventHandler(plusFinder_replyOrderQty);
                     pf.ReturnCode(txtOrderID, 4, "");
 
                     if (txtOrderID.Text.Length > 0)
@@ -1494,19 +1592,28 @@ namespace WizMes_HanYoung
             {
                 if (e.Key == Key.Enter)
                 {
-                    if (string.IsNullOrEmpty(txtOutwareReqID.Text))
+                    if(rbnReqID.IsChecked == true)
                     {
-                        MessageBox.Show("선택된 출고지시가 없습니다");
-                        return;
+                        
+                        if (string.IsNullOrEmpty(txtOutwareReqID.Text))
+                        {
+                            MessageBox.Show("선택된 출고지시가 없습니다");
+                            return;
+                        }
+                        if(txtOutwareReqID.Text.Length > 0)
+                        {
+
+                            if (ConvertInt(txtScanData.Text) > tmpRestQty || ConvertInt(txtScanData.Text) > RestOrderQty)
+                            {
+                                MessageBox.Show("출하량이 남은 지시수량" + "(" + RestOrderQty + ")" + "보다 많습니다");
+                                e.Handled = true;
+                                txtScanData.Text = string.Empty;
+                                return;
+                            }
+                        }
+
                     }
-                    
-                    if(ConvertInt(txtScanData.Text) > tmpRestQty || ConvertInt(txtScanData.Text) > RestOrderQty  )
-                    {
-                        MessageBox.Show("출하량이 남은 지시수량"+"("+RestOrderQty+")"+"보다 많습니다");
-                        e.Handled = true;
-                        txtScanData.Text = string.Empty;  
-                        return;
-                    }
+
 
                     if (tgnMoveByID.IsChecked == true)
                     {
@@ -2170,7 +2277,18 @@ namespace WizMes_HanYoung
             {
                 if (CheckData())
                 {
-                    string orderID = txtOutwareReqID.Tag != null ? txtOutwareReqID.Tag.ToString() : "";
+
+                    string orderID = string.Empty;
+
+                    if(txtOrderID.Tag != null)
+                    {
+                        orderID = txtOrderID.Tag.ToString();
+                    }
+                    else if(txtOutwareReqID.Tag != null)
+                    {
+                        orderID = txtOutwareReqID.Tag.ToString();
+                    }
+
 
                     #region 추가
 
@@ -2494,12 +2612,15 @@ namespace WizMes_HanYoung
                 //    MessageBox.Show("관리번호를 반드시 입력하세요.");
                 //    return false;
                 //}
-
-                if (txtOutwareReqID.Text == "")
+                if(rbnReqID.IsChecked == true)
                 {
-                    MessageBox.Show("출고지시번호를 반드시 입력하세요.");
-                    return false;
+                    if (txtOutwareReqID.Text == "")
+                    {
+                        MessageBox.Show("출고지시번호를 반드시 입력하세요.");
+                        return false;
+                    }
                 }
+            
 
                 if (txtKCustom.Text == "")
                 {
@@ -2534,7 +2655,7 @@ namespace WizMes_HanYoung
                 #region 재고보다 많이 입력하고 저장하면 중단
                 if (strFlag == "I" && tgnMoveByID.IsChecked == true)
                 {
-               ;
+               
 
                     for (int i = 0; i < dgdOutwareSub.Items.Count; i++)
                     {
@@ -2681,9 +2802,17 @@ namespace WizMes_HanYoung
 
                         txtBuyerArticleNo.Text = DR["BuyerArticleNo"].ToString();
                         orderSeq = DR["OrderSeq"].ToString();
-                        ReqQty = ConvertInt(DR["ReqQty"].ToString());
-                        OrderQty = ConvertInt(DR["OrderQty"].ToString());
-                        RestOrderQty = ConvertInt(DR["RestOrderQty"].ToString());
+
+                        if(rbnReqID.IsChecked == true && txtOutwareReqID.Text.Length > 0)
+                        {
+                            ReqQty = ConvertInt(replyReqQty);
+                            OrderQty = ConvertInt(replyOrderQty);
+                            RestOrderQty = ConvertInt(replyReqRemainQty);
+                        }
+                        else if(rbnOrderNumber.IsChecked == true && txtOrderID.Text.Length > 0)
+                        {
+                            OrderQty = ConvertInt(replyOrderQty);
+                        }
                     }
                 }
 
@@ -3499,59 +3628,122 @@ namespace WizMes_HanYoung
         //입력값으로 지시잔량 초과하는지 보기
         private bool ValidateInput(object sender, TextCompositionEventArgs e)
         {
+            if (tgnMoveByQty.IsChecked == true)
+            {
+                TextBox textBox = (TextBox)sender;
 
 
-            TextBox textBox = (TextBox)sender;
-          
+                //지시번호 파트
+                if (txtOutwareReqID.Text.Length > 0)
+                {          
 
-            // 현재 텍스트박스의 값과 새로 입력하려는 값을 합친 값을 계산합니다.
-            int tot = 0;
-            int.TryParse(txtOutQty.Text, out tot);
+                    // 현재 텍스트박스의 값과 새로 입력하려는 값을 합친 값을 계산합니다.
+                    int tot = 0;
+                    string cleanText = txtOutQty.Text.Replace(",", ""); // 쉼표 제거
+                    int.TryParse(cleanText, out tot);
 
-            int inputint = 0;
-            int.TryParse(textBox.Text, out inputint);
+                    int inputint = 0;
+                    int.TryParse(textBox.Text, out inputint);
 
-            tmpRestQty = RestOrderQty - tot;   //plusfinder로 가져온 지시잔량과 총량을 뺍니다      
+                    tmpRestQty = RestOrderQty - tot;   //plusfinder로 가져온 지시잔량과 총량을 뺍니다      
         
           
-            if(RestOrderQty > tot)      // 총량이 지시잔량보다 적다면 입력해도 되니니까
-            {
-                if (inputint > RestOrderQty)
-                {
-
-                    int currentValue;
-                    if (int.TryParse(textBox.Text, out currentValue))
+                    if(RestOrderQty > tot)      // 총량이 지시잔량보다 적다면 입력해도 되니니까
                     {
-
-                        int newValue = currentValue;
-                        if (int.TryParse(e.Text, out int inputValue))
+                        if (inputint > RestOrderQty)
                         {
-                            newValue = currentValue * 10 + inputValue;
 
-
-                            if (tot > RestOrderQty) //입력 값이 지시량보다 총량이 더 많아지면
+                            int currentValue;
+                            if (int.TryParse(textBox.Text, out currentValue))
                             {
-                                e.Handled = true; // 입력을 무시하고 경고창 띄운뒤 텍스트박스를 지움
-                                MessageBox.Show($"해당 지시번호 남은 지시량 [ {RestOrderQty} ](을)를 초과할 수 없습니다.");
-                                txtScanData.Text = string.Empty;
-                                return false;
+
+                                int newValue = currentValue;
+                                if (int.TryParse(e.Text, out int inputValue))
+                                {
+                                    newValue = currentValue * 10 + inputValue;
+
+
+                                    if (tot > RestOrderQty) //입력 값이 지시량보다 총량이 더 많아지면
+                                    {
+                                        e.Handled = true; // 입력을 무시하고 경고창 띄운뒤 텍스트박스를 지움
+                                        MessageBox.Show($"해당 지시번호 남은 지시량 [ {RestOrderQty} ](을)를 초과할 수 없습니다.");
+                                        txtScanData.Text = string.Empty;
+                                        return false;
+                                    }
+                                }
                             }
                         }
                     }
-                }
-            }
-            else if(tmpRestQty == 0) //입력하고 난 뒤 남은 지시수량이 0이 되었을때
-            {
-                cnt++;
-                e.Handled = true; //입력을 무시합니다
-                if(cnt == 5)
-                {
-                    MessageBox.Show("이미 남은 지시량"+"("+RestOrderQty+")"+"을 모두 입력하셨습니다."); 
-                    cnt = 0;
-                    return false;
-                }
+                    else if(tmpRestQty == 0) //입력하고 난 뒤 남은 지시수량이 0이 되었을때
+                    {
+                        cnt++;
+                        e.Handled = true; //입력을 무시합니다
+                        if(cnt == 5)
+                        {
+                            MessageBox.Show("이미 남은 지시량"+"("+RestOrderQty+")"+"을 모두 입력하셨습니다."); 
+                            cnt = 0;
+                            return false;
+                        }
                 
+                    }
+
+                }
+                //관리번호 파트
+                else if(txtOrderID.Text.Length > 0)
+                {
+                    int tot = 0;
+                    string cleanText = txtOutQty.Text.Replace(",", ""); // 쉼표 제거
+                    int.TryParse(cleanText, out tot);
+
+                    int inputint = 0;
+                    int.TryParse(textBox.Text, out inputint);
+
+                    
+
+                    tmpRestQty = OrderQty - tot;
+
+                    if (OrderQty > tot)      // 총량이 수주량보다 적다면 입력해도 되니니까
+                    {
+                        if (inputint > OrderQty)
+                        {
+
+                            int currentValue;
+                            if (int.TryParse(textBox.Text, out currentValue))
+                            {
+
+                                int newValue = currentValue;
+                                if (int.TryParse(e.Text, out int inputValue))
+                                {
+                                    newValue = currentValue * 10 + inputValue;
+
+
+                                    if (tot > Convert.ToInt32(replyOrderQty)) //입력 값이 수주량보다 더 많아지면
+                                    {
+                                        e.Handled = true; // 입력을 무시하고 경고창 띄운뒤 텍스트박스를 지움
+                                        MessageBox.Show($"해당 관리번호 수주량 [ {stringFormatN0(OrderQty)} ](을)를 초과할 수 없습니다.");
+                                        txtScanData.Text = string.Empty;
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (tmpRestQty == 0) //입력하고 난 뒤 남은 수주수량이 0이 되었을때
+                    {
+                        cnt++;
+                        e.Handled = true; //입력을 무시합니다
+                        if (cnt == 5)
+                        {
+                            MessageBox.Show("이미 수주량" + "(" + stringFormatN0(OrderQty) + ")" + "을 모두 입력하셨습니다.");
+                            cnt = 0;
+                            return false;
+                        }
+
+                    }
+
+                }
             }
+
             return true;
         }
 
@@ -3695,10 +3887,9 @@ namespace WizMes_HanYoung
 
         private void txtScanReqQtyCheck(object sender, TextCompositionEventArgs e)
         {
-            if (tgnMoveByQty.IsChecked == true)
-            {
-                ValidateInput(sender, e);
-            }
+
+            ValidateInput(sender, e);
+  
         }
        
 
@@ -3753,6 +3944,17 @@ namespace WizMes_HanYoung
         {
             pf.ReturnCode(txtInCustomer, 76, txtpfBuyerArticleNo.Text);
 
+        }
+    
+
+        private void rbnOrderNumber_Click(object sender, RoutedEventArgs e)
+        {
+            Check_SwitchOrderNoAndReqID();
+        }
+
+        private void rbnReqID_Click(object sender, RoutedEventArgs e)
+        {
+            Check_SwitchOrderNoAndReqID();
         }
     }
 

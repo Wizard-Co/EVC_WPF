@@ -8,6 +8,7 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -1664,15 +1665,45 @@ namespace WizMes_HanYoung
         /// <returns></returns>
         public DataGridRow GetRow(int index, DataGrid GridView1)
         {
-            DataGridRow row = (DataGridRow)GridView1.ItemContainerGenerator.ContainerFromIndex(index);
+            DataGridRow row = null;
+            int retryCount = 0;
 
-            if (row == null)
+            while (row == null && retryCount < 3)
             {
-                GridView1.UpdateLayout();
-                GridView1.ScrollIntoView(GridView1.Items[index]);
-                row = (DataGridRow)GridView1.ItemContainerGenerator.ContainerFromIndex(index);
+                row = Application.Current.Dispatcher.Invoke<DataGridRow>(() =>
+                {
+                    DataGridRow r = (DataGridRow)GridView1.ItemContainerGenerator.ContainerFromIndex(index);
+                    if (r == null)
+                    {
+                        GridView1.UpdateLayout();
+                        GridView1.ScrollIntoView(GridView1.Items[index]);
+                        r = (DataGridRow)GridView1.ItemContainerGenerator.ContainerFromIndex(index);
+                    }
+                    return r;
+                }, DispatcherPriority.SystemIdle);
+
+                if (row == null)
+                {
+                    retryCount++;
+                    Thread.Sleep(100); // 쓰레드 100ms 대기 후 다시 시도
+                }
             }
+
             return row;
+
+            #region 원본코드
+            ////DataGridRow row = (DataGridRow)GridView1.ItemContainerGenerator.ContainerFromIndex(index);
+
+            ////if (row == null)
+            ////{
+            ////    GridView1.UpdateLayout();
+            ////    GridView1.ScrollIntoView(GridView1.Items[index]);
+            ////    row = (DataGridRow)GridView1.ItemContainerGenerator.ContainerFromIndex(index);
+            ////}
+            ////return row;
+            #endregion
+
+
         }
 
         /// <summary>

@@ -203,7 +203,7 @@
             </Grid>
 
             <!--관리번호-->
-            <Grid Grid.Column="2" Grid.Row="3" Visibility="Hidden">
+            <Grid Grid.Column="3" Grid.Row="0" Visibility="Hidden">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="75*" />
                     <ColumnDefinition Width="90*" />
@@ -243,6 +243,27 @@
                     </RadioButton>
                 </Grid>
             </Border>
+            
+            <!--지시번호, 수주번호 전환-->
+            <Grid Grid.Row="3" Grid.Column="3" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="95*" />
+                    <ColumnDefinition Width="95*" />
+                    <ColumnDefinition Width="20*" />
+                </Grid.ColumnDefinitions>
+                <Border BorderBrush="Gray" BorderThickness="1" Background="#ededed" Grid.ColumnSpan="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <RadioButton x:Name="rbnOrderNumber" Grid.Column="0" Content="관리번호" FontSize="15"
+                                     Margin="1" Click="rbnOrderNumber_Click" VerticalAlignment="Center"/>
+                        <RadioButton x:Name="rbnReqID" Grid.Column="1" Content="지시번호" FontSize="15"
+                                     Margin="1" Click="rbnReqID_Click" VerticalAlignment="Center"/>
+                    </Grid>
+                </Border>
+            </Grid>
 
             <Grid Grid.Column="3" Grid.RowSpan="4" Margin="3">
                 <Grid.ColumnDefinitions>
@@ -255,7 +276,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
             </Grid>
-
+            
             <!--버튼모음-->
             <Grid Grid.Column="4" Grid.RowSpan="4">
                 <Grid.ColumnDefinitions>
@@ -431,7 +452,7 @@
 
                         <DataGridTextColumn x:Name="dgdtxtcol_ManageNum" Header="관리번호" Binding="{Binding OrderID}" ElementStyle="{StaticResource DataGridCellCenter}" Visibility="Hidden"/>
                         <DataGridTextColumn x:Name="dgdtxtcol_OrderNo" Header="발주번호" Binding="{Binding OrderNo}" Visibility="Hidden"/>
-                        <DataGridTextColumn Header="지시번호" Binding="{Binding OutwareReqID}" />
+                        <DataGridTextColumn x:Name="dgdtxtcol_ReqID" Header="지시번호" Binding="{Binding OutwareReqID}" />
                         <DataGridTextColumn Header="출고일자" Binding="{Binding OutDate}" ElementStyle="{StaticResource DataGridCellCenter}"/>
                         <DataGridTextColumn Header="납품장소" Binding="{Binding BuyerName}" />
                         <DataGridTextColumn Header="품번" Binding="{Binding BuyerArticleNo}" />
@@ -564,21 +585,22 @@
                             <RowDefinition Height="10*" />
                         </Grid.RowDefinitions>
 
-                        <Label Grid.Column="0" Grid.Row="0" Visibility="Hidden"
+                        <!--관리번호-->
+                        <Label x:Name="lblOrderID" Grid.Column="0" Grid.Row="0" Visibility="Hidden"
                               Style="{DynamicResource LabelInputArea}">
-                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
                                 <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                    <TextBlock Text="관리번호"  Style="{DynamicResource TextBlockInViewBoxInput}" />
+                                    <TextBlock x:Name="tblOrderID" Text="관리번호"  Style="{DynamicResource TextBlockInViewBoxInput}" />
                                 </Viewbox>
-                            </StackPanel>
+              
                         </Label>
                         <TextBox x:Name="txtOrderID"  Grid.Column="1" Grid.Row="0" Style="{DynamicResource TextBoxInputArea}" Visibility="Hidden"
                                  Text="{Binding Path=OrderID}" KeyDown="txtOrderID_KeyDown" TabIndex="12" PreviewTextInput="txtOrderID_PreviewTextInput" />
                         <Button x:Name="btnOrderID"  Grid.Column="2" Grid.Row="0" Click="btnOrderID_Click" Visibility="Hidden">
                             <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}" Margin="1"/>
                         </Button>
-
-                        <Label Grid.Column="0" Grid.Row="0" 
+                        
+                        <!--지시번호-->
+                        <Label x:Name="lblReqID" Grid.Column="0" Grid.Row="0" 
                               Style="{DynamicResource LabelInputArea}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                 <TextBlock Text="출고지시번호"  Style="{DynamicResource TextBlockInViewBoxInput}" />
@@ -589,7 +611,9 @@
                         <Button x:Name="btnOutwareReqID"  Grid.Column="2" Grid.Row="0" Click="btnOutwareReqID_Click">
                             <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}" Margin="1"/>
                         </Button>
-
+                        
+                     
+                        
                         <Label Grid.Column="0" Grid.Row="1" Style="{DynamicResource LabelInputArea}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                 <TextBlock Text="출고구분"  Style="{DynamicResource TextBlockInViewBoxInput}"/>

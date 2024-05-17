@@ -712,21 +712,46 @@ namespace WizMes_HanYoung
                         //refEvent?.Invoke(dataRow.Row.ItemArray[6].ToString());
                         //refEvent?.Invoke(dataRow.Row.ItemArray[11].ToString());
                     }
-                    if (mDataGrid.Columns[1].Header.ToString() == "출고지시번호")
-                    {                    
-
-                        // Large가 98번인 경우 품명(Article) callback
-                        if (mDataGrid.Columns[1].Header.ToString() == "출고지시번호")
+                    if (mDataGrid.Columns[1].Header.ToString() == "출고지시번호") //검색조건 Null오류 피하기 위해서 단계별 조건..
+                    {
+                        if (mDataGrid.Columns.Count == 9)
                         {
-                            refEvent?.Invoke(dataRow.Row.ItemArray[4].ToString());
+                            if (mDataGrid.Columns[9].Header.ToString() == "출고잔량")
+                            {
+                                string article = dataRow.Row.ItemArray[4].ToString();
+                                string orderQty = dataRow.Row.ItemArray[6].ToString();
+                                string reqQty = dataRow.Row.ItemArray[7].ToString();
+                                string reqRemainQty = dataRow.Row.ItemArray[9].ToString();
+                                refEvent?.Invoke($"{article},{orderQty},{reqQty},{reqRemainQty}");
+                            }
                         }
-                        else
-                        {
-                            refEvent?.Invoke(dataRow.Row.ItemArray[2].ToString());
-                        }
+                        #region 관리번호 // 지시번호 나누기 전
+                        //refEvent?.Invoke(dataRow.Row.ItemArray[6].ToString());
+                        //refEvent?.Invoke(dataRow.Row.ItemArray[11].ToString());
 
+
+                        //// Large가 98번인 경우 품명(Article) callback
+                        //if (mDataGrid.Columns[1].Header.ToString() == "출고지시번호")
+                        //{
+                        //    refEvent?.Invoke(dataRow.Row.ItemArray[4].ToString());
+                        //}
+                        //else
+                        //{
+                        //    refEvent?.Invoke(dataRow.Row.ItemArray[2].ToString());
+                        //}
+                        #endregion
+
+                    }           
+                    if (mDataGrid.Columns[1].Header.ToString() == "관리번호" &&
+                        mDataGrid.Columns[2].Header.ToString() == "거래처"   &&
+                        mDataGrid.Columns[3].Header.ToString() == "품명")
+                    {
+                        string orderQty1 = dataRow.Row.ItemArray[4].ToString();
+
+                        refEvent?.Invoke($"{orderQty1},");
                     }
-                    
+
+
 
 
                     txtBox.Text = colName;

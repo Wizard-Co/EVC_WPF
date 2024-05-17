@@ -444,7 +444,7 @@ namespace WizMes_HanYoung
                                     cls = dr["cls"].ToString().Trim(),
                                     ArticleID = dr["ArticleID"].ToString(),
                                     BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
-                                    CtrlQty =  Math.Truncate(Convert.ToDouble(dr["CtrlQty"])).ToString(),
+                                    CtrlQty =  stringFormatN0(Convert.ToDouble(dr["CtrlQty"])),
                                     Article = dr["Article"].ToString(),
                                     DefectID = dr["DefectID"].ToString(),
                                     KDefect = dr["KDefect"].ToString(),
