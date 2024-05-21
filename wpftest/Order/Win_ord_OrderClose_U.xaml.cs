@@ -897,52 +897,62 @@ namespace WizMes_HanYoung
                                     p1ProcessID = item["ProcessID1"].ToString(),
                                     p1StartWorkDate = item["ProcessWorkDate1"].ToString(),
                                     p1StartWorkDTime = item["ProcessWorkStartTime1"].ToString(),
-                                    p1WorkQty = item["ProcessWorkQty1"].ToString(),
+                                    //p1WorkQty = item["ProcessWorkQty1"].ToString(),
+                                    p1WorkQty = stringFormatN0(item["ProcessWorkQty1"]),
 
                                     p2ProcessID = item["ProcessID2"].ToString(),
                                     p2StartWorkDate = item["ProcessWorkDate2"].ToString(),
                                     p2StartWorkDTime = item["ProcessWorkStartTime2"].ToString(),
-                                    p2WorkQty = item["ProcessWorkQty2"].ToString(),
+                                    //p2WorkQty = item["ProcessWorkQty2"].ToString(),
+                                    p2WorkQty = stringFormatN0(item["ProcessWorkQty2"].ToString()),
 
                                     p3ProcessID = item["ProcessID3"].ToString(),
                                     p3StartWorkDate = item["ProcessWorkDate3"].ToString(),
                                     p3StartWorkDTime = item["ProcessWorkStartTime3"].ToString(),
-                                    p3WorkQty = item["ProcessWorkQty3"].ToString(),
+                                    //p3WorkQty = item["ProcessWorkQty3"].ToString(),
+                                    p3WorkQty = stringFormatN0(item["ProcessWorkQty3"]),
 
                                     p4ProcessID = item["ProcessID4"].ToString(),
                                     p4StartWorkDate = item["ProcessWorkDate4"].ToString(),
                                     p4StartWorkDTime = item["ProcessWorkStartTime4"].ToString(),
-                                    p4WorkQty = item["ProcessWorkQty4"].ToString(),
+                                    //p4WorkQty = item["ProcessWorkQty4"].ToString(),
+                                    p4WorkQty = stringFormatN0(item["ProcessWorkQty4"]),
 
                                     p5ProcessID = item["ProcessID5"].ToString(),
                                     p5StartWorkDate = item["ProcessWorkDate5"].ToString(),
                                     p5StartWorkDTime = item["ProcessWorkStartTime5"].ToString(),
-                                    p5WorkQty = item["ProcessWorkQty5"].ToString(),
+                                    //p5WorkQty = item["ProcessWorkQty5"].ToString(),
+                                    p5WorkQty = stringFormatN0(item["ProcessWorkQty5"]),
 
                                     p6ProcessID = item["ProcessID6"].ToString(),
                                     p6StartWorkDate = item["ProcessWorkDate6"].ToString(),
                                     p6StartWorkDTime = item["ProcessWorkStartTime6"].ToString(),
-                                    p6WorkQty = item["ProcessWorkQty6"].ToString(),
+                                    //p6WorkQty = item["ProcessWorkQty6"].ToString(),
+                                    p6WorkQty = stringFormatN0(item["ProcessWorkQty6"]),
 
                                     p7ProcessID = item["ProcessID7"].ToString(),
                                     p7StartWorkDate = item["ProcessWorkDate7"].ToString(),
                                     p7StartWorkDTime = item["ProcessWorkStartTime7"].ToString(),
-                                    p7WorkQty = item["ProcessWorkQty7"].ToString(),
+                                    //p7WorkQty = item["ProcessWorkQty7"].ToString(),
+                                    p7WorkQty = stringFormatN0(item["ProcessWorkQty7"]),
 
                                     p8ProcessID = item["ProcessID8"].ToString(),
                                     p8StartWorkDate = item["ProcessWorkDate8"].ToString(),
                                     p8StartWorkDTime = item["ProcessWorkStartTime8"].ToString(),
-                                    p8WorkQty = item["ProcessWorkQty8"].ToString(),
+                                    //p8WorkQty = item["ProcessWorkQty8"].ToString(),
+                                    p8WorkQty = stringFormatN0(item["ProcessWorkQty8"]),
 
                                     p9ProcessID = item["ProcessID9"].ToString(),
                                     p9StartWorkDate = item["ProcessWorkDate9"].ToString(),
                                     p9StartWorkDTime = item["ProcessWorkStartTime9"].ToString(),
-                                    p9WorkQty = item["ProcessWorkQty9"].ToString(),
+                                    //p9WorkQty = item["ProcessWorkQty9"].ToString(),
+                                    p9WorkQty = stringFormatN0(item["ProcessWorkQty9"]),
 
                                     p10ProcessID = item["ProcessID10"].ToString(),
                                     p10StartWorkDate = item["ProcessWorkDate10"].ToString(),
                                     p10StartWorkDTime = item["ProcessWorkStartTime10"].ToString(),
-                                    p10WorkQty = item["ProcessWorkQty10"].ToString(),
+                                    //p10WorkQty = item["ProcessWorkQty10"].ToString(),
+                                    p10WorkQty = stringFormatN0(item["ProcessWorkQty10"]),
 
                                     Num = i + 1,
 
@@ -1476,11 +1486,7 @@ namespace WizMes_HanYoung
                     columninner2.Visibility = Visibility.Visible;
                 if (columninner3 != null)
                     columninner3.Visibility = Visibility.Visible;
-            }
-
-
-            
- 
+            } 
          
         }
 
@@ -2208,6 +2214,7 @@ namespace WizMes_HanYoung
             else
             {
                 chkrbnArticleGrpFilter.IsEnabled = false;
+                chkrbnArticleGrpFilter.IsChecked = false;
 
             }
         }

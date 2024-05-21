@@ -1602,6 +1602,7 @@ namespace WizMes_HanYoung
             /*else if (cboVAT_YN.SelectedValue == null)
                 msg = "부가세별도여부가 선택되지 않았습니다. 먼저 부가세별도여부를 선택해주세요");*/
 
+            //수정일때만 변경조건 걸기
             if(OrderView.OrderID != null)
             {
                 string sql = "select OrderID from pl_Input where OrderID = " + OrderView.OrderID;
