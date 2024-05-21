@@ -258,12 +258,12 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <RadioButton x:Name="rbnOrderNumber" Grid.Column="0" Content="수주관리번호" FontSize="15"
-                                     Margin="1,0,1,1" Click="rbnOrderNumber_Click" VerticalAlignment="Bottom"/>
+                                     Margin="1,0,1,1" Click="rbnOrderNumber_Click" VerticalAlignment="Center"/>
                         <RadioButton x:Name="rbnReqID" Grid.Column="1" Content="지시번호" FontSize="15"
-                                     Margin="1" Click="rbnReqID_Click" VerticalAlignment="Center"/>
+                                     Margin="1,0,1,1" Click="rbnReqID_Click" VerticalAlignment="Center"/>
                     </Grid>
                 </Border>
-            </Grid>
+            </Grid> 
 
             <Grid Grid.Column="3" Grid.RowSpan="4" Margin="3">
                 <Grid.ColumnDefinitions>
@@ -489,7 +489,7 @@
                     <DataGrid Grid.Column="1" x:Name="dgdTotal" HeadersVisibility="Column"  ColumnHeaderHeight="30" FontSize="16">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="건수" Width="*" Visibility="Hidden"/>
-                            <DataGridTextColumn Header="수량" Width="*" Binding="{Binding totQty}" ElementStyle="{StaticResource DataGridCellCenter}"/>
+                            <DataGridTextColumn Header="수량" Width="*" Binding="{Binding totQty, StringFormat={}{0:N0}}" ElementStyle="{StaticResource DataGridCellCenter}"/>
                             <DataGridTextColumn Header="금액" Width="*" Visibility="Hidden"/>
                         </DataGrid.Columns>
                     </DataGrid>

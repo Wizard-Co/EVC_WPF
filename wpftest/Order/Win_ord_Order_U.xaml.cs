@@ -802,6 +802,7 @@ namespace WizMes_HanYoung
             }
         }
 
+        //점1
         private void beDelete()
         {
             btnDelete.IsEnabled = false;
@@ -1574,9 +1575,13 @@ namespace WizMes_HanYoung
             return flag;
         }
 
+        //점2
         private bool CheckData()
         {
             string msg = "";
+            string msgg = "";
+
+            bool flag = true;
 
             if (txtCustom.Text.Length <= 0 || txtCustom.Tag == null)
                 msg = "거래처가 입력되지 않았습니다. 먼저 거래처를 입력해주세요";
@@ -1597,10 +1602,34 @@ namespace WizMes_HanYoung
             /*else if (cboVAT_YN.SelectedValue == null)
                 msg = "부가세별도여부가 선택되지 않았습니다. 먼저 부가세별도여부를 선택해주세요");*/
 
-            bool flag = true;
-            if (!string.IsNullOrEmpty(msg))
+            string sql = "select OrderID from pl_Input where OrderID = " + OrderView.OrderID;
+            DataSet ds = DataStore.Instance.QueryToDataSet(sql);
+            if (ds != null && ds.Tables.Count > 0)
             {
-                MessageBox.Show(msg);
+                DataTable dt = ds.Tables[0];
+                if (dt.Rows.Count > 0)
+                {
+                    sql = "select OrderID from OutWare where OrderID = " + OrderView.OrderID;
+
+                    ds = DataStore.Instance.QueryToDataSet(sql);
+                    if (ds != null && ds.Tables.Count > 0)
+                    {
+                        dt = ds.Tables[0];
+                        msgg = dt.Rows.Count > 0 ?
+                            "해당 수주 건은 생산 진행중이오니, 변경하시려면 생산부터 작업지시까지 먼저 삭제해주세요" :
+                            "해당 수주 건은 작업지시 진행중이오니, 하시려면 작업지시 먼저 삭제해주세요";
+                        MessageBox.Show(msgg);
+                    }
+                }              
+            }
+
+
+            if (!string.IsNullOrEmpty(msg) || !string.IsNullOrEmpty(msgg)) 
+            {
+                if (!string.IsNullOrEmpty(msg))
+                {
+                    MessageBox.Show(msg);
+                }
                 flag = false;
             }
 
