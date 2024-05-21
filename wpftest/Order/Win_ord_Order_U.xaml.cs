@@ -1602,27 +1602,29 @@ namespace WizMes_HanYoung
             /*else if (cboVAT_YN.SelectedValue == null)
                 msg = "부가세별도여부가 선택되지 않았습니다. 먼저 부가세별도여부를 선택해주세요");*/
 
-            string sql = "select OrderID from pl_Input where OrderID = " + OrderView.OrderID;
-            DataSet ds = DataStore.Instance.QueryToDataSet(sql);
-            if (ds != null && ds.Tables.Count > 0)
+            if(OrderView.OrderID != null)
             {
-                DataTable dt = ds.Tables[0];
-                if (dt.Rows.Count > 0)
+                string sql = "select OrderID from pl_Input where OrderID = " + OrderView.OrderID;
+                DataSet ds = DataStore.Instance.QueryToDataSet(sql);
+                if (ds != null && ds.Tables.Count > 0)
                 {
-                    sql = "select OrderID from OutWare where OrderID = " + OrderView.OrderID;
-
-                    ds = DataStore.Instance.QueryToDataSet(sql);
-                    if (ds != null && ds.Tables.Count > 0)
+                    DataTable dt = ds.Tables[0];
+                    if (dt.Rows.Count > 0)
                     {
-                        dt = ds.Tables[0];
-                        msgg = dt.Rows.Count > 0 ?
-                            "해당 수주 건은 생산 진행중이오니, 변경하시려면 생산부터 작업지시까지 먼저 삭제해주세요" :
-                            "해당 수주 건은 작업지시 진행중이오니, 하시려면 작업지시 먼저 삭제해주세요";
-                        MessageBox.Show(msgg);
-                    }
-                }              
-            }
+                        sql = "select OrderID from OutWare where OrderID = " + OrderView.OrderID;
 
+                        ds = DataStore.Instance.QueryToDataSet(sql);
+                        if (ds != null && ds.Tables.Count > 0)
+                        {
+                            dt = ds.Tables[0];
+                            msgg = dt.Rows.Count > 0 ?
+                                "해당 수주 건은 생산 진행중이오니, 변경하시려면 생산부터 작업지시까지 먼저 삭제해주세요" :
+                                "해당 수주 건은 작업지시 진행중이오니, 하시려면 작업지시 먼저 삭제해주세요";
+                            MessageBox.Show(msgg);
+                        }
+                    }
+                }
+            }
 
             if (!string.IsNullOrEmpty(msg) || !string.IsNullOrEmpty(msgg)) 
             {
