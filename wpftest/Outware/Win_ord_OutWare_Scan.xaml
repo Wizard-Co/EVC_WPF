@@ -243,7 +243,7 @@
                     </RadioButton>
                 </Grid>
             </Border>
-            
+
             <!--지시번호, 수주번호 전환-->
             <Grid Grid.Row="3" Grid.Column="3" >
                 <Grid.ColumnDefinitions>
@@ -257,8 +257,8 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <RadioButton x:Name="rbnOrderNumber" Grid.Column="0" Content="관리번호" FontSize="15"
-                                     Margin="1" Click="rbnOrderNumber_Click" VerticalAlignment="Center"/>
+                        <RadioButton x:Name="rbnOrderNumber" Grid.Column="0" Content="수주관리번호" FontSize="15"
+                                     Margin="1,0,1,1" Click="rbnOrderNumber_Click" VerticalAlignment="Bottom"/>
                         <RadioButton x:Name="rbnReqID" Grid.Column="1" Content="지시번호" FontSize="15"
                                      Margin="1" Click="rbnReqID_Click" VerticalAlignment="Center"/>
                     </Grid>
@@ -276,7 +276,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
             </Grid>
-            
+
             <!--버튼모음-->
             <Grid Grid.Column="4" Grid.RowSpan="4">
                 <Grid.ColumnDefinitions>
@@ -408,7 +408,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="22.5*"/>
                     <RowDefinition Height="2*" />
-                    
+
                 </Grid.RowDefinitions>
 
                 <!--데이터그리드-->
@@ -588,17 +588,17 @@
                         <!--관리번호-->
                         <Label x:Name="lblOrderID" Grid.Column="0" Grid.Row="0" Visibility="Hidden"
                               Style="{DynamicResource LabelInputArea}">
-                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                    <TextBlock x:Name="tblOrderID" Text="관리번호"  Style="{DynamicResource TextBlockInViewBoxInput}" />
-                                </Viewbox>
-              
+                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                <TextBlock x:Name="tblOrderID" Text="수주관리번호"  Style="{DynamicResource TextBlockInViewBoxInput}" />
+                            </Viewbox>
+
                         </Label>
                         <TextBox x:Name="txtOrderID"  Grid.Column="1" Grid.Row="0" Style="{DynamicResource TextBoxInputArea}" Visibility="Hidden"
                                  Text="{Binding Path=OrderID}" KeyDown="txtOrderID_KeyDown" TabIndex="12" PreviewTextInput="txtOrderID_PreviewTextInput" />
                         <Button x:Name="btnOrderID"  Grid.Column="2" Grid.Row="0" Click="btnOrderID_Click" Visibility="Hidden">
                             <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}" Margin="1"/>
                         </Button>
-                        
+
                         <!--지시번호-->
                         <Label x:Name="lblReqID" Grid.Column="0" Grid.Row="0" 
                               Style="{DynamicResource LabelInputArea}">
@@ -611,9 +611,9 @@
                         <Button x:Name="btnOutwareReqID"  Grid.Column="2" Grid.Row="0" Click="btnOutwareReqID_Click">
                             <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}" Margin="1"/>
                         </Button>
-                        
-                     
-                        
+
+
+
                         <Label Grid.Column="0" Grid.Row="1" Style="{DynamicResource LabelInputArea}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                 <TextBlock Text="출고구분"  Style="{DynamicResource TextBlockInViewBoxInput}"/>
@@ -622,8 +622,8 @@
                         <ComboBox x:Name="cboOutClss" Grid.Column="1" Grid.Row="1" 
                                   SelectedValue="{Binding Path=OutClss}" Background="#fff2d2" Style="{DynamicResource ComboBoxInputString}"
                                   DropDownClosed="cboOutClss_DropDownClosed" TabIndex="13"/>
-                        
-                        
+
+
                         <Label Grid.Column="0" Grid.Row="2" Style="{DynamicResource LabelInputArea}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                 <TextBlock Text="작성일자"  Style="{DynamicResource TextBlockInViewBoxInput}"/>
@@ -639,8 +639,8 @@
                                 CalendarClosed="DtpOutDate_CalendarClosed"/>
                             <TextBox x:Name="tboxOutTime" Grid.Column="1" IsReadOnly="True" Padding="5" Text="{Binding Path=OutTime}" Margin="0.3"/>
                         </Grid>
-                        
-                    
+
+
                         <Label Grid.Column="0" Grid.Row="3" Style="{DynamicResource LabelInputArea}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                 <TextBlock Text="박스/수량"  Style="{DynamicResource TextBlockInViewBoxInput}"/>
