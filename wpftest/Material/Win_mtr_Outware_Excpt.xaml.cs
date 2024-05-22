@@ -21,6 +21,7 @@ namespace WizMes_HanYoung
         private int rowNum = 0;
         private string strFlag = string.Empty;
         private string chkLabelID;
+        string SaveArticleid = string.Empty;
         //ObservableCollection<LabelList2> ovcLabelID = new ObservableCollection<LabelList2>();
 
         public Win_mtr_Outware_Excpt()
@@ -536,7 +537,8 @@ namespace WizMes_HanYoung
         {
             var WinMove = dgdMain.SelectedItem as Win_mtr_Move_U_CodeView2;
 
-
+            //MessageBox.Show("Update____현재\n WinMove.Articleid 정보 = " + WinMove.ArticleID
+            //                     + "\n 　　SaveArticleid 정보 = " + SaveArticleid);
 
             //if (dgdSub.Items.LabelID.ToString().Equals("I") || dgdSub.LabelID.ToString().Equals("B")
             //    || dgdSub.LabelID.ToString().Equals("C"))
@@ -723,11 +725,17 @@ namespace WizMes_HanYoung
             var WinMove = dgdMain.SelectedItem as Win_mtr_Move_U_CodeView2;
 
 
-
-
             if (WinMove != null)
             {
+
+                SaveArticleid = WinMove.ArticleID; //Articleid 
+                //MessageBox.Show("01____현재\n WinMove.Articleid 정보 = " + WinMove.ArticleID 
+                //                 + "\n SaveArticleid 정보 = " + SaveArticleid);
                 this.DataContext = WinMove;
+                txtArticle.Tag = SaveArticleid;
+
+                //MessageBox.Show("02____현재\n WinMove.Articleid 정보 = " + WinMove.ArticleID
+                //                 + "\n SaveArticleid 정보 = " + SaveArticleid);
 
                 // 1 : ID기준처리, 2 : 수량기준처리, 3 : 부분처리
                 // 부분처리일때
@@ -1025,6 +1033,7 @@ namespace WizMes_HanYoung
                                         InspectApprovalYN = dr["InspectApprovalYN"].ToString(),
                                         Inspector = dr["Inspector"].ToString(),
                                         Article = dr["Article"].ToString(),
+                                        BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
                                         ProcessID = dr["ProcessID"].ToString(),
                                         CustomID = dr["CustomID"].ToString(),
 
@@ -1037,6 +1046,8 @@ namespace WizMes_HanYoung
 
                                     ovcLableList.Add(labelList);
                                     txtArticle.Tag = labelList.ArticleID;
+                                    txtArticle.Text = labelList.Article;
+                                    txtBuyerAritcle.Text = labelList.Article;
                                 }
 
 
@@ -1119,6 +1130,7 @@ namespace WizMes_HanYoung
                             if (ArticleID.Equals("")) // 품명이 없다면, 최초등록 → TextBox에 세팅
                             {
                                 txtArticle.Text = ovcLableList[0].Article;
+                                txtBuyerAritcle.Text = ovcLableList[0].BuyerArticleNo;
                                 txtArticle.Tag = ovcLableList[0].ArticleID;
 
                                 // 바코드가 입력되면, 품명 수정은 불가능 하도록.
@@ -3457,14 +3469,14 @@ namespace WizMes_HanYoung
             if (e.Key == Key.Enter)
             {
                 e.Handled = true;
-                MainWindow.pf.ReturnCode(txtArticleNo, 7077, "");
+                MainWindow.pf.ReturnCode(txtArticleNo, 77, "");
             }
         }
 
         //품명 플러스파인더
         private void btnPfArticleNoSrh_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.pf.ReturnCode(txtArticleNo, 7077, "");
+            MainWindow.pf.ReturnCode(txtArticleNo, 77, "");
         }
 
         //품번 플라스파인더
