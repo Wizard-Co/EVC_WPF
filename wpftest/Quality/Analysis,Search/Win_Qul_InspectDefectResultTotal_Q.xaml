@@ -316,7 +316,7 @@
                     <DataGridTemplateColumn Header="" Width="auto">
                         <DataGridTemplateColumn.CellTemplate >
                             <DataTemplate>
-                                <TextBlock Text="{Binding cls}" TextAlignment="Left"/>
+                                <TextBlock Text="{Binding cls}" TextAlignment="Center"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -337,21 +337,21 @@
                     <DataGridTemplateColumn Header="검사수량" Width="*" CellStyle="{StaticResource NumericDataGridCell}">
                         <DataGridTemplateColumn.CellTemplate >
                             <DataTemplate>
-                                <TextBlock Text="{Binding CtrlQty}" TextAlignment="Right"  />
+                                <TextBlock Text="{Binding CtrlQty}" TextAlignment="Center"  />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="불량유형" Width="1.5*">
                             <DataGridTemplateColumn.CellTemplate >
                                 <DataTemplate>
-                                <TextBlock Text="{Binding KDefect}" TextAlignment="Left"/>
+                                <TextBlock Text="{Binding KDefect}" TextAlignment="Center"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="불량수량" Width="*" CellStyle="{StaticResource NumericDataGridCell}">
                         <DataGridTemplateColumn.CellTemplate >
                             <DataTemplate>
-                                <TextBlock Text="{Binding DefectQty}" TextAlignment="Right"  />
+                                <TextBlock Text="{Binding DefectQty}" TextAlignment="Center"  />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -388,21 +388,21 @@
                     <DataGridTemplateColumn Header="" Width="auto">
                         <DataGridTemplateColumn.CellTemplate >
                             <DataTemplate>
-                                <TextBlock Text="{Binding cls}" TextAlignment="Left"/>
+                                <TextBlock Text="{Binding cls}" TextAlignment="Center"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="불량유형" Width="1.5*">
                         <DataGridTemplateColumn.CellTemplate >
                             <DataTemplate>
-                                <TextBlock Text="{Binding KDefect}" TextAlignment="Left"/>
+                                <TextBlock Text="{Binding KDefect}" TextAlignment="Center"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="불량수량" Width="*" CellStyle="{StaticResource NumericDataGridCell}">
                         <DataGridTemplateColumn.CellTemplate >
                             <DataTemplate>
-                                <TextBlock Text="{Binding DefectQty}" TextAlignment="Right"  />
+                                <TextBlock Text="{Binding DefectQty}" TextAlignment="Center"  />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>                    

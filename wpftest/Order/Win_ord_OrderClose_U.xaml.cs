@@ -10,6 +10,7 @@ using WizMes_HanYoung.PopUP;
 using WizMes_HanYoung.PopUp;
 using WPF.MDI;
 using System.Linq;
+using System.Windows.Controls.Primitives;
 
 namespace WizMes_HanYoung
 {
@@ -200,6 +201,7 @@ namespace WizMes_HanYoung
                     btnFinal.Content = "진행처리";
                 }
             }
+          
          
         }
 
@@ -555,18 +557,43 @@ namespace WizMes_HanYoung
             }
         }
 
+        //헤더 높이 늘이기
+        private void Style_ColumnHead_Stretch()
+        {
+            // 높이를 32으로 설정하고 너비를 Auto로 설정
+            Style headerStyle = dgdMain.ColumnHeaderStyle;
+            if (headerStyle != null)
+            {
+                // 높이를 30으로 설정하고 너비를 Auto로 설정
+                Style newHeaderStyle = new Style(typeof(System.Windows.Controls.Primitives.DataGridColumnHeader), dgdMain.ColumnHeaderStyle);
+                newHeaderStyle.Setters.Add(new System.Windows.Setter(System.Windows.Controls.Primitives.DataGridColumnHeader.HeightProperty, 32.0));
+
+                dgdMain.ColumnHeaderStyle = newHeaderStyle;
+            }
+        }
+
+        //헤더높이 줄이기
+        private void Style_ColumHead_Shrink()
+        {
+            // 높이를 22로 설정하고 너비를 Auto로 설정
+            Style newHeaderStyle = new Style(typeof(System.Windows.Controls.Primitives.DataGridColumnHeader), dgdMain.ColumnHeaderStyle);
+            newHeaderStyle.Setters.Add(new System.Windows.Setter(System.Windows.Controls.Primitives.DataGridColumnHeader.HeightProperty, 22.0));
+            dgdMain.ColumnHeaderStyle = newHeaderStyle;
+        }
+
+        //투입일 라디오버튼 클릭시 열 숨기기
         private void HideColums_rbnDayAndTimeClicked()
         {
-            string[] columnsToHide = { 
-                "신선/투입단위",  "신선/투입수량",
-                "압연/투입단위",  "압연/투입수량",
-                "와인딩/투입단위","와인딩/투입수량",
-                "코팅/투입단위", "코팅/투입수량",
-                "스트레인딩/투입단위", "스트레인딩/투입수량",
-                "절단/투입단위", "절단/투입수량",
-                "사출/투입단위", "사출/투입수량",
-                "HOOD조립/투입단위", "HOOD조립/투입수량",
-                "F/F,TL조립/투입단위", "F/F,TL조립/투입수량",
+            string[] columnsToHide = {
+                "   신선\n투입단위",  "   신선\n투입수량",
+                "   압연\n투입단위",  "   압연\n투입수량",
+                " 와인딩\n투입단위"," 와인딩\n투입수량",
+                "   코팅\n투입단위", "   코팅\n투입수량",
+                "스트레인딩\n투입단위", "스트레인딩\n투입수량",
+                "   절단\n투입단위", "   절단\n투입수량",
+                "   사출\n투입단위", "   사출\n투입수량",
+                "HOOD조립\n  투입단위", "HOOD조립\n  투입수량",
+                "F/F,TL조립\n투입단위", "F/F,TL조립\n 투입수량",
                 };
 
             foreach (string columnName in columnsToHide)
@@ -579,18 +606,19 @@ namespace WizMes_HanYoung
             }
         }
 
+        //투입수량 라디오 버튼 클릭시 열 숨기기
         private void HideColums_rbnWorkQtyClicked()
         {
             string[] columnsToHide = {
-                "신선/투입단위",  "신선/투입일",
-                "압연/투입단위",  "압연/투입일",
-                "와인딩/투입단위","와인딩/투입일",
-                "코팅/투입단위", "코팅/투입일",
-                "스트레인딩/투입단위", "스트레인딩/투입일",
-                "절단/투입단위", "절단/투입일",
-                "사출/투입단위", "사출/투입일",
-                "HOOD조립/투입단위", "HOOD조립/투입일",
-                "F/F,TL조립/투입단위", "F/F,TL조립/투입일",
+                "   신선\n투입단위",  " 신선\n투입일",
+                "   압연\n투입단위",  " 압연\n투입일",
+                " 와인딩\n투입단위","와인딩\n투입일",
+                "   코팅\n투입단위", " 코팅\n투입일",
+                "스트레인딩\n투입단위", "스트레인딩\n   투입일",
+                "   절단\n투입단위", " 절단\n투입일",
+                "   사출\n투입단위", " 사출\n투입일",
+                "HOOD조립\n  투입단위", "HOOD조립\n   투입일",
+                "F/F,TL조립\n투입단위", "F/F,TL조립\n  투입일",
                 };
 
             foreach (string columnName in columnsToHide)
@@ -601,20 +629,22 @@ namespace WizMes_HanYoung
                     column.Visibility = Visibility.Hidden;
                 }
             }
+
         }
 
+        //투입일 열 클릭시 열 보이기
         private void ShowColums_rbnDayAndTimeClicked()
         {
             string[] columnsToShow = {
-                "신선/투입단위",  "신선/투입수량",
-                "압연/투입단위",  "압연/투입수량",
-                "와인딩/투입단위","와인딩/투입수량",
-                "코팅/투입단위", "코팅/투입수량",
-                "스트레인딩/투입단위", "스트레인딩/투입수량",
-                "절단/투입단위", "절단/투입수량",
-                "사출/투입단위", "사출/투입수량",
-                "HOOD조립/투입단위", "HOOD조립/투입수량",
-                "F/F,TL조립/투입단위", "F/F,TL조립/투입수량",
+                "   신선\n투입단위",  "   신선\n투입수량",
+                "   압연\n투입단위",  "   압연\n투입수량",
+                " 와인딩\n투입단위"," 와인딩\n투입수량",
+                "   코팅\n투입단위", "   코팅\n투입수량",
+                "스트레인딩\n투입단위", "스트레인딩\n투입수량",
+                "   절단\n투입단위", "   절단\n투입수량",
+                "   사출\n투입단위", "   사출\n투입수량",
+                "HOOD조립\n  투입단위", "HOOD조립\n  투입수량",
+                "F/F,TL조립\n투입단위", "F/F,TL조립\n 투입수량",
                 };
 
             foreach (string columnName in columnsToShow)
@@ -627,19 +657,19 @@ namespace WizMes_HanYoung
             }
         }
 
-
+        //라디오버튼 필터링 체크버튼 해제시 모든 열 보이기
         private void ShowColums_ALL()
         {
             string[] columnsToShow = {
-                "신선/투입단위",  "신선/투입일", "신선/투입수량",
-                "압연/투입단위",  "압연/투입일",  "압연/투입수량",
-                "와인딩/투입단위","와인딩/투입일", "와인딩/투입수량",
-                "코팅/투입단위", "코팅/투입일", "코팅/투입수량",
-                "스트레인딩/투입단위", "스트레인딩/투입일", "스트레인딩/투입수량",
-                "절단/투입단위", "절단/투입일", "절단/투입수량",
-                "사출/투입단위", "사출/투입일", "사출/투입수량",
-                "HOOD조립/투입단위", "HOOD조립/투입일", "HOOD조립/투입수량",
-                "F/F,TL조립/투입단위", "F/F,TL조립/투입일", "F/F,TL조립/투입수량"
+                "   신선\n투입단위",  " 신선\n투입일", "   신선\n투입수량",
+                "   압연\n투입단위",  " 압연\n투입일",  "   압연\n투입수량",
+                " 와인딩\n투입단위","와인딩\n투입일", " 와인딩\n투입수량",
+                "   코팅\n투입단위", " 코팅\n투입일", "   코팅\n투입수량",
+                "스트레인딩\n투입단위", "스트레인딩\n   투입일", "스트레인딩\n투입수량",
+                "   절단\n투입단위", " 절단\n투입일", "   절단\n투입수량",
+                "   사출\n투입단위", " 사출\n투입일", "   사출\n투입수량",
+                "HOOD조립\n  투입단위", "HOOD조립\n   투입일", "HOOD조립\n  투입수량",
+                "F/F,TL조립\n투입단위", "F/F,TL조립\n  투입일", "F/F,TL조립\n 투입수량"
                 };
 
             foreach (string columnName in columnsToShow)
@@ -652,18 +682,19 @@ namespace WizMes_HanYoung
             }
         }
 
+        //투입수량 라디오 버튼 클릭시 열 보이기
         private void ShowColums_rbnWorkQtyClicked()
         {
             string[] columnsToHide = {
-                "신선/투입단위",  "신선/투입일",
-                "압연/투입단위",  "압연/투입일",
-                "와인딩/투입단위","와인딩/투입일",
-                "코팅/투입단위", "코팅/투입일시",
-                "스트레인딩/투입단위", "스트레인딩/투입일",
-                "절단/투입단위", "절단/투입일",
-                "사출/투입단위", "사출/투입일",
-                "HOOD조립/투입단위", "HOOD조립/투입일",
-                "F/F,TL조립/투입단위", "F/F,TL조립/투입일",
+                "   신선\n투입단위",  " 신선\n투입일",
+                "   압연\n투입단위",  " 압연\n투입일",
+                " 와인딩\n투입단위","와인딩\n투입일",
+                "   코팅\n투입단위", " 코팅\n투입일시",
+                "스트레인딩\n투입단위", "스트레인딩\n   투입일",
+                "   절단\n투입단위", " 절단\n투입일",
+                "   사출\n투입단위", " 사출\n투입일",
+                "HOOD조립\n  투입단위", "HOOD조립\n   투입일",
+                "F/F,TL조립\n투입단위", "F/F,TL조립\n  투입일",
                 };
 
             foreach (string columnName in columnsToHide)
@@ -674,6 +705,32 @@ namespace WizMes_HanYoung
                     column.Visibility = Visibility.Visible;
                 }
             }
+        }
+
+
+        private void FreezeColumns()
+        {
+            // 고정할 열의 이름 배열
+            string[] columnsToFreeze = { "관리번호" };
+
+            int frozenColumnCount = 0;
+
+            foreach (string columnName in columnsToFreeze)
+            {
+                var column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == columnName);
+
+                if (column != null)
+                {
+                    frozenColumnCount = column.DisplayIndex + 1;
+                }
+            }
+
+            dgdMain.FrozenColumnCount = frozenColumnCount;
+        }
+
+        private void UnfreezeColumns()
+        {
+            dgdMain.FrozenColumnCount = 0;
         }
 
         // 수주구분
@@ -814,6 +871,17 @@ namespace WizMes_HanYoung
             if (dgdSum.Items.Count > 0)
                 dgdSum.Items.Clear();
 
+
+            if (cboProductGrpID.SelectedValue.ToString() != "99")
+            {
+
+                Style_ColumnHead_Stretch();
+            }
+            else
+            {
+                Style_ColumHead_Shrink();
+            }
+
             try
             {
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
@@ -862,7 +930,8 @@ namespace WizMes_HanYoung
                     //dataGrid.Items.Clear();
                     if (dt.Rows.Count == 0)
                     {
-                        MessageBox.Show("조회된 데이터가 없습니다.");
+                        Style_ColumHead_Shrink();
+                        MessageBox.Show("조회된 데이터가 없습니다.");                  
                     }
                     else
                     {
@@ -885,6 +954,8 @@ namespace WizMes_HanYoung
                             {
                                 var Window_OrderClose_DTO = new Win_ord_OrderClose_U_CodeView()
                                 {
+
+
                                     IsCheck = false,
                                     ProductGrpID = item["ProductGrpID"] as string,
                                     ProductGrpName = item["ProductGrpName"] as string,
@@ -953,11 +1024,11 @@ namespace WizMes_HanYoung
                                     p10StartWorkDTime = item["ProcessWorkStartTime10"].ToString(),
                                     //p10WorkQty = item["ProcessWorkQty10"].ToString(),
                                     p10WorkQty = stringFormatN0(item["ProcessWorkQty10"]),
-
                                     Num = i + 1,
 
-                                };
+                                  
 
+                                };
 
                                 if (Window_OrderClose_DTO.OrderID_CV == null)
                                 {
@@ -965,10 +1036,12 @@ namespace WizMes_HanYoung
                                     Window_OrderClose_DTO.OrderID.Substring(4, 2) + "-" + Window_OrderClose_DTO.OrderID.Substring(6, 4);
                                 }
 
+                                i++;
+
                                 //Window_OrderClose_DTO.p1DayAndTime = item["p1ProcessWorkDate"].ToString().Substring(4, 2) + "-" + item["p1ProcessWorkDate"].ToString().Substring(6) + " "
                                 //   + item["p1ProcessStartTime"].ToString().Substring(0, 2) + ":" + item["p1ProcessStartTime"].ToString().Substring(2);
 
-                                for(int j= 1; j < 11; j++)
+                                for (int j= 1; j < 11; j++)
                                 {
                                     string dayAndTimeProperty = $"p{j}DayAndTime";
                                     string processWorkDateProperty = $"ProcessWorkDate{j}";
@@ -987,8 +1060,10 @@ namespace WizMes_HanYoung
                                 }                               
 
                           
-                                dgdMain.Items.Add(Window_OrderClose_DTO);
+                                dgdMain.Items.Add(Window_OrderClose_DTO);                                
                             }
+
+                            FreezeColumns();
                         }
 
 
@@ -1296,10 +1371,9 @@ namespace WizMes_HanYoung
                                 rowHeaderNum = i.ToString();
                             }
 
+                            UnfreezeColumns();
+
                         }
-
-
-                        
 
 
                         //UNION ALL로 총합 보여주는 화면처럼 가로로 보여줄려고 했던 것
@@ -1387,7 +1461,8 @@ namespace WizMes_HanYoung
                 }
                 if(ds.Tables.Count == 0)
                 {
-                    MessageBox.Show("조회된 데이터가 없습니다.");             
+                    MessageBox.Show("조회된 데이터가 없습니다.");   
+                    
                 }
             }
             catch (Exception ex)
@@ -1997,66 +2072,66 @@ namespace WizMes_HanYoung
         //데이터 그리드 더블 클릭하면 월 납품계획 등록 화면 호출
         private void DgdMain_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            // 넘겨줄 데이터를 넣어주시죠
-            var Order = dgdMain.SelectedItem as Win_ord_OrderClose_U_CodeView;
+            //// 넘겨줄 데이터를 넣어주시죠
+            //var Order = dgdMain.SelectedItem as Win_ord_OrderClose_U_CodeView;
 
-            if (Order != null)
-            {
-                string OrderID = Order.OrderID;
-                string sDate = dtpSDate.SelectedDate.Value.ToString("yyyyMMdd");
-                string eDate = dtpEDate.SelectedDate.Value.ToString("yyyyMMdd");
-                string chkYN = chkOrderDay.IsChecked == true ? "Y" : "N";
+            //if (Order != null)
+            //{
+            //    string OrderID = Order.OrderID;
+            //    string sDate = dtpSDate.SelectedDate.Value.ToString("yyyyMMdd");
+            //    string eDate = dtpEDate.SelectedDate.Value.ToString("yyyyMMdd");
+            //    string chkYN = chkOrderDay.IsChecked == true ? "Y" : "N";
 
-                MainWindow.tempContent.Clear();
-                MainWindow.tempContent.Add(OrderID);
-                MainWindow.tempContent.Add(sDate);
-                MainWindow.tempContent.Add(eDate);
-                MainWindow.tempContent.Add(chkYN);
+            //    MainWindow.tempContent.Clear();
+            //    MainWindow.tempContent.Add(OrderID);
+            //    MainWindow.tempContent.Add(sDate);
+            //    MainWindow.tempContent.Add(eDate);
+            //    MainWindow.tempContent.Add(chkYN);
 
-                int i = 0;
-                foreach (MenuViewModel mvm in MainWindow.mMenulist)
-                {
-                    if (mvm.Menu.Equals("월수주/생산계획 등록"))
-                    //if (mvm.Menu.Equals("월 납품계획 등록"))
-                    {
-                        break;
-                    }
-                    i++;
-                }
-                try
-                {
-                    if (MainWindow.MainMdiContainer.Children.Contains(MainWindow.mMenulist[i].subProgramID as MdiChild))
-                    {
-                        (MainWindow.mMenulist[i].subProgramID as MdiChild).Focus();
-                    }
-                    else
-                    {
-                        Type type = Type.GetType("WizMes_HanYoung." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
-                        object uie = Activator.CreateInstance(type);
+            //    int i = 0;
+            //    foreach (MenuViewModel mvm in MainWindow.mMenulist)
+            //    {
+            //        if (mvm.Menu.Equals("월수주/생산계획 등록"))
+            //        //if (mvm.Menu.Equals("월 납품계획 등록"))
+            //        {
+            //            break;
+            //        }
+            //        i++;
+            //    }
+            //    try
+            //    {
+            //        if (MainWindow.MainMdiContainer.Children.Contains(MainWindow.mMenulist[i].subProgramID as MdiChild))
+            //        {
+            //            (MainWindow.mMenulist[i].subProgramID as MdiChild).Focus();
+            //        }
+            //        else
+            //        {
+            //            Type type = Type.GetType("WizMes_HanYoung." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
+            //            object uie = Activator.CreateInstance(type);
 
-                        MainWindow.mMenulist[i].subProgramID = new MdiChild()
-                        {
-                            Title = "HanYoung [" + MainWindow.mMenulist[i].MenuID.Trim() + "] " + MainWindow.mMenulist[i].Menu.Trim() +
-                                    " (→" + MainWindow.mMenulist[i].ProgramID + ")",
-                            Height = SystemParameters.PrimaryScreenHeight * 0.8,
-                            MaxHeight = SystemParameters.PrimaryScreenHeight * 0.85,
-                            Width = SystemParameters.WorkArea.Width * 0.85,
-                            MaxWidth = SystemParameters.WorkArea.Width,
-                            Content = uie as UIElement,
-                            Tag = MainWindow.mMenulist[i]
-                        };
+            //            MainWindow.mMenulist[i].subProgramID = new MdiChild()
+            //            {
+            //                Title = "HanYoung [" + MainWindow.mMenulist[i].MenuID.Trim() + "] " + MainWindow.mMenulist[i].Menu.Trim() +
+            //                        " (→" + MainWindow.mMenulist[i].ProgramID + ")",
+            //                Height = SystemParameters.PrimaryScreenHeight * 0.8,
+            //                MaxHeight = SystemParameters.PrimaryScreenHeight * 0.85,
+            //                Width = SystemParameters.WorkArea.Width * 0.85,
+            //                MaxWidth = SystemParameters.WorkArea.Width,
+            //                Content = uie as UIElement,
+            //                Tag = MainWindow.mMenulist[i]
+            //            };
 
-                        Lib.Instance.AllMenuLogInsert(MainWindow.mMenulist[i].MenuID, MainWindow.mMenulist[i].Menu, MainWindow.mMenulist[i].subProgramID);
-                        MainWindow.MainMdiContainer.Children.Add(MainWindow.mMenulist[i].subProgramID as MdiChild);
+            //            Lib.Instance.AllMenuLogInsert(MainWindow.mMenulist[i].MenuID, MainWindow.mMenulist[i].Menu, MainWindow.mMenulist[i].subProgramID);
+            //            MainWindow.MainMdiContainer.Children.Add(MainWindow.mMenulist[i].subProgramID as MdiChild);
 
 
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("해당 화면이 존재하지 않습니다.");
-                }
-            }
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show("해당 화면이 존재하지 않습니다.");
+            //    }
+            //}
         }
         private void DataGrid_SizeChange(object sender, SizeChangedEventArgs e)
         {
@@ -2117,7 +2192,7 @@ namespace WizMes_HanYoung
         private void msgProductGrpID_MouseEnter(object sender, MouseEventArgs e)
         {
             toolTip.Content = "제품군을 '기타'로 설정시\r\n처음 화면 열 설정내용으로\r\n보실 수 있습니다.\r\n\r\n" +
-                "제품군을 '기타'이외로 설정 후 검색하면 \r\n필터링 기능을 이용하여 화면에 보이는 열을\r\n조정할 수 있습니다.";
+                "제품군을 '기타'이외로 설정 후 검색하면 \r\n열 필터링 기능을 이용하여 화면에 보이는 열을\r\n숨기고 보이게 할 수 있습니다.";
 
             // ToolTip 위치 설정 (이미지 아래쪽에 표시)
             Image img = sender as Image;
@@ -2167,6 +2242,8 @@ namespace WizMes_HanYoung
                 rbnWorkQty.IsEnabled = false;
                 chkrbnArticleGrpFilter.IsChecked = false;
                 ShowColums_ALL();
+                FreezeColumns();
+
             }
             else
             {
@@ -2182,6 +2259,7 @@ namespace WizMes_HanYoung
                     rbnWorkQty_Click(null, null);
 
                 }
+                UnfreezeColumns();
             }
         }
 
@@ -2210,14 +2288,19 @@ namespace WizMes_HanYoung
             if(cboProductGrpID.SelectedValue.ToString()!= "99")
             {
                 chkrbnArticleGrpFilter.IsEnabled = true;
+           
             }
             else
             {
+
                 chkrbnArticleGrpFilter.IsEnabled = false;
                 chkrbnArticleGrpFilter.IsChecked = false;
 
             }
+
         }
+
+    
     }
 
     class Win_ord_OrderClose_U_CodeView : BaseView
