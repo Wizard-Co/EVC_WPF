@@ -4054,6 +4054,7 @@ namespace WizMes_HanYoung
         public string InspectApprovalYN { get; set; }
         public string Inspector { get; set; }
         public string Article { get; set; }
+        public string BuyerArticleNo { get; set; }
         public string ProcessID { get; set; }
         public string CustomID { get; set; }
 
