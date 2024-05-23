@@ -11,6 +11,7 @@ using WizMes_HanYoung.PopUp;
 using WPF.MDI;
 using System.Linq;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 
 namespace WizMes_HanYoung
 {
@@ -2300,7 +2301,73 @@ namespace WizMes_HanYoung
 
         }
 
-    
+        private void DataGrid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var dataGrid = (DataGrid)sender;
+            var scrollViewer = FindVisualChild<ScrollViewer>(dataGrid);
+
+            if (scrollViewer != null)
+            {
+                var mousePosition = e.GetPosition(scrollViewer);
+                var horizontalScrollBar = FindVisualChild<ScrollBar>(scrollViewer, orientation: Orientation.Horizontal);
+                var verticalScrollBar = FindVisualChild<ScrollBar>(scrollViewer, orientation: Orientation.Vertical);
+
+                if (horizontalScrollBar != null && IsMouseOverScrollBar(mousePosition, horizontalScrollBar, scrollViewer))
+                {
+                    // 가로 스크롤
+                    if (e.Delta < 0)
+                    {
+                        scrollViewer.ScrollToHorizontalOffset(scrollViewer.HorizontalOffset + 100);
+                    }
+                    else if (e.Delta > 0)
+                    {
+                        scrollViewer.ScrollToHorizontalOffset(scrollViewer.HorizontalOffset - 100);
+                    }
+                    e.Handled = true;
+                }
+                else if (verticalScrollBar != null && IsMouseOverScrollBar(mousePosition, verticalScrollBar, scrollViewer))
+                {
+                    // 세로 스크롤
+                    if (e.Delta < 0)
+                    {
+                        scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset + 3);
+                    }
+                    else if (e.Delta > 0)
+                    {
+                        scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - 3);
+                    }
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private bool IsMouseOverScrollBar(Point mousePosition, ScrollBar scrollBar, ScrollViewer scrollViewer)
+        {
+            var scrollBarBounds = scrollBar.TransformToAncestor(scrollViewer).TransformBounds(new Rect(0, 0, scrollBar.ActualWidth, scrollBar.ActualHeight));
+            return scrollBarBounds.Contains(mousePosition);
+        }
+
+
+        private static T FindVisualChild<T>(DependencyObject obj, Orientation orientation = Orientation.Vertical) where T : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                var child = VisualTreeHelper.GetChild(obj, i);
+                if (child is T t && (orientation == Orientation.Vertical || (child is ScrollBar scrollBar && scrollBar.Orientation == orientation)))
+                {
+                    return t;
+                }
+                else
+                {
+                    var grandChild = FindVisualChild<T>(child, orientation);
+                    if (grandChild != null)
+                    {
+                        return grandChild;
+                    }
+                }
+            }
+            return null;
+        }
     }
 
     class Win_ord_OrderClose_U_CodeView : BaseView
