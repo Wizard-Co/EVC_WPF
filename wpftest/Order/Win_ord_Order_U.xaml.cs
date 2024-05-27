@@ -326,13 +326,13 @@ namespace WizMes_HanYoung
         private void txtInCustomSrh_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
-                MainWindow.pf.ReturnCode(txtInCustomSrh, (int)Defind_CodeFind.DCF_BUYERMODEL, "");
+                MainWindow.pf.ReturnCode(txtInCustomSrh, (int)Defind_CodeFind.DCF_CUSTOM, "");
         }
 
         //최종고객사
         private void btnPfInCustomSrh_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.pf.ReturnCode(txtInCustomSrh, (int)Defind_CodeFind.DCF_BUYERMODEL, "");
+            MainWindow.pf.ReturnCode(txtInCustomSrh, (int)Defind_CodeFind.DCF_CUSTOM, "");
         }
 
         //검색조건 - 품번 라벨 클릭

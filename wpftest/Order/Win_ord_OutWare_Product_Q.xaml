@@ -308,17 +308,19 @@
                     <DataGridTextColumn Header="순번" Width="auto" MinWidth="55" Binding="{Binding Path=NUM}"
                                         ElementStyle="{StaticResource DataGridCellCenter}"/>
                     <DataGridTextColumn Header="출고일자" Width="auto" MinWidth="60" Binding="{Binding Path=OutDate}"
-                                        ElementStyle="{StaticResource DataGridCellCenter}"/>                    
-                    <DataGridTextColumn Header="거래처" Width="auto" MinWidth="130" Binding="{Binding Path=KCustom}" /><DataGridTextColumn Header="출고처명" Width="auto" MinWidth="130" Binding="{Binding Path=KCustom}" />
+                                        ElementStyle="{StaticResource DataGridCellCenter}"/>
+                        <DataGridTextColumn Header="거래처" Width="auto" MinWidth="130" Binding="{Binding Path=KCustom}" ElementStyle="{StaticResource DataGridCellCenter}"/>
+                        <DataGridTextColumn Header="출고처명" Width="auto" MinWidth="130" Binding="{Binding Path=KCustom}" ElementStyle="{StaticResource DataGridCellCenter}" />
                     <DataGridTextColumn Header="품번" Width="auto" MinWidth="120" Binding="{Binding Path=BuyerArticleNo}" Visibility="Hidden"/>
                     <DataGridTextColumn Header="품명" Width="auto" MinWidth="120" Binding="{Binding Path=Article}"/>
-                    <DataGridTextColumn Header="OrderNo" Width="auto" MinWidth="70" Binding="{Binding Path=OrderNo}" >
+                    <DataGridTextColumn Header="OrderNo" Width="auto" MinWidth="70" Binding="{Binding Path=OrderNo}"  >
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Style.Triggers>
                                     <Trigger Property="Text" Value="오더계">
                                         <Setter Property="Background" Value="#EAEAEA" />
-                                    </Trigger>
+                                            <Setter Property="TextAlignment" Value="Center" />
+                                        </Trigger>
                                 </Style.Triggers>
                             </Style>
                         </DataGridTextColumn.ElementStyle>

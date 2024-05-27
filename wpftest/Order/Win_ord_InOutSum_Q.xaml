@@ -383,8 +383,8 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="순서" Binding="{Binding P_NUM}" />
                                 <DataGridTextColumn Header="기간" Binding="{Binding P_IODate}"/>
-                                <DataGridTextColumn Header="구분" Binding="{Binding P_Gbn}" />
-                                <DataGridTextColumn Header="거래처" Binding="{Binding P_CustomName}" Width="*"/>
+                                <DataGridTextColumn Header="구분" Binding="{Binding P_Gbn}" ElementStyle="{StaticResource DataGridCellCenter}" />
+                                <DataGridTextColumn Header="거래처" Binding="{Binding P_CustomName}" Width="*" ElementStyle="{StaticResource DataGridCellCenter}" />
                                 <DataGridTextColumn Header="품번" Binding="{Binding P_BuyerArticleNo}" Width="1.2*"/>
                                 <DataGridTextColumn Header="품명" Binding="{Binding P_Article}" Width="1.2*"/>
                                 <DataGridTextColumn Header="품명코드" Binding="{Binding P_ArticleID}" Width="1.2*"/>
@@ -498,8 +498,8 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="순서" Binding="{Binding D_NUM}" />
                                 <DataGridTextColumn Header="일자" Binding="{Binding D_IODate}"/>
-                                <DataGridTextColumn Header="구분" Binding="{Binding D_Gbn}" />
-                                <DataGridTextColumn Header="거래처" Binding="{Binding D_CustomName}" Width="*"/>
+                                <DataGridTextColumn Header="구분" Binding="{Binding D_Gbn}" ElementStyle="{StaticResource DataGridCellCenter}" />
+                                <DataGridTextColumn Header="거래처" Binding="{Binding D_CustomName}" Width="*" ElementStyle="{StaticResource DataGridCellCenter}"/>
                                 <DataGridTextColumn Header="품번" Binding="{Binding D_BuyerArticleNo}" Width="1.8*" />
                                 <DataGridTextColumn Header="품명" Binding="{Binding D_Article}" Width="1.8*"/>
                                 <DataGridTextColumn Header="건수" Binding="{Binding D_Roll}" Width="*"
@@ -613,8 +613,8 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="순서" Binding="{Binding V_NUM}" />
                                 <DataGridTextColumn Header="월" Binding="{Binding V_IODate}"/>
-                                <DataGridTextColumn Header="구분" Binding="{Binding V_Gbn}" />
-                                <DataGridTextColumn Header="거래처" Binding="{Binding V_CustomName}" Width="*"/>
+                                <DataGridTextColumn Header="구분" Binding="{Binding V_Gbn}" ElementStyle="{StaticResource DataGridCellCenter}"/>
+                                <DataGridTextColumn Header="거래처" Binding="{Binding V_CustomName}" Width="*" ElementStyle="{StaticResource DataGridCellCenter}"/>
                                 <DataGridTextColumn Header="품번" Binding="{Binding V_BuyerArticleNo}" Width="1.2*"/>
                                 <DataGridTextColumn Header="품명" Binding="{Binding V_Article}" Width="1.2*"/>
                                 <DataGridTextColumn Header="품명코드" Binding="{Binding V_ArticleID}" Width="1.2*"/>
@@ -739,8 +739,8 @@
 
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="순서" Binding="{Binding H_NUM}" />
-                                <DataGridTextColumn Header="구분" Binding="{Binding H_Gbn}" />
-                                <DataGridTextColumn Header="거래처" Binding="{Binding H_CustomName}" Width="*"/>
+                                <DataGridTextColumn Header="구분" Binding="{Binding H_Gbn}" ElementStyle="{StaticResource DataGridCellCenter}"/>
+                                <DataGridTextColumn Header="거래처" Binding="{Binding H_CustomName}" Width="*" ElementStyle="{StaticResource DataGridCellCenter}"/>
                                 <DataGridTextColumn Header="품번" Binding="{Binding H_BuyerArticleNo}" Width="2.3*"/>
                                 <DataGridTextColumn Header="품명" Binding="{Binding H_Article}" Width="2.3*"/>
                                 <DataGridTextColumn Header="단위" Binding="{Binding H_UnitClssName}" Width="*"
