@@ -838,7 +838,7 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("ArticleID", ""); // chkArticle.IsChecked == true ? txtArticle.Tag.ToString() : "");
                                                    //sqlParameter.Add("BuyerArticleNo", chkArticle.IsChecked == true ? txtArticle.Text : "");
                 sqlParameter.Add("nchkBuyerArticleNo", chkArticleNo.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("BuyerArticleNo", chkArticleNo.IsChecked == true ? (txtArticleNo.Tag != null ? txtArticleNo.Tag.ToString() : "") : "");
+                sqlParameter.Add("BuyerArticleNo", chkArticleNo.IsChecked == true ? (txtArticleNo.Tag != null ? txtArticleNo.Tag.ToString() : "") : "");                
                 ds = DataStore.Instance.ProcedureToDataSet("xp_Qul_sStsDefectRepair_Daily", sqlParameter, false);
 
                 if (ds != null && ds.Tables.Count > 0)
@@ -1006,7 +1006,8 @@ namespace WizMes_HanYoung
 
                                 ////콤보박스 선택에 따른 수량 명칭 변경
                                 strGubun1 = cboOccurStepSrh.SelectedValue.Equals("1") ? "입고수량" :
-                                            cboOccurStepSrh.SelectedValue.Equals("3") ? "생산수량" :
+                                            cboOccurStepSrh.SelectedValue.Equals("3") ? "검사수량" :
+                                            cboOccurStepSrh.SelectedValue.Equals("2") ? "생산수량" :
                                             cboOccurStepSrh.SelectedValue.Equals("4") ? "검사수량" : "출고수량",
 
                                 strGubun2 = "불량수",

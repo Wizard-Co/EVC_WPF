@@ -524,7 +524,7 @@
                             </Grid.ColumnDefinitions>
                             <TextBox x:Name="txtCustomer_InGroupBox" Grid.Column="0" Grid.Row="2" 
                                  Text="{Binding Path=KCustom}" Tag="{Binding Path=CustomID}" 
-                                 TabIndex="11" KeyDown="txtCustomer_InGroupBox_KeyDown" Style="{DynamicResource TextBoxMultiLineNecessary_Q}"/>
+                                 TabIndex="11" KeyDown="txtCustomer_InGroupBox_KeyDown" Style="{DynamicResource TextBoxInputNecessary}"/>
                             <Button x:Name="btnCustomer_InGroupBox"  Grid.Column="1" Grid.Row="2" Click="btnCustomer_InGroupBox_Click"  >
                                 <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}"/>
                             </Button>
@@ -546,7 +546,7 @@
                                      Text="{Binding Path=BuyerArticleNo}" IsEnabled="False"/>
                             <TextBox x:Name="txtArticle_InGroupBox" Grid.Column="1" 
                                  Text="{Binding Path=Article}" Tag="{Binding Path=ArticleID}" 
-                                 TabIndex="12" KeyDown="txtArticle_InGroupBox_KeyDown" Style="{DynamicResource TextBoxMultiLineNecessary_Q}"/>
+                                 TabIndex="12" KeyDown="txtArticle_InGroupBox_KeyDown" Style="{DynamicResource TextBoxInputNecessary}"/>
                             <Button x:Name="btnArticle_inGroupBox"  Grid.Column="2"  Click="btnArticle_InGroupBox_Click" >
                                 <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}"/>
                             </Button>

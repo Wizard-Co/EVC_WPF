@@ -46,6 +46,8 @@ namespace WizMes_HanYoung
         private Microsoft.Office.Interop.Excel.Worksheet pastesheet;
         PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
 
+        Dictionary<string, object> lstCheck = new Dictionary<string, object>();
+
         List<Win_ord_OutWare_Scan_CodeView> lstOutwarePrint = new List<Win_ord_OutWare_Scan_CodeView>();
 
         // 수정 정보를 보관하기 위한 변수
@@ -751,16 +753,19 @@ namespace WizMes_HanYoung
 
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                CantBtnControl();           //버튼 컨트롤
+              //버튼 컨트롤
 
                 if (SaveData(strFlag))
                 {
+                    CantBtnControl();
+
                     if (strFlag.Equals("I"))
                     {
                         var outwareCount = dgdOutware.Items.Count;
                         rowNum = outwareCount;
                     }
 
+                    lstCheck.Clear();
                     strFlag = string.Empty;
                     TextBoxClear(); // 저장했으면 클리어 해야지
                     re_Search(rowNum);
@@ -1752,7 +1757,7 @@ namespace WizMes_HanYoung
 
                     if (dt.Rows.Count == 0)
                     {
-                        MessageBox.Show("존재하지 않거나, 생산, 검사되지 않은 바코드 입니다.\r\n" +
+                        MessageBox.Show("존재하지 않거나, 생산, 검사, 또는 수주등록 되지 않은 바코드 입니다.\r\n" +
                             "바코드 번호 :" + ScanData);
                         return;
                     }
@@ -1846,9 +1851,9 @@ namespace WizMes_HanYoung
                         {
                             if (txtArticle_InGroupBox.Tag.ToString() != DR["ArticleID"].ToString()) //품명 텍스트 박스에 기재된 품명과 받아온 품명이 다르면
                             {
-                                MessageBox.Show("서로 다른 품명을 동시에 출고처리 할 수 없습니다. \r\n 바코드를 확인해주세요.\n" +
-                                    "바코드    품명 :" + DR["Article"].ToString() + ". \r\n" +
-                                    "출고희망 품명 :" + txtArticle_InGroupBox.Text + ".");
+                                System.Windows.MessageBox.Show("서로 다른 품명을 동시에 출고처리 할 수 없습니다.\r\n바코드를 확인해주세요.\n" +
+                                    "바코드   품명 :" + DR["Article"].ToString() + " \r\n" +
+                                    "출고희망 품명 :" + txtArticle_InGroupBox.Text + "","확인",MessageBoxButton.OK, MessageBoxImage.Error);
                                 return;
                             }
                         }
@@ -1856,9 +1861,9 @@ namespace WizMes_HanYoung
                         {
                             if (txtKCustom.Tag.ToString() != DR["CustomID"].ToString())         //거래처 텍스트 박스에 기재된 거래처와 받아온 거래처가 다르면
                             {
-                                MessageBox.Show("서로 다른 거래처를 동시에 출고처리 할 수 없습니다. \r\n" +
+                                System.Windows.MessageBox.Show("서로 다른 거래처를 동시에 출고처리 할 수 없습니다. \r\n" +
                                     "바코드 거래처 :" + DR["CustomName"].ToString() + ". \r\n" +
-                                    "출고 거래처 :" + txtKCustom.Text + ".");
+                                    "출고 거래처 :" + txtKCustom.Text + ".","확인",MessageBoxButton.OK, MessageBoxImage.Error);
                                 return;
                             }
                         }
@@ -1916,7 +1921,10 @@ namespace WizMes_HanYoung
                             ArticleID = DR["ArticleID"].ToString(),     //품명ID         
 
                             DeleteYN = "Y",
+
                         };
+
+                        lstCheck.Add(Win_ord_OutWare_Scan_Insert.LabelID, Win_ord_OutWare_Scan_Insert.OutQty);
 
                         //dgdOutwareSub.Items.Add(Win_ord_OutWare_Scan_Insert);
                         dgdOutwareSub.Items.Insert(0, Win_ord_OutWare_Scan_Insert); //2021-05-21 최근에 스캔 한 것이 위로 오게 수정
@@ -2581,8 +2589,9 @@ namespace WizMes_HanYoung
                 }
                 else
                 {
-                    btnAdd_Click(null, null);
+                    
                     txtScanData.Focus();
+                    flag = false;
                 }
 
             }
@@ -2653,9 +2662,8 @@ namespace WizMes_HanYoung
                     return false;
                 }
                 #region 재고보다 많이 입력하고 저장하면 중단
-                if (strFlag == "I" && tgnMoveByID.IsChecked == true)
-                {
-               
+                if (strFlag == "I" && tgnMoveByQty.IsChecked == true)
+                {              
 
                     for (int i = 0; i < dgdOutwareSub.Items.Count; i++)
                     {
@@ -2676,10 +2684,25 @@ namespace WizMes_HanYoung
                             MessageBox.Show($"해당 지시번호 남은 지시량 [ {RestOrderQty} ](을)를 초과할 수 없습니다.");
                             return false;
                         }
-
+                    }                  
+                }
+                if(tgnMoveByID.IsChecked == true)
+                {
+                    for (int i = 0; i < dgdOutwareSub.Items.Count; i++)
+                    {
+                        var OutwareSub = dgdOutwareSub.Items[i] as Win_ord_OutWare_Scan_Sub_CodeView;
+                        foreach(KeyValuePair<string,object> kvp in lstCheck)
+                        {
+                            if(OutwareSub.LabelID == kvp.Key)
+                            {
+                                if(Convert.ToInt32(OutwareSub.OutQty) > Convert.ToInt32(kvp.Value))
+                                {
+                                    MessageBox.Show("박스ID("+OutwareSub.LabelID+")에 남은 수량을 초과하셨습니다");
+                                    return false;
+                                }
+                            }
+                        }
                     }
-
-                  
                 }
                 #endregion
 
@@ -2744,6 +2767,12 @@ namespace WizMes_HanYoung
                 if (OutwareSub != null)
                 {
                     dgdOutwareSub.Items.Remove(OutwareSub);
+
+                    // lstCheck에서 해당 항목 삭제
+                    if (lstCheck.ContainsKey(OutwareSub.LabelID))
+                    {
+                        lstCheck.Remove(OutwareSub.LabelID);
+                    }
                 }
 
                 SumScanQty();

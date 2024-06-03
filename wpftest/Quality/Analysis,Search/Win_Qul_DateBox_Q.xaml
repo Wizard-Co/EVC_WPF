@@ -309,7 +309,7 @@
                         <DataGridTextColumn Header="차종" Width="auto"  Binding="{Binding Path=BuyerModel}" ElementStyle="{StaticResource DataGridCellLeft}" Visibility="Hidden"/>
                         <DataGridTextColumn Header="수주" Width="auto"  Binding="{Binding Path=OrderQty}" ElementStyle="{StaticResource DataGridCellLeft}"/>
                         <DataGridTextColumn Header="포장번호" Width="auto"  Binding="{Binding Path=PackID}" ElementStyle="{StaticResource DataGridCellLeft}"/>
-                        <DataGridTextColumn Header="포장라벨" Width="SizeToHeader"  Binding="{Binding Path=BoxID}" />
+                        <DataGridTextColumn Header="포장라벨" Width="auto"  Binding="{Binding Path=BoxID}" />
                         <DataGridTextColumn Header="공정라벨" Width="auto"  Binding="{Binding Path=PackBoxID}" ElementStyle="{StaticResource DataGridCellLeft}"/>
                         <DataGridTextColumn Header="단위" Width="auto"  Binding="{Binding Path=UnitClss}" ElementStyle="{StaticResource DataGridCellLeft}"/>
                         <DataGridTextColumn Header="검사" Width="auto"  Binding="{Binding Path=CtrlQty}" 

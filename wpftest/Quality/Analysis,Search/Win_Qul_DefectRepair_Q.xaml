@@ -381,10 +381,10 @@
                         
                         <DataGrid x:Name="dgdTotal" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Style="{DynamicResource DataGridSet1}" >
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="" Binding="{Binding GroupingName}" Width="50" CellStyle="{StaticResource DataGridCellAndCentering}" />
-                                <DataGridTextColumn Header="수량" Binding="{Binding DefectQty}" CellStyle="{StaticResource NumericDataGridCell}" Width="*"/>
-                                <DataGridTextColumn Header="시정수" Binding="{Binding RepairQty}" CellStyle="{StaticResource NumericDataGridCell}" Width="*"/>
-                                <DataGridTextColumn Header="시정률(%)" Binding="{Binding RepairRate}" CellStyle="{StaticResource NumericDataGridCell}" Width="*"/>
+                                <DataGridTextColumn Header="" Binding="{Binding GroupingName}" Width="50" CellStyle="{StaticResource DataGridCellAndCentering}" ElementStyle="{DynamicResource DataGridCellCenter}" />
+                                <DataGridTextColumn Header="수량" Binding="{Binding DefectQty}" CellStyle="{StaticResource NumericDataGridCell}" Width="*" ElementStyle="{DynamicResource DataGridCellCenter}"/>
+                                <DataGridTextColumn Header="시정수" Binding="{Binding RepairQty}" CellStyle="{StaticResource NumericDataGridCell}" Width="*" ElementStyle="{DynamicResource DataGridCellCenter}"/>
+                                <DataGridTextColumn Header="시정률(%)" Binding="{Binding RepairRate}" CellStyle="{StaticResource NumericDataGridCell}" Width="*" ElementStyle="{DynamicResource DataGridCellCenter}"/>
                             </DataGrid.Columns>
                         </DataGrid>
 

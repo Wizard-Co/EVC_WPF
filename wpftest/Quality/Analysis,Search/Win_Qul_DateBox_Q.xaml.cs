@@ -844,14 +844,18 @@ namespace WizMes_HanYoung
         {
             if (chkArticleNo.IsChecked == true)
             {
-                txtArticleNo.IsEnabled = true;
+                txtArticleNo.IsEnabled = false;
+                btnArticleNo.IsEnabled = false;
+                chkArticleNo.IsChecked = false;
                 txtArticleNo.Focus();
-                btnArticleNo.IsEnabled = true;
+
             }
             else
             {
-                txtArticleNo.IsEnabled = false;
-                btnArticleNo.IsEnabled = false;
+                txtArticleNo.IsEnabled = true;
+                btnArticleNo.IsEnabled = true;
+                chkArticleNo.IsChecked = true;
+
             }
         }
     }
