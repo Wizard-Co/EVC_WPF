@@ -457,7 +457,7 @@
                     <DataGridTextColumn x:Name="dgdtxtWork" Header="가공구분" Width="auto" Binding="{Binding WorkName}" MinWidth="50"
                                         ElementStyle="{StaticResource  DataGridCellCenter}"/>
                     <DataGridTextColumn x:Name="dgdtxtOrderQty" Header="수주수량" Width="auto" Binding="{Binding ColorQty, StringFormat='#,###,##'}" 
-                                        MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                        MinWidth="60" CellStyle="{StaticResource NumericDataGridCell}"/>
                     <!--<DataGridTextColumn x:Name="dgdtxtColorQty" Header="수주수량2" Width="auto" Binding="{Binding ColorQty}" 
                                         MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}"/>-->
                     <DataGridTextColumn x:Name="dgdtxtClass" Header="단위" Width="auto" Binding="{Binding UnitClssName}" MinWidth="30"
@@ -465,17 +465,17 @@
                     <DataGridTextColumn x:Name="dgdtxtStartDate" Header="투입일시" Width="auto" Binding="{Binding DayAndTime}" MinWidth="75"
                                         ElementStyle="{StaticResource  DataGridCellCenter}"/>
                     <DataGridTextColumn x:Name="dgdtxtInsertQty" Header="투입수량" Width="auto" Binding="{Binding p1WorkQty}" 
-                                        MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                        MinWidth="60" CellStyle="{StaticResource NumericDataGridCell}"/>
                     <DataGridTextColumn x:Name="dgdtxtInspect" Header="검사" Width="auto" Binding="{Binding InspectQty}" 
-                                        MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                        MinWidth="60" CellStyle="{StaticResource NumericDataGridCell}"/>
                     <DataGridTextColumn x:Name="dgdtxtPass" Header="합격" Width="auto" Binding="{Binding PassQty}" 
-                                        MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                        MinWidth="60" CellStyle="{StaticResource NumericDataGridCell}"/>
                     <DataGridTextColumn x:Name="dgdtxtDefect" Header="불량" Width="auto" Binding="{Binding DefectQty}" 
-                                        MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                        MinWidth="60" CellStyle="{StaticResource NumericDataGridCell}"/>
                     <DataGridTextColumn x:Name="dgdtxtOutWare" Header="제품출고" Width="auto" Binding="{Binding OutQty}" 
-                                        MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                        MinWidth="60" CellStyle="{StaticResource NumericDataGridCell}"/>
                     <DataGridTextColumn x:Name="dgdtxtOverandShort" Header="과부족" Width="auto" Binding="{Binding OverAndShort,StringFormat={}{0:N0}}" 
-                                        MinWidth="100" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                        MinWidth="60" CellStyle="{StaticResource NumericDataGridCell}"/>
                     <!--신선-->
                     <DataGridTextColumn x:Name="dgdtxtProcess1" Header="신선" Width="auto" Binding="{Binding p1ProcessName,StringFormat={}{0:N0}}" 
                                          CellStyle="{StaticResource NumericDataGridCell}"  Visibility="Hidden"/>

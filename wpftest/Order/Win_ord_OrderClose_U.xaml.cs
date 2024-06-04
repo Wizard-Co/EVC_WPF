@@ -1583,10 +1583,10 @@ namespace WizMes_HanYoung
             if (column != null) column.Visibility = Visibility.Visible;
 
             column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "수주수량");
-            if (column != null) column.Visibility = Visibility.Hidden;
+            if (column != null) column.Visibility = Visibility.Visible;
 
             column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "투입수량");
-            if (column != null) column.Visibility = Visibility.Hidden;
+            if (column != null) column.Visibility = Visibility.Visible;
 
             column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "품명");
             if (column != null) column.Visibility = Visibility.Visible;
