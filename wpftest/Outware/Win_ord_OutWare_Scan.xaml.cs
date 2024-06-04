@@ -764,7 +764,7 @@ namespace WizMes_HanYoung
                         var outwareCount = dgdOutware.Items.Count;
                         rowNum = outwareCount;
                     }
-
+                    
                     lstCheck.Clear();
                     strFlag = string.Empty;
                     TextBoxClear(); // 저장했으면 클리어 해야지
@@ -784,6 +784,7 @@ namespace WizMes_HanYoung
                 EventStatus = false;
                 CantBtnControl();           //버튼 컨트롤
                 TextBoxClear();
+                lstCheck.Clear();
 
                 if (strFlag.Equals("I"))
                 {
@@ -2686,24 +2687,24 @@ namespace WizMes_HanYoung
                         }
                     }                  
                 }
-                if(tgnMoveByID.IsChecked == true)
-                {
-                    for (int i = 0; i < dgdOutwareSub.Items.Count; i++)
-                    {
-                        var OutwareSub = dgdOutwareSub.Items[i] as Win_ord_OutWare_Scan_Sub_CodeView;
-                        foreach(KeyValuePair<string,object> kvp in lstCheck)
-                        {
-                            if(OutwareSub.LabelID == kvp.Key)
-                            {
-                                if(Convert.ToInt32(OutwareSub.OutQty) > Convert.ToInt32(kvp.Value))
-                                {
-                                    MessageBox.Show("박스ID("+OutwareSub.LabelID+")에 남은 수량을 초과하셨습니다");
-                                    return false;
-                                }
-                            }
-                        }
-                    }
-                }
+                //if(tgnMoveByID.IsChecked == true)
+                //{
+                //    for (int i = 0; i < dgdOutwareSub.Items.Count; i++)
+                //    {
+                //        var OutwareSub = dgdOutwareSub.Items[i] as Win_ord_OutWare_Scan_Sub_CodeView;
+                //        foreach(KeyValuePair<string,object> kvp in lstCheck)
+                //        {
+                //            if(OutwareSub.LabelID == kvp.Key)
+                //            {
+                //                if(Convert.ToInt32(OutwareSub.OutQty) > Convert.ToInt32(kvp.Value))
+                //                {
+                //                    MessageBox.Show("박스ID("+OutwareSub.LabelID+")에 남은 수량을 초과하셨습니다");
+                //                    return false;
+                //                }
+                //            }
+                //        }
+                //    }
+                //}
                 #endregion
 
                 return true;

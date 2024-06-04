@@ -438,7 +438,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate x:Name="chkChoice">
                                 <Viewbox  HorizontalAlignment="Center">
-                                    <CheckBox IsChecked="{Binding IsCheck,UpdateSourceTrigger=PropertyChanged}"  />
+                                    <CheckBox IsChecked="{Binding IsCheck,UpdateSourceTrigger=PropertyChanged}" />
                                 </Viewbox>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -446,7 +446,7 @@
                     <DataGridTextColumn x:Name="dgdtxtcls" Header="cls" Width="0" Binding="{Binding cls}" Visibility="Hidden"/>
                     <DataGridTextColumn x:Name="dgdtxtOrderNo" Header="OrderNo" Width="auto" Binding="{Binding OrderNo}" MinWidth="50" Visibility="Hidden"/>
                     <DataGridTextColumn x:Name="dgdtxtOrderID" Header="관리번호" Width="auto" Binding="{Binding OrderID_CV}" MinWidth="80" ElementStyle="{StaticResource  DataGridCellCenter}"/>
-                    <DataGridTextColumn x:Name="dgdtxtCustom" Header="거래처" Width="auto" Binding="{Binding KCustom}" MinWidth="100"/>
+                    <DataGridTextColumn x:Name="dgdtxtCustom" Header="거래처" Width="auto" Binding="{Binding KCustom}" MinWidth="100" ElementStyle="{DynamicResource DataGridCellCenter}"/>
                     <DataGridTextColumn x:Name="dgdtxtProductGrpID" Header="제품군ID" Width="auto" Binding="{Binding ProductGrpID}" MinWidth="100" Visibility="Hidden" />
                     <DataGridTextColumn x:Name="dgdtxtProductGrpName" Header="제품군" Width="auto" Binding="{Binding ProductGrpName}" MinWidth="100"/>
                     <DataGridTextColumn x:Name="dgdtxtArticleID" Header="품번" Width="auto" Binding="{Binding BuyerArticleNo}" MinWidth="100"/>
