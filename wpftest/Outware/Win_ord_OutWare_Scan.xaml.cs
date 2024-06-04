@@ -2687,18 +2687,19 @@ namespace WizMes_HanYoung
                         }
                     }                  
                 }
-                //if(tgnMoveByID.IsChecked == true)
+                // 박스에 담긴 수량 체크
+                //if (tgnMoveByID.IsChecked == true)
                 //{
                 //    for (int i = 0; i < dgdOutwareSub.Items.Count; i++)
                 //    {
                 //        var OutwareSub = dgdOutwareSub.Items[i] as Win_ord_OutWare_Scan_Sub_CodeView;
-                //        foreach(KeyValuePair<string,object> kvp in lstCheck)
+                //        foreach (KeyValuePair<string, object> kvp in lstCheck)
                 //        {
-                //            if(OutwareSub.LabelID == kvp.Key)
+                //            if (OutwareSub.LabelID == kvp.Key)
                 //            {
-                //                if(Convert.ToInt32(OutwareSub.OutQty) > Convert.ToInt32(kvp.Value))
+                //                if (Convert.ToInt32(OutwareSub.OutQty) > Convert.ToInt32(kvp.Value))
                 //                {
-                //                    MessageBox.Show("박스ID("+OutwareSub.LabelID+")에 남은 수량을 초과하셨습니다");
+                //                    MessageBox.Show("박스ID(" + OutwareSub.LabelID + ")에 남은 수량을 초과하셨습니다");
                 //                    return false;
                 //                }
                 //            }
@@ -2988,6 +2989,7 @@ namespace WizMes_HanYoung
             txtArticleID_InGroupBox.Text = string.Empty;
             txtArticle_InGroupBox.Text = string.Empty;
             txtArticle_InGroupBox.Tag = null;
+            txtBuyerArticleNo.Text = string.Empty;
             cboOutClss.SelectedIndex = 0;
             txtBuyerModel.Text = string.Empty;
             txtOutwareID.Text = string.Empty;
