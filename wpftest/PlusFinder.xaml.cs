@@ -742,9 +742,9 @@ namespace WizMes_HanYoung
                         #endregion
 
                     }           
-                    if (mDataGrid.Columns[1].Header.ToString() == "관리번호" &&
-                        mDataGrid.Columns[2].Header.ToString() == "거래처"   &&
-                        mDataGrid.Columns[3].Header.ToString() == "품명")
+                    if (mDataGrid.Columns[9].Header.ToString() == "관리번호" &&
+                        mDataGrid.Columns[1].Header.ToString() == "거래처"   &&
+                        mDataGrid.Columns[2].Header.ToString() == "품명")
                     {
                         string orderQty1 = dataRow.Row.ItemArray[4].ToString();
 

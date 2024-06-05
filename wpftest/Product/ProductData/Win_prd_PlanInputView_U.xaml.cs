@@ -459,7 +459,7 @@ namespace WizMes_HanYoung
                 txtOrderInstQty.IsEnabled = true;
                 txtRemark.IsEnabled = true;
                 rowNum = dgdMain.SelectedIndex;
-                btnReWrite.Visibility = Visibility.Visible;
+                //btnReWrite.Visibility = Visibility.Visible;
 
             }
             else
@@ -816,7 +816,7 @@ namespace WizMes_HanYoung
                 //dgdMain.IsEnabled = true;
                 dgdMain.IsHitTestVisible = true;
                 Lib.Instance.UiButtonEnableChange_IUControl(this);
-                btnReWrite.Visibility = Visibility;
+                //btnReWrite.Visibility = Visibility;
 
                 dgdMain.Items.Clear();
                 dgdSub.Items.Clear();
@@ -866,7 +866,7 @@ namespace WizMes_HanYoung
 
             dgdMain.IsHitTestVisible = true;
             Lib.Instance.UiButtonEnableChange_IUControl(this);
-            btnReWrite.Visibility = Visibility.Hidden;
+            //btnReWrite.Visibility = Visibility.Hidden;
 
             using (Loading lw = new Loading(FillGrid))
             {
