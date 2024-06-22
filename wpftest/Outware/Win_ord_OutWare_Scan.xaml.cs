@@ -1370,7 +1370,7 @@ namespace WizMes_HanYoung
                 if (e.Key == Key.Enter)
                 {
                     pf.refEvent += new PlusFinder.RefEventHandler(plusFinder_replyOrderQty);
-                    pf.ReturnCode(txtOrderID, 4, "");
+                    pf.ReturnCode(txtOrderID, 99, "");
 
                     if (txtOrderID.Text.Length > 0)
                     {
@@ -1558,7 +1558,7 @@ namespace WizMes_HanYoung
         {
             try
             {
-                pf.ReturnCode(txtOrderID, 4, "");
+                pf.ReturnCode(txtOrderID, 99, "");
 
                 if (txtOrderID.Text.Length > 0)
                 {
