@@ -372,7 +372,11 @@ namespace WizMes_HanYoung
                     }
                     string sql = "";
                     string Data = _txtBox.Text.Trim();
-
+                    if(ColID == "포장검사일")
+                    {
+                        ColID = rs_dt.Columns[9].Caption;
+                        ColName = rs_dt.Columns[9].Caption;
+                    }
             
 
                     //[1]코드로 찾기
@@ -458,6 +462,14 @@ namespace WizMes_HanYoung
                                     txtLot.Tag = colID2;                              
                                 }
 
+                            }
+                            if(ColID == "관리번호" && ColName == "관리번호")
+                            {
+                                col_ID = dtCodeTemp.Rows[0].ItemArray[9].ToString();
+                                col_Name = dtCodeTemp.Rows[0].ItemArray[9].ToString();
+
+                                txtBox.Tag = col_ID;
+                                txtBox.Text = col_Name;
                             }
                         }
                         //dt count가 0일때
@@ -749,11 +761,14 @@ namespace WizMes_HanYoung
                          mDataGrid.Columns[1].Header.ToString() == "거래처" &&
                          mDataGrid.Columns[2].Header.ToString() == "품명")
                         {
-                            string orderQty1 = dataRow.Row.ItemArray[4].ToString();
+                            string orderQty1 = dataRow.Row.ItemArray[4].ToString();                        
 
-                            refEvent?.Invoke($"{orderQty1},");
+                            refEvent?.Invoke($"{orderQty1}");
+
+                            colName = dataRow.Row.ItemArray[9].ToString();
+                            colID = dataRow.Row.ItemArray[9].ToString();
                         }
-                    }                
+                    }               
 
 
                     txtBox.Text = colName;
