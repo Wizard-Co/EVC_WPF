@@ -86,6 +86,7 @@ namespace WizMes_HanYoung
 
             // 작업자, 호기 수정 가능 하도록
             txtWorker.IsEnabled = true;
+            cboMachine.IsEnabled = true;
           
             SaveUpdateHeaderFalseMode();
         }
@@ -1716,54 +1717,12 @@ namespace WizMes_HanYoung
         #region 작업시간 자동계산
         private void txtStartTime_TextChanged(object sender, TextChangedEventArgs e)
         {
-            try
-            {
-                if (txtStartTime.Text != string.Empty && txtEndTime.Text != string.Empty && txtStartTime.Text.Length == 8)
-                {
-                    string SDate = txtStartTime.Text;
-                    string EDate = txtEndTime.Text;
-
-                    DateTime StartDate = Convert.ToDateTime(SDate);
-                    DateTime EndDate = Convert.ToDateTime(EDate);
-
-                    TimeSpan dateDiff = EndDate - StartDate;
-
-                    double totalMinutes = dateDiff.TotalMinutes;
-
-                    txtWorkMinute.Text = Math.Round(totalMinutes).ToString();
-                }
-            }
-            catch
-            {
-
-            }
-
+            calcurateTime();
         }
 
         private void txtEndTime_TextChanged(object sender, TextChangedEventArgs e)
         {
-            try
-            {
-                if (txtStartTime.Text != string.Empty && txtEndTime.Text != string.Empty && txtStartTime.Text.Length == 8)
-                {
-                    string SDate = txtStartTime.Text;
-                    string EDate = txtEndTime.Text;
-
-                    DateTime StartDate = Convert.ToDateTime(SDate);
-                    DateTime EndDate = Convert.ToDateTime(EDate);
-
-                    TimeSpan dateDiff = EndDate - StartDate;
-
-                    double totalMinutes = dateDiff.TotalMinutes;
-
-                    txtWorkMinute.Text = Math.Round(totalMinutes).ToString();
-                }
-            }
-            catch
-            {
-
-            }
-
+            calcurateTime();
         }
 
         #endregion
@@ -2165,9 +2124,51 @@ namespace WizMes_HanYoung
             }
         }
 
+
         #endregion
 
-        
+        private void dtpWorkStartDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            calcurateTime();
+        }
+
+        private void dtpWorkEndDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            calcurateTime();
+        }
+
+        public void calcurateTime()
+        {
+            try
+            {
+                if (txtStartTime.Text != string.Empty && txtEndTime.Text != string.Empty && txtStartTime.Text.Length == 8)
+                {
+                    string SDate = dtpWorkStartDate.SelectedDate.Value.ToString("yyyy-MM-dd") + " " + txtStartTime.Text;
+
+                    if (dtpWorkEndDate.SelectedDate.Value != null)
+                    {
+                        string EDate = dtpWorkEndDate.SelectedDate.Value.ToString("yyyy-MM-dd") + " " + txtEndTime.Text;
+                        DateTime StartDate = Convert.ToDateTime(SDate);
+                        DateTime EndDate = Convert.ToDateTime(EDate);
+
+                        TimeSpan dateDiff = EndDate - StartDate;
+
+                        double totalMinutes = dateDiff.TotalMinutes;
+
+                        txtWorkMinute.Text = Math.Round(totalMinutes).ToString();
+                    }
+                    else
+                    {
+                        MessageBox.Show("작업 종료 시간이 없습니다");
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
     }
 
     class Win_Prd_ProdResult_U_CodeView : BaseView

@@ -353,7 +353,7 @@
         <!-- 전체 중 하단 -->
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="10*" />
+                <RowDefinition Height="7*" />
                 <RowDefinition Height="65" />
                 <RowDefinition Height="30" />
                 <RowDefinition Height="3*" />
@@ -879,7 +879,11 @@
                         <ColumnDefinition Width="10*" />
                         <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
-
+                    <Button x:Name="btnReWrite" Grid.Row="1" Grid.Column="1" Margin="1" Click="btnReWrite_Click" Visibility="Hidden">
+                        <StackPanel>
+                            <TextBlock Text="재지시" />
+                        </StackPanel>
+                    </Button>
                     <Button x:Name="btnSave" Grid.Row="1" Grid.Column="1" Margin="1" Click="btnSave_Click" Visibility="Hidden">
                         <StackPanel>
                             <Image Source="{DynamicResource btiSave}" Style="{DynamicResource imgSize}" />

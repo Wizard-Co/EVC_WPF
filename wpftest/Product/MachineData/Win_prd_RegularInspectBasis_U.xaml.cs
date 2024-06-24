@@ -1098,8 +1098,6 @@ namespace WizMes_HanYoung
 
                     }
 
-
-
                     #endregion
 
                     #region 수정
@@ -1486,6 +1484,7 @@ namespace WizMes_HanYoung
                 }
                 else
                 {
+                    DelItems.Add(dgdSub.SelectedItem as Win_prd_RegularInspectBasis_U_CodeView);
                     dgdSub.Items.Remove((dgdSub.SelectedItem) as Win_prd_RegularInspectBasis_U_CodeView);
                 }
 

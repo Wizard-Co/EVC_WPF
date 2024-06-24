@@ -455,7 +455,7 @@
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
-                                    <DataGridTextColumn Header="생산량" Width="auto" Binding="{Binding WorkQty}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                    <DataGridTextColumn Header="생산량" Width="auto" Binding="{Binding WorkQty, StringFormat='#,###.#'}" CellStyle="{StaticResource NumericDataGridCell}"/>
                                     <DataGridTextColumn Header="작업시간" Width="auto" Binding="{Binding WorkTime, StringFormat='#,###.#'}" CellStyle="{StaticResource NumericDataGridCell}"/>
                                     <DataGridTemplateColumn Header="박스당 장입량" Width="auto" >
                                         <DataGridTemplateColumn.CellTemplate>
@@ -475,7 +475,7 @@
                                     <DataGridTemplateColumn Header="총 생산수량" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding WorkQty}" VerticalAlignment="Center" TextAlignment="Center" Padding="5 0 3 0" />
+                                                <TextBlock Text="{Binding WorkQty, StringFormat='#,###.#'}" VerticalAlignment="Center" TextAlignment="Center" Padding="5 0 3 0" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
@@ -557,7 +557,7 @@
                                     <DataGridTemplateColumn Header="생산량" Width="auto" >
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding WorkQty}" TextAlignment="Right" Padding="5 0 3 0" />
+                                                <TextBlock Text="{Binding WorkQty, StringFormat='#,###.#'}" TextAlignment="Right" Padding="5 0 3 0" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
@@ -679,7 +679,7 @@
                                     <DataGridTemplateColumn Header="생산량" Width="auto" >
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding WorkQty}" TextAlignment="Right" Padding="5 0 3 0" />
+                                                <TextBlock Text="{Binding WorkQty, StringFormat='#,###.#'}" TextAlignment="Right" Padding="5 0 3 0" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
@@ -687,7 +687,7 @@
                                     <DataGridTemplateColumn Header="박스당 장입량" Width="auto" >
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding ProdQtyPerBox}" TextAlignment="Center" Padding="5 0" />
+                                                <TextBlock Text="{Binding ProdQtyPerBox}" TextAlignment="Right" Padding="5 0" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>

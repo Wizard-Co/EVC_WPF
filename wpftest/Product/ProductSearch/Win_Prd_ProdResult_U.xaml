@@ -573,21 +573,21 @@
                         <DataGridTemplateColumn Header="건수" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding WorkCnt }" TextAlignment="Right"/>
+                                    <TextBlock Text="{Binding WorkCnt, StringFormat='#,###' }" TextAlignment="Right"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTemplateColumn Header="총수량" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding WorkQty}" TextAlignment="Right"/>
+                                    <TextBlock Text="{Binding WorkQty, StringFormat='#,###'}" TextAlignment="Right"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTemplateColumn Header="시간(Hour)" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding WorkHour}" TextAlignment="Right"/>
+                                    <TextBlock Text="{Binding WorkHour, StringFormat='#,###'}" TextAlignment="Right"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -874,7 +874,8 @@
                                     Text="{Binding WorkStartDate}"
                                     KeyDown="dtpWorkStartDate_KeyDown"
                                     PreviewKeyDown="dtpWorkStartDate_PreviewKeyDown"
-                                    CalendarClosed="dtpWorkStartDate_CalendarClosed"/>
+                                    CalendarClosed="dtpWorkStartDate_CalendarClosed"
+                                    SelectedDateChanged="dtpWorkStartDate_SelectedDateChanged"/>
                         <TextBox Grid.Row="6" x:Name="txtStartTime" Grid.Column="5" IsEnabled="False"
                                  Style="{DynamicResource TextBoxInputArea}"
                                  Text="{Binding WorkStartTime, StringFormat=HH:mm:ss}" 
@@ -890,7 +891,8 @@
                                     Text="{Binding WorkEndDate}"
                                     KeyDown="dtpWorkEndDate_KeyDown"
                                     PreviewKeyDown="dtpWorkEndDate_PreviewKeyDown"
-                                    CalendarClosed="dtpWorkEndDate_CalendarClosed"/>
+                                    CalendarClosed="dtpWorkEndDate_CalendarClosed"
+                                    SelectedDateChanged="dtpWorkEndDate_SelectedDateChanged"/>
                         <TextBox Grid.Row="7" x:Name="txtEndTime" Grid.Column="5" IsEnabled="False"
                                  Style="{DynamicResource TextBoxInputArea}"
                                  Text="{Binding WorkEndTime,StringFormat=HH:mm:ss}" 
