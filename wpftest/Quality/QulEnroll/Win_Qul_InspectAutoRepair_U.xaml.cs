@@ -10,10 +10,10 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WizMes_HanYoung.PopUP;
+using WizMes_Nadaum.PopUP;
 using WPF.MDI;
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     /// <summary>
     /// Win_Qul_InspectAutoRepair_U.xaml에 대한 상호 작용 논리

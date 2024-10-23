@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     /// <summary>
     /// PlusFind.xaml에 대한 상호 작용 논리

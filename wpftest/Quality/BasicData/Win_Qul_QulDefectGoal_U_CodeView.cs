@@ -1,4 +1,4 @@
-﻿namespace WizMes_HanYoung
+﻿namespace WizMes_Nadaum
 {
     class Win_Qul_QulDefectGoal_U_CodeView : BaseView
     {

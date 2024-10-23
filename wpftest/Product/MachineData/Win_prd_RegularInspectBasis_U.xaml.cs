@@ -16,14 +16,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WizMes_HanYoung.PopUP;
-using WizMes_HanYoung.PopUp;
-using WizMes_HanYoung;
+using WizMes_Nadaum.PopUP;
+using WizMes_Nadaum.PopUp;
+using WizMes_Nadaum;
 using WPF.MDI;
 using System.Net;
 using System.Threading;
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     /// <summary>
     /// Win_prd_RegularInspectBasis_U.xaml에 대한 상호 작용 논리

@@ -27,10 +27,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WizMes_HanYoung.PopUp;
-using WizMes_HanYoung.PopUP;
+using WizMes_Nadaum.PopUp;
+using WizMes_Nadaum.PopUP;
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     /// <summary>
     /// Win_prd_TemperWorkLog_Q.xaml에 대한 상호 작용 논리

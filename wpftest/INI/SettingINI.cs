@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media;
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     class SettingINI
     {

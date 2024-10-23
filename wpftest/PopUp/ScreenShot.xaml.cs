@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace WizMes_HanYoung.PopUp
+namespace WizMes_Nadaum.PopUp
 {
     /// <summary>
     /// ScreenShot.xaml에 대한 상호 작용 논리

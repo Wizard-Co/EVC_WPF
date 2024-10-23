@@ -14,11 +14,11 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using WizMes_HanYoung.PopUP;
-using WizMes_HanYoung.PopUp;
+using WizMes_Nadaum.PopUP;
+using WizMes_Nadaum.PopUp;
 
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     /**************************************************************************************************
     '** System 명 : WizMes_GLS

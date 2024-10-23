@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace WizMes_HanYoung.PopUp
+namespace WizMes_Nadaum.PopUp
 {
     /// <summary>
     /// FavoriterAddtionPopUP.xaml에 대한 상호 작용 논리

@@ -1,9 +1,9 @@
-﻿<Window x:Class="WizMes_HanYoung.PopUP.ExportExcelxaml"
+﻿<Window x:Class="WizMes_Nadaum.PopUP.ExportExcelxaml"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WizMes_HanYoung.PopUP"
+        xmlns:local="clr-namespace:WizMes_Nadaum.PopUP"
         mc:Ignorable="d"
         Name="ExportExcel" Height="250" Width="300" Title="엑셀 Export용 그리드 선택" Loaded="ExportExcel_Loaded">
     <Grid>

@@ -1,4 +1,4 @@
-﻿using WizMes_HanYoung.PopUP;
+﻿using WizMes_Nadaum.PopUP;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using WPF.MDI;
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     /// <summary>
     /// Win_dvl_MoldRegularInspect_U.xaml에 대한 상호 작용 논리

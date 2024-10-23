@@ -1,5 +1,5 @@
-<Application x:Class="WizMes_HanYoung.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:WizMes_HanYoung" 
+<Application x:Class="WizMes_Nadaum.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:WizMes_Nadaum" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              d1p1:Ignorable="d" xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -302,8 +302,8 @@
                 <Setter Property="Background" Value="#fff2d2" />
             </Style>
             <!-- 백 그라운드에 넣을 이미지 키값으로 지정 -->
-            <ImageBrush x:Key="WizMes_HanYoung" ImageSource="Images/wizmes.jpg" />
-            <ImageBrush x:Key="WizMes_HanYoungNoIcon" ImageSource="Images/wizMES_Largesize_noIcon.jpg" />
+            <ImageBrush x:Key="WizMes_Nadaum" ImageSource="Images/wizmes.jpg" />
+            <ImageBrush x:Key="WizMes_NadaumNoIcon" ImageSource="Images/wizMES_Largesize_noIcon.jpg" />
 
 
             <!--2019.05.08 NEW 4M용 스타일-->

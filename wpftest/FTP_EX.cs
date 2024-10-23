@@ -18,7 +18,7 @@ using System.Windows.Media.Imaging;
 //
 //*******************************************************************************
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     public class FTP_EX
     {

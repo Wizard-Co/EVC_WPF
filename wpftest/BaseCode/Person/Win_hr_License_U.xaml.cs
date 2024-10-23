@@ -9,10 +9,10 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WizMes_HanYoung.PopUP;
-using WizMes_HanYoung.PopUp;
+using WizMes_Nadaum.PopUP;
+using WizMes_Nadaum.PopUp;
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     /// <summary>
     /// Win_hr_License_U.xaml에 대한 상호 작용 논리

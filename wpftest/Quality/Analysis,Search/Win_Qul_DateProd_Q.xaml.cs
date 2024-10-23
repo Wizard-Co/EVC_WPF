@@ -7,9 +7,9 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WizMes_HanYoung.PopUP;
+using WizMes_Nadaum.PopUP;
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     /// <summary>
     /// Win_Qul_DateProd_Q.xaml에 대한 상호 작용 논리

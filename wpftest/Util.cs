@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     public static class Util
     {

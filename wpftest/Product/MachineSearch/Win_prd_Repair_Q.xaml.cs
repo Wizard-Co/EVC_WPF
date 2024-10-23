@@ -13,10 +13,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WizMes_HanYoung.PopUP;
+using WizMes_Nadaum.PopUP;
 using WPF.MDI;
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     /// <summary>
     /// Win_prd_Repair_Q.xaml에 대한 상호 작용 논리
@@ -25,7 +25,7 @@ namespace WizMes_HanYoung
     {
         #region 변수 선언 및 로드
         Lib lib = new Lib();
-        WizMes_HanYoung.PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
+        WizMes_Nadaum.PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
 
         public Win_prd_Repair_Q()
         {

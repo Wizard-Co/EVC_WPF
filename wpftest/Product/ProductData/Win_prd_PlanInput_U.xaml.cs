@@ -14,10 +14,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WizMes_HanYoung.PopUp;
+using WizMes_Nadaum.PopUp;
 using WPF.MDI;
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     /// <summary>
     /// Win_prd_PlanInput_U.xaml에 대한 상호 작용 논리
@@ -934,7 +934,7 @@ namespace WizMes_HanYoung
                 }
                 else
                 {
-                    Type type = Type.GetType("WizMes_HanYoung." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
+                    Type type = Type.GetType("WizMes_Nadaum." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
                     object uie = Activator.CreateInstance(type);
 
                     MainWindow.mMenulist[i].subProgramID = new MdiChild()

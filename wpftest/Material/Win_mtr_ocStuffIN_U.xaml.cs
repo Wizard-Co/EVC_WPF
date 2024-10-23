@@ -7,8 +7,8 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WizMes_HanYoung.PopUp;
-using WizMes_HanYoung.PopUP;
+using WizMes_Nadaum.PopUp;
+using WizMes_Nadaum.PopUP;
 //*******************************************************************************
 //프로그램명    Win_mtr_ocStuffIN_U.cs
 //메뉴ID        Win_mtr_ocStuffIN_U
@@ -23,7 +23,7 @@ using WizMes_HanYoung.PopUP;
 //*******************************************************************************
 
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     public partial class Win_mtr_ocStuffIN_U : UserControl
     {
@@ -53,7 +53,7 @@ namespace WizMes_HanYoung
         private Microsoft.Office.Interop.Excel.Range workrange;
         private Microsoft.Office.Interop.Excel.Worksheet copysheet;
         private Microsoft.Office.Interop.Excel.Worksheet pastesheet;
-        WizMes_HanYoung.PopUp.NoticeMessage msg = new WizMes_HanYoung.PopUp.NoticeMessage();
+        WizMes_Nadaum.PopUp.NoticeMessage msg = new WizMes_Nadaum.PopUp.NoticeMessage();
         bool printYN = true;
         bool doPass = true;
         public Win_mtr_ocStuffIN_U()

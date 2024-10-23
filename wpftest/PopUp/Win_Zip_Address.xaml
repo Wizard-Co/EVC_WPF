@@ -1,9 +1,9 @@
-﻿<Window x:Class="WizMes_HanYoung.PopUp.Win_Zip_Address"
+﻿<Window x:Class="WizMes_Nadaum.PopUp.Win_Zip_Address"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WizMes_HanYoung.PopUp"
+        xmlns:local="clr-namespace:WizMes_Nadaum.PopUp"
         mc:Ignorable="d" Loaded="Window_Loaded"
         Title="주소 찾기" Height="500" Width="400">
     <Grid>

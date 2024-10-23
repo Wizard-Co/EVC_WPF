@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="WizMes_HanYoung.Win_out_OutwareReq_U"
+﻿<UserControl x:Class="WizMes_Nadaum.Win_out_OutwareReq_U"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:WizMes_HanYoung"
+      xmlns:local="clr-namespace:WizMes_Nadaum"
       mc:Ignorable="d" Loaded="UserControl_Loaded"
       d:DesignHeight="620" d:DesignWidth="820">
     <Grid>
@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
 
         <!-- 전체 중 상단 -->
-        <Grid Grid.Row="0" Background="{DynamicResource WizMes_HanYoung}">
+        <Grid Grid.Row="0" Background="{DynamicResource WizMes_Nadaum}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100*" />
                 <ColumnDefinition Width="190*" />

@@ -1,4 +1,4 @@
-﻿namespace WizMes_HanYoung
+﻿namespace WizMes_Nadaum
 {
     public class KeyValue
     {

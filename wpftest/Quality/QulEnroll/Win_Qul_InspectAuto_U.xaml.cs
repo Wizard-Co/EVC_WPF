@@ -10,8 +10,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Drawing.Printing;
-using WizMes_HanYoung.PopUP;
-using WizMes_HanYoung.PopUp;
+using WizMes_Nadaum.PopUP;
+using WizMes_Nadaum.PopUp;
 using Microsoft.Win32;
 using ExcelDataReader;
 using WPF.MDI;
@@ -34,7 +34,7 @@ using System.Data.SqlClient;
                     , 측정값 저장 로직 변경
 '**************************************************************************************************/
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     /// <summary>
     /// Win_Qul_InspectAuto_U.xaml에 대한 상호 작용 논리
@@ -106,7 +106,7 @@ namespace WizMes_HanYoung
 
         string rowHeaderNum = string.Empty;
 
-        WizMes_HanYoung.PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
+        WizMes_Nadaum.PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
 
         // FTP 활용모음.
         string FullPath1 = string.Empty;

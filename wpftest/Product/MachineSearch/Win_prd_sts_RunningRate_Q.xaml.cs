@@ -6,13 +6,13 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
-using WizMes_HanYoung.PopUp;
-using WizMes_HanYoung.PopUP;
+using WizMes_Nadaum.PopUp;
+using WizMes_Nadaum.PopUP;
 using System.Windows.Input;
 using System.Threading;
 using WPF.MDI;
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     /**************************************************************************************************
     '** System 명 : WizMES
@@ -448,12 +448,12 @@ namespace WizMes_HanYoung
                     }
                     else
                     {
-                        Type type = Type.GetType("WizMes_HanYoung." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
+                        Type type = Type.GetType("WizMes_Nadaum." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
                         object uie = Activator.CreateInstance(type);
 
                         MainWindow.mMenulist[i].subProgramID = new MdiChild()
                         {
-                            Title = "HanYoung [" + MainWindow.mMenulist[i].MenuID.Trim() + "] " + MainWindow.mMenulist[i].Menu.Trim() +
+                            Title = "Nadaum [" + MainWindow.mMenulist[i].MenuID.Trim() + "] " + MainWindow.mMenulist[i].Menu.Trim() +
                                     " (→" + MainWindow.mMenulist[i].ProgramID + ")",
                             Height = SystemParameters.PrimaryScreenHeight * 0.8,
                             MaxHeight = SystemParameters.PrimaryScreenHeight * 0.85,

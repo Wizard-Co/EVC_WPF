@@ -6,8 +6,8 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WizMes_HanYoung.PopUP;
-using WizMes_HanYoung.PopUp;
+using WizMes_Nadaum.PopUP;
+using WizMes_Nadaum.PopUp;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Linq;
 
@@ -23,7 +23,7 @@ using System.Linq;
 ' 2023.04.03, 장시영, 저장시 xp_Order_dOrderColorAll 내용 삭제 - xp_Order_uOrder 에서 동작하도록 수정
 '**************************************************************************************************/
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     /// <summary>
     /// Win_ord_Order_U.xaml에 대한 상호 작용 논리

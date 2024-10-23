@@ -4,9 +4,9 @@ using System.Data;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using WizMes_HanYoung.PopUP;
+using WizMes_Nadaum.PopUP;
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     /// <summary>
     /// Win_com_Bank_U.xaml에 대한 상호 작용 논리

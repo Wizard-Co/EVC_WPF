@@ -6,14 +6,14 @@ using System.Windows.Data;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WizMes_HanYoung.PopUP;
-using WizMes_HanYoung.PopUp;
+using WizMes_Nadaum.PopUP;
+using WizMes_Nadaum.PopUp;
 using WPF.MDI;
 using System.Linq;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     /// <summary>
     /// Win_ord_OrderClose_U.xaml에 대한 상호 작용 논리
@@ -2107,12 +2107,12 @@ namespace WizMes_HanYoung
             //        }
             //        else
             //        {
-            //            Type type = Type.GetType("WizMes_HanYoung." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
+            //            Type type = Type.GetType("WizMes_Nadaum." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
             //            object uie = Activator.CreateInstance(type);
 
             //            MainWindow.mMenulist[i].subProgramID = new MdiChild()
             //            {
-            //                Title = "HanYoung [" + MainWindow.mMenulist[i].MenuID.Trim() + "] " + MainWindow.mMenulist[i].Menu.Trim() +
+            //                Title = "Nadaum [" + MainWindow.mMenulist[i].MenuID.Trim() + "] " + MainWindow.mMenulist[i].Menu.Trim() +
             //                        " (→" + MainWindow.mMenulist[i].ProgramID + ")",
             //                Height = SystemParameters.PrimaryScreenHeight * 0.8,
             //                MaxHeight = SystemParameters.PrimaryScreenHeight * 0.85,

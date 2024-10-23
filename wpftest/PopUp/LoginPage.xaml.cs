@@ -4,7 +4,7 @@ using System.Data;
 using System.Windows;
 using System.Windows.Input;
 
-namespace WizMes_HanYoung.PopUp
+namespace WizMes_Nadaum.PopUp
 {
     /// <summary>
     /// LoginPage.xaml에 대한 상호 작용 논리

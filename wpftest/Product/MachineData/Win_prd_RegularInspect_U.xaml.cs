@@ -11,11 +11,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using WizMes_HanYoung.PopUp;
-using WizMes_HanYoung.PopUP;
+using WizMes_Nadaum.PopUp;
+using WizMes_Nadaum.PopUP;
 using WPF.MDI;
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     /// <summary>
     /// Win_prd_RegularInspect_U.xaml에 대한 상호 작용 논리
@@ -1683,12 +1683,12 @@ namespace WizMes_HanYoung
             }
             else
             {
-                Type type = Type.GetType("WizMes_HanYoung." + MainWindow.mMenulist[k].ProgramID.Trim(), true);
+                Type type = Type.GetType("WizMes_Nadaum." + MainWindow.mMenulist[k].ProgramID.Trim(), true);
                 object uie = Activator.CreateInstance(type);
 
                 MainWindow.mMenulist[k].subProgramID = new MdiChild()
                 {
-                    Title = "(주)HanYoung [" + MainWindow.mMenulist[k].MenuID.Trim() + "] " + MainWindow.mMenulist[k].Menu.Trim() +
+                    Title = "(주)Nadaum [" + MainWindow.mMenulist[k].MenuID.Trim() + "] " + MainWindow.mMenulist[k].Menu.Trim() +
                             " (→" + MainWindow.mMenulist[k].ProgramID + ")",
                     Height = SystemParameters.PrimaryScreenHeight * 0.8,
                     MaxHeight = SystemParameters.PrimaryScreenHeight * 0.85,

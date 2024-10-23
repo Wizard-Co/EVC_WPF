@@ -8,7 +8,7 @@ using System.Security;
 using System.Windows;
 using System.Windows.Interop;
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     public class FilePreviewControl : HwndHost
     {

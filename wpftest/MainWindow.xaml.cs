@@ -6,10 +6,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using WizMes_HanYoung.PopUp;
+using WizMes_Nadaum.PopUp;
 using WPF.MDI;
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     /// <summary>
     /// MainWindow.xaml에 대한 상호 작용 논리
@@ -277,12 +277,12 @@ namespace WizMes_HanYoung
                 }
                 else
                 {
-                    Type type = Type.GetType("WizMes_HanYoung." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
+                    Type type = Type.GetType("WizMes_Nadaum." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
                     object uie = Activator.CreateInstance(type);
 
                     MainWindow.mMenulist[i].subProgramID = new MdiChild()
                     {
-                        Title = "WizMes_HanYoung [" + MainWindow.mMenulist[i].MenuID.Trim() + "] " + MainWindow.mMenulist[i].Menu.Trim() +
+                        Title = "WizMes_Nadaum [" + MainWindow.mMenulist[i].MenuID.Trim() + "] " + MainWindow.mMenulist[i].Menu.Trim() +
                                 " (→" + MainWindow.mMenulist[i].ProgramID.Trim() + ")",
                         Height = SystemParameters.PrimaryScreenHeight * 0.8,
                         MaxHeight = SystemParameters.PrimaryScreenHeight * 0.85,
@@ -498,12 +498,12 @@ namespace WizMes_HanYoung
             {
                 try
                 {
-                    tt1 = Type.GetType("WizMes_HanYoung." + MenuViewModel.ProgramID.Trim(), true);
+                    tt1 = Type.GetType("WizMes_Nadaum." + MenuViewModel.ProgramID.Trim(), true);
                     uie = Activator.CreateInstance(tt1);
 
                     MenuViewModel.subProgramID = new MdiChild()
                     {
-                        Title = "WizMes_HanYoung [" + MenuViewModel.MenuID + "] " + MenuViewModel.Menu + " (→" + MenuViewModel.ProgramID.Trim() + ")",
+                        Title = "WizMes_Nadaum [" + MenuViewModel.MenuID + "] " + MenuViewModel.Menu + " (→" + MenuViewModel.ProgramID.Trim() + ")",
                         Height = SystemParameters.PrimaryScreenHeight * 0.8,
                         MaxHeight = SystemParameters.PrimaryScreenHeight * 0.85,
                         MinHeight = 640,
@@ -533,7 +533,7 @@ namespace WizMes_HanYoung
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
 
             string strPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);//+ "\\wizmes.exe";
-            strPath = strPath + "\\WizMes_HanYoung2.exe";
+            strPath = strPath + "\\WizMes_Nadaum2.exe";
             startInfo.FileName = strPath;
             startInfo.Arguments = CurrentUser;
             startInfo.RedirectStandardOutput = true;
@@ -674,7 +674,7 @@ namespace WizMes_HanYoung
                                 UpdateClss = item["UpdateClss"] as string,
                                 DeleteClss = item["DeleteClss"] as string,
                                 PrintClss = item["PrintClss"] as string,
-                                ////Remark = "WizMes_HanYoung." + item["Remark"].ToString(),
+                                ////Remark = "WizMes_Nadaum." + item["Remark"].ToString(),
                                 ////subRemark = item["Remark"] as object,
                                 ProgramID = item["ProgramID"] as string,
                                 subProgramID = item["ProgramID"] as object
@@ -838,7 +838,7 @@ namespace WizMes_HanYoung
         {
             try
             {
-                if (MessageBox.Show("WizMes_HanYoung를 종료하시겠습니까?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if (MessageBox.Show("WizMes_Nadaum를 종료하시겠습니까?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     DataStore.Instance.InsertLogByFormAllUpdate(mainStDate, mainStTime);
                     Environment.Exit(0);
@@ -863,7 +863,7 @@ namespace WizMes_HanYoung
 
         private void OnClosing(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("WizMes_HanYoung를 종료하시겠습니까?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (MessageBox.Show("WizMes_Nadaum를 종료하시겠습니까?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 DataStore.Instance.InsertLogByFormAllUpdate(mainStDate, mainStTime);
                 SaveFontSetting();

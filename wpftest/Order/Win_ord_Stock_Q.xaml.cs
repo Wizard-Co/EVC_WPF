@@ -5,11 +5,11 @@ using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WizMes_HanYoung.PopUP;
-using WizMes_HanYoung.PopUp;
+using WizMes_Nadaum.PopUP;
+using WizMes_Nadaum.PopUp;
 using WPF.MDI;
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     /// <summary>
     /// Win_ord_Stock_Q.xaml에 대한 상호 작용 논리
@@ -33,7 +33,7 @@ namespace WizMes_HanYoung
         private Microsoft.Office.Interop.Excel.Range workrange;
         private Microsoft.Office.Interop.Excel.Worksheet copysheet;
         private Microsoft.Office.Interop.Excel.Worksheet pastesheet;
-        WizMes_HanYoung.PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
+        WizMes_Nadaum.PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
         DataTable DT;
 
 
@@ -918,7 +918,7 @@ namespace WizMes_HanYoung
                 if ((chkWareHouse.IsChecked == true) && (cboWareHouse.SelectedIndex != -1))     // 창고정보.
                 {
                     workrange = worksheet.get_Range("D3");//셀 범위 지정
-                    workrange.Value2 = ((WizMes_HanYoung.CodeView)cboWareHouse.SelectedItem).code_name.ToString();
+                    workrange.Value2 = ((WizMes_Nadaum.CodeView)cboWareHouse.SelectedItem).code_name.ToString();
                     workrange.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignLeft;
                     workrange.Font.Size = 11;
                 }

@@ -6,7 +6,7 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 
-namespace WizMes_HanYoung.PopUp
+namespace WizMes_Nadaum.PopUp
 {
     /// <summary>
     /// FontPopUP.xaml에 대한 상호 작용 논리

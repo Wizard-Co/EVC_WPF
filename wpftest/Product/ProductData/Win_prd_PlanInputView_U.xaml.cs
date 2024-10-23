@@ -14,11 +14,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WizMes_HanYoung.PopUp;
-using WizMes_HanYoung.PopUP;
+using WizMes_Nadaum.PopUp;
+using WizMes_Nadaum.PopUP;
 using WPF.MDI;
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     /// <summary>
     /// Win_prd_PlanInputView_U_U.xaml에 대한 상호 작용 논리
@@ -33,7 +33,7 @@ namespace WizMes_HanYoung
         private Microsoft.Office.Interop.Excel.Worksheet pastesheet;
         // 엑셀 활용 용도 (프린트)
 
-        WizMes_HanYoung.PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
+        WizMes_Nadaum.PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
         //(기다림 알림 메시지창)
         System.Data.DataTable DT;
         Lib lib = new Lib();
@@ -455,7 +455,6 @@ namespace WizMes_HanYoung
                 chkMtrExceptYN.IsEnabled = true;
                 chkOutWareExceptYN.IsEnabled = true;
                 chkTheEnd.IsEnabled = true;
-                txtInstSeq.IsEnabled = true;
                 txtOrderInstQty.IsEnabled = true;
                 txtRemark.IsEnabled = true;
                 rowNum = dgdMain.SelectedIndex;
@@ -644,7 +643,6 @@ namespace WizMes_HanYoung
                         if (!WinPlanOrder.cls.Trim().Equals("9"))
                         {
                             dgdMain.Items.Add(WinPlanOrder);
-                            txtInstSeq.Text = WinPlanOrder.InstSeq;
                         }
                         // 총계
                         else
@@ -671,7 +669,6 @@ namespace WizMes_HanYoung
 
             if (WinPlanView != null)
             {
-                txtInstSeq.Text = WinPlanView.InstSeq;
                 txtOrderInstQty.Text = WinPlanView.OrderInstQty.ToString();
                 txtRemark.Text = WinPlanView.Remark;
 
@@ -809,7 +806,6 @@ namespace WizMes_HanYoung
                 chkOutWareExceptYN.IsEnabled = false;
                 chkTheEnd.IsChecked = false;
                 chkTheEnd.IsEnabled = false;
-                txtInstSeq.IsEnabled = false;
                 txtOrderInstQty.IsEnabled = false;
                 txtRemark.IsEnabled = false;
 
@@ -860,7 +856,6 @@ namespace WizMes_HanYoung
         {
             chkMtrExceptYN.IsEnabled = false;
             chkOutWareExceptYN.IsEnabled = false;
-            txtInstSeq.IsEnabled = false;
             txtOrderInstQty.IsEnabled = false;
             txtRemark.IsEnabled = false;
 
@@ -900,7 +895,6 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("OutwareExceptYN", chkOutWareExceptYN.IsChecked == true ? "Y" : "N");
                 sqlParameter.Add("OrderInstQty", WinPlanView.OrderInstQty);
                 sqlParameter.Add("UpdateUserID", MainWindow.CurrentUser);
-                sqlParameter.Add("InstSeq", txtInstSeq.Text);
                 sqlParameter.Add("Remark", WinPlanView.Remark);
 
                 Procedure pro1 = new Procedure();

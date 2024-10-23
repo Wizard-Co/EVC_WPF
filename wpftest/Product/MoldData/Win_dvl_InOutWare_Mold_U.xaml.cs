@@ -1,4 +1,4 @@
-﻿using WizMes_HanYoung.PopUP;
+﻿using WizMes_Nadaum.PopUP;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,7 +12,7 @@ using System.Drawing;
 using static System.Windows.Forms.AxHost;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     /// <summary>
     /// Win_dvl_InOutWare_Mold_U.xaml에 대한 상호 작용 논리

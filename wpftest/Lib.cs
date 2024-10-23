@@ -18,7 +18,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using WPF.MDI;
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     public class Lib
     {
@@ -2812,7 +2812,7 @@ namespace WizMes_HanYoung
                 sqlParameter.Add("sUserID", MainWindow.CurrentUser);
                 sqlParameter.Add("sWorkComputer", System.Environment.MachineName);
                 sqlParameter.Add("sWorkComputerIP", userhost.ToString());
-                sqlParameter.Add("sWorkLog", "HanYoung" + " " + "[" + MenuID + "]" + " " + MenuName + " " + "(" + objList.ToString() + ")");
+                sqlParameter.Add("sWorkLog", "Nadaum" + " " + "[" + MenuID + "]" + " " + MenuName + " " + "(" + objList.ToString() + ")");
 
 
                 string[] result = DataStore.Instance.ExecuteProcedure("xp_iWorkLogWPF", sqlParameter, false);

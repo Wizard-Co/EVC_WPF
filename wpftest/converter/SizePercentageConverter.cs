@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace WizMes_HanYoung
+namespace WizMes_Nadaum
 {
     public class SizePercentageConverter : IValueConverter
     {
