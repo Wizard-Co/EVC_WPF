@@ -847,8 +847,8 @@ namespace WizMes_Nadaum
                 if (!strFlag.Equals("I"))
                 {
                     sqlParameter.Clear();
-                    sqlParameter.Add("sUserID", PersonCodeView.UserID);
-                    sqlParameter.Add("sPgGubun", "7");
+                    sqlParameter.Add("personID", PersonCodeView.UserID);
+                    sqlParameter.Add("pgGubun", "7");
                     DataSet dst = DataStore.Instance.ProcedureToDataSet("xp_Menu_sUserMenu", sqlParameter, false);
 
                     if (dst != null && dst.Tables.Count > 0)

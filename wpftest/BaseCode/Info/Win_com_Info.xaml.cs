@@ -75,8 +75,8 @@ namespace WizMes_Nadaum
             chkWorkplace.IsChecked = true;
             cboWorkplace.SelectedIndex = 0;
 
-            Fill_UP_AllNotice();        // 오늘날짜의 전체용 공지 확인 + 첨부문서 있다면 그리드 표시. (로드시 자동)  
-            Fill_UP_PersonNotice();     // 오늘날짜의 개별용 공지 확인. (로드시 자동)
+            //Fill_UP_AllNotice();        // 오늘날짜의 전체용 공지 확인 + 첨부문서 있다면 그리드 표시. (로드시 자동)  
+            //Fill_UP_PersonNotice();     // 오늘날짜의 개별용 공지 확인. (로드시 자동)
 
 
         }

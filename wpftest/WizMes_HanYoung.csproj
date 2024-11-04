@@ -361,6 +361,21 @@
     <Compile Include="Outware\Win_Out_OutwareReq_U.xaml.cs">
       <DependentUpon>Win_Out_OutwareReq_U.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pay\classPay.xaml.cs">
+      <DependentUpon>classPay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\costSearch.xaml.cs">
+      <DependentUpon>costSearch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\paySearch.xaml.cs">
+      <DependentUpon>paySearch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\paySum.xaml.cs">
+      <DependentUpon>paySum.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\sales.xaml.cs">
+      <DependentUpon>sales.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PlusFinder.xaml.cs">
       <DependentUpon>PlusFinder.xaml</DependentUpon>
     </Compile>
@@ -879,6 +894,26 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Outware\Win_Out_OutwareReq_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pay\classPay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pay\costSearch.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pay\paySearch.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pay\paySum.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pay\sales.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

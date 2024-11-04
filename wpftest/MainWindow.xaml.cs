@@ -570,8 +570,8 @@ namespace WizMes_Nadaum
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                 //sqlParameter.Add("@sUserID", CurrentUser);
                 //sqlParameter.Add("@sPgGubun", "9");
-                sqlParameter.Add("@sUserID", CurrentUser);
-                sqlParameter.Add("@sPgGubun", "7");
+                sqlParameter.Add("personID", CurrentUser);
+                sqlParameter.Add("pgGubun", "7");
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Menu_sUserMenu", sqlParameter, false);
 
@@ -665,19 +665,19 @@ namespace WizMes_Nadaum
                         {
                             var mMenuviewModel = new MenuViewModel()
                             {
-                                MenuID = item["MenuID"] as string,
-                                Menu = item["Menu"] as string,
-                                Level = Convert.ToInt32(item["Level"]),
-                                ParentID = item["ParentID"] as string,
-                                SelectClss = item["SelectClss"] as string,
-                                AddNewClss = item["AddNewClss"] as string,
-                                UpdateClss = item["UpdateClss"] as string,
-                                DeleteClss = item["DeleteClss"] as string,
-                                PrintClss = item["PrintClss"] as string,
+                                MenuID = item["menuID"] as string,
+                                Menu = item["menu"] as string,
+                                Level = Convert.ToInt32(item["level"]),
+                                ParentID = item["parentID"] as string,
+                                SelectClss = item["selectYN"] as string,
+                                AddNewClss = item["addYN"] as string,
+                                UpdateClss = item["UpdateYN"] as string,
+                                DeleteClss = item["deleteYN"] as string,
+                                PrintClss = item["printYN"] as string,
                                 ////Remark = "WizMes_Nadaum." + item["Remark"].ToString(),
                                 ////subRemark = item["Remark"] as object,
-                                ProgramID = item["ProgramID"] as string,
-                                subProgramID = item["ProgramID"] as object
+                                ProgramID = item["programID"] as string,
+                                subProgramID = item["programID"] as object
                             };
 
                             if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("0"))

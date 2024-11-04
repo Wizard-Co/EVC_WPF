@@ -204,9 +204,9 @@ namespace WizMes_Nadaum.PopUp
                         //}
 
                         // 비밀번호 변경 추가
-                        if (CheckConvertDateTime(dt.Rows[0]["PasswordChangeDate"].ToString()) == true)
+                        if (CheckConvertDateTime(dt.Rows[0]["passwordChangeDate"].ToString()) == true)
                         {
-                            DateTime setDate = DateTime.Parse(dt.Rows[0]["PasswordChangeDate"].ToString());
+                            DateTime setDate = DateTime.Parse(dt.Rows[0]["passwordChangeDate"].ToString());
 
                             TimeSpan timeDiff = DateTime.Today - setDate;
                             dayDiff = timeDiff.Days;
@@ -216,14 +216,14 @@ namespace WizMes_Nadaum.PopUp
                                 //exPassword = dt.Rows[0]["Password"].ToString();
                             }
                         }
-                        else if (dt.Rows[0]["PasswordChangeDate"].ToString().Trim().Equals("")) // 초기 비밀번호가 세팅되지 않았다면
+                        else if (dt.Rows[0]["passwordChangeDate"].ToString().Trim().Equals("")) // 초기 비밀번호가 세팅되지 않았다면
                         {
                             initChange = "N";
                             //exPassword = dt.Rows[0]["Password"].ToString();
                         }
 
                         // 개인정보활용 동의 여부 추가, 이름도 추가
-                        AccessControl = dt.Rows[0]["NessaryAcptYN"].ToString();
+                        AccessControl = dt.Rows[0]["necessaryAcptYN"].ToString();
                         UserName = dt.Rows[0]["Name"].ToString();
 
                         //PersonID

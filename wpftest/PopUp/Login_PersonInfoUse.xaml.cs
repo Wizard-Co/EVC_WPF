@@ -41,9 +41,9 @@ namespace WizMes_Nadaum.PopUp
                 // [xp_Code_uPassWord]
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                 sqlParameter.Clear();
-                sqlParameter.Add("PersonID", MainWindow.CurrentPersonID);
-                sqlParameter.Add("NessaryAcptYN", chkAccessControl.IsChecked == true ? "Y" : "N");
-                sqlParameter.Add("LastUpdateUserID", MainWindow.CurrentPersonID);
+                sqlParameter.Add("personID", MainWindow.CurrentPersonID);
+                sqlParameter.Add("necessaryAcptYN", chkAccessControl.IsChecked == true ? "Y" : "N");
+                sqlParameter.Add("lastUpdateUserID", MainWindow.CurrentPersonID);
 
                 Procedure pro1 = new Procedure();
                 pro1.Name = "xp_Person_uPersonInfoUse";

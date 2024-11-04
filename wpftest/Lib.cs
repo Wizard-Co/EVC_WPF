@@ -2566,7 +2566,7 @@ namespace WizMes_Nadaum
 
             string sql = "select mp.CompanyID from mt_Person mp         ";
             sql += "   WHERE 1          = 1                             ";
-            sql += "    and     mp.UserID = '" + strUserID + "'             ";
+            sql += "    and     mp.loginID = '" + strUserID + "'             ";
 
             try
             {
@@ -3185,7 +3185,7 @@ namespace WizMes_Nadaum
 
             ; string sql = "SELECT PersonID , Name    from  mt_Person    ";
             sql += "   WHERE 1          = 1                            ";
-            sql += "   AND UserID     =   '" + MainWindow.CurrentUser + "'    ";
+            sql += "   AND loginID     =   '" + MainWindow.CurrentUser + "'    ";
 
             try
             {
