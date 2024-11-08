@@ -315,6 +315,11 @@ namespace WizMes_Nadaum
         // 저장 버튼 클릭 이벤트
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            Console.WriteLine("strFlag: " + strFlag);
+
+            // CheckData() 호출 결과도 로그 출력
+            bool isDataValid = CheckData();
+            Console.WriteLine("CheckData() 결과: " + isDataValid); // 추가된 디버그 라인
             if (SaveData(strFlag))
             {
                 CompleteCancelMode();
@@ -333,6 +338,7 @@ namespace WizMes_Nadaum
                 {
                     rowNum = 0;
                     re_Search(rowNum, rowNum);
+                    MessageBox.Show("저장 실패", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
                 strFlag = string.Empty;
@@ -378,6 +384,7 @@ namespace WizMes_Nadaum
         // 저장
         public bool SaveData(string strFlag)
         {
+
             bool flag = false;
             List<Procedure> Prolist = new List<Procedure>();
             List<Dictionary<string, object>> ListParameter = new List<Dictionary<string, object>>();
@@ -393,25 +400,28 @@ namespace WizMes_Nadaum
                     // All Or Person  전체 공지사항, 개별 공지사항 인지
                     string aop = strFlag.Substring(1, 1);
 
-                    if (aop.Equals("A")) // 전체공지사항 저장
+                    if (aop.Equals("A"))
                     {
+
                         sqlParameter.Clear();
 
-                        sqlParameter.Add("sCompanyID", "");
-                        sqlParameter.Add("sFromDate", FromDate_All.SelectedDate.Value.ToString("yyyyMMdd"));
-                        sqlParameter.Add("sToDate", ToDate_All.SelectedDate.Value.ToString("yyyyMMdd"));
+                        //sqlParameter.Add("sCompanyID", "");
+                        sqlParameter.Add("FromDate", FromDate_All.SelectedDate.Value.ToString("yyyyMMdd"));
+                        sqlParameter.Add("ToDate", ToDate_All.SelectedDate.Value.ToString("yyyyMMdd"));
                         sqlParameter.Add("Info", txtContent_All.Text);
-                        sqlParameter.Add("UserID", MainWindow.CurrentUser);
+                        sqlParameter.Add("userID", MainWindow.CurrentUser);
+                        sqlParameter.Add("allYN", "");
+                        sqlParameter.Add("topNotifyYN", "");
 
                         if (strFlag.Equals("IA")) // 전체 공지사항 추가
                         {
-                            sqlParameter.Add("sInfoID", "");
+                            sqlParameter.Add("InfoID", "");
 
                             Dictionary<string, int> outputParam = new Dictionary<string, int>();
-                            outputParam.Add("sInfoID", 10);
+                            outputParam.Add("InfoID", 10);
                             Dictionary<string, string> dicResult = DataStore.Instance.ExecuteProcedureOutputNoTran("xp_Info_iInfo", sqlParameter, outputParam, true);
 
-                            GetKey = dicResult["sInfoID"];
+                            GetKey = dicResult["InfoID"];
 
                             if ((GetKey != string.Empty) && (GetKey != "9999"))
                             {
@@ -432,7 +442,7 @@ namespace WizMes_Nadaum
                             {
                                 GetKey = NoticeAll.InfoID;
 
-                                sqlParameter.Add("sInfoID", NoticeAll.InfoID);
+                                sqlParameter.Add("InfoID", NoticeAll.InfoID);
 
                                 Procedure pro1 = new Procedure();
                                 pro1.Name = "xp_Info_uInfo";
@@ -485,7 +495,6 @@ namespace WizMes_Nadaum
                     else if (aop.Equals("P")) // 개별공지사항 저장
                     {
                         sqlParameter.Clear();
-
                         sqlParameter.Add("sCompanyID", "");
                         sqlParameter.Add("sFromDate", FromDate_Person.SelectedDate.Value.ToString("yyyyMMdd"));
                         sqlParameter.Add("sToDate", ToDate_Person.SelectedDate.Value.ToString("yyyyMMdd"));
@@ -495,12 +504,12 @@ namespace WizMes_Nadaum
                         // 개별 공지사항 저장 → 생성된 InfoID 를 output
                         if (strFlag.Equals("IP"))
                         {
-                            sqlParameter.Add("sInfoID", "");
+                            sqlParameter.Add("InfoID", "");
 
                             Procedure pro1 = new Procedure();
                             pro1.Name = "xp_Info_iInfoUser";
                             pro1.OutputUseYN = "Y";
-                            pro1.OutputName = "sInfoID";
+                            pro1.OutputName = "InfoID";
                             pro1.OutputLength = "10";
 
                             Prolist.Add(pro1);
@@ -508,7 +517,7 @@ namespace WizMes_Nadaum
 
                             List<KeyValue> list_Result = new List<KeyValue>();
                             list_Result = DataStore.Instance.ExecuteAllProcedureOutputGetCS(Prolist, ListParameter);
-                            string sInfoID = string.Empty;
+                            string InfoID = string.Empty;
 
                             if (list_Result[0].key.ToLower() == "success")
                             {
@@ -516,9 +525,9 @@ namespace WizMes_Nadaum
                                 for (int i = 0; i < list_Result.Count; i++)
                                 {
                                     KeyValue kv = list_Result[i];
-                                    if (kv.key == "sInfoID")
+                                    if (kv.key == "InfoID")
                                     {
-                                        sInfoID = kv.value;
+                                        InfoID = kv.value;
                                         flag = true;
                                     }
                                 }
@@ -540,16 +549,18 @@ namespace WizMes_Nadaum
                                 Dictionary<string, object> sqlParameterSub = new Dictionary<string, object>();
                                 sqlParameterSub.Clear();
 
+
                                 var TargetPerson = dgdTargetPerson.Items[i] as PersonViewModel;
                                 string sPersonID = TargetPerson.PersonID;
 
-                                sqlParameterSub.Add("sInfoID", sInfoID);
+                                sqlParameterSub.Add("InfoID", InfoID);
                                 sqlParameterSub.Add("sPersonID", sPersonID);
+                                sqlParameterSub.Add("createUserId", MainWindow.CurrentPersonID);
 
                                 Procedure pro2 = new Procedure();
                                 pro2.Name = "xp_Info_iInfoUserList";
                                 pro2.OutputUseYN = "N";
-                                pro2.OutputName = "sInfoID";
+                                pro2.OutputName = "InfoID";
                                 pro2.OutputLength = "10";
 
                                 Prolist.Add(pro2);
@@ -561,12 +572,12 @@ namespace WizMes_Nadaum
                             // 개별 공지사항 수정 + 개별 공지대상 모두 삭제
                             var NoticePerson = dgdPerson.SelectedItem as Win_info_Infoset_U_CodeView_Person;
 
-                            sqlParameter.Add("sInfoID", NoticePerson.per_InfoID);
+                            sqlParameter.Add("InfoID", NoticePerson.per_InfoID);
 
                             Procedure pro1 = new Procedure();
                             pro1.Name = "xp_Info_uInfoUser";
                             pro1.OutputUseYN = "N";
-                            pro1.OutputName = "sInfoID";
+                            pro1.OutputName = "InfoID";
                             pro1.OutputLength = "10";
 
                             Prolist.Add(pro1);
@@ -598,13 +609,13 @@ namespace WizMes_Nadaum
                                 var TargetPerson = dgdTargetPerson.Items[i] as PersonViewModel;
                                 string sPersonID = TargetPerson.PersonID;
 
-                                sqlParameterSub.Add("sInfoID", NoticePerson.per_InfoID);
+                                sqlParameterSub.Add("InfoID", NoticePerson.per_InfoID);
                                 sqlParameterSub.Add("sPersonID", sPersonID);
 
                                 Procedure pro2 = new Procedure();
                                 pro2.Name = "xp_Info_iInfoUserList";
                                 pro2.OutputUseYN = "N";
-                                pro2.OutputName = "sInfoID";
+                                pro2.OutputName = "InfoID";
                                 pro2.OutputLength = "10";
 
                                 Prolist.Add(pro2);
@@ -625,8 +636,8 @@ namespace WizMes_Nadaum
                             flag = true;
                         }
 
-                    }
 
+                    }
                 }
             }
             catch (Exception ex)
@@ -1180,13 +1191,13 @@ namespace WizMes_Nadaum
             try
             {
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
-                sqlParameter.Add("sPartFile", txtFileName1.Text);
-                sqlParameter.Add("sPartPath", !txtFileName1.Text.Trim().Equals("") ? "/Info/" + InfoID : "");
-                sqlParameter.Add("sAttachFile1", txtFileName2.Text);
-                sqlParameter.Add("sAttachPath1", !txtFileName2.Text.Trim().Equals("") ? "/Info/" + InfoID : "");
-                sqlParameter.Add("sAttachFile2", txtFileName3.Text);
-                sqlParameter.Add("sAttachPath2", !txtFileName3.Text.Trim().Equals("") ? "/Info/" + InfoID : "");
-                sqlParameter.Add("sInfoID", InfoID);
+                //sqlParameter.Add("sPartFile", txtFileName1.Text);
+                //sqlParameter.Add("sPartPath", !txtFileName1.Text.Trim().Equals("") ? "/Info/" + InfoID : "");
+                //sqlParameter.Add("sAttachFile1", txtFileName2.Text);
+                //sqlParameter.Add("sAttachPath1", !txtFileName2.Text.Trim().Equals("") ? "/Info/" + InfoID : "");
+                //sqlParameter.Add("sAttachFile2", txtFileName3.Text);
+                //sqlParameter.Add("sAttachPath2", !txtFileName3.Text.Trim().Equals("") ? "/Info/" + InfoID : "");
+                sqlParameter.Add("InfoID", InfoID);
 
                 sqlParameter.Add("UserID", MainWindow.CurrentUser);
 
@@ -1232,7 +1243,7 @@ namespace WizMes_Nadaum
                     // 개별 공지사항 내용
                     Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                     sqlParameter.Clear();
-                    sqlParameter.Add("sInfoID", NoticePerson.per_InfoID);
+                    sqlParameter.Add("InfoID", NoticePerson.per_InfoID);
 
                     DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Info_sInfoUserID", sqlParameter, false);
 
@@ -1386,7 +1397,7 @@ namespace WizMes_Nadaum
 
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                 sqlParameter.Clear();
-                sqlParameter.Add("sCompanyID", "");
+                // sqlParameter.Add("sCompanyID", "");
                 sqlParameter.Add("SDate", chkSearchDay.IsChecked == true ? FromDateSearch.SelectedDate.Value.ToString("yyyyMMdd") : "20000101");
                 sqlParameter.Add("EDate", chkSearchDay.IsChecked == true ? ToDateSearch.SelectedDate.Value.ToString("yyyyMMdd") : "29000101");
 
@@ -1410,18 +1421,18 @@ namespace WizMes_Nadaum
                         {
                             var NoticeAll = new Win_info_Infoset_U_CodeView_All()
                             {
-                                FromDate = DateTime.ParseExact(dr["FromDate"].ToString(), "yyyyMMdd", null).ToString("yyyy-MM-dd"),
-                                ToDate = DateTime.ParseExact(dr["ToDate"].ToString(), "yyyyMMdd", null).ToString("yyyy-MM-dd"),
+                                FromDate = DateTime.ParseExact(dr["FromDate"].ToString(), "yyyyMMdd", null).ToString("yyyyMMdd"),
+                                ToDate = DateTime.ParseExact(dr["ToDate"].ToString(), "yyyyMMdd", null).ToString("yyyyMMdd"),
                                 Info = dr["Info"] as string,
                                 InfoID = dr["InfoID"].ToString(),
-                                PartFile = dr["PartFile"].ToString(),
-                                PartPath = dr["PartPath"].ToString(),
-                                AttachFile1 = dr["AttachFile1"].ToString(),
-                                AttachPath1 = dr["AttachPath1"].ToString(),
-                                AttachFile2 = dr["AttachFile2"].ToString(),
-                                AttachPath2 = dr["AttachPath2"].ToString(),
-                                AttachFile3 = dr["AttachFile3"].ToString(),
-                                AttachPath3 = dr["AttachPath3"].ToString()
+                                //PartFile = dr["PartFile"].ToString(),
+                                //PartPath = dr["PartPath"].ToString(),
+                                //AttachFile1 = dr["AttachFile1"].ToString(),
+                                //AttachPath1 = dr["AttachPath1"].ToString(),
+                                //AttachFile2 = dr["AttachFile2"].ToString(),
+                                //AttachPath2 = dr["AttachPath2"].ToString(),
+                                //AttachFile3 = dr["AttachFile3"].ToString(),
+                                //AttachPath3 = dr["AttachPath3"].ToString()
                             };
 
                             dgdAll.Items.Add(NoticeAll);
@@ -1431,6 +1442,7 @@ namespace WizMes_Nadaum
             }
             catch (Exception ex)
             {
+
                 MessageBox.Show("오류 발생, 오류 내용 : " + ex.ToString());
             }
             finally
@@ -1453,7 +1465,7 @@ namespace WizMes_Nadaum
                 // 개별 공지사항 내용
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                 sqlParameter.Clear();
-                sqlParameter.Add("sCompanyID", "");
+                // sqlParameter.Add("sCompanyID", "");
                 sqlParameter.Add("FDate", chkSearchDay.IsChecked == true ? FromDateSearch.SelectedDate.Value.ToString("yyyyMMdd") : "20000101");
                 sqlParameter.Add("TDate", chkSearchDay.IsChecked == true ? ToDateSearch.SelectedDate.Value.ToString("yyyyMMdd") : "29000101");
                 sqlParameter.Add("PersonID", MainWindow.CurrentPersonID);
@@ -1500,7 +1512,7 @@ namespace WizMes_Nadaum
             }
         }
         // 삭제 메서드
-        private bool DeleteData(string strFlag, string sInfoID)
+        private bool DeleteData(string strFlag, string InfoID)
         {
             bool flag = false;
 
@@ -1511,7 +1523,7 @@ namespace WizMes_Nadaum
             {
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                 sqlParameter.Clear();
-                sqlParameter.Add("sInfoID", sInfoID);
+                sqlParameter.Add("InfoID", InfoID);
 
                 if (strFlag.Equals("DA")) // 전체 공지사항 삭제
                 {
@@ -1550,7 +1562,7 @@ namespace WizMes_Nadaum
                 }
 
                 string[] Confirm = new string[2];
-                Confirm = DataStore.Instance.ExecuteAllProcedureOutputNew_NewLog(Prolist, ListParameter,"D");
+                Confirm = DataStore.Instance.ExecuteAllProcedureOutputNew_NewLog(Prolist, ListParameter, "D");
                 if (Confirm[0] != "success")
                 {
                     MessageBox.Show("[삭제 실패]\r\n" + Confirm[1].ToString());
@@ -1618,7 +1630,7 @@ namespace WizMes_Nadaum
                     {
                         PersonID = item["PersonID"] as string,
                         Name = item["Name"] as string,
-                        UserID = item["UserID"] as string,
+                        UserID = item["PersonID"] as string,
                         DepartID = item["DepartID"] as string,
                         Depart = item["Depart"] as string,
                     };

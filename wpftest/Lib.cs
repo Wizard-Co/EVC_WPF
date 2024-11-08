@@ -2005,7 +2005,7 @@ namespace WizMes_Nadaum
 
                 if (objAdd != null)
                 {
-                    if (menuView.AddNewClss.Equals("*"))
+                    if (menuView.AddNewClss.Equals("Y"))
                     {
                         (objAdd as Button).IsEnabled = true;
                     }
@@ -2019,7 +2019,7 @@ namespace WizMes_Nadaum
 
                 if (objDelete != null)
                 {
-                    if (menuView.DeleteClss.Equals("*"))
+                    if (menuView.AddNewClss.Equals("Y"))
                     {
                         (objDelete as Button).IsEnabled = true;
                     }
@@ -2033,7 +2033,7 @@ namespace WizMes_Nadaum
 
                 if (objSearch != null)
                 {
-                    if (menuView.SelectClss.Equals("*"))
+                    if (menuView.AddNewClss.Equals("Y"))
                     {
                         (objSearch as Button).IsEnabled = true;
                     }
@@ -2047,7 +2047,7 @@ namespace WizMes_Nadaum
 
                 if (objUpdate != null)
                 {
-                    if (menuView.UpdateClss.Equals("*"))
+                    if (menuView.AddNewClss.Equals("Y"))
                     {
                         (objUpdate as Button).IsEnabled = true;
                     }
@@ -2061,7 +2061,7 @@ namespace WizMes_Nadaum
 
                 if (objPrint != null)
                 {
-                    if (menuView.PrintClss.Equals("*"))
+                    if (menuView.PrintClss.Equals("Y"))
                     {
                         (objPrint as Button).IsEnabled = true;
                     }
@@ -2138,7 +2138,7 @@ namespace WizMes_Nadaum
 
             if (objAdd != null)
             {
-                if (menuView.AddNewClss.Equals("*"))
+                if (menuView.AddNewClss.Equals("Y"))
                 {
                     (objAdd as Button).IsEnabled = true;
                 }
@@ -2148,7 +2148,7 @@ namespace WizMes_Nadaum
 
             if (objDelete != null)
             {
-                if (menuView.DeleteClss.Equals("*"))
+                if (menuView.DeleteClss.Equals("Y"))
                 {
                     (objDelete as Button).IsEnabled = true;
                 }
@@ -2158,7 +2158,7 @@ namespace WizMes_Nadaum
 
             if (objSearch != null)
             {
-                if (menuView.SelectClss.Equals("*"))
+                if (menuView.SelectClss.Equals("Y"))
                 {
                     (objSearch as Button).IsEnabled = true;
                 }
@@ -2179,7 +2179,7 @@ namespace WizMes_Nadaum
 
             if (objPrint != null)
             {
-                if (menuView.PrintClss.Equals("*"))
+                if (menuView.PrintClss.Equals("Y"))
                 {
                     (objPrint as Button).IsEnabled = true;
                 }

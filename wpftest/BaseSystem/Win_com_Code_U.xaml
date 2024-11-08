@@ -51,7 +51,7 @@
                             <TextBlock Text="코드명 검색" Style="{DynamicResource TextBlockInViewBoxInput}"/>
                         </Viewbox>
                     </StackPanel>
-                    
+
                 </Label>
                 <TextBox x:Name="txtCodeSrh" Grid.Column="1" Style="{DynamicResource TextBoxInputArea}"/>
             </Grid>
@@ -90,7 +90,7 @@
                     </StackPanel>
                 </Label>
             </Grid>
-            
+
             <Grid Grid.Column="4" Grid.RowSpan="4">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -220,6 +220,7 @@
                             <DataGridTextColumn Header="Parent_ID" Binding="{Binding Parent_ID}" Visibility="Hidden"/>
                             <DataGridTextColumn Header="레벨" Binding="{Binding Level}" Visibility="Hidden"/>
                             <DataGridTextColumn Header="각 관련 System" Binding="{Binding Relation}" Visibility="Hidden"/>
+                            <DataGridTextColumn Header="코드타입" Binding="{Binding codeType}" Visibility="Hidden"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <GroupBox x:Name="gbxCodeInfo" Header="코드 정보 등록" Grid.Row="1" Margin="1" IsEnabled="False">
@@ -253,26 +254,27 @@
                                             </Grid.RowDefinitions>
                                             <Grid Grid.Row="0" >
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="2*" />
-                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition />
                                                     <ColumnDefinition Width="2*" />
                                                 </Grid.ColumnDefinitions>
-                                                <Label Grid.Column="0" Style="{DynamicResource LabelInputArea}" >
+                                                <Label Grid.Column="0" Style="{DynamicResource LabelInputArea}" Margin="1,1,1,0" >
                                                     <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                                         <TextBlock Text="코  드" Style="{DynamicResource TextBlockInViewBoxInput}"/>
                                                     </Viewbox>
                                                 </Label>
                                                 <TextBox x:Name="txtCode" Grid.Column="1" Style="{DynamicResource TextBoxInputNecessary}"  Background="#fff2d2" Text="{Binding Code_ID}" MaxLength="{Binding Code_Size}" IsEnabled="False"
-                                                         PreviewKeyDown="txtCode_PreviewKeyDown" 
-                                                         />
-                                                <Label Grid.Column="3"  Style="{DynamicResource LabelInputArea}">
+                                                         PreviewKeyDown="txtCode_PreviewKeyDown" Margin="1,1,1,0" 
+                                                           />
+                                                <Label Grid.Column="4"  Style="{DynamicResource LabelInputArea}" Margin="1,1,1,0">
                                                     <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                                         <TextBlock Text="사용여부" Style="{DynamicResource TextBlockInViewBoxInput}"/>
                                                     </Viewbox>
                                                 </Label>
-                                                <Viewbox Grid.Column="4">
+                                                <Viewbox Grid.Column="5">
                                                     <Border Background="#fff2d2" Margin="1">
                                                         <Grid VerticalAlignment="Center">
                                                             <Grid.ColumnDefinitions>
@@ -339,7 +341,7 @@
                                                     </Viewbox>
                                                 </Label>
                                             </Grid>
-                                            <TextBox x:Name="txtCode_Name" Grid.Column="1" AcceptsReturn="True" TextWrapping="Wrap"
+                                            <TextBox x:Name="txtCodeName" Grid.Column="1" AcceptsReturn="True" TextWrapping="Wrap"
                                                      VerticalScrollBarVisibility="Visible" Style="{DynamicResource TextBoxInputNecessary}"
                                                      Text="{Binding Code_Name}"
                                                      KeyDown="txtCode_Name_KeyDown"/>

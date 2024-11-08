@@ -325,7 +325,7 @@ namespace WizMes_Nadaum
                 else
                 {
                     txtCode.Text = "";
-                    txtCode_Name.Text = "";
+                    txtCodeName.Text = "";
                     txtCode_Name_Eng.Text = "";
                     txtRelation.Text = "";
                     txtSEQ.Text = "";
@@ -336,7 +336,7 @@ namespace WizMes_Nadaum
             else
             {
                 txtCode.Text = "";
-                txtCode_Name.Text = "";
+                txtCodeName.Text = "";
                 txtCode_Name_Eng.Text = "";
                 txtRelation.Text = "";
                 txtSEQ.Text = "";
@@ -381,10 +381,10 @@ namespace WizMes_Nadaum
                         {
                             var window_commonCode_DTO = new Win_sys_CommonCode_U_CodeView()
                             {
-                                Code_ID = item["Code_ID"] as string,
-                                Code_Name = item["Code_Name"] as string,
-                                Code_Name_Eng = item["Code_Name_Eng"] as string,
-                                Code_Size = item["Code_Size"].ToString()
+                                Code_ID = item["CodeID"] as string,
+                                Code_Name = item["CodeName"] as string,
+                                Code_Name_Eng = item["CodeEName"] as string,
+                                Code_Size = item["CodeSize"].ToString()
                             };
 
                             //if (window_commonCode_DTO.Code_Name.Contains("검사"))
@@ -442,7 +442,7 @@ namespace WizMes_Nadaum
             try
             {
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
-                sqlParameter.Add("Code_GBN", strCodeID);
+                sqlParameter.Add("codeTypeID", strCodeID);
                 sqlParameter.Add("CheckTF", (chkNoUse.IsChecked == true ? "" : "T"));
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Code_sCmCode_SmallCategory", sqlParameter, false);
@@ -463,16 +463,19 @@ namespace WizMes_Nadaum
                         {
                             var window_commonCode_DTO2 = new Win_sys_CommonCode_U_CodeView_Sub()
                             {
-                                Code_ID = item["Code_ID"] as string,
-                                Code_Name = item["Code_Name"] as string,
-                                Comments = item["Comments"] as string,
-                                SEQ = item["SEQ"].ToString(),
-                                Use_YN = item["Use_YN"] as string,
-                                Code_Name_Eng = item["Code_Name_Eng"] as string,
-                                Relation = item["Relation"] as string,
-                                Code_Size = item["Code_Size"].ToString(),
-                                Parent_ID = item["Parent_ID"] as string,
-                                Level = item["Level"].ToString()
+                                Code_ID = item["codeID"] as string,
+                                Code_Name = item["codeName"] as string,
+                                Comments = item["comments"] as string,
+                                SEQ = item["seq"].ToString(),
+                                Use_YN = item["useYN"] as string,
+                                Code_Name_Eng = item["codeEName"] as string,
+                                Relation = item["relation"] as string,
+                                Code_Size = item["codeSize"].ToString(),
+                                Parent_ID = item["parentID"] as string,
+                                Level = item["level"].ToString(),
+                                createUserID = MainWindow.CurrentUser
+
+
                             };
                             dgdScg.Items.Add(window_commonCode_DTO2);
                         }
@@ -520,7 +523,8 @@ namespace WizMes_Nadaum
                     }
                     else
                     {
-                        //MessageBox.Show("성공 *^^*");
+                        CheckDelete = true;
+                        MessageBox.Show("성공 *^^*");
                     }
                 }
             }
@@ -559,7 +563,7 @@ namespace WizMes_Nadaum
             }
 
             //한글명칭 입력체크
-            if (txtCode_Name.Text == "" && txtCode_Name.Text.Equals(""))
+            if (txtCodeName.Text == "" && txtCodeName.Text.Equals(""))
             {
                 MessageBox.Show("한글명칭을 입력해주세요");
                 txtCheck = false;
@@ -596,8 +600,8 @@ namespace WizMes_Nadaum
             try
             {
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
-                sqlParameter.Add("Code_GBN", winCode.Code_ID);
-                sqlParameter.Add("Code_ID", txtCode.Text);
+                sqlParameter.Add("CodeGBN", winCode.Code_ID);
+                sqlParameter.Add("codeID", txtCode.Text);
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Code_CheckCmCode", sqlParameter, false);
 
@@ -650,7 +654,7 @@ namespace WizMes_Nadaum
         private bool SaveData()
         {
             bool flag = false;
-            string UseYN = string.Empty;
+            string useYN = string.Empty;
             List<Procedure> Prolist = new List<Procedure>();
             List<Dictionary<string, object>> ListParameter = new List<Dictionary<string, object>>();
 
@@ -658,24 +662,24 @@ namespace WizMes_Nadaum
             {
                 if (CheckData())
                 {
-                    if (rbnUseY.IsChecked == true) { UseYN = "Y"; }
-                    else { UseYN = "N"; }
+                    if (rbnUseY.IsChecked == true) { useYN = "Y"; }
+                    else { useYN = "N"; }
 
                     if (winCode != null)
                     {
                         Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
-                        sqlParameter.Add("Code_GBN", winCode.Code_ID);    // 데이터 그리드1의 Code_ID == 데이터 그리드2의 Code_GBN
-                        sqlParameter.Add("Code_ID", txtCode.Text);   //입력된 코드를 추가
-                        sqlParameter.Add("Code_Name", txtCode_Name.Text);  //입력된 한글명칭 추가
-                        sqlParameter.Add("Code_Name_Eng", txtCode_Name_Eng.Text); //입력된 영어명칭 추가
-                        sqlParameter.Add("Comments", txtContent.Text);     //입력된 비고 추가
-                        sqlParameter.Add("SEQ", int.Parse(txtSEQ.Text));      //입력된 관리순서 추가
-                        sqlParameter.Add("Use_YN", UseYN);
-                        sqlParameter.Add("Code_Size", 0);
-                        sqlParameter.Add("Parent_ID", winCode.Code_ID);
-                        sqlParameter.Add("Level", 0);
-                        sqlParameter.Add("Relation", txtRelation.Text);
-                        sqlParameter.Add("CreateUserID", MainWindow.CurrentUser);
+                        sqlParameter.Add("codeTypeID", winCode.Code_ID);    // 데이터 그리드1의 Code_ID == 데이터 그리드2의 Code_GBN
+                        sqlParameter.Add("codeID", txtCode.Text);   //입력된 코드를 추가
+                        sqlParameter.Add("codeName", txtCodeName.Text);  //입력된 한글명칭 추가
+                        sqlParameter.Add("codeEName", txtCode_Name_Eng.Text); //입력된 영어명칭 추가
+                        sqlParameter.Add("comments", txtContent.Text);     //입력된 비고 추가
+                        sqlParameter.Add("seq", int.Parse(txtSEQ.Text));      //입력된 관리순서 추가
+                        sqlParameter.Add("useYN", useYN);
+                        sqlParameter.Add("codeSize", 0);
+                        sqlParameter.Add("parentID", winCode.Code_ID);
+                        sqlParameter.Add("level", 0);
+                        sqlParameter.Add("relation", txtRelation.Text);
+                        sqlParameter.Add("createUserID", MainWindow.CurrentUser);
 
                         string[] result = DataStore.Instance.ExecuteProcedure_NewLog("xp_Code_iCmCode", sqlParameter, "C");
 
@@ -745,15 +749,16 @@ namespace WizMes_Nadaum
             try
             {
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
-                sqlParameter.Add("Code_GBN", winCode.Code_ID);  //
-                sqlParameter.Add("Code_ID", winCodeSub.Code_ID);  //
-                sqlParameter.Add("Code_Name", txtCode_Name.Text);  //입력된 한글명칭 추가
-                sqlParameter.Add("Code_Name_Eng", txtCode_Name_Eng.Text); //입력된 영어명칭 추가
-                sqlParameter.Add("Comments", txtContent.Text);     //입력된 비고 추가
-                sqlParameter.Add("Relation", txtRelation.Text);
-                sqlParameter.Add("SEQ", int.Parse(txtSEQ.Text));      //입력된 관리순서 추가
-                sqlParameter.Add("Use_YN", Use_YN);
-                sqlParameter.Add("UserID", MainWindow.CurrentUser);
+                sqlParameter.Add("codeTypeID", winCode.Code_ID);  //
+                sqlParameter.Add("codeID", winCodeSub.Code_ID);  //
+                sqlParameter.Add("codeName", txtCodeName.Text);  //입력된 한글명칭 추가
+                sqlParameter.Add("codeEName", txtCode_Name_Eng.Text); //입력된 영어명칭 추가
+                sqlParameter.Add("comments", txtContent.Text);     //입력된 비고 추가
+                sqlParameter.Add("relation", txtRelation.Text);
+                sqlParameter.Add("seq", int.Parse(txtSEQ.Text));      //입력된 관리순서 추가
+                sqlParameter.Add("useYN", Use_YN);
+                sqlParameter.Add("lastUpdateUser", MainWindow.CurrentUser);
+
 
                 string[] result = DataStore.Instance.ExecuteProcedure_NewLog("xp_Code_uCmCode", sqlParameter, "U");
 
@@ -892,7 +897,7 @@ namespace WizMes_Nadaum
         {
             if (e.Key == System.Windows.Input.Key.Enter)
             {
-                txtCode_Name.Focus();
+                txtCodeName.Focus();
             }
         }
 
@@ -1001,7 +1006,7 @@ namespace WizMes_Nadaum
         }
 
         public string Code_ID { get; set; }
-        public string Code_GBN { get; set; }
+        public string codeTypeID { get; set; }
         public string Code_Name { get; set; }
         public string Code_Name_Eng { get; set; }
         public string SEQ { get; set; }
@@ -1012,8 +1017,8 @@ namespace WizMes_Nadaum
         public string Level { get; set; }
         public string Code_Size { get; set; }
         public string CreateDate { get; set; }
-        public string CreateUserID { get; set; }
-        public string LastUpdateDate { get; set; }
-        public string LastUpdateUserID { get; set; }
+        public string createUserID { get; set; }
+        public string lastUpdateDate { get; set; }
+        public string lastUpdateUserID { get; set; }
     }
 }

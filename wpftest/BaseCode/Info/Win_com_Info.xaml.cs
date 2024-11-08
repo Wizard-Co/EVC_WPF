@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.CSharp.RuntimeBinder;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
@@ -153,7 +154,7 @@ namespace WizMes_Nadaum
             try
             {
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
-                sqlParameter.Add("sCompanyID", "");
+                //sqlParameter.Add("sCompanyID", "");
                 sqlParameter.Add("SDate", yyyyMMdd);
                 sqlParameter.Add("EDate", yyyyMMdd);
 
@@ -184,26 +185,26 @@ namespace WizMes_Nadaum
                             ///////////////////////////////////////////////////////////////////////////
                             ///
 
-                            if (dt.Rows[i]["PartFile"].ToString() != string.Empty)
-                            {
-                                var data = new GetDatagridItems { ColInfoID = dt.Rows[i]["InfoID"].ToString(), ColAttachFile = dt.Rows[i]["PartFile"].ToString(), ColAttachPath = dt.Rows[i]["PartPath"].ToString() };
-                                dgAttachFile.Items.Add(data);
-                            }
-                            if (dt.Rows[i]["AttachFile1"].ToString() != string.Empty)
-                            {
-                                var data = new GetDatagridItems { ColInfoID = dt.Rows[i]["InfoID"].ToString(), ColAttachFile = dt.Rows[i]["AttachFile1"].ToString(), ColAttachPath = dt.Rows[i]["AttachPath1"].ToString() };
-                                dgAttachFile.Items.Add(data);
-                            }
-                            if (dt.Rows[i]["AttachFile2"].ToString() != string.Empty)
-                            {
-                                var data = new GetDatagridItems { ColInfoID = dt.Rows[i]["InfoID"].ToString(), ColAttachFile = dt.Rows[i]["AttachFile2"].ToString(), ColAttachPath = dt.Rows[i]["AttachPath2"].ToString() };
-                                dgAttachFile.Items.Add(data);
-                            }
-                            if (dt.Rows[i]["AttachFile3"].ToString() != string.Empty)
-                            {
-                                var data = new GetDatagridItems { ColInfoID = dt.Rows[i]["InfoID"].ToString(), ColAttachFile = dt.Rows[i]["AttachFile3"].ToString(), ColAttachPath = dt.Rows[i]["AttachPath3"].ToString() };
-                                dgAttachFile.Items.Add(data);
-                            }
+                            //if (dt.Rows[i]["PartFile"].ToString() != string.Empty)
+                            //{
+                            //    var data = new GetDatagridItems { ColInfoID = dt.Rows[i]["InfoID"].ToString(), ColAttachFile = dt.Rows[i]["PartFile"].ToString(), ColAttachPath = dt.Rows[i]["PartPath"].ToString() };
+                            //    dgAttachFile.Items.Add(data);
+                            //}
+                            //if (dt.Rows[i]["AttachFile1"].ToString() != string.Empty)
+                            //{
+                            //    var data = new GetDatagridItems { ColInfoID = dt.Rows[i]["InfoID"].ToString(), ColAttachFile = dt.Rows[i]["AttachFile1"].ToString(), ColAttachPath = dt.Rows[i]["AttachPath1"].ToString() };
+                            //    dgAttachFile.Items.Add(data);
+                            //}
+                            //if (dt.Rows[i]["AttachFile2"].ToString() != string.Empty)
+                            //{
+                            //    var data = new GetDatagridItems { ColInfoID = dt.Rows[i]["InfoID"].ToString(), ColAttachFile = dt.Rows[i]["AttachFile2"].ToString(), ColAttachPath = dt.Rows[i]["AttachPath2"].ToString() };
+                            //    dgAttachFile.Items.Add(data);
+                            //}
+                            //if (dt.Rows[i]["AttachFile3"].ToString() != string.Empty)
+                            //{
+                            //    var data = new GetDatagridItems { ColInfoID = dt.Rows[i]["InfoID"].ToString(), ColAttachFile = dt.Rows[i]["AttachFile3"].ToString(), ColAttachPath = dt.Rows[i]["AttachPath3"].ToString() };
+                            //    dgAttachFile.Items.Add(data);
+                            //}
                         }
                     }
                     dt.Clear();
@@ -211,7 +212,7 @@ namespace WizMes_Nadaum
                 ds.Clear();
                 //DataStore.Instance.CloseConnection(); 2021-09-13
             }
-            catch (Exception ee)
+            catch (RuntimeBinderException ee)
             {
                 MessageBox.Show("오류지점 - 전체공지 조회" + ee.ToString());
             }
