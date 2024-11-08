@@ -92,7 +92,6 @@
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                 <TextBlock Text="업체명" Style="{DynamicResource TextBlockInViewBoxSearch}" />
                             </Viewbox>
-
                         </StackPanel>
                     </Label>
                     <TextBox x:Name="txtCustomSrh" Grid.Column="1" Padding="0" IsEnabled="False"  Style="{DynamicResource TextBoxSearch}"
@@ -177,13 +176,13 @@
                                 <TextBlock Text="{Binding Source={StaticResource tblSearch},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="btnAdd" Grid.Column="0" Click="btnAdd_Click" Margin="1" Visibility="Hidden">
+                        <Button x:Name="btnAdd" Grid.Column="0"  Margin="1" Visibility="Hidden">
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="{DynamicResource btiInsert}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
                                 <TextBlock Text="{Binding Source={StaticResource tblInsert},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-                        <Button x:Name="btnUpdate" Grid.Column="1" Click="btnUpdate_Click"  Margin="1">
+                        <Button x:Name="btnUpdate" Grid.Column="1" Click="btnUpdate_Click"  Margin="1" >
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="{DynamicResource btiUpdate}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
                                 <TextBlock Text="{Binding Source={StaticResource tblUpdate},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
@@ -209,7 +208,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Button x:Name="btnCount" Grid.Column="0" Click="btnSearch_Click"  Margin="1" >
+                        <Button x:Name="btnCount" Grid.Column="0" Click="btnCount_Click"  Margin="1" >
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="강의료 계산" VerticalAlignment="Center"/>
                             </StackPanel>
@@ -244,25 +243,28 @@
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="22.5*" />
-                        <RowDefinition Height="0.5*" />
+                        <RowDefinition Height="22*" />
+                        <RowDefinition Height="0.8*" />
                         <RowDefinition Height="2*" />
                     </Grid.RowDefinitions>
 
+                    <TextBlock Grid.Row="1" x:Name="txtSearchCount"></TextBlock>
+
                     <DataGrid x:Name="dgdMain" Grid.Row="0" Margin="1" IsReadOnly="True" Style="{DynamicResource DataGridSet1}"
-                         SelectionChanged="DataGridMain_SelectionChanged"
+                         SelectionChanged="dgdMain_SelectionChanged"
                           MouseLeftButtonDown="dgdMain_MouseDoubleClick"
-                          SizeChanged="DataGrid_SizeChange" >
+                          SizeChanged="dgdMain_SizeChange" >
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="순" Binding="{Binding Num}" />
-                            <DataGridTextColumn Header="계약번호" Binding="{Binding OrderID}"/>
-                            <DataGridTextColumn Header="프로그램명" Binding="{Binding Programm}"/>
-                            <DataGridTextColumn Header="업체명" Binding="{Binding Custom}" />
+                            <DataGridTextColumn Header="순" Binding="{Binding num}" />
+                            <DataGridTextColumn Header="순" Binding="{Binding orderDcntFeesID}" />
+                            <DataGridTextColumn Header="계약번호" Binding="{Binding orderID}"/>
+                            <DataGridTextColumn Header="프로그램명" Binding="{Binding article}"/>
+                            <DataGridTextColumn Header="업체명" Binding="{Binding kCustom}" />
                             <DataGridTextColumn Header="담당교사" Binding="{Binding KCustom}" />
-                            <DataGridTextColumn Header="계약기간" Binding="{Binding BuyerArticleNo}"/>
+                            <DataGridTextColumn Header="계약기간" Binding="{Binding orderDate}"/>
                             <DataGridTextColumn Header="대상금액" Binding="{Binding BuyerArticleNo}"/>
                             <DataGridTextColumn Header="계산금액" Binding="{Binding BuyerArticleNo}"/>
-                            <DataGridTextColumn Header="비고" Binding="{Binding BuyerArticleNo}" />
+                            <DataGridTextColumn Header="비고" Binding="{Binding comments}" />
                         </DataGrid.Columns>
                     </DataGrid>
 
@@ -317,8 +319,8 @@
                                     <TextBlock Text="정산일자" Style="{DynamicResource TextBlockInViewBoxInput}"  />
                                 </Viewbox>
                             </Label>
-                            <DatePicker x:Name="dtpAcptDate" Grid.Row="1" Grid.Column="1" Style="{DynamicResource DatePickerInputArea}"
-                                        SelectedDate="{Binding AcptDate_CV}"
+                            <DatePicker x:Name="dtpFeeDate" Grid.Row="1" Grid.Column="1" Style="{DynamicResource DatePickerInputArea}"
+                                        SelectedDate="{Binding dcntFeesCalDate}"
                                          />
 
 
@@ -328,7 +330,7 @@
                                     <TextBlock Text="관리번호" Style="{DynamicResource TextBlockInViewBoxInput}"  />
                                 </Viewbox>
                             </Label>
-                            <TextBox x:Name="TextBoxOrderNo" Grid.Column="1" Grid.Row="2" Text="{Binding OrderNo}" IsReadOnly="True" 
+                            <TextBox x:Name="TextBoxOrderNo" Grid.Column="1" Grid.Row="2" Text="{Binding orderID}" IsReadOnly="True" 
                                  Style="{DynamicResource TextBoxInputAutoCreate}"/>
 
 
@@ -338,8 +340,7 @@
                                     <TextBlock Text="계약번호" Style="{DynamicResource TextBlockInViewBoxInput}"/>
                                 </Viewbox>
                             </Label>
-                            <TextBox x:Name="txtOrder" Grid.Row="3" Grid.Column="1" Text="{Binding KCustom}" 
-                                 Tag="{Binding CustomID}"
+                            <TextBox x:Name="txtOrder" Grid.Row="3" Grid.Column="1" Text="{Binding orderNo}" 
                                  Style="{StaticResource TextBoxInputNecessary}"/>
 
                             <Label Grid.Row="4" Grid.Column="0" Style="{DynamicResource LabelInputArea}">
@@ -347,8 +348,8 @@
                                     <TextBlock Text="프로그램" Style="{DynamicResource TextBlockInViewBoxInput}" />
                                 </Viewbox>
                             </Label>
-                            <TextBox x:Name="txtProgramm" Grid.Row="4" Grid.Column="1" 
-                                 Text="{Binding DvlyPlace}" 
+                            <TextBox x:Name="txtArticle" Grid.Row="4" Grid.Column="1" 
+                                 Text="{Binding article}" 
                                  Style="{DynamicResource TextBoxInputArea}"/>
 
                             <Label Grid.Row="5" Grid.Column="0" Style="{DynamicResource LabelInputArea}">
@@ -356,7 +357,7 @@
                                     <TextBlock Text="업체명" Style="{DynamicResource TextBlockInViewBoxInput}" />
                                 </Viewbox>
                             </Label>
-                            <TextBox x:Name="txtCustom" Grid.Row="5" Grid.Column="1" Text="{Binding DvlyPlace}" 
+                            <TextBox x:Name="txtCustom" Grid.Row="5" Grid.Column="1" Text="{Binding kCustom}" 
                                  Style="{DynamicResource TextBoxInputArea}"/>           
 
 
@@ -374,9 +375,9 @@
                                 </Viewbox>
                             </Label>
                             <DatePicker x:Name="dtpStartDate" Grid.Row="7" Grid.Column="1" Style="{DynamicResource DatePickerInputArea}"
-                             SelectedDate="{Binding AcptDate_CV}" />
+                             SelectedDate="{Binding jobFromDate}" />
                             <DatePicker x:Name="dtpEndDate" Grid.Row="8" Grid.Column="1" Style="{DynamicResource DatePickerInputArea}"
-                                SelectedDate="{Binding AcptDate_CV}" />
+                                SelectedDate="{Binding jobToDate}" />
 
                             <Label Grid.Row="1" Grid.Column="3" Style="{DynamicResource LabelInputArea}">
                                 <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
@@ -399,40 +400,53 @@
                                     <TextBlock Text="비고" Style="{DynamicResource TextBlockInViewBoxInput}" />
                                 </Viewbox>
                             </Label>
-                            <TextBox x:Name="txtRemark" Grid.Row="3" Grid.RowSpan="3" Grid.Column="4" Text="{Binding DvlyPlace}" 
+                            <TextBox x:Name="txtComments" Grid.Row="3" Grid.RowSpan="3" Grid.Column="4" Text="{Binding comments}" 
                             Style="{DynamicResource TextBoxInputArea}"/>
 
 
                         </Grid>
                     </GroupBox>
 
-                    <Grid Grid.Row="1"  >
+                    <Grid Grid.Row="1" >
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="9*" />
                         </Grid.RowDefinitions>
-                        <Grid x:Name="gridMainHeader">
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="btnAddRow" Grid.Column="3" Margin="4" Content="강사 추가" Click="btnAddRow_Click" IsEnabled="false"></Button>
+                            <Button x:Name="btnAddDel" Grid.Column="4" Margin="4" Content="강사 삭제" Click="btnAddDel_Click" IsEnabled="false"></Button>
+                        </Grid>
+                        
+                        <Grid x:Name="gridMainHeader" Grid.Row="1">
                             <ScrollViewer Grid.Column="0" x:Name="dgdMainHeader" HorizontalScrollBarVisibility="Hidden" 
-ScrollViewer.CanContentScroll="False" VerticalScrollBarVisibility="Hidden">
+                                ScrollViewer.CanContentScroll="False" VerticalScrollBarVisibility="Hidden">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="{Binding ElementName=Num, Path=ActualWidth}" />
-                                        <ColumnDefinition Width="{Binding ElementName=Person, Path=ActualWidth}" />
-                                        <ColumnDefinition Width="{Binding ElementName=Position, Path=ActualWidth}" />
-                                        <ColumnDefinition Width="{Binding ElementName=DutyDTL, Path=ActualWidth}" />
-                                        <ColumnDefinition Width="{Binding ElementName=Chasi, Path=ActualWidth}" />
-                                        <ColumnDefinition Width="{Binding ElementName=Pay, Path=ActualWidth}" />
-                                        <ColumnDefinition Width="{Binding ElementName=Pay2, Path=ActualWidth}" />
-                                        <ColumnDefinition Width="{Binding ElementName=Pay3, Path=ActualWidth}" />
-                                        <ColumnDefinition Width="{Binding ElementName=Pay4, Path=ActualWidth}" />
-                                        <ColumnDefinition Width="{Binding ElementName=Pay5, Path=ActualWidth}" />
-                                        <ColumnDefinition Width="{Binding ElementName=Others, Path=ActualWidth}" />
-                                        <ColumnDefinition Width="{Binding ElementName=Sum, Path=ActualWidth}" />
-                                        <ColumnDefinition Width="{Binding ElementName=Remark, Path=ActualWidth}" />
+                                        <ColumnDefinition Width="{Binding ElementName=num, Path=ActualWidth}" />
+                                        <ColumnDefinition Width="{Binding ElementName=person, Path=ActualWidth}" />
+                                        <ColumnDefinition Width="{Binding ElementName=position, Path=ActualWidth}" />
+                                        <ColumnDefinition Width="{Binding ElementName=dutyDTL, Path=ActualWidth}" />
+                                        <ColumnDefinition Width="{Binding ElementName=classth, Path=ActualWidth}" />
+                                        <ColumnDefinition Width="{Binding ElementName=docentFees, Path=ActualWidth}" />
+                                        <ColumnDefinition Width="{Binding ElementName=leadExtraPay, Path=ActualWidth}" />
+                                        <ColumnDefinition Width="{Binding ElementName=longdistExtraPay, Path=ActualWidth}" />
+                                        <ColumnDefinition Width="{Binding ElementName=outcityExtraPay, Path=ActualWidth}" />
+                                        <ColumnDefinition Width="{Binding ElementName=etcExtraPay, Path=ActualWidth}" />
+                                        <ColumnDefinition Width="{Binding ElementName=etcAmount, Path=ActualWidth}" />
+                                        <ColumnDefinition Width="{Binding ElementName=totalAmount, Path=ActualWidth}" />
+                                        <ColumnDefinition Width="{Binding ElementName=comments, Path=ActualWidth}" />
                                     </Grid.ColumnDefinitions>
                                     <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Content="No" />
                                     <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Content="강사명" />
@@ -452,8 +466,7 @@ ScrollViewer.CanContentScroll="False" VerticalScrollBarVisibility="Hidden">
                             </ScrollViewer>
                         </Grid>
 
-                        <DataGrid Grid.Row ="1" x:Name="dgdSub" HeadersVisibility="None" ScrollViewer.PanningMode="VerticalFirst"
-            ScrollViewer.CanContentScroll="False" VerticalScrollBarVisibility="Visible" AutoGenerateColumns="False" Style="{DynamicResource DataGridSet1}">
+                        <DataGrid Grid.Row ="2" x:Name="dgdSub" HeadersVisibility="None" ScrollViewer.PanningMode="VerticalFirst" Style="{DynamicResource DataGridSet1}">
                             <DataGrid.CellStyle>
                                 <Style TargetType="DataGridCell">
                                     <EventSetter Event="PreviewKeyDown" Handler="DataGridSub_PreviewKeyDown"/>
@@ -464,74 +477,123 @@ ScrollViewer.CanContentScroll="False" VerticalScrollBarVisibility="Hidden">
                                 </Style>
                             </DataGrid.CellStyle>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="순" x:Name="Num" Binding="{Binding Num}" Width="auto"/>
+                                <DataGridTextColumn Header="순" x:Name="num" Binding="{Binding num}" Width="auto"/>
 
-                                <DataGridTemplateColumn Header="강사명" x:Name="Person" MinWidth="70">
+                                <DataGridTemplateColumn Header="강사명" x:Name="name" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                            <TextBlock Text="{Binding Person}" VerticalAlignment="Center" TextAlignment="Left" Padding="5 0" />
+                                            <TextBlock Text="{Binding name}" VerticalAlignment="Center" TextAlignment="Left" Padding="5 0" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Header="강사직위" x:Name="Position" MinWidth="40">
+                                <DataGridTemplateColumn Header="강사직위" x:Name="position" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                            <TextBlock Text="{Binding Position}" VerticalAlignment="Center" TextAlignment="Center" Padding="5 0" />
+                                            <TextBlock Text="{Binding position}" VerticalAlignment="Center" TextAlignment="Center" Padding="5 0" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Header="강사구분" x:Name="DutyDTL" MinWidth="80">
+                                <DataGridTemplateColumn Header="강사구분" x:Name="dutyDTL" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                            <TextBlock Text="{Binding DutyDTL}" VerticalAlignment="Center" TextAlignment="Center" Padding="5 0" />
+                                            <TextBlock Text="{Binding dutyDTL}" VerticalAlignment="Center" TextAlignment="Center" Padding="5 0" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Header="차시" x:Name="Chasi" MinWidth="80">
+                                <DataGridTemplateColumn Header="차시" x:Name="classth" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                            <TextBlock Text="{Binding Chasi}" VerticalAlignment="Center" TextAlignment="Right" Padding="5 0 3 0" />
+                                            <TextBlock Text="{Binding classth}" VerticalAlignment="Center" TextAlignment="Right" Padding="5 0 3 0" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="강의료" x:Name="Pay" MinWidth="80">
+                                <DataGridTemplateColumn Header="강의료" x:Name="docentFees" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                            <TextBlock Text="{Binding Pay}" VerticalAlignment="Center" TextAlignment="Right" Padding="5 0 3 0" />
+                                            <TextBlock Text="{Binding docentFees}" VerticalAlignment="Center" TextAlignment="Right" Padding="5 0 3 0" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="수석강사수당" x:Name="Pay2" MinWidth="70">
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding docentFees, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Padding="5 0 3 0"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="수석강사수당" x:Name="leadExtraPay" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                            <TextBlock Text="{Binding Pay2}" VerticalAlignment="Center" TextAlignment="Right" Padding="5 0 3 0" />
+                                            <TextBlock Text="{Binding leadExtraPay}" VerticalAlignment="Center" TextAlignment="Right" Padding="5 0 3 0" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="장거리수당" x:Name="Pay3" MinWidth="80">
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding leadExtraPay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Padding="5 0 3 0"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="장거리수당" x:Name="longdistExtraPay" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Pay3}" VerticalAlignment="Center" TextAlignment="Right" Padding="5 0 3 0" />
+                                            <TextBlock Text="{Binding longdistExtraPay}" VerticalAlignment="Center" TextAlignment="Right" Padding="5 0 3 0" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="시외수당" x:Name="Pay4" MinWidth="70">
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding longdistExtraPay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Padding="5 0 3 0"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="시외수당" x:Name="outcityExtraPay" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                            <TextBlock Text="{Binding Pay4}" VerticalAlignment="Center" TextAlignment="Right" Padding="5 0 3 0" />
+                                            <TextBlock Text="{Binding outcityExtraPay}" VerticalAlignment="Center" TextAlignment="Right" Padding="5 0 3 0" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="기타" x:Name="Pay5" MinWidth="80">
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding outcityExtraPay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Padding="5 0 3 0"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="기타" x:Name="etcExtraPay" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding ipSaDate}" VerticalAlignment="Center" TextAlignment="Center" Padding="5 0" />
+                                            <TextBlock Text="{Binding etcExtraPay}" VerticalAlignment="Center" TextAlignment="Right" Padding="5 0" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                <DataGridTextColumn Header="기타" x:Name="Others" Binding="{Binding Others}" Width="auto"/>
-                                <DataGridTextColumn Header="합계" x:Name="Sum" Binding="{Binding Sum}" Width="auto"/>
-                                <DataGridTextColumn Header="비고" x:Name="Remark" Binding="{Binding Remark}" Width="auto"/>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding etcExtraPay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Padding="5 0 3 0"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="기타" x:Name="etcAmount" Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding etcAmount}" VerticalAlignment="Center" TextAlignment="Right" Padding="5 0" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding etcAmount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Padding="5 0 3 0"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="합계금액" x:Name="totalAmount" Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding totalAmount}" VerticalAlignment="Center" TextAlignment="Right" Padding="5 0" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="비고" x:Name="comments" Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding comments}" VerticalAlignment="Center" TextAlignment="Right" Padding="5 0" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                             </DataGrid.Columns>
                             </DataGrid>
                           
@@ -540,7 +602,33 @@ ScrollViewer.CanContentScroll="False" VerticalScrollBarVisibility="Hidden">
                 </Grid>
             </Grid>
         </Grid>
+        <!--계산 날짜-->
+        <Popup x:Name="popCount"  Placement="Center" Opened="popCount_Opend">
+            <Border BorderBrush="Green" BorderThickness="5" Width="240" Height="160">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Content="일자" Style="{DynamicResource LabelInputArea}" Foreground="Green" FontSize="6"/>
+                    <Label Grid.Column="0" Grid.Row="1" Content="시작일자" Margin="2" VerticalContentAlignment="Center"/>
+                    <DatePicker x:Name="dtpPopStartDate" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1" Margin="2" />
+                    <Label Grid.Column="0" Grid.Row="2" Content="종료일자" Margin="2" VerticalContentAlignment="Center"/>
+                    <DatePicker x:Name="dtpPopEndDate" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2" Margin="2" />
 
+                    <Button x:Name="popBtnOK" FontSize="6" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Margin="1" Content="확인" Click="popBtnOK_Click"/>
+                    <Button x:Name="popBtnCancel" FontSize="6" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="3" Margin="1" Content="취소" Click="popBtnCancel_Click"/>
+                </Grid>
+            </Border>
+        </Popup>
     </Grid>
 
 </UserControl>

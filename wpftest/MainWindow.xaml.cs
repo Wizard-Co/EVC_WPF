@@ -433,7 +433,7 @@ namespace WizMes_Nadaum
                 {
                     mTreeViewItem3 = new TreeViewItem() { Header = mvm.Menu + "(" + mvm.MenuID + ")", Tag = mvm };
                     mTreeViewItem3.Template = (ControlTemplate)FindResource("ImageTreeViewItem");
-                    if (mTreeViewItem3 != null) { mTreeViewItem1.Items.Add(mTreeViewItem3); };
+                    if (mTreeViewItem3 != null) { mTreeViewItem0.Items.Add(mTreeViewItem3); };
                     mTreeViewItem3.MouseLeftButtonUp += fmenu_click;
                 }
             }
@@ -449,6 +449,8 @@ namespace WizMes_Nadaum
             MdiChild mdiChild = null;
             object uie = null;
 
+
+
             //2021-07-27 최대화 후 다른 메뉴 실행하면 노말로 변경
             //2021-09-13 활성화된 자식폼이 없을때 에러
             if (MainMdiContainer.ActiveMdiChild != null && MainMdiContainer.ActiveMdiChild.WindowState == WindowState.Maximized)
@@ -456,7 +458,7 @@ namespace WizMes_Nadaum
                 MainMdiContainer.ActiveMdiChild.WindowState = WindowState.Normal;
             }
 
-
+           
 
             if (sender is MenuItem)
             {
@@ -498,6 +500,7 @@ namespace WizMes_Nadaum
             {
                 try
                 {
+
                     tt1 = Type.GetType("WizMes_Nadaum." + MenuViewModel.ProgramID.Trim(), true);
                     uie = Activator.CreateInstance(tt1);
 
@@ -680,67 +683,11 @@ namespace WizMes_Nadaum
                                 subProgramID = item["programID"] as object
                             };
 
-                            if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("0"))
-                            {
+                          
                                 str = mMenuviewModel.Menu.Trim();
                                 mMenulist.Add(mMenuviewModel);
-                            }
-                            else if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("1"))
-                            {
-                                str = mMenuviewModel.Menu.Trim();
-                                mMenulist.Add(mMenuviewModel);
-                            }
-                            else if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("3"))
-                            {
-                                str = mMenuviewModel.Menu.Trim();
-                                mMenulist.Add(mMenuviewModel);
-                            }
-                            else if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("4")) //자재 4번으로 수정하여 조건 추가
-                            {
-                                str = mMenuviewModel.Menu.Trim();
-                                mMenulist.Add(mMenuviewModel);
-                            }
-                            else if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("5"))
-                            {
-                                if ((mMenuviewModel.MenuID.Substring(0, 2)).Equals("56")) // 모니터링
-                                {
-                                    continue;
-                                }
-
-                                str = mMenuviewModel.Menu.Trim();
-                                mMenulist.Add(mMenuviewModel);
-                            }
-                            else if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("6"))
-                            {
-                                str = mMenuviewModel.Menu.Trim();
-                                mMenulist.Add(mMenuviewModel);
-                            }
-                            else if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("7"))
-                            {
-                                str = mMenuviewModel.Menu.Trim();
-                                mMenulist.Add(mMenuviewModel);
-                            }
-
-                            else if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("8"))
-                            {
-                                str = mMenuviewModel.Menu.Trim();
-                                mMenulist.Add(mMenuviewModel);
-                            }
-
-                            else if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("9"))
-                            {
-                                str = mMenuviewModel.Menu.Trim();
-                                mMenulist.Add(mMenuviewModel);
-                            }
-
-                            //{
-                            //if (!(mMenuviewModel.MenuID.Substring(0, 2)).Equals("31") && !(mMenuviewModel.MenuID.Substring(0, 2)).Equals("32"))
-                            //{
-                            //    //str = mMenuviewModel.Menu.Replace(" ", "");
-                            //    str = mMenuviewModel.Menu.Trim();
-                            //    mMenulist.Add(mMenuviewModel);
-                            //}                            
-                            //}
+                            
+                          
                         }
                     }
 
