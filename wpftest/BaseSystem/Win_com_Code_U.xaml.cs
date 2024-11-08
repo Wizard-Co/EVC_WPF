@@ -511,8 +511,8 @@ namespace WizMes_Nadaum
                 if (!strCodeGBN.Equals(string.Empty) && !strCodeID.Equals(string.Empty))
                 {
                     Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
-                    sqlParameter.Add("CodeGBN", strCodeGBN);
-                    sqlParameter.Add("Code_ID", strCodeID);
+                    sqlParameter.Add("codeTypeID", strCodeGBN);
+                    sqlParameter.Add("codeID", strCodeID);
 
                     string[] result = DataStore.Instance.ExecuteProcedure_NewLog("xp_Code_dCmCode", sqlParameter, "D");
 
