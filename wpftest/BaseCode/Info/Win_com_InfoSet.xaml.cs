@@ -1630,7 +1630,7 @@ namespace WizMes_Nadaum
                     {
                         PersonID = item["PersonID"] as string,
                         Name = item["Name"] as string,
-                        UserID = item["PersonID"] as string,
+                        //UserID = item["PersonID"] as string,
                         DepartID = item["DepartID"] as string,
                         Depart = item["Depart"] as string,
                     };
