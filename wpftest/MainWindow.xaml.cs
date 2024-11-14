@@ -672,7 +672,7 @@ namespace WizMes_Nadaum
                                 Menu = item["menu"] as string,
                                 Level = Convert.ToInt32(item["level"]),
                                 ParentID = item["parentID"] as string,
-                                SelectClss = item["selectYN"] as string,
+                                SelectClss = item["searchYN"] as string,
                                 AddNewClss = item["addYN"] as string,
                                 UpdateClss = item["UpdateYN"] as string,
                                 DeleteClss = item["deleteYN"] as string,
