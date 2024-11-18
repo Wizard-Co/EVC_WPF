@@ -7,9 +7,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using WizMes_Nadaum.PopUP;
+using WizMes_EVC.PopUP;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     /// <summary>
     /// Win_mtr_Subul_Q_New.xaml에 대한 상호 작용 논리
@@ -29,7 +29,7 @@ namespace WizMes_Nadaum
         private Microsoft.Office.Interop.Excel.Range workrange;
         private Microsoft.Office.Interop.Excel.Worksheet copysheet;
         private Microsoft.Office.Interop.Excel.Worksheet pastesheet;
-        WizMes_Nadaum.PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
+        WizMes_EVC.PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
 
         // 인쇄를 위한 데이터 저장소
         List<Win_Subul> lstSubul = new List<Win_Subul>();

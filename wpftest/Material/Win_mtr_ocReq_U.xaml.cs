@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using WPF.MDI;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     /// <summary>
     /// Win_mt_ocReq_U.xaml에 대한 상호 작용 논리
@@ -32,7 +32,7 @@ namespace WizMes_Nadaum
         private Microsoft.Office.Interop.Excel.Range workrange;
         private Microsoft.Office.Interop.Excel.Worksheet copysheet;
         private Microsoft.Office.Interop.Excel.Worksheet pastesheet;
-        WizMes_Nadaum.PopUp.NoticeMessage msg = new WizMes_Nadaum.PopUp.NoticeMessage();
+        WizMes_EVC.PopUp.NoticeMessage msg = new WizMes_EVC.PopUp.NoticeMessage();
 
         List<Win_mtr_OCReq_U_CodeView_Sub> deleteOcReqSub = new List<Win_mtr_OCReq_U_CodeView_Sub>();
 
@@ -833,12 +833,12 @@ namespace WizMes_Nadaum
                 }
                 else
                 {
-                    Type type = Type.GetType("WizMes_Nadaum." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
+                    Type type = Type.GetType("WizMes_EVC." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
                     object uie = Activator.CreateInstance(type);
 
                     MainWindow.mMenulist[i].subProgramID = new MdiChild()
                     {
-                        Title = "WizMes_Nadaum [" + MainWindow.mMenulist[i].MenuID.Trim() + "] " + MainWindow.mMenulist[i].Menu.Trim() +
+                        Title = "WizMes_EVC [" + MainWindow.mMenulist[i].MenuID.Trim() + "] " + MainWindow.mMenulist[i].Menu.Trim() +
                                 " (→" + MainWindow.mMenulist[i].ProgramID + ")",
                         Height = SystemParameters.PrimaryScreenHeight * 0.8,
                         MaxHeight = SystemParameters.PrimaryScreenHeight * 0.85,

@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Windows;
 
-namespace WizMes_Nadaum.PopUp
+namespace WizMes_EVC.PopUp
 {
     /// <summary>
     /// NoRunningMachineInfo.xaml에 대한 상호 작용 논리

@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="WizMes_Nadaum.Win_Qul_sts_XBarR_Q"
+﻿<UserControl x:Class="WizMes_EVC.Win_Qul_sts_XBarR_Q"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WizMes_Nadaum"
+             xmlns:local="clr-namespace:WizMes_EVC"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="620" d:DesignWidth="820" Loaded="Win_Qul_sts_XBarR_Q_Loaded">
@@ -14,7 +14,7 @@
             <RowDefinition Height="225*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Column="0" Grid.Row="0" Margin="2" Background="{DynamicResource WizMes_Nadaum}">
+        <Grid Grid.Column="0" Grid.Row="0" Margin="2" Background="{DynamicResource WizMes_EVC}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100*"/>
                 <ColumnDefinition Width="160*"/>

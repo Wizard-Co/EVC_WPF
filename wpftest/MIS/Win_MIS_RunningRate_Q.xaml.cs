@@ -7,10 +7,10 @@ using System.Data;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using WizMes_Nadaum.PopUp;
-using WizMes_Nadaum.PopUP;
+using WizMes_EVC.PopUp;
+using WizMes_EVC.PopUP;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     /**************************************************************************************************
     '** System 명 : WizMES

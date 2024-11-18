@@ -14,9 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WizMes_Nadaum.PopUP;
+using WizMes_EVC.PopUP;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     /// <summary>
     /// Win_prd_PartStuffin_U.xaml에 대한 상호 작용 논리

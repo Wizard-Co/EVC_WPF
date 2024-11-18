@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using WPF.MDI;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     /// <summary>
     /// Win_sys_Company_Setting_Q.xaml에 대한 상호 작용 논리

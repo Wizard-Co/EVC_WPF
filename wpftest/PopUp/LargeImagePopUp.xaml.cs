@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media.Imaging;
 
-namespace WizMes_Nadaum.PopUp
+namespace WizMes_EVC.PopUp
 {
     /// <summary>
     /// LargeImagePopUp.xaml에 대한 상호 작용 논리

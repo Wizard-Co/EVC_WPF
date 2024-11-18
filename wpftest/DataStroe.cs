@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using WizMes_Nadaum.Properties;
+using WizMes_EVC.Properties;
 
 //*******************************************************************************
 //프로그램명    DataStore.cs
@@ -21,7 +21,7 @@ using WizMes_Nadaum.Properties;
 //
 //*******************************************************************************
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     /// <summary> 
     /// 데이터 처리 클래스   s
@@ -45,7 +45,7 @@ namespace WizMes_Nadaum
         //private string LogConnectionString = "Data Source=wizis.iptime.org,20150;Initial Catalog=WizLog;UID=DBUser;PWD=Wizardis; Connection Timeout=0";
 
 #if DEBUG
-        private string ConnectionString = "Data Source=wizis.iptime.org, 20220;Initial Catalog=MES_Nadaum;UID=DBUser;PWD=Wizardis; Connection Timeout=180";
+        private string ConnectionString = "Data Source=wizis.iptime.org, 20220;Initial Catalog=MES_EVC_TEST;UID=DBUser;PWD=Wizardis; Connection Timeout=180";
         private string LogConnectionString = "Data Source=wizis.iptime.org, 20220;Initial Catalog=WizLog;UID=DBUser;PWD=Wizardis; Connection Timeout=180";
         //private string ConnectionString = "Data Source=" + LoadINI.server + ";Initial Catalog=" + LoadINI.Database + ";UID=DBUser;PWD=Wizardis; Connection Timeout= 0";
         //private string LogConnectionString = "Data Source=" + LoadINI.server + ";Initial Catalog=WizLog;UID=DBUser;PWD=Wizardis; Connection Timeout= 0";

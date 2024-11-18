@@ -12,7 +12,7 @@ using CalendarMode = System.Windows.Controls.CalendarMode;
 using CalendarModeChangedEventArgs = System.Windows.Controls.CalendarModeChangedEventArgs;
 using DatePicker = System.Windows.Controls.DatePicker;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     class DatePickerMonthCalendar
     {

@@ -1,4 +1,4 @@
-﻿namespace WizMes_Nadaum
+﻿namespace WizMes_EVC
 {
     public class Win_Qul_Measure_U_CodeView : BaseView
     {

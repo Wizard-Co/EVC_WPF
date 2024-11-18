@@ -16,10 +16,10 @@ using System.Windows.Shapes;
 using static System.Windows.Forms.AxHost;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 using WPF.MDI;
-using WizMes_Nadaum.PopUP;
-using WizMes_Nadaum.PopUp;
+using WizMes_EVC.PopUP;
+using WizMes_EVC.PopUp;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     /// <summary>
     /// Win_Qul_Sts_AnalDetail_Q.xaml에 대한 상호 작용 논리

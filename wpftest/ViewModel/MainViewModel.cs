@@ -1,6 +1,6 @@
 using GalaSoft.MvvmLight;
 
-namespace WizMes_Nadaum.ViewModel
+namespace WizMes_EVC.ViewModel
 {
     /// <summary>
     /// This class contains properties that the main View can data bind to.

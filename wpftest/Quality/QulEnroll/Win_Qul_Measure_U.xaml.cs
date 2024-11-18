@@ -10,9 +10,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using WizMes_Nadaum.PopUP;
+using WizMes_EVC.PopUP;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     /// <summary>
     /// Win_Qul_Measure_U.xaml에 대한 상호 작용 논리

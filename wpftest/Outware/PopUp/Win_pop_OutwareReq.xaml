@@ -1,9 +1,9 @@
-﻿<Window x:Class="WizMes_Nadaum.PopUp.Win_pop_OutwareReq"
+﻿<Window x:Class="WizMes_EVC.PopUp.Win_pop_OutwareReq"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WizMes_Nadaum.PopUp"
+        xmlns:local="clr-namespace:WizMes_EVC.PopUp"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="대상조회" Height="820" Width="820" Loaded="OutwareReq_Loaded">
@@ -14,7 +14,7 @@
             <RowDefinition Height="554*" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Background="{StaticResource WizMes_Nadaum}">
+        <Grid Grid.Row="0" Background="{StaticResource WizMes_EVC}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="4*" />
                 <ColumnDefinition Width="2*" />

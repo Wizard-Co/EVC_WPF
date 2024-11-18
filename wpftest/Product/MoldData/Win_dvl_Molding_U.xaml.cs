@@ -16,15 +16,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WizMes_Nadaum.PopUP;
-using WizMes_Nadaum;
+using WizMes_EVC.PopUP;
+using WizMes_EVC;
 using WPF.MDI;
 using System.Net;
 using System.Windows.Forms.VisualStyles;
 using static System.Windows.Forms.AxHost;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
 
     /// <summary>

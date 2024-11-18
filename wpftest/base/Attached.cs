@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     public class Attached
     {

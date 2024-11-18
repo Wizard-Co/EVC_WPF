@@ -8,8 +8,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Drawing.Printing;
-using WizMes_Nadaum.PopUP;
-using WizMes_Nadaum.PopUp;
+using WizMes_EVC.PopUP;
+using WizMes_EVC.PopUp;
 using System.Runtime.InteropServices.ComTypes;
 
 /**************************************************************************************************
@@ -25,7 +25,7 @@ using System.Runtime.InteropServices.ComTypes;
 ' 2023.04.28, 장시영, 라벨 스캔 시 선출고 체크
 '**************************************************************************************************/
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     /// <summary>
     /// Win_ord_OutWare_Scan.xaml에 대한 상호 작용 논리

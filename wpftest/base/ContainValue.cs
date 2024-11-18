@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     public class ContainValue : IValueConverter
     {

@@ -6,13 +6,13 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
-using WizMes_Nadaum.PopUp;
-using WizMes_Nadaum.PopUP;
+using WizMes_EVC.PopUp;
+using WizMes_EVC.PopUP;
 using System.Windows.Input;
 using System.Threading;
 using WPF.MDI;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     /**************************************************************************************************
     '** System 명 : WizMES
@@ -448,7 +448,7 @@ namespace WizMes_Nadaum
                     }
                     else
                     {
-                        Type type = Type.GetType("WizMes_Nadaum." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
+                        Type type = Type.GetType("WizMes_EVC." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
                         object uie = Activator.CreateInstance(type);
 
                         MainWindow.mMenulist[i].subProgramID = new MdiChild()

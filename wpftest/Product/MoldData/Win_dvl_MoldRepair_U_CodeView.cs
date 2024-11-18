@@ -1,6 +1,6 @@
 ﻿
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     class Win_dvl_MoldRepair_U_CodeView : BaseView
     {

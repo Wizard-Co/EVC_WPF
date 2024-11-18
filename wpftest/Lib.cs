@@ -18,7 +18,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using WPF.MDI;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     public class Lib
     {

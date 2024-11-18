@@ -6,10 +6,10 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WizMes_Nadaum.PopUp;
-using WizMes_Nadaum.PopUP;
+using WizMes_EVC.PopUp;
+using WizMes_EVC.PopUP;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     /// <summary>
     /// Win_mtr_Move_U_New.xaml에 대한 상호 작용 논리
@@ -44,7 +44,7 @@ namespace WizMes_Nadaum
         private Microsoft.Office.Interop.Excel.Range workrange;
         private Microsoft.Office.Interop.Excel.Worksheet copysheet;
         private Microsoft.Office.Interop.Excel.Worksheet pastesheet;
-        WizMes_Nadaum.PopUp.NoticeMessage msg = new WizMes_Nadaum.PopUp.NoticeMessage();
+        WizMes_EVC.PopUp.NoticeMessage msg = new WizMes_EVC.PopUp.NoticeMessage();
         bool printYN = true;
 
         public Win_mtr_Move_U()

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace WizMes_Nadaum.PopUP
+namespace WizMes_EVC.PopUP
 {
     /// <summary>
     /// ExportExcelxaml.xaml에 대한 상호 작용 논리

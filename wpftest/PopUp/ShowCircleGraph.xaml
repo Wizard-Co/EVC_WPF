@@ -1,9 +1,9 @@
-﻿<Window x:Class="WizMes_Nadaum.PopUp.ShowCircleGraph"
+﻿<Window x:Class="WizMes_EVC.PopUp.ShowCircleGraph"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WizMes_Nadaum.PopUp"
+        xmlns:local="clr-namespace:WizMes_EVC.PopUp"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
         Title="원형 그래프" Height="300" Width="400" Loaded="ShowCircleGraph_Loaded">

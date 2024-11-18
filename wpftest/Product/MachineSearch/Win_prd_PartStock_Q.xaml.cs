@@ -14,13 +14,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WizMes_Nadaum.PopUP;
+using WizMes_EVC.PopUP;
 using WPF.MDI;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     /**************************************************************************************************
-   '** System 명 : WizMes_Nadaum
+   '** System 명 : WizMes_EVC
    '** Author    : Wizard
    '** 작성자    : 최준호
    '** 내용      : 금형/설비 부품 재고조회

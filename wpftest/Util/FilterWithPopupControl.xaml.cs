@@ -2,7 +2,7 @@
 using System.Windows;
 
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     /// <summary>
     /// FilterWithPopupControl.xaml에 대한 상호 작용 논리

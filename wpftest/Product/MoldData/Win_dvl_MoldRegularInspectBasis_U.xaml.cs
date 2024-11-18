@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Data;
-using WizMes_Nadaum.PopUP;
+using WizMes_EVC.PopUP;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.IO;
@@ -17,7 +17,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Threading;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     /// <summary>
     /// Win_com_BuseoJikChaek_U.xaml에 대한 상호 작용 논리

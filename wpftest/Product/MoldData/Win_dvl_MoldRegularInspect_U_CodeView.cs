@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     class Win_dvl_MoldRegularInspect_U_CodeView : BaseView
     {

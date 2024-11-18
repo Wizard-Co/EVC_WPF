@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     public class LoadINI
     {

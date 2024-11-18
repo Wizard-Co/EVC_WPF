@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
-using WizMes_Nadaum.PopUP;
+using WizMes_EVC.PopUP;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     /// <summary>
     /// Win_com_BuseoJikChaek_U.xaml에 대한 상호 작용 논리

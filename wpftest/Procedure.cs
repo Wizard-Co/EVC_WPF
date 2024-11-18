@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     public class Procedure
     {

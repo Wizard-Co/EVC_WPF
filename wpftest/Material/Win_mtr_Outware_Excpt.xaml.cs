@@ -7,10 +7,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using WizMes_Nadaum.PopUp;
-using WizMes_Nadaum.PopUP;
+using WizMes_EVC.PopUp;
+using WizMes_EVC.PopUP;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     /// <summary>
     /// Win_mtr_Move_U_New.xaml에 대한 상호 작용 논리

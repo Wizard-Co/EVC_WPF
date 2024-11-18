@@ -11,13 +11,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using WizMes_Nadaum.PopUP;
-using WizMes_Nadaum.PopUp;
+using WizMes_EVC.PopUP;
+using WizMes_EVC.PopUp;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     /**************************************************************************************************
-   '** System 명 : WizMes_Nadaum
+   '** System 명 : WizMes_EVC
    '** Author    : Wizard
    '** 작성자    : 최준호
    '** 내용      : 부품 등록

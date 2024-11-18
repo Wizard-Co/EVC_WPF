@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     /// <summary>
     /// App.xaml에 대한 상호 작용 논리
@@ -315,7 +315,7 @@ namespace WizMes_Nadaum
                     {
                         double txtWidth = dtpSender.Text.Length * dtpSender.FontSize;
 
-                        double maxWidth = dtpSender.Text.Length * WizMes_Nadaum.MainWindow.StdFontSize;
+                        double maxWidth = dtpSender.Text.Length * WizMes_EVC.MainWindow.StdFontSize;
 
                         // 줄어들 때 : 
                         if (n.Width < p.Width)
@@ -332,7 +332,7 @@ namespace WizMes_Nadaum
                         else if (n.Width > p.Width)
                         {
                             // Width 값으로 계산을 하려니.. MainWindow.Fontsiz
-                            double maxFontSize = WizMes_Nadaum.MainWindow.StdFontSize;
+                            double maxFontSize = WizMes_EVC.MainWindow.StdFontSize;
 
                             double changeFontSize = dtpSender.FontSize * l;
 
@@ -404,7 +404,7 @@ namespace WizMes_Nadaum
                     {
                         double txtWidth = (cboSender.Text.Length + 2) * cboSender.FontSize;
 
-                        double maxWidth = cboSender.Text.Length * WizMes_Nadaum.MainWindow.StdFontSize;
+                        double maxWidth = cboSender.Text.Length * WizMes_EVC.MainWindow.StdFontSize;
 
                         // 줄어들 때 : 
                         if (n.Width < p.Width)
@@ -421,7 +421,7 @@ namespace WizMes_Nadaum
                         else if (n.Width > p.Width)
                         {
                             // Width 값으로 계산을 하려니.. MainWindow.Fontsiz
-                            double maxFontSize = WizMes_Nadaum.MainWindow.StdFontSize;
+                            double maxFontSize = WizMes_EVC.MainWindow.StdFontSize;
 
                             double changeFontSize = cboSender.FontSize * l;
 

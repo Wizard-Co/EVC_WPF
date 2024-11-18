@@ -3,11 +3,11 @@ using System;
 using System.Collections.ObjectModel;
 using System.Data;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     class PrintWorkAll
     {
-        WizMes_Nadaum.PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
+        WizMes_EVC.PopUp.NoticeMessage msg = new PopUp.NoticeMessage();
 
         private Application excelapp;
         private Workbook workbook;

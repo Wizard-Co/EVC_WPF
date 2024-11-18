@@ -1,4 +1,4 @@
-﻿namespace WizMes_Nadaum
+﻿namespace WizMes_EVC
 {
     public class KeyValue
     {

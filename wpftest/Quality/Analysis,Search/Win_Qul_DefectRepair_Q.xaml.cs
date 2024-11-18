@@ -12,7 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using WizMes_Nadaum.PopUP;
+using WizMes_EVC.PopUP;
 using WPF.MDI;
 
 /**************************************************************************************************
@@ -27,7 +27,7 @@ using WPF.MDI;
 ' 2023.03.31, 장시영, 불량발생단계 중 전체는 제외
 '**************************************************************************************************/
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     /// <summary>
     /// Win_Qul_DefectRepair_Q.xaml에 대한 상호 작용 논리

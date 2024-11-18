@@ -4,9 +4,9 @@ using System.Data;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using WizMes_Nadaum.PopUP;
+using WizMes_EVC.PopUP;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     /// <summary>
     /// Win_sys_CommonCode_U.xaml에 대한 상호 작용 논리

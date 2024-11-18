@@ -1,4 +1,4 @@
-﻿namespace WizMes_Nadaum
+﻿namespace WizMes_EVC
 {
     class Win_Qul_InspectCode_U_Defect_CodeView : BaseView
     {

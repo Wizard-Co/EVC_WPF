@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace WizMes_Nadaum
+namespace WizMes_EVC
 {
     public static class Util
     {
