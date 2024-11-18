@@ -24,7 +24,7 @@ using WizMes_EVC.Properties;
 namespace WizMes_EVC
 {
     /// <summary> 
-    /// 데이터 처리 클래스   s
+    /// 데이터 처리 클래스  t
     /// </summary>
     public class DataStore
     {
