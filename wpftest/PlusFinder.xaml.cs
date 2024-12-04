@@ -271,7 +271,8 @@ namespace WizMes_EVC
                 sqlParameter.Add("@nLarge", large);    // 데이터 그리드1의 Code_ID == 데이터 그리드2의 Code_GBN
                 sqlParameter.Add("@sMiddle", smiddle);   //입력된 코드를 추가
 
-                DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Common_PlusFinder", sqlParameter, false);
+                //DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Common_PlusFinder", sqlParameter, false);
+                DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Common_PlusFinder_test", sqlParameter, false);
 
                 if (ds != null && ds.Tables.Count > 0)
                 {
