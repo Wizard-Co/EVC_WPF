@@ -284,7 +284,7 @@
 
                     <DataGrid x:Name="dgdSum" Grid.Row="2" Style="{DynamicResource DataGridSet1}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="건수" Width="auto" Binding="{Binding num, StringFormat=N0}" CellStyle="{DynamicResource NumericDataGridCell}"/>
+                            <DataGridTextColumn Header="건수" Width="auto" Binding="{Binding num, StringFormat=N0}" CellStyle="{DynamicResource DataGridCellAndCentering}"/>
                             <DataGridTextColumn Header="매출액 계" Width="auto" Binding="{Binding totalSalesAmount, StringFormat=N0}" CellStyle="{DynamicResource NumericDataGridCell}"/>
                             <DataGridTextColumn Header="매입액 계" Width="auto" Binding="{Binding totalBuyAmount, StringFormat=N0}" CellStyle="{DynamicResource NumericDataGridCell}"/>
                             <DataGridTextColumn Header="이익 계" Width="auto" Binding="{Binding profit, StringFormat=N0}" CellStyle="{DynamicResource NumericDataGridCell}"/>
