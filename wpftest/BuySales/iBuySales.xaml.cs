@@ -1,23 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
-using WizMes_EVC.PopUp;
-using WizMes_EVC;
-using System.Security.Policy;
+using WizMes_EVC.PopUP;
 
 
 namespace WizMes_EVC
@@ -341,7 +328,86 @@ namespace WizMes_EVC
 
         private void btnExcel_Click(object sender, RoutedEventArgs e)
         {
+            DataTable dt = null;
+            Lib lib = new Lib();
 
+            string[] lst = new string[4];
+            lst[0] = "수주별 매입/매출비용 목록";
+            lst[1] = "매출금액";
+            lst[2] = "매입금액";
+            lst[3] = dgdMain.Name;
+            lst[4] = dgdSales.Name;
+            lst[5] = dgdBuy.Name;
+
+            ExportExcelxaml ExpExc = new ExportExcelxaml(lst);
+            ExpExc.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            ExpExc.ShowDialog();
+
+            if (ExpExc.DialogResult.HasValue)
+            {
+                if (ExpExc.choice.Equals(dgdMain.Name))
+                {
+                    DataStore.Instance.InsertLogByForm(this.GetType().Name, "E");
+
+                    if (ExpExc.Check.Equals("Y"))
+                        dt = lib.DataGridToDTinHidden(dgdMain);
+                    else
+                        dt = lib.DataGirdToDataTable(dgdMain);
+
+                    if (lib.GenerateExcel(dt, dgdMain.Name))
+                    {
+                        lib.excel.Visible = true;
+                        lib.ReleaseExcelObject(lib.excel);
+                    }
+                    else
+                        return;
+                }
+                else if (ExpExc.DialogResult.HasValue)
+                {
+                    if (ExpExc.choice.Equals(dgdSales.Name))
+                    {
+                        DataStore.Instance.InsertLogByForm(this.GetType().Name, "E");
+
+                        if (ExpExc.Check.Equals("Y"))
+                            dt = lib.DataGridToDTinHidden(dgdSales);
+                        else
+                            dt = lib.DataGirdToDataTable(dgdSales);
+
+                        if (lib.GenerateExcel(dt, dgdSales.Name))
+                        {
+                            lib.excel.Visible = true;
+                            lib.ReleaseExcelObject(lib.excel);
+                        }
+                        else
+                            return;
+                    }
+                }
+                else if (ExpExc.DialogResult.HasValue)
+                {
+                    if (ExpExc.choice.Equals(dgdBuy.Name))
+                    {
+                        DataStore.Instance.InsertLogByForm(this.GetType().Name, "E");
+
+                        if (ExpExc.Check.Equals("Y"))
+                            dt = lib.DataGridToDTinHidden(dgdBuy);
+                        else
+                            dt = lib.DataGirdToDataTable(dgdBuy);
+
+                        if (lib.GenerateExcel(dt, dgdBuy.Name))
+                        {
+                            lib.excel.Visible = true;
+                            lib.ReleaseExcelObject(lib.excel);
+                        }
+                        else
+                            return;
+                    }
+                }
+                else
+                {
+                    if (dt != null)
+                        dt.Clear();
+                }
+            }
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -357,6 +423,7 @@ namespace WizMes_EVC
             {
                 defaltMode();
                 FillGrid();
+                dgdMain.SelectedIndex = rowNum;
             }
         }
 
@@ -485,6 +552,9 @@ namespace WizMes_EVC
                         sum.profit = sum.totalSalesAmount - sum.totalBuyAmount;
                         dgdMainSum.Items.Add(sum);
 
+                    } else
+                    {
+                        MessageBox.Show("조회된 데이터가 없습니다");
                     }
                 }
             }
@@ -647,7 +717,7 @@ namespace WizMes_EVC
         }
         private bool SaveData(BuySales item)
         {
-            
+            if (item.buySalesCodeTypeID == null) return false;
 
             List<Procedure> Prolist = new List<Procedure>();
             List<Dictionary<string, object>> ListParameter = new List<Dictionary<string, object>>();

@@ -190,6 +190,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AS\s_AS.xaml.cs">
+      <DependentUpon>s_AS.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AS\i_AS.xaml.cs">
+      <DependentUpon>i_AS.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BaseCode\Article\Win_com_ArticleCode_U.xaml.cs">
       <DependentUpon>Win_com_ArticleCode_U.xaml</DependentUpon>
     </Compile>
@@ -244,6 +250,15 @@
     <Compile Include="base\Global_Event.cs" />
     <Compile Include="base\RangeConverter.cs" />
     <Compile Include="base\TreeListView.cs" />
+    <Compile Include="BuySales\sBuySales_Sum.xaml.cs">
+      <DependentUpon>sBuySales_Sum.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BuySales\sBuySales.xaml.cs">
+      <DependentUpon>sBuySales.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BuySales\iBuySales.xaml.cs">
+      <DependentUpon>iBuySales.xaml</DependentUpon>
+    </Compile>
     <Compile Include="converter\SizePercentageConverter.cs" />
     <Compile Include="DataStroe.cs" />
     <Compile Include="DatePickerMonthCalendar.cs" />
@@ -662,6 +677,14 @@
     <Compile Include="ViewModel\ChartInfoMCRunningRate.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Page Include="AS\s_AS.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AS\i_AS.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="BaseCode\Article\Win_com_ArticleCode_U.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -721,6 +744,18 @@
     <Page Include="BaseSystem\Win_com_UserMenuLog_Q.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BuySales\sBuySales_Sum.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BuySales\sBuySales.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BuySales\iBuySales.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1462,6 +1497,7 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.1.29.2\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.1.29.2\build\dotnet\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

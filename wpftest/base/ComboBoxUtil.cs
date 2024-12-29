@@ -126,8 +126,8 @@ namespace WizMes_EVC
                                               string psUseYN, string psParentID, string psRelation = "")
         {
             ObservableCollection<CodeView> retunCollection = new ObservableCollection<CodeView>();
-            string sql = "SELECT CODE_GBN,CODE_ID,PARENT_ID,CODE_NAME,COMMENTS                              ";
-            sql += "        ,LEVEL,RELATION,SEQ,CODE_SIZE,USE_YN                                            ";
+            string sql = "SELECT codeTypeID,codeID,parentID,codeName,comments                              ";
+            sql += "        ,LEVEL,RELATION,SEQ,codeSize,useYN                                            ";
             sql += "        ,CreateDate= CONVERT( VARCHAR(30), CreateDate, 120) , CreateUserID              ";
             sql += "        ,LastUpdateDate= CONVERT( VARCHAR(30), LastUpdateDate, 120) , LastUpdateUserID  ";
             sql += "    FROM CM_CODE                                                                        ";
@@ -135,18 +135,18 @@ namespace WizMes_EVC
 
             if (!(string.IsNullOrEmpty(psCodeGroup)))
             {
-                sql += "   AND CODE_GBN                                  =   '" + psCodeGroup + "'             ";
+                sql += "   AND    codeTypeID                               =   '" + psCodeGroup + "'             ";
             }
             if (!(string.IsNullOrEmpty(psUseYN)))
             {
-                sql += "     AND USE_YN                                    =   '" + psUseYN + "'           ";
+                sql += "     AND useYN                                    =   '" + psUseYN + "'           ";
             }
             /*
             * Parent ID 구분
             */
             if (!(string.IsNullOrEmpty(psParentID)))
             {
-                sql += "     AND PARENT_ID                                 =  '" + psParentID + "'          ";
+                sql += "     AND parentID                                 =  '" + psParentID + "'          ";
             }
             /*
             * Relation 참조
@@ -176,9 +176,9 @@ namespace WizMes_EVC
                         {
                             CodeView mCodeView = new CodeView()
                             {
-                                code_id = item["code_id"].ToString().Trim(),
-                                code_name = item["code_name"].ToString().Trim(),
-                                code_id_plus_code_name = item["code_id"].ToString().Trim() + "." + item["code_name"].ToString().Trim()
+                                code_id = item["codeID"].ToString().Trim(),
+                                code_name = item["codeName"].ToString().Trim(),
+                                code_id_plus_code_name = item["codeID"].ToString().Trim() + "." + item["codeName"].ToString().Trim()
                             };
                             retunCollection.Add(mCodeView);
                         }

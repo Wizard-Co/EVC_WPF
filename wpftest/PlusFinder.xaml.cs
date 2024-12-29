@@ -272,7 +272,7 @@ namespace WizMes_EVC
                 sqlParameter.Add("@sMiddle", smiddle);   //입력된 코드를 추가
 
                 //DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Common_PlusFinder", sqlParameter, false);
-                DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Common_PlusFinder_test", sqlParameter, false);
+                DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Common_PlusFinder", sqlParameter, false);
 
                 if (ds != null && ds.Tables.Count > 0)
                 {
@@ -708,6 +708,14 @@ namespace WizMes_EVC
 
                     this.DialogResult = DialogResult.HasValue;
                     this.Close();
+                } else if (mDataGrid.Columns[0].Header.ToString() == "현장명")
+                {
+                    txtLot.Text = dataRow.Row.ItemArray[1].ToString();
+                    txtLot.Tag = dataRow.Row.ItemArray[2].ToString();
+                    txtBox.Text = dataRow.Row.ItemArray[0].ToString();
+                    this.DialogResult = DialogResult.HasValue;
+                    this.Close();
+
                 }
                 else
                 {

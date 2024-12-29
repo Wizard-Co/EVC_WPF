@@ -452,6 +452,9 @@ namespace WizMes_EVC
                         dgdSum.Items.Add(sum);
 
 
+                    } else
+                    {
+                        MessageBox.Show("조회할 데이터가 없습니다");
                     }
                 }
             }

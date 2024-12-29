@@ -26,14 +26,15 @@ namespace WizMes_EVC
     /// <summary>
     /// Win_Prd_ProcessResult_Q.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class sBuySales : UserControl
+    public partial class s_AS : UserControl
     {
         string stDate = string.Empty;
         string stTime = string.Empty;
+        string strFlag = string.Empty;
 
         int rowNum = 0;
   
-        public sBuySales()
+        public s_AS()
         {
             InitializeComponent();
         }
@@ -49,8 +50,31 @@ namespace WizMes_EVC
             dtpSDate.SelectedDate = Lib.Instance.BringThisMonthDatetimeList()[0];
             dtpEDate.SelectedDate = Lib.Instance.BringThisMonthDatetimeList()[1];
 
-          
+            setComboBox();
 
+        }
+
+        private void setComboBox()
+        {
+            List<string[]> lstYN = new List<string[]>();
+            string[] yn1 = { "Y", "Y" };
+            string[] yn2 = { "N", "N" };
+
+            lstYN.Add(yn1);
+            lstYN.Add(yn2);
+
+            //검색조건 처리여부 
+            ObservableCollection<CodeView> ovcYN = ComboBoxUtil.Instance.Direct_SetComboBox(lstYN);
+            cboCompleteSrh.ItemsSource = ovcYN;
+            cboCompleteSrh.DisplayMemberPath = "code_name";
+            cboCompleteSrh.SelectedValuePath = "code_id";
+            cboCompleteSrh.SelectedIndex = 0;
+
+            ObservableCollection<CodeView> ovcASType = ComboBoxUtil.Instance.Gf_DB_CM_GetComCodeDataset(null, "ASRSNCode", "Y", "", "");
+            cboASTypeSrh.ItemsSource = ovcASType;
+            cboASTypeSrh.DisplayMemberPath = "code_name";
+            cboASTypeSrh.SelectedValuePath = "code_id";
+            cboASTypeSrh.SelectedIndex = 0;
         }
 
         #region 상단 검색조건 - 날짜  
@@ -154,124 +178,7 @@ namespace WizMes_EVC
 
         #region 상단 검색조건
 
-        //영업회사
-        private void lblSalesCustomSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (chkSalesCustomSrh.IsChecked == true)
-            {
-                chkSalesCustomSrh.IsChecked = false;
-            }
-            else
-            {
-                chkSalesCustomSrh.IsChecked = true;
-            }
-        }
-
-        private void chkSalesCustomSrh_Checked(object sender, RoutedEventArgs e)
-        {
-            txtSalesCustomSrh.IsEnabled = true;
-            btnPfSalesCustomSrh.IsEnabled = true;
-            txtSalesCustomSrh.Focus();
-        }
-
-        private void chkSalesCustomSrh_Unchecked(object sender, RoutedEventArgs e)
-        {
-            txtSalesCustomSrh.IsEnabled = false;
-            btnPfSalesCustomSrh.IsEnabled = false;
-        }
-
-        private void txtSalesCustomSrh_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                MainWindow.pf.ReturnCode(txtSalesCustomSrh, (int)Defind_CodeFind.DCF_21, "");
-            }
-        }
-
-        private void btnPfSalesCustomSrh_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow.pf.ReturnCode(txtSalesCustomSrh, (int)Defind_CodeFind.DCF_21, "");
-        }
-
-        // 실사업체
-        private void lblSearchCustomSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (chkSearchCustomSrh.IsChecked == true)
-            {
-                chkSearchCustomSrh.IsChecked = false;
-            }
-            else
-            {
-                chkSearchCustomSrh.IsChecked = true;
-            }
-        }
-
-        private void chkSearchCustomSrh_Checked(object sender, RoutedEventArgs e)
-        {
-            txtSearchCustomSrh.IsEnabled = true;
-            btnPfSearchCustomSrh.IsEnabled = true;
-            txtSearchCustomSrh.Focus();
-        }
-
-        private void chkSearchCustomSrh_Unchecked(object sender, RoutedEventArgs e)
-        {
-            txtSearchCustomSrh.IsEnabled = false;
-            btnPfSearchCustomSrh.IsEnabled = false;
-        }
-
-        private void txtSearchCustomSrh_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                MainWindow.pf.ReturnCode(txtSearchCustomSrh, (int)Defind_CodeFind.DCF_21, "");
-            }
-        }
-
-        private void btnPfSearchCustomSrh_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow.pf.ReturnCode(txtSearchCustomSrh, (int)Defind_CodeFind.DCF_21, "");
-        }
-
-        // Order ID  
-        private void lblOrderIDSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (chkOrderIDSrh.IsChecked == true)
-            {
-                chkOrderIDSrh.IsChecked = false;
-            }
-            else
-            {
-                chkOrderIDSrh.IsChecked = true;
-            }
-        }
-
-        private void chkOrderIDSrh_Checked(object sender, RoutedEventArgs e)
-        {
-            txtOrderIDSrh.IsEnabled = true;
-            btnPfOrderIDSrh.IsEnabled = true;
-            txtOrderIDSrh.Focus();
-        }
-
-        private void chkOrderIDSrh_Unchecked(object sender, RoutedEventArgs e)
-        {
-            txtOrderIDSrh.IsEnabled = false;
-        }
-
-        private void txtOrderIDSrh_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                MainWindow.pf.ReturnCode(txtOrderIDSrh, (int)Defind_CodeFind.DCF_21, "");
-            }
-        }
-
-        private void btnPfOrderIDSrh_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow.pf.ReturnCode(txtOrderIDSrh, (int)Defind_CodeFind.DCF_21, "");
-
-        }
-
-        // 국소명   
+        //국소명 
         private void lblLocationSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (chkLocationSrh.IsChecked == true)
@@ -287,12 +194,124 @@ namespace WizMes_EVC
         private void chkLocationSrh_Checked(object sender, RoutedEventArgs e)
         {
             txtLocationSrh.IsEnabled = true;
+            btnPfLocationSrh.IsEnabled = true;
+            txtLocationSrh.Focus();
         }
 
         private void chkLocationSrh_Unchecked(object sender, RoutedEventArgs e)
         {
             txtLocationSrh.IsEnabled = false;
+            btnPfLocationSrh.IsEnabled = false;
         }
+
+        private void txtLocationSrh_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                MainWindow.pf.ReturnCode(txtLocationSrh, (int)Defind_CodeFind.DCF_21, "");
+            }
+        }
+
+        private void btnPfLocationSrh_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.pf.ReturnCode(txtLocationSrh, (int)Defind_CodeFind.DCF_21, "");
+        }
+
+        //요청자명
+        private void lblReqNameSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (chkReqNameSrh.IsChecked == true)
+            {
+                chkReqNameSrh.IsChecked = false;
+            }
+            else
+            {
+                chkReqNameSrh.IsChecked = true;
+            }
+        }
+
+        private void chkReqNameSrh_Checked(object sender, RoutedEventArgs e)
+        {
+            txtReqNameSrh.IsEnabled = true;
+            txtReqNameSrh.Focus();
+        }
+
+        private void chkReqNameSrh_Unchecked(object sender, RoutedEventArgs e)
+        {
+            txtReqNameSrh.IsEnabled = false;
+        }
+
+        //요청자 전화번호
+        private void lblReqTelSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (chkReqTelSrh.IsChecked == true)
+            {
+                chkReqTelSrh.IsChecked = false;
+            }
+            else
+            {
+                chkReqTelSrh.IsChecked = true;
+            }
+        }
+
+        private void chkReqTelSrh_Checked(object sender, RoutedEventArgs e)
+        {
+            txtReqTelSrh.IsEnabled = true;
+            txtReqTelSrh.Focus();
+        }
+
+        private void chkReqTelSrh_Unchecked(object sender, RoutedEventArgs e)
+        {
+            txtReqTelSrh.IsEnabled = false;
+        }
+
+        //처리여부 
+        private void lblCompleteYNSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (chkCompleteYNSrh.IsChecked == true)
+            {
+                chkCompleteYNSrh.IsChecked = false;
+            }
+            else
+            {
+                chkCompleteYNSrh.IsChecked = true;
+            }
+        }
+        private void chkCompleteYNSrh_Checked(object sender, RoutedEventArgs e)
+        {
+            cboCompleteSrh.IsEnabled = true;
+            cboCompleteSrh.Focus();
+        }
+        private void chkCompleteYNSrh_Unchecked(object sender, RoutedEventArgs e)
+        {
+            cboCompleteSrh.IsEnabled = false;
+        }
+
+        //처리여부 
+        private void lblASTypeSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (chkASTypeSrh.IsChecked == true)
+            {
+                chkASTypeSrh.IsChecked = false;
+            }
+            else
+            {
+                chkASTypeSrh.IsChecked = true;
+            }
+        }
+
+        private void chkASTypeSrh_Checked(object sender, RoutedEventArgs e)
+        {
+            cboASTypeSrh.IsEnabled = true;
+            cboASTypeSrh.Focus();
+        }
+
+        private void chkASTypeSrh_Unchecked(object sender, RoutedEventArgs e)
+        {
+            cboASTypeSrh.IsEnabled = false;
+        }
+
+
 
 
         #endregion
@@ -302,8 +321,6 @@ namespace WizMes_EVC
         {
             FillGrid();
         }
-      
-        
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
@@ -317,7 +334,7 @@ namespace WizMes_EVC
             Lib lib = new Lib();
 
             string[] lst = new string[2];
-            lst[0] = "수주별 매입/매출비용 조회";
+            lst[0] = "A/S 조회";
             lst[1] = dgdMain.Name;
 
             ExportExcelxaml ExpExc = new ExportExcelxaml(lst);
@@ -354,12 +371,9 @@ namespace WizMes_EVC
             }
             lib = null;
         }
-
-     
-
         #endregion
 
-        
+    
 
        
         private void FillGrid()
@@ -368,9 +382,9 @@ namespace WizMes_EVC
             {
                 dgdMain.Items.Clear();
             }
-            if (dgdSum.Items.Count > 0)
+            if (dgdMainSum.Items.Count > 0)
             {
-                dgdSum.Items.Clear();
+                dgdMainSum.Items.Clear();
             }
             try
             {
@@ -380,23 +394,25 @@ namespace WizMes_EVC
                 sqlParameter.Add("chkDate", chkDateSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("sDate", chkDateSrh.IsChecked == true && dtpSDate.SelectedDate != null ? dtpSDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
                 sqlParameter.Add("eDate", chkDateSrh.IsChecked == true && dtpEDate.SelectedDate != null ? dtpEDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
-                sqlParameter.Add("chkSalesCustom", chkSalesCustomSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("salesCustomID", chkSalesCustomSrh.IsChecked == true && txtSalesCustomSrh.Tag.ToString() != null ? txtSalesCustomSrh.Tag.ToString() : "");
+                sqlParameter.Add("chkLocation", chkLocationSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("locationID", chkLocationSrh.IsChecked == true && txtLocationSrh.Tag.ToString() != null ? txtLocationSrh.Tag.ToString() : "");
 
-                sqlParameter.Add("chkSearchCustom", chkSearchCustomSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("searchCustomID", chkSearchCustomSrh.IsChecked == true && txtSearchCustomSrh.Tag.ToString() != null ? txtSearchCustomSrh.Tag.ToString() : "");
-                sqlParameter.Add("chkOrderID", chkOrderIDSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("orderID", chkOrderIDSrh.IsChecked == true && txtOrderIDSrh.Tag.ToString() != null ? txtOrderIDSrh.Tag.ToString() : "");
-                sqlParameter.Add("location", txtLocationSrh.Text ?? "");
+                sqlParameter.Add("chkReqName", chkReqNameSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("reqName", chkReqNameSrh.IsChecked == true && txtReqNameSrh.Text != null ? txtReqNameSrh.Text : "");
+                sqlParameter.Add("chkReqTel", chkReqTelSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("reqTel", chkReqTelSrh.IsChecked == true && txtReqTelSrh.Text != null ? txtReqTelSrh.Text : "");
+                sqlParameter.Add("chkCompleteYN", chkCompleteYNSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("completeYN", chkCompleteYNSrh.IsChecked == true && cboCompleteSrh.SelectedValue != null ? cboCompleteSrh.SelectedValue.ToString() : "");
+                sqlParameter.Add("chkASType", chkASTypeSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("ASTypeID", chkASTypeSrh.IsChecked == true && cboASTypeSrh.SelectedValue != null ? cboASTypeSrh.SelectedValue.ToString() : "");
 
-                DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_OrderCost_sOrder", sqlParameter, true, "R");
+                DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_AS_sAS", sqlParameter, true, "R");
 
                 if (ds != null && ds.Tables.Count > 0)
                 {
                     DataTable dt = ds.Tables[0];
                     int i = 0;
-                    BuySales sum = new BuySales();
-
+                    AS_ORDER sum = new AS_ORDER();
 
                     if (dt.Rows.Count > 0)
                     {
@@ -406,44 +422,38 @@ namespace WizMes_EVC
                         {
                             i++;
 
-                            var item = new BuySales()
+                            var item = new AS_ORDER()
                             {
                                 num = i,
-                                orderID = dr["orderID"].ToString(),
-                                acptDate = dr["acptDate"].ToString(),
-                                salesCustom = dr["salesCustom"].ToString(),
-                                searchCustom = dr["searchCustom"].ToString(),
-                                installLocation = dr["installLocation"].ToString(),
-                                totalBuyAmount = Convert.ToDouble(dr["totalBuyAmount"]),
-                                buyOper = Convert.ToDouble(dr["buyOper"]),
-                                buyConst = Convert.ToDouble(dr["buyConst"]),
-                                buyEtc = Convert.ToDouble(dr["buyEtc"]),
-                                totalSalesAmount = Convert.ToDouble(dr["totalSalesAmount"]),
-                                salesOper = Convert.ToDouble(dr["salesOper"]),
-                                salesConst = Convert.ToDouble(dr["salesConst"]),
-                                salesEtc = Convert.ToDouble(dr["salesEtc"]),
+                                asOrderID = dr["asOrderID"].ToString(),
+                                asReqDate = DatePickerFormat(dr["asReqDate"].ToString()),
+                                asReqUserName = dr["asReqUserName"].ToString(),
+                                asReqUserTelNo = dr["asReqUserTelNo"].ToString(),
+                                asLocation = dr["asLocation"].ToString(),
+                                constrCustomID = dr["constrCustomID"].ToString(),
+                                constrCustom = dr["constrCustom"].ToString(),
+                                asSmallLocation = dr["asSmallLocation"].ToString(),
+                                asChargerMCNo = dr["asChargerMCNo"].ToString(),
+                                costYN = dr["costYN"].ToString(),
+                                asAmount = Convert.ToDouble(dr["asAmount"]),
+                                asDamDangJa = dr["asDamDangJa"].ToString(),
+                                asDate = DatePickerFormat(dr["asDate"].ToString()),
+                                asCompleteYN = dr["asCompleteYN"].ToString(),
+                                comments = dr["comments"].ToString(),
+                                asType = dr["asType"].ToString(),
+                                asTypeID = dr["asTypeID"].ToString(),
 
                             };
-
-                            item.acptDate = DatePickerFormat(item.acptDate);
-                            item.profit = item.totalSalesAmount - item.totalBuyAmount;
-                            item.profitConst = item.salesConst - item.buyConst;
-                            item.profitOper = item.salesOper - item.buyOper;
-                            item.profitEtc = item.salesEtc - item.buyEtc;
-
-                            sum.totalSalesAmount += item.totalSalesAmount;
-                            sum.totalBuyAmount += item.totalBuyAmount;
-                            sum.profit += item.profit;
-
-                           dgdMain.Items.Add(item);
+                            sum.asAmount += item.asAmount;
+                            dgdMain.Items.Add(item);
                         }
-                        sum.num = i; 
-                        dgdSum.Items.Add(sum);
 
-                    }
-                    else
+                        sum.num = i;
+                        dgdMainSum.Items.Add(sum);
+
+                    } else
                     {
-                        MessageBox.Show("조회할 데이터가 없습니다");
+                        MessageBox.Show("조회된 데이터가 없습니다");
                     }
                 }
             }
@@ -457,7 +467,8 @@ namespace WizMes_EVC
             }
         }
 
-       
+     
+        
 
         #region 기타 메서드 
         // 천마리 콤마, 소수점 버리기
@@ -465,28 +476,52 @@ namespace WizMes_EVC
         {
             return string.Format("{0:N0}", obj);
         }
-        // 데이터피커 포맷으로 변경
         private string DatePickerFormat(string str)
         {
-            string result = "";
+            str = str.Trim().Replace("-", "").Replace(".", "");
 
-            if (str.Length == 8)
+            if (!str.Equals(""))
             {
-                if (!str.Trim().Equals(""))
+                if (str.Length == 8)
                 {
-                    result = str.Substring(0, 4) + "-" + str.Substring(4, 2) + "-" + str.Substring(6, 2);
+                    str = str.Substring(0, 4) + "-" + str.Substring(4, 2) + "-" + str.Substring(6, 2);
                 }
             }
 
-            return result;
+            return str;
+        }
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Lib.Instance.CheckIsNumeric((TextBox)sender, e);
         }
 
         #endregion
 
+        public class AS_ORDER
+        {
+            public int num { get; set; }
+            public string asOrderID { get; set; }
+            public string asReqDate { get; set; }
+            public string asReqUserName { get; set; }
+            public string asReqUserTelNo { get; set; }
+            public string asLocation { get; set; }
+            public string constrCustomID { get; set; }
+            public string constrCustom { get; set; }
+            public string asSmallLocation { get; set; }
+            public string asChargerMCNo { get; set; }
+            public string costYN { get; set; }
+            public double asAmount { get; set; }
+            public string asDamDangJa { get; set; }
+            public string asDate { get; set; }
+            public string asCompleteYN { get; set; }
+            public string comments { get; set; }
+            public string asTypeID { get; set; }
+            public string asType { get; set; }
+        }
 
+     
     }
 
   
-
 
 }
