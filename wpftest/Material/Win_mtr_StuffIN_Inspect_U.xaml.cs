@@ -874,7 +874,7 @@ namespace WizMes_EVC
                                 Amount = stringFormatN0(dr["Amount"]), // 금액 → 소수점 버림 + 천 단위
                                 BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
 
-                                ArticleGrpID = dr["ArticleGrpID"].ToString(),
+                                articleTypeID = dr["articleTypeID"].ToString(),
                                 ScrapQty = stringFormatN0(ConvertDouble(dr["ScrapQty"].ToString())), // 잔량 → 소수점 버림 + 천 단위
                                 MilSheetNo = dr["MilSheetNo"].ToString()
                             };
@@ -970,7 +970,7 @@ namespace WizMes_EVC
                                 FromLocID = dr["FromLocID"].ToString(),
                                 TOLocID = dr["TOLocID"].ToString(),
 
-                                ArticleGrpID = dr["ArticleGrpID"].ToString(),
+                                articleTypeID = dr["articleTypeID"].ToString(),
                                 CustomInspector = dr["CustomInspector"].ToString(),
                                 CustomInspectDate = dr["CustomInspectDate"].ToString(),
 

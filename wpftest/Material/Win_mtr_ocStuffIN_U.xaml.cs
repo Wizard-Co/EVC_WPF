@@ -45,6 +45,8 @@ namespace WizMes_EVC
         ObservableCollection<Win_mtr_ocStuffIN_U_CodeView> ovcStuffIN = new ObservableCollection<Win_mtr_ocStuffIN_U_CodeView>();
         ObservableCollection<Win_mtr_ocStuffIN_U_CodeView> ovcStuffIN_Scrap = new ObservableCollection<Win_mtr_ocStuffIN_U_CodeView>();
         ObservableCollection<LabelPrint> ovcLabelPrint = new ObservableCollection<LabelPrint>();
+        List<Win_mtr_ocStuffINSub> ListOutwareSub = new List<Win_mtr_ocStuffINSub>();
+
 
         // 인쇄 활용 객체
         private Microsoft.Office.Interop.Excel.Application excelapp;
@@ -74,6 +76,7 @@ namespace WizMes_EVC
             dtpSDateSrh.SelectedDate = DateTime.Today;
             dtpEDateSrh.SelectedDate = DateTime.Today;
 
+            
             SetComboBox();
         }
 
@@ -233,6 +236,12 @@ namespace WizMes_EVC
             this.cboFreeStuffinYN.SelectedValuePath = "code_id";
 
 
+            // 검사필요여부cboInspectYN
+            this.cboImditlyOutYN.ItemsSource = ovcYN;
+            this.cboImditlyOutYN.DisplayMemberPath = "code_name";
+            this.cboImditlyOutYN.SelectedValuePath = "code_id";
+
+            
             cbosInspectApprovalYN.SelectedIndex = 1; // 검색 입곡검수승인 N을 기본으로 해놓기
 
             // 관리사업장
@@ -1348,6 +1357,7 @@ namespace WizMes_EVC
             if (OcStuffIN != null)
             {
                 ShowData(OcStuffIN.StuffInID);
+                subShowData(OcStuffIN.StuffInID);
 
                 //// 체크
                 //if (OcStuffIN.Chk == true)
@@ -1559,7 +1569,7 @@ namespace WizMes_EVC
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                 sqlParameter.Add("ArticleID", setArticleID);
 
-                DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Order_sArticleData", sqlParameter, false);
+                DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_mtr_sArticleData", sqlParameter, false);
 
                 if (ds != null && ds.Tables.Count > 0)
                 {
@@ -1571,23 +1581,70 @@ namespace WizMes_EVC
 
                         var getArticleInfo = new ArticleInfo
                         {
-                            ArticleGrpID = dr["ArticleGrpID"].ToString(),
-                            UnitPrice = dr["UnitPrice"].ToString(),
-                            UnitPriceClss = dr["UnitPriceClss"].ToString(),
+                            articleTypeID = dr["articleTypeID"].ToString(),
+                            buyUnitPrice = dr["buyUnitPrice"].ToString(),
+                            buyUnitTypeID = dr["buyUnitTypeID"].ToString(),
                             UnitClss = dr["UnitClss"].ToString(),
                             PartGBNID = dr["PartGBNID"].ToString(),
                             FreeStuffinYN = dr["FreeStuffinYN"].ToString(), // 품명에서 무검사입고품여부 정보들고옴
-                            InspectYN = dr["InspectYN"].ToString()
+                            //InspectYN = dr["InspectYN"].ToString()
                         };
 
-                        cboArticleGrp.SelectedValue = getArticleInfo.ArticleGrpID;
-                        cboPriceClss.SelectedValue = getArticleInfo.UnitPriceClss;
+                        cboArticleGrp.SelectedValue = getArticleInfo.articleTypeID;
+                        cboPriceClss.SelectedValue = getArticleInfo.buyUnitTypeID;
                         cboUnit.SelectedValue = getArticleInfo.UnitClss;
                         cboFreeStuffinYN.SelectedValue = getArticleInfo.FreeStuffinYN; // 품명에서 무검사입고품여부 정보들고옴
                         //cboProductGrp.SelectedValue = getArticleInfo.PartGBNID;
-                        txtUnitPrice.Text = getArticleInfo.UnitPrice;
+                        txtUnitPrice.Text = getArticleInfo.buyUnitPrice;
                         cboFreeStuffinYN.SelectedIndex = 0; //검사필요여부 Y면 검사, N이면 자동검사
-                        strInspectYN = getArticleInfo.InspectYN; //무검사품 입고자동여부를 위해서 
+                        //strInspectYN = getArticleInfo.InspectYN; //무검사품 입고자동여부를 위해서 
+                        strInspectYN = getArticleInfo.FreeStuffinYN; //무검사품 입고자동여부를 위해서 
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                DataStore.Instance.CloseConnection();
+            }
+        }
+
+        // ArticleID 로 Article 정보 가져오기
+        private void getOrderIDInfo(string setOrderID)
+        {
+            try
+            {
+                Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+                sqlParameter.Add("OrderID", setOrderID);
+
+                DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_stuffin_sOrderID", sqlParameter, false);
+
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataTable dt = ds.Tables[0];
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        DataRow dr = dt.Rows[0];
+
+                        var getorderidInfo = new OrderIDInfo
+                        {
+                            orderid = dr["orderid"].ToString(),
+                            //buyUnitPrice = dr["buyUnitPrice"].ToString(),
+                            //buyUnitTypeID = dr["buyUnitTypeID"].ToString(),
+                            //UnitClss = dr["UnitClss"].ToString(),
+                            //PartGBNID = dr["PartGBNID"].ToString(),
+                            //FreeStuffinYN = dr["FreeStuffinYN"].ToString(), // 품명에서 무검사입고품여부 정보들고옴
+                            //InspectYN = dr["InspectYN"].ToString()
+                        };
+
+                        txtOrderID.Text = getorderidInfo.orderid;
+
+
 
                     }
                 }
@@ -1605,61 +1662,20 @@ namespace WizMes_EVC
         // 오른쪽 품명 엔터 → 플러스 파인더 이벤트
         private void txtArticle_KeyDown(object sender, KeyEventArgs e)
         {
-            //if (e.Key == Key.Enter)
-            //{
-            //    e.Handled = true;
-            //    MainWindow.pf.ReturnCode(txtArticle, (int)Defind_CodeFind.DCF_BuyerArticleNo, "");
 
-            //    if (txtArticle.Tag != null)
-            //    {
-            //        getArticleInfo(txtArticle.Tag.ToString());
-            //    }
-            //}
             try
             {
                 if (e.Key == Key.Enter)
                 {
 
-                    //   if (txtCustom.Tag == null || txtCustom.Tag.ToString().Trim().Equals("")
-                    //|| txtCustom.Text.Trim().Equals(""))
-                    //   {
-                    //       MessageBox.Show("거래처를 먼저 선택해주세요.");
-                    //       return;
-                    //   }
 
-
-                    if (txtCustom != null && txtCustom.Text != "")
-                    {   //선택된 납품거래처에 따른 품명만 보여주게
-                        //MainWindow.pf.ReturnCode(txtArticle, 57, txtCustom.Tag.ToString().Trim());
-
-                        // 품번을 조회하도록 
-                        MainWindow.pf.ReturnCodeGLS(txtArticle, 7070, txtCustom.Tag.ToString().Trim());
-                        //txtBuyerarticleNo.Tag = txtArticle.Tag;
-                        //txtBuyerarticleNo.Text = txtBuyerarticleNo.Text;
-                    }
-                    else
-                    {   //선택된 납품거래처가 없다면 전체 품명 다 보여주게
-                        //MainWindow.pf.ReturnCode(txtArticle, (int)Defind_CodeFind.DCF_Article, "");
-
-                        // 품번을 조회하도록 
-                        MainWindow.pf.ReturnCodeGLS(txtArticle, 7071, "");
-                        //txtBuyerarticleNo.Tag = txtArticle.Tag;
-                    }
-
+                    MainWindow.pf.ReturnCode(txtArticle, 7071, "");
+                    
 
                     if (txtArticle.Tag != null)
                     {
                         getArticleInfo(txtArticle.Tag.ToString());
-                        //////품명그룹 대입(ex.제품 등)
-                        ////cboArticleGrp.SelectedValue = ArticleInfo.ArticleGrpID;
 
-                        //////단위
-                        ////cboUnit.SelectedValue = ArticleInfo.UnitClss;
-
-
-                        //cboArticleGrp.SelectedValue = ArticleInfo.ArticleGrpID;
-                        //cboPriceClss.SelectedValue = ArticleInfo.UnitPriceClss;
-                        //cboUnit.SelectedValue = ArticleInfo.UnitClss;
 
                     }
                 }
@@ -1869,10 +1885,12 @@ namespace WizMes_EVC
             cboToLoc.SelectedIndex = 0;
             cboFreeStuffinYN.SelectedIndex = 0; //검사필요여부 기본값 Y
 
+            cboImditlyOutYN.SelectedIndex = 0; //즉시출고여부 Y
 
             // 검수일자 오늘날짜
             dtpCustomInspectDate.SelectedDate = DateTime.Today;
-
+            //입고검수일자 아래꺼
+            dtpInspectDate.SelectedDate = DateTime.Today;
             rowNum = dgdMain.SelectedIndex;
         }
         // 수정 버튼 이벤트
@@ -2137,7 +2155,7 @@ namespace WizMes_EVC
                                 InspectApprovalYN = dr["InspectApprovalYN"].ToString(),
                                 Amount = stringFormatN0(dr["Amount"]), // 금액 → 소수점 버림 + 천 단위
 
-                                ArticleGrpID = dr["ArticleGrpID"].ToString(),
+                                articleTypeID = dr["articleTypeID"].ToString(),
                                 ScrapQty = stringFormatN0(ConvertDouble(dr["ScrapQty"].ToString())), // 잔량 → 소수점 버림 + 천 단위
                                 MilSheetNo = dr["MilSheetNo"].ToString(),
                                 ProdQtyPerBox = dr["ProdQtyPerBox"].ToString(),
@@ -2145,6 +2163,8 @@ namespace WizMes_EVC
                                 BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
                                 LabelPrintYN = dr["LabelPrintYN"].ToString(),
                                 FreeStuffinYN = dr["FreeStuffinYN"].ToString(),
+                                orderid = dr["orderid"].ToString(),
+                                ImditlyOutYN = dr["ImditlyOutYN"].ToString(),
                             };
 
                             // 입고일자
@@ -2235,7 +2255,7 @@ namespace WizMes_EVC
 
                                 FromLocID = dr["FromLocID"].ToString(),
                                 TOLocID = dr["TOLocID"].ToString(),
-                                ArticleGrpID = dr["ArticleGrpID"].ToString(),
+                                articleTypeID = dr["articleTypeID"].ToString(),
                                 CustomInspector = dr["CustomInspector"].ToString(),
                                 CustomInspectDate = dr["CustomInspectDate"].ToString(),
 
@@ -2263,6 +2283,8 @@ namespace WizMes_EVC
                                 BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
                                 mtrCustomLotno = dr["mtrCustomLotno"].ToString(),
                                 FreeStuffinYN = dr["FreeStuffinYN"].ToString(),
+                                orderid = dr["orderid"].ToString(),
+                                ImditlyOutYN = dr["ImditlyOutYN"].ToString(),
 
 
 
@@ -2296,6 +2318,70 @@ namespace WizMes_EVC
                 DataStore.Instance.CloseConnection();
             }
         }
+
+
+        private void subShowData(string StuffINID)
+        {
+
+            try
+            {
+                if (dgdOutwareSub.Items.Count > 0)
+                {
+                    dgdOutwareSub.Items.Clear();
+                }
+
+                Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+                sqlParameter.Clear();
+
+                sqlParameter.Add("StuffINID", StuffINID);
+
+                DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_StuffIN_sStuffINONE_sub", sqlParameter, false);
+
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataTable dt = ds.Tables[0];
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        int i = 0;
+                        DataRowCollection drc = dt.Rows;
+
+                        foreach (DataRow dr in drc)
+                        {
+                            i++;
+                            var OcStuffInSub = new Win_mtr_ocStuffINSub()
+                            {
+
+                                Num = i,
+                                chargerNo = dr["chargerNo"].ToString(),
+                                Comments = dr["Comments"].ToString()
+
+
+                            };
+
+                            dgdOutwareSub.Items.Add(OcStuffInSub);
+
+                            // 전창고가 빈값이면, 첫번째 행 선택하기
+                            //if (OcStuffInSub.FromLocID.Trim().Equals(""))
+                            //{
+                            //    cboFromLoc.SelectedIndex = 0;
+                            //}
+                        }
+
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                DataStore.Instance.CloseConnection();
+            }
+        }
+
 
         // 사용불가 LotID 조회 ← 스크랩처리
         private void FillGrid_Scrap()
@@ -2372,7 +2458,7 @@ namespace WizMes_EVC
                                 InspectApprovalYN = dr["InspectApprovalYN"].ToString(),
                                 Amount = stringFormatN0(dr["Amount"]), // 금액 → 소수점 버림 + 천 단위
 
-                                ArticleGrpID = dr["ArticleGrpID"].ToString(),
+                                articleTypeID = dr["articleTypeID"].ToString(),
                                 ScrapQty = stringFormatN0(dr["ScrapQty"]), // 잔량 → 소수점 버림 + 천 단위
                                 MilSheetNo = dr["MilSheetNo"].ToString(),
 
@@ -2712,8 +2798,11 @@ namespace WizMes_EVC
                     sqlParameter.Add("ProdAutoStuffinYN", "");
                     sqlParameter.Add("mtrWeightPerBonsu", txtWeightPerBonsu.Text != null && !txtWeightPerBonsu.Text.Trim().Equals("") ? ConvertDouble(txtWeightPerBonsu.Text) : 0);
                     sqlParameter.Add("mtrWeight", txtWeight.Text != null && !txtWeight.Text.Trim().Equals("") ? ConvertDouble(txtWeight.Text) : 0);
-
+                    
                     sqlParameter.Add("FreeStuffinYN", cboFreeStuffinYN.SelectedValue != null ? cboFreeStuffinYN.SelectedValue.ToString() : ""); // 검사필요 여부 Y/N
+
+                    sqlParameter.Add("ImditlyOutYN", cboImditlyOutYN.SelectedValue != null ? cboImditlyOutYN.SelectedValue.ToString() : ""); // 검사필요 여부 Y/N
+                    sqlParameter.Add("orderid", txtOrderID.Text != null && !txtOrderID.Text.Trim().Equals("") ? txtOrderID.Text : ""); // 비고 txtRemark
                     //sqlParameter.Add("PartGBNID", cboProductGrp.SelectedValue != null ? cboProductGrp.SelectedValue.ToString() : "");
                     sqlParameter.Add("sUserID", MainWindow.CurrentUser);
 
@@ -2760,34 +2849,44 @@ namespace WizMes_EVC
                         Prolist.Clear();
                         ListParameter.Clear();
 
-                        // DB : StuffINSub에 등록
-                        sqlParameter = new Dictionary<string, object>();
-                        sqlParameter.Clear();
+                        for (int i = 0; i < dgdOutwareSub.Items.Count; i++)
+                        {
+                            var OcReqSub = dgdOutwareSub.Items[i] as Win_mtr_ocStuffINSub;
 
-                        sqlParameter.Add("StuffInID", sGetID);
+                            // DB : StuffINSub에 등록
+                            sqlParameter = new Dictionary<string, object>();
+                            sqlParameter.Clear();
 
-                        sqlParameter.Add("StuffinSubseq", 0); // 얘는 뭔데 다 0인거냐
-                        sqlParameter.Add("Qty", ConvertDouble(txInQty.Text));
-                        sqlParameter.Add("sCustomInspector", txtCustomInspector.Text != null && !txtCustomInspector.Text.Trim().Equals("") ? txtCustomInspector.Text : "");
-                        sqlParameter.Add("sCustomInspectDate", dtpCustomInspectDate.SelectedDate != null ? dtpCustomInspectDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
-                        sqlParameter.Add("sLOTID", txtLotID.Text != null && !txtLotID.Text.Trim().Equals("") ? txtLotID.Text : "");
-                        sqlParameter.Add("mtrCustomLotno", txtmtrCustomLotno.Text != null && !txtmtrCustomLotno.Text.Trim().Equals("") ? txtmtrCustomLotno.Text : "");
+                            sqlParameter.Add("StuffInID", sGetID);
 
-                        sqlParameter.Add("InspectYN", strInspectYN); // 2023.04.11 검사필요 Y = 검사 O, N이면 자동검사
-                        //sqlParameter.Add("InspectYN", cboFreeStuffinYN.SelectedValue == null || cboFreeStuffinYN.SelectedValue.Equals("N") ? "Y" : "N"); // 2023.04.11 검사필요 Y = 검사 O, N이면 자동검사
+                            sqlParameter.Add("StuffinSubseq", i + 1 ); // 얘는 뭔데 다 0인거냐
+                            sqlParameter.Add("Qty", ConvertDouble(txInQty.Text));
+                            sqlParameter.Add("sCustomInspector", txtCustomInspector.Text != null && !txtCustomInspector.Text.Trim().Equals("") ? txtCustomInspector.Text : "");
+                            sqlParameter.Add("sCustomInspectDate", dtpCustomInspectDate.SelectedDate != null ? dtpCustomInspectDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
+                            sqlParameter.Add("sLOTID", txtLotID.Text != null && !txtLotID.Text.Trim().Equals("") ? txtLotID.Text : "");
+                            sqlParameter.Add("mtrCustomLotno", txtmtrCustomLotno.Text != null && !txtmtrCustomLotno.Text.Trim().Equals("") ? txtmtrCustomLotno.Text : "");
 
-                        //sqlParameter.Add("InspectYN", "Y"); // 2020.02.14 삼주 요청사항 : 입고할때 입고검수도 알아서 되게 해달라!!! 
-                        sqlParameter.Add("sUserID", MainWindow.CurrentUser);
+                            sqlParameter.Add("InspectYN", strInspectYN); // 2023.04.11 검사필요 Y = 검사 O, N이면 자동검사
+                                                                         //sqlParameter.Add("InspectYN", cboFreeStuffinYN.SelectedValue == null || cboFreeStuffinYN.SelectedValue.Equals("N") ? "Y" : "N"); // 2023.04.11 검사필요 Y = 검사 O, N이면 자동검사
+
+                            //sqlParameter.Add("InspectYN", "Y"); // 2020.02.14 삼주 요청사항 : 입고할때 입고검수도 알아서 되게 해달라!!! 
+                            sqlParameter.Add("chargerNo", OcReqSub.chargerNo);
+                            sqlParameter.Add("Comments", OcReqSub.Comments);
+                            sqlParameter.Add("sUserID", MainWindow.CurrentUser);
 
 
-                        Procedure pro2 = new Procedure();
-                        pro2.Name = "xp_StuffIN_iuStuffINSub";
-                        pro2.OutputUseYN = "N";
-                        pro2.OutputName = "REQ_ID";
-                        pro2.OutputLength = "10";
+                            Procedure pro2 = new Procedure();
+                            pro2.Name = "xp_StuffIN_iuStuffINSub";
+                            pro2.OutputUseYN = "N";
+                            pro2.OutputName = "REQ_ID";
+                            pro2.OutputLength = "10";
 
-                        Prolist.Add(pro2);
-                        ListParameter.Add(sqlParameter);
+                            Prolist.Add(pro2);
+                            ListParameter.Add(sqlParameter);
+
+                        }
+
+                            
                     }
                     else // 수정시
                     {
@@ -2801,32 +2900,40 @@ namespace WizMes_EVC
                         Prolist.Add(pro1);
                         ListParameter.Add(sqlParameter);
 
-                        sqlParameter = new Dictionary<string, object>();
-                        sqlParameter.Clear();
+                        for (int i = 0; i < dgdOutwareSub.Items.Count; i++)
+                        {
+                            var OcReqSub = dgdOutwareSub.Items[i] as Win_mtr_ocStuffINSub;
 
-                        sqlParameter.Add("StuffInID", txtStuffInID.Text);
+                            sqlParameter = new Dictionary<string, object>();
+                            sqlParameter.Clear();
 
-                        sqlParameter.Add("StuffinSubseq", 0); // 얘는 뭔데 다 0인거냐
-                        sqlParameter.Add("Qty", ConvertDouble(txInQty.Text));
-                        sqlParameter.Add("sCustomInspector", txtCustomInspector.Text != null && !txtCustomInspector.Text.Trim().Equals("") ? txtCustomInspector.Text : "");
-                        sqlParameter.Add("sCustomInspectDate", dtpCustomInspectDate.SelectedDate != null ? dtpCustomInspectDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
-                        sqlParameter.Add("sLOTID", txtLotID.Text != null && !txtLotID.Text.Trim().Equals("") ? txtLotID.Text : "");
-                        sqlParameter.Add("mtrCustomLotno", txtmtrCustomLotno.Text != null && !txtmtrCustomLotno.Text.Trim().Equals("") ? txtmtrCustomLotno.Text : "");
+                            sqlParameter.Add("StuffInID", txtStuffInID.Text);
 
-                        //sqlParameter.Add("sInspector", txtinspector.Text);      //검수자
-                        //sqlParameter.Add("sInspectDate", dtpInspectDate.SelectedDate != null ? dtpInspectDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
-                        //sqlParameter.Add("sInspectApprovalYN", "N");
-                        sqlParameter.Add("sUserID", MainWindow.CurrentUser);
+                            sqlParameter.Add("StuffinSubseq", i + 1 ); // 얘는 뭔데 다 0인거냐
+                            sqlParameter.Add("Qty", ConvertDouble(txInQty.Text));
+                            sqlParameter.Add("sCustomInspector", txtCustomInspector.Text != null && !txtCustomInspector.Text.Trim().Equals("") ? txtCustomInspector.Text : "");
+                            sqlParameter.Add("sCustomInspectDate", dtpCustomInspectDate.SelectedDate != null ? dtpCustomInspectDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
+                            sqlParameter.Add("sLOTID", txtLotID.Text != null && !txtLotID.Text.Trim().Equals("") ? txtLotID.Text : "");
+                            sqlParameter.Add("mtrCustomLotno", txtmtrCustomLotno.Text != null && !txtmtrCustomLotno.Text.Trim().Equals("") ? txtmtrCustomLotno.Text : "");
+
+                            sqlParameter.Add("chargerNo", OcReqSub.chargerNo);
+                            sqlParameter.Add("Comments", OcReqSub.Comments);
+                            //sqlParameter.Add("sInspector", txtinspector.Text);      //검수자
+                            //sqlParameter.Add("sInspectDate", dtpInspectDate.SelectedDate != null ? dtpInspectDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
+                            //sqlParameter.Add("sInspectApprovalYN", "N");
+                            sqlParameter.Add("sUserID", MainWindow.CurrentUser);
 
 
-                        Procedure pro2 = new Procedure();
-                        pro2.Name = "xp_StuffIN_iuStuffINSub";
-                        pro2.OutputUseYN = "N";
-                        pro2.OutputName = "REQ_ID";
-                        pro2.OutputLength = "10";
+                            Procedure pro2 = new Procedure();
+                            pro2.Name = "xp_StuffIN_iuStuffINSub";
+                            pro2.OutputUseYN = "N";
+                            pro2.OutputName = "REQ_ID";
+                            pro2.OutputLength = "10";
 
-                        Prolist.Add(pro2);
-                        ListParameter.Add(sqlParameter);
+                            Prolist.Add(pro2);
+                            ListParameter.Add(sqlParameter);
+                        }
+                        
                     }
 
                     string[] Confirm = new string[2];
@@ -3192,6 +3299,402 @@ namespace WizMes_EVC
                 chkMtrLOTIDSrh.IsChecked = true;
             }
         }
+
+        //수주번호키다운
+        private void txtOrderID_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+
+
+                MainWindow.pf.ReturnCode(txtOrderID, 8000, "");
+
+                getOrderIDInfo(txtOrderID.Text);
+
+            }
+
+        }
+
+        //수주버튼클릭
+        private void btnPfOrderID_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.pf.ReturnCode(txtOrderID, 8000, "");
+            getOrderIDInfo(txtOrderID.Text);
+
+        }
+
+
+        private void ButtonDataGridSubRowAdd_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                SubRowAdd();
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show("오류지점 - ButtonDataGridSubRowAdd_Click : " + ee.ToString());
+            }
+        }
+
+        private void ButtonDataGridSubRowDel_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                SubRowDel();
+
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show("오류지점 - ButtonDataGridSubRowDel_Click : " + ee.ToString());
+            }
+        }
+
+        //서브 그리드 추가
+        private void SubRowAdd()
+        {
+            try
+            {
+
+                int index = dgdOutwareSub.Items.Count;
+
+                var WOOSSC = new Win_mtr_ocStuffINSub()
+                {
+                    Num = index + 1,
+                    Comments   = "", 
+                    chargerNo  = ""
+                };
+                dgdOutwareSub.Items.Add(WOOSSC);
+
+
+
+
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show("오류지점 - ButtonDataGridSubRowDel_Click : " + ee.ToString());
+            }
+        }
+
+        //서브 그리드 삭제
+        private void SubRowDel()
+        {
+            try
+            {
+                if (dgdOutwareSub.Items.Count > 0)
+                {
+                    if (dgdOutwareSub.SelectedItem != null)
+                    {
+                        if (dgdOutwareSub.CurrentItem != null)
+                        {
+                            dgdOutwareSub.Items.Remove(dgdOutwareSub.CurrentItem as Win_mtr_ocStuffINSub);
+                        }
+                        else
+                        {
+                            ListOutwareSub.Add(dgdOutwareSub.SelectedItem as Win_mtr_ocStuffINSub);
+                            dgdOutwareSub.Items.Remove((dgdOutwareSub.Items[dgdOutwareSub.SelectedIndex]) as Win_mtr_ocStuffINSub);
+                        }
+
+                        dgdOutwareSub.Refresh();
+                    }
+                    else
+                    {
+                        MessageBox.Show("삭제할 데이터를 먼저 선택하세요.");
+                    }
+                }
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show("오류지점 - ButtonDataGridSubRowDel_Click : " + ee.ToString());
+            }
+        }
+
+        //서브 데이터 그리드 삭제컬럼 버튼 클릭
+        private void dgdOutwareSub_btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var OutwareSub = dgdOutwareSub.SelectedItem as Win_mtr_ocStuffINSub;
+                if (OutwareSub != null)
+                {
+                    dgdOutwareSub.Items.Remove(OutwareSub);
+                }
+
+
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show("오류지점 - dgdOutwareSub_btnDelete_Click : " + ee.ToString());
+            }
+        }
+        //서브 데이터 그리드 키다운 이벤트
+        private void dgdOutwareSub_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.Key == Key.Delete)
+                {
+                    //추가 / 수정 이벤트가 진행중인 경우,
+                    if ((btnSave.Visibility == Visibility.Visible) && (btnCancel.Visibility == Visibility.Visible))
+                    {
+                        var OutwareSub = dgdOutwareSub.SelectedItem as Win_mtr_ocStuffINSub;
+                        if (OutwareSub != null)
+                        {
+                            dgdOutwareSub.Items.Remove(OutwareSub);
+                        }
+                    }
+                }
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show("오류지점 - dgdOutwareSub_KeyDown : " + ee.ToString());
+            }
+        }
+
+        //서브 데이터 그리드 수량 숫자만 입력
+        private void DataGridTextBoxColorQty_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            try
+            {
+                Lib.Instance.CheckIsNumeric((TextBox)sender, e);
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show("오류지점 - DataGridTextBoxColorQty_PreviewTextInput : " + ee.ToString());
+            }
+        }
+
+        #region 서브 데이터그리드 방향키 이동 및 셀 포커스
+        private void DataGridSub_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.Key == Key.Down || e.Key == Key.Up || e.Key == Key.Left || e.Key == Key.Right)
+                {
+                    DataGridSub_KeyDown(sender, e);
+                }
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show("오류지점 - DataGridSub_PreviewKeyDown " + ee.ToString());
+            }
+        }
+
+        private void DataGridSub_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                var SubItem = dgdOutwareSub.CurrentItem as Win_mtr_ocStuffINSub;
+                int rowCount = dgdOutwareSub.Items.IndexOf(dgdOutwareSub.CurrentItem);
+                int colCount = dgdOutwareSub.Columns.IndexOf(dgdOutwareSub.CurrentCell.Column);
+                int StartColumnCount = 1; //DataGridSub.Columns.IndexOf(dgdtpeMCoperationRateScore);
+                int EndColumnCount = 2; //DataGridSub.Columns.IndexOf(dgdtpeComments);
+
+                if (e.Key == Key.Enter)
+                {
+                    e.Handled = true;
+                    (sender as DataGridCell).IsEditing = false;
+
+                    if (EndColumnCount == colCount && dgdOutwareSub.Items.Count - 1 > rowCount)
+                    {
+                        dgdOutwareSub.SelectedIndex = rowCount + 1;
+                        dgdOutwareSub.CurrentCell = new DataGridCellInfo(dgdOutwareSub.Items[rowCount + 1], dgdOutwareSub.Columns[StartColumnCount]);
+                    }
+                    else if (EndColumnCount > colCount && dgdOutwareSub.Items.Count - 1 > rowCount)
+                    {
+                        dgdOutwareSub.CurrentCell = new DataGridCellInfo(dgdOutwareSub.Items[rowCount], dgdOutwareSub.Columns[colCount + 1]);
+                    }
+                    else if (EndColumnCount == colCount && dgdOutwareSub.Items.Count - 1 == rowCount)
+                    {
+                        btnSave.Focus();
+                    }
+                    else if (EndColumnCount > colCount && dgdOutwareSub.Items.Count - 1 == rowCount)
+                    {
+                        dgdOutwareSub.CurrentCell = new DataGridCellInfo(dgdOutwareSub.Items[rowCount], dgdOutwareSub.Columns[colCount + 1]);
+                    }
+                    else
+                    {
+                        MessageBox.Show("있으면 찾아보자...");
+                    }
+                }
+                else if (e.Key == Key.Down)
+                {
+                    e.Handled = true;
+                    (sender as DataGridCell).IsEditing = false;
+
+                    if (dgdOutwareSub.Items.Count - 1 > rowCount)
+                    {
+                        dgdOutwareSub.SelectedIndex = rowCount + 1;
+                        dgdOutwareSub.CurrentCell = new DataGridCellInfo(dgdOutwareSub.Items[rowCount + 1], dgdOutwareSub.Columns[colCount]);
+                    }
+                    else if (dgdOutwareSub.Items.Count - 1 == rowCount)
+                    {
+                        if (EndColumnCount > colCount)
+                        {
+                            dgdOutwareSub.SelectedIndex = 0;
+                            dgdOutwareSub.CurrentCell = new DataGridCellInfo(dgdOutwareSub.Items[0], dgdOutwareSub.Columns[colCount + 1]);
+                        }
+                        else
+                        {
+                            btnSave.Focus();
+                        }
+                    }
+                }
+                else if (e.Key == Key.Up)
+                {
+                    e.Handled = true;
+                    (sender as DataGridCell).IsEditing = false;
+
+                    if (rowCount > 0)
+                    {
+                        dgdOutwareSub.SelectedIndex = rowCount - 1;
+                        dgdOutwareSub.CurrentCell = new DataGridCellInfo(dgdOutwareSub.Items[rowCount - 1], dgdOutwareSub.Columns[colCount]);
+                    }
+                }
+                //else if (e.Key == Key.Left)
+                //{
+                //    e.Handled = true;
+                //    (sender as DataGridCell).IsEditing = false;
+
+                //    if (colCount > 0)
+                //    {
+                //        dgdOutwareSub.CurrentCell = new DataGridCellInfo(dgdOutwareSub.Items[rowCount], dgdOutwareSub.Columns[colCount - 1]);
+                //    }
+                //}
+                //else if (e.Key == Key.Right)
+                //{
+                //    e.Handled = true;
+                //    (sender as DataGridCell).IsEditing = false;
+
+                //    if (EndColumnCount > colCount)
+                //    {
+                //        dgdOutwareSub.CurrentCell = new DataGridCellInfo(dgdOutwareSub.Items[rowCount], dgdOutwareSub.Columns[colCount + 1]);
+                //    }
+                //    else if (EndColumnCount == colCount)
+                //    {
+                //        if (dgdOutwareSub.Items.Count - 1 > rowCount)
+                //        {
+                //            dgdOutwareSub.SelectedIndex = rowCount + 1;
+                //            dgdOutwareSub.CurrentCell = new DataGridCellInfo(dgdOutwareSub.Items[rowCount + 1], dgdOutwareSub.Columns[StartColumnCount]);
+                //        }
+                //        else
+                //        {
+                //            btnSave.Focus();
+                //        }
+                //    }
+                //}
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show("오류지점 - DataGridSub_KeyDown " + ee.ToString());
+            }
+        }
+
+        private void DataGridSub_TextFocus(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                Lib.Instance.DataGridINControlFocus(sender, e);
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show("오류지점 - DataGridSub_TextFocus " + ee.ToString());
+            }
+        }
+
+        private void DataGridSub_GotFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (tbkMsg.Visibility == Visibility.Visible)
+                {
+
+                    DataGridCell cell = sender as DataGridCell;
+
+                    cell.IsEditing = true;
+
+
+                }
+
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show("오류지점 - DataGridSub_GotFocus " + ee.ToString());
+            }
+        }
+
+        private void DataGridSub_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                Lib.Instance.DataGridINBothByMouseUP(sender, e);
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show("오류지점 - DataGridSub_MouseUp " + ee.ToString());
+            }
+        }
+        #endregion
+
+        private void DataGrid_SizeChange(object sender, SizeChangedEventArgs e)
+        {
+            DataGrid dgs = sender as DataGrid;
+            if (dgs.ColumnHeaderHeight == 0)
+            {
+                dgs.ColumnHeaderHeight = 1;
+            }
+            double a = e.NewSize.Height / 100;
+            double b = e.PreviousSize.Height / 100;
+            double c = a / b;
+
+            if (c != double.PositiveInfinity && c != 0 && double.IsNaN(c) == false)
+            {
+                dgs.ColumnHeaderHeight = dgs.ColumnHeaderHeight * c;
+                dgs.FontSize = dgs.FontSize * c;
+            }
+        }
+
+        //상단 수주라벨클릭 
+        private void lblOrderIDSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (chkOrderIDSrh.IsChecked == true)
+            {
+                chkOrderIDSrh.IsChecked = false;
+            }
+            else
+            {
+                chkOrderIDSrh.IsChecked = true;
+            }
+        }
+        //상단수주 체크 
+        private void chkOrderIDSrh_Checked(object sender, RoutedEventArgs e)
+        {
+            chkOrderIDSrh.IsChecked = true;
+
+            txtOrderIDSrh.IsEnabled = true;
+            btnPfOrderIDSrh.IsEnabled = true;
+        }
+        //상단수주 체크해제
+        private void chkOrderIDSrh_Unchecked(object sender, RoutedEventArgs e)
+        {
+            chkOrderIDSrh.IsChecked = false;
+
+            txtOrderIDSrh.IsEnabled = false;
+            btnPfOrderIDSrh.IsEnabled = false;
+        }
+        //상단수주 엔터
+        private void txtOrderIDSrh_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                e.Handled = true;
+                MainWindow.pf.ReturnCode(txtOrderIDSrh, 5001, "");
+            }
+        }
+        //상단수주 버튼
+        private void btnPfOrderIDSrh_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.pf.ReturnCode(txtOrderIDSrh, 5001, "");
+        }
     }
 
     #region CodeView(코드뷰)
@@ -3254,7 +3757,7 @@ namespace WizMes_EVC
         public string InspectDate_CV { get; set; }
         public string InspectApprovalYN { get; set; }
         public string Amount { get; set; }
-        public string ArticleGrpID { get; set; }
+        public string articleTypeID { get; set; }
 
         public string ScrapQty { get; set; }    // 잔량
         public string MilSheetNo { get; set; } // 자주검사, 검사성적관리 테이블 속성 (Ins_InspectAuto)
@@ -3269,6 +3772,8 @@ namespace WizMes_EVC
         public string BuyerArticleNo { get; set; } // 출하단가
         public string LabelPrintYN { get; set; } // 출하단가
         public string FreeStuffinYN { get; set; } // 검사필요여부
+        public string orderid { get; set; } // 수주번호
+        public string ImditlyOutYN { get; set; } // 즉시출고여부
         public string Chief { get; set; } // 업체사장 
     }
 
@@ -3320,7 +3825,7 @@ namespace WizMes_EVC
 
         public string FromLocID { get; set; }
         public string TOLocID { get; set; }
-        public string ArticleGrpID { get; set; }
+        public string articleTypeID { get; set; }
         public string CustomInspector { get; set; }
 
         public string CustomInspectDate { get; set; }
@@ -3363,6 +3868,9 @@ namespace WizMes_EVC
         public string ScrapQty { get; set; }    // 잔량
         public string MilSheetNo { get; set; } // 이건 뭐여
         public string OutUnitPrice { get; set; }
+        public string orderid { get; set; } // 수주번호
+        public string ImditlyOutYN { get; set; } // 즉시출고여부
+
     }
 
     // 라벨 인쇄에 사용되는 클래스
@@ -3388,9 +3896,9 @@ namespace WizMes_EVC
     {
         public string PartGBNID { get; set; }
         public string ProductGrpID { get; set; }
-        public string ArticleGrpID { get; set; }
-        public string UnitPrice { get; set; }
-        public string UnitPriceClss { get; set; }
+        public string articleTypeID { get; set; }
+        public string buyUnitPrice { get; set; }
+        public string buyUnitTypeID { get; set; }
         public string UnitClss { get; set; }
         public string ArticleID { get; set; }
         public string Article { get; set; }
@@ -3410,8 +3918,31 @@ namespace WizMes_EVC
         public string OutUnitPrice { get; set; }
         public string FreeStuffinYN { get; set; }
         public string InspectYN { get; set; }
+        public string codeName { get; set; }
 
 
     }
+
+    class OrderIDInfo : BaseView
+    {
+        public string orderid { get; set; }
+        public string articleID { get; set; }
+        public string article { get; set; }
+        public string buyerArticleNo { get; set; }
+        
+        public string priceUnitClss { get; set; }
+        public string unitClssName { get; set; }
+
+    }
+
+        //필요한가? 서브그리드에서 쓸꺼
+        class Win_mtr_ocStuffINSub : BaseView
+    {
+        public double Num { get; set; }
+        public string Comments  { get; set; } // 비고
+        public string chargerNo { get; set; } // 충전기번호
+        
+    }
+
     #endregion
 }

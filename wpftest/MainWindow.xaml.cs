@@ -249,57 +249,57 @@ namespace WizMes_EVC
                 SetBookMarkListBox(strFavorites);
             }
 
-            Win_Com_info();
+            //Win_Com_info();
         }
 
         #region 로그인 시 공지사항 띄우기 Win_Com_info()
 
-        //공지사항 불러오기
-        private void Win_Com_info()
-        {
-            //Win_com_Info Win_Com_info = new Win_com_Info();
+        ////공지사항 불러오기
+        //private void Win_Com_info()
+        //{
+        //    //Win_com_Info Win_Com_info = new Win_com_Info();
 
-            // 공지사항(공지사항)
-            int i = 0;
-            foreach (MenuViewModel mvm in MainWindow.mMenulist)
-            {
-                if (mvm.Menu.Equals("공지사항"))
-                {
-                    break;
-                }
-                i++;
-            }
-            try
-            {
-                if (MainWindow.MainMdiContainer.Children.Contains(MainWindow.mMenulist[i].subProgramID as MdiChild))
-                {
-                    (MainWindow.mMenulist[i].subProgramID as MdiChild).Focus();
-                }
-                else
-                {
-                    Type type = Type.GetType("WizMes_EVC." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
-                    object uie = Activator.CreateInstance(type);
+        //    // 공지사항(공지사항)
+        //    int i = 0;
+        //    foreach (MenuViewModel mvm in MainWindow.mMenulist)
+        //    {
+        //        if (mvm.Menu.Equals("공지사항"))
+        //        {
+        //            break;
+        //        }
+        //        i++;
+        //    }
+        //    try
+        //    {
+        //        if (MainWindow.MainMdiContainer.Children.Contains(MainWindow.mMenulist[i].subProgramID as MdiChild))
+        //        {
+        //            (MainWindow.mMenulist[i].subProgramID as MdiChild).Focus();
+        //        }
+        //        else
+        //        {
+        //            Type type = Type.GetType("WizMes_EVC." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
+        //            object uie = Activator.CreateInstance(type);
 
-                    MainWindow.mMenulist[i].subProgramID = new MdiChild()
-                    {
-                        Title = "WizMes_EVC [" + MainWindow.mMenulist[i].MenuID.Trim() + "] " + MainWindow.mMenulist[i].Menu.Trim() +
-                                " (→" + MainWindow.mMenulist[i].ProgramID.Trim() + ")",
-                        Height = SystemParameters.PrimaryScreenHeight * 0.8,
-                        MaxHeight = SystemParameters.PrimaryScreenHeight * 0.85,
-                        Width = SystemParameters.WorkArea.Width * 0.85,
-                        MaxWidth = SystemParameters.WorkArea.Width,
-                        Content = uie as UIElement,
-                        Tag = MainWindow.mMenulist[i]
-                    };
-                    Lib.Instance.AllMenuLogInsert(MainWindow.mMenulist[i].MenuID, MainWindow.mMenulist[i].Menu, MainWindow.mMenulist[i].subProgramID);
-                    MainWindow.MainMdiContainer.Children.Add(MainWindow.mMenulist[i].subProgramID as MdiChild);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("해당 화면이 존재하지 않습니다.");
-            }
-        }
+        //            MainWindow.mMenulist[i].subProgramID = new MdiChild()
+        //            {
+        //                Title = "WizMes_EVC [" + MainWindow.mMenulist[i].MenuID.Trim() + "] " + MainWindow.mMenulist[i].Menu.Trim() +
+        //                        " (→" + MainWindow.mMenulist[i].ProgramID.Trim() + ")",
+        //                Height = SystemParameters.PrimaryScreenHeight * 0.8,
+        //                MaxHeight = SystemParameters.PrimaryScreenHeight * 0.85,
+        //                Width = SystemParameters.WorkArea.Width * 0.85,
+        //                MaxWidth = SystemParameters.WorkArea.Width,
+        //                Content = uie as UIElement,
+        //                Tag = MainWindow.mMenulist[i]
+        //            };
+        //            Lib.Instance.AllMenuLogInsert(MainWindow.mMenulist[i].MenuID, MainWindow.mMenulist[i].Menu, MainWindow.mMenulist[i].subProgramID);
+        //            MainWindow.MainMdiContainer.Children.Add(MainWindow.mMenulist[i].subProgramID as MdiChild);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("해당 화면이 존재하지 않습니다.");
+        //    }
+        //}
 
         #endregion
 
@@ -683,11 +683,45 @@ namespace WizMes_EVC
                                 subProgramID = item["programID"] as object
                             };
 
-                          
-                                str = mMenuviewModel.Menu.Trim();
-                                mMenulist.Add(mMenuviewModel);
-                            
-                          
+                            str = mMenuviewModel.Menu.Trim();
+                            mMenulist.Add(mMenuviewModel);
+
+                            //if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("2"))
+                            //{
+                            //    str = mMenuviewModel.Menu.Trim();
+                            //    mMenulist.Add(mMenuviewModel);
+                            //}
+                            //else if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("4"))
+                            //{
+                            //    str = mMenuviewModel.Menu.Trim();
+                            //    mMenulist.Add(mMenuviewModel);
+                            //}
+                            //else if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("5")) //자재 4번으로 수정하여 조건 추가
+                            //{
+                            //    str = mMenuviewModel.Menu.Trim();
+                            //    mMenulist.Add(mMenuviewModel);
+                            //}
+                            //else if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("6"))
+                            //{
+                            //    str = mMenuviewModel.Menu.Trim();
+                            //    mMenulist.Add(mMenuviewModel);
+                            //}
+
+                            //else if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("7"))
+                            //{
+                            //    str = mMenuviewModel.Menu.Trim();
+                            //    mMenulist.Add(mMenuviewModel);
+                            //}
+
+                            //String menuID = mMenuviewModel.MenuID.Substring(0, 1);
+
+                            //if (menuID.Equals("0") || menuID.Equals("1")) continue;
+
+                            //mMenulist.Add(mMenuviewModel);
+
+
+
+
                         }
                     }
 

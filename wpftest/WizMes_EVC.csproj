@@ -358,6 +358,9 @@
     <Compile Include="Order\Win_ord_ProductNeedMonth_U.xaml.cs">
       <DependentUpon>Win_ord_ProductNeedMonth_U.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Order\Win_ord_TodoList_Q.xaml.cs">
+      <DependentUpon>Win_ord_TodoList_Q.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Outware\PopUp\Win_pop_OutwareReq.xaml.cs">
       <DependentUpon>Win_pop_OutwareReq.xaml</DependentUpon>
     </Compile>
@@ -890,6 +893,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Order\Win_ord_ProductNeedMonth_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Order\Win_ord_TodoList_Q.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

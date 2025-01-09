@@ -1467,9 +1467,9 @@ namespace WizMes_EVC
 
                         getArticleInfo = new ArticleInfo
                         {
-                            ArticleGrpID = dr["ArticleGrpID"].ToString(),
-                            UnitPrice = dr["UnitPrice"].ToString(),
-                            UnitPriceClss = dr["UnitPriceClss"].ToString(),
+                            //ArticleGrpID = dr["ArticleGrpID"].ToString(),
+                            //UnitPrice = dr["UnitPrice"].ToString(),
+                            //UnitPriceClss = dr["UnitPriceClss"].ToString(),
                             UnitClss = dr["UnitClss"].ToString(),
                             PartGBNID = dr["PartGBNID"].ToString(),
                             BuyerArticleNo = dr["BuyerArticleNo"].ToString(),

@@ -45,7 +45,7 @@ namespace WizMes_EVC
 
             tgnMoveByQty_Click(sender, e);
 
-            AccessGrantUnitPrice();
+            //AccessGrantUnitPrice();
             //InputMethod.SetIsInputMethodEnabled(this.txtAmount, false);
         }
 
@@ -933,7 +933,7 @@ namespace WizMes_EVC
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                 sqlParameter.Add("ArticleID", setArticleID);
 
-                DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Order_sArticleData", sqlParameter, false);
+                DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_mtr_sArticleData", sqlParameter, false);
 
                 if (ds != null && ds.Tables.Count > 0)
                 {
@@ -945,9 +945,9 @@ namespace WizMes_EVC
 
                         var getArticleInfo = new ArticleInfo
                         {
-                            ArticleGrpID = dr["ArticleGrpID"].ToString(),
-                            UnitPrice = dr["UnitPrice"].ToString(),
-                            UnitPriceClss = dr["UnitPriceClss"].ToString(),
+                            articleTypeID = dr["articleTypeID"].ToString(),
+                            buyUnitPrice = dr["buyUnitPrice"].ToString(),
+                            buyUnitTypeID = dr["buyUnitTypeID"].ToString(),
                             UnitClss = dr["UnitClss"].ToString(),
                             PartGBNID = dr["PartGBNID"].ToString(),
                             ProductGrpID = dr["ProductGrpID"].ToString()
@@ -1033,7 +1033,7 @@ namespace WizMes_EVC
                                         InspectApprovalYN = dr["InspectApprovalYN"].ToString(),
                                         Inspector = dr["Inspector"].ToString(),
                                         Article = dr["Article"].ToString(),
-                                        BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
+                                        //BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
                                         ProcessID = dr["ProcessID"].ToString(),
                                         CustomID = dr["CustomID"].ToString(),
 
@@ -1871,7 +1871,7 @@ namespace WizMes_EVC
 
                                 OrderID = dr["OrderID"].ToString(),
                                 //OrderSeq = dr["OrderSeq"].ToString(),
-                                OrderNo = dr["OrderNo"].ToString(),
+                                //OrderNo = dr["OrderNo"].ToString(),
                                 CustomID = dr["CustomID"].ToString(),
                                 CustomName = dr["CustomName"].ToString(),
 
@@ -1888,20 +1888,21 @@ namespace WizMes_EVC
                                 OutRealQty = dr["OutRealQty"].ToString(),
                                 ResultDate = dr["ResultDate"].ToString(),
 
-                                OrderQty = dr["OrderQty"].ToString(),
+                                //OrderQty = dr["OrderQty"].ToString(),
                                 UnitClss = dr["UnitClss"].ToString().Trim(),
                                 WorkName = dr["WorkName"].ToString(),
                                 OutType = dr["OutType"].ToString(),
                                 Remark = dr["Remark"].ToString(),
 
-                                BuyerModel = dr["BuyerModel"].ToString(),
+                                //BuyerModel = dr["BuyerModel"].ToString(),
                                 OutSumQty = dr["OutSumQty"].ToString(),
                                 OutQtyY = dr["OutQtyY"].ToString(),
                                 StuffInQty = stringFormatN0(dr["StuffInQty"]),
                                 OutWeight = dr["OutWeight"].ToString(),
 
                                 OutRealWeight = dr["OutRealWeight"].ToString(),
-                                UnitPriceClss = dr["UnitPriceClss"].ToString(),
+                                //UnitPriceClss = dr["UnitPriceClss"].ToString(),
+                                outUnitTypeID = dr["outUnitTypeID"].ToString(),
 
                                 BuyerDirectYN = dr["BuyerDirectYN"].ToString(),
                                 Vat_Ind_YN = dr["Vat_Ind_YN"].ToString(),
@@ -3431,7 +3432,7 @@ namespace WizMes_EVC
             }
         }
         #endregion
-
+ 
         //품명 라벨체크
         private void lblArticleNo_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -3485,7 +3486,7 @@ namespace WizMes_EVC
             if (e.Key == Key.Enter)
             {
                 e.Handled = true;
-                MainWindow.pf.ReturnCode(txtBuyerAritcle, (int)Defind_CodeFind.DCF_BuyerArticleNo, "");
+                MainWindow.pf.ReturnCode(txtBuyerAritcle, 8001, "");
 
                 txtArticle.Text = txtBuyerAritcle.Text;
                 txtArticle.Tag = txtBuyerAritcle.Tag;
@@ -3495,7 +3496,7 @@ namespace WizMes_EVC
 
         private void BtnPfBuyerAritcle_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.pf.ReturnCode(txtBuyerAritcle, (int)Defind_CodeFind.DCF_BuyerArticleNo, "");
+            MainWindow.pf.ReturnCode(txtBuyerAritcle, 8001, "");
             txtArticle.Text = txtBuyerAritcle.Text;
             txtArticle.Tag = txtBuyerAritcle.Tag;
         }

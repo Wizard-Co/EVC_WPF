@@ -870,7 +870,7 @@ namespace WizMes_EVC
                                 InspectApprovalYN = dr["InspectApprovalYN"].ToString(),
                                 Amount = stringFormatN0(dr["Amount"]), // 금액 → 소수점 버림 + 천 단위
 
-                                ArticleGrpID = dr["ArticleGrpID"].ToString(),
+                                articleTypeID = dr["articleTypeID"].ToString(),
                                 ScrapQty = stringFormatN0(ConvertDouble(dr["ScrapQty"].ToString())), // 잔량 → 소수점 버림 + 천 단위
                                 MilSheetNo = dr["MilSheetNo"].ToString(),
                                 //QtyPerBox = dr["QtyPerBox"].ToString(),

@@ -995,7 +995,7 @@ namespace WizMes_EVC
                 Qty = "0",
                 Amount = "0",
                 Vat = "0",
-                Vat_YN = "",
+                Vat_YN = "N",
                 COMMENTSITEM = "",
                 Item_For_Useing = "",
                 Ddate = dtpDueDate.SelectedDate != null ? dtpDueDate.SelectedDate.Value.ToString("yyyyMMdd") : "",
@@ -1275,26 +1275,26 @@ namespace WizMes_EVC
                 {
                     TextBox tb = new TextBox();
 
-                    MainWindow.pf.ReturnCode(tb, 77, OcReqSub.Item_Name == null ? "" : OcReqSub.Item_Name);
+                    MainWindow.pf.ReturnCode(tb, 8001, OcReqSub.Item_Name == null ? "" : OcReqSub.Item_Name);
 
                     e.Handled = true;
 
-                    if (txtSupplierName.Tag == null || txtSupplierName.Tag.ToString().Trim().Equals("")
-                 || txtSupplierName.Text.Trim().Equals(""))
-                    {
-                        MessageBox.Show("거래처를 먼저 선택해주세요.");
-                        return;
-                    }
+                 //   if (txtSupplierName.Tag == null || txtSupplierName.Tag.ToString().Trim().Equals("")
+                 //|| txtSupplierName.Text.Trim().Equals(""))
+                 //   {
+                 //       MessageBox.Show("거래처를 먼저 선택해주세요.");
+                 //       return;
+                 //   }
 
-                    if (txtSupplierName != null && txtSupplierName.Text != "")
-                    {
-                        // MainWindow.pf.ReturnCode(tb, 80, OcReqSub.Item_Name == null ? "" : OcReqSub.Item_Name);
-                        MainWindow.pf.ReturnCode(tb, 7070, txtSupplierName.Tag.ToString().Trim());
-                    }
-                    else
-                    {
-                        MainWindow.pf.ReturnCode(tb, 7071, "");
-                    }
+                    //if (txtSupplierName != null && txtSupplierName.Text != "")
+                    //{
+                    //    // MainWindow.pf.ReturnCode(tb, 80, OcReqSub.Item_Name == null ? "" : OcReqSub.Item_Name);
+                    //    MainWindow.pf.ReturnCode(tb, 7070, txtSupplierName.Tag.ToString().Trim());
+                    //}
+                    //else
+                    //{
+                    //    MainWindow.pf.ReturnCode(tb, 7071, "");
+                    //}
                     ////MainWindow.pf.ReturnCode(tb, 80, OcReqSub.Item_Name == null ? "" : OcReqSub.Item_Name);
                     //MainWindow.pf.ReturnCode(tb, 80, txtSupplierName.Tag.ToString().Trim());
 
@@ -1323,6 +1323,8 @@ namespace WizMes_EVC
                             OcReqSub.BuyerArticleNo = ai.BuyerArticleNo;
                             OcReqSub.Item_ID = ai.ArticleID;
                             OcReqSub.Item_Name = ai.Article;
+                            OcReqSub.Unit_Clss = ai.UnitClss;
+                            OcReqSub.Unit_Name = ai.codeName;
                         }
                     }
                 }
@@ -1387,6 +1389,8 @@ namespace WizMes_EVC
                             OcReqSub.BuyerArticleNo = ai.BuyerArticleNo;
                             OcReqSub.Item_ID = ai.ArticleID;
                             OcReqSub.Item_Name = ai.Article;
+                            OcReqSub.Unit_Clss = ai.codeName;
+                            OcReqSub.Unit_Name = ai.codeName;
                         }
                     }
                 }
@@ -1403,7 +1407,7 @@ namespace WizMes_EVC
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                 sqlParameter.Add("ArticleID", setArticleID);
 
-                DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Order_sArticleData", sqlParameter, false);
+                DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_mtr_sArticleData", sqlParameter, false);
 
                 if (ds != null && ds.Tables.Count > 0)
                 {
@@ -1415,15 +1419,17 @@ namespace WizMes_EVC
 
                         getArticleInfo = new ArticleInfo
                         {
-                            ArticleGrpID = dr["ArticleGrpID"].ToString(),
-                            UnitPrice = dr["UnitPrice"].ToString(),
-                            UnitPriceClss = dr["UnitPriceClss"].ToString(),
+                            articleTypeID = dr["articleTypeID"].ToString(),
+                            buyUnitPrice = dr["buyUnitPrice"].ToString(),
+                            buyUnitTypeID = dr["buyUnitTypeID"].ToString(),
                             UnitClss = dr["UnitClss"].ToString(),
                             PartGBNID = dr["PartGBNID"].ToString(),
                             BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
                             Article = dr["Article"].ToString(),
                             ArticleID = dr["ArticleID"].ToString(),
+                            codeName = dr["codeName"].ToString(),
                         };
+                        
                     }
                 }
 
@@ -1582,10 +1588,12 @@ namespace WizMes_EVC
                                 InwareCloseYN = dr["InwareCloseYN"].ToString(),
                                 Weight = dr["Weight"].ToString(),
                                 BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
+                                codeName = dr["codeName"].ToString(),
                             };
 
                             OcReqSub.InwareCloseChecked = OcReqSub.InwareCloseYN.Equals("Y") == true ? true : false;
-
+                            OcReqSub.VatYNChecked = OcReqSub.Vat_YN.Equals("Y") == true ? true : false;
+                            OcReqSub.Unit_Name = OcReqSub.codeName;
                             dgdSub.Items.Add(OcReqSub);
 
                         }
@@ -1795,7 +1803,8 @@ namespace WizMes_EVC
                             sqlParameter.Add("Qty", OcReqSub.Qty);
                             sqlParameter.Add("Amount", OcReqSub.Amount);
                             sqlParameter.Add("Vat", 0);
-                            sqlParameter.Add("Vat_YN", "N");
+                            sqlParameter.Add("Vat_YN", OcReqSub.Vat_YN);
+                            sqlParameter.Add("Unit_Clss", OcReqSub.Unit_Clss);
 
                             sqlParameter.Add("Comments", OcReqSub.COMMENTSITEM);
                             sqlParameter.Add("DDate", OcReqSub.Ddate);
@@ -1873,7 +1882,8 @@ namespace WizMes_EVC
                             sqlParameter.Add("Qty", ConvertDouble(OcReqSub.Qty));
                             sqlParameter.Add("Amount", ConvertDouble(OcReqSub.Amount));
                             sqlParameter.Add("Vat", 0);
-                            sqlParameter.Add("Vat_YN", "N");
+                            sqlParameter.Add("Vat_YN", OcReqSub.Vat_YN);
+                            sqlParameter.Add("Unit_Clss", OcReqSub.Unit_Clss);
                             sqlParameter.Add("Comments", OcReqSub.COMMENTSITEM);
                             sqlParameter.Add("DDate", OcReqSub.Ddate);
                             sqlParameter.Add("InwareCloseYN", OcReqSub.InwareCloseYN);
@@ -2202,6 +2212,24 @@ namespace WizMes_EVC
         {
             MainWindow.pf.ReturnCode(txtBuyArticleSrh, 77, "");
         }
+
+        private void chkVatYN_Checked(object sender, RoutedEventArgs e)
+        {
+            CheckBox chkSender = sender as CheckBox;
+            Win_mtr_OCReq_U_CodeView_Sub senderOCReqSub = chkSender.DataContext as Win_mtr_OCReq_U_CodeView_Sub;
+            senderOCReqSub.Vat_YN = "Y";
+
+            senderOCReqSub.VatYNChecked = true;
+        }
+
+        private void chkVatYN_Unchecked(object sender, RoutedEventArgs e)
+        {
+            CheckBox chkSender = sender as CheckBox;
+            Win_mtr_OCReq_U_CodeView_Sub senderOCReqSub = chkSender.DataContext as Win_mtr_OCReq_U_CodeView_Sub;
+            senderOCReqSub.Vat_YN = "N";
+
+            senderOCReqSub.VatYNChecked = false;
+        }
     }
 
     #region CodeView(코드뷰)
@@ -2237,6 +2265,7 @@ namespace WizMes_EVC
         public string Amount { get; set; }
         public string Vat { get; set; }
         public string Vat_YN { get; set; }
+        public bool VatYNChecked { get; set; }
         public string COMMENTSITEM { get; set; } // 비고
         public string Item_For_Useing { get; set; } // 용도
         public string Ddate { get; set; }
@@ -2245,7 +2274,11 @@ namespace WizMes_EVC
         public string InwareCloseYN { get; set; } // 입고마감여부
         public string Weight { get; set; } // 중량 추가 : 발주서 인쇄 시에는 - 중량 * 갯수 / 1000 (kg 으로 변경해야 하므로)
         public bool InwareCloseChecked { get; set; }
+        
         public string BuyerArticleNo { get; set; }
+        public string Unit_Clss { get; set; }
+        public string Unit_Name { get; set; }
+        public string codeName { get; set; }
 
         public bool IsEnabled { get; set; }
     }

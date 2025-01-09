@@ -466,16 +466,16 @@
                                         <ColumnDefinition Width="0.5*" />
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="19.2" />
                                         <!--<RowDefinition Height="*" />-->
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="19*" />
+                                        <RowDefinition Height="19*" />
+                                        <RowDefinition Height="19*" />
+                                        <RowDefinition Height="19*" />
+                                        <RowDefinition Height="19*" />
+                                        <RowDefinition Height="19*" />
+                                        <RowDefinition Height="19*" />
+                                        <RowDefinition Height="20*" />
                                     </Grid.RowDefinitions>
                                     <!-- 메세지 박스 -->
                                     <Grid Grid.Column="7" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="3">
@@ -503,11 +503,11 @@
                                     <!--품번-->
                                     <Label x:Name="lblBuyerAritcle" Grid.Column="0" Grid.Row="2" Style="{DynamicResource LabelInputArea}">
                                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                            <TextBlock Text="품   번"  Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                            <TextBlock Text="품   명"  Style="{DynamicResource TextBlockInViewBoxInput}"/>
                                         </Viewbox>
                                     </Label>
                                     <TextBox x:Name="txtBuyerAritcle" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2" Style="{DynamicResource TextBoxInputArea}" Background="#fff2d2" 
-                                         KeyDown="TxtBuyerAritcle_KeyDown" Text="{Binding BuyerArticleNo}" Tag="{Binding ArticleID}"/>
+                                         KeyDown="TxtBuyerAritcle_KeyDown" Text="{Binding Article}" Tag="{Binding ArticleID}"/>
                                     <Button x:Name="btnPfBuyerAritcle"  Grid.Column="4" Grid.Row="2" Click="BtnPfBuyerAritcle_Click">
                                         <Image Source="{DynamicResource btiPlusFind}" />
                                     </Button>

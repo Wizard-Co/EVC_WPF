@@ -369,7 +369,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <DataGrid Grid.Row="1" x:Name="dgdMain"   Style="{StaticResource DataGridMultiLine}">
+            <DataGrid Grid.Row="1" x:Name="dgdMain" Style="{StaticResource DataGridMultiLine}">
                 <DataGrid.RowStyle>
                     <Style TargetType="DataGridRow">
                         <Style.Resources>

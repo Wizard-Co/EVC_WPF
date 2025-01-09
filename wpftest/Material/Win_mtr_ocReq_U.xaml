@@ -540,12 +540,12 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Header="품명" Width="auto" MinWidth="50" x:Name="dgdSub_ItemName">
+                                <DataGridTemplateColumn Header="자재명" Width="auto" MinWidth="50" x:Name="dgdSub_ItemName">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding Item_Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TextAlignment="Left" Padding="5 0 0 0"
                                                        Tag="{Binding Item_ID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Background="#A9BCF5" />
-                                        </DataTemplate>
+                                        </DataTemplate> 
                                     </DataGridTemplateColumn.CellTemplate>
                                     <DataGridTemplateColumn.CellEditingTemplate>
                                         <DataTemplate>
@@ -554,7 +554,7 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellEditingTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Header="품번" Width="auto" MinWidth="50" x:Name="BuyerArticleNo">
+                                <DataGridTemplateColumn Header="품번" Width="auto" MinWidth="50" x:Name="BuyerArticleNo" Visibility="Hidden">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding BuyerArticleNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TextAlignment="Left" Padding="5 0 0 0"
@@ -581,7 +581,7 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellEditingTemplate>
                                 </DataGridTemplateColumn>
-                                <!--<DataGridTemplateColumn Header="단가" Width="auto" MinWidth="30">
+                                <DataGridTemplateColumn Header="단가" Width="auto" MinWidth="30">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding Unit_Price, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
@@ -590,36 +590,25 @@
                                     </DataGridTemplateColumn.CellTemplate>
                                     <DataGridTemplateColumn.CellEditingTemplate>
                                         <DataTemplate>
-                                            <TextBox Text="{Binding Unit_Price, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TextAlignment="Right" VerticalAlignment="Center" Padding="0 0 5 0"/>
+                                            <TextBox Text="{Binding Unit_Price, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TextAlignment="Right" VerticalAlignment="Center" Padding="0 0 5 0" Foreground="Black"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellEditingTemplate>
-                                </DataGridTemplateColumn>-->
-                                <DataGridTemplateColumn Header="용도" Width="auto">
+                                </DataGridTemplateColumn>
+                                
+                                <DataGridTemplateColumn Header="단위" Width="auto">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Item_For_Useing, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                            <TextBlock Text="{Binding Unit_Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                                            TextAlignment="Center" VerticalAlignment="Center" Padding="5 0 0 0"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                     <DataGridTemplateColumn.CellEditingTemplate>
                                         <DataTemplate>
-                                            <TextBox Text="{Binding Item_For_Useing, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TextAlignment="Center" Foreground="Black"/>
+                                            <TextBox Text="{Binding Unit_Clss, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TextAlignment="Center" Foreground="Black" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellEditingTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Header="비고" Width="auto">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding COMMENTSITEM, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                           TextAlignment="Center" VerticalAlignment="Center" Padding="5 0 0 0"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                    <DataGridTemplateColumn.CellEditingTemplate>
-                                        <DataTemplate>
-                                            <TextBox Text="{Binding COMMENTSITEM, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TextAlignment="Center" Foreground="Black"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellEditingTemplate>
-                                </DataGridTemplateColumn>
+                                
                                 <DataGridTemplateColumn Header="납기일자" Width="auto">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
@@ -636,8 +625,31 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellEditingTemplate>
                                 </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="부가세별도" Width="auto" MinWidth="100">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox x:Name="chkVatYN" IsChecked="{Binding VatYNChecked, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Checked="chkVatYN_Checked" Unchecked="chkVatYN_Unchecked" 
+                                                      HorizontalAlignment="Center" VerticalAlignment="Center" Width="13" IsEnabled="{Binding IsEnabled}" />
+                                            <!--PreviewMouseLeftButtonDown="InwareCloseYN_PreviewMouseLeftButtonDown"-->
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="금액" Width="auto" MinWidth="30">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                           TextAlignment="Right" VerticalAlignment="Center" Padding="5 0 5 0"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TextAlignment="Right" VerticalAlignment="Center" Padding="0 0 5 0" Foreground="Black"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                
                                 <!--<DataGridTextColumn Header="입고마감여부" Width="auto" Binding="{Binding InwareCloseYN}"/>-->
-                                <DataGridTemplateColumn Header="입고마감" Width="auto" MinWidth="100">
+                                <DataGridTemplateColumn Header="입고마감여부" Width="auto" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <CheckBox x:Name="chkInwareCloseYN" IsChecked="{Binding InwareCloseChecked, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Checked="chkInwareCloseYN_Checked" Unchecked="chkInwareCloseYN_Unchecked" 
@@ -646,6 +658,20 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="비고" Width="auto">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding COMMENTSITEM, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                           TextAlignment="Center" VerticalAlignment="Center" Padding="5 0 0 0"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding COMMENTSITEM, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TextAlignment="Center" Foreground="Black"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                
                             </DataGrid.Columns>
                         </DataGrid>
                         <Grid Grid.Row="2">
@@ -658,7 +684,7 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Button x:Name="btnGoStock" Grid.Column="0" Grid.ColumnSpan="2" Content="재고조회 바로기기" Click="btnGoStock_Click" Margin="5 0 5 5"/>
+                            <Button x:Name="btnGoStock" Grid.Column="0" Grid.ColumnSpan="2" Content="재고조회 바로기기" Click="btnGoStock_Click" Margin="5 0 5 5" Visibility="Hidden"/>
                             <Grid Grid.Column="4" Grid.ColumnSpan="3">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
