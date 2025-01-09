@@ -304,7 +304,7 @@
                     <ScrollViewer  Grid.Column="0" x:Name="dgdMainHeaderSh" HorizontalScrollBarVisibility="Hidden"  
                               ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Hidden"
                                 ScrollChanged="HeaderScrollViewer_ScrollChanged" >
-                        <Grid  >
+                        <Grid >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="*" />

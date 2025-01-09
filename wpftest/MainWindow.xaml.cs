@@ -59,6 +59,17 @@ namespace WizMes_EVC
         public static string[] Extensions = { ".jpg", ".jpeg", ".jpe", ".jfif", ".png" };
         // 이미지 업로드 시 확장자 필터 공용관리
         public static string OFdlg_Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png;";
+        // 이미지 및 문서 확장자
+        public static string OFdlg_Filter_DocAndImg =
+        "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png)|*.jpg;*.jpeg;*.jpe;*.jfif;*.png|" +
+        "HWP files (*.hwp)|*.hwp|" +
+        "PDF files (*.pdf)|*.pdf|" +
+        "Word files (*.doc, *.docx)|*.doc;*.docx|" +
+        "Excel files (*.xls, *.xlsx, *.xlsm)|*.xls;*.xlsx;*.xlsm|" +
+        "PowerPoint files (*.ppt, *.pptx)|*.ppt;*.pptx|" +
+        "Text files (*.txt)|*.txt|" +
+        "Rich Text files (*.rtf)|*.rtf|" +
+        "CSV files (*.csv)|*.csv";
 
         #region 생성자
 

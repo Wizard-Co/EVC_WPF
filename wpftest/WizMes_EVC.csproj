@@ -340,6 +340,12 @@
     <Compile Include="MIS\Win_MIS_RunningRate_Q.xaml.cs">
       <DependentUpon>Win_MIS_RunningRate_Q.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Order\PopUp\Win_ord_Pop_PreEstimate_Q.xaml.cs">
+      <DependentUpon>Win_ord_Pop_PreEstimate_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Order\PopUp\Win_ord_Pop_PreOrder_Q.xaml.cs">
+      <DependentUpon>Win_ord_Pop_PreOrder_Q.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Order\Win_ord_ControlStock_U.xaml.cs">
       <DependentUpon>Win_ord_ControlStock_U.xaml</DependentUpon>
     </Compile>
@@ -348,6 +354,9 @@
     </Compile>
     <Compile Include="Order\Win_ord_OrderClose_U.xaml.cs">
       <DependentUpon>Win_ord_OrderClose_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Order\Win_ord_Order_Estimate_U.xaml.cs">
+      <DependentUpon>Win_ord_Order_Estimate_U.xaml</DependentUpon>
     </Compile>
     <Compile Include="Order\Win_ord_Order_U.xaml.cs">
       <DependentUpon>Win_ord_Order_U.xaml</DependentUpon>
@@ -375,6 +384,12 @@
     </Compile>
     <Compile Include="Order\Win_ord_Subul_Q.xaml.cs">
       <DependentUpon>Win_ord_Subul_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Outware\PopUp\Win_pop_OutwareReq.xaml.cs">
+      <DependentUpon>Win_pop_OutwareReq.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Outware\Win_ord_OutWare_Scan.xaml.cs">
+      <DependentUpon>Win_ord_OutWare_Scan.xaml</DependentUpon>
     </Compile>
     <Compile Include="Outware\Win_Out_OutwareReq_U.xaml.cs">
       <DependentUpon>Win_Out_OutwareReq_U.xaml</DependentUpon>
@@ -872,29 +887,53 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Order\Win_ord_ControlStock_U.xaml">
+    <Page Include="Order\PopUp\Win_ord_Pop_PreEstimate_Q.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Order\PopUp\Win_ord_Pop_PreOrder_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Order\Win_ord_ControlStock_U.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Order\Win_ord_InOutSum_Q.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Order\Win_ord_OrderClose_U.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Order\Win_ord_Order_Estimate_U.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Order\Win_ord_Order_U.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Order\Win_ord_OutWare_Product_Q.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Order\Win_ord_ProductNeedMonth_U.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Order\Win_ord_StockControl_U.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Order\Win_ord_Stock_Q.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Order\Win_ord_Subul_Q.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Order\Win_ord_TodoList_Q.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -905,18 +944,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Outware\Win_ord_OutWare_Scan.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Order\Win_ord_StockControl_U.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Order\Win_ord_Stock_Q.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Order\Win_ord_Subul_Q.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

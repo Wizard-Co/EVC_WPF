@@ -457,6 +457,21 @@
                 <Setter Property="TextAlignment" Value="Center" />
             </Style>
 
+            <!-- Border와 TextBlock 조합 스타일 -->
+            <Style TargetType="Border" x:Key="BorderedTextBlock">
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderBrush" Value="#ABADB3" />
+                <Setter Property="Background" Value="White" />           
+                <Setter Property="Width" Value="Auto" />       
+            </Style>
+
+            <Style TargetType="TextBlock" x:Key="TextBlockViewArea_Number">
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="TextAlignment" Value="Right" />               
+                <Setter Property="Background" Value="White" />
+                <Setter Property="Margin" Value="0,0,10,0"/>
+            </Style>
+            
             <Style TargetType="{x:Type DataGrid}" x:Key="DataGridSet1" >
                 <Setter Property="IsReadOnly" Value="True" />
                 <Setter Property="AutoGenerateColumns" Value="False" />
@@ -489,6 +504,31 @@
                     </Style>
 
                 </Style.Resources>
+            </Style>
+            
+            <Style x:Key="RowHeaderStyle" TargetType="DataGridRowHeader">
+      
+                <Setter Property="Background" Value="#365fb1" />
+                <Setter Property="BorderBrush" Value="White" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="BorderThickness" Value="0.7" />
+                <Setter Property="FontWeight" Value="Thin" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="DataGridRowHeader">
+                            <Grid>
+                                <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center"
+                                        Content="{TemplateBinding Content}"/>
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
             </Style>
 
             <Style TargetType="{x:Type Label}" x:Key="LabelStateMessage" >

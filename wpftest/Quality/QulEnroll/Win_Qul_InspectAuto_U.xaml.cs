@@ -2376,10 +2376,10 @@ namespace WizMes_EVC
                         var articleData = new ArticleData
                         {
                             //(품번으로 보이게 수정요청, 2020.03.19, 장가빈)
-                            Article = dr["Article"].ToString(),
+                            article = dr["Article"].ToString(),
                         };
 
-                        txtBuyerArticle.Text = articleData.Article;
+                        txtBuyerArticle.Text = articleData.article;
                     }
                 }
             }
