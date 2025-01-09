@@ -405,6 +405,7 @@ namespace WizMes_EVC
                 sqlParameter.Add("completeYN", chkCompleteYNSrh.IsChecked == true && cboCompleteSrh.SelectedValue != null ? cboCompleteSrh.SelectedValue.ToString() : "");
                 sqlParameter.Add("chkASType", chkASTypeSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("ASTypeID", chkASTypeSrh.IsChecked == true && cboASTypeSrh.SelectedValue != null ? cboASTypeSrh.SelectedValue.ToString() : "");
+  
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_AS_sAS", sqlParameter, true, "R");
 

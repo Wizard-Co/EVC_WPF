@@ -361,14 +361,12 @@
                           Style="{DynamicResource DataGridSet1}"
                           SelectionChanged="dgdMain_SelectionChanged">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="순"
-                                            Binding="{Binding num}"
+                        <DataGridTextColumn Header="순" Binding="{Binding num}" CellStyle="{DynamicResource DataGridCellAndCentering}" Width="auto" />
+                        <DataGridTextColumn Header="A/S 요청번호" Binding="{Binding asOrderID}" CellStyle="{DynamicResource NonNumericDataGridCell}"
                                             Width="auto" />
-                        <DataGridTextColumn Header="A/S 요청번호" Binding="{Binding asOrderID}"
+                        <DataGridTextColumn Header="A/S 요청일자" Binding="{Binding asReqDate}" CellStyle="{DynamicResource DataGridCellAndCentering}" 
                                             Width="auto" />
-                        <DataGridTextColumn Header="A/S 요청일자" Binding="{Binding asReqDate}"
-                                            Width="auto" />
-                        <DataGridTextColumn Header="영업사"
+                        <DataGridTextColumn Header="영업사" CellStyle="{DynamicResource NonNumericDataGridCell}"
                                             Binding="{Binding searchCustom}"
                                             Width="auto" />
                         <DataGridTextColumn Header="실사업체" Binding="{Binding constrCustom}"
@@ -379,11 +377,11 @@
                                             Width="auto" />
                         <DataGridTextColumn Header="요청자 전화번호" Binding="{Binding asReqUserTelNo}" Width="auto" />
                         <DataGridTextColumn Header="전기차충전기 번호" Binding="{Binding asChargerMCNo}" Width="auto" />
-                        <DataGridTextColumn Header="유/무상" Binding="{Binding costYN}" Width="auto" />
+                        <DataGridTextColumn Header="유/무상" Binding="{Binding costYN}" Width="auto" CellStyle="{DynamicResource DataGridCellAndCentering}" />
                         <DataGridTextColumn Header="금액" Binding="{Binding asAmount, StringFormat=N0}" Width="auto" CellStyle="{DynamicResource NumericDataGridCell}" />
                         <DataGridTextColumn Header="현장 A/S 담당자" Binding="{Binding asDamDangJa}" Width="auto" />
-                        <DataGridTextColumn Header="처리일자" Binding="{Binding asDate}" Width="auto" />
-                        <DataGridTextColumn Header="완료 여부" Binding="{Binding asCompleteYN}" Width="auto" />
+                        <DataGridTextColumn Header="처리일자" Binding="{Binding asDate}" Width="auto" CellStyle="{DynamicResource DataGridCellAndCentering}" />
+                        <DataGridTextColumn Header="완료 여부" Binding="{Binding asCompleteYN}" Width="auto" CellStyle="{DynamicResource DataGridCellAndCentering}" />
                         <DataGridTextColumn Header="비고" Binding="{Binding comments}" Width="auto" />
                     </DataGrid.Columns>
                 </DataGrid>

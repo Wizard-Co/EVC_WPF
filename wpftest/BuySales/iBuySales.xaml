@@ -387,22 +387,22 @@
                         <DataGridTextColumn Header="순"
                                             Binding="{Binding num}"
                                             Width="auto" />
-                        <DataGridTextColumn Header="수주번호"
+                        <DataGridTextColumn Header="수주번호" CellStyle="{DynamicResource DataGridCellAndCentering}"
                                             Binding="{Binding orderID}"
                                             Width="auto" />
-                        <DataGridTextColumn Header="영업회사"
+                        <DataGridTextColumn Header="영업회사" CellStyle="{DynamicResource DataGridCellAndCentering}"
                                             Binding="{Binding salesCustom}"
                                             Width="auto" />
-                        <DataGridTextColumn Header="실사업체"
+                        <DataGridTextColumn Header="실사업체" CellStyle="{DynamicResource DataGridCellAndCentering}"
                                             Binding="{Binding searchCustom}"
                                             Width="auto" />
-                        <DataGridTextColumn Header="국소명"
+                        <DataGridTextColumn Header="국소명" CellStyle="{DynamicResource DataGridCellAndCentering}"
                                             Binding="{Binding installLoccation}"
                                             Width="auto" />
-                        <DataGridTextColumn Header="매입금액"
+                        <DataGridTextColumn Header="매입금액" CellStyle="{DynamicResource NumericDataGridCell}"
                                             Binding="{Binding totalBuyAmount, StringFormat=N0}"
                                             Width="auto" />
-                        <DataGridTextColumn Header="매출금액"
+                        <DataGridTextColumn Header="매출금액" CellStyle="{DynamicResource NumericDataGridCell}"
                                             Binding="{Binding totalSalesAmount, StringFormat=N0}"
                                             Width="auto" />
                     </DataGrid.Columns>
@@ -412,14 +412,11 @@
                           x:Name="dgdMainSum"
                           Style="{DynamicResource DataGridSet1}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="건수"
+                        <DataGridTextColumn Header="건수" CellStyle="{DynamicResource DataGridCellAndCentering}"
                                             Binding="{Binding num, StringFormat=N0}" />
-                        <DataGridTextColumn Header="매출금액 계"
-                                            Binding="{Binding totalSalesAmount, StringFormat=N0}" />
-                        <DataGridTextColumn Header="매입금액 계"
-                                            Binding="{Binding totalBuyAmount, StringFormat=N0}" />
-                        <DataGridTextColumn Header="차액"
-                                            Binding="{Binding profit, StringFormat=N0}" />
+                        <DataGridTextColumn Header="매출금액 계" CellStyle="{DynamicResource NumericDataGridCell}" Binding="{Binding totalSalesAmount, StringFormat=N0}" />
+                        <DataGridTextColumn Header="매입금액 계" CellStyle="{DynamicResource NumericDataGridCell}" Binding="{Binding totalBuyAmount, StringFormat=N0}" />
+                        <DataGridTextColumn Header="차액" CellStyle="{DynamicResource NumericDataGridCell}" Binding="{Binding profit, StringFormat=N0}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
@@ -788,13 +785,11 @@
                           x:Name="dgdSubSum"
                           Style="{DynamicResource DataGridSet1}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="건수"
-                                            Binding="{Binding num, StringFormat=N0}" />
-                        <DataGridTextColumn Header="매출금액 계"
-                                            Binding="{Binding totalSalesAmount, StringFormat=N0}" />
-                        <DataGridTextColumn Header="매입금액 계"
+                        <DataGridTextColumn Header="건수" Binding="{Binding num, StringFormat=N0}" CellStyle="{DynamicResource DataGridCellAndCentering}" />
+                        <DataGridTextColumn Header="매출금액 계" Binding="{Binding totalSalesAmount, StringFormat=N0}" CellStyle="{DynamicResource NumericDataGridCell}" />
+                        <DataGridTextColumn Header="매입금액 계" CellStyle="{DynamicResource NumericDataGridCell}"
                                             Binding="{Binding totalBuyAmount, StringFormat=N0}" />
-                        <DataGridTextColumn Header="차액"
+                        <DataGridTextColumn Header="차액" CellStyle="{DynamicResource NumericDataGridCell}"
                                             Binding="{Binding profit, StringFormat=N0}" />
                     </DataGrid.Columns>
                 </DataGrid>

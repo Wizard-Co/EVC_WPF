@@ -710,6 +710,8 @@ namespace WizMes_EVC
                 sqlParameter.Add("reqTel", "");
                 sqlParameter.Add("chkCompleteYN", 0);
                 sqlParameter.Add("completeYN", "");
+                sqlParameter.Add("chkASType", 0);
+                sqlParameter.Add("ASTypeID", "");
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_AS_sAS", sqlParameter, false);
 
