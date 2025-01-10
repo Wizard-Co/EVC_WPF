@@ -2,25 +2,21 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using WizMes_EVC.PopUP;
-using WizMes_EVC.PopUp;
-using Excel = Microsoft.Office.Interop.Excel;
-using System.Linq;
-using System.Windows.Media;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
 //using WizMes_EVC.Order.Pop;
-using WPF.MDI;
-using System.Windows.Interop;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using System.Windows.Data;
+using System.Windows.Input;
+using System.Windows.Media;
 using WizMes_EVC.Order.Pop;
+using WizMes_EVC.PopUp;
+using WizMes_EVC.PopUP;
+using Excel = Microsoft.Office.Interop.Excel;
 
 /**************************************************************************************************
 '** 프로그램명 : Win_ord_Order_U
@@ -66,6 +62,7 @@ namespace WizMes_EVC
         //Win_ord_Pop_PreOrder preOrder = new Win_ord_Pop_PreOrder();
 
         private Win_ord_Pop_PreOrder_Q preOrder;
+        private Win_ord_Pop_PreEstimate_Q preEstimate;
 
         Win_ord_Order_U_CodeView_dgdMain OrderView = new Win_ord_Order_U_CodeView_dgdMain();
 
@@ -883,6 +880,7 @@ namespace WizMes_EVC
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             strFlag = "I";
+            chkEoAddSrh.IsEnabled = false;
             orderID_global = string.Empty;
             //btnPreOrder.IsEnabled = true;
             //tabBasicData.Focus();            
@@ -1103,6 +1101,7 @@ namespace WizMes_EVC
                     PrimaryKey = string.Empty;
                     orderID_global = string.Empty;       
                     rowNum = strFlag == "I" ? rowNum + 1 : strFlag == "U" ? rowNum : rowNum - 1;
+                    chkEoAddSrh.IsChecked = false;
                     re_Search(rowNum);               
                     MessageBox.Show("저장이 완료되었습니다.");
                 }
@@ -1117,7 +1116,10 @@ namespace WizMes_EVC
             CanBtnControl();
 
             dgdMain.IsHitTestVisible = true;
+            chkEoAddSrh.IsEnabled = true;
+            chkEoAddSrh.IsChecked = false;
             //btnPreOrder.IsEnabled = false;
+
             if (strFlag.Equals("U"))
             {
                 re_Search(rowNum);
@@ -2647,39 +2649,44 @@ namespace WizMes_EVC
                         sqlParameter.Add("compReportComments", txtCompReportComments.Text);
                         sqlParameter.Add("accntComments", txtAccntComments.Text);
 
-                        for (int i=0; i< dgdAccnt.Items.Count; i++)
-                        {
-                            var accntItem = dgdAccnt.Items[i] as Win_order_Order_U_CodView_dgdAccnt;
 
-                            switch (i)
+                        if(dgdAccnt.Items.Count > 0)
+                        {
+                            for (int i = 0; i < dgdAccnt.Items.Count; i++)
                             {
-                                case 0:
-                                    sqlParameter.Add("accntMgrWorkPreTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                    sqlParameter.Add("accntMgrWorkPreAmount", RemoveComma(accntItem.column2Amount,true));
-                                    sqlParameter.Add("accntMgrWorkPreAmountComments", accntItem.column3Comment);
-                                    break;
-                                case 1:
-                                    sqlParameter.Add("accntMgrtWorkAfterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                    sqlParameter.Add("accntMgrWorkAfterAmount", RemoveComma(accntItem.column2Amount,true));
-                                    sqlParameter.Add("accntMgrWorkAfterAmountComments", accntItem.column3Comment);
-                                    break;
-                                case 2:
-                                    sqlParameter.Add("accntMgrWorkTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                    sqlParameter.Add("accntMgrWorkAmount", RemoveComma(accntItem.column2Amount,true));
-                                    sqlParameter.Add("accntMgrWorkAmountComments", accntItem.column3Comment);
-                                    break;
-                                case 3:
-                                    sqlParameter.Add("accntWorkTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                    sqlParameter.Add("accntWorkAmount", RemoveComma(accntItem.column2Amount,true));
-                                    sqlParameter.Add("accntWorkComments", accntItem.column3Comment);
-                                    break;
-                                case 4:
-                                    sqlParameter.Add("accntSaleTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                    sqlParameter.Add("accntSaleAmount", RemoveComma(accntItem.column2Amount,true));
-                                    sqlParameter.Add("accntSaleComments", accntItem.column3Comment);
-                                    break;
-                            }                   
+                                var accntItem = dgdAccnt.Items[i] as Win_order_Order_U_CodView_dgdAccnt;
+
+                                switch (i)
+                                {
+                                    case 0:
+                                        sqlParameter.Add("accntMgrWorkPreTaxPrintDate", RemoveHyphen(accntItem.column1Date));
+                                        sqlParameter.Add("accntMgrWorkPreAmount", RemoveComma(accntItem.column2Amount, true));
+                                        sqlParameter.Add("accntMgrWorkPreAmountComments", accntItem.column3Comment);
+                                        break;
+                                    case 1:
+                                        sqlParameter.Add("accntMgrtWorkAfterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
+                                        sqlParameter.Add("accntMgrWorkAfterAmount", RemoveComma(accntItem.column2Amount, true));
+                                        sqlParameter.Add("accntMgrWorkAfterAmountComments", accntItem.column3Comment);
+                                        break;
+                                    case 2:
+                                        sqlParameter.Add("accntMgrWorkTaxPrintDate", RemoveHyphen(accntItem.column1Date));
+                                        sqlParameter.Add("accntMgrWorkAmount", RemoveComma(accntItem.column2Amount, true));
+                                        sqlParameter.Add("accntMgrWorkAmountComments", accntItem.column3Comment);
+                                        break;
+                                    case 3:
+                                        sqlParameter.Add("accntWorkTaxPrintDate", RemoveHyphen(accntItem.column1Date));
+                                        sqlParameter.Add("accntWorkAmount", RemoveComma(accntItem.column2Amount, true));
+                                        sqlParameter.Add("accntWorkComments", accntItem.column3Comment);
+                                        break;
+                                    case 4:
+                                        sqlParameter.Add("accntSaleTaxPrintDate", RemoveHyphen(accntItem.column1Date));
+                                        sqlParameter.Add("accntSaleAmount", RemoveComma(accntItem.column2Amount, true));
+                                        sqlParameter.Add("accntSaleComments", accntItem.column3Comment);
+                                        break;
+                                }
+                            }
                         }
+                       
 
                         Procedure pro2 = new Procedure();
                         pro2.Name = "xp_ord_uOrder_tab4";
@@ -5216,8 +5223,79 @@ namespace WizMes_EVC
         //견적번호(입력그리드) - 버튼
         private void btnEstID_Click(object sender, RoutedEventArgs e)
         {
-     
+            if (strFlag != "U")
+            {
+                preEstimate = new Win_ord_Pop_PreEstimate_Q();
+
+                if (preEstimate.ShowDialog() == true)
+                {
+                    try
+                    {
+                        var selectedRow = preEstimate.SelectedItem;
+                        if (selectedRow != null)
+                        {
+                            string today = DateTime.Today.ToString("yyyyMMdd");
+                            txtEstID.Text = selectedRow.EstID;
+
+                            txtManagerCustomID.Text = selectedRow.managerCustom;
+                            txtManagerCustomID.Tag = selectedRow.managerCustomID;
+
+                            txtSalesCustomID.Text = selectedRow.salesCustom;
+                            txtSalesCustomID.Tag = selectedRow.salesCustomID;
+
+                            dtpContractFromDate.SelectedDate = ConvertToDateTime(selectedRow.InstallSchFromDate);
+                            dtpContractToDate.SelectedDate = ConvertToDateTime(selectedRow.InstallSchTODate);
+                            dtpOpenReqDate.SelectedDate = ConvertToDateTime(selectedRow.InstallSchFromDate);
+
+                            txtInstallLocation.Text = selectedRow.InstalLocation;
+                            txtInstallLocationPart.Text = selectedRow.InstallLocationPart;
+
+                            txtDamdangjaName.Text = selectedRow.EstDamdangName;
+                            txtDamdangjaPhone.Text = selectedRow.EstDamdangTelno;
+                            txtInstallLocationAddComments.Text = selectedRow.Comments;
+
+                            txtMtrAmount.Text = selectedRow.totalAmount;
+                            txtMtrShippingCharge.Text = selectedRow.deliveryCost;
+
+                            int count = CountEstSub(selectedRow.EstID);
+
+                      
+                        }
+
+                        MessageBox.Show("견적 데이터를 불러 왔습니다.", "확인");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("견적 복사 중 오류가 발생했습니다. 오류내용\n" + ex.ToString());
+                    }
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("새로 추가 중에만 사용 할 수 있습니다.");
+            }
         }
+
+        
+        private int CountEstSub(string EstID)
+        {
+            int count = 0;
+            string sql = "SELECT cnt = COUNT(*) FROM EST_EstimateSub WHERE EstID =";
+
+            DataSet ds = DataStore.Instance.QueryToDataSet(sql + EstID);
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                DataTable dt = ds.Tables[0];
+                if (dt.Rows.Count > 0)
+                {
+                    return (int)dt.Rows[0]["cnt"];
+                }
+            }
+
+            return count;
+        }
+
 
         //운영회사(입력그리드) - 텍스트박스
         private void txtManagerCustomID_KeyDown(object sender, KeyEventArgs e)
@@ -5289,6 +5367,7 @@ namespace WizMes_EVC
                             AutoBindDataToControls(selectedRow, grdInput);
 
                             txtOrderID.Text = string.Empty;
+                            txtOrderNo.Text = selectedRow.orderId;
 
                             BringdLastOrder(selectedRow.orderId);
 
@@ -5595,7 +5674,23 @@ namespace WizMes_EVC
             }
         }
 
-     
+        private void chkEoAddSrh_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkEoAddSrh.IsChecked == true)
+            {
+                strFlag = "I";
+                tbkMsg.Text = "자료 유지 추가 중";
+                txtOrderID.Text = string.Empty;
+            }
+            else
+            {
+                strFlag = "U";
+                tbkMsg.Text = "자료 수정 중";
+                txtOrderID.Text = orderID_global;
+            }
+        }
+
+
 
 
 

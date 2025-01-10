@@ -918,7 +918,7 @@
 
                                             </Viewbox>
                                         </Label>
-                                        <TextBox x:Name="txtInstallLocationPhone" Grid.Row="4" Grid.Column="1" Text="{Binding installLocationPhone}"
+                                        <TextBox x:Name="txtInstallLocationPhone" Grid.Row="4" Grid.Column="1" Text="{Binding InstallLocationPhone}"
                                                  Style="{StaticResource TextBoxInputArea}"/>
                                     </Grid>
 
@@ -1015,7 +1015,9 @@
 
                                             </Viewbox>
                                         </Label>
-                                        <TextBox x:Name="txtAlreadyManageCustomID" Grid.Row="4" KeyDown="txtAlreadyManageCustomID_KeyDown" Grid.Column="1" Text="{Binding alreadyManageCustom}" Tag="{Binding alreadyManageCustomID}"
+                                        <TextBox x:Name="txtAlreadyManageCustomID" Grid.Row="4" KeyDown="txtAlreadyManageCustomID_KeyDown" Grid.Column="1" 
+                                                 Text="{Binding alreadyManageCustom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                 Tag="{Binding alreadyManageCustomID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                  Style="{StaticResource TextBoxInputArea}"/>
                                         <Button x:Name="btnAlreadyManageCustomID" Grid.Row="5" Grid.Column="2" Click="btnAlreadyManageCustomID_Click">
                                             <Image Source="{DynamicResource btiPlusFind}"  />
@@ -2758,8 +2760,8 @@
 
                                             </Viewbox>
                                         </Label>
-                                        <TextBox x:Name="txtConstrCustomID" Grid.Row="5" Grid.Column="1" Text="{Binding constrCustom}" 
-                                                     Keyboard.KeyDown="txtConstrCustomID_KeyDown" Tag="{Binding constrCustomID}"/>
+                                        <TextBox x:Name="txtConstrCustomID" Grid.Row="5" Grid.Column="1" Text="{Binding constrCustom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                     Keyboard.KeyDown="txtConstrCustomID_KeyDown" Tag="{Binding constrCustomID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                         <Button x:Name="btnConstrCustomID" Grid.Row="5" Grid.Column="2" Click="btnConstrCustomID_Click">
                                             <Image Source="{DynamicResource btiPlusFind}"  />
                                         </Button>
@@ -3377,8 +3379,8 @@
 
                                             </Viewbox>
                                         </Label>
-                                        <TextBox x:Name="txtSuperCustomID" Grid.Row="5" Grid.Column="1" Text="{Binding superCustom}" 
-                                                     Keyboard.KeyDown="txtSuperCustomID_KeyDown" Tag="{Binding superCustomID}"/>
+                                        <TextBox x:Name="txtSuperCustomID" Grid.Row="5" Grid.Column="1" Text="{Binding superCustom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                     Keyboard.KeyDown="txtSuperCustomID_KeyDown" Tag="{Binding superCustomID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                         <Button x:Name="btnSuperCustomID" Grid.Row="5" Grid.Column="2" Click="btnSuperCustomID_Click">
                                             <Image Source="{DynamicResource btiPlusFind}"  />
                                         </Button>
@@ -3400,8 +3402,8 @@
 
                                             </Viewbox>
                                         </Label>
-                                        <TextBox x:Name="txtSafeManageCustomID" Grid.Row="5" Grid.Column="1" Text="{Binding safeManageCustom}" 
-                                                     Keyboard.KeyDown="txtSafeManageCustomID_KeyDown" Tag="{Binding safeManageCustomID}"/>
+                                        <TextBox x:Name="txtSafeManageCustomID" Grid.Row="5" Grid.Column="1" Text="{Binding safeManageCustom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                     Keyboard.KeyDown="txtSafeManageCustomID_KeyDown" Tag="{Binding safeManageCustomID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                         <Button x:Name="btnSafeManageCustomID" Grid.Row="5" Grid.Column="2" Click="btnSafeManageCustomID_Click">
                                             <Image Source="{DynamicResource btiPlusFind}"  />
                                         </Button>
@@ -3461,8 +3463,8 @@
 
                                             </Viewbox>
                                         </Label>
-                                        <TextBox x:Name="txtSuperCostPayCustomID" Grid.Row="5" Grid.Column="1" Text="{Binding superCostPayCustom}" 
-                                                     Keyboard.KeyDown="txtSuperCostPayCustomID_KeyDown" Tag="{Binding superCostPayCustomID}"/>
+                                        <TextBox x:Name="txtSuperCostPayCustomID" Grid.Row="5" Grid.Column="1" Text="{Binding superCostPayCustom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                     Keyboard.KeyDown="txtSuperCostPayCustomID_KeyDown" Tag="{Binding superCostPayCustomID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                         <Button x:Name="btnSuperCostPayCustomID" Grid.Row="5" Grid.Column="2" Click="btnSuperCostPayCustomID_Click">
                                             <Image Source="{DynamicResource btiPlusFind}"  />
                                         </Button>
@@ -3503,8 +3505,8 @@
 
                                             </Viewbox>
                                         </Label>
-                                        <TextBox x:Name="txtSuperUseInspPayCustomID" Grid.Row="5" Grid.Column="1" Text="{Binding superUseInspPayCustom}" 
-                                                     Keyboard.KeyDown="txtSuperUseInspPayCustomID_KeyDown" Tag="{Binding superUseInspPayCustomID}"/>
+                                        <TextBox x:Name="txtSuperUseInspPayCustomID" Grid.Row="5" Grid.Column="1" Text="{Binding superUseInspPayCustom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                     Keyboard.KeyDown="txtSuperUseInspPayCustomID_KeyDown" Tag="{Binding superUseInspPayCustomID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                         <Button x:Name="btnSuperUseInspPayCustomID" Grid.Row="5" Grid.Column="2" Click="btnSuperUseInspPayCustomID_Click">
                                             <Image Source="{DynamicResource btiPlusFind}"  />
                                         </Button>
