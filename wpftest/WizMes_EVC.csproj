@@ -385,12 +385,6 @@
     <Compile Include="Order\Win_ord_Subul_Q.xaml.cs">
       <DependentUpon>Win_ord_Subul_Q.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Outware\PopUp\Win_pop_OutwareReq.xaml.cs">
-      <DependentUpon>Win_pop_OutwareReq.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Outware\Win_ord_OutWare_Scan.xaml.cs">
-      <DependentUpon>Win_ord_OutWare_Scan.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Outware\Win_Out_OutwareReq_U.xaml.cs">
       <DependentUpon>Win_Out_OutwareReq_U.xaml</DependentUpon>
     </Compile>

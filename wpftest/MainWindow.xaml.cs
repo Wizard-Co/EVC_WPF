@@ -415,6 +415,7 @@ namespace WizMes_EVC
                     {
                         if (!Lib.Instance.Right(mvm.MenuID.Replace(" ", ""), 1).Equals("0"))
                         {
+                            mTreeViewItem0.Visibility = Visibility.Collapsed; //  0번삭제
                             mTreeViewItem0.Header = mvm.MenuID + "." + mvm.Menu;
                             mTree.Items.Add(mTreeViewItem0);
                             mTreeViewItem0.MouseLeftButtonUp += fmenu_click;
@@ -694,41 +695,41 @@ namespace WizMes_EVC
                                 subProgramID = item["programID"] as object
                             };
 
-                            str = mMenuviewModel.Menu.Trim();
-                            mMenulist.Add(mMenuviewModel);
-
-                            //if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("2"))
-                            //{
-                            //    str = mMenuviewModel.Menu.Trim();
-                            //    mMenulist.Add(mMenuviewModel);
-                            //}
-                            //else if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("4"))
-                            //{
-                            //    str = mMenuviewModel.Menu.Trim();
-                            //    mMenulist.Add(mMenuviewModel);
-                            //}
-                            //else if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("5")) //자재 4번으로 수정하여 조건 추가
-                            //{
-                            //    str = mMenuviewModel.Menu.Trim();
-                            //    mMenulist.Add(mMenuviewModel);
-                            //}
-                            //else if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("6"))
-                            //{
-                            //    str = mMenuviewModel.Menu.Trim();
-                            //    mMenulist.Add(mMenuviewModel);
-                            //}
-
-                            //else if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("7"))
-                            //{
-                            //    str = mMenuviewModel.Menu.Trim();
-                            //    mMenulist.Add(mMenuviewModel);
-                            //}
-
-                            //String menuID = mMenuviewModel.MenuID.Substring(0, 1);
-
-                            //if (menuID.Equals("0") || menuID.Equals("1")) continue;
-
+                            //str = mMenuviewModel.Menu.Trim();
                             //mMenulist.Add(mMenuviewModel);
+
+                            if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("0"))
+                            {
+                                str = mMenuviewModel.Menu.Trim();
+                                mMenulist.Add(mMenuviewModel);
+
+                            }
+                            else if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("2"))
+                            {
+                                str = mMenuviewModel.Menu.Trim();
+                                mMenulist.Add(mMenuviewModel);
+                            }
+                            else if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("4"))
+                            {
+                                str = mMenuviewModel.Menu.Trim();
+                                mMenulist.Add(mMenuviewModel);
+                            }
+                            else if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("5")) //자재 4번으로 수정하여 조건 추가
+                            {
+                                str = mMenuviewModel.Menu.Trim();
+                                mMenulist.Add(mMenuviewModel);
+                            }
+                            else if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("6"))
+                            {
+                                str = mMenuviewModel.Menu.Trim();
+                                mMenulist.Add(mMenuviewModel);
+                            }
+
+                            else if ((mMenuviewModel.MenuID.Substring(0, 1)).Equals("7"))
+                            {
+                                str = mMenuviewModel.Menu.Trim();
+                                mMenulist.Add(mMenuviewModel);
+                            }
 
 
 
