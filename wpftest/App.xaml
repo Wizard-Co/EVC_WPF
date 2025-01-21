@@ -505,6 +505,7 @@
 
                 </Style.Resources>
             </Style>
+
             
             <Style x:Key="RowHeaderStyle" TargetType="DataGridRowHeader">
       
@@ -516,10 +517,10 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="DataGridRowHeader">
-                            <Grid>
+                            <Grid MaxHeight="26">
                                 <Border BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Background="{TemplateBinding Background}">
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                      Background="{TemplateBinding Background}">
                                     <ContentPresenter HorizontalAlignment="Center" 
                                         VerticalAlignment="Center"
                                         Content="{TemplateBinding Content}"/>
@@ -528,7 +529,30 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
+            </Style>
 
+            <Style x:Key="RowHeaderStyleNoMaxHeight" TargetType="DataGridRowHeader">
+
+                <Setter Property="Background" Value="#365fb1" />
+                <Setter Property="BorderBrush" Value="White" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="BorderThickness" Value="0.7" />
+                <Setter Property="FontWeight" Value="Thin" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="DataGridRowHeader">
+                            <Grid>
+                                <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                      Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center"
+                                        Content="{TemplateBinding Content}"/>
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
 
             <Style TargetType="{x:Type Label}" x:Key="LabelStateMessage" >

@@ -776,7 +776,10 @@ namespace WizMes_EVC
                 sqlParameter.Add("InstallLocation", chkInstallLocationSrh.IsChecked == true ? txtInstalLocation.Text : "");
 
                 sqlParameter.Add("chkComments", chkCommentsSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("Comments", chkCommentsSrh.IsChecked == true ? txtComments.Text : "");
+                sqlParameter.Add("Comments", chkCommentsSrh.IsChecked == true ? txtCommentsSrh.Text : "");
+
+                sqlParameter.Add("chkEstSubject", chkEstSubjectSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("EstSubject", chkEstSubjectSrh.IsChecked == true ? txtEstSubjecSrh.Text : "");
                                   			
 
                 ////계약등록에서 넘어왔을 때 바로 조회용도 textblock에 적어놓고 hidden처리함
@@ -3677,6 +3680,34 @@ namespace WizMes_EVC
                     dtpEstApprovalDate.IsEnabled = false;
             }
     
+        }
+
+        private void lblEstSubjectSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if(chkEstSubjectSrh.IsChecked == true)
+            {
+                chkEstSubjectSrh.IsChecked = false;
+                txtEstSubjecSrh.IsEnabled = false;
+            }
+            else
+            {
+                chkEstSubjectSrh.IsChecked = true;
+                txtEstSubjecSrh.IsEnabled = true;
+            }
+        }
+
+        private void chkEstSubjectSrh_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkEstSubjectSrh.IsChecked == true)
+            {
+                chkEstSubjectSrh.IsChecked = true;
+                txtEstSubjecSrh.IsEnabled = true;
+            }
+            else
+            {
+                chkEstSubjectSrh.IsChecked = false;
+                txtEstSubjecSrh.IsEnabled = false;
+            }
         }
 
 

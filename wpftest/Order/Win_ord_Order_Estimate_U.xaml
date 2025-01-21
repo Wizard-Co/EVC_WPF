@@ -226,6 +226,28 @@
                     <TextBox x:Name="txtCommentsSrh" Grid.Column="1" Style="{DynamicResource TextBoxInput_Number_Left}" IsEnabled="False"/>
                 </Grid>
 
+                <!--견적명-->
+                <Grid Grid.Row="2" Grid.Column="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="75*"/>
+                        <ColumnDefinition Width="90*"/>
+                        <ColumnDefinition Width="15*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="lblEstSubjectSrh" Grid.Column="0"
+                    MouseLeftButtonUp="lblEstSubjectSrh_MouseLeftButtonUp" Style="{DynamicResource LabelSearch}">
+                        <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                <CheckBox x:Name="chkEstSubjectSrh"  VerticalAlignment="Center" 
+                          Click="chkEstSubjectSrh_Click"/>
+                            </Viewbox>
+                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                <TextBlock Text="견적제목" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                            </Viewbox>
+                        </StackPanel>
+                    </Label>
+                    <TextBox x:Name="txtEstSubjecSrh" Grid.Column="1" Style="{DynamicResource TextBoxInput_Number_Left}" IsEnabled="False"/>
+                </Grid>
+
 
                 <Grid Grid.Row="0" Grid.Column="4" Grid.RowSpan="4">
                     <Grid.RowDefinitions>

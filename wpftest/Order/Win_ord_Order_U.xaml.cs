@@ -79,6 +79,10 @@ namespace WizMes_EVC
         ObservableCollection<Win_order_Order_U_CodView_localGov> ovcOrder_localGov
         = new ObservableCollection<Win_order_Order_U_CodView_localGov>();
 
+        private List<ScrollSyncHelper> scrollHelpers = new List<ScrollSyncHelper>();
+
+        ObservableCollection<CodeView> ovcOrderTypeAcc = null;
+
         ArticleData articleData = new ArticleData();
         string PrimaryKey = string.Empty;
 
@@ -139,6 +143,8 @@ namespace WizMes_EVC
         public Win_ord_Order_U()
         {
             InitializeComponent();
+            scrollHelpers.Add(new ScrollSyncHelper(dgdAccSV, dgdAcc));
+            SetupLastColumnResize(dgdAcc, dgdAccSV, grdAcc);
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -224,7 +230,8 @@ namespace WizMes_EVC
             cboCloseClssSrh.ItemsSource = ovcCloseClssSrh;
             cboCloseClssSrh.DisplayMemberPath = "code_name";
             cboCloseClssSrh.SelectedValuePath = "code_id";
-            cboCloseClssSrh.SelectedIndex = 0;
+            cboCloseClssSrh.SelectedIndex = 0;            
+
 
             // 수주 구분
             ObservableCollection<CodeView> oveOrderFlag = ComboBoxUtil.Instance.Gf_DB_CM_GetComCodeDataset(null, "ORDFLG", "Y", "", "");
@@ -238,6 +245,15 @@ namespace WizMes_EVC
             cboOrderFlag.SelectedValuePath = "code_id";
             cboOrderFlag.SelectedIndex = 1;
 
+            //inputGrid의 사업구분
+            ObservableCollection<CodeView> ovcOrderType = ComboBoxUtil.Instance.Gf_DB_CM_GetComCodeDataset(null, "ORDTYPE", "Y", "", "");
+            cboOrderType.ItemsSource = ovcOrderType;
+            cboOrderType.DisplayMemberPath = "code_name";
+            cboOrderType.SelectedValuePath = "code_id";
+            cboOrderType.SelectedIndex = 0;
+
+            //dgdacc의 사업구분
+            ovcOrderTypeAcc = ComboBoxUtil.Instance.Gf_DB_CM_GetComCodeDataset(null, "ORDTYPE", "Y", "", "");
 
 
             //EVC용
@@ -889,12 +905,12 @@ namespace WizMes_EVC
             this.DataContext = new object();
             rowAddAccnt();
 
-
             //혹시 모르니까 납기일자의 체크박스가 체크되어 있을 수도 있으니까 해제
 
             CantBtnControl();
             //UncheckDatePicker();
             SetDatePickerToday();
+            SetComboBoxIndexZero();
             setFTP_Tag_EmptyString();
 
             //계약기간 오늘~금월 마지막일
@@ -1092,6 +1108,8 @@ namespace WizMes_EVC
 
             Dispatcher.BeginInvoke(new Action(() =>
             {
+                if (dgdAcc.Items.Count > 0) DataGrid_LostFocus_Calculate(dgdAcc, new RoutedEventArgs());
+
                 //로직
                 if (SaveData(strFlag))
                 {
@@ -1112,8 +1130,12 @@ namespace WizMes_EVC
 
         //취소
         private void btnCancel_Click(object sender, RoutedEventArgs e)
-        {
+        {   
             CanBtnControl();
+
+            ovcOrder_Acc.Clear();
+            ovcOrder_localGov.Clear();
+            dgdAccnt.Items.Clear();
 
             dgdMain.IsHitTestVisible = true;
             chkEoAddSrh.IsEnabled = true;
@@ -1572,6 +1594,7 @@ namespace WizMes_EVC
                 DataStore.Instance.CloseConnection();
             }
         }
+        
 
         private void fillAccGrid(string orderId)
         {
@@ -1596,6 +1619,7 @@ namespace WizMes_EVC
                     else
                     {
                         int i = 0;
+                        int sum = 0;
                         DataRowCollection drc = dt.Rows;
 
                         foreach (DataRow dr in drc)
@@ -1605,8 +1629,11 @@ namespace WizMes_EVC
                             {
                                 num = i,
                                 orderSeq = dr["orderSeq"].ToString(),
+                                chargeInwareUnitPrice = stringFormatN0(dr["chargeInwareUnitPrice"]),
                                 articleID = dr["articleID"].ToString(),
                                 article = dr["article"].ToString(),
+                                orderTypeID = dr["orderTypeID"].ToString(),
+                                orderType = dr["orderType"].ToString(),
                                 chargeOrderDate= DateTypeHyphen(dr["chargeOrderDate"].ToString()),
                                 chargeInwareDate = DateTypeHyphen(dr["chargeInwareDate"].ToString()),
                                 chargeInwareQty = stringFormatN0(dr["chargeInwareQty"]),
@@ -1620,6 +1647,8 @@ namespace WizMes_EVC
                                 Comments = dr["Comments"].ToString(),
                
                             };
+                            sum += (int)RemoveComma(accList.chargeInwareUnitPrice,true) * (int)RemoveComma(accList.chargeInwareQty,true);
+
                             ovcOrder_Acc.Add(accList);
                         }
 
@@ -1627,7 +1656,7 @@ namespace WizMes_EVC
                         var accTotal = new Win_order_Order_U_CodView_dgdAcc_Total
                         {
                             num = i,
-                            totalSum = txtMtrAmount.Text,
+                            totalSum = stringFormatN0(sum),
                         };
 
                         dgdAccTotal.Items.Add(accTotal);
@@ -1649,6 +1678,72 @@ namespace WizMes_EVC
 
         }
 
+        private void callEstAccData(string estID)
+        {
+            if (dgdAcc.Items.Count > 0) ovcOrder_Acc.Clear();
+
+            try
+            {
+                Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+                sqlParameter.Clear();
+                sqlParameter.Add("EstID", estID);
+
+                DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_ord_sOrderSub_dgdAcc_Estimate", sqlParameter, true, "R");
+
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataTable dt = ds.Tables[0];
+
+                    if (dt.Rows.Count == 0)
+                    {
+                        //MessageBox.Show("조회된 데이터가 없습니다.");
+                    }
+                    else
+                    {
+                        int i = 0;
+                        DataRowCollection drc = dt.Rows;
+
+                        foreach (DataRow dr in drc)
+                        {
+                            i++;
+                            var accList = new Win_order_Order_U_CodView_dgdAcc
+                            {
+                                num = i,
+                                orderType = ovcOrderTypeAcc[0].code_name,
+                                orderTypeID = ovcOrderTypeAcc[0].code_id,
+                                ovcOrderTypeAcc = ovcOrderTypeAcc,
+                                articleID = dr["articleID"].ToString(),
+                                article = dr["article"].ToString(),
+                                chargeInwareUnitPrice = dr["chargeInwareUnitPrice"].ToString(),
+
+                            };
+                            ovcOrder_Acc.Add(accList);
+                        }
+
+                        //dgdAccTotal.Items.Clear();
+                        //var accTotal = new Win_order_Order_U_CodView_dgdAcc_Total
+                        //{
+                        //    num = i,
+                        //    totalSum = txtMtrAmount.Text,
+                        //};
+
+                        //dgdAccTotal.Items.Add(accTotal);
+                    }
+
+                    dgdAcc.ItemsSource = ovcOrder_Acc;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("오류 발생(fillgrid_OrderItemList), 오류 내용 : " + ex.ToString());
+            }
+            finally
+            {
+                DataStore.Instance.CloseConnection();
+            }
+        }
 
         private void AutoBindDataToControls(object dataObject, DependencyObject parent)
         {
@@ -1795,9 +1890,12 @@ namespace WizMes_EVC
                                 corpEndDate = dr["corpEndDate"].ToString(),
                                 corpLastEndDate = dr["corpLastEndDate"].ToString(),
                                 corpComments = dr["corpComments"].ToString(),
-                                localGovPermissionNo = dr["localGovPermissionNo"].ToString(),
-                                localGovBehaviorReportDate = dr["localGovBehaviorReportDate"].ToString(),
+                                //localGovPermissionNo = dr["localGovPermissionNo"].ToString(),
+                                //localGovBehaviorReportDate = dr["localGovBehaviorReportDate"].ToString(),
                                 localGoComments = dr["localGoComments"].ToString(),
+                                superBeforeUseInspDate = DateTypeHyphen(dr["superBeforeUseInspDate"].ToString()),
+                                superBeforeUseInspPrintDate = DateTypeHyphen(dr["superBeforeUseInspPrintDate"].ToString()),
+                                superUseInspReqDate   = DateTypeHyphen(dr["superUseInspReqDate"].ToString()),
 
                                 beforeSearchConsultFilePath = dr["beforeSearchConsultFilePath"].ToString(),
                                 beforeSearchConsultFileName = dr["beforeSearchConsultFileName"].ToString(),
@@ -2001,9 +2099,9 @@ namespace WizMes_EVC
                                 superSetTaxPrintDate = dr["superSetTaxPrintDate"].ToString(),
                                 superUseInspPayCustomID = dr["superUseInspPayCustomID"].ToString(),
                                 superUseInspPayCustom = dr["superUseInspPayCustom"].ToString(),
-                                superUseInspReqDate = dr["superUseInspReqDate"].ToString(),
-                                superBeforeUseInspDate = dr["superBeforeUseInspDate"].ToString(),
-                                superBeforeUseInspPrintDate = dr["superBeforeUseInspPrintDate"].ToString(),
+                                //superUseInspReqDate = dr["superUseInspReqDate"].ToString(),
+                                //superBeforeUseInspDate = dr["superBeforeUseInspDate"].ToString(),
+                                //superBeforeUseInspPrintDate = dr["superBeforeUseInspPrintDate"].ToString(),
                                 superComments = dr["superComments"].ToString(),
                                 compReplyDate = dr["compReplyDate"].ToString(),
                                 suppleContext = dr["suppleContext"].ToString(),
@@ -2080,7 +2178,11 @@ namespace WizMes_EVC
                             {
                                 column1Date = DateTypeHyphen(dr["column1Date"].ToString()),
                                 column2Amount = stringFormatN0(dr["column2Amount"]),
-                                column3Comment = dr["column3Comment"].ToString()
+                                column3Amount = stringFormatN0(dr["column3Amount"]),
+                                column4Amount = stringFormatN0(dr["column4Amount"]),
+                                column5Amount = stringFormatN0(dr["column5Amount"]),
+                                column6Amount = stringFormatN0(dr["column6Amount"]),
+                                column7Comment = dr["column3Comment"].ToString()
 
                             };
 
@@ -2471,7 +2573,7 @@ namespace WizMes_EVC
                     sqlParameter.Add("saledamdangjaPhone", txtSaledamdangjaPhone.Text);
                     sqlParameter.Add("saleCustomAddWork", RemoveComma(txtSaleCustomAddWork.Text, true));
                     sqlParameter.Add("salegift",txtsalegift.Text);
-                    sqlParameter.Add("mtrAmount", RemoveComma(txtMtrAmount.Text,true));
+                    sqlParameter.Add("mtrAmount", (int)RemoveComma(txtdgdAccTotal.Text,true) + (int)RemoveComma(txtMtrCanopyOrderAmount.Text,true));
                     sqlParameter.Add("mtrShippingCharge", RemoveComma(txtMtrShippingCharge.Text, true));
                     sqlParameter.Add("mtrPriceUnitClss", cboMtrPriceUnitClss.SelectedValue != null ? cboMtrPriceUnitClss.SelectedValue.ToString() : "");
                     sqlParameter.Add("mtrCanopyInwareInfo", txtMtrCanopyInwareInfo.Text);
@@ -2562,6 +2664,9 @@ namespace WizMes_EVC
                         sqlParameter.Add("localGovPermissionNo", txtLocalGovPermissionNo.Text);
                         sqlParameter.Add("localGovBehaviorReportDate", IsDatePickerNull(dtpLocalGovBehaviorReportDate) ? "" : ConvertDate(dtpLocalGovBehaviorReportDate));
                         sqlParameter.Add("localGoComments", txtLocalGoComments.Text);
+                        sqlParameter.Add("superBeforeUseInspDate", ConvertDate(dtpSuperBeforeUseInspDate));
+                        sqlParameter.Add("superBeforeUseInspPrintDate", ConvertDate(dtpSuperBeforeUseInspPrintDate));
+                        sqlParameter.Add("superUseInspReqDate", ConvertDate(dtpSuperUseInspReqDate));
 
                         Procedure pro2 = new Procedure();
                         pro2.Name = "xp_ord_uOrder_tab2";
@@ -2635,9 +2740,9 @@ namespace WizMes_EVC
                         sqlParameter.Add("superSetCost",RemoveComma(txtSuperSetCost.Text,true));
                         sqlParameter.Add("superSetTaxPrintDate", IsDatePickerNull(dtpSuperSetTaxPrintDate)? "" : ConvertDate(dtpSuperSetTaxPrintDate));
                         sqlParameter.Add("superUseInspPayCustomID", txtSuperUseInspPayCustomID.Tag != null ? txtSuperUseInspPayCustomID.Tag.ToString() : "");
-                        sqlParameter.Add("superUseInspReqDate", IsDatePickerNull(dtpSuperUseInspReqDate) ? "" : ConvertDate(dtpSuperUseInspReqDate));
-                        sqlParameter.Add("superBeforeUseInspDate", IsDatePickerNull(dtpSuperBeforeUseInspDate) ? "" : ConvertDate(dtpSuperBeforeUseInspDate));
-                        sqlParameter.Add("superBeforeUseInspPrintDate", IsDatePickerNull(dtpSuperBeforeUseInspPrintDate)? "" : ConvertDate(dtpSuperBeforeUseInspPrintDate));
+                        //sqlParameter.Add("superUseInspReqDate", IsDatePickerNull(dtpSuperUseInspReqDate) ? "" : ConvertDate(dtpSuperUseInspReqDate));
+                        //sqlParameter.Add("superBeforeUseInspDate", IsDatePickerNull(dtpSuperBeforeUseInspDate) ? "" : ConvertDate(dtpSuperBeforeUseInspDate));
+                        //sqlParameter.Add("superBeforeUseInspPrintDate", IsDatePickerNull(dtpSuperBeforeUseInspPrintDate)? "" : ConvertDate(dtpSuperBeforeUseInspPrintDate));
                         sqlParameter.Add("superComments", txtSuperComments.Text);
                         sqlParameter.Add("compReplyDate", IsDatePickerNull(dtpCompReplyDate) ? "" : ConvertDate(dtpCompReplyDate));
                         sqlParameter.Add("suppleContext", txtSuppleContext.Text);
@@ -2661,27 +2766,47 @@ namespace WizMes_EVC
                                     case 0:
                                         sqlParameter.Add("accntMgrWorkPreTaxPrintDate", RemoveHyphen(accntItem.column1Date));
                                         sqlParameter.Add("accntMgrWorkPreAmount", RemoveComma(accntItem.column2Amount, true));
-                                        sqlParameter.Add("accntMgrWorkPreAmountComments", accntItem.column3Comment);
+                                        //sqlParameter.Add("accntMgrWorkPreSubsidyAmount", RemoveComma(accntItem.column3Amount, true));
+                                        //sqlParameter.Add("accntMgrWorkPreInvestAmount", RemoveComma(accntItem.column4Amount, true));
+                                        //sqlParameter.Add("accntMgrWorkPreSellAmount", RemoveComma(accntItem.column5Amount, true));
+                                        //sqlParameter.Add("accntMgrWorkPreLeftAmount	", RemoveComma(accntItem.column6Amount, true));
+                                        sqlParameter.Add("accntMgrWorkPreAmountComments", accntItem.column7Comment);
                                         break;
                                     case 1:
                                         sqlParameter.Add("accntMgrtWorkAfterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntMgrWorkAfterAmount", RemoveComma(accntItem.column2Amount, true));
-                                        sqlParameter.Add("accntMgrWorkAfterAmountComments", accntItem.column3Comment);
+                                        sqlParameter.Add("accntMgrWorkAfterSubsidy", RemoveComma(accntItem.column2Amount, true));
+                                        //sqlParameter.Add("accntMgrWorkInvestAmount", RemoveComma(accntItem.column3Amount, true));
+                                        //sqlParameter.Add("accntMgrWorkSellAmount", RemoveComma(accntItem.column4Amount, true));
+                                        //sqlParameter.Add("accntMgrWorkAfterAmount", RemoveComma(accntItem.column5Amount, true));
+                                        //sqlParameter.Add("accntMgrWorkAfterLeftAmount", RemoveComma(accntItem.column6Amount, true));
+                                        sqlParameter.Add("accntMgrWorkAfterAmountComments", accntItem.column7Comment);
                                         break;
                                     case 2:
                                         sqlParameter.Add("accntMgrWorkTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntMgrWorkAmount", RemoveComma(accntItem.column2Amount, true));
-                                        sqlParameter.Add("accntMgrWorkAmountComments", accntItem.column3Comment);
+                                        sqlParameter.Add("accntMgrWorkSubsidyAmount", RemoveComma(accntItem.column2Amount, true));
+                                        //sqlParameter.Add("accntMgrWorkInvestAmount", RemoveComma(accntItem.column3Amount, true));
+                                        //sqlParameter.Add("accntMgrWorkSellAmount", RemoveComma(accntItem.column4Amount, true));
+                                        //sqlParameter.Add("accntMgrWorkAmount", RemoveComma(accntItem.column5Amount, true));
+                                        //sqlParameter.Add("accntMgrWorkLeftAmount", RemoveComma(accntItem.column6Amount, true));
+                                        sqlParameter.Add("accntMgrWorkAmountComments", accntItem.column7Comment);
                                         break;
                                     case 3:
                                         sqlParameter.Add("accntWorkTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntWorkAmount", RemoveComma(accntItem.column2Amount, true));
-                                        sqlParameter.Add("accntWorkComments", accntItem.column3Comment);
+                                        sqlParameter.Add("accntWorkSubsidyAmount", RemoveComma(accntItem.column2Amount, true));
+                                        //sqlParameter.Add("accntWorkInvestAmount", RemoveComma(accntItem.column3Amount, true));
+                                        //sqlParameter.Add("accntWorkSellAmount", RemoveComma(accntItem.column4Amount, true));
+                                        //sqlParameter.Add("accntWorkAmount", RemoveComma(accntItem.column5Amount, true));
+                                        //sqlParameter.Add("accntWorkLeftAmount", RemoveComma(accntItem.column6Amount, true));
+                                        sqlParameter.Add("accntWorkComments", accntItem.column7Comment);
                                         break;
                                     case 4:
                                         sqlParameter.Add("accntSaleTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntSaleAmount", RemoveComma(accntItem.column2Amount, true));
-                                        sqlParameter.Add("accntSaleComments", accntItem.column3Comment);
+                                        sqlParameter.Add("accntWorkSubsidyAmount", RemoveComma(accntItem.column2Amount, true));
+                                        //sqlParameter.Add("accntWorkInvestAmount", RemoveComma(accntItem.column3Amount, true));
+                                        //sqlParameter.Add("accntWorkSellAmount", RemoveComma(accntItem.column4Amount, true));
+                                        //sqlParameter.Add("accntWorkAmount", RemoveComma(accntItem.column5Amount, true));
+                                        //sqlParameter.Add("accntWorkLeftAmount", RemoveComma(accntItem.column6Amount, true));
+                                        sqlParameter.Add("accntSaleComments", accntItem.column7Comment);
                                         break;
                                 }
                             }
@@ -2707,18 +2832,20 @@ namespace WizMes_EVC
                         sqlParameter.Clear();
                         sqlParameter.Add("orderID", strFlag == "I" ? sGetID : txtOrderID.Text);
                         sqlParameter.Add("orderSeq", i+1);
-                        sqlParameter.Add("articleID", accItem.articleID);
-                        sqlParameter.Add("chargeOrderDate", SetToDate(accItem.chargeOrderDate));
-                        sqlParameter.Add("chargeInwareDate", SetToDate(accItem.chargeInwareDate));
+                        sqlParameter.Add("articleID", accItem.articleID.Trim() != string.Empty ? accItem.articleID : "");
+                        sqlParameter.Add("orderTypeID", accItem.orderTypeID.Trim() != string.Empty ? accItem.orderTypeID : "");
+                        sqlParameter.Add("chargeInwareUnitPrice", RemoveComma(accItem.chargeInwareUnitPrice,true));
+                        sqlParameter.Add("chargeOrderDate", RemoveHyphen(accItem.chargeOrderDate));
+                        sqlParameter.Add("chargeInwareDate", RemoveHyphen(accItem.chargeInwareDate));
                         sqlParameter.Add("chargeInwareQty", RemoveComma(accItem.chargeInwareQty, true));
-                        sqlParameter.Add("chargeInwareLocation", accItem.chargeInwareLocation);
-                        sqlParameter.Add("canopyReqCustom", accItem.canopyReqCustom);
-                        sqlParameter.Add("chargeModelHelmat", accItem.chargeModelHelmat);
-                        sqlParameter.Add("chargeModelinLoc", accItem.chargeModelinloc);
-                        sqlParameter.Add("chargeModelOneBody", accItem.chargeModelOneBody);
-                        sqlParameter.Add("chargeStandReqDate", SetToDate(accItem.chargeStandReqDate));
-                        sqlParameter.Add("chargeStandInwareDate", SetToDate(accItem.chargeStandInwareDate));
-                        sqlParameter.Add("comments", accItem.Comments);
+                        sqlParameter.Add("chargeInwareLocation", accItem.chargeInwareLocation != null ? accItem.chargeInwareLocation : "");
+                        sqlParameter.Add("canopyReqCustom", accItem.canopyReqCustom != null ? accItem.canopyReqCustom : "");
+                        sqlParameter.Add("chargeModelHelmat", accItem.chargeModelHelmat != null ? accItem.chargeModelHelmat : "");
+                        sqlParameter.Add("chargeModelinLoc", accItem.chargeModelinloc != null ? accItem.chargeModelinloc : "");
+                        sqlParameter.Add("chargeModelOneBody", accItem.chargeModelOneBody != null ? accItem.chargeModelOneBody : "");
+                        sqlParameter.Add("chargeStandReqDate", RemoveHyphen(accItem.chargeStandReqDate));
+                        sqlParameter.Add("chargeStandInwareDate", RemoveHyphen(accItem.chargeStandInwareDate));
+                        sqlParameter.Add("comments", accItem.Comments != null ? accItem.Comments : "");
                         sqlParameter.Add("createUserID", MainWindow.CurrentUser);
 
                         Procedure pro2 = new Procedure();
@@ -2740,9 +2867,11 @@ namespace WizMes_EVC
                             sqlParameter.Clear();
                             sqlParameter.Add("orderID", strFlag == "I" ? sGetID : txtOrderID.Text);
                             sqlParameter.Add("localGovSeq", i + 1);
-                            sqlParameter.Add("localGovBehaviorDate", SetToDate(localGovItem.localGovBehaviorDate));
+                            sqlParameter.Add("localGovPermissionNo", localGovItem.localGovPermissionNo.Trim());
+                            sqlParameter.Add("localGovBehaviorReportDate", RemoveHyphen(localGovItem.localGovBehaviorReportDate));
+                            sqlParameter.Add("localGovBehaviorDate", RemoveHyphen(localGovItem.localGovBehaviorDate));
                             sqlParameter.Add("localGovSuppleContext", localGovItem.localGovSuppleContext);
-                            sqlParameter.Add("localGovSuppleDate", SetToDate(localGovItem.localGovSuppleDate));
+                            sqlParameter.Add("localGovSuppleDate", RemoveHyphen(localGovItem.localGovSuppleDate));
                             sqlParameter.Add("localGovComments", localGovItem.localGovComments);
                             sqlParameter.Add("createUserID", MainWindow.CurrentUser);
 
@@ -3321,6 +3450,42 @@ namespace WizMes_EVC
             });
         }
 
+        private void DataGrid_LostFocus_Calculate(object sender, RoutedEventArgs e)
+        {
+            var element = sender as DependencyObject;
+            while (element != null && !(element is DataGrid))
+            {
+                element = VisualTreeHelper.GetParent(element);
+            }
+
+            var currentGrid = element as DataGrid;
+            if (currentGrid == null || currentGrid.ItemsSource == null)
+                return;
+
+            if (currentGrid.Name.Contains("dgdAcc"))
+            {
+                int sumTotal = 0;
+
+                txtdgdAccTotal.Text = "";
+
+                foreach (Win_order_Order_U_CodView_dgdAcc item in currentGrid.Items)
+                {
+                    int item1 = (int)RemoveComma(item.chargeInwareUnitPrice, true);
+                    int item2 = (int)RemoveComma(item.chargeInwareQty, true);
+
+                    int total = item1 * item2;
+
+                    sumTotal += total;
+                   
+                }
+
+                txtdgdAccTotal.Text = sumTotal.ToString();
+
+            }
+      
+
+        }
+
         private void SetDatePickerToday()
         {
             List<Grid> grids = new List<Grid>();
@@ -3368,6 +3533,26 @@ namespace WizMes_EVC
                     
                 }
             });
+        }
+
+        private void SetComboBoxIndexZero()
+        {
+            List<Grid> grids = new List<Grid> { grdInput, grd2, grd3,grd4 };
+
+            foreach(var grid in grids)
+            {
+                FindUiObject(grid, child =>
+                {
+                    if (child is ComboBox combo)
+                    {
+                        if (combo.ItemsSource != null && combo.Items.Count > 0)
+                        {
+                            combo.SelectedIndex = 0;
+                        }
+                    }
+                });
+            }
+
         }
 
         private void setFTP_Tag_EmptyString()
@@ -4438,6 +4623,36 @@ namespace WizMes_EVC
             }
         }
 
+        private void SetupLastColumnResize(DataGrid dataGrid, ScrollViewer headerScrollViewer, Grid parentGrid)
+        {
+            dataGrid.SizeChanged += (s, e) =>
+            {
+                var lastColumn = dataGrid.Columns.Last() as DataGridTemplateColumn;
+                if (lastColumn == null) return;
+
+                double otherColumnsWidth = 0;
+                foreach (var column in dataGrid.Columns)
+                {
+                    // Hidden이거나 MaxWidth가 0인 열은 계산에서 제외
+                    if (column != lastColumn &&
+                        column.Visibility == Visibility.Visible &&
+                        column.MaxWidth != 0)
+                    {
+                        otherColumnsWidth += Math.Max(column.ActualWidth, column.MinWidth);
+                    }
+                }
+
+                double remainingWidth = Math.Max(lastColumn.MinWidth, parentGrid.ActualWidth - otherColumnsWidth);
+                lastColumn.MinWidth = remainingWidth;
+
+                var headerGrid = headerScrollViewer.Content as Grid;
+                if (headerGrid?.ColumnDefinitions.Count > 0)
+                {
+                    headerGrid.ColumnDefinitions[headerGrid.ColumnDefinitions.Count - 1].MinWidth = remainingWidth;
+                }
+            };
+        }
+
         //수주구분 라벨
         private void LblOrderFlag_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -4522,6 +4737,8 @@ namespace WizMes_EVC
                             {
                                 num = i,
                                 orderID = dr["orderID"].ToString(),
+                                localGovPermissionNo = dr["localGovPermissionNo"].ToString(),
+                                localGovBehaviorReportDate = DateTypeHyphen(dr["localGovBehaviorReportDate"].ToString()),
                                 localGovSeq = dr["localGovSeq"].ToString(),
                                 localGovBehaviorDate = DateTypeHyphen(dr["localGovBehaviorDate"].ToString()),
                                 localGovSuppleContext = dr["localGovSuppleContext"].ToString(),
@@ -4755,7 +4972,7 @@ namespace WizMes_EVC
             if (xName.Contains("AccItem"))
             {
                 int num = dgdAcc.Items.Count + 1;
-                var dgdAccItem = Win_order_Order_U_CodView_dgdAcc.CreateEmpty_dgdAcc();
+                var dgdAccItem = Win_order_Order_U_CodView_dgdAcc.CreateEmpty_dgdAcc(ovcOrderTypeAcc);
                 dgdAccItem.num = num;
                 ovcOrder_Acc.Add(dgdAccItem);
             }
@@ -5098,6 +5315,7 @@ namespace WizMes_EVC
 
 
 
+
         //private void btnPreOrder_Click(object sender, RoutedEventArgs e)
         //{
         //    preOrder = new Win_ord_Pop_PreOrder();
@@ -5215,10 +5433,19 @@ namespace WizMes_EVC
             if (e.Key == Key.Enter)
             {
                 MainWindow.pf.ReturnCode(txtEstID, 5103, "");
+                if(txtEstID.Tag != null && txtEstID.Text.Trim() != string.Empty)
+                {
+                    txtEstSubject.Text = txtEstID.Text;
+                    txtEstID.Text = txtEstID.Tag.ToString();
+                    callEstAccData(txtEstID.Tag.ToString());
+                }
 
-                e.Handled = true;
+
+                e.Handled = true;    
+
             }
         }
+        
 
         //견적번호(입력그리드) - 버튼
         private void btnEstID_Click(object sender, RoutedEventArgs e)
@@ -5697,6 +5924,8 @@ namespace WizMes_EVC
 
 
 
+
+
         //    private void btnGoOrderCalendar_Click(object sender, RoutedEventArgs e)
         //    {
         //        // 있으면 진행, 없으면 리턴
@@ -5831,7 +6060,11 @@ namespace WizMes_EVC
     {
         public string column1Date { get; set; }
         public string column2Amount { get; set; }
-        public string column3Comment { get; set; }
+        public string column3Amount { get; set; }
+        public string column4Amount { get; set; }
+        public string column5Amount { get; set; }
+        public string column6Amount { get; set; }        
+        public string column7Comment { get; set; }
 
         public static Win_order_Order_U_CodView_dgdAccnt CreateEmpty_dgdAccnt_row()
         {
@@ -5839,7 +6072,11 @@ namespace WizMes_EVC
             {
                 column1Date =  "",// DateTime.Now.ToString("yyyy-MM-dd"),
                 column2Amount = "",
-                column3Comment = ""
+                column3Amount = "",
+                column4Amount = "",
+                column5Amount = "",
+                column6Amount = "",
+                column7Comment = ""
             };
         }
     }
@@ -5850,9 +6087,12 @@ namespace WizMes_EVC
         public string orderSeq { get; set; }
         public string articleID { get; set; }
         public string article { get; set; }
+        public string orderTypeID { get; set; }
+        public string orderType { get; set; }
         public string chargeOrderDate {get;set;}
         public string chargeInwareDate {get;set;}
         public string chargeInwareQty {get;set;}
+        public string chargeInwareUnitPrice { get; set; }
         public string chargeInwareLocation {get;set;}
         public string canopyReqCustom {get;set;}
         public string chargeModelHelmat {get;set;}
@@ -5866,7 +6106,9 @@ namespace WizMes_EVC
         public string LastUpdateDate {get;set;}
         public string LastUpdateUserID { get; set; }
 
-        public static Win_order_Order_U_CodView_dgdAcc CreateEmpty_dgdAcc()
+        public ObservableCollection<CodeView> ovcOrderTypeAcc { get; set; }
+
+        public static Win_order_Order_U_CodView_dgdAcc CreateEmpty_dgdAcc(ObservableCollection<CodeView> ovcOrderTypeID)
         {
             return new Win_order_Order_U_CodView_dgdAcc()
             {
@@ -5874,6 +6116,8 @@ namespace WizMes_EVC
                 orderSeq = "",
                 articleID = "",
                 article = "",
+                orderType = ovcOrderTypeID[0].code_name,
+                orderTypeID = ovcOrderTypeID[0].code_id,
                 chargeOrderDate = "",
                 chargeInwareDate = "",
                 chargeInwareQty = "",
@@ -5884,7 +6128,8 @@ namespace WizMes_EVC
                 chargeModelOneBody = "",
                 chargeStandReqDate = "",
                 chargeStandInwareDate = "",
-                Comments = ""
+                Comments = "",
+                ovcOrderTypeAcc = ovcOrderTypeID
             };
         }
 
@@ -5907,7 +6152,9 @@ namespace WizMes_EVC
         public int num { get; set; }
         public string orderID {get;set;}
         public string localGovSeq {get;set;}
+        public string localGovPermissionNo { get; set; }
         public string localGovBehaviorDate {get;set;}
+        public string localGovBehaviorReportDate { get; set; }
         public string localGovSuppleContext {get;set;}
         public string localGovSuppleDate {get;set;}
         public string localGovComments {get;set;}
@@ -5923,7 +6170,9 @@ namespace WizMes_EVC
             {
                 num = 0,               
                 localGovSeq = "",
+                localGovPermissionNo = "",
                 localGovBehaviorDate = "",
+                localGovBehaviorReportDate= "",
                 localGovSuppleContext = "",
                 localGovSuppleDate = "",
                 localGovComments = "",
@@ -5936,6 +6185,117 @@ namespace WizMes_EVC
         }
     }
 
+    public class ScrollSyncHelper
+    {
+        private ScrollViewer _headerScrollViewer;
+        private DataGrid _dataGrid;
+        private bool _isUpdatingScroll = false;
+
+        public ScrollSyncHelper(ScrollViewer headerScrollViewer, DataGrid dataGrid)
+        {
+            _headerScrollViewer = headerScrollViewer;
+            _dataGrid = dataGrid;
+
+            // 헤더 스크롤뷰어의 이벤트 등록
+            _headerScrollViewer.ScrollChanged += HeaderScrollViewer_ScrollChanged;
+
+            // DataGrid가 로드되면 스크롤뷰어를 찾아서 이벤트 연결
+            _dataGrid.Loaded += DataGrid_Loaded;
+        }
+
+        private void HeaderScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            if (_isUpdatingScroll) return;
+
+            try
+            {
+                _isUpdatingScroll = true;
+                var dataGridScrollViewer = FindVisualChild<ScrollViewer>(_dataGrid);
+                if (dataGridScrollViewer != null)
+                {
+                    dataGridScrollViewer.ScrollToHorizontalOffset(e.HorizontalOffset);
+                }
+            }
+            finally
+            {
+                _isUpdatingScroll = false;
+            }
+        }
+
+        private void DataGrid_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            if (_isUpdatingScroll) return;
+
+            try
+            {
+                _isUpdatingScroll = true;
+                var scrollViewer = sender as ScrollViewer;
+                if (scrollViewer != null)
+                {
+                    _headerScrollViewer.ScrollToHorizontalOffset(scrollViewer.HorizontalOffset);
+                }
+            }
+            finally
+            {
+                _isUpdatingScroll = false;
+            }
+        }
+
+        private void DataGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            var dataGridScrollViewer = FindVisualChild<ScrollViewer>(_dataGrid);
+            if (dataGridScrollViewer != null)
+            {
+                dataGridScrollViewer.ScrollChanged += DataGrid_ScrollChanged;
+            }
+        }
+
+        private static T FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
+        {
+            T foundChild = null;
+            int childCount = VisualTreeHelper.GetChildrenCount(parent);
+
+            for (int i = 0; i < childCount; i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+
+                if (child is T)
+                {
+                    foundChild = (T)child;
+                    break;
+                }
+                else
+                {
+                    foundChild = FindVisualChild<T>(child);
+                    if (foundChild != null)
+                        break;
+                }
+            }
+
+            return foundChild;
+        }
+
+        public void Detach()
+        {
+            if (_headerScrollViewer != null)
+            {
+                _headerScrollViewer.ScrollChanged -= HeaderScrollViewer_ScrollChanged;
+            }
+
+            if (_dataGrid != null)
+            {
+                var dataGridScrollViewer = FindVisualChild<ScrollViewer>(_dataGrid);
+                if (dataGridScrollViewer != null)
+                {
+                    dataGridScrollViewer.ScrollChanged -= DataGrid_ScrollChanged;
+                }
+                _dataGrid.Loaded -= DataGrid_Loaded;
+            }
+
+            _headerScrollViewer = null;
+            _dataGrid = null;
+        }
+    }
 
     //테이블 컬럼 171개 분리하여 관리시도
     public class Win_ord_Order_U_CodeView_Tab2 : BaseView
@@ -5950,6 +6310,9 @@ namespace WizMes_EVC
         public string addConstructCost {get;set;}
         public string searchComments {get;set;}
         public string corpAcptNo {get;set;}
+        public string superBeforeUseInspDate { get; set; }              //Tab4에 있던거 Tab2로 이동(우선Tab4에 있던거는 냅둠)
+        public string superBeforeUseInspPrintDate { get; set; }         //Tab4에 있던거 Tab2로 이동(우선Tab4에 있던거는 냅둠)
+        public string superUseInspReqDate { get; set; }                 //Tab4에 있던거 Tab2로 이동(우선Tab4에 있던거는 냅둠)
         public string corpApprovalDate {get;set;}
         public string corpEndDate {get;set;}
         public string corpLastEndDate {get;set;}
@@ -5957,7 +6320,6 @@ namespace WizMes_EVC
         public string localGovPermissionNo {get;set;}
         public string localGovBehaviorReportDate {get;set;}
         public string localGoComments { get; set; }
-
         public string beforeSearchConsultFilePath{get;set;}
         public string beforeSearchConsultFileName{get;set;}
         public string pictureEarthFilePath{get;set;}
