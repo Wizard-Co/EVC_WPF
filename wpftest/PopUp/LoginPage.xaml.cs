@@ -27,10 +27,136 @@ namespace WizMes_EVC.PopUp
         string stDate = string.Empty;
         string stTime = string.Empty;
 
-        public LoginPage()
+     
+      
+         public LoginPage()
         {
-            WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
+        }
+
+        public LoginPage(string userID, string password)
+        {
+            //// 자동 로그인 처리
+            if (!string.IsNullOrEmpty(userID) && !string.IsNullOrEmpty(password))
+            {
+                InitializeComponent();
+
+                if (Login(userID, password)) // 로그인 시도
+                {
+                    InitializeComponent();
+
+                    //MainWindow mainWindow = new MainWindow(userID, password);
+                    //KeyEventArgs keyEventArgs = new KeyEventArgs(Keyboard.PrimaryDevice, Keyboard.PrimaryDevice.ActiveSource, 0, Key.Enter);
+                    //keyEventArgs.RoutedEvent = UIElement.KeyDownEvent;
+                    //txtPassWd.RaiseEvent(keyEventArgs); // 직접 이벤트를 트리거
+
+
+                }
+                else
+                {
+                    // 로그인 실패 시 메시지 표시 후 종료
+                    MessageBox.Show("로그인 실패: 프로그램을 종료합니다.");
+                    Application.Current.Shutdown();
+                }
+            }
+        }
+        private bool Login(string userID, string password)
+        {
+            bool loginFlag = true;
+
+            // 로그인 검증 프로시저 호출
+            Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+            txtPassWd.Password = password;
+            sqlParameter.Add("UserID", userID);
+
+            // 자동 로그인인지 확인하여 Password 값 설정
+            sqlParameter.Add("Password", txtPassWd.Password);
+
+            // xp_Common_Login 프로시저 호출
+            var ds = DataStore.Instance.ProcedureToDataSet("xp_Common_Login", sqlParameter, false);
+
+            // 프로시저 호출 후 반환된 결과를 확인하여 로그인 성공 여부 판단
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                DataTable dt = ds.Tables[0];
+
+                if (dt.Rows.Count > 0)
+                {
+                    if (dt.Columns.Count == 1)
+                    {
+                        fail++;
+
+                        if (dt.Rows[0].ItemArray[0].Equals("계정이 차단되었습니다. 관리자에게 문의해 주시기 바랍니다."))
+                        {
+                            MessageBox.Show(dt.Rows[0].ItemArray[0].ToString());
+                            DialogResult = false;
+                            return false;
+                        }
+
+                        if (fail >= 5)
+                        {
+                            strLogRegID = userID;
+                            Lib.Instance.SetLogResitry(strLogRegID);
+                            goPwChange(userID); // 비밀번호 변경
+                        }
+
+                        if (dt.Rows[0].ItemArray[0].Equals("계정이 차단되었습니다. 관리자에게 문의해 주시기 바랍니다."))
+                        {
+                            MessageBox.Show(dt.Rows[0].ItemArray[0].ToString());
+                            return false;
+                        }
+                        else
+                        {
+                            if (fail < 5)
+                            {
+                                MessageBox.Show(dt.Rows[0].ItemArray[0].ToString() + "(" + fail + " / 5 회" + ")");
+                            }
+                            else
+                            {
+                                MessageBox.Show(dt.Rows[0].ItemArray[0].ToString() + "(" + fail + " / 5 회" + ") \r\n" +
+                                                "계정이 차단되었으니 관리자에게 문의해주시기 바랍니다.");
+                                DialogResult = false;
+                            }
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        // 비밀번호 변경 처리
+                        if (CheckConvertDateTime(dt.Rows[0]["passwordChangeDate"].ToString()) == true)
+                        {
+                            DateTime setDate = DateTime.Parse(dt.Rows[0]["passwordChangeDate"].ToString());
+
+                            TimeSpan timeDiff = DateTime.Today - setDate;
+                            dayDiff = timeDiff.Days;
+
+                            if (dayDiff > 90)
+                            {
+                                // exPassword = dt.Rows[0]["Password"].ToString();
+                            }
+                        }
+                        else if (dt.Rows[0]["passwordChangeDate"].ToString().Trim().Equals("")) // 초기 비밀번호가 세팅되지 않았다면
+                        {
+                            initChange = "N";
+                        }
+
+                        // 개인정보 활용 동의 여부 추가, 이름도 추가
+                        AccessControl = dt.Rows[0]["necessaryAcptYN"].ToString();
+                        UserName = dt.Rows[0]["Name"].ToString();
+                        PersonID = dt.Rows[0]["PersonID"].ToString();
+                    }
+
+                    strUserName = UserName;
+                }
+            }
+            else
+            {
+                loginFlag = false;
+            }
+
+            DataStore.Instance.CloseConnection();
+
+            return loginFlag;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -40,13 +166,33 @@ namespace WizMes_EVC.PopUp
 
             DataStore.Instance.InsertLogByFormS(this.GetType().Name, stDate, stTime, "S");
             GetInfo();
+
+            string[] args = Environment.GetCommandLineArgs(); // 프로그램 실행 시 전달된 매개변수
+
+            if (args.Length > 1) // URL 매개변수가 있을 경우
+            {
+                string uriString = args[1];
+                if (Uri.IsWellFormedUriString(uriString, UriKind.Absolute))
+                {
+                    Uri uri = new Uri(uriString);
+                    btnLogin_Click(null, null); // 자동으로 로그인 시도    
+                }
+            }
         }
 
         //로그인
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
+            string userID = txtUserID.Text;        // 사용자 ID 가져오기
+            string password = txtPassWd.Password;  // 비밀번호 가져오기
+
+            // 값을 Application.Current.Properties에 저장
+            Application.Current.Properties["UserID"] = userID;
+            Application.Current.Properties["Password"] = password;
+
             if (Log(txtUserID.Text))
             {
+
                 strLogRegID = txtUserID.Text;
                 Lib.Instance.SetLogResitry(strLogRegID);
                 DataStore.Instance.InsertLogByFormS(this.GetType().Name, stDate, stTime, "E");
@@ -305,12 +451,22 @@ namespace WizMes_EVC.PopUp
         {
             if (e.Key == Key.Enter)
             {
+                string userID = txtUserID.Text;        // 사용자 ID 가져오기
+                string password = txtPassWd.Password;  // 비밀번호 가져오기
+
+                // 값을 Application.Current.Properties에 저장
+                Application.Current.Properties["UserID"] = userID;
+                Application.Current.Properties["Password"] = password;
+
                 if (Log(txtUserID.Text))
                 {
+
                     strLogRegID = txtUserID.Text;
                     Lib.Instance.SetLogResitry(strLogRegID);
                     DataStore.Instance.InsertLogByFormS(this.GetType().Name, stDate, stTime, "E");
                     DialogResult = true;
+
+
                 }
                 else
                 {

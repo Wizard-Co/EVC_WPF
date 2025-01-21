@@ -49,14 +49,42 @@ namespace WizMes_EVC
             }
             return null;
         }
+        private string GetQueryParameter(Uri uri, string paramName)
+        {
+            var queryParams = uri.Query.TrimStart('?')
+                                       .Split('&')
+                                       .Select(p => p.Split('='))
+                                       .Where(p => p.Length == 2)
+                                       .ToDictionary(p => p[0], p => p[1]);
+
+            return queryParams.ContainsKey(paramName) ? queryParams[paramName] : string.Empty;
+        }
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            // Create the startup window
-            MainWindow wnd = new MainWindow();
-            // Do stuff here, e.g. to the window
-            // Show the window
-            wnd.Show();
+            if (e.Args.Length > 0)
+            {
+                string uriString = e.Args[0];
+                Uri uri = new Uri(uriString);
+
+                // URL에서 userID와 password를 추출
+                string userID = GetQueryParameter(uri, "userID");
+                string password = GetQueryParameter(uri, "Password");
+
+                // 디버깅 메시지 추가
+
+
+                // MainWindow 실행
+                MainWindow mainWindow = new MainWindow(userID, password);
+                mainWindow.Show();
+            }
+            else
+            {
+
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+            }
+
         }
 
         //

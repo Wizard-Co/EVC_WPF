@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -100,7 +101,7 @@ namespace WizMes_EVC
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
         }
-
+  
         #endregion
 
         #region Initial : 서버 체크
@@ -120,6 +121,124 @@ namespace WizMes_EVC
         #endregion
 
         #region Initial : Login 처리 : Login()
+        public MainWindow(string userID, string password)
+        {
+            InitializeComponent();
+
+            if (Login(userID, password))
+            {
+                Style = (Style)FindResource(typeof(Window));
+                menuLoad();
+
+                mainStDate = DateTime.Now.ToString("yyyyMMdd");
+                mainStTime = DateTime.Now.ToString("HHmm");
+
+                this.Height = SystemParameters.WorkArea.Height;
+                this.Width = SystemParameters.WorkArea.Width;
+
+                mdiPanel.Height = SystemParameters.WorkArea.Height;
+                mdiPanel.Children.Add(MainMdiContainer);
+
+                uiScaleSlider.MouseDoubleClick += new MouseButtonEventHandler(RestoreScalingFactor);
+                uiScaleSliderChild.MouseDoubleClick += new MouseButtonEventHandler(RestoreScalingFactor);
+            }
+            else
+            {
+                Environment.Exit(0);
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+            }
+        }
+        private bool Login(string userID, string password)
+        {
+            bool loginFlag = false;
+
+            // 로그인 페이지를 자동으로 띄우고, ID와 비밀번호를 입력
+            LoginPage login = new LoginPage(userID, password); // userID와 password 전달
+            login.ShowDialog(); // 로그인 페이지 띄우기
+
+            Login_PwChange pwChange = new Login_PwChange();
+
+
+            // 로그인 성공 여부 확인
+            if (login.DialogResult == true)
+            {
+                // 로그인 성공 시 필요한 데이터 처리
+                MainWindow.CurrentUser = login.strLogRegID;
+                MainWindow.CurrentName = login.strUserName;
+                MainWindow.CurrentPersonID = login.PersonID;
+
+                loginFlag = true; // 로그인 성공
+
+                // 개인정보활용 동의 처리
+                if (loginFlag && (login.AccessControl.Trim().Equals("") || login.AccessControl.Trim().Equals("N")))
+                {
+                    Login_PersonInfoUse loginInfoUse = new Login_PersonInfoUse();
+                    loginInfoUse.setData(login.UserName);
+                    loginInfoUse.ShowDialog();
+
+                    if (loginInfoUse.DialogResult != true)
+                    {
+                        loginFlag = false; // 개인정보활용 동의 안 함
+                    }
+                    else
+                    {
+
+                        pwChange.setInitChangeMode();
+                        pwChange.setPw(login.exPassword);
+                        pwChange.ShowDialog();
+
+                        if (pwChange.DialogResult == true)
+                        {
+                            login.initChange = "Y"; // 초기 비밀번호 변경 완료
+                        }
+                        else
+                        {
+                            loginFlag = false; // 초기 비밀번호 변경 실패
+                        }
+                    }
+                }
+
+                // 비밀번호 초기 변경 여부 체크
+                bool initChangFlag = false;
+                if (loginFlag && !login.initChange.Trim().Equals("Y"))
+                {
+
+                    pwChange.setInitChangeMode();
+                    pwChange.setPw(login.exPassword);
+                    pwChange.ShowDialog();
+
+                    if (pwChange.DialogResult != true)
+                    {
+                        loginFlag = false; // 비밀번호 초기 변경 실패
+                    }
+                    else
+                    {
+                        initChangFlag = true; // 초기 비밀번호 변경 완료
+                    }
+                }
+
+                // 비밀번호 변경 후 3개월 이상 경과했으면 비밀번호 변경 화면 띄우기
+                if (loginFlag && login.initChange.Trim().Equals("Y") && login.dayDiff > 90 && initChangFlag != true)
+                {
+
+                    pwChange.setChangePwMode();
+                    pwChange.setPw(login.exPassword);
+                    pwChange.ShowDialog();
+
+                    if (pwChange.DialogResult != true)
+                    {
+                        loginFlag = false; // 비밀번호 변경 실패
+                    }
+                }
+            }
+            else
+            {
+                loginFlag = false; // 로그인 실패
+            }
+
+            return loginFlag;
+        }
+
 
         private bool Login()
         {
@@ -1412,7 +1531,34 @@ namespace WizMes_EVC
                 tbkFavorite.Text = "즐겨찾기 펼치기";
             }
         }
+        private void btnWeb_Click(object sender, RoutedEventArgs e)
+        {
+         
+            // Application.Current.Properties에서 저장된 로그인 정보 읽기
+            if (Application.Current.Properties.Contains("UserID") && Application.Current.Properties.Contains("Password"))
+            {
+                string userID = Application.Current.Properties["UserID"].ToString();
+                string password = Application.Current.Properties["Password"].ToString();
+                
+                string ip = "localhost";  // IP 주소를 "localhost"로 설정
+                string url = $"http://{ip}:8080/?userID={Uri.EscapeDataString(userID)}&password={Uri.EscapeDataString(password)}";
+
+
+
+                // 웹 브라우저 열기
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = url,
+                    UseShellExecute = true
+                });
+            }
+            else
+            {
+                MessageBox.Show("로그인 정보를 찾을 수 없습니다.");
+            }
+        }
     }
+
 
     public class MenuViewModel
     {
