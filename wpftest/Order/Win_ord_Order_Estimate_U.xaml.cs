@@ -160,20 +160,20 @@ namespace WizMes_EVC
 
             dgdEstItemList.ItemsSource = ovcOrder_EstSub;
 
-            //if (!string.IsNullOrEmpty(MainWindow.reServeID))
-            //{
-            //    intFlag = 1;
-            //    tblReServeID.Text = MainWindow.reServeID;
-            //    lblDateSrh_MouseLeftButtonDown(null, null);
+            if (!string.IsNullOrEmpty(MainWindow.EstID))
+            {
+                intFlag = 1;
+                tblEstIDHidden.Text = MainWindow.EstID;
+                lblDateSrh_MouseLeftButtonDown(null, null);
 
-            //    FillGrid();
+                FillGrid();
 
-            //    intFlag = 0;
-            //    tblReServeID.Text = string.Empty;
+                intFlag = 0;
+                tblEstIDHidden.Text = string.Empty;
 
-            //    if(dgdMain.Items.Count > 0) dgdMain.SelectedIndex = 0;
-            //    MainWindow.reServeID = string.Empty;
-            //}
+                if (dgdMain.Items.Count > 0) dgdMain.SelectedIndex = 0;
+                MainWindow.EstID = string.Empty;
+            }
         }
 
         //콤보박스 만들기
@@ -344,6 +344,7 @@ namespace WizMes_EVC
             btnUpload.IsEnabled = true;
 
             grdInput.IsHitTestVisible = false;
+            grdFiles.IsHitTestVisible = false;
             lblMsg.Visibility = Visibility.Hidden;
             dgdMain.IsHitTestVisible = true;
         }
@@ -363,6 +364,7 @@ namespace WizMes_EVC
             btnUpload.IsEnabled = false;
 
             grdInput.IsHitTestVisible = true;
+            grdFiles.IsHitTestVisible= true;
             lblMsg.Visibility = Visibility.Visible;
             dgdMain.IsHitTestVisible = false;
         }
@@ -782,8 +784,8 @@ namespace WizMes_EVC
                 sqlParameter.Add("EstSubject", chkEstSubjectSrh.IsChecked == true ? txtEstSubjecSrh.Text : "");
                                   			
 
-                ////계약등록에서 넘어왔을 때 바로 조회용도 textblock에 적어놓고 hidden처리함
-                //sqlParameter.Add("reServeID", tblReServeID.Text.Trim());
+                ////수주등록에서 넘어왔을 때 바로 조회용도 textblock에 적어놓고 hidden처리함
+                sqlParameter.Add("EstID", tblEstIDHidden.Text.Trim() != string.Empty ? tblEstIDHidden.Text.Trim() : "");
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_Order_sEstimate", sqlParameter, true, "R");
 
@@ -833,6 +835,26 @@ namespace WizMes_EVC
                                 deliveryCost = stringFormatN0(dr["deliveryCost"]),
                                 totalAmount = stringFormatN0(dr["totalAmount"]),
                                 Comments = dr["Comments"].ToString(),
+
+                                sketch1File = dr["sketch1File"].ToString(),
+                                sketch1FileAlias = dr["sketch1FileAlias"].ToString(),
+                                sketch1Path = dr["sketch1Path"].ToString(),
+
+                                sketch2File = dr["sketch2File"].ToString(),
+                                sketch2FileAlias = dr["sketch2FileAlias"].ToString(),
+                                sketch2Path = dr["sketch2Path"].ToString(),
+
+                                sketch3File = dr["sketch3File"].ToString(),
+                                sketch3FileAlias = dr["sketch3FileAlias"].ToString(),
+                                sketch3Path = dr["sketch3Path"].ToString(),
+
+                                sketch4File = dr["sketch4File"].ToString(),
+                                sketch4FileAlias = dr["sketch4FileAlias"].ToString(),
+                                sketch4Path = dr["sketch4Path"].ToString(),
+
+                                sketch5File = dr["sketch5File"].ToString(),
+                                sketch5FileAlias = dr["sketch5FileAlias"].ToString(),
+                                sketch5Path = dr["sketch5Path"].ToString(),
 
                             };
 
@@ -1069,6 +1091,7 @@ namespace WizMes_EVC
 
         private bool SaveData(string strFlag)
         {
+            PrimaryKey = string.Empty;
             bool flag = false;            
             int subTotal = CalcuSubTotal();
             List<Procedure> Prolist = new List<Procedure>();
@@ -1080,7 +1103,7 @@ namespace WizMes_EVC
                 {
                     Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                     sqlParameter.Clear();
-                    sqlParameter.Add("EstID", string.IsNullOrEmpty(txtEstID.Text.Trim()) ? "" : txtEstID.Text.Trim());
+                    sqlParameter.Add("EstID", strFlag == "I" ? PrimaryKey : txtEstID.Text);
                     sqlParameter.Add("salesCustomID", txtSalesCustomID.Tag != null ? txtSalesCustomID.Tag.ToString() : "");
                     sqlParameter.Add("managerCustomID", txtManagerCustomID.Tag != null ? txtManagerCustomID.Tag.ToString() : "");
                     sqlParameter.Add("zoneGbnID", txtZoneGbnID.Tag != null ? txtZoneGbnID.Tag.ToString() : "");
@@ -1170,7 +1193,7 @@ namespace WizMes_EVC
                         var estItem = dgdEstItemList.Items[i] as Win_ord_Order_EstimateSub_U_CodeView;
 
                         sqlParameter.Clear();
-                        sqlParameter.Add("EstID", string.IsNullOrEmpty(sGetID) ? estID_Global : sGetID);   
+                        sqlParameter.Add("EstID", strFlag == "I" ? PrimaryKey : txtEstID.Text);   
                         sqlParameter.Add("EstArticleID", estItem.EstArticleID);
                         sqlParameter.Add("EstUnitPrice", RemoveComma(estItem.EstUnitPrice,true));
                         sqlParameter.Add("EstQty", RemoveComma(estItem.EstUnitPrice, true));
@@ -1202,33 +1225,34 @@ namespace WizMes_EVC
                         else
                             flag = true;
 
+                    string FtpPk_key = strFlag == "I" ? PrimaryKey : txtEstID.Text;
 
-                        //FTP쓰실건가요..?
-                        //if (!PrimaryKey.Trim().Equals(""))
-                        //{
-                        //    if (deleteListFtpFile.Count > 0)
-                        //    {
-                        //        foreach (string[] str in deleteListFtpFile)
-                        //        {
-                        //            FTP_RemoveFile(PrimaryKey + "/" + str[0]);
-                        //        }
-                        //    }
+                    //FTP쓰실건가요..?
+                    if (FtpPk_key != string.Empty)
+                    {
+                        if (deleteListFtpFile.Count > 0)
+                        {
+                            foreach (string[] str in deleteListFtpFile)
+                            {
+                                FTP_RemoveFile(FtpPk_key + "/" + str[0]);
+                            }
+                        }
 
-                        //    if (listFtpFile.Count > 0)
-                        //    {
-                        //        FTP_Save_File(listFtpFile, PrimaryKey);
-                        //    }
+                        if (listFtpFile.Count > 0)
+                        {
+                            FTP_Save_File(listFtpFile, FtpPk_key);
+                        }
 
 
-                        //    UpdateDBFtp(PrimaryKey); // 리스트 갯수가 0개 이상일때 해버리면, 수정시에 저장이 안됨
-                        //}
+                        UpdateDBFtp(FtpPk_key); // 리스트 갯수가 0개 이상일때 해버리면, 수정시에 저장이 안됨
+                    }
 
-                        //// 파일 List 비워주기
-                        //listFtpFile.Clear();
-                        //lstFilesName.Clear();
-                        //deleteListFtpFile.Clear();
+                    // 파일 List 비워주기
+                    listFtpFile.Clear();
+                    lstFilesName.Clear();
+                    deleteListFtpFile.Clear();
 
-                    
+
                 }
             }
             catch (Exception ex)
@@ -1261,7 +1285,7 @@ namespace WizMes_EVC
             return subTotal;
         }
 
-        private bool UpdateDBFtp(string reServeID)
+        private bool UpdateDBFtp(string EstID)
         {
             bool flag = false;
 
@@ -1274,20 +1298,28 @@ namespace WizMes_EVC
             {
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                 sqlParameter.Clear();
-                sqlParameter.Add("reServeID", reServeID);
-                //sqlParameter.Add("Sketch1File", txtSketch1.Text.Trim() != "" ? txtSketch1.Text : "");
-                //sqlParameter.Add("Sketch1Path", !string.IsNullOrEmpty(txtSketch1.Tag.ToString()) ? "/ImageData/Reserve/" + reServeID : "");
-                //sqlParameter.Add("Sketch2File", txtSketch2.Text.Trim() != "" ? txtSketch2.Text : "");
-                //sqlParameter.Add("Sketch2Path", !string.IsNullOrEmpty(txtSketch2.Tag.ToString()) ? "/ImageData/Reserve/" + reServeID : "");
-                //sqlParameter.Add("Sketch3File", txtSketch3.Text.Trim() != "" ? txtSketch3.Text : "");
-                //sqlParameter.Add("Sketch3Path", !string.IsNullOrEmpty(txtSketch3.Tag.ToString()) ? "/ImageData/Reserve/" + reServeID : "");
-                //sqlParameter.Add("Sketch4File", txtSketch4.Text.Trim() != "" ? txtSketch4.Text : "");
-                //sqlParameter.Add("Sketch4Path", !string.IsNullOrEmpty(txtSketch4.Tag.ToString()) ? "/ImageData/Reserve/" + reServeID : "");
-                //sqlParameter.Add("Sketch5File", txtSketch5.Text.Trim() != "" ? txtSketch5.Text : "");
-                //sqlParameter.Add("Sketch5Path", !string.IsNullOrEmpty(txtSketch5.Tag.ToString()) ? "/ImageData/Reserve/" + reServeID : "");
+                sqlParameter.Add("EstID", EstID);
+                sqlParameter.Add("Sketch1File", txtSketch1.Text.Trim() != "" ? txtSketch1.Text : "");
+                sqlParameter.Add("Sketch1FileAlias", txtSketch1FileAlias.Text.Trim() != "" ? txtSketch1FileAlias.Text : "");
+                sqlParameter.Add("Sketch1Path", txtSketch1.Tag != null ? LoadINI.FtpImagePath+ "/Estimate/" + EstID : "");
 
-                //!string.IsNullOrEmpty(txtContractFileName.Tag.ToString()) ? "/ImageData/Order/" + orderID : ""
-                string[] result = DataStore.Instance.ExecuteProcedure("xp_order_uReserve_FTP", sqlParameter, true);
+                sqlParameter.Add("Sketch2File", txtSketch2.Text.Trim() != "" ? txtSketch2.Text : "");
+                sqlParameter.Add("Sketch2FileAlias", txtSketch2FileAlias.Text.Trim() != "" ? txtSketch2FileAlias.Text : "");
+                sqlParameter.Add("Sketch2Path", txtSketch2.Tag != null ? LoadINI.FtpImagePath + "/Estimate/" + EstID : "");
+
+                sqlParameter.Add("Sketch3File", txtSketch3.Text.Trim() != "" ? txtSketch3.Text : "");
+                sqlParameter.Add("Sketch3FileAlias", txtSketch3FileAlias.Text.Trim() != "" ? txtSketch3FileAlias.Text : "");
+                sqlParameter.Add("Sketch3Path", txtSketch3.Tag != null ? LoadINI.FtpImagePath + "/Estimate/" + EstID : "");
+                
+                sqlParameter.Add("Sketch4File", txtSketch4.Text.Trim() != "" ? txtSketch4.Text : "");
+                sqlParameter.Add("Sketch4FileAlias", txtSketch4FileAlias.Text.Trim() != "" ? txtSketch4FileAlias.Text : "");
+                sqlParameter.Add("Sketch4Path", txtSketch4.Tag != null ? LoadINI.FtpImagePath + "/Estimate/" + EstID : "");
+                
+                sqlParameter.Add("Sketch5File", txtSketch5.Text.Trim() != "" ? txtSketch5.Text : "");
+                sqlParameter.Add("Sketch5FileAlias", txtSketch5FileAlias.Text.Trim() != "" ? txtSketch5FileAlias.Text : "");
+                sqlParameter.Add("Sketch5Path", txtSketch4.Tag != null ? LoadINI.FtpImagePath + "/Estimate/" + EstID : "");
+
+                string[] result = DataStore.Instance.ExecuteProcedure("xp_Order_uEstimate_FTP", sqlParameter, true);
 
 
                 if (result[0].Equals("success"))
@@ -1780,11 +1812,11 @@ namespace WizMes_EVC
         {
             // (버튼)sender 마다 tag를 달자.
             string ClickPoint = ((Button)sender).Tag.ToString();
-            //if (ClickPoint.Contains("btnSketch1")) { FTP_Upload_TextBox(txtSketch1); }  //긴 경로(FULL 사이즈)
-            //else if (ClickPoint.Contains("btnSketch2")) { FTP_Upload_TextBox(txtSketch2); }
-            //else if (ClickPoint.Contains("btnSketch3")) { FTP_Upload_TextBox(txtSketch3); }
-            //else if (ClickPoint.Contains("btnSketch4")) { FTP_Upload_TextBox(txtSketch4); }
-            //else if (ClickPoint.Contains("btnSketch5")) { FTP_Upload_TextBox(txtSketch5); }
+            if (ClickPoint.Equals("btnSketch1")) { FTP_Upload_TextBox(txtSketch1); }  //긴 경로(FULL 사이즈)
+            else if (ClickPoint.Equals("btnSketch2")) { FTP_Upload_TextBox(txtSketch2); }
+            else if (ClickPoint.Equals("btnSketch3")) { FTP_Upload_TextBox(txtSketch3); }
+            else if (ClickPoint.Equals("btnSketch4")) { FTP_Upload_TextBox(txtSketch4); }
+            else if (ClickPoint.Equals("btnSketch5")) { FTP_Upload_TextBox(txtSketch5); }
         }
 
 
@@ -1800,7 +1832,7 @@ namespace WizMes_EVC
 
 
                 Microsoft.Win32.OpenFileDialog OFdlg = new Microsoft.Win32.OpenFileDialog();
-                //OFdlg.Filter =
+                OFdlg.Filter = MainWindow.OFdlg_Filter_DocAndImg;
                 //    "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png, *.pcx, *.pdf) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png; *.pcx; *.pdf | All Files|*.*";
 
                 OFdlg.Filter = MainWindow.OFdlg_Filter_DocAndImg;
@@ -1878,7 +1910,7 @@ namespace WizMes_EVC
             {
 
 
-                if (_ftp.createDirectory(MakeFolderName) == false)
+                if (_ftp.createDirectoryWithParentDir(MakeFolderName) == false)
                 {
                     MessageBox.Show("업로드를 위한 폴더를 생성할 수 없습니다.");
                     return;
@@ -1926,31 +1958,30 @@ namespace WizMes_EVC
         private void btnFileSee_Click(object sender, RoutedEventArgs e)
         {
         
-                MessageBoxResult msgresult = MessageBox.Show("파일을 보시겠습니까?", "보기 확인", MessageBoxButton.YesNo);
-                if (msgresult == MessageBoxResult.Yes)
+                MessageBoxResult msgresult = MessageBox.Show("다운로드 후 파일을 바로 여시겠습니까?", "보기 확인", MessageBoxButton.YesNoCancel);
+                if (msgresult == MessageBoxResult.Yes || msgresult == MessageBoxResult.No)
                 {
                     //버튼 태그값.
                     string ClickPoint = ((Button)sender).Tag.ToString();
 
-                    //string Sketch1 = txtSketch1.Text.Trim() != "" ? txtSketch1.Text : "";
-                    //string Sketch2 = txtSketch2.Text.Trim() != "" ? txtSketch2.Text : "";
-                    //string Sketch3 = txtSketch3.Text.Trim() != "" ? txtSketch3.Text : "";
-                    //string Sketch4 = txtSketch4.Text.Trim() != "" ? txtSketch4.Text : "";
-                    //string Sketch5 = txtSketch5.Text.Trim() != "" ? txtSketch5.Text : "";
+                    string Sketch1 = txtSketch1.Text.Trim() != "" ? txtSketch1.Text : "";
+                    string Sketch2 = txtSketch2.Text.Trim() != "" ? txtSketch2.Text : "";
+                    string Sketch3 = txtSketch3.Text.Trim() != "" ? txtSketch3.Text : "";
+                    string Sketch4 = txtSketch4.Text.Trim() != "" ? txtSketch4.Text : "";
+                    string Sketch5 = txtSketch5.Text.Trim() != "" ? txtSketch5.Text : "";
 
 
-                    //if ((ClickPoint == "btnSketch1") && (Sketch1 == string.Empty)
-                    //    || (ClickPoint == "btnSketch2") && (Sketch2 == string.Empty)
-                    //    || (ClickPoint == "btnSketch3") && (Sketch3 == string.Empty)
-                    //    || (ClickPoint == "btnSketch4") && (Sketch4 == string.Empty)
-                    //    || (ClickPoint == "btnSketch5") && (Sketch5 == string.Empty))
-                    //{
-                    //    MessageBox.Show("파일이 없습니다.");
-                    //    return;
-                    //}
+                    if ((ClickPoint == "btnSketch1") && (Sketch1 == string.Empty)
+                        || (ClickPoint == "btnSketch2") && (Sketch2 == string.Empty)
+                        || (ClickPoint == "btnSketch3") && (Sketch3 == string.Empty)
+                        || (ClickPoint == "btnSketch4") && (Sketch4 == string.Empty)
+                        || (ClickPoint == "btnSketch5") && (Sketch5 == string.Empty))
+                    {
+                        MessageBox.Show("파일이 없습니다.");
+                        return;
+                    }
 
-
-                    try
+                try
                     {
                         // 접속 경로
                         _ftp = new FTP_EX(FTP_ADDRESS, FTP_ID, FTP_PASS);
@@ -1962,21 +1993,21 @@ namespace WizMes_EVC
                         string str_remotepath = string.Empty;
                         string str_localpath = string.Empty;
 
-                        //if (ClickPoint == "btnSketch1") { str_remotepath = Sketch1; }
-                        //else if (ClickPoint == "btnSketch2") { str_remotepath = Sketch2; }
-                        //else if (ClickPoint == "btnSketch3") { str_remotepath = Sketch3; }
-                        //else if (ClickPoint == "btnSketch4") { str_remotepath = Sketch4; }
-                        //else if (ClickPoint == "btnSketch5") { str_remotepath = Sketch5; }
+                        if (ClickPoint == "btnSketch1") { str_remotepath = Sketch1; }
+                        else if (ClickPoint == "btnSketch2") { str_remotepath = Sketch2; }
+                        else if (ClickPoint == "btnSketch3") { str_remotepath = Sketch3; }
+                        else if (ClickPoint == "btnSketch4") { str_remotepath = Sketch4; }
+                        else if (ClickPoint == "btnSketch5") { str_remotepath = Sketch5; }
 
 
 
-                        //if (ClickPoint == "btnSketch1") { str_localpath = LOCAL_DOWN_PATH + "\\" + Sketch1; }
-                        //else if (ClickPoint == "btnSketch2") { str_localpath = LOCAL_DOWN_PATH + "\\" + Sketch2; }
-                        //else if (ClickPoint == "btnSketch3") { str_localpath = LOCAL_DOWN_PATH + "\\" + Sketch3; }
-                        //else if (ClickPoint == "btnSketch4") { str_localpath = LOCAL_DOWN_PATH + "\\" + Sketch4; }
-                        //else if (ClickPoint == "btnSketch5") { str_localpath = LOCAL_DOWN_PATH + "\\" + Sketch5; }
+                        if (ClickPoint == "btnSketch1") { str_localpath = LOCAL_DOWN_PATH + "\\" + Sketch1; }
+                        else if (ClickPoint == "btnSketch2") { str_localpath = LOCAL_DOWN_PATH + "\\" + Sketch2; }
+                        else if (ClickPoint == "btnSketch3") { str_localpath = LOCAL_DOWN_PATH + "\\" + Sketch3; }
+                        else if (ClickPoint == "btnSketch4") { str_localpath = LOCAL_DOWN_PATH + "\\" + Sketch4; }
+                        else if (ClickPoint == "btnSketch5") { str_localpath = LOCAL_DOWN_PATH + "\\" + Sketch5; }
 
-                        DirectoryInfo DI = new DirectoryInfo(LOCAL_DOWN_PATH);      // Temp 폴더가 없는 컴터라면, 만들어 줘야지.
+                         DirectoryInfo DI = new DirectoryInfo(LOCAL_DOWN_PATH);      // Temp 폴더가 없는 컴터라면, 만들어 줘야지.
                         if (DI.Exists == false)
                         {
                             DI.Create();
@@ -1991,7 +2022,7 @@ namespace WizMes_EVC
                         _ftp.download(str_remotepath, str_localpath);
 
                         //파일 다운로드 후 바로 열기
-                        if (File.Exists(str_localpath))
+                        if (File.Exists(str_localpath) && msgresult == MessageBoxResult.Yes)
                         {
                             try
                             {
@@ -2007,10 +2038,39 @@ namespace WizMes_EVC
                                     "\n파일을 열기위한 프로그램이 없거나 기본 실행프로그램이 지정이 안 되었을 수도 있습니다." + ex.Message);
                             }
                         }
+                        else if ((File.Exists(str_localpath) && msgresult == MessageBoxResult.No))
+                        {
+                            MessageBox.Show("파일을 다운로드 하였습니다.", "확인");
+                            try
+                            {
+                                string folderPath = Path.GetDirectoryName(str_localpath);
+                                //폴더이름의 타이틀명을 찾
+                                var openFolders = Process.GetProcessesByName("explorer")
+                                    .Where(p =>
+                                    {
+                                        try
+                                        {
+                                            return p.MainWindowTitle.Contains(Path.GetFileName(folderPath));
+                                        }
+                                        catch
+                                        {
+                                            return false;
+                                        }
+                                    });
 
+                                if (!openFolders.Any())
+                                {
+                                    // 폴더가 열려있지 않을 때만 새로 열기
+                                    Process.Start("explorer.exe", $"\"{folderPath}\"");
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("폴더를 여는 중 오류가 발생했습니다:" + ex.Message);
+                            }
+                        }
 
-
-                    }
+                }
                     catch (Exception ex) // 뭐든 간에 파일 없다고 하자
                     {
                         MessageBox.Show("파일이 존재하지 않습니다.\r관리자에게 문의해주세요.");
@@ -2032,34 +2092,33 @@ namespace WizMes_EVC
                 //먼저 클릭한 버튼의 파일명을 삭제할 파일 리스트에 올린다. 리스트에 올리면서 텍스트의 텍스트와 태그를 지운다.
                 //lstFileName에는 ftp업로드할때 파일명 중복방지를 위한 리스트(파일명이 중복되면 파일이 업로드 되지 않고 삭제될때 문제생김)
                 ////저장할때 리스트에 있다면 FTP삭제 요청을 한다.
-                //if ((ClickPoint == "btnSketch1") && (txtSketch1.Text != string.Empty)) { fileName = txtSketch1.Text; FileDeleteAndTextBoxEmpty(txtSketch1); lstFilesName.Remove(fileName); }
-                //else if ((ClickPoint == "btnSketch2") && (txtSketch2.Text != string.Empty)) { fileName = txtSketch2.Text; FileDeleteAndTextBoxEmpty(txtSketch2); lstFilesName.Remove(fileName); }
-                //else if ((ClickPoint == "btnSketch3") && (txtSketch3.Text != string.Empty)) { fileName = txtSketch3.Text; FileDeleteAndTextBoxEmpty(txtSketch3); lstFilesName.Remove(fileName); }
-                //else if ((ClickPoint == "btnSketch4") && (txtSketch4.Text != string.Empty)) { fileName = txtSketch4.Text; FileDeleteAndTextBoxEmpty(txtSketch4); lstFilesName.Remove(fileName); }
-                //else if ((ClickPoint == "btnSketch5") && (txtSketch5.Text != string.Empty)) { fileName = txtSketch5.Text; FileDeleteAndTextBoxEmpty(txtSketch5); lstFilesName.Remove(fileName); }
+                if ((ClickPoint == "btnSketch1") && (txtSketch1.Text != string.Empty)) { fileName = txtSketch1.Text; FileDeleteAndTextBoxEmpty(txtSketch1); lstFilesName.Remove(fileName); txtSketch1FileAlias.Text = string.Empty; }
+                else if ((ClickPoint == "btnSketch2") && (txtSketch2.Text != string.Empty)) { fileName = txtSketch2.Text; FileDeleteAndTextBoxEmpty(txtSketch2); lstFilesName.Remove(fileName); txtSketch1FileAlias.Text = string.Empty; }
+                else if ((ClickPoint == "btnSketch3") && (txtSketch3.Text != string.Empty)) { fileName = txtSketch3.Text; FileDeleteAndTextBoxEmpty(txtSketch3); lstFilesName.Remove(fileName); txtSketch1FileAlias.Text = string.Empty; }
+                else if ((ClickPoint == "btnSketch4") && (txtSketch4.Text != string.Empty)) { fileName = txtSketch4.Text; FileDeleteAndTextBoxEmpty(txtSketch4); lstFilesName.Remove(fileName); txtSketch1FileAlias.Text = string.Empty; }
+                else if ((ClickPoint == "btnSketch5") && (txtSketch5.Text != string.Empty)) { fileName = txtSketch5.Text; FileDeleteAndTextBoxEmpty(txtSketch5); lstFilesName.Remove(fileName); txtSketch1FileAlias.Text = string.Empty; }
             }
-
 
         }
         private void FileDeleteAndTextBoxEmpty(TextBox txt)
         {
-            //if (strFlag.Equals("U"))
-            //{
-            //    var Article = dgdMain.SelectedItem as Win_ord_Order_Reservation_U_CodeView_Nadaum;
+            if (strFlag.Equals("U"))
+            {
+                var Article = dgdMain.SelectedItem as Win_ord_Order_Estimate_U_CodeView;
 
-            //    if (Article != null)
-            //    {
-            //        //FTP_RemoveFile(Article.ArticleID + "/" + txt.Text);
+                if (Article != null)
+                {
+                    //FTP_RemoveFile(Article.ArticleID + "/" + txt.Text);
 
-            //        // 파일이름, 파일경로
-            //        string[] strFtp = { txt.Text, txt.Tag != null ? txt.Tag.ToString() : "" };
+                    // 파일이름, 파일경로
+                    string[] strFtp = { txt.Text, txt.Tag != null ? txt.Tag.ToString() : "" };
 
-            //        deleteListFtpFile.Add(strFtp);
-            //    }
-            //}
+                    deleteListFtpFile.Add(strFtp);
+                }
+            }
 
-            //txt.Text = "";
-            //txt.Tag = "";
+            txt.Text = "";
+            txt.Tag = "";
         }
 
 
@@ -3879,6 +3938,22 @@ namespace WizMes_EVC
         public string CreateUserID {get;set;}
         public string LastUpdateDate {get;set;}
         public string LastUpdateUserID { get; set; }
+
+        public string sketch1File {get;set;}
+        public string sketch1FileAlias {get;set;}
+        public string sketch1Path {get;set;}
+        public string sketch2File {get;set;}
+        public string sketch2FileAlias {get;set;}
+        public string sketch2Path {get;set;}
+        public string sketch3File {get;set;}
+        public string sketch3FileAlias {get;set;}
+        public string sketch3Path {get;set;}
+        public string sketch4File {get;set;}
+        public string sketch4FileAlias {get;set;}
+        public string sketch4Path {get;set;}
+        public string sketch5File {get;set;}
+        public string sketch5FileAlias {get;set;}
+        public string sketch5Path { get; set; }
 
     }
 

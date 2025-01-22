@@ -13,9 +13,11 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using WizMes_EVC.Order.Pop;
 using WizMes_EVC.PopUp;
 using WizMes_EVC.PopUP;
+using WPF.MDI;
 using Excel = Microsoft.Office.Interop.Excel;
 
 /**************************************************************************************************
@@ -909,8 +911,8 @@ namespace WizMes_EVC
 
             CantBtnControl();
             //UncheckDatePicker();
-            SetDatePickerToday();
-            SetComboBoxIndexZero();
+            //SetDatePickerToday();
+            //SetComboBoxIndexZero();
             setFTP_Tag_EmptyString();
 
             //계약기간 오늘~금월 마지막일
@@ -1412,12 +1414,13 @@ namespace WizMes_EVC
             FillGrid();
 
             if (dgdMain.Items.Count > 0)
-            {
+            {      
+
                 dgdMain.SelectedIndex = PrimaryKey.Equals(string.Empty) ?
                     selectedIndex : SelectItem(PrimaryKey, dgdMain);
             }
             else
-                DataContext = new object();
+                this.DataContext = new object();
 
             //CalculGridSum();
         }
@@ -1474,6 +1477,10 @@ namespace WizMes_EVC
                 sqlParameter.Add("ChkInstallLocationAddComments", chkInstallLocationAddCommentsSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("InstallLocationAddComments", chkInstallLocationAddCommentsSrh.IsChecked == true ? txtInstallLocationAddCommentsSrh.Text : "");
 
+                //견적제목
+                sqlParameter.Add("chkEstSubject", 0);
+                sqlParameter.Add("EstSubject", "");
+
                 //계약진행관리에서 넘어왔을 때 바로 조회용도 textblock에 적어놓고 hidden처리함
                 //sqlParameter.Add("orderID", tblOrderID.Text.Trim());
 
@@ -1500,53 +1507,54 @@ namespace WizMes_EVC
                             i++;
                             var OrderCodeView = new Win_ord_Order_U_CodeView_dgdMain
                             {
-                                num = i,                     
-                                orderId  = dr["orderId"].ToString(),
-                                estID  = dr["estID"].ToString(),
+                                num = i,
+                                orderId = dr["orderId"].ToString(),
+                                estSubject = dr["estSubject"].ToString(),
+                                estID = dr["estID"].ToString(),
                                 orderNo = dr["orderNo"].ToString(),
-                                saleCustom  = dr["saleCustom"].ToString(),
-                                saleCustomID  = dr["saleCustomID"].ToString(),
+                                saleCustom = dr["saleCustom"].ToString(),
+                                saleCustomID = dr["saleCustomID"].ToString(),
 
-                                managerCustom  = dr["managerCustom"].ToString(),
+                                managerCustom = dr["managerCustom"].ToString(),
                                 managerCustomID = dr["managerCustomID"].ToString(),
-                                searchCustomID  = dr["searchCustomID"].ToString(),
-                                searchCustom  = dr["searchCustom"].ToString(),
-                                manageCustomAcptDate  = DateTypeHyphen(dr["manageCustomAcptDate"].ToString()),
+                                searchCustomID = dr["searchCustomID"].ToString(),
+                                searchCustom = dr["searchCustom"].ToString(),
+                                manageCustomAcptDate = DateTypeHyphen(dr["manageCustomAcptDate"].ToString()),
                                 manageCustomConfirmDate = DateTypeHyphen(dr["manageCustomConfirmDate"].ToString()),
 
                                 installLocation = dr["installLocation"].ToString(),
-                                installLocationPart  = dr["installLocationPart"].ToString(),
+                                installLocationPart = dr["installLocationPart"].ToString(),
                                 InstallLocationPhone = dr["InstallLocationPhone"].ToString(),
                                 articleList = dr["articleList"].ToString(),
-                                closeYn  = dr["closeYn"].ToString(),
+                                closeYn = dr["closeYn"].ToString(),
 
-                                orderAmount  = dr["orderAmount"].ToString(),
-                                acptDate  = dr["acptDate"].ToString(),
+                                orderAmount = dr["orderAmount"].ToString(),
+                                acptDate = dr["acptDate"].ToString(),
                                 installLocationAddComments = dr["installLocationAddComments"].ToString(),
                                 installLocationAddress = dr["installLocationAddress"].ToString(),
-                                houseHoldCount  = stringFormatN0(dr["houseHoldCount"]),
+                                houseHoldCount = stringFormatN0(dr["houseHoldCount"]),
 
-                                carParkingCount  = stringFormatN0(dr["carParkingCount"]),
-                                alreadyManageCustom  = dr["alreadyManageCustom"].ToString(),
-                                alreadyManageCustomID  = dr["alreadyManageCustomID"].ToString(),
+                                carParkingCount = stringFormatN0(dr["carParkingCount"]),
+                                alreadyManageCustom = dr["alreadyManageCustom"].ToString(),
+                                alreadyManageCustomID = dr["alreadyManageCustomID"].ToString(),
                                 installLocationComments = dr["installLocationComments"].ToString(),
-                                alReadyChargeCount  = dr["alReadyChargeCount"].ToString(),
+                                alReadyChargeCount = dr["alReadyChargeCount"].ToString(),
 
-                                contractToDate  = DateTypeHyphen(dr["contractToDate"].ToString()),
-                                contractFromDate  = DateTypeHyphen(dr["contractFromDate"].ToString()),
-                                openReqDate  = DateTypeHyphen(dr["openReqDate"].ToString()),
+                                contractToDate = DateTypeHyphen(dr["contractToDate"].ToString()),
+                                contractFromDate = DateTypeHyphen(dr["contractFromDate"].ToString()),
+                                openReqDate = DateTypeHyphen(dr["openReqDate"].ToString()),
                                 openDate = DateTypeHyphen(dr["openDate"].ToString()),
-                                damdangjaName  = dr["damdangjaName"].ToString(),
+                                damdangjaName = dr["damdangjaName"].ToString(),
 
-                                damdangjaEMail  = dr["damdangjaEMail"].ToString(),
-                                damdangjaPhone  = dr["damdangjaPhone"].ToString(),
-                                electrCarCount  = stringFormatN0(dr["electrCarCount"]),
-                                reqChargeCount  = stringFormatN0(dr["reqChargeCount"]),
-                                saledamdangjaPhone  = dr["saledamdangjaPhone"].ToString(),
+                                damdangjaEMail = dr["damdangjaEMail"].ToString(),
+                                damdangjaPhone = dr["damdangjaPhone"].ToString(),
+                                electrCarCount = stringFormatN0(dr["electrCarCount"]),
+                                reqChargeCount = stringFormatN0(dr["reqChargeCount"]),
+                                saledamdangjaPhone = dr["saledamdangjaPhone"].ToString(),
 
-                                saleCustomAddWork  = dr["saleCustomAddWork"].ToString(),
-                                salegift  = dr["salegift"].ToString(),
-                                mtrAmount  = stringFormatN0(dr["mtrAmount"]),
+                                saleCustomAddWork = stringFormatN0(dr["saleCustomAddWork"]),
+                                salegift = dr["salegift"].ToString(),
+                                mtrAmount = stringFormatN0(dr["mtrAmount"]),
                                 mtrShippingCharge = stringFormatN0(dr["mtrShippingCharge"]),
                                 mtrPriceUnitClss = dr["mtrPriceUnitClss"].ToString(),
 
@@ -1556,7 +1564,7 @@ namespace WizMes_EVC
                                 contractFileName = dr["contractFileName"].ToString(),
                                 contractFilePath = dr["contractFilePath"].ToString(),
 
-                             
+
                             };
 
                             sumAmount += Convert.ToInt32(RemoveComma(OrderCodeView.orderAmount));
@@ -1745,6 +1753,38 @@ namespace WizMes_EVC
             }
         }
 
+        private string GetDeliCost(string estID)
+        {
+            string deliCost = string.Empty;
+
+            string[] sqlList = { "select deliveryCost from EST_Estimate where EstID = "
+
+            };     
+ 
+
+            for (int i = 0; i < sqlList.Length; i++)
+            {
+                DataSet ds = DataStore.Instance.QueryToDataSet(sqlList[i] + estID);
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataTable dt = ds.Tables[0];
+                    if (dt.Rows.Count > 0)
+                    {
+                        deliCost = dt.Rows[0][0].ToString();
+                        break;
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+            }     
+
+            return deliCost;
+        }
+
+        //텍스트박스 , DatePicker, 콤보박스의 바인딩 값과 넘겨주는 오브젝트 value가 일치하는 곳에
+        //자동으로 바인딩
         private void AutoBindDataToControls(object dataObject, DependencyObject parent)
         {
             var properties = dataObject.GetType().GetProperties()
@@ -2182,7 +2222,7 @@ namespace WizMes_EVC
                                 column4Amount = stringFormatN0(dr["column4Amount"]),
                                 column5Amount = stringFormatN0(dr["column5Amount"]),
                                 column6Amount = stringFormatN0(dr["column6Amount"]),
-                                column7Comment = dr["column3Comment"].ToString()
+                                column7Comment = dr["column7Comment"].ToString()
 
                             };
 
@@ -2531,6 +2571,7 @@ namespace WizMes_EVC
         /// 그 뒤에 계약내용 탭 데이터그리드에 있는 내용을 그리드별로 프로시저를 호출해서 저장합니다.
         private bool SaveData(string strFlag)
         {
+            PrimaryKey = string.Empty;
             bool flag = false;
             List<Procedure> Prolist = new List<Procedure>();
             List<Dictionary<string, object>> ListParameter = new List<Dictionary<string, object>>();
@@ -2544,6 +2585,7 @@ namespace WizMes_EVC
 
                     sqlParameter.Add("orderID", string.IsNullOrEmpty(txtOrderID.Text) ? "" : txtOrderID.Text);
                     sqlParameter.Add("orderNo", string.IsNullOrEmpty(txtOrderNo.Text) ? "" : txtOrderNo.Text);
+                    sqlParameter.Add("estSubject", txtEstSubject.Text);
                     sqlParameter.Add("estID", txtEstID.Tag !=null ? txtEstID.Tag.ToString() : "");
                     sqlParameter.Add("managerCustomID", txtManagerCustomID.Tag != null ? txtManagerCustomID.Tag.ToString() : "");
                     sqlParameter.Add("saleCustomID", txtSalesCustomID.Tag != null ? txtSalesCustomID.Tag.ToString() : "");
@@ -2573,11 +2615,13 @@ namespace WizMes_EVC
                     sqlParameter.Add("saledamdangjaPhone", txtSaledamdangjaPhone.Text);
                     sqlParameter.Add("saleCustomAddWork", RemoveComma(txtSaleCustomAddWork.Text, true));
                     sqlParameter.Add("salegift",txtsalegift.Text);
-                    sqlParameter.Add("mtrAmount", (int)RemoveComma(txtdgdAccTotal.Text,true) + (int)RemoveComma(txtMtrCanopyOrderAmount.Text,true));
+                    sqlParameter.Add("mtrAmount", (int)RemoveComma(txtdgdAccTotal.Text,true) + (int)RemoveComma(txtMtrCanopyOrderAmount.Text,true) + (int)RemoveComma(txtMtrShippingCharge.Text,true));
                     sqlParameter.Add("mtrShippingCharge", RemoveComma(txtMtrShippingCharge.Text, true));
                     sqlParameter.Add("mtrPriceUnitClss", cboMtrPriceUnitClss.SelectedValue != null ? cboMtrPriceUnitClss.SelectedValue.ToString() : "");
                     sqlParameter.Add("mtrCanopyInwareInfo", txtMtrCanopyInwareInfo.Text);
                     sqlParameter.Add("mtrCanopyOrderAmount", RemoveComma(txtMtrCanopyOrderAmount.Text,true));
+
+              
                         
                     string sGetID = strFlag.Equals("I") ? string.Empty : txtOrderID.Text;
                     #region 추가
@@ -2646,7 +2690,7 @@ namespace WizMes_EVC
                     if (tab2_clicked == true)
                     {
                         sqlParameter.Clear();
-                        sqlParameter.Add("orderID", strFlag == "I" ? sGetID : txtOrderID.Text);
+                        sqlParameter.Add("orderID", strFlag == "I" ? PrimaryKey : txtOrderID.Text);
                         sqlParameter.Add("searchReqDate", IsDatePickerNull(dtpSearchReqDate) ? "" : ConvertDate(dtpSearchReqDate));
                         sqlParameter.Add("searchDate", IsDatePickerNull(dtpSearchDate) ? "" : ConvertDate(dtpSearchDate));
                         sqlParameter.Add("searchDataAcptDate", IsDatePickerNull(dtpSearchDataAcptDate) ? "" : ConvertDate(dtpSearchDataAcptDate));
@@ -2681,7 +2725,7 @@ namespace WizMes_EVC
                     if(tab3_clicked == true)
                     {
                         sqlParameter.Clear();
-                        sqlParameter.Add("orderID", strFlag == "I" ? sGetID : txtOrderID.Text);
+                        sqlParameter.Add("orderID", strFlag == "I" ? PrimaryKey : txtOrderID.Text);
                         sqlParameter.Add("kepElectrDeliveryMethodID",cboKepElectrDeliveryMethodID.SelectedValue != null ? cboKepElectrDeliveryMethodID.SelectedValue.ToString() : "");
                         sqlParameter.Add("kepInstallLocationCount",RemoveComma(txtKepInstallLocationCount.Text, true));
                         sqlParameter.Add("kepOutLineConstructContext",txtKepOutLineConstructContext.Text);
@@ -2731,7 +2775,7 @@ namespace WizMes_EVC
                     if(tab4_clicked == true)
                     {
                         sqlParameter.Clear();
-                        sqlParameter.Add("orderID", strFlag == "I" ? sGetID : txtOrderID.Text);
+                        sqlParameter.Add("orderID", strFlag == "I" ? PrimaryKey : txtOrderID.Text);
                         sqlParameter.Add("superCustomID", txtSuperCustomID.Tag != null ? txtSuperCustomID.Tag.ToString() : "");
                         sqlParameter.Add("superCostPayCustomID", txtSuperCostPayCustomID.Tag !=null? txtSuperCostPayCustomID.Tag.ToString() : "");
                         sqlParameter.Add("superCustomPhoneNo", txtSuperCustomPhoneNo.Text);
@@ -2765,46 +2809,46 @@ namespace WizMes_EVC
                                 {
                                     case 0:
                                         sqlParameter.Add("accntMgrWorkPreTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntMgrWorkPreAmount", RemoveComma(accntItem.column2Amount, true));
                                         //sqlParameter.Add("accntMgrWorkPreSubsidyAmount", RemoveComma(accntItem.column3Amount, true));
                                         //sqlParameter.Add("accntMgrWorkPreInvestAmount", RemoveComma(accntItem.column4Amount, true));
                                         //sqlParameter.Add("accntMgrWorkPreSellAmount", RemoveComma(accntItem.column5Amount, true));
+                                        sqlParameter.Add("accntMgrWorkPreAmount", RemoveComma(accntItem.column2Amount, true));
                                         //sqlParameter.Add("accntMgrWorkPreLeftAmount	", RemoveComma(accntItem.column6Amount, true));
                                         sqlParameter.Add("accntMgrWorkPreAmountComments", accntItem.column7Comment);
                                         break;
                                     case 1:
                                         sqlParameter.Add("accntMgrtWorkAfterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntMgrWorkAfterSubsidy", RemoveComma(accntItem.column2Amount, true));
+                                        //sqlParameter.Add("accntMgrWorkAfterSubsidy", RemoveComma(accntItem.column2Amount, true));
                                         //sqlParameter.Add("accntMgrWorkInvestAmount", RemoveComma(accntItem.column3Amount, true));
                                         //sqlParameter.Add("accntMgrWorkSellAmount", RemoveComma(accntItem.column4Amount, true));
-                                        //sqlParameter.Add("accntMgrWorkAfterAmount", RemoveComma(accntItem.column5Amount, true));
+                                        sqlParameter.Add("accntMgrWorkAfterAmount", RemoveComma(accntItem.column5Amount, true));
                                         //sqlParameter.Add("accntMgrWorkAfterLeftAmount", RemoveComma(accntItem.column6Amount, true));
                                         sqlParameter.Add("accntMgrWorkAfterAmountComments", accntItem.column7Comment);
                                         break;
                                     case 2:
                                         sqlParameter.Add("accntMgrWorkTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntMgrWorkSubsidyAmount", RemoveComma(accntItem.column2Amount, true));
+                                        //sqlParameter.Add("accntMgrWorkSubsidyAmount", RemoveComma(accntItem.column2Amount, true));
                                         //sqlParameter.Add("accntMgrWorkInvestAmount", RemoveComma(accntItem.column3Amount, true));
                                         //sqlParameter.Add("accntMgrWorkSellAmount", RemoveComma(accntItem.column4Amount, true));
-                                        //sqlParameter.Add("accntMgrWorkAmount", RemoveComma(accntItem.column5Amount, true));
+                                        sqlParameter.Add("accntMgrWorkAmount", RemoveComma(accntItem.column5Amount, true));
                                         //sqlParameter.Add("accntMgrWorkLeftAmount", RemoveComma(accntItem.column6Amount, true));
                                         sqlParameter.Add("accntMgrWorkAmountComments", accntItem.column7Comment);
                                         break;
                                     case 3:
                                         sqlParameter.Add("accntWorkTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntWorkSubsidyAmount", RemoveComma(accntItem.column2Amount, true));
+                                        //sqlParameter.Add("accntWorkSubsidyAmount", RemoveComma(accntItem.column2Amount, true));
                                         //sqlParameter.Add("accntWorkInvestAmount", RemoveComma(accntItem.column3Amount, true));
                                         //sqlParameter.Add("accntWorkSellAmount", RemoveComma(accntItem.column4Amount, true));
-                                        //sqlParameter.Add("accntWorkAmount", RemoveComma(accntItem.column5Amount, true));
+                                        sqlParameter.Add("accntWorkAmount", RemoveComma(accntItem.column5Amount, true));
                                         //sqlParameter.Add("accntWorkLeftAmount", RemoveComma(accntItem.column6Amount, true));
                                         sqlParameter.Add("accntWorkComments", accntItem.column7Comment);
                                         break;
                                     case 4:
                                         sqlParameter.Add("accntSaleTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntWorkSubsidyAmount", RemoveComma(accntItem.column2Amount, true));
                                         //sqlParameter.Add("accntWorkInvestAmount", RemoveComma(accntItem.column3Amount, true));
                                         //sqlParameter.Add("accntWorkSellAmount", RemoveComma(accntItem.column4Amount, true));
                                         //sqlParameter.Add("accntWorkAmount", RemoveComma(accntItem.column5Amount, true));
+                                        sqlParameter.Add("accntSaleAmount", RemoveComma(accntItem.column2Amount, true));
                                         //sqlParameter.Add("accntWorkLeftAmount", RemoveComma(accntItem.column6Amount, true));
                                         sqlParameter.Add("accntSaleComments", accntItem.column7Comment);
                                         break;
@@ -2830,7 +2874,7 @@ namespace WizMes_EVC
                         var accItem = dgdAcc.Items[i] as Win_order_Order_U_CodView_dgdAcc;
 
                         sqlParameter.Clear();
-                        sqlParameter.Add("orderID", strFlag == "I" ? sGetID : txtOrderID.Text);
+                        sqlParameter.Add("orderID", strFlag == "I" ? PrimaryKey : txtOrderID.Text);
                         sqlParameter.Add("orderSeq", i+1);
                         sqlParameter.Add("articleID", accItem.articleID.Trim() != string.Empty ? accItem.articleID : "");
                         sqlParameter.Add("orderTypeID", accItem.orderTypeID.Trim() != string.Empty ? accItem.orderTypeID : "");
@@ -2865,7 +2909,7 @@ namespace WizMes_EVC
                             var localGovItem = dgdLocalGov.Items[i] as Win_order_Order_U_CodView_localGov;
 
                             sqlParameter.Clear();
-                            sqlParameter.Add("orderID", strFlag == "I" ? sGetID : txtOrderID.Text);
+                            sqlParameter.Add("orderID", strFlag == "I" ? PrimaryKey : txtOrderID.Text);
                             sqlParameter.Add("localGovSeq", i + 1);
                             sqlParameter.Add("localGovPermissionNo", localGovItem.localGovPermissionNo.Trim());
                             sqlParameter.Add("localGovBehaviorReportDate", RemoveHyphen(localGovItem.localGovBehaviorReportDate));
@@ -2928,23 +2972,25 @@ namespace WizMes_EVC
 
 
 
-                    if (!PrimaryKey.Trim().Equals(""))
+                    string FtpPk_key = strFlag == "I" ? PrimaryKey : txtOrderID.Text;
+
+                    if (FtpPk_key.Trim() != string.Empty)
                     {
                         if (deleteListFtpFile.Count > 0)
                         {
                             foreach (string[] str in deleteListFtpFile)
                             {
-                                FTP_RemoveFile(PrimaryKey + "/" + str[0]);
+                                FTP_RemoveFile(FtpPk_key + "/" + str[0]);
                             }
                         }
 
                         if (listFtpFile.Count > 0)
                         {
-                            FTP_Save_File(listFtpFile, PrimaryKey);
+                            FTP_Save_File(listFtpFile, FtpPk_key);
                         }
 
 
-                        UpdateDBFtp(PrimaryKey); // 리스트 갯수가 0개 이상일때 해버리면, 수정시에 저장이 안됨
+                        UpdateDBFtp(FtpPk_key); // 리스트 갯수가 0개 이상일때 해버리면, 수정시에 저장이 안됨
                     }
 
                     // 파일 List 비워주기
@@ -3173,10 +3219,18 @@ namespace WizMes_EVC
         {
             string msg = string.Empty;
 
+            string ElecTypeMgrWork = (cboElectrDeliveryMethodID.SelectedItem as CodeView)?.code_name;
+            if(tab2_clicked== true && ElecTypeMgrWork != null && ElecTypeMgrWork.Contains("한전"))
+            {
+                if (dtpSuperBeforeUseInspDate.SelectedDate == null || dtpSuperBeforeUseInspDate.SelectedDate.ToString() == string.Empty)
+                {
+                    msg += "[시공 및 실사정보] 전기수전방법이 *한전*이면\n반드시 사용전검사를 진행해야합니다.\n[시공 및 실사정보]탭의 *사용전검사 확인증 발급일*을 확인하세요";
+                }
+            }
 
             if (msg.Length > 0)
             {
-                var result =  MessageBox.Show(msg);
+                var result =  MessageBox.Show(msg,"확인");
                 if(result == MessageBoxResult.OK)
                 {
                     //tabContractData.Focus();
@@ -3471,7 +3525,7 @@ namespace WizMes_EVC
                 foreach (Win_order_Order_U_CodView_dgdAcc item in currentGrid.Items)
                 {
                     int item1 = (int)RemoveComma(item.chargeInwareUnitPrice, true);
-                    int item2 = (int)RemoveComma(item.chargeInwareQty, true);
+                    int item2 = (int)RemoveComma(item.chargeInwareQty, true);                 
 
                     int total = item1 * item2;
 
@@ -3742,7 +3796,7 @@ namespace WizMes_EVC
             else if (ClickPoint.Contains("BeforeSearchConsult")) { FTP_Upload_TextBox(txtBeforeSearchConsultFileName); }
             else if (ClickPoint.Contains("PictureEarth")) { FTP_Upload_TextBox(txtPictureEarthFileName); }
             else if (ClickPoint.Contains("Draw")) { FTP_Upload_TextBox(txtDrawFileName); }
-            else if (ClickPoint.Contains("Search")) { FTP_Upload_TextBox(txtSearchFileName); }
+            else if (ClickPoint.Equals("Search")) { FTP_Upload_TextBox(txtSearchFileName); }
             else if (ClickPoint.Contains("SearchChecksheet")) { FTP_Upload_TextBox(txtSearchChecksheetFile); }
             else if (ClickPoint.Contains("InstallLocationSheet")) { FTP_Upload_TextBox(txtInstallLocationSheetFile); }
             else if (ClickPoint.Contains("LocalGoTax")) { FTP_Upload_TextBox(txtLocalGoTaxFile); }
@@ -3967,8 +4021,8 @@ namespace WizMes_EVC
         {
             if (txtOrderID.Text != "")
             {
-                MessageBoxResult msgresult = MessageBox.Show("파일을 보시겠습니까?", "보기 확인", MessageBoxButton.YesNo);
-                if (msgresult == MessageBoxResult.Yes)
+                MessageBoxResult msgresult = MessageBox.Show("다운로드 후 파일을 바로 여시겠습니까?", "보기 확인", MessageBoxButton.YesNoCancel);
+                if (msgresult == MessageBoxResult.Yes || msgresult == MessageBoxResult.No)
                 {
                     //버튼 태그값.
                     string ClickPoint = ((Button)sender).Tag.ToString();
@@ -4101,7 +4155,7 @@ namespace WizMes_EVC
                         _ftp.download(str_remotepath, str_localpath);
 
                         //파일 다운로드 후 바로 열기
-                        if (File.Exists(str_localpath))
+                        if (File.Exists(str_localpath)&& msgresult == MessageBoxResult.Yes)
                         {
                             try
                             {
@@ -4115,6 +4169,37 @@ namespace WizMes_EVC
                             {
                                 MessageBox.Show("파일을 여는 중 오류가 발생했습니다:" +
                                     "\n파일을 열기위한 프로그램이 없거나 기본 실행프로그램이 지정이 안 되었을 수도 있습니다." + ex.Message);
+                            }
+                        }
+                        else if((File.Exists(str_localpath) && msgresult == MessageBoxResult.No))
+                        {
+                            MessageBox.Show("파일을 다운로드 하였습니다.", "확인");
+                            try
+                            {
+                                string folderPath = Path.GetDirectoryName(str_localpath);
+                                //폴더이름의 타이틀명을 찾
+                                var openFolders = Process.GetProcessesByName("explorer")
+                                    .Where(p =>
+                                    {
+                                        try
+                                        {
+                                            return p.MainWindowTitle.Contains(Path.GetFileName(folderPath));
+                                        }
+                                        catch
+                                        {
+                                            return false;
+                                        }
+                                    });
+
+                                if (!openFolders.Any())
+                                {
+                                    // 폴더가 열려있지 않을 때만 새로 열기
+                                    Process.Start("explorer.exe", $"\"{folderPath}\"");
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("폴더를 여는 중 오류가 발생했습니다:" + ex.Message);
                             }
                         }
 
@@ -4784,7 +4869,7 @@ namespace WizMes_EVC
                 {
                     rowNum = dgdMain.SelectedIndex;    
                     this.DataContext = OrderInfo;
-                  
+
                     orderID_global = OrderInfo.orderId;       
                     fillAccGrid(OrderInfo.orderId);
 
@@ -5438,6 +5523,8 @@ namespace WizMes_EVC
                     txtEstSubject.Text = txtEstID.Text;
                     txtEstID.Text = txtEstID.Tag.ToString();
                     callEstAccData(txtEstID.Tag.ToString());
+                    string DeliCost = GetDeliCost(txtEstID.Tag.ToString());
+                    txtMtrShippingCharge.Text = stringFormatN0(DeliCost);
                 }
 
 
@@ -5450,58 +5537,108 @@ namespace WizMes_EVC
         //견적번호(입력그리드) - 버튼
         private void btnEstID_Click(object sender, RoutedEventArgs e)
         {
-            if (strFlag != "U")
+            if(txtEstID.Tag != null && txtEstID.Tag.ToString().Trim() != string.Empty)
             {
-                preEstimate = new Win_ord_Pop_PreEstimate_Q();
-
-                if (preEstimate.ShowDialog() == true)
-                {
-                    try
-                    {
-                        var selectedRow = preEstimate.SelectedItem;
-                        if (selectedRow != null)
-                        {
-                            string today = DateTime.Today.ToString("yyyyMMdd");
-                            txtEstID.Text = selectedRow.EstID;
-
-                            txtManagerCustomID.Text = selectedRow.managerCustom;
-                            txtManagerCustomID.Tag = selectedRow.managerCustomID;
-
-                            txtSalesCustomID.Text = selectedRow.salesCustom;
-                            txtSalesCustomID.Tag = selectedRow.salesCustomID;
-
-                            dtpContractFromDate.SelectedDate = ConvertToDateTime(selectedRow.InstallSchFromDate);
-                            dtpContractToDate.SelectedDate = ConvertToDateTime(selectedRow.InstallSchTODate);
-                            dtpOpenReqDate.SelectedDate = ConvertToDateTime(selectedRow.InstallSchFromDate);
-
-                            txtInstallLocation.Text = selectedRow.InstalLocation;
-                            txtInstallLocationPart.Text = selectedRow.InstallLocationPart;
-
-                            txtDamdangjaName.Text = selectedRow.EstDamdangName;
-                            txtDamdangjaPhone.Text = selectedRow.EstDamdangTelno;
-                            txtInstallLocationAddComments.Text = selectedRow.Comments;
-
-                            txtMtrAmount.Text = selectedRow.totalAmount;
-                            txtMtrShippingCharge.Text = selectedRow.deliveryCost;
-
-                            int count = CountEstSub(selectedRow.EstID);
-
-                      
-                        }
-
-                        MessageBox.Show("견적 데이터를 불러 왔습니다.", "확인");
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("견적 복사 중 오류가 발생했습니다. 오류내용\n" + ex.ToString());
-                    }
-                }
-
+                MainWindow.EstID = txtEstID.Text;
             }
             else
             {
-                MessageBox.Show("새로 추가 중에만 사용 할 수 있습니다.");
+                MessageBox.Show("견적번호가 없습니다.");
+                return;
             }
+
+            int i = 0;
+            foreach (MenuViewModel mvm in MainWindow.mMenulist)
+            {
+                if (mvm.Menu.Equals("견적등록"))
+                {
+                    break;
+                }
+                i++;
+            }
+            try
+            {
+                if (MainWindow.MainMdiContainer.Children.Contains(MainWindow.mMenulist[i].subProgramID as MdiChild))
+                {
+                    (MainWindow.mMenulist[i].subProgramID as MdiChild).Focus();
+                }
+                else
+                {
+                    Type type = Type.GetType("WizMes_EVC." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
+                    object uie = Activator.CreateInstance(type);
+
+                    MainWindow.mMenulist[i].subProgramID = new MdiChild()
+                    {
+                        Title = "WizMes_EVC_[" + MainWindow.mMenulist[i].MenuID.Trim() + "] " + MainWindow.mMenulist[i].Menu.Trim() +
+                                " (→" + MainWindow.mMenulist[i].ProgramID.Trim() + ")",
+                        Height = SystemParameters.PrimaryScreenHeight * 0.9,
+                        MaxHeight = SystemParameters.PrimaryScreenHeight * 0.95,
+                        Width = SystemParameters.WorkArea.Width * 0.9,
+                        MaxWidth = SystemParameters.WorkArea.Width,
+                        Content = uie as UIElement,
+                        Tag = MainWindow.mMenulist[i]
+                    };
+                    Lib.Instance.AllMenuLogInsert(MainWindow.mMenulist[i].MenuID, MainWindow.mMenulist[i].Menu, MainWindow.mMenulist[i].subProgramID);
+                    MainWindow.MainMdiContainer.Children.Add(MainWindow.mMenulist[i].subProgramID as MdiChild);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("해당 화면이 존재하지 않습니다.");
+            }
+
+            //if (strFlag != "U")
+            //{
+            //    preEstimate = new Win_ord_Pop_PreEstimate_Q();
+
+            //    if (preEstimate.ShowDialog() == true)
+            //    {
+            //        try
+            //        {
+            //            var selectedRow = preEstimate.SelectedItem;
+            //            if (selectedRow != null)
+            //            {
+            //                string today = DateTime.Today.ToString("yyyyMMdd");
+            //                txtEstID.Text = selectedRow.EstID;
+
+            //                txtManagerCustomID.Text = selectedRow.managerCustom;
+            //                txtManagerCustomID.Tag = selectedRow.managerCustomID;
+
+            //                txtSalesCustomID.Text = selectedRow.salesCustom;
+            //                txtSalesCustomID.Tag = selectedRow.salesCustomID;
+
+            //                dtpContractFromDate.SelectedDate = ConvertToDateTime(selectedRow.InstallSchFromDate);
+            //                dtpContractToDate.SelectedDate = ConvertToDateTime(selectedRow.InstallSchTODate);
+            //                dtpOpenReqDate.SelectedDate = ConvertToDateTime(selectedRow.InstallSchFromDate);
+
+            //                txtInstallLocation.Text = selectedRow.InstalLocation;
+            //                txtInstallLocationPart.Text = selectedRow.InstallLocationPart;
+
+            //                txtDamdangjaName.Text = selectedRow.EstDamdangName;
+            //                txtDamdangjaPhone.Text = selectedRow.EstDamdangTelno;
+            //                txtInstallLocationAddComments.Text = selectedRow.Comments;
+
+            //                txtMtrAmount.Text = selectedRow.totalAmount;
+            //                txtMtrShippingCharge.Text = selectedRow.deliveryCost;
+
+            //                int count = CountEstSub(selectedRow.EstID);
+
+
+            //            }
+
+            //            MessageBox.Show("견적 데이터를 불러 왔습니다.", "확인");
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            MessageBox.Show("견적 복사 중 오류가 발생했습니다. 오류내용\n" + ex.ToString());
+            //        }
+            //    }
+
+            //}
+            //else
+            //{
+            //    MessageBox.Show("새로 추가 중에만 사용 할 수 있습니다.");
+            //}
         }
 
         
@@ -5594,7 +5731,7 @@ namespace WizMes_EVC
                             AutoBindDataToControls(selectedRow, grdInput);
 
                             txtOrderID.Text = string.Empty;
-                            txtOrderNo.Text = selectedRow.orderId;
+                            txtOrderNo.Text = string.Empty;
 
                             BringdLastOrder(selectedRow.orderId);
 
@@ -5610,7 +5747,7 @@ namespace WizMes_EVC
             }
             else
             {
-                MessageBox.Show("새로 추가 중에만 사용 할 수 있습니다.");
+                MessageBox.Show("신규 추가 중에만 사용 할 수 있습니다.");
             }
         }
 
@@ -6009,6 +6146,7 @@ namespace WizMes_EVC
     {
         public int num { get; set; }
         public string orderId {get;set;}
+        public string estSubject { get; set; }
         public string estID { get; set; }
         public string orderNo { get; set; }
         public string saleCustom { get; set; }

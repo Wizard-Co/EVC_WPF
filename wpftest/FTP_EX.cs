@@ -486,6 +486,65 @@ namespace WizMes_EVC
             return false;
         }
 
+        public bool createDirectoryWithParentDir(string newDirectory)
+        {
+            try
+            {
+                // host에서 기본 경로 추출 
+                string basePath = host.Substring(host.IndexOf(":21/") + 4);
+                string[] pathParts = basePath.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+
+                // 상위 경로들 순차적으로 생성
+                string currentPath = host.Substring(0, host.IndexOf(":21/") + 4);  
+                foreach (string part in pathParts)
+                {
+                    currentPath += part + "/";
+                    try
+                    {
+                        ftpRequest = (FtpWebRequest)WebRequest.Create(currentPath);
+                        ftpRequest.Credentials = new NetworkCredential(user, pass);
+                        ftpRequest.UseBinary = true;
+                        ftpRequest.UsePassive = true;
+                        ftpRequest.KeepAlive = true;
+                        ftpRequest.Method = WebRequestMethods.Ftp.MakeDirectory;
+
+                        using (ftpResponse = (FtpWebResponse)ftpRequest.GetResponse())
+                        {
+                            // 폴더가 성공적으로 생성되거나 이미 존재하는 경우
+                        }
+                    }
+                    catch (WebException ex)
+                    {
+                        // 폴더가 이미 존재하는 경우는 무시하고 계속 진행
+                        FtpWebResponse response = (FtpWebResponse)ex.Response;
+                        if (response.StatusCode != FtpStatusCode.ActionNotTakenFileUnavailable)
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                // 최종적으로 요청된 새 디렉토리 생성
+                ftpRequest = (FtpWebRequest)WebRequest.Create(host + "/" + newDirectory);
+                ftpRequest.Credentials = new NetworkCredential(user, pass);
+                ftpRequest.UseBinary = true;
+                ftpRequest.UsePassive = true;
+                ftpRequest.KeepAlive = true;
+                ftpRequest.Method = WebRequestMethods.Ftp.MakeDirectory;
+
+                using (ftpResponse = (FtpWebResponse)ftpRequest.GetResponse())
+                {
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return false;
+            }
+        }
+
+
         /* Get the Date/Time a File was Created */
         public string getFileCreatedDateTime(string fileName)
         {

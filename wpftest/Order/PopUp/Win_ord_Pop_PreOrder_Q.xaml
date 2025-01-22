@@ -50,12 +50,12 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="btnSearch" Margin="3" 
-            Width="50"    Click="btnSearch_Click"
-            Grid.Column="0" FontSize="15" Content="조회"></Button>
             <Button x:Name="btnExcel" Margin="3" 
            Width="50"  Click="btnExcel_Click"
-           Grid.Column="1" FontSize="15" Content="엑셀"></Button>
+           Grid.Column="0" FontSize="15" Content="엑셀" Visibility="Hidden"></Button>
+            <Button x:Name="btnSearch" Margin="3" 
+            Width="50"    Click="btnSearch_Click"
+            Grid.Column="1" FontSize="15" Content="조회"></Button>
         </Grid>
     
         <Grid Grid.Row="1">
@@ -141,10 +141,8 @@
                         </Viewbox>
                     </StackPanel>
                 </Label>
-                <TextBox x:Name="txtInstallLocationSrh" Grid.Column="1" Style="{DynamicResource TextBoxInput_Number_Left}" IsEnabled="False"/>
-            </Grid>
-
-      
+                <TextBox x:Name="txtInstallLocationSrh" Grid.Column="1" Style="{DynamicResource TextBoxInputArea}" IsEnabled="False"/>
+            </Grid>     
 
         </Grid>
         <Grid Grid.Row="2">
@@ -235,8 +233,30 @@
                           </Viewbox>
                       </StackPanel>
                   </Label>
-                <TextBox x:Name="txtInstallLocationAddCommentsSrh" Grid.Column="1" Style="{DynamicResource TextBoxInput_Number_Left}" IsEnabled="False"/>
+                <TextBox x:Name="txtInstallLocationAddCommentsSrh" Grid.Column="1" Style="{DynamicResource TextBoxInputArea}" IsEnabled="False"/>
               </Grid>
+
+            <!--견적명-->
+            <Grid Grid.Row="1" Grid.Column="9" Grid.ColumnSpan="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*"/>
+                    <ColumnDefinition Width="90*"/>
+                    <ColumnDefinition Width="15*"/>
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblEstSubject" Grid.Column="0"
+              MouseLeftButtonUp="lblEstSubjectSrh_MouseLeftButtonUp" Style="{DynamicResource LabelSearch}">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <CheckBox x:Name="chkEstSubjectSrh"  VerticalAlignment="Center" 
+                    Click="chkEstSubjectSrh_Click"/>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <TextBlock Text="견적명" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                        </Viewbox>
+                    </StackPanel>
+                </Label>
+                <TextBox x:Name="txtEstSubjectSrh" Grid.Column="1" Style="{DynamicResource TextBoxInputArea}" IsEnabled="False"/>
+            </Grid>
 
 
         </Grid>
@@ -257,6 +277,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="" Binding="{Binding num}" ElementStyle="{DynamicResource DataGridCellCenter}"/>
                 <DataGridTextColumn Header="수주번호" Binding="{Binding orderNo}"/>
+                <DataGridTextColumn Header="견적제목" Binding="{Binding estSubject}"/>
                 <DataGridTextColumn Header="운영사" Binding="{Binding managerCustom}"/>
                 <DataGridTextColumn Header="수주일자" Binding="{Binding acptDate}"/>
                 <DataGridTextColumn Header="설치기일" Binding="{Binding contractToDate}"/>

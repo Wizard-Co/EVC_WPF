@@ -20,6 +20,7 @@ namespace WizMes_EVC
         public static string mainStDate = string.Empty;
         public static string mainStTime = string.Empty;
 
+        
 
         public static List<MenuViewModel> mMenulist = new List<MenuViewModel>();
         public static MdiContainer MainMdiContainer = new MdiContainer();
@@ -42,6 +43,9 @@ namespace WizMes_EVC
         public int TheFont { get; set; }
         public double TheHeight { get; set; }
         public double TheWidth { get; set; }
+
+        //견적등록 넘겨줄 변수
+        public static string EstID = string.Empty;
        //aa
         // 넘겨줄 임시 데이터 변수(수주 진행 및 마감 -> 수주등록 화면으로)
         public static List<string> tempContent = new List<string>();

@@ -362,6 +362,36 @@ namespace WizMes_EVC.Order.Pop
         }
 
 
+        //견적제목
+        private void lblEstSubjectSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (chkEstSubjectSrh.IsChecked == true)
+            {
+                chkEstSubjectSrh.IsChecked = false;
+                txtEstSubjectSrh.IsEnabled = false;
+            }
+            else
+            {
+                chkEstSubjectSrh.IsChecked = true;
+                txtEstSubjectSrh.IsEnabled = true;
+            }
+        }
+
+        //견적제목
+        private void chkEstSubjectSrh_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkEstSubjectSrh.IsChecked == true)
+            {
+                chkEstSubjectSrh.IsChecked = true;
+                txtEstSubjectSrh.IsEnabled = true;
+            }
+            else
+            {
+                chkEstSubjectSrh.IsChecked = false;
+                txtEstSubjectSrh.IsEnabled = false;
+            }
+        }
+
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
@@ -401,6 +431,9 @@ namespace WizMes_EVC.Order.Pop
                 sqlParameter.Add("chkComments", chkCommentsSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("Comments", chkCommentsSrh.IsChecked == true ? txtCommentsSrh.Text : "");
           
+                sqlParameter.Add("chkEstSubject", chkEstSubjectSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("EstSubject", txtEstSubjectSrh.Text);
+
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Order_sEstimate", sqlParameter, false);
 
@@ -424,6 +457,7 @@ namespace WizMes_EVC.Order.Pop
                             {
                                 num = num,
                                 EstID = dr["EstID"].ToString(),
+                                
                                 salesCustomID = dr["salesCustomID"].ToString(),
                                 salesCustom = dr["salesCustom"].ToString(),
                                 managerCustomID = dr["managerCustomID"].ToString(),
@@ -496,6 +530,9 @@ namespace WizMes_EVC.Order.Pop
 
             return DigitsDate;
         }
+
+  
+       
     }
 
 
@@ -503,6 +540,7 @@ namespace WizMes_EVC.Order.Pop
     {       
         public int num { get; set; }
         public string EstID { get; set; }
+        public string Estsubject { get; set; }
         public string salesCustomID { get; set; }
         public string salesCustom { get; set; }
         public string managerCustomID { get; set; }
