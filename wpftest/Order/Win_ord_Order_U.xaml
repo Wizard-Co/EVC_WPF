@@ -698,7 +698,7 @@
                                                     </Viewbox>
                                                 </Label>
                                                 <ComboBox x:Name="cboOrderType" Grid.Row="3" Grid.Column="1" 
-                                                Style="{DynamicResource ComboBoxInputString}" SelectedValue="{Binding cboOrderType}"/>
+                                                Style="{DynamicResource ComboBoxInputString}" SelectedValue="{Binding orderTypeID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                                             </Grid>
 
                                         </Grid>
@@ -997,7 +997,8 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txthouseHoldCount" Grid.Row="4" Grid.Column="1" Text="{Binding houseHoldCount}"
-                                                 Style="{StaticResource TextBoxInputArea}"/>
+                                                 Style="{StaticResource TextBoxInput_Number_Right}"
+                                                         TextAlignment="Right"/>
                                     </Grid>
 
                                     <!--거점명-->
@@ -1036,7 +1037,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtCarParkingCount" Grid.Row="4" Grid.Column="1" Text="{Binding carParkingCount}"
-                                                 Style="{StaticResource TextBoxInputArea}"/>
+                                                 Style="{StaticResource TextBoxInput_Number_Right}"/>
                                     </Grid>
 
 
@@ -1080,7 +1081,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtElectrCarCount" Grid.Row="4" Grid.Column="1" Text="{Binding electrCarCount}"
-                                                 Style="{StaticResource TextBoxInputArea}"/>
+                                                 Style="{StaticResource TextBoxInput_Number_Right}"/>
                                     </Grid>
 
                                     <!--국소특이사항-->
@@ -1118,7 +1119,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtAlReadyChargeCount" Grid.Row="4" Grid.Column="1" Text="{Binding alReadyChargeCount}"
-                                    Style="{StaticResource TextBoxInputArea}"/>
+                                    Style="{StaticResource TextBoxInput_Number_Right}"/>
                                     </Grid>
 
                                     <!--계약기간-->
@@ -1165,7 +1166,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtReqChargeCount" Grid.Row="4" Grid.Column="1" Text="{Binding reqChargeCount}"
-                                            Style="{StaticResource TextBoxInputArea}"/>
+                                            Style="{StaticResource TextBoxInput_Number_Right}"/>
                                     </Grid>
 
                                     <!--개통요청일-->
@@ -1289,7 +1290,7 @@
                                     </Grid>
 
                                     <TextBox x:Name="txtInstallLocationAddComments" Grid.Row="16" Grid.ColumnSpan="4" Grid.Column="1" Grid.RowSpan="2" Text="{Binding installLocationAddComments}"
-                                       Style="{StaticResource TextBoxInputArea}" AcceptsReturn="True" TextWrapping="Wrap"/>
+                                       Style="{StaticResource TextBoxMultiLine}" AcceptsReturn="True" TextWrapping="Wrap"/>
 
                                     <!--영업회사 TextBlock-->
                                     <Grid Grid.Row="18" Grid.Column="0" Grid.ColumnSpan="3">
@@ -1337,7 +1338,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtSaleCustomAddWork" Grid.Row="4" Grid.Column="1" Text="{Binding saleCustomAddWork}"
-                                            Style="{StaticResource TextBoxInputArea}"/>
+                                            Style="{StaticResource TextBoxInput_Number_Right}"/>
                                     </Grid>
 
                                     <!--사은품정보-->
@@ -1374,7 +1375,7 @@
                                         </Label>
                                     </Grid>
                                     <TextBox x:Name="txtsalesComments" Grid.Row="21" Grid.ColumnSpan="4" Grid.Column="1" Grid.RowSpan="2" Text="{Binding salesComments}"
-                                        Style="{StaticResource TextBoxInputArea}" AcceptsReturn="True" TextWrapping="Wrap"/>
+                                        Style="{StaticResource TextBoxMultiLine}" AcceptsReturn="True" TextWrapping="Wrap"/>
 
 
                                     <!--기기및액서서리정보 TextBlock-->
@@ -1568,7 +1569,7 @@
                                                     </DataGridTemplateColumn.CellEditingTemplate>
                                                 </DataGridTemplateColumn>
 
-                                                <DataGridTemplateColumn Header="충전기발주" x:Name="chargeOrderDate" MinWidth="50">
+                                                <DataGridTemplateColumn Header="충전기발주" x:Name="chargeOrderDate" MinWidth="80">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <TextBlock Text="{Binding chargeOrderDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center" TextAlignment="Left" Padding="5 0" Loaded="TextBlock_Loaded" />
@@ -3440,8 +3441,8 @@
                                         <Button x:Name="btnElectrBeforeUseCheckPrintFile" Content="사용전점검 확인증" Grid.Column="0" Grid.Row="1" Tag="ElectrBeforeUseCheckPrint"
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtElectrBeforeUseCheckPrintFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrSafeInspPrintFileName}" 
-                                                Tag="{Binding electrSafeInspPrintFilePath}"
+                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrBeforeUseCheckPrintFileName}" 
+                                                Tag="{Binding electrBeforeUseCheckPrintFilePath}"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -3596,7 +3597,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtSuperCustomID" Grid.Row="5" Grid.Column="1" Text="{Binding superCustom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                     Keyboard.KeyDown="txtSuperCustomID_KeyDown" Tag="{Binding superCustomID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                     Keyboard.KeyDown="txtSuperCustomID_KeyDown" Tag="{Binding superCustomID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center"/>
                                         <Button x:Name="btnSuperCustomID" Grid.Row="5" Grid.Column="2" Click="btnSuperCustomID_Click">
                                             <Image Source="{DynamicResource btiPlusFind}"  />
                                         </Button>
@@ -3619,7 +3620,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtSafeManageCustomID" Grid.Row="5" Grid.Column="1" Text="{Binding safeManageCustom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                     Keyboard.KeyDown="txtSafeManageCustomID_KeyDown" Tag="{Binding safeManageCustomID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                     Keyboard.KeyDown="txtSafeManageCustomID_KeyDown" Tag="{Binding safeManageCustomID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center"/>
                                         <Button x:Name="btnSafeManageCustomID" Grid.Row="5" Grid.Column="2" Click="btnSafeManageCustomID_Click">
                                             <Image Source="{DynamicResource btiPlusFind}"  />
                                         </Button>
@@ -3769,7 +3770,7 @@
                                     </Grid>
                                     <TextBox x:Name="txtSuperComments" Grid.Row="5" Grid.RowSpan="2" Grid.Column="1"  Grid.ColumnSpan="5"
                                                  Text="{Binding superComments}" AcceptsReturn="True" TextWrapping="Wrap"
-                                                  Style="{StaticResource TextBoxInputArea}"/>
+                                                  Style="{StaticResource TextBoxMultiLine}"/>
 
                                     <!--감리배치확인서-->
                                     <Grid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3">
@@ -3804,7 +3805,7 @@
                                         <Button x:Name="btnSuperBeforeUseInspectFile" Content="사용전 검사확인증" Grid.Column="0" Grid.Row="1" Tag="SuperBeforeUseInspect"
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtSuperBeforeUseInspectFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrSafeInspPrintFileName}" 
+                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding superBeforeUseInspectFileName}" 
                                                 Tag="{Binding superBeforeUseInspectFilePath}"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
@@ -3934,7 +3935,7 @@
                                         </Label>
                                     </Grid>
                                     <TextBox x:Name="txtSuppleContext" Grid.Row="11" Grid.RowSpan="2" Grid.ColumnSpan="5" Grid.Column="1" Text="{Binding suppleContext}"
-                                                  Style="{StaticResource TextBoxInputArea}" AcceptsReturn="True" TextWrapping="Wrap"/>
+                                                  Style="{StaticResource TextBoxMultiLine}" AcceptsReturn="True" TextWrapping="Wrap"/>
 
                                     <!--준공서류 보완일-->
                                     <Grid Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="3">
@@ -4037,7 +4038,7 @@
                                         </Label>                                       
                                     </Grid>
                                     <TextBox x:Name="txtCompReportComments" Grid.Row="16" Grid.ColumnSpan="5" Grid.RowSpan="2" Grid.Column="1" Text="{Binding compReportComments}"
-                                             Style="{StaticResource TextBoxInputArea}"  AcceptsReturn="True" TextWrapping="Wrap"/>
+                                             Style="{StaticResource TextBoxMultiLine}"  AcceptsReturn="True" TextWrapping="Wrap"/>
 
                                     <!--준공서류파일명-->
                                     <Grid Grid.Row="18" Grid.Column="0" Grid.ColumnSpan="3">
@@ -4301,7 +4302,7 @@
                                     <TextBox x:Name="txtAccntComments" Grid.Row="27" 
                                              Grid.ColumnSpan="4" Grid.Column="1" Text="{Binding accntComments}"
                                              Grid.RowSpan="3" AcceptsReturn="True" TextWrapping="Wrap"
-                                       Style="{StaticResource TextBoxInputArea}"/>
+                                       Style="{StaticResource TextBoxMultiLine}"/>
 
                                 </Grid>
                             </GroupBox>

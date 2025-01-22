@@ -449,11 +449,13 @@ namespace WizMes_EVC
             {
                 chkManagerCustomIdSrh.IsChecked = false;
                 txtManagerCustomIdSrh.IsEnabled = false;
+                btnManagerCustomIdSrh.IsEnabled = false;
             }
             else
             {
                 chkManagerCustomIdSrh.IsChecked = true;
                 txtManagerCustomIdSrh.IsEnabled =true;
+                btnManagerCustomIdSrh.IsEnabled = true;
             }
         }
 
@@ -493,11 +495,13 @@ namespace WizMes_EVC
             {
                 chkSalesCustomIdSrh.IsChecked = false;
                 txtSalesCustomIdSrh.IsEnabled = false;
+                btnSalesCustomIdSrh.IsEnabled = false;
             }
             else
             {
                 chkSalesCustomIdSrh.IsChecked = true;
                 txtSalesCustomIdSrh.IsEnabled = true;
+                btnSalesCustomIdSrh.IsEnabled = true;
             }
         }
 
@@ -720,11 +724,13 @@ namespace WizMes_EVC
             {
                 chkArticleSrh.IsChecked = false;
                 txtArticleSrh.IsEnabled = false;
+                btnArticleSrh.IsEnabled = false;
             }
             else
             {
                 chkArticleSrh.IsChecked = true;
                 txtArticleSrh.IsEnabled = true;
+                btnArticleSrh.IsEnabled = true;
             }
         }
 
@@ -732,14 +738,15 @@ namespace WizMes_EVC
         private void chkArticleSrh_Click(object sender, RoutedEventArgs e)
         {
             if(chkArticleSrh.IsChecked == true)
-            {
-                chkArticleSrh.IsChecked = true;
+            {            
                 txtArticleSrh.IsEnabled = true;
+                btnArticleSrh.IsEnabled = true;
             }
             else
             {
-                chkArticleSrh.IsChecked= false;
+               
                 txtArticleSrh.IsEnabled = false;
+                btnArticleSrh.IsEnabled = false;
             }
         }
 
@@ -902,8 +909,7 @@ namespace WizMes_EVC
             orderID_global = string.Empty;
             //btnPreOrder.IsEnabled = true;
             //tabBasicData.Focus();            
-            lstFilesName.Clear();          
-            ClearGrdInput();      
+            lstFilesName.Clear(); 
             this.DataContext = new object();
             rowAddAccnt();
 
@@ -915,6 +921,8 @@ namespace WizMes_EVC
             //SetComboBoxIndexZero();
             setFTP_Tag_EmptyString();
 
+            DatePickerSetToday_EventHandler();
+            ClearGrdInput();
             //계약기간 오늘~금월 마지막일
             //dtpJobFromDate.SelectedDate = DateTime.Today;                                               //계약시작일
             //dtpJobToDate.SelectedDate = DateTime.Today.AddMonths(1).AddDays(-DateTime.Today.Day);       //계약종료일   
@@ -936,6 +944,7 @@ namespace WizMes_EVC
                 tbkMsg.Text = "자료 수정 중";
                 strFlag = "U";
                 CantBtnControl();
+                DatePickerSetToday_EventHandler();
                 PrimaryKey = OrderView.orderId;
             }
         }
@@ -1122,7 +1131,8 @@ namespace WizMes_EVC
                     orderID_global = string.Empty;       
                     rowNum = strFlag == "I" ? rowNum + 1 : strFlag == "U" ? rowNum : rowNum - 1;
                     chkEoAddSrh.IsChecked = false;
-                    re_Search(rowNum);               
+                    re_Search(rowNum);
+                    DatePickerSetToday_RemoveHandler();
                     MessageBox.Show("저장이 완료되었습니다.");
                 }
             }), System.Windows.Threading.DispatcherPriority.Background);
@@ -1153,6 +1163,7 @@ namespace WizMes_EVC
                 re_Search(rowNum);
             }
 
+            DatePickerSetToday_RemoveHandler();
             strFlag = string.Empty;
 
         }
@@ -1428,7 +1439,8 @@ namespace WizMes_EVC
         //실조회
         private void FillGrid()
         {
-         
+
+            ClearGrid();
 
             if (dgdMain.Items.Count > 0)
             {
@@ -1456,7 +1468,7 @@ namespace WizMes_EVC
 
                 // 품목
                 sqlParameter.Add("ChkArticleId", chkArticleSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("ArticleId", chkArticleSrh.IsChecked == true ? (txtArticleSrh.Text == string.Empty ? "" : chkArticleSrh.Tag.ToString()) : "");
+                sqlParameter.Add("ArticleId", chkArticleSrh.IsChecked == true ? (txtArticleSrh.Tag != null ? txtArticleSrh.Tag.ToString() : "") : "");
 
                 // 마감포함
                 sqlParameter.Add("ChkCloseYn", chkCloseClssSrh.IsChecked == true ? 1 : 0);  
@@ -1509,8 +1521,10 @@ namespace WizMes_EVC
                             {
                                 num = i,
                                 orderId = dr["orderId"].ToString(),
-                                estSubject = dr["estSubject"].ToString(),
+                                acptDate = DateTypeHyphen(dr["acptDate"].ToString()),
+                                estSubject = dr["estSubject"].ToString(),                               
                                 estID = dr["estID"].ToString(),
+                                orderTypeID = dr["orderTypeID"].ToString(),
                                 orderNo = dr["orderNo"].ToString(),
                                 saleCustom = dr["saleCustom"].ToString(),
                                 saleCustomID = dr["saleCustomID"].ToString(),
@@ -1529,7 +1543,6 @@ namespace WizMes_EVC
                                 closeYn = dr["closeYn"].ToString(),
 
                                 orderAmount = dr["orderAmount"].ToString(),
-                                acptDate = dr["acptDate"].ToString(),
                                 installLocationAddComments = dr["installLocationAddComments"].ToString(),
                                 installLocationAddress = dr["installLocationAddress"].ToString(),
                                 houseHoldCount = stringFormatN0(dr["houseHoldCount"]),
@@ -1554,6 +1567,7 @@ namespace WizMes_EVC
 
                                 saleCustomAddWork = stringFormatN0(dr["saleCustomAddWork"]),
                                 salegift = dr["salegift"].ToString(),
+                                salesComments = dr["salesComments"].ToString(),
                                 mtrAmount = stringFormatN0(dr["mtrAmount"]),
                                 mtrShippingCharge = stringFormatN0(dr["mtrShippingCharge"]),
                                 mtrPriceUnitClss = dr["mtrPriceUnitClss"].ToString(),
@@ -1567,7 +1581,7 @@ namespace WizMes_EVC
 
                             };
 
-                            sumAmount += Convert.ToInt32(RemoveComma(OrderCodeView.orderAmount));
+                            sumAmount += (int)RemoveComma(OrderCodeView.orderAmount, true);
 
 
                             dgdMain.Items.Add(OrderCodeView);
@@ -2226,7 +2240,7 @@ namespace WizMes_EVC
 
                             };
 
-                            if (accntList.column2Amount == "0") accntList.column2Amount = "";
+                          
 
                             dgdAccnt.Items.Add(accntList);
                         }
@@ -2338,20 +2352,44 @@ namespace WizMes_EVC
             return DigitsDate;
         }
 
-        private object RemoveComma(object obj, bool returnAsInt = false)
+        private object RemoveComma(object obj, bool returnNumeric = false, Type returnType = null)
         {
+
+            if (returnType == null) returnType = typeof(int);
+
             if (obj == null || string.IsNullOrEmpty(obj.ToString()))
             {
-                return returnAsInt ? (object)0 : "0";
+                return returnNumeric ? (object)0 : "0";
             }
 
             string digits = obj.ToString().Replace(",", "");
 
-            if (returnAsInt && int.TryParse(digits, out int result))
+            // 추출된 숫자가 없는 경우
+            if (string.IsNullOrEmpty(digits))
             {
-                return (object)result;
+                return returnNumeric ? (object)0 : "0";
             }
 
+            if (returnNumeric)
+            {
+                if (returnType == typeof(int) && int.TryParse(digits, out int intResult))
+                {
+                    return (object)intResult;
+                }
+                else if (returnType == typeof(decimal) && decimal.TryParse(digits, out decimal decimalResult))
+                {
+                    return (object)decimalResult;
+                }
+                else if (returnType == typeof(long) && long.TryParse(digits, out long longResult))
+                {
+                    return (object)longResult;
+                }
+                else if (returnType == typeof(double) && long.TryParse(digits, out long doubleResult))
+                {
+                    return (object)doubleResult;
+                }
+
+            }
             return digits;
         }
 
@@ -2586,7 +2624,7 @@ namespace WizMes_EVC
                     sqlParameter.Add("orderID", string.IsNullOrEmpty(txtOrderID.Text) ? "" : txtOrderID.Text);
                     sqlParameter.Add("orderNo", string.IsNullOrEmpty(txtOrderNo.Text) ? "" : txtOrderNo.Text);
                     sqlParameter.Add("estSubject", txtEstSubject.Text);
-                    sqlParameter.Add("estID", txtEstID.Tag !=null ? txtEstID.Tag.ToString() : "");
+                    sqlParameter.Add("estID", txtEstID.Tag !=null ? txtEstID.Tag.ToString() : "");                    
                     sqlParameter.Add("managerCustomID", txtManagerCustomID.Tag != null ? txtManagerCustomID.Tag.ToString() : "");
                     sqlParameter.Add("saleCustomID", txtSalesCustomID.Tag != null ? txtSalesCustomID.Tag.ToString() : "");
                     sqlParameter.Add("searchCustomID", txtSearchCustomID.Tag != null ? txtSearchCustomID.Tag.ToString() : "");
@@ -2615,11 +2653,13 @@ namespace WizMes_EVC
                     sqlParameter.Add("saledamdangjaPhone", txtSaledamdangjaPhone.Text);
                     sqlParameter.Add("saleCustomAddWork", RemoveComma(txtSaleCustomAddWork.Text, true));
                     sqlParameter.Add("salegift",txtsalegift.Text);
+                    sqlParameter.Add("salesComments", txtsalesComments.Text);
                     sqlParameter.Add("mtrAmount", (int)RemoveComma(txtdgdAccTotal.Text,true) + (int)RemoveComma(txtMtrCanopyOrderAmount.Text,true) + (int)RemoveComma(txtMtrShippingCharge.Text,true));
                     sqlParameter.Add("mtrShippingCharge", RemoveComma(txtMtrShippingCharge.Text, true));
                     sqlParameter.Add("mtrPriceUnitClss", cboMtrPriceUnitClss.SelectedValue != null ? cboMtrPriceUnitClss.SelectedValue.ToString() : "");
                     sqlParameter.Add("mtrCanopyInwareInfo", txtMtrCanopyInwareInfo.Text);
-                    sqlParameter.Add("mtrCanopyOrderAmount", RemoveComma(txtMtrCanopyOrderAmount.Text,true));
+                    sqlParameter.Add("mtrCanopyOrderAmount", RemoveComma(txtMtrCanopyOrderAmount.Text,true));               
+                    sqlParameter.Add("orderTypeID", cboOrderType.SelectedValue != null ? cboOrderType.SelectedValue.ToString() : "");
 
               
                         
@@ -2809,10 +2849,10 @@ namespace WizMes_EVC
                                 {
                                     case 0:
                                         sqlParameter.Add("accntMgrWorkPreTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        //sqlParameter.Add("accntMgrWorkPreSubsidyAmount", RemoveComma(accntItem.column3Amount, true));
-                                        //sqlParameter.Add("accntMgrWorkPreInvestAmount", RemoveComma(accntItem.column4Amount, true));
-                                        //sqlParameter.Add("accntMgrWorkPreSellAmount", RemoveComma(accntItem.column5Amount, true));
-                                        sqlParameter.Add("accntMgrWorkPreAmount", RemoveComma(accntItem.column2Amount, true));
+                                        //sqlParameter.Add("accntMgrWorkPreSubsidyAmount", RemoveComma(accntItem.column2Amount, true));
+                                        //sqlParameter.Add("accntMgrWorkPreInvestAmount", RemoveComma(accntItem.column3Amount, true));
+                                        //sqlParameter.Add("accntMgrWorkPreSellAmount", RemoveComma(accntItem.column4Amount, true));
+                                        sqlParameter.Add("accntMgrWorkPreAmount", RemoveComma(accntItem.column5Amount, true));
                                         //sqlParameter.Add("accntMgrWorkPreLeftAmount	", RemoveComma(accntItem.column6Amount, true));
                                         sqlParameter.Add("accntMgrWorkPreAmountComments", accntItem.column7Comment);
                                         break;
@@ -2845,10 +2885,10 @@ namespace WizMes_EVC
                                         break;
                                     case 4:
                                         sqlParameter.Add("accntSaleTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        //sqlParameter.Add("accntWorkInvestAmount", RemoveComma(accntItem.column3Amount, true));
-                                        //sqlParameter.Add("accntWorkSellAmount", RemoveComma(accntItem.column4Amount, true));
-                                        //sqlParameter.Add("accntWorkAmount", RemoveComma(accntItem.column5Amount, true));
-                                        sqlParameter.Add("accntSaleAmount", RemoveComma(accntItem.column2Amount, true));
+                                        //sqlParameter.Add("accntWorkInvestAmount", RemoveComma(accntItem.column2Amount, true));
+                                        //sqlParameter.Add("accntWorkSellAmount", RemoveComma(accntItem.column3Amount, true));
+                                        //sqlParameter.Add("accntWorkAmount", RemoveComma(accntItem.column4Amount, true));
+                                        sqlParameter.Add("accntSaleAmount", RemoveComma(accntItem.column5Amount, true));
                                         //sqlParameter.Add("accntWorkLeftAmount", RemoveComma(accntItem.column6Amount, true));
                                         sqlParameter.Add("accntSaleComments", accntItem.column7Comment);
                                         break;
@@ -3504,6 +3544,68 @@ namespace WizMes_EVC
             });
         }
 
+        //이벤트 핸들러 등록
+        private void DatePickerSetToday_EventHandler()
+        {
+            List<Grid> grids = new List<Grid> { grdInput, grd2, grd3, grd4 };
+
+            foreach(Grid grid in grids)
+            {
+                FindUiObject(grdInput, child =>
+                {
+                    if (child is DatePicker datePicker)
+                    {
+                        // 이벤트 핸들러 등록
+                        datePicker.PreviewMouseDown += DatePicker_PreviewMouseDown;
+                        datePicker.PreviewKeyDown += DatePicker_PreviewKeyDown;
+                    }
+                });
+            }
+  
+        }
+
+        //이벤트 핸들러 등록 해제
+        private void DatePickerSetToday_RemoveHandler()
+        {
+            List<Grid> grids = new List<Grid> { grdInput, grd2, grd3, grd4 };
+
+            foreach (Grid grid in grids)
+            {
+                 FindUiObject(grdInput, child =>
+                {
+                    if (child is DatePicker datePicker)
+                    {
+                        datePicker.PreviewMouseDown -= DatePicker_PreviewMouseDown;
+                        datePicker.PreviewKeyDown -= DatePicker_PreviewKeyDown;
+                    }
+                });
+
+            }
+
+        }
+
+
+        //DatePicker 프리뷰마우스다운
+        private void DatePicker_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is DatePicker datePicker)
+            {
+                if (datePicker.SelectedDate == null)
+                    datePicker.SelectedDate = DateTime.Today;
+            }
+        }
+
+        //DatePicker 프리뷰키다운
+        private void DatePicker_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && sender is DatePicker datePicker)
+            {
+                if (datePicker.SelectedDate == null)
+                    datePicker.SelectedDate = DateTime.Today;
+            }
+        }
+
+
         private void DataGrid_LostFocus_Calculate(object sender, RoutedEventArgs e)
         {
             var element = sender as DependencyObject;
@@ -3563,6 +3665,8 @@ namespace WizMes_EVC
 
         private void ClearGrdInput()
         {
+            List<Grid> grids = new List<Grid> { grdInput, grd2, grd3, grd4 };
+
             FindUiObject(grdInput, child =>
             {
                 if (child is TextBox textbox)
@@ -3570,24 +3674,45 @@ namespace WizMes_EVC
                     textbox.Text = string.Empty;
                     textbox.Tag = null;
                 }
-            });
+                else if(child is DatePicker datePicker)
+                {
+                    datePicker.SelectedDate = null;
+                }
+                else if(child is ComboBox combo)
+                {
+                    if(combo.Name == "cboOrderType" && combo != null)
+                    {
+                        combo.SelectedIndex = 0;                        
 
-            FindUiObject(grdInput, child =>
-            {
-                if (child is DatePicker dtp)
-                {   
-                    if(dtp.Name == "dtpOrderDate")
-                    {
-                        dtp.SelectedDate = DateTime.Now;
                     }
-                    else if(dtp.Name != "dtpOrderDate")
+                }
+                else if(child is DataGrid dgd)
+                {
+                    if(dgd.Items.Count > 0)
                     {
-                        dtp.SelectedDate = null;
+                        dgd.ItemsSource = null;
+                        dgd.Items.Clear();
                     }
-                    
                 }
             });
+
         }
+
+        private void ClearGrid()
+        {
+            List<Grid> grids = new List<Grid> { grdInput, grd2, grd3, grd4 };
+            FindUiObject(grdInput, child =>
+            {
+                if (child is DataGrid dgd)
+                {
+                    if (dgd.Items.Count > 0)
+                    {
+                        dgd.ItemsSource = null;
+                        dgd.Items.Clear();
+                    }
+                }
+            });
+         }
 
         private void SetComboBoxIndexZero()
         {
@@ -6148,6 +6273,7 @@ namespace WizMes_EVC
         public string orderId {get;set;}
         public string estSubject { get; set; }
         public string estID { get; set; }
+        public string orderTypeID { get; set; }
         public string orderNo { get; set; }
         public string saleCustom { get; set; }
         public string saleCustomID { get; set; }
@@ -6184,6 +6310,7 @@ namespace WizMes_EVC
         public string saledamdangjaPhone {get;set;}
         public string saleCustomAddWork {get;set;}
         public string salegift { get; set; }
+        public string salesComments { get; set; }
         public string mtrAmount{get;set;}
         public string mtrShippingCharge{get;set;}
         public string mtrPriceUnitClss{get;set;}

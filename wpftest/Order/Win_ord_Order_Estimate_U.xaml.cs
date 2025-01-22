@@ -376,6 +376,7 @@ namespace WizMes_EVC
             this.DataContext = new object();
             articleID_global = string.Empty;
             estID_Global = string.Empty;
+            btnPreEstimate.Visibility = Visibility.Visible;
 
             //lstFilesName.Clear();
 
@@ -384,8 +385,9 @@ namespace WizMes_EVC
             SetDatePickerToday();
             SetComboBoxIndex();
             
-            CantBtnControl();            
-      
+            CantBtnControl();
+            DatePickerSetToday_EventHandler();
+
             //setFTP_Tag_EmptyString();
 
             tbkMsg.Text = "자료 입력 중";
@@ -404,6 +406,7 @@ namespace WizMes_EVC
                 tbkMsg.Text = "자료 수정 중";
                 strFlag = "U";
                 CantBtnControl();
+                DatePickerSetToday_EventHandler();
                 PrimaryKey = EstView.EstID;
 
             }
@@ -503,6 +506,8 @@ namespace WizMes_EVC
                     rowNum = strFlag == "I" ? rowNum + 1 : strFlag == "U" ? rowNum : rowNum - 1;
                     re_Search(rowNum);                  
                     PrimaryKey = string.Empty;
+                    btnPreEstimate.Visibility = Visibility.Hidden;
+                    DatePickerSetToday_RemoveHandler();
                     //rowNum = 0;
                     MessageBox.Show("저장이 완료되었습니다.");
                 }
@@ -527,7 +532,8 @@ namespace WizMes_EVC
                 rowNum = 0;
                 re_Search(rowNum);
             }
-
+            DatePickerSetToday_RemoveHandler();
+            btnPreEstimate.Visibility = Visibility.Hidden;
             strFlag = string.Empty;
         }
 
@@ -752,7 +758,7 @@ namespace WizMes_EVC
                 dgdMain.Items.Clear();
             }            
 
-            double sumAmount = 0;
+            int sumAmount = 0;
 
             try
             { 
@@ -774,8 +780,8 @@ namespace WizMes_EVC
                 sqlParameter.Add("chkZoneGbnID", chkZoneGbnIdSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("ZoneGbnID", chkZoneGbnIdSrh.IsChecked == true ? cboZoneGbnIdSrh.SelectedValue.ToString() : "");
 
-                sqlParameter.Add("chkInstallLocation", chkInstallLocationSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("InstallLocation", chkInstallLocationSrh.IsChecked == true ? txtInstalLocation.Text : "");
+                sqlParameter.Add("chkSmallInstallLocation", chkInstallLocationSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("smallInstallLocation", chkInstallLocationSrh.IsChecked == true ? txtInstalLocation.Text : "");
 
                 sqlParameter.Add("chkComments", chkCommentsSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("Comments", chkCommentsSrh.IsChecked == true ? txtCommentsSrh.Text : "");
@@ -814,6 +820,7 @@ namespace WizMes_EVC
                                 salesCustom = dr["salesCustom"].ToString(),
                                 managerCustomID = dr["managerCustomID"].ToString(),
                                 managerCustom = dr["managerCustom"].ToString(),
+                                zoneGbn = dr["zoneGbn"].ToString(),
                                 zoneGbnID = dr["zoneGbnID"].ToString(),
                                 FaciliTypeID = dr["FaciliTypeID"].ToString(),
                                 FacliType = dr["FacliType"].ToString(),
@@ -858,7 +865,7 @@ namespace WizMes_EVC
 
                             };
 
-                            sumAmount += !string.IsNullOrEmpty(estItem.totalAmount) ? Convert.ToDouble(estItem.totalAmount) : 0;                     
+                            sumAmount += (int)RemoveComma(estItem.totalAmount, true);
 
                             dgdMain.Items.Add(estItem);
                         }
@@ -913,21 +920,45 @@ namespace WizMes_EVC
             return DigitsDate;
         }
 
-
-        private object RemoveComma(object obj, bool returnAsInt = false)
+   
+        private object RemoveComma(object obj,bool returnNumeric = false, Type returnType = null)
         {
+
+            if (returnType == null) returnType = typeof(int);
+
             if (obj == null || string.IsNullOrEmpty(obj.ToString()))
             {
-                return returnAsInt ? (object)0 : "0";
+                return returnNumeric ? (object)0 : "0";
             }
 
             string digits = obj.ToString().Replace(",", "");
 
-            if (returnAsInt && int.TryParse(digits, out int result))
+            // 추출된 숫자가 없는 경우
+            if (string.IsNullOrEmpty(digits))
             {
-                return (object)result;
+                return returnNumeric ? (object)0 : "0";
             }
 
+            if (returnNumeric)
+            {
+                if (returnType == typeof(int) && int.TryParse(digits, out int intResult))
+                {
+                    return (object)intResult;
+                }
+                else if (returnType == typeof(decimal) && decimal.TryParse(digits, out decimal decimalResult))
+                {
+                    return (object)decimalResult;
+                }
+                else if (returnType == typeof(long) && long.TryParse(digits, out long longResult))
+                {
+                    return (object)longResult;
+                }
+                else if (returnType == typeof(double) && long.TryParse(digits, out long doubleResult))
+                {
+                    return (object)doubleResult;
+                }
+
+            }
             return digits;
         }
 
@@ -1678,6 +1709,33 @@ namespace WizMes_EVC
             
         }
 
+        //이벤트 핸들러 등록
+        private void DatePickerSetToday_EventHandler()
+        {
+            FindUiObject(grdInput, child =>
+            {
+                if (child is DatePicker datePicker)
+                {
+                    // 이벤트 핸들러 등록
+                    datePicker.PreviewMouseDown += DatePicker_PreviewMouseDown;
+                    datePicker.PreviewKeyDown += DatePicker_PreviewKeyDown;
+                }
+            });
+        }
+
+        //이벤트 핸들러 등록 해제
+        private void DatePickerSetToday_RemoveHandler()
+        {
+            FindUiObject(grdInput, child =>
+            {
+                if (child is DatePicker datePicker)
+                {
+                    datePicker.PreviewMouseDown -= DatePicker_PreviewMouseDown;
+                    datePicker.PreviewKeyDown -= DatePicker_PreviewKeyDown;
+                }
+            });
+        }
+
         //콤보박스 첫번째 선택
         private void SetComboBoxIndex()
         {
@@ -1689,6 +1747,27 @@ namespace WizMes_EVC
                 }
             });
 
+        }
+
+
+        //DatePicker 프리뷰마우스다운
+        private void DatePicker_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is DatePicker datePicker)
+            {
+                if(datePicker.SelectedDate == null && datePicker.SelectedDate.Value.ToString() == string.Empty)
+                datePicker.SelectedDate = DateTime.Today;
+            }
+        }
+
+        //DatePicker 프리뷰키다운
+        private void DatePicker_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && sender is DatePicker datePicker)
+            {
+                if (datePicker.SelectedDate == null && datePicker.SelectedDate.Value.ToString() == string.Empty)
+                    datePicker.SelectedDate = DateTime.Today;
+            }
         }
 
 
@@ -1747,6 +1826,7 @@ namespace WizMes_EVC
             }
             return null;
         }
+
 
         private void CheckDatePickerValue(CheckBox checkbox)
         {
@@ -2336,6 +2416,8 @@ namespace WizMes_EVC
         {
             try
             {
+                ovcOrder_EstSub.Clear();
+
                 int sumAmount = 0;
 
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
@@ -3417,55 +3499,54 @@ namespace WizMes_EVC
 
 
 
-        private void dgdtpeAmountUpdate_LostFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox textBox = sender as TextBox;
-            if (textBox != null)
-            {
-                // 현재 DataGrid 찾기
-                DependencyObject parent = textBox;
-                while (parent != null && !(parent is DataGrid))
-                {
-                    parent = VisualTreeHelper.GetParent(parent);
-                }
+        //private void dgdtpeAmountUpdate_LostFocus(object sender, RoutedEventArgs e)
+        //{
+        //    TextBox textBox = sender as TextBox;
+        //    if (textBox != null)
+        //    {
+        //        // 현재 DataGrid 찾기
+        //        DependencyObject parent = textBox;
+        //        while (parent != null && !(parent is DataGrid))
+        //        {
+        //            parent = VisualTreeHelper.GetParent(parent);
+        //        }
 
-                var currentGrid = parent as DataGrid;
-                if (currentGrid != null && (currentGrid.Name.Contains("dgdEstItemList")))
-                {
-                    var item = currentGrid.CurrentItem;
+        //        var currentGrid = parent as DataGrid;
+        //        if (currentGrid != null && (currentGrid.Name.Contains("dgdEstItemList")))
+        //        {
+        //            var item = currentGrid.CurrentItem;
 
-                    // 수량과 단가 가져오기
-                    var qtyProperty = item.GetType().GetProperty("EstQty");
-                    var priceProperty = item.GetType().GetProperty("EstUnitPrice");
+        //            // 수량과 단가 가져오기
+        //            var qtyProperty = item.GetType().GetProperty("EstQty");
+        //            var priceProperty = item.GetType().GetProperty("EstUnitPrice");
 
-                    if ((qtyProperty != null && priceProperty != null))
-                    {
-                        // 실제 값을 먼저 가져옴
-                        var qtyValue = qtyProperty.GetValue(item);
-                        var priceValue = priceProperty.GetValue(item);
+        //            if ((qtyProperty != null && priceProperty != null))
+        //            {
+        //                // 실제 값을 먼저 가져옴
+        //                var qtyValue = qtyProperty.GetValue(item);
+        //                var priceValue = priceProperty.GetValue(item);
 
-                        // 둘 다 값이 있는지 확인
-                        if (qtyValue != null && !string.IsNullOrEmpty(qtyValue.ToString()) &&
-                            priceValue != null && !string.IsNullOrEmpty(priceValue.ToString()))
-                        {
+        //                // 둘 다 값이 있는지 확인
+        //                if (qtyValue != null && !string.IsNullOrEmpty(qtyValue.ToString()) &&
+        //                    priceValue != null && !string.IsNullOrEmpty(priceValue.ToString()))
+        //                {
 
-                            decimal qty = Convert.ToDecimal(qtyProperty.GetValue(item));
-                            decimal unitPrice = Convert.ToDecimal(priceProperty.GetValue(item));
+        //                    decimal qty = Convert.ToDecimal(qtyProperty.GetValue(item));
+        //                    decimal unitPrice = Convert.ToDecimal(priceProperty.GetValue(item));
 
-                            // 합계 계산
-                            decimal total = qty * unitPrice;
+        //                    // 합계 계산
+        //                    decimal total = qty * unitPrice;
 
-                            var totalProperty = item.GetType().GetProperty("EstAmount");
-                            if (totalProperty != null)
-                            {
-                                totalProperty.SetValue(item, total.ToString());
-                            }
-                        }
-                    }
-                }   
-            }
-        }
-
+        //                    var totalProperty = item.GetType().GetProperty("EstAmount");
+        //                    if (totalProperty != null)
+        //                    {
+        //                        totalProperty.SetValue(item, total.ToString());
+        //                    }
+        //                }
+        //            }
+        //        }   
+        //    }
+        //}
 
         //운영회사
         private void lblManagerCustomIdSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -3769,6 +3850,18 @@ namespace WizMes_EVC
             }
         }
 
+        private void DataGridCell_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            var cell = sender as DataGridCell;
+            if (cell == null) return;
+
+            var dataContext = cell.DataContext as Win_ord_Order_EstimateSub_U_CodeView;
+            if (dataContext == null) return;
+
+            decimal unitPrice = (decimal)RemoveComma(dataContext.EstUnitPrice, true, typeof(decimal));
+            decimal qty = (decimal)RemoveComma(dataContext.EstQty, true, typeof(decimal));
+            dataContext.EstAmount = (unitPrice * qty).ToString();
+        }
 
 
 
@@ -3912,6 +4005,7 @@ namespace WizMes_EVC
         public string salesCustom { get; set; }
         public string managerCustomID {get;set;}
         public string managerCustom { get; set; }
+        public string zoneGbn { get; set; }
         public string zoneGbnID {get;set;}
         public string FaciliTypeID {get;set;}
         public string FacliType { get; set; }

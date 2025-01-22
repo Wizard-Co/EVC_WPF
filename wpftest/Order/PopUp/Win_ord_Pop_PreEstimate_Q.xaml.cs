@@ -425,14 +425,16 @@ namespace WizMes_EVC.Order.Pop
                 sqlParameter.Add("chkZoneGbnID", chkZoneGbnIdSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("ZoneGbnID", chkZoneGbnIdSrh.IsChecked == true ? cboZoneGbnIdSrh.SelectedValue.ToString() : "");
 
-                sqlParameter.Add("chkInstallLocation", chkInstallLocationSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("InstallLocation", chkInstallLocationSrh.IsChecked == true ? txtInstallLocationSrh.Text : "");
+                sqlParameter.Add("chkSmallInstallLocation", chkInstallLocationSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("smallInstallLocation", chkInstallLocationSrh.IsChecked == true ? txtInstallLocationSrh.Text : "");
 
                 sqlParameter.Add("chkComments", chkCommentsSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("Comments", chkCommentsSrh.IsChecked == true ? txtCommentsSrh.Text : "");
           
                 sqlParameter.Add("chkEstSubject", chkEstSubjectSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("EstSubject", txtEstSubjectSrh.Text);
+
+                sqlParameter.Add("EstID", "");
 
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Order_sEstimate", sqlParameter, false);
