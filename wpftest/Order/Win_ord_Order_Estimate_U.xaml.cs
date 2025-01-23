@@ -3555,11 +3555,13 @@ namespace WizMes_EVC
             {
                 chkManagerCustomIdSrh.IsChecked = false;
                 txtManagerCustomIdSrh.IsEnabled = false;
+                btnManagerCustomIdSrh.IsEnabled = false;
             }
             else
             {
                 chkManagerCustomIdSrh.IsChecked = true;
                 txtManagerCustomIdSrh.IsEnabled = true;
+                btnManagerCustomIdSrh.IsEnabled = true;
             }
         }
 
@@ -3599,11 +3601,13 @@ namespace WizMes_EVC
             {
                 chkArticleSrh.IsChecked = false;
                 txtArticleSrh.IsEnabled = false;
+                btnArticleSrh.IsEnabled = false;
             }
             else
             {
                 chkArticleSrh.IsChecked = true;
                 txtArticleSrh.IsEnabled = true;
+                btnArticleSrh.IsEnabled = true;
             }
         }
 
@@ -3612,13 +3616,13 @@ namespace WizMes_EVC
         {
             if (chkArticleSrh.IsChecked == true)
             {
-                chkArticleSrh.IsChecked = true;
                 txtArticleSrh.IsEnabled = true;
+                btnArticleSrh.IsEnabled = true;
             }
             else
             {
-                chkArticleSrh.IsChecked = false;
                 txtArticleSrh.IsEnabled = false;
+                btnArticleSrh.IsEnabled = false;
             }
         }
 

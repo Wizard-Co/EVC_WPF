@@ -904,16 +904,16 @@ namespace WizMes_EVC
         //추가
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            strFlag = "I";
-            chkEoAddSrh.IsEnabled = false;
-            orderID_global = string.Empty;
+            strFlag = "I";           
             //btnPreOrder.IsEnabled = true;
             //tabBasicData.Focus();            
-            lstFilesName.Clear(); 
-            this.DataContext = new object();
-            rowAddAccnt();
+            lstFilesName.Clear();
 
-            //혹시 모르니까 납기일자의 체크박스가 체크되어 있을 수도 있으니까 해제
+            //유지추가 활성화 여부 확인
+            if (chkEoAddSrh.IsChecked == false) { orderID_global = string.Empty; this.DataContext = new object(); ClearGrdInput();}
+            else { BringdLastOrder(orderID_global); }
+            chkEoAddSrh.IsEnabled = false;
+            rowAddAccnt();            
 
             CantBtnControl();
             //UncheckDatePicker();
@@ -922,19 +922,23 @@ namespace WizMes_EVC
             setFTP_Tag_EmptyString();
 
             DatePickerSetToday_EventHandler();
-            ClearGrdInput();
+
             //계약기간 오늘~금월 마지막일
             //dtpJobFromDate.SelectedDate = DateTime.Today;                                               //계약시작일
             //dtpJobToDate.SelectedDate = DateTime.Today.AddMonths(1).AddDays(-DateTime.Today.Day);       //계약종료일   
 
-            tbkMsg.Text = "자료 입력 중";
-            rowNum = Math.Max(0, dgdMain.SelectedIndex);
+
+            if (chkEoAddSrh.IsChecked == false) { tbkMsg.Text = "자료 입력 중"; rowNum = Math.Max(0, dgdMain.SelectedIndex); }
        
         }
 
         //수정
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
+            //수정시에는 유지추가를 못하도록
+            chkEoAddSrh.IsChecked = false;
+            chkEoAddSrh.IsEnabled = false;
+
             OrderView = dgdMain.SelectedItem as Win_ord_Order_U_CodeView_dgdMain;
             //btnPreOrder.IsEnabled = false;
             if (OrderView != null)
@@ -1115,7 +1119,7 @@ namespace WizMes_EVC
 
         private void beSave()
         {
-            btnSave.IsEnabled = false;
+            btnSave.IsEnabled = false;        
 
             Dispatcher.BeginInvoke(new Action(() =>
             {
@@ -1131,6 +1135,7 @@ namespace WizMes_EVC
                     orderID_global = string.Empty;       
                     rowNum = strFlag == "I" ? rowNum + 1 : strFlag == "U" ? rowNum : rowNum - 1;
                     chkEoAddSrh.IsChecked = false;
+                    chkEoAddSrh.IsEnabled = true;
                     re_Search(rowNum);
                     DatePickerSetToday_RemoveHandler();
                     MessageBox.Show("저장이 완료되었습니다.");
@@ -1149,9 +1154,9 @@ namespace WizMes_EVC
             ovcOrder_localGov.Clear();
             dgdAccnt.Items.Clear();
 
-            dgdMain.IsHitTestVisible = true;
-            chkEoAddSrh.IsEnabled = true;
+            dgdMain.IsHitTestVisible = true;       
             chkEoAddSrh.IsChecked = false;
+            chkEoAddSrh.IsEnabled = true;
             //btnPreOrder.IsEnabled = false;
 
             if (strFlag.Equals("U"))
@@ -1565,7 +1570,7 @@ namespace WizMes_EVC
                                 reqChargeCount = stringFormatN0(dr["reqChargeCount"]),
                                 saledamdangjaPhone = dr["saledamdangjaPhone"].ToString(),
 
-                                saleCustomAddWork = stringFormatN0(dr["saleCustomAddWork"]),
+                                saleCustomAddWork = dr["saleCustomAddWork"].ToString(),
                                 salegift = dr["salegift"].ToString(),
                                 salesComments = dr["salesComments"].ToString(),
                                 mtrAmount = stringFormatN0(dr["mtrAmount"]),
@@ -1620,7 +1625,8 @@ namespace WizMes_EVC
 
         private void fillAccGrid(string orderId)
         {
-            if(dgdAcc.Items.Count > 0) ovcOrder_Acc.Clear();
+           dgdAcc.ItemsSource = null;
+            ovcOrder_Acc.Clear();
 
             try
             {
@@ -2282,7 +2288,7 @@ namespace WizMes_EVC
             }
         }
 
-
+        
         private void SetControlBindings(DependencyObject parent, Type modelType, object dataContext)
         {
             FindUiObject(parent, obj =>
@@ -2352,6 +2358,14 @@ namespace WizMes_EVC
             return DigitsDate;
         }
 
+        
+
+        //null오류 방지를 위해서 우선 value파라미터는 object type으로 받습니다.
+        //기본 사용방법 ☞ RemoveComma(value) 콤마를 제거하여 string으로 내보냅니다
+        //Remove(value, true) int타입으로 콤마를 제거하여 int로 내보냅니다.(타입 지정하지 않으면 기본 int)
+        //Remove(value, true, typeof(decimal)) decimal타입으로 콤마를 제거하여 decimal로 내보냅니다(큰 숫자 필요시)
+        //다른 숫자 자료형에 대입하려면 형변환을 해주세요
+        //int intVal = (int)RemoveComma(value, true)
         private object RemoveComma(object obj, bool returnNumeric = false, Type returnType = null)
         {
 
@@ -2608,7 +2622,8 @@ namespace WizMes_EVC
         /// 새로 다시 넣도록 하였습니다.xp_Order_iOrder, xp_Order_uOrder
         /// 그 뒤에 계약내용 탭 데이터그리드에 있는 내용을 그리드별로 프로시저를 호출해서 저장합니다.
         private bool SaveData(string strFlag)
-        {
+        {     
+
             PrimaryKey = string.Empty;
             bool flag = false;
             List<Procedure> Prolist = new List<Procedure>();
@@ -2651,7 +2666,7 @@ namespace WizMes_EVC
                     sqlParameter.Add("damdangjaPhone", txtDamdangjaPhone.Text);
                     sqlParameter.Add("installLocationAddComments", txtInstallLocationAddComments.Text);
                     sqlParameter.Add("saledamdangjaPhone", txtSaledamdangjaPhone.Text);
-                    sqlParameter.Add("saleCustomAddWork", RemoveComma(txtSaleCustomAddWork.Text, true));
+                    sqlParameter.Add("saleCustomAddWork", txtSaleCustomAddWork.Text);
                     sqlParameter.Add("salegift",txtsalegift.Text);
                     sqlParameter.Add("salesComments", txtsalesComments.Text);
                     sqlParameter.Add("mtrAmount", (int)RemoveComma(txtdgdAccTotal.Text,true) + (int)RemoveComma(txtMtrCanopyOrderAmount.Text,true) + (int)RemoveComma(txtMtrShippingCharge.Text,true));
@@ -3695,7 +3710,6 @@ namespace WizMes_EVC
                     }
                 }
             });
-
         }
 
         private void ClearGrid()
@@ -3814,7 +3828,7 @@ namespace WizMes_EVC
         }
 
 
-        // 자식요소 안에서 부모요서 찾기
+        // 자식요소 안에서 부모요소 찾기
         //DataGridRow row = FindVisualParent<DataGridRow>(checkBox); 데이터그리드안의 행속 체크박스의 부모행 찾기
         //DataGrid parentGrid = FindVisualParent<DataGrid>(row); 데이터그리드 행의 부모 데이터그리드 찾기
         private T FindVisualParent<T>(DependencyObject child) where T : DependencyObject
@@ -5627,14 +5641,20 @@ namespace WizMes_EVC
 
         private void lblEoAddSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (chkEoAddSrh.IsChecked == true)
+            if(lblMsg.Visibility != Visibility.Visible)
             {
-                chkEoAddSrh.IsChecked = false;
+                if (chkEoAddSrh.IsChecked == true)
+                {
+                    chkEoAddSrh.IsChecked = false;
+                    chkEoAddSrh_Click(null, null);
+                }
+                else
+                {
+                    chkEoAddSrh.IsChecked = true;
+                    chkEoAddSrh_Click(null, null);
+                }
             }
-            else
-            {
-                chkEoAddSrh.IsChecked = true;
-            }
+   
         }
 
         //견적번호(입력그리드) - 텍스트박스
@@ -5852,11 +5872,11 @@ namespace WizMes_EVC
                     {
                         var selectedRow = preOrder.SelectedItem;
                         if (selectedRow != null)
-                        {                          
+                        {
+                        
                             AutoBindDataToControls(selectedRow, grdInput);
 
                             txtOrderID.Text = string.Empty;
-                            txtOrderNo.Text = string.Empty;
 
                             BringdLastOrder(selectedRow.orderId);
 
@@ -6165,28 +6185,24 @@ namespace WizMes_EVC
 
         private void chkEoAddSrh_Click(object sender, RoutedEventArgs e)
         {
-            if (chkEoAddSrh.IsChecked == true)
+
+            if (dgdMain.Items.Count < 0 && dgdMain.SelectedIndex < 0) return;
+
+            if (lblMsg.Visibility != Visibility.Visible)
             {
-                strFlag = "I";
-                tbkMsg.Text = "자료 유지 추가 중";
-                txtOrderID.Text = string.Empty;
+                if (chkEoAddSrh.IsChecked == true)
+                {
+                    tbkMsg.Text = "자료 유지 추가 중";
+                    txtOrderID.Text = string.Empty;
+                }
+                else
+                {
+                    tbkMsg.Text = "자료 입력 중";
+                    txtOrderID.Text = orderID_global;
+                }
             }
-            else
-            {
-                strFlag = "U";
-                tbkMsg.Text = "자료 수정 중";
-                txtOrderID.Text = orderID_global;
-            }
+      
         }
-
-
-
-
-
-
-
-
-
 
         //    private void btnGoOrderCalendar_Click(object sender, RoutedEventArgs e)
         //    {

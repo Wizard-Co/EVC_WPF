@@ -7,7 +7,7 @@
              mc:Ignorable="d" Loaded="UserControl_Loaded"
              MouseDown="Win_ord_Order_U_MouseDown"
              d:DesignHeight="620" d:DesignWidth="820">
-    <Grid Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">      
+    <Grid Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -75,7 +75,7 @@
                         <Button x:Name="btnToday" Grid.Column="3" Content="금일" Click="btnToday_Click"/>
                     </Grid>
                 </Grid>
-     
+
                 <!--운영회사-->
                 <Grid Grid.Row="0" Grid.Column="2">
                     <Grid.ColumnDefinitions>
@@ -218,7 +218,7 @@
                     </Button>
                 </Grid>
 
-         
+
                 <Grid Grid.Row="3" Grid.Column="2" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="60*" />
@@ -245,7 +245,7 @@
                         <StackPanel Style="{DynamicResource StackPanelInLabel}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                 <CheckBox x:Name="chkEoAddSrh" 
-                                          VerticalAlignment="Center" ></CheckBox>
+                                          VerticalAlignment="Center"  Click="chkEoAddSrh_Click"></CheckBox>
                             </Viewbox>
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                 <TextBlock Text="유지추가" 
@@ -254,7 +254,7 @@
                         </StackPanel>
                     </Label>
                 </Grid>
-                
+
                 <!--지역구분-->
                 <Grid Grid.Row="0" Grid.Column="3">
                     <Grid.ColumnDefinitions>
@@ -575,7 +575,7 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="" Binding="{Binding num}" ElementStyle="{DynamicResource DataGridCellCenter}"/>
                             <DataGridTextColumn Header="수주번호" Binding="{Binding orderNo}"/>
-                            <DataGridTextColumn Header="영업회사" Binding="{Binding saleCustom}"/>                            
+                            <DataGridTextColumn Header="영업회사" Binding="{Binding saleCustom}"/>
                             <DataGridTextColumn Header="운영회사" Binding="{Binding managerCustom}"/>
                             <DataGridTextColumn Header="국소명" Binding="{Binding installLocation}"/>
                             <DataGridTextColumn Header="거점명" Binding="{Binding installLocationPart}"/>
@@ -590,8 +590,8 @@
                     <Grid Grid.Row="1" Margin="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="*" />                        
-                        </Grid.ColumnDefinitions>                     
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Grid.Row="0" 
                                BorderThickness="1" BorderBrush="Black" 
                                VerticalContentAlignment="Center">
@@ -606,14 +606,14 @@
                     </Grid>
                 </Grid>
                 <GridSplitter Grid.Column="1" Width="5" ResizeBehavior="PreviousAndNext" />
-                
+
                 <Grid Grid.Column="2" Margin="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="18*" />    
+                        <RowDefinition Height="18*" />
                     </Grid.RowDefinitions>
                     <TabControl x:Name="grdTabs" Grid.Row="0" Background="#f0f0f0" TabStripPlacement="Bottom" Margin="1" 
                                 SelectionChanged="tabControl_SelectionChanged">
-                        <TabItem x:Name="tabBasicData" Header="기본 정보">                     
+                        <TabItem x:Name="tabBasicData" Header="기본 정보">
                             <GroupBox Grid.Row="0" Margin="1">
                                 <Grid x:Name="grdInput" IsHitTestVisible="False">
                                     <Grid.ColumnDefinitions>
@@ -660,15 +660,15 @@
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
-                                    
-                                    <!--관리번호-->                                   
+
+                                    <!--관리번호-->
                                     <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="85*"/>
                                             <ColumnDefinition Width="105*"/>
                                             <ColumnDefinition Width="20*"/>
                                         </Grid.ColumnDefinitions>
-                                    
+
                                         <Label Grid.Column="0"
                                             Style="{DynamicResource LabelInputArea}">
                                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
@@ -702,8 +702,8 @@
                                             </Grid>
 
                                         </Grid>
-                                        
-             
+
+
                                     </Grid>
 
                                     <!--수주번호-->
@@ -712,7 +712,7 @@
                                             <ColumnDefinition Width="85*"/>
                                             <ColumnDefinition Width="105*"/>
                                             <ColumnDefinition Width="20*"/>
-                                        </Grid.ColumnDefinitions>                                
+                                        </Grid.ColumnDefinitions>
                                         <Label Grid.Column="0" Style="{DynamicResource LabelInputArea}">
                                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
 
@@ -724,7 +724,7 @@
                                             <!--<Image Source="{DynamicResource btiPlusFind}"  />-->
                                         </Button>
                                     </Grid>
-                                    
+
                                     <!--견적번호-->
                                     <Grid Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
@@ -735,7 +735,7 @@
                                         <Label Grid.Row="3" Grid.Column="0" 
                                             Style="{DynamicResource LabelInputArea}">
                                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                                <TextBlock Text="견적번호" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                                <TextBlock Text="견적 번호" Style="{DynamicResource TextBlockInViewBoxInput}"/>
 
                                             </Viewbox>
                                         </Label>
@@ -762,7 +762,7 @@
                                             <ColumnDefinition Width="105*"/>
                                             <ColumnDefinition Width="20*"/>
                                         </Grid.ColumnDefinitions>
-                                   
+
                                         <Label Grid.Row="4" Grid.Column="0" 
                                             Style="{DynamicResource LabelInputArea}">
                                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
@@ -777,7 +777,7 @@
                                             <Image Source="{DynamicResource btiPlusFind}" />
                                         </Button>
                                     </Grid>
-                                    
+
                                     <!--영업회사-->
                                     <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
@@ -785,7 +785,7 @@
                                             <ColumnDefinition Width="105*"/>
                                             <ColumnDefinition Width="20*"/>
                                         </Grid.ColumnDefinitions>
-                              
+
                                         <Label Grid.Row="5" Grid.Column="0" 
                                             Style="{DynamicResource LabelInputArea}">
                                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
@@ -824,7 +824,7 @@
                                         </Button>
                                     </Grid>
 
-     
+
 
                                     <!--접수일정 TextBlock-->
                                     <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
@@ -846,12 +846,12 @@
                                         <Label x:Name="lblAcptDate" Grid.Row="6" Grid.Column="0" 
                                             Style="{DynamicResource LabelInputArea}" 
                                            HorizontalContentAlignment="Center">
-                                            <StackPanel Orientation="Horizontal" >                                        
+                                            <StackPanel Orientation="Horizontal" >
                                                 <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                                     <TextBlock Text="접수일자" Style="{DynamicResource TextBlockInViewBoxInput}" />
                                                 </Viewbox>
                                             </StackPanel>
-                                        </Label>                           
+                                        </Label>
                                         <DatePicker x:Name="dtpAcptDate" Grid.Row="0" Grid.Column="1" 
                                         Style="{DynamicResource DatePickerInputArea}" 
                                         SelectedDate="{Binding acptDate}"/>
@@ -872,7 +872,7 @@
                                                     <TextBlock Text="운영사 접수일" Style="{DynamicResource TextBlockInViewBoxInput}" />
                                                 </Viewbox>
                                             </StackPanel>
-                                        </Label>                                  
+                                        </Label>
                                         <DatePicker x:Name="dtpManageCustomAcptDate" Grid.Row="0" Grid.Column="1" 
                                         Style="{DynamicResource DatePickerInputArea}" 
                                         SelectedDate="{Binding manageCustomAcptDate}"/>
@@ -940,7 +940,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtInstallLocation" Grid.Row="4" Grid.Column="1" Text="{Binding installLocation}"
-                                                 Style="{StaticResource TextBoxInputArea}"/>                            
+                                                 Style="{StaticResource TextBoxInputArea}"/>
                                     </Grid>
 
                                     <!--현장연락처-->
@@ -1037,7 +1037,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtCarParkingCount" Grid.Row="4" Grid.Column="1" Text="{Binding carParkingCount}"
-                                                 Style="{StaticResource TextBoxInput_Number_Right}"/>
+                                                 Style="{StaticResource TextBoxInput_Number_Right}" MaxLength="10"/>
                                     </Grid>
 
 
@@ -1081,7 +1081,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtElectrCarCount" Grid.Row="4" Grid.Column="1" Text="{Binding electrCarCount}"
-                                                 Style="{StaticResource TextBoxInput_Number_Right}"/>
+                                                 Style="{StaticResource TextBoxInput_Number_Right}" MaxLength="10"/>
                                     </Grid>
 
                                     <!--국소특이사항-->
@@ -1119,7 +1119,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtAlReadyChargeCount" Grid.Row="4" Grid.Column="1" Text="{Binding alReadyChargeCount}"
-                                    Style="{StaticResource TextBoxInput_Number_Right}"/>
+                                    Style="{StaticResource TextBoxInput_Number_Right}" MaxLength="10"/>
                                     </Grid>
 
                                     <!--계약기간-->
@@ -1166,7 +1166,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtReqChargeCount" Grid.Row="4" Grid.Column="1" Text="{Binding reqChargeCount}"
-                                            Style="{StaticResource TextBoxInput_Number_Right}"/>
+                                            Style="{StaticResource TextBoxInput_Number_Right}" MaxLength="10"/>
                                     </Grid>
 
                                     <!--개통요청일-->
@@ -1186,8 +1186,8 @@
 
                                         <DatePicker x:Name="dtpOpenReqDate" Grid.Row="0" Grid.Column="1" 
                                         Style="{DynamicResource DatePickerInputArea}" 
-                                        SelectedDate="{Binding openReqDate}"/>                         
-                                     
+                                        SelectedDate="{Binding openReqDate}"/>
+
                                     </Grid>
 
 
@@ -1271,7 +1271,7 @@
                                         <TextBox x:Name="txtDamdangjaEMail" Grid.Row="4" Grid.Column="1" Text="{Binding damdangjaEMail}"
                                             Style="{StaticResource TextBoxInputArea}"/>
                                     </Grid>
-                                    
+
                                     <!--비고-->
                                     <Grid Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
@@ -1286,7 +1286,7 @@
                                                 <TextBlock Text="비        고" Style="{DynamicResource TextBlockInViewBoxInput}"/>
 
                                             </Viewbox>
-                                        </Label>     
+                                        </Label>
                                     </Grid>
 
                                     <TextBox x:Name="txtInstallLocationAddComments" Grid.Row="16" Grid.ColumnSpan="4" Grid.Column="1" Grid.RowSpan="2" Text="{Binding installLocationAddComments}"
@@ -1322,7 +1322,7 @@
                                     </Grid>
 
 
-                                    <!--영업부담금 추가 공사-->
+                                    <!--영업부담금 추가 공사 varchar-->
                                     <Grid Grid.Row="19" Grid.Column="3" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="85*"/>
@@ -1338,7 +1338,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtSaleCustomAddWork" Grid.Row="4" Grid.Column="1" Text="{Binding saleCustomAddWork}"
-                                            Style="{StaticResource TextBoxInput_Number_Right}"/>
+                                            Style="{StaticResource TextBoxInputArea}"/>
                                     </Grid>
 
                                     <!--사은품정보-->
@@ -1398,7 +1398,7 @@
                                         <Button x:Name="btnAdd_AccItem" Click="btnConAdd_Click" Grid.Column="1" Content="추가"/>
                                         <Button x:Name="btnDel_AccItem" Click="btnConDel_Click" Grid.Column="2" Content="삭제"/>
                                     </Grid>
-                                    
+
                                     <!--행추가 삭제 버튼-->
                                     <Grid Grid.Row="24" Grid.Column="0" Grid.ColumnSpan="5">
                                         <Grid.ColumnDefinitions>
@@ -1407,8 +1407,8 @@
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
-                                            <ColumnDefinition/>                            
-                      
+                                            <ColumnDefinition/>
+
                                         </Grid.ColumnDefinitions>
                                         <!--기본적으로 견적에서 불러오고 그 내용으로 가격이 정해지고-->
                                         <!--계약금액 = order테이블의 orderAmount이다 배송금액을 입력하면 배송금액만큼 달라져야 할것-->
@@ -1431,7 +1431,7 @@
                                             </Viewbox>
                                         </Label>
                                         <ComboBox Grid.Column="3" x:Name="cboMtrPriceUnitClss" Style="{DynamicResource ComboBoxSearchString}"/>
-                                        
+
                                         <!--배송금액-->
                                         <Label Grid.Column="4" 
                                           Style="{DynamicResource LabelInputArea}">
@@ -1442,49 +1442,49 @@
                                         <TextBox Grid.Column="5" x:Name="txtMtrShippingCharge"  Text="{Binding mtrShippingCharge}"
                                                   Style="{StaticResource TextBoxInput_Number_Right}"/>
                                     </Grid>
-                                    
+
                                     <Grid x:Name="grdAcc" Grid.Row="25" Grid.ColumnSpan="6" Grid.RowSpan="6">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="20*"/>
                                             <RowDefinition Height="50*"/>
-                                        </Grid.RowDefinitions>                                            
-                                            <ScrollViewer x:Name="dgdAccSV" Grid.Column="0" HorizontalScrollBarVisibility="Hidden" 
+                                        </Grid.RowDefinitions>
+                                        <ScrollViewer x:Name="dgdAccSV" Grid.Column="0" HorizontalScrollBarVisibility="Hidden" 
                                                 ScrollViewer.CanContentScroll="False" VerticalScrollBarVisibility="Hidden">
-                                                <ScrollViewer.Resources>
-                                                    <Style TargetType="DataGridColumnHeader">
-                                                        <Setter Property="FontSize" Value="16"/>                                  
-                                                        <Setter Property="Background" Value="#365fb1" />
-                                                        <Setter Property="BorderBrush" Value="White" />
-                                                        <Setter Property="Foreground" Value="White" />
-                                                        <Setter Property="BorderThickness" Value="0.7" />
-                                                        <Setter Property="FontWeight" Value="Thin" />
-                                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                                    </Style>
-                                                </ScrollViewer.Resources>
-                                                <Grid>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="*" />
-                                                        <RowDefinition Height="*" />
-                                                    </Grid.RowDefinitions>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="{Binding ElementName=num, Path=ActualWidth}" />
-                                                        <ColumnDefinition Width="0" />
-                                                        <ColumnDefinition Width="{Binding ElementName=orderTypeID, Path=ActualWidth}" />
-                                                        <ColumnDefinition Width="{Binding ElementName=article, Path=ActualWidth}" />
-                                                        <ColumnDefinition Width="{Binding ElementName=chargeInwarePrice, Path=ActualWidth}" />
-                                                        <ColumnDefinition Width="{Binding ElementName=chargeOrderDate, Path=ActualWidth}" />
-                                                        <ColumnDefinition Width="{Binding ElementName=chargeInwareDate, Path=ActualWidth}" />
-                                                        <ColumnDefinition Width="{Binding ElementName=chargeInwareQty, Path=ActualWidth}" />
-                                                        <ColumnDefinition Width="{Binding ElementName=chargeInwareLocation, Path=ActualWidth}" />
-                                                        <ColumnDefinition Width="{Binding ElementName=canopyReqCustom, Path=ActualWidth}" />
-                                                        <ColumnDefinition Width="{Binding ElementName=chargeModelHelmat, Path=ActualWidth}" />
-                                                        <ColumnDefinition Width="{Binding ElementName=chargeModelinloc, Path=ActualWidth}" />
-                                                        <ColumnDefinition Width="{Binding ElementName=chargeModelOneBody, Path=ActualWidth}" />
-                                                        <ColumnDefinition Width="{Binding ElementName=chargeStandReqDate, Path=ActualWidth}" />
-                                                        <ColumnDefinition Width="{Binding ElementName=chargeStandInwareDate, Path=ActualWidth}" />
-                                                        <ColumnDefinition Width="{Binding ElementName=Comments, Path=ActualWidth}" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Content="순" FontSize="12"/>
+                                            <ScrollViewer.Resources>
+                                                <Style TargetType="DataGridColumnHeader">
+                                                    <Setter Property="FontSize" Value="16"/>
+                                                    <Setter Property="Background" Value="#365fb1" />
+                                                    <Setter Property="BorderBrush" Value="White" />
+                                                    <Setter Property="Foreground" Value="White" />
+                                                    <Setter Property="BorderThickness" Value="0.7" />
+                                                    <Setter Property="FontWeight" Value="Thin" />
+                                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                                </Style>
+                                            </ScrollViewer.Resources>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="*" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="{Binding ElementName=num, Path=ActualWidth}" />
+                                                    <ColumnDefinition Width="0" />
+                                                    <ColumnDefinition Width="{Binding ElementName=orderTypeID, Path=ActualWidth}" />
+                                                    <ColumnDefinition Width="{Binding ElementName=article, Path=ActualWidth}" />
+                                                    <ColumnDefinition Width="{Binding ElementName=chargeInwarePrice, Path=ActualWidth}" />
+                                                    <ColumnDefinition Width="{Binding ElementName=chargeOrderDate, Path=ActualWidth}" />
+                                                    <ColumnDefinition Width="{Binding ElementName=chargeInwareDate, Path=ActualWidth}" />
+                                                    <ColumnDefinition Width="{Binding ElementName=chargeInwareQty, Path=ActualWidth}" />
+                                                    <ColumnDefinition Width="{Binding ElementName=chargeInwareLocation, Path=ActualWidth}" />
+                                                    <ColumnDefinition Width="{Binding ElementName=canopyReqCustom, Path=ActualWidth}" />
+                                                    <ColumnDefinition Width="{Binding ElementName=chargeModelHelmat, Path=ActualWidth}" />
+                                                    <ColumnDefinition Width="{Binding ElementName=chargeModelinloc, Path=ActualWidth}" />
+                                                    <ColumnDefinition Width="{Binding ElementName=chargeModelOneBody, Path=ActualWidth}" />
+                                                    <ColumnDefinition Width="{Binding ElementName=chargeStandReqDate, Path=ActualWidth}" />
+                                                    <ColumnDefinition Width="{Binding ElementName=chargeStandInwareDate, Path=ActualWidth}" />
+                                                    <ColumnDefinition Width="{Binding ElementName=Comments, Path=ActualWidth}" />
+                                                </Grid.ColumnDefinitions>
+                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Content="순" FontSize="12"/>
                                                 <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Content="articleID" Visibility="Collapsed" FontSize="12"/>
                                                 <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Content="사업구분" FontSize="12"/>
                                                 <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" Content="모델명" FontSize="12"/>
@@ -1500,9 +1500,9 @@
                                                 <DataGridColumnHeader Grid.Row="1" Grid.Column="12" Content="일체형" FontSize="12"/>
                                                 <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="13" Content="스탠드발주일" FontSize="12"/>
                                                 <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="14" Content="스탠드입고일" FontSize="12"/>
-                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="15" Content="비고" FontSize="12"/>                         
-                                                </Grid>
-                                            </ScrollViewer>
+                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="15" Content="비고" FontSize="12"/>
+                                            </Grid>
+                                        </ScrollViewer>
 
                                         <DataGrid Grid.Row ="25" x:Name="dgdAcc" Grid.ColumnSpan="5" Grid.RowSpan="5" HeadersVisibility="None" 
                                                 Style="{DynamicResource DataGridMultiLine}">
@@ -1545,7 +1545,7 @@
                                                     </DataGridTemplateColumn.CellTemplate>
                                                     <DataGridTemplateColumn.CellEditingTemplate>
                                                         <DataTemplate>
-                                                                <TextBox Text="{Binding article, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                            <TextBox Text="{Binding article, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                                           Tag="{Binding articleID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                                           KeyDown="dgdtpeGetArticleID_KeyDown" 
                                                                           Background="#c1bfff" 
@@ -1738,7 +1738,7 @@
                                             </DataGrid.Columns>
                                         </DataGrid>
                                     </Grid>
-                                   
+
 
                                     <!--캐노피&스탠드 입고지정보-->
                                     <Grid Grid.Row="31" Grid.Column="0" Grid.ColumnSpan="3">
@@ -1808,7 +1808,7 @@
                                         </DataGrid>
                                     </Grid>
                                 </Grid>
-                            </GroupBox>                     
+                            </GroupBox>
                         </TabItem>
                         <TabItem x:Name="tab2" Header="시공사&amp;지자체" Margin="-2,0,-2,0">
                             <GroupBox Grid.Row="0" Margin="1">
@@ -2000,7 +2000,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtAddConstructCostSearch" Grid.Row="4" Grid.Column="1" Text="{Binding addConstructCostSearch}"
-                                                 Style="{StaticResource TextBoxInput_Number_Right}"/>
+                                                 Style="{StaticResource TextBoxInput_Number_Right}" MaxLength="15"/>
                                     </Grid>
 
                                     <!--추가공사비(EVC부담)-->
@@ -2019,7 +2019,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtAddConstructCost" Grid.Row="4" Grid.Column="1" Text="{Binding addConstructCost}"
-                                                 Style="{StaticResource TextBoxInput_Number_Right}"/>
+                                                 Style="{StaticResource TextBoxInput_Number_Right}" MaxLength="15"/>
                                     </Grid>
 
                                     <!--실사처리 비고-->
@@ -2035,13 +2035,13 @@
                                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                                 <TextBlock Text="실사처리 비고" Padding="0" Style="{DynamicResource TextBlockInViewBoxInput}"/>
                                             </Viewbox>
-                                        </Label>   
+                                        </Label>
                                     </Grid>
                                     <TextBox x:Name="txtSearchComments" Grid.Row="5" Grid.RowSpan="3" Grid.ColumnSpan="4"
                                              Grid.Column="1" Text="{Binding addConstructCost}" AcceptsReturn="True" TextWrapping="Wrap"/>
 
                                     <!--사전현장컨설팅결과서-->
-                                    <Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -2064,7 +2064,7 @@
                                     </Grid>
 
                                     <!--사전대지파일-->
-                                    <Grid Grid.Row="8" Grid.Column="3" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="8" Grid.Column="3" Grid.ColumnSpan="3" Margin="1.5,0,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -2087,7 +2087,7 @@
                                     </Grid>
 
                                     <!--도면-->
-                                    <Grid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -2110,7 +2110,7 @@
                                     </Grid>
 
                                     <!--실사내역서-->
-                                    <Grid Grid.Row="9" Grid.Column="3" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="9" Grid.Column="3" Grid.ColumnSpan="3" Margin="1.5,0,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -2133,7 +2133,7 @@
                                     </Grid>
 
                                     <!--실사점검표-->
-                                    <Grid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -2156,7 +2156,7 @@
                                     </Grid>
 
                                     <!--거점투자기안-->
-                                    <Grid Grid.Row="10" Grid.Column="3" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="10" Grid.Column="3" Grid.ColumnSpan="3" Margin="1.5,0,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -2285,7 +2285,7 @@
                                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                                 <TextBlock Text="공단사항 비고" Padding="0" Style="{DynamicResource TextBlockInViewBoxInput}"/>
                                             </Viewbox>
-                                        </Label>                                       
+                                        </Label>
                                     </Grid>
                                     <TextBox x:Name="txtCorpComments" Grid.Row="14" Grid.RowSpan="3" Grid.ColumnSpan="4"
                                              Grid.Column="1" Text="{Binding corpComments}" AcceptsReturn="True" TextWrapping="Wrap"/>
@@ -2355,7 +2355,7 @@
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellEditingTemplate>
                                                 </DataGridTemplateColumn>
-                                                
+
                                                 <DataGridTemplateColumn Header="행위신고발급일">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
@@ -2417,7 +2417,7 @@
                                                     </DataGridTemplateColumn.CellEditingTemplate>
                                                 </DataGridTemplateColumn>
                                             </DataGrid.Columns>
-                                        </DataGrid>  
+                                        </DataGrid>
                                     </Grid>
 
                                     <!--행위신고허가번호 입력(OrderTable에 있음) hidden처리함-->
@@ -2565,13 +2565,13 @@
                                                 <TextBlock Text="비고" Padding="0" Style="{DynamicResource TextBlockInViewBoxInput}"/>
 
                                             </Viewbox>
-                                        </Label>                                        
+                                        </Label>
                                     </Grid>
                                     <TextBox x:Name="txtLocalGoComments" Grid.Row="26" Grid.RowSpan="3" Grid.ColumnSpan="4"  Grid.Column="1" Text="{Binding localGoComments}"
                                              AcceptsReturn="True" TextWrapping="Wrap" />
 
 
-                                </Grid> 
+                                </Grid>
                             </GroupBox>
                         </TabItem>
 
@@ -2704,7 +2704,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtKepInfraPayAmount" Grid.Row="4" Grid.Column="1" Text="{Binding kepInfraPayAmount}"
-                                                 Style="{StaticResource TextBoxInput_Number_Right}"/>
+                                                 Style="{StaticResource TextBoxInput_Number_Right}" MaxLength="15"/>
                                     </Grid>
 
                                     <!--(한전)전기사용신청일-->
@@ -2907,7 +2907,7 @@
                                     </Grid>
 
                                     <!--결선도-->
-                                    <Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -2930,7 +2930,7 @@
                                     </Grid>
 
                                     <!--수전 접수증-->
-                                    <Grid Grid.Row="8" Grid.Column="3" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="8" Grid.Column="3" Grid.ColumnSpan="3" Margin="1.5,0,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -3336,7 +3336,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtElectrBeforeInspCost" Grid.Row="4" Grid.Column="1" Text="{Binding electrBeforeInspCost}"
-                                                 Style="{StaticResource TextBoxInput_Number_Right}"/>
+                                                 Style="{StaticResource TextBoxInput_Number_Right}" MaxLength="15"/>
                                     </Grid>
 
                                     <!--사용전검사 수수료 납부일-->
@@ -3407,9 +3407,9 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Grid.Column="0" VerticalAlignment="Bottom" Grid.ColumnSpan="3" Text="-----[첨부파일]-------"/>
                                     </Grid>
-                                    
+
                                     <!--전기안전검사 확인증-->
-                                    <Grid Grid.Row="26" Grid.Column="0" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="26" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -3432,7 +3432,7 @@
                                     </Grid>
 
                                     <!--사용전점검 확인증-->
-                                    <Grid Grid.Row="26" Grid.Column="3" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="26" Grid.Column="3" Grid.ColumnSpan="3" Margin="1.5,0,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -3455,7 +3455,7 @@
                                     </Grid>
 
                                     <!--사용전검사 확인증-->
-                                    <Grid Grid.Row="27" Grid.Column="0" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="27" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -3478,7 +3478,7 @@
                                     </Grid>
 
                                     <!--업무협조 안내서-->
-                                    <Grid Grid.Row="27" Grid.Column="3" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="27" Grid.Column="3" Grid.ColumnSpan="3" Margin="1.5,0,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -3501,19 +3501,20 @@
                                     </Grid>
 
                                     <!--수수료 내역서-->
-                                    <Grid Grid.Row="28" Grid.Column="0" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="28" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="76.2*"/>
-                                            <ColumnDefinition Width="50*"/>
-                                            <ColumnDefinition Width="60*"/>
+                                            <ColumnDefinition Width="44*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="31*"/>
+                                            <ColumnDefinition Width="37*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Button x:Name="btnElectrCostFile" Content="수수료 내역서" Grid.Column="0" Grid.Row="1" Tag="ElectrCost"
-                                                     Click="btnFileUpload_Click"/>
-                                        <TextBox x:Name="txtElectrCostFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                        <Button x:Name="btnElectrCostFile" Content="수수료 내역서" Grid.Column="0" Tag="ElectrCost"
+                                                     Click="btnFileUpload_Click" Grid.ColumnSpan="2"/>
+                                        <TextBox x:Name="txtElectrCostFileName" Grid.Column="2" Grid.ColumnSpan="2"
                                                 Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrCostFileName}" 
                                                 Tag="{Binding electrCostFilePath}"
-                                                 IsReadOnly="True"/>
-                                        <Grid Grid.Row="1" Grid.Column="4">
+                                                 IsReadOnly="True" Margin="1,1,1,0"/>
+                                        <Grid Grid.Column="3">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="*"/>
@@ -3703,7 +3704,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtSuperSetCost" Grid.Row="4" Grid.Column="1" Text="{Binding superSetCost}"
-                                                    Style="{StaticResource TextBoxInput_Number_Right}"/>
+                                                    Style="{StaticResource TextBoxInput_Number_Right}" MaxLength="15"/>
                                     </Grid>
 
 
@@ -3750,7 +3751,7 @@
                                                       Style="{DynamicResource DatePickerInputArea}" 
                                                       SelectedDate="{Binding superSetTaxPrintDate}"/>
                                     </Grid>
-    
+
 
                                     <!--감리 비고-->
                                     <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="6">
@@ -3773,7 +3774,7 @@
                                                   Style="{StaticResource TextBoxMultiLine}"/>
 
                                     <!--감리배치확인서-->
-                                    <Grid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -3796,7 +3797,7 @@
                                     </Grid>
 
                                     <!--사용전 검사확인증-->
-                                    <Grid Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="3" Margin="1.5,0,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -3819,7 +3820,7 @@
                                     </Grid>
 
                                     <!--수수료내역서-->
-                                    <Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -3842,7 +3843,7 @@
                                     </Grid>
 
                                     <!--신고서-->
-                                    <Grid Grid.Row="8" Grid.Column="3" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="8" Grid.Column="3" Grid.ColumnSpan="3" Margin="1.5,0,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -3894,8 +3895,8 @@
                                         <DatePicker x:Name="dtpCompReplyDate" Grid.Row="0" Grid.Column="1" 
                                                       Style="{DynamicResource DatePickerInputArea}" 
                                                       SelectedDate="{Binding compReplyDate}"/>
-                                    </Grid>    
-                                    
+                                    </Grid>
+
 
                                     <!--시공보완 완료일-->
                                     <Grid Grid.Row="10" Grid.Column="3" Grid.ColumnSpan="3">
@@ -3997,7 +3998,7 @@
                                         <DatePicker x:Name="dtpInsurePrintDate" Grid.Row="0" Grid.Column="1" 
                                                       Style="{DynamicResource DatePickerInputArea}" 
                                                       SelectedDate="{Binding insurePrintDate}"/>
-                                    </Grid>         
+                                    </Grid>
 
 
                                     <!--준공서류 완료일-->
@@ -4035,13 +4036,13 @@
                                                 <TextBlock Text="준공서류 비고" Padding="0" Style="{DynamicResource TextBlockInViewBoxInput}"/>
 
                                             </Viewbox>
-                                        </Label>                                       
+                                        </Label>
                                     </Grid>
                                     <TextBox x:Name="txtCompReportComments" Grid.Row="16" Grid.ColumnSpan="5" Grid.RowSpan="2" Grid.Column="1" Text="{Binding compReportComments}"
                                              Style="{StaticResource TextBoxMultiLine}"  AcceptsReturn="True" TextWrapping="Wrap"/>
 
                                     <!--준공서류파일명-->
-                                    <Grid Grid.Row="18" Grid.Column="0" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="18" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="75*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -4064,7 +4065,7 @@
                                     </Grid>
 
                                     <!--하자보증보험증권-->
-                                    <Grid Grid.Row="18" Grid.Column="3" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="18" Grid.Column="3" Grid.ColumnSpan="3" Margin="1.5,0,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="75*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -4138,9 +4139,9 @@
                                         <Grid Margin="0" VerticalAlignment="Top" Grid.Column="1">
                                             <DataGrid x:Name="dgdAccnt"  Margin="0" Padding="0" Style="{DynamicResource DataGridSet1}" 
                                                          HeadersVisibility="Column">
-                                                <DataGrid.CellStyle>                                             
+                                                <DataGrid.CellStyle>
                                                     <Style TargetType="DataGridCell">
-                                                        <Setter Property="FontSize" Value="12"/>                                                
+                                                        <Setter Property="FontSize" Value="12"/>
                                                         <EventSetter Event="PreviewKeyDown" Handler="DataGridSub_PreviewKeyDown"/>
                                                         <EventSetter Event="KeyDown" Handler="DataGridSub_KeyDown"/>
                                                         <EventSetter Event="KeyUp" Handler="DataGridSub_TextFocus"/>
@@ -4160,7 +4161,7 @@
                                                         <Setter Property="FontSize" Value="12"/>
                                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
                                                     </Style>
-                                                </DataGrid.ColumnHeaderStyle>             
+                                                </DataGrid.ColumnHeaderStyle>
                                                 <DataGrid.Columns>
                                                     <DataGridTemplateColumn Header="계산서발행일" x:Name="column1Date" MaxWidth="80" Width="*">
                                                         <DataGridTemplateColumn.CellTemplate>
@@ -4273,14 +4274,14 @@
 
                                                 </DataGrid.Columns>
 
-               
+
                                             </DataGrid>
                                         </Grid>
                                     </Grid>
 
-                                    
 
-                                    
+
+
 
                                     <!--비고-->
                                     <Grid Grid.Row="27" Grid.Column="0" Grid.ColumnSpan="3">
@@ -4343,12 +4344,12 @@
                                     </StackPanel>
                                 </RadioButton>
                             </Grid>
-                        </GroupBox>                       
-                     
+                        </GroupBox>
+
                     </Grid>
                 </Grid>
             </Grid>
         </Grid>
-        
+
     </Grid>
 </UserControl>

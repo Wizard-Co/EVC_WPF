@@ -88,7 +88,7 @@
                                           Click="chkElecDeliMethSrh_Click"/>
                         </Viewbox>
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                            <TextBlock Text="전기조달방법" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                            <TextBlock Text="전기수전방법" Style="{DynamicResource TextBlockInViewBoxSearch}" />
                         </Viewbox>
                     </StackPanel>
                 </Label>
