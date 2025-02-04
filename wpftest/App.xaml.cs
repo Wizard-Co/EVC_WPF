@@ -215,6 +215,20 @@ namespace WizMes_EVC
             }
         }
 
+        //데이터 그리드 안에서 마우스 휠을 할 수 있도록
+        private void DataGrid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (!e.Handled)
+            {
+                e.Handled = true;
+                var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
+                eventArg.RoutedEvent = UIElement.MouseWheelEvent;  
+                eventArg.Source = sender;
+                var parent = ((Control)sender).Parent as UIElement;
+                parent?.RaiseEvent(eventArg);
+            }
+        }
+
         // 데이트피커에 값(숫자)을 입력후에 enter 쳤을때!!!!!!!!! 그걸 날짜로 적용해서 해당 데이트피커에 적용되도록!!!!
         private void DatePicker_EnterDown(object sender, System.Windows.Input.KeyEventArgs e)
         {

@@ -321,8 +321,30 @@
                     <TextBox x:Name="txtInstallLocationSrh" Grid.Column="1" Style="{DynamicResource TextBoxInputArea}" IsEnabled="False"/>
                 </Grid>
 
+                <!--사업구분-->
+                <Grid Grid.Row="3" Grid.Column="3" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="75*" />
+                        <ColumnDefinition Width="90*" />
+                        <ColumnDefinition Width="15*" />
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="lblOrderTypeIDSrh" Grid.Column="0"
+                                   MouseLeftButtonUp="lblOrderTypeIDSrh_MouseLeftButtonUp" Style="{DynamicResource LabelSearch}">
+                        <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                <CheckBox x:Name="chkOrderTypeIDSrh"  VerticalAlignment="Center" 
+                                         Click="chkOrderTypeIDSrh_Click"/>
+                            </Viewbox>
+                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                <TextBlock Text="사업구분" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                            </Viewbox>
+                        </StackPanel>
+                    </Label>
+                    <ComboBox x:Name="cboOrderTypeIDSrh" Grid.Column="1"  Style="{DynamicResource ComboBoxSearchString}"/>
+                </Grid>
+
                 <!--비고-->
-                <Grid Grid.Row="3" Grid.Column="3">
+                <!--<Grid Grid.Row="3" Grid.Column="3">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="75*"/>
                         <ColumnDefinition Width="90*"/>
@@ -341,7 +363,7 @@
                         </StackPanel>
                     </Label>
                     <TextBox x:Name="txtInstallLocationAddCommentsSrh" Grid.Column="1" Style="{DynamicResource TextBoxInputArea}" IsEnabled="False"/>
-                </Grid>
+                </Grid>-->
 
                 <!--화면이동용 히든 텍스트박스(수주번호)-->
                 <TextBlock x:Name="tblOrderID" Visibility="Hidden"/>
@@ -700,9 +722,7 @@
                                                 <ComboBox x:Name="cboOrderType" Grid.Row="3" Grid.Column="1" 
                                                 Style="{DynamicResource ComboBoxInputString}" SelectedValue="{Binding orderTypeID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                                             </Grid>
-
                                         </Grid>
-
 
                                     </Grid>
 
@@ -902,15 +922,22 @@
 
                                     <Grid Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="85*"/>
-                                            <ColumnDefinition Width="105*"/>
-                                            <ColumnDefinition Width="20*"/>
+                                            <ColumnDefinition Width="76.2*"/>
+                                            <ColumnDefinition Width="50*"/>
+                                            <ColumnDefinition Width="60*"/>
                                         </Grid.ColumnDefinitions>
                                         <Button x:Name="btnContractFile" Grid.Column="0" Click="btnFileUpload_Click" Content="시공발주서" Padding="0" Tag="Contract"/>
                                         <TextBox x:Name="txtContractFileName" Text="{Binding contractFileName}" Tag="{Binding contractFilePath}" 
                                                  Style="{DynamicResource TextBoxInputArea}" 
                                                  IsReadOnly="True" Grid.Column="1"/>
-                                        <Button x:Name="btnViewContractFile" Content="다운" Click="btnFileSee_Click" Padding="0" Grid.Column="2" Tag="Contract"/>
+                                        <Grid Grid.Column="2">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button x:Name="btnDelContractFile" Content="삭제" Click="btnFileDelete_Click" Padding="0" Grid.Column="0" Tag="Contract"/>
+                                            <Button x:Name="btnViewContractFile" Content="다운" Click="btnFileSee_Click" Padding="0" Grid.Column="1" Tag="Contract"/>
+                                        </Grid>
                                     </Grid>
 
 
@@ -1472,9 +1499,8 @@
                                                     <ColumnDefinition Width="{Binding ElementName=orderTypeID, Path=ActualWidth}" />
                                                     <ColumnDefinition Width="{Binding ElementName=article, Path=ActualWidth}" />
                                                     <ColumnDefinition Width="{Binding ElementName=chargeInwarePrice, Path=ActualWidth}" />
-                                                    <ColumnDefinition Width="{Binding ElementName=chargeOrderDate, Path=ActualWidth}" />
-                                                    <ColumnDefinition Width="{Binding ElementName=chargeInwareDate, Path=ActualWidth}" />
-                                                    <ColumnDefinition Width="{Binding ElementName=chargeInwareQty, Path=ActualWidth}" />
+                                                    <!--<ColumnDefinition Width="{Binding ElementName=chargeOrderDate, Path=ActualWidth}" />-->
+                                                    <!--<ColumnDefinition Width="{Binding ElementName=chargeInwareDate, Path=ActualWidth}" />-->
                                                     <ColumnDefinition Width="{Binding ElementName=chargeInwareLocation, Path=ActualWidth}" />
                                                     <ColumnDefinition Width="{Binding ElementName=canopyReqCustom, Path=ActualWidth}" />
                                                     <ColumnDefinition Width="{Binding ElementName=chargeModelHelmat, Path=ActualWidth}" />
@@ -1482,6 +1508,7 @@
                                                     <ColumnDefinition Width="{Binding ElementName=chargeModelOneBody, Path=ActualWidth}" />
                                                     <ColumnDefinition Width="{Binding ElementName=chargeStandReqDate, Path=ActualWidth}" />
                                                     <ColumnDefinition Width="{Binding ElementName=chargeStandInwareDate, Path=ActualWidth}" />
+                                                    <ColumnDefinition Width="{Binding ElementName=chargeInwareQty, Path=ActualWidth}" />
                                                     <ColumnDefinition Width="{Binding ElementName=Comments, Path=ActualWidth}" />
                                                 </Grid.ColumnDefinitions>
                                                 <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Content="순" FontSize="12"/>
@@ -1489,22 +1516,22 @@
                                                 <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Content="사업구분" FontSize="12"/>
                                                 <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" Content="모델명" FontSize="12"/>
                                                 <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="4" Content="견적단가" FontSize="12"/>
-                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="5" Content="충전기발주일" FontSize="12"/>
-                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="6" Content="충전기입고일" FontSize="12"/>
-                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="7" Content="입고수량" FontSize="12"/>
-                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="8" Content="    충전기&#10;입고지정보" FontSize="12"/>
-                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="9" Content="   스탠드&amp;&#10;캐노피발주업체" FontSize="12"/>
-                                                <DataGridColumnHeader Grid.Row="0" Grid.Column="10" Grid.ColumnSpan="3" Content="모델구분" FontSize="12"/>
-                                                <DataGridColumnHeader Grid.Row="1" Grid.Column="10" Content="헬멧형" FontSize="12"/>
-                                                <DataGridColumnHeader Grid.Row="1" Grid.Column="11" Content="실내폴" FontSize="12"/>
-                                                <DataGridColumnHeader Grid.Row="1" Grid.Column="12" Content="일체형" FontSize="12"/>
-                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="13" Content="스탠드발주일" FontSize="12"/>
-                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="14" Content="스탠드입고일" FontSize="12"/>
-                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="15" Content="비고" FontSize="12"/>
+                                                <!--<DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="5" Content="충전기발주일" FontSize="12"/>-->
+                                                <!--<DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="6" Content="충전기입고일" FontSize="12"/>-->
+                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="5" Content="    충전기&#10;입고지정보" FontSize="12"/>
+                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="6" Content="   자재발주업체" FontSize="12"/> <!--스탠드&캐노피발주업체 -> 자재 발주업체-->
+                                                <DataGridColumnHeader Grid.Row="0" Grid.Column="7" Grid.ColumnSpan="3" Content="모델구분" FontSize="12"/>
+                                                <DataGridColumnHeader Grid.Row="1" Grid.Column="7" Content="헬멧형" FontSize="12"/>
+                                                <DataGridColumnHeader Grid.Row="1" Grid.Column="8" Content="실내폴" FontSize="12"/>
+                                                <DataGridColumnHeader Grid.Row="1" Grid.Column="9" Content="일체형" FontSize="12"/>
+                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="10" Content="발주일" FontSize="12"/>
+                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="11" Content="입고일" FontSize="12"/>
+                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="12" Content="입고수량" FontSize="12"/>
+                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="13" Content="비고" FontSize="12"/>
                                             </Grid>
                                         </ScrollViewer>
 
-                                        <DataGrid Grid.Row ="25" x:Name="dgdAcc" Grid.ColumnSpan="5" Grid.RowSpan="5" HeadersVisibility="None" 
+                                        <DataGrid Grid.Row ="25" x:Name="dgdAcc" Grid.ColumnSpan="5" Grid.RowSpan="5" HeadersVisibility="None"  VerticalScrollBarVisibility="Hidden"
                                                 Style="{DynamicResource DataGridMultiLine}">
                                             <DataGrid.CellStyle>
                                                 <Style TargetType="DataGridCell">
@@ -1569,7 +1596,7 @@
                                                     </DataGridTemplateColumn.CellEditingTemplate>
                                                 </DataGridTemplateColumn>
 
-                                                <DataGridTemplateColumn Header="충전기발주" x:Name="chargeOrderDate" MinWidth="80">
+                                                <!--<DataGridTemplateColumn Header="충전기발주" x:Name="chargeOrderDate" MinWidth="80">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <TextBlock Text="{Binding chargeOrderDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center" TextAlignment="Left" Padding="5 0" Loaded="TextBlock_Loaded" />
@@ -1600,23 +1627,7 @@
                                                          Loaded="TextBox_DatePicker"/>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellEditingTemplate>
-                                                </DataGridTemplateColumn>
-
-
-                                                <DataGridTemplateColumn Header="입고수량" x:Name="chargeInwareQty" MinWidth="80">
-                                                    <DataGridTemplateColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <TextBlock Text="{Binding chargeInwareQty, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center" TextAlignment="Center" Padding="5 0" />
-                                                        </DataTemplate>
-                                                    </DataGridTemplateColumn.CellTemplate>
-                                                    <DataGridTemplateColumn.CellEditingTemplate>
-                                                        <DataTemplate>
-                                                            <TextBox Text="{Binding chargeInwareQty, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Padding="5 0 3 0" 
-                                                                    PreviewTextInput="TextBox_NumberValidation"
-                                                                    PreviewKeyDown="TextBox_PreventCopyPaste"/>
-                                                        </DataTemplate>
-                                                    </DataGridTemplateColumn.CellEditingTemplate>
-                                                </DataGridTemplateColumn>
+                                                </DataGridTemplateColumn>-->
 
 
                                                 <DataGridTemplateColumn Header="충전기입고지정보" x:Name="chargeInwareLocation" MinWidth="100">
@@ -1688,8 +1699,8 @@
                                                     </DataGridTemplateColumn.CellEditingTemplate>
                                                 </DataGridTemplateColumn>
 
-
-                                                <DataGridTemplateColumn Header="스탠드발주일" x:Name="chargeStandReqDate" MinWidth="80">
+                                                <!--스탠드발주일 -> 발주일-->
+                                                <DataGridTemplateColumn Header="발주일" x:Name="chargeStandReqDate" MinWidth="80">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <TextBlock Text="{Binding chargeStandReqDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center" TextAlignment="Center" Padding="5 0" Loaded="TextBlock_Loaded" />
@@ -1698,15 +1709,16 @@
                                                     <DataGridTemplateColumn.CellEditingTemplate>
                                                         <DataTemplate>
                                                             <DatePicker Grid.Row="0" Grid.Column="1" 
-                                                     Style="{DynamicResource DatePickerInputArea}" 
-                                                     SelectedDate="{Binding chargeStandReqDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                                     Loaded="TextBox_DatePicker"/>
+                                                                         Style="{DynamicResource DatePickerInputArea}" 
+                                                                         SelectedDate="{Binding chargeStandReqDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                                         Loaded="TextBox_DatePicker"/>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellEditingTemplate>
                                                 </DataGridTemplateColumn>
 
 
-                                                <DataGridTemplateColumn Header="스탠드입고일" x:Name="chargeStandInwareDate" MinWidth="80">
+                                                <!--스탠드입고일 -> 입고일-->
+                                                <DataGridTemplateColumn Header="입고일" x:Name="chargeStandInwareDate" MinWidth="80">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <TextBlock Text="{Binding chargeStandInwareDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center" TextAlignment="Center" Padding="5 0" Loaded="TextBlock_Loaded" />
@@ -1715,9 +1727,25 @@
                                                     <DataGridTemplateColumn.CellEditingTemplate>
                                                         <DataTemplate>
                                                             <DatePicker Grid.Row="0" Grid.Column="1" 
-                                 Style="{DynamicResource DatePickerInputArea}" 
-                                 SelectedDate="{Binding chargeStandInwareDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 Loaded="TextBox_DatePicker"/>
+                                                                         Style="{DynamicResource DatePickerInputArea}" 
+                                                                         SelectedDate="{Binding chargeStandInwareDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                                         Loaded="TextBox_DatePicker"/>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                                </DataGridTemplateColumn>
+
+
+                                                <DataGridTemplateColumn Header="입고수량" x:Name="chargeInwareQty" MinWidth="80">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding chargeInwareQty, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center" TextAlignment="Center" Padding="5 0" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                                        <DataTemplate>
+                                                            <TextBox Text="{Binding chargeInwareQty, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Padding="5 0 3 0" 
+                                                                    PreviewTextInput="TextBox_NumberValidation"
+                                                                    PreviewKeyDown="TextBox_PreventCopyPaste"/>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellEditingTemplate>
                                                 </DataGridTemplateColumn>
@@ -2038,7 +2066,7 @@
                                         </Label>
                                     </Grid>
                                     <TextBox x:Name="txtSearchComments" Grid.Row="5" Grid.RowSpan="3" Grid.ColumnSpan="4"
-                                             Grid.Column="1" Text="{Binding addConstructCost}" AcceptsReturn="True" TextWrapping="Wrap"/>
+                                             Grid.Column="1" Text="{Binding searchComments}" AcceptsReturn="True" TextWrapping="Wrap"/>
 
                                     <!--사전현장컨설팅결과서-->
                                     <Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
@@ -2308,8 +2336,9 @@
                                         <Button x:Name="btnAdd_LocalGovItem" Content="추가" Click="btnConAdd_Click" Grid.Column="1"/>
                                         <Button x:Name="btnDel_LocalGovItem" Content="삭제" Click="btnConDel_Click" Grid.Column="2"/>
                                     </Grid>
+                                    
                                     <!--이 데이터그리드는 OrderLocalGov 테이블 -->
-                                    <Grid Grid.Row="18" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="5">
+                                    <Grid Grid.Row="18" Grid.Column="0" Grid.ColumnSpan="6" Grid.RowSpan="7">
                                         <DataGrid x:Name="dgdLocalGov" 
                                                           Grid.Row="1"
                                                           Grid.ColumnSpan="3"
@@ -2461,7 +2490,7 @@
                                     </Grid>
 
                                     <!--사용검사 신청일-->
-                                    <Grid Grid.Row="23" Grid.Column="0" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="25" Grid.Column="0" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="85*"/>
                                             <ColumnDefinition Width="105*"/>
@@ -2482,7 +2511,7 @@
                                     </Grid>
 
                                     <!--사용전 확인증 발급일 -> 사용 검사 필증 발급일-->
-                                    <Grid Grid.Row="23" Grid.Column="3" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="25" Grid.Column="3" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="85*"/>
                                             <ColumnDefinition Width="105*"/>
@@ -2502,8 +2531,9 @@
                                                   SelectedDate="{Binding superBeforeUseInspPrintDate}"/>
                                     </Grid>
 
+                                    
 
-                                    <!--사용전검사 확인증 발급일-->
+                                    <!--사용전검사 확인증 발급일--><!--
                                     <Grid Grid.Row="24" Grid.Column="0" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="85*"/>
@@ -2522,37 +2552,59 @@
                                         <DatePicker x:Name="dtpSuperBeforeUseInspDate" Grid.Row="0" Grid.Column="1" 
                                                       Style="{DynamicResource DatePickerInputArea}" 
                                                       SelectedDate="{Binding superBeforeUseInspDate}"/>
-                                    </Grid>
+                                    </Grid>-->
 
-                                    <Grid Grid.Row="25" Grid.Column="0" Grid.ColumnSpan="6">
+                                    <!--행위신고증명서-->
+                                    <Grid Grid.Row="26" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="13.1*"/>
-                                            <ColumnDefinition Width="30*"/>
-                                            <ColumnDefinition Width="20*"/>
+                                            <ColumnDefinition Width="76.2*"/>
+                                            <ColumnDefinition Width="50*"/>
+                                            <ColumnDefinition Width="60*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Row="0" Grid.ColumnSpan="2"
-                                                   FontSize="15"
-                                                   Text="※행정서류"/>
-                                        <!--필증-->
-                                        <Button x:Name="btnLocalGoTaxFile" Content="필증(최신)" Grid.Column="0" Grid.Row="1" Tag="LocalGoTax"
-                                                        Click="btnFileUpload_Click"/>
-                                        <TextBox x:Name="txtLocalGoTaxFile" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                   Style="{DynamicResource TextBoxInputArea}" Text="{Binding localGoTaxFileName}" 
-                                                   Tag="{Binding localGoTaxFilePath}"
-                                                   IsReadOnly="True"/>
+                                        <Button x:Name="btnLocalGovProveFile" Content="행위신고증명서" Grid.Column="0" Grid.Row="1" Tag="LocalGovProve"
+                                        Click="btnFileUpload_Click"/>
+                                        <TextBox x:Name="txtLocalGovProveFile" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                           Style="{DynamicResource TextBoxInputArea}" Text="{Binding LocalGovProveFileName}" 
+                                           Tag="{Binding LocalGovProveFilePath}"
+                                           IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <Button x:Name="btnDeleteLocalGoTaxFile" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="LocalGoTax"></Button>
-                                            <Button x:Name="btnViewLocalGoTaxFile" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="LocalGoTax" ></Button>
+                                            <Button x:Name="btnDelLocalGovProveFileFile" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="LocalGovProve"></Button>
+                                            <Button x:Name="btnViewLocalGovProveFileFile" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="LocalGovProve" ></Button>
                                         </Grid>
                                     </Grid>
 
+                                    <!--사용검사필증-->
+                                    <Grid Grid.Row="26" Grid.Column="3" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="76.2*"/>
+                                            <ColumnDefinition Width="50*"/>
+                                            <ColumnDefinition Width="60*"/>
+                                        </Grid.ColumnDefinitions>
+                                
+                                            <Button x:Name="btnLocalGoTaxFile" Content="사용검사필증" Grid.Column="0" Grid.Row="1" Tag="LocalGoTax"
+                                                        Click="btnFileUpload_Click"/>
+                                            <TextBox x:Name="txtLocalGoTaxFile" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                                       Style="{DynamicResource TextBoxInputArea}" Text="{Binding localGoTaxFileName}" 
+                                                       Tag="{Binding localGoTaxFilePath}"
+                                                       IsReadOnly="True"/>
+                                            <Grid Grid.Row="1" Grid.Column="4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Button x:Name="btnDeleteLocalGoTaxFile" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="LocalGoTax"></Button>
+                                                <Button x:Name="btnViewLocalGoTaxFile" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="LocalGoTax" ></Button>
+                                            </Grid>                               
+                                    </Grid>
+
+                                    
 
                                     <!--시공 비고-->
-                                    <Grid Grid.Row="26" Grid.Column="0" Grid.ColumnSpan="6">
+                                    <Grid Grid.Row="27" Grid.Column="0" Grid.ColumnSpan="6">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="29.5*"/>
                                             <ColumnDefinition Width="106*"/>
@@ -2567,7 +2619,7 @@
                                             </Viewbox>
                                         </Label>
                                     </Grid>
-                                    <TextBox x:Name="txtLocalGoComments" Grid.Row="26" Grid.RowSpan="3" Grid.ColumnSpan="4"  Grid.Column="1" Text="{Binding localGoComments}"
+                                    <TextBox x:Name="txtLocalGoComments" Grid.Row="27" Grid.RowSpan="3" Grid.ColumnSpan="4"  Grid.Column="1" Text="{Binding localGoComments}"
                                              AcceptsReturn="True" TextWrapping="Wrap" />
 
 
@@ -2978,7 +3030,8 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtConstrCustomID" Grid.Row="5" Grid.Column="1" Text="{Binding constrCustom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                     Keyboard.KeyDown="txtConstrCustomID_KeyDown" Tag="{Binding constrCustomID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                     Keyboard.KeyDown="txtConstrCustomID_KeyDown" Tag="{Binding constrCustomID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                     VerticalContentAlignment="Center"/>
                                         <Button x:Name="btnConstrCustomID" Grid.Row="5" Grid.Column="2" Click="btnConstrCustomID_Click">
                                             <Image Source="{DynamicResource btiPlusFind}"  />
                                         </Button>
@@ -3139,11 +3192,14 @@
                                     </Grid>
 
                                     <!--전기안전검사 보완사항-->
-                                    <Grid Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="6">
+                                    <Grid Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="29.2*"/>
+                                            <!--<ColumnDefinition Width="29.2*"/>
                                             <ColumnDefinition Width="105*"/>
-                                            <ColumnDefinition Width="6.6*"/>
+                                            <ColumnDefinition Width="6.6*"/>-->
+                                            <ColumnDefinition Width="85*"/>
+                                            <ColumnDefinition Width="105*"/>
+                                            <ColumnDefinition Width="20*"/>
                                         </Grid.ColumnDefinitions>
 
                                         <Label Grid.Row="4" Grid.Column="0" 
@@ -3155,6 +3211,27 @@
                                         </Label>
                                         <TextBox x:Name="txtElectrSafeCheckSuppleContext"  Grid.Row="4" Grid.Column="1" Text="{Binding electrSafeCheckSuppleContext}"
                                                  Style="{StaticResource TextBoxInputArea}"/>
+                                    </Grid>
+
+                                    <!--전기안전점검 확인증 발급일-->
+                                    <Grid Grid.Row="16" Grid.Column="3" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="85*"/>
+                                            <ColumnDefinition Width="105*"/>
+                                            <ColumnDefinition Width="20*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label x:Name="lblElectrSafeCheckPrintDate" Grid.Row="6" Grid.Column="0" 
+                                                  Style="{DynamicResource LabelInputArea}" 
+                                                 HorizontalContentAlignment="Center">
+                                            <StackPanel Orientation="Horizontal" >
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="전기안전점검 확인증 발급일" Style="{DynamicResource TextBlockInViewBoxInput}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpElectrSafeCheckPrintDate" Grid.Row="0" Grid.Column="1" 
+                                                  Style="{DynamicResource DatePickerInputArea}" 
+                                                  SelectedDate="{Binding electrSafeCheckPrintDate}"/>
                                     </Grid>
 
 
@@ -3408,14 +3485,14 @@
                                         <TextBlock Grid.Column="0" VerticalAlignment="Bottom" Grid.ColumnSpan="3" Text="-----[첨부파일]-------"/>
                                     </Grid>
 
-                                    <!--전기안전검사 확인증-->
+                                    <!--전기안전검사 확인증 -> 전기안전점검 확인증-->
                                     <Grid Grid.Row="26" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>
                                             <ColumnDefinition Width="50*"/>
                                             <ColumnDefinition Width="60*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Button x:Name="btnElectrSafeInspPrintFile" Content="전기안전검사 확인증" Grid.Column="0" Grid.Row="1" Tag="ElectrSafeInspPrint"
+                                        <Button x:Name="btnElectrSafeInspPrintFile" Content="전기안전점검 확인증" Grid.Column="0" Grid.Row="1" Tag="ElectrSafeInspPrint"
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtElectrSafeInspPrintFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                 Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrSafeInspPrintFileName}" 
@@ -3454,8 +3531,100 @@
                                         </Grid>
                                     </Grid>
 
-                                    <!--사용전검사 확인증-->
+                                    <!--한전접수증-->
                                     <Grid Grid.Row="27" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="76.2*"/>
+                                            <ColumnDefinition Width="50*"/>
+                                            <ColumnDefinition Width="60*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btnElectrKepAcptFile" Content="한전접수증" Grid.Column="0" Grid.Row="1" Tag="ElectrKepAcpt"
+                                                     Click="btnFileUpload_Click"/>
+                                        <TextBox x:Name="txtElectrKepAcptFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrKepAcptFileName}" 
+                                                Tag="{Binding electrKepAcptFilePath}"
+                                                 IsReadOnly="True"/>
+                                        <Grid Grid.Row="1" Grid.Column="4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button x:Name="btnDelElectrKepAcptFile" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="ElectrKepAcpt"></Button>
+                                            <Button x:Name="btnViewElectrKepAcptFile" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="ElectrKepAcpt" ></Button>
+                                        </Grid>
+                                    </Grid>
+
+                                    <!--시설부담금 고지서-->
+                                    <Grid Grid.Row="27" Grid.Column="3" Grid.ColumnSpan="3" Margin="1.5,0,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="76.2*"/>
+                                            <ColumnDefinition Width="50*"/>
+                                            <ColumnDefinition Width="60*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btnElectrKepInfraPayBillFile" Content="시설부담금 고지서" Grid.Column="0" Grid.Row="1" Tag="ElectrKepInfraPayBill"
+                                                     Click="btnFileUpload_Click"/>
+                                        <TextBox x:Name="txtElectrKepInfraPayBillFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrKepInfraPayBillFileName}" 
+                                                Tag="{Binding electrKepInfraPayBillFilePath}"
+                                                 IsReadOnly="True"/>
+                                        <Grid Grid.Row="1" Grid.Column="4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button x:Name="btnDelElectrKepInfraPayBillFile" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="ElectrKepInfraPayBill"></Button>
+                                            <Button x:Name="btnViewElectrKepInfraPayBillFile" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="ElectrKepInfraPayBill" ></Button>
+                                        </Grid>
+                                    </Grid>
+
+                                    <!--전기사용계약서 고지서-->
+                                    <Grid Grid.Row="28" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="76.2*"/>
+                                            <ColumnDefinition Width="50*"/>
+                                            <ColumnDefinition Width="60*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btnElectrUseContractFile" Content="전기사용계약서 고지서" Grid.Column="0" Grid.Row="1" Tag="ElectrUseContract"
+                                                     Click="btnFileUpload_Click"/>
+                                        <TextBox x:Name="txtElectrUseContractFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrUseContractFileName}" 
+                                                Tag="{Binding electrUseContractFilePath}"
+                                                 IsReadOnly="True"/>
+                                        <Grid Grid.Row="1" Grid.Column="4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button x:Name="btnDelElectrUseContractFile" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="ElectrUseContract"></Button>
+                                            <Button x:Name="btnViewElectrUseContractFile" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="ElectrUseContract" ></Button>
+                                        </Grid>
+                                    </Grid>
+
+                                    <!--사용전검사 수수료-->
+                                    <Grid Grid.Row="28" Grid.Column="3" Grid.ColumnSpan="3" Margin="1.5,0,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="76.2*"/>
+                                            <ColumnDefinition Width="50*"/>
+                                            <ColumnDefinition Width="60*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btnElectrBeforeUseInspCostFile" Content="사용전검사 수수료" Grid.Column="0" Grid.Row="1" Tag="ElectrBeforeUseInspCost"
+                                                     Click="btnFileUpload_Click"/>
+                                        <TextBox x:Name="txtElectrBeforeUseInspCostFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrBeforeUseInspCostFileName}" 
+                                                Tag="{Binding electrBeforeUseInspCostFilePath}"
+                                                 IsReadOnly="True"/>
+                                        <Grid Grid.Row="1" Grid.Column="4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button x:Name="btnDelElectrBeforeUseInspCostFile" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="ElectrBeforeUseInspCost"></Button>
+                                            <Button x:Name="btnViewElectrBeforeUseInspCostFile" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="ElectrBeforeUseInspCost" ></Button>
+                                        </Grid>
+                                    </Grid>
+
+                                    <!--사용전검사 확인증-->
+                                    <!--<Grid Grid.Row="27" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -3475,10 +3644,10 @@
                                             <Button x:Name="btnDelElectrBeforeUseInspFile" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="ElectrBeforeUseInsp"></Button>
                                             <Button x:Name="btnViewElectrBeforeUseInspFile" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="ElectrBeforeUseInsp" ></Button>
                                         </Grid>
-                                    </Grid>
+                                    </Grid>-->
 
                                     <!--업무협조 안내서-->
-                                    <Grid Grid.Row="27" Grid.Column="3" Grid.ColumnSpan="3" Margin="1.5,0,0,0">
+                                    <Grid Grid.Row="29" Grid.Column="3" Grid.ColumnSpan="3" Margin="1.5,0,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -3500,21 +3669,20 @@
                                         </Grid>
                                     </Grid>
 
-                                    <!--수수료 내역서-->
-                                    <Grid Grid.Row="28" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
+                                    <!--수수료 내역서 -> 전기안전점검 수수료-->
+                                    <Grid Grid.Row="29" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="44*"/>
-                                            <ColumnDefinition Width="3*"/>
-                                            <ColumnDefinition Width="31*"/>
-                                            <ColumnDefinition Width="37*"/>
+                                            <ColumnDefinition Width="76.2*"/>
+                                            <ColumnDefinition Width="50*"/>
+                                            <ColumnDefinition Width="60*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Button x:Name="btnElectrCostFile" Content="수수료 내역서" Grid.Column="0" Tag="ElectrCost"
-                                                     Click="btnFileUpload_Click" Grid.ColumnSpan="2"/>
-                                        <TextBox x:Name="txtElectrCostFileName" Grid.Column="2" Grid.ColumnSpan="2"
+                                        <Button x:Name="btnElectrCostFile" Content="전기안전점검 수수료" Grid.Column="0" Tag="ElectrCost"
+                                                     Click="btnFileUpload_Click" />
+                                        <TextBox x:Name="txtElectrCostFileName" Grid.Column="1" Grid.ColumnSpan="3"
                                                 Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrCostFileName}" 
                                                 Tag="{Binding electrCostFilePath}"
                                                  IsReadOnly="True" Margin="1,1,1,0"/>
-                                        <Grid Grid.Column="3">
+                                        <Grid Grid.Column="4">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="*"/>
@@ -3682,7 +3850,8 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtSuperCostPayCustomID" Grid.Row="5" Grid.Column="1" Text="{Binding superCostPayCustom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                     Keyboard.KeyDown="txtSuperCostPayCustomID_KeyDown" Tag="{Binding superCostPayCustomID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                     Keyboard.KeyDown="txtSuperCostPayCustomID_KeyDown" Tag="{Binding superCostPayCustomID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    VerticalContentAlignment="Center"/>
                                         <Button x:Name="btnSuperCostPayCustomID" Grid.Row="5" Grid.Column="2" Click="btnSuperCostPayCustomID_Click">
                                             <Image Source="{DynamicResource btiPlusFind}"  />
                                         </Button>
@@ -3724,7 +3893,8 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtSuperUseInspPayCustomID" Grid.Row="5" Grid.Column="1" Text="{Binding superUseInspPayCustom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                     Keyboard.KeyDown="txtSuperUseInspPayCustomID_KeyDown" Tag="{Binding superUseInspPayCustomID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                     Keyboard.KeyDown="txtSuperUseInspPayCustomID_KeyDown" Tag="{Binding superUseInspPayCustomID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                     VerticalContentAlignment="Center"/>
                                         <Button x:Name="btnSuperUseInspPayCustomID" Grid.Row="5" Grid.Column="2" Click="btnSuperUseInspPayCustomID_Click">
                                             <Image Source="{DynamicResource btiPlusFind}"  />
                                         </Button>
@@ -3796,14 +3966,14 @@
                                         </Grid>
                                     </Grid>
 
-                                    <!--사용전 검사확인증-->
+                                    <!--사용전 검사확인증 -> 수검자 자료-->
                                     <Grid Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="3" Margin="1.5,0,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>
                                             <ColumnDefinition Width="50*"/>
                                             <ColumnDefinition Width="60*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Button x:Name="btnSuperBeforeUseInspectFile" Content="사용전 검사확인증" Grid.Column="0" Grid.Row="1" Tag="SuperBeforeUseInspect"
+                                        <Button x:Name="btnSuperBeforeUseInspectFile" Content="수검자 자료" Grid.Column="0" Grid.Row="1" Tag="SuperBeforeUseInspect"
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtSuperBeforeUseInspectFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                 Style="{DynamicResource TextBoxInputArea}" Text="{Binding superBeforeUseInspectFileName}" 
@@ -4087,7 +4257,6 @@
                                         </Grid>
                                     </Grid>
 
-
                                     <!--정산경리정보 TextBlock-->
                                     <Grid Grid.Row="19" Grid.Column="0" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
@@ -4098,8 +4267,7 @@
                                         <TextBlock Grid.Column="0" VerticalAlignment="Bottom" Grid.ColumnSpan="3" Text="-----[정산경리정보]-------"/>
                                     </Grid>
 
-
-                                    <Grid Grid.Row="20"  Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="7">
+                                    <!--<Grid Grid.Row="20"  Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="7">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="20*"/>
                                             <ColumnDefinition Width="80*"/>
@@ -4177,56 +4345,8 @@
                                                                     Loaded="TextBox_DatePicker"/>
                                                             </DataTemplate>
                                                         </DataGridTemplateColumn.CellEditingTemplate>
-                                                    </DataGridTemplateColumn>
-
-                                                    <DataGridTemplateColumn Header="보조금" x:Name="column2Amount" MaxWidth="200" Width="*" Visibility="Hidden">
-                                                        <DataGridTemplateColumn.CellTemplate>
-                                                            <DataTemplate>
-                                                                <TextBlock Text="{Binding column2Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center" TextAlignment="Right" Padding="5 0" />
-                                                            </DataTemplate>
-                                                        </DataGridTemplateColumn.CellTemplate>
-                                                        <DataGridTemplateColumn.CellEditingTemplate>
-                                                            <DataTemplate>
-                                                                <TextBox Text="{Binding column2Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Padding="5 0 3 0" 
-                                                                  PreviewTextInput="TextBox_NumberValidation"
-                                                                  PreviewKeyDown="TextBox_PreventCopyPaste"
-                                                                                   HorizontalAlignment="Right"/>
-                                                            </DataTemplate>
-                                                        </DataGridTemplateColumn.CellEditingTemplate>
-                                                    </DataGridTemplateColumn>
-
-                                                    <DataGridTemplateColumn Header="투자" x:Name="column3Amount" MaxWidth="200" Width="*" Visibility="Hidden">
-                                                        <DataGridTemplateColumn.CellTemplate>
-                                                            <DataTemplate>
-                                                                <TextBlock Text="{Binding column3Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center" TextAlignment="Right" Padding="5 0"/>
-                                                            </DataTemplate>
-                                                        </DataGridTemplateColumn.CellTemplate>
-                                                        <DataGridTemplateColumn.CellEditingTemplate>
-                                                            <DataTemplate>
-                                                                <TextBox Text="{Binding column3Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Padding="5 0 3 0" 
-                                                                          PreviewTextInput="TextBox_NumberValidation"
-                                                                          PreviewKeyDown="TextBox_PreventCopyPaste"
-                                                                                           HorizontalAlignment="Right"/>
-                                                            </DataTemplate>
-                                                        </DataGridTemplateColumn.CellEditingTemplate>
-                                                    </DataGridTemplateColumn>
-
-                                                    <DataGridTemplateColumn Header="판매" x:Name="column4Amount" MaxWidth="200" Width="*" Visibility="Hidden">
-                                                        <DataGridTemplateColumn.CellTemplate>
-                                                            <DataTemplate>
-                                                                <TextBlock Text="{Binding column4Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center" TextAlignment="Right" Padding="5 0" />
-                                                            </DataTemplate>
-                                                        </DataGridTemplateColumn.CellTemplate>
-                                                        <DataGridTemplateColumn.CellEditingTemplate>
-                                                            <DataTemplate>
-                                                                <TextBox Text="{Binding column4Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Padding="5 0 3 0" 
-                                                                      PreviewTextInput="TextBox_NumberValidation"
-                                                                      PreviewKeyDown="TextBox_PreventCopyPaste"
-                                                                                       HorizontalAlignment="Right"/>
-                                                            </DataTemplate>
-                                                        </DataGridTemplateColumn.CellEditingTemplate>
-                                                    </DataGridTemplateColumn>
-
+                                                    </DataGridTemplateColumn>  
+                                                    
                                                     <DataGridTemplateColumn Header="금액" x:Name="column5Amount" MaxWidth="200" Width="*">
                                                         <DataGridTemplateColumn.CellTemplate>
                                                             <DataTemplate>
@@ -4242,22 +4362,7 @@
                                                             </DataTemplate>
                                                         </DataGridTemplateColumn.CellEditingTemplate>
                                                     </DataGridTemplateColumn>
-
-                                                    <DataGridTemplateColumn Header="잔액" x:Name="column6Amount" MaxWidth="200" Width="*" Visibility="Hidden">
-                                                        <DataGridTemplateColumn.CellTemplate>
-                                                            <DataTemplate>
-                                                                <TextBlock Text="{Binding column6Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center" TextAlignment="Right" Padding="5 0" />
-                                                            </DataTemplate>
-                                                        </DataGridTemplateColumn.CellTemplate>
-                                                        <DataGridTemplateColumn.CellEditingTemplate>
-                                                            <DataTemplate>
-                                                                <TextBox Text="{Binding column6Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Padding="5 0 3 0" 
-                                                                         PreviewTextInput="TextBox_NumberValidation"
-                                                                         PreviewKeyDown="TextBox_PreventCopyPaste"
-                                                                                          HorizontalAlignment="Right"/>
-                                                            </DataTemplate>
-                                                        </DataGridTemplateColumn.CellEditingTemplate>
-                                                    </DataGridTemplateColumn>
+                                                    
 
                                                     <DataGridTemplateColumn Header="비고" x:Name="column7Comment" Width="*">
                                                         <DataGridTemplateColumn.CellTemplate>
@@ -4271,16 +4376,285 @@
                                                             </DataTemplate>
                                                         </DataGridTemplateColumn.CellEditingTemplate>
                                                     </DataGridTemplateColumn>
-
                                                 </DataGrid.Columns>
-
-
                                             </DataGrid>
                                         </Grid>
-                                    </Grid>
+                                    </Grid>-->
+
+                                    <ScrollViewer Grid.Row="20" Grid.ColumnSpan="6" Grid.RowSpan="7" 
+                                                  VerticalScrollBarVisibility="Auto">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="20*"/>
+                                                <ColumnDefinition Width="80*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="0">
+                                                <Grid Margin="0">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition MinHeight="26" MaxHeight="20"/>
+                                                        <RowDefinition MinHeight="26" MaxHeight="26"/> <!--운영사시공비-->
+                                                        <RowDefinition MinHeight="26" MaxHeight="26"/>
+                                                        <RowDefinition MinHeight="26" MaxHeight="26"/>
+                                                        <RowDefinition MinHeight="26" MaxHeight="26"/> <!--운영사시공비end-->
+                                                        <RowDefinition MinHeight="26" MaxHeight="26"/> <!--운영사영업비-->
+                                                        <RowDefinition MinHeight="26" MaxHeight="26"/>
+                                                        <RowDefinition MinHeight="26" MaxHeight="26"/>
+                                                        <RowDefinition MinHeight="26" MaxHeight="26"/> <!--운영사영업비end-->
+                                                        <RowDefinition MinHeight="26" MaxHeight="26"/> <!--시공팀-->
+                                                        <RowDefinition MinHeight="26" MaxHeight="26"/>
+                                                        <RowDefinition MinHeight="26" MaxHeight="26"/>
+                                                        <RowDefinition MinHeight="26" MaxHeight="26"/> <!--시공팀end-->
+                                                        <RowDefinition MinHeight="26" MaxHeight="26"/> <!--영업사원-->
+                                                        <RowDefinition MinHeight="26" MaxHeight="26"/>
+                                                        <RowDefinition MinHeight="26" MaxHeight="26"/>
+                                                        <RowDefinition MinHeight="26" MaxHeight="26"/> <!--영업사원end-->
+
+                                                    </Grid.RowDefinitions>
+                                                    <DataGridRowHeader Grid.Row="0" Content="구분" Style="{StaticResource RowHeaderStyle}" VerticalAlignment="Stretch" />
+                                                    <Grid Grid.Row="1" Grid.RowSpan="4">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="5*"/>
+                                                            <ColumnDefinition Width="10*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <DataGridRowHeader Grid.Column="0" Content="운영사&#x0a;시공비" Style="{StaticResource RowHeaderStyleNoMaxHeight}"/>
+                                                        <Grid Grid.Column="1">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition MaxHeight="26"/>
+                                                                <RowDefinition MaxHeight="26"/>
+                                                                <RowDefinition MaxHeight="26"/>
+                                                                <RowDefinition MaxHeight="26"/>
+                                                            </Grid.RowDefinitions>
+                                                            <DataGridRowHeader Grid.Column="0" Grid.Row="0" Content="선금"  Style="{StaticResource RowHeaderStyle}"/>
+                                                            <DataGridRowHeader Grid.Column="0" Grid.Row="1" Content="중도금" Style="{StaticResource RowHeaderStyle}"/>
+                                                            <DataGridRowHeader Grid.Column="0" Grid.Row="2" Content="잔액" Style="{StaticResource RowHeaderStyle}"/>
+                                                            <DataGridRowHeader Grid.Column="0" Grid.Row="3" Content="총액" Style="{StaticResource RowHeaderStyle}"/>
+                                                        </Grid>
+                                                    </Grid>
+
+                                                    <Grid Grid.Row="5" Grid.RowSpan="4">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="5*"/>
+                                                            <ColumnDefinition Width="10*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <DataGridRowHeader Grid.Column="0" Content="운영사&#x0a;영업비" Style="{StaticResource RowHeaderStyleNoMaxHeight}"/>
+                                                        <Grid Grid.Column="1">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition MaxHeight="26"/>
+                                                                <RowDefinition MaxHeight="26"/>
+                                                                <RowDefinition MaxHeight="26"/>
+                                                                <RowDefinition MaxHeight="26"/>
+                                                            </Grid.RowDefinitions>
+                                                            <DataGridRowHeader Grid.Column="0" Grid.Row="0" Content="선금"  Style="{StaticResource RowHeaderStyle}"/>
+                                                            <DataGridRowHeader Grid.Column="0" Grid.Row="1" Content="중도금" Style="{StaticResource RowHeaderStyle}"/>
+                                                            <DataGridRowHeader Grid.Column="0" Grid.Row="2" Content="잔액" Style="{StaticResource RowHeaderStyle}"/>
+                                                            <DataGridRowHeader Grid.Column="0" Grid.Row="3" Content="총액" Style="{StaticResource RowHeaderStyle}"/>
+                                                        </Grid>
+                                                    </Grid>
+
+                                                    <Grid Grid.Row="9" Grid.RowSpan="4">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="5*"/>
+                                                            <ColumnDefinition Width="10*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <DataGridRowHeader Grid.Column="0" Content="시공팀" Style="{StaticResource RowHeaderStyleNoMaxHeight}"/>
+                                                        <Grid Grid.Column="1">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition MaxHeight="26"/>
+                                                                <RowDefinition MaxHeight="26"/>
+                                                                <RowDefinition MaxHeight="26"/>
+                                                                <RowDefinition MaxHeight="26"/>
+                                                            </Grid.RowDefinitions>
+                                                            <DataGridRowHeader Grid.Column="0" Grid.Row="0" Content="선금"  Style="{StaticResource RowHeaderStyle}"/>
+                                                            <DataGridRowHeader Grid.Column="0" Grid.Row="1" Content="중도금" Style="{StaticResource RowHeaderStyle}"/>
+                                                            <DataGridRowHeader Grid.Column="0" Grid.Row="2" Content="잔액" Style="{StaticResource RowHeaderStyle}"/>
+                                                            <DataGridRowHeader Grid.Column="0" Grid.Row="3" Content="총액" Style="{StaticResource RowHeaderStyle}"/>
+                                                        </Grid>
+                                                    </Grid>
+
+                                                    <Grid Grid.Row="13" Grid.RowSpan="4">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="5*"/>
+                                                            <ColumnDefinition Width="10*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <DataGridRowHeader Grid.Column="0" Content="영업사원" Style="{StaticResource RowHeaderStyleNoMaxHeight}"/>
+                                                        <Grid Grid.Column="1">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition MaxHeight="26"/>
+                                                                <RowDefinition MaxHeight="26"/>
+                                                                <RowDefinition MaxHeight="26"/>
+                                                                <RowDefinition MaxHeight="26"/>
+                                                            </Grid.RowDefinitions>
+                                                            <DataGridRowHeader Grid.Column="0" Grid.Row="0" Content="선금"  Style="{StaticResource RowHeaderStyle}"/>
+                                                            <DataGridRowHeader Grid.Column="0" Grid.Row="1" Content="중도금" Style="{StaticResource RowHeaderStyle}"/>
+                                                            <DataGridRowHeader Grid.Column="0" Grid.Row="2" Content="잔액" Style="{StaticResource RowHeaderStyle}"/>
+                                                            <DataGridRowHeader Grid.Column="0" Grid.Row="3" Content="총액" Style="{StaticResource RowHeaderStyle}"/>
+                                                        </Grid>
+                                                    </Grid>                                            
+                                                </Grid>
+                                            </Grid>
+                                            <!--경산경리정보Datagrid-->
+                                            <Grid Margin="0" VerticalAlignment="Top" Grid.Column="1" Height="auto">
+                                                <DataGrid x:Name="dgdAccnt"  Margin="0" Padding="0" Style="{DynamicResource DataGridSet1_FixedHeight}" 
+                                                            HeadersVisibility="Column">
+                                                    <DataGrid.CellStyle>
+                                                        <Style TargetType="DataGridCell">
+                                                            <Setter Property="FontSize" Value="12"/>
+                                                            <EventSetter Event="PreviewKeyDown" Handler="DataGridSub_PreviewKeyDown"/>
+                                                            <EventSetter Event="KeyDown" Handler="DataGridSub_KeyDown"/>
+                                                            <EventSetter Event="KeyUp" Handler="DataGridSub_TextFocus"/>
+                                                            <EventSetter Event="GotFocus" Handler="DataGridSub_GotFocus" />
+                                                            <EventSetter Event="MouseUp" Handler="DataGridSub_MouseUp" />
+                                                        </Style>
+                                                    </DataGrid.CellStyle>
+                                                    <DataGrid.ColumnHeaderStyle>
+                                                        <Style TargetType="DataGridColumnHeader">
+                                                            <Setter Property="MaxHeight" Value="26" />
+                                                            <Setter Property="MinHeight" Value="26" />
+                                                            <Setter Property="Background" Value="#365fb1" />
+                                                            <Setter Property="BorderBrush" Value="White" />
+                                                            <Setter Property="Foreground" Value="White" />
+                                                            <Setter Property="BorderThickness" Value="0.7" />
+                                                            <Setter Property="FontWeight" Value="Thin" />
+                                                            <Setter Property="FontSize" Value="12"/>
+                                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                                        </Style>
+                                                    </DataGrid.ColumnHeaderStyle>
+                                                    <DataGrid.Columns>
+                                                        <DataGridTemplateColumn Header="계산서발행일" x:Name="column1Date" MaxWidth="80" Width="*">
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock Text="{Binding column1Date, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center" TextAlignment="Left" Padding="5 0" Loaded="TextBlock_Loaded"  Height="22.6"/>
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                            <DataGridTemplateColumn.CellEditingTemplate>
+                                                                <DataTemplate>
+                                                                    <DatePicker x:Name="dtpAcptDate" Grid.Row="0" Grid.Column="1" 
+                                                                                Style="{DynamicResource DatePickerInputArea}" 
+                                                                                SelectedDate="{Binding column1Date, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                                                Loaded="TextBox_DatePicker"/>
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellEditingTemplate>
+                                                        </DataGridTemplateColumn>
+
+                                                        <DataGridTemplateColumn Header="금액" x:Name="column5Amount" MaxWidth="200" Width="*">
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock Text="{Binding column2Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center" TextAlignment="Right" Padding="5 0" />
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                            <DataGridTemplateColumn.CellEditingTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBox Text="{Binding column2Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Padding="5 0 3 0" 
+                                                                        PreviewTextInput="TextBox_NumberValidation"
+                                                                        PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                                                         HorizontalAlignment="Right"/>
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellEditingTemplate>
+                                                        </DataGridTemplateColumn>
 
 
+                                                        <DataGridTemplateColumn Header="비고" x:Name="column7Comment" MinWidth="100" Width="Auto">
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock Text="{Binding column3Comment, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center" TextAlignment="Left" Padding="5 0" />
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                            <DataGridTemplateColumn.CellEditingTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBox Text="{Binding column3Comment, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Padding="5 0 3 0" />
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellEditingTemplate>
+                                                        </DataGridTemplateColumn>
 
+                                                        <DataGridTemplateColumn Header="첨부파일" MinWidth="200">
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                                                        <TextBox Text="{Binding column5FileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                                                   Tag="{Binding column4FilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                                                   IsReadOnly="True" BorderThickness="0" HorizontalAlignment="Left"/>
+                                                                        <Button Content="다운" x:Name="btnAccntDown" MinWidth="50" Tag="AccntDown" Click="btnFileSee_Click">
+                                                                            <Button.Style>
+                                                                                <Style TargetType="Button">
+                                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                                    <Style.Triggers>
+                                                                                        <MultiDataTrigger>
+                                                                                            <MultiDataTrigger.Conditions>
+                                                                                                <Condition Binding="{Binding column5FileName, FallbackValue=''}" Value=""/>
+                                                                                                <Condition Binding="{Binding column4FilePath, FallbackValue=''}" Value=""/>
+                                                                                            </MultiDataTrigger.Conditions>
+                                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                        </MultiDataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </Button.Style>
+                                                                        </Button>
+                                                                        <Button Content="X" x:Name="btnAccntDelete" MinWidth="50" Tag="AccntDelete" Click="btnFileDelete_Click">
+                                                                            <Button.Style>
+                                                                                <Style TargetType="Button">
+                                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                                    <Style.Triggers>
+                                                                                        <MultiDataTrigger>
+                                                                                            <MultiDataTrigger.Conditions>
+                                                                                                <Condition Binding="{Binding column5FileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Value=""/>
+                                                                                                <Condition Binding="{Binding column4FilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Value=""/>
+                                                                                            </MultiDataTrigger.Conditions>
+                                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                        </MultiDataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </Button.Style>
+                                                                        </Button>
+                                                                        <Button x:Name="btnAccntUpload" Content="업로드" Width="auto" Click="btnAccntUpload_Click">
+                                                                            <Button.Style>
+                                                                                <Style TargetType="Button">
+                                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                    <Style.Triggers>
+                                                                                        <MultiDataTrigger>
+                                                                                            <MultiDataTrigger.Conditions>
+                                                                                                <Condition Binding="{Binding column5FileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Value=""/>
+                                                                                                <Condition Binding="{Binding column4FilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Value=""/>
+                                                                                            </MultiDataTrigger.Conditions>
+                                                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                                                        </MultiDataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </Button.Style>
+                                                                        </Button>
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                            <!--<DataGridTemplateColumn.CellEditingTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                                                        <TextBox Text="{Binding column5FileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                                                 Tag="{Binding column4FilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                                                                        <Button x:Name="btnAccntUpload" Content="업로드" Width="auto" Click="btnAccntUpload_Click">
+                                                                            <Button.Style>
+                                                                                <Style TargetType="Button">
+                                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                    <Style.Triggers>
+                                                                                        <MultiDataTrigger>
+                                                                                            <MultiDataTrigger.Conditions>
+                                                                                                <Condition Binding="{Binding column5FileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Value=""/>
+                                                                                                <Condition Binding="{Binding column4FilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Value=""/>
+                                                                                            </MultiDataTrigger.Conditions>
+                                                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                                                        </MultiDataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </Button.Style>
+                                                                        </Button>
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellEditingTemplate>-->
+                                                        </DataGridTemplateColumn>
+                                                        
+                                                    </DataGrid.Columns>
+                                                </DataGrid>
+                                            </Grid>
+                                        </Grid>
+                                    </ScrollViewer>    
 
 
                                     <!--비고-->
@@ -4306,6 +4680,349 @@
                                        Style="{StaticResource TextBoxMultiLine}"/>
 
                                 </Grid>
+                            </GroupBox>
+                        </TabItem>
+
+                        <TabItem x:Name="tab5" Header="첨부서류파일" Margin="-2,0,-2,0">
+                            <GroupBox Grid.Row="0" Margin="1">
+                                <Grid x:Name="grd5" IsHitTestVisible="False">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="85*" />
+                                        <ColumnDefinition Width="105*" />
+                                        <ColumnDefinition Width="20*" />
+                                        <ColumnDefinition Width="85*" />
+                                        <ColumnDefinition Width="105*" />
+                                        <ColumnDefinition Width="10*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1.5*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <!--Header-->
+                                    <TextBlock Grid.Row="0" Grid.ColumnSpan="2"
+                                   FontSize="12"
+                                   Text="[첨부서류파일]" VerticalAlignment="Bottom"/>
+
+                                    <!--첨부파일1-->
+                                    <Button x:Name="btnSketch1" Content="신청서" Grid.Column="0" Grid.Row="1" Tag="btnSketch1"
+                                                    Click="btnFileUpload_Click"/>
+
+                                    <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox x:Name="txtSketch1FileAlias" Grid.Column="0" Text="{Binding sketch1FileAlias}"
+                                                            Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
+                                                            IsReadOnly="True"/>
+                                        <TextBox x:Name="txtSketch1" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                                         Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch1FileName, UpdateSourceTrigger=PropertyChanged}" 
+                                                         Tag="{Binding sketch1FilePath, UpdateSourceTrigger=PropertyChanged}"
+                                                         IsReadOnly="True" IsEnabled="False"/>
+                                    </Grid>
+                                    <Grid Grid.Row="1" Grid.Column="4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btnDeleteSketch1File" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="btnSketch1"></Button>
+                                        <Button x:Name="btnViewSketch1File" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="btnSketch1" ></Button>
+                                    </Grid>
+
+                                    <!--첨부파일2-->
+                                    <Button x:Name="btnSketch2" Content="개인정보동의서" Grid.Column="0" Grid.Row="2" Tag="btnSketch2"
+                                                     Click="btnFileUpload_Click"/>
+
+                                    <Grid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox x:Name="txtSketch2FileAlias" Grid.Column="0" Text="{Binding sketch2FileAlias}"
+                                                        Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
+                                                        IsReadOnly="True"/>
+                                        <TextBox x:Name="txtSketch2" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                                       Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch2FileName,UpdateSourceTrigger=PropertyChanged}" 
+                                                       Tag="{Binding sketch2FilePath,UpdateSourceTrigger=PropertyChanged}"
+                                                       IsReadOnly="True" IsEnabled="False"/>
+                                    </Grid>
+                                    <Grid Grid.Row="2" Grid.Column="4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btnDeleteSketch2File" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="btnSketch2"></Button>
+                                        <Button x:Name="btnViewSketch2File" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="btnSketch2" ></Button>
+                                    </Grid>
+
+
+                                    <!--첨부파일3-->
+                                    <Button x:Name="btnSketch3" Content="사업자등록증" Grid.Column="0" Grid.Row="3" Tag="btnSketch3"
+                                                     Click="btnFileUpload_Click"/>
+
+                                    <Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox x:Name="txtSketch3FileAlias" Grid.Column="0" Text="{Binding sketch3FileAlias}"
+                                                          Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
+                                                          IsReadOnly="True"/>
+                                        <TextBox x:Name="txtSketch3" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                                      Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch3FileName,UpdateSourceTrigger=PropertyChanged}" 
+                                                      Tag="{Binding sketch3FilePath,UpdateSourceTrigger=PropertyChanged}"
+                                                      IsReadOnly="True" IsEnabled="False"/>
+                                    </Grid>
+                                    <Grid Grid.Row="3" Grid.Column="4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btnDeleteSketch3File" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="btnSketch3"></Button>
+                                        <Button x:Name="btnViewSketch3File" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="btnSketch3" ></Button>
+                                    </Grid>
+
+                                    <!--첨부파일4-->
+                                    <Button x:Name="btnSketch4" Content="건축물대장" Grid.Column="0" Grid.Row="4" Tag="btnSketch4"
+                                                    Click="btnFileUpload_Click"/>
+
+                                    <Grid Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox x:Name="txtSketch4FileAlias" Grid.Column="0" Text="{Binding sketch4FileAlias}"
+                                                          Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
+                                                          IsReadOnly="True"/>
+                                        <TextBox x:Name="txtSketch4" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                                          Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch4FileName,UpdateSourceTrigger=PropertyChanged}" 
+                                                          Tag="{Binding sketch4FilePath,UpdateSourceTrigger=PropertyChanged}"
+                                                          IsReadOnly="True" IsEnabled="False"/>
+                                    </Grid>
+                                    <Grid Grid.Row="4" Grid.Column="4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btnDeleteSketch4File" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="btnSketch4"></Button>
+                                        <Button x:Name="btnViewSketch4File" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="btnSketch4" ></Button>
+                                    </Grid>
+
+                                    <!--첨부파일5-->
+                                    <Button x:Name="btnSketch5" Content="회의록" Grid.Column="0" Grid.Row="5" Tag="btnSketch5"
+                                                    Click="btnFileUpload_Click"/>
+
+                                    <Grid Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox x:Name="txtSketch5FileAlias" Grid.Column="0" Text="{Binding sketch5FileAlias}"
+                                                         Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
+                                                         IsReadOnly="True"/>
+                                        <TextBox x:Name="txtSketch5" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                                        Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch5FileName,UpdateSourceTrigger=PropertyChanged}" 
+                                                        Tag="{Binding sketch5FilePath,UpdateSourceTrigger=PropertyChanged}"
+                                                        IsReadOnly="True" IsEnabled="False"/>
+                                    </Grid>
+                                    <Grid Grid.Row="5" Grid.Column="4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btnDeleteSketch5File" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="btnSketch5"></Button>
+                                        <Button x:Name="btnViewSketch5File" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="btnSketch5" ></Button>
+                                    </Grid>
+
+                                    <!--첨부파일6-->
+                                    <Button x:Name="btnSketch6" Content="직인사용동의서" Grid.Column="0" Grid.Row="6" Tag="btnSketch6"
+                                                    Click="btnFileUpload_Click"/>
+
+                                    <Grid Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox x:Name="txtSketch6FileAlias" Grid.Column="0" Text="{Binding sketch6FileAlias}"
+                                                         Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
+                                                         IsReadOnly="True"/>
+                                        <TextBox x:Name="txtSketch6" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                                        Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch6FileName,UpdateSourceTrigger=PropertyChanged}" 
+                                                        Tag="{Binding sketch6FilePath,UpdateSourceTrigger=PropertyChanged}"
+                                                        IsReadOnly="True" IsEnabled="False"/>
+                                    </Grid>
+                                    <Grid Grid.Row="6" Grid.Column="4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btnDeleteSketch6File" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="btnSketch6"></Button>
+                                        <Button x:Name="btnViewSketch6File" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="btnSketch6" ></Button>
+                                    </Grid>
+
+                                    <!--첨부파일7-->
+                                    <Button x:Name="btnSketch7" Content="전기사용요금고지서" Grid.Column="0" Grid.Row="7" Tag="btnSketch7"
+                                                   Click="btnFileUpload_Click"/>
+
+                                    <Grid Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox x:Name="txtSketch7FileAlias" Grid.Column="0" Text="{Binding sketch7FileAlias}"
+                                                        Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
+                                                        IsReadOnly="True"/>
+                                        <TextBox x:Name="txtSketch7" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                                       Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch7FileName,UpdateSourceTrigger=PropertyChanged}" 
+                                                       Tag="{Binding sketch7FilePath,UpdateSourceTrigger=PropertyChanged}"
+                                                       IsReadOnly="True" IsEnabled="False"/>
+                                    </Grid>
+                                    <Grid Grid.Row="7" Grid.Column="4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btnDeleteSketch7File" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="btnSketch7"></Button>
+                                        <Button x:Name="btnViewSketch7File" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="btnSketch7" ></Button>
+                                    </Grid>
+
+                                    <!--첨부파일8-->
+                                    <Button x:Name="btnSketch8" Content="직인" Grid.Column="0" Grid.Row="8" Tag="btnSketch8"
+                                                   Click="btnFileUpload_Click"/>
+
+                                    <Grid Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox x:Name="txtSketch8FileAlias" Grid.Column="0" Text="{Binding sketch8FileAlias}"
+                                                        Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
+                                                        IsReadOnly="True"/>
+                                        <TextBox x:Name="txtSketch8" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                                       Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch8FileName,UpdateSourceTrigger=PropertyChanged}" 
+                                                       Tag="{Binding sketch8FilePath,UpdateSourceTrigger=PropertyChanged}"
+                                                       IsReadOnly="True" IsEnabled="False"/>
+                                    </Grid>
+                                    <Grid Grid.Row="8" Grid.Column="4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btnDeleteSketch8File" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="btnSketch8"></Button>
+                                        <Button x:Name="btnViewSketch8File" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="btnSketch8" ></Button>
+                                    </Grid>
+
+
+                                    <!--첨부파일9-->
+                                    <Button x:Name="btnSketch9" Content="전기사용신청서" Grid.Column="0" Grid.Row="9" Tag="btnSketch9"
+                                                   Click="btnFileUpload_Click"/>
+
+                                    <Grid Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox x:Name="txtSketch9FileAlias" Grid.Column="0" Text="{Binding sketch9FileAlias}"
+                                                        Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
+                                                        IsReadOnly="True"/>
+                                        <TextBox x:Name="txtSketch9" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                                       Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch9FileName,UpdateSourceTrigger=PropertyChanged}" 
+                                                       Tag="{Binding sketch9FilePath,UpdateSourceTrigger=PropertyChanged}"
+                                                       IsReadOnly="True" IsEnabled="False"/>
+                                    </Grid>
+                                    <Grid Grid.Row="9" Grid.Column="4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btnDeleteSketch9File" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="btnSketch9"></Button>
+                                        <Button x:Name="btnViewSketch9File" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="btnSketch9" ></Button>
+                                    </Grid>
+
+                                    <!--첨부파일10-->
+                                    <Button x:Name="btnSketch10" Content="행위신고서" Grid.Column="0" Grid.Row="10" Tag="btnSketch10"
+                                                   Click="btnFileUpload_Click"/>
+
+                                    <Grid Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox x:Name="txtSketch10FileAlias" Grid.Column="0" Text="{Binding sketch10FileAlias}"
+                                                        Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
+                                                        IsReadOnly="True"/>
+                                        <TextBox x:Name="txtSketch10" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                                       Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch10FileName,UpdateSourceTrigger=PropertyChanged}" 
+                                                       Tag="{Binding sketch10FilePath,UpdateSourceTrigger=PropertyChanged}"
+                                                       IsReadOnly="True" IsEnabled="False"/>
+                                    </Grid>
+                                    <Grid Grid.Row="10" Grid.Column="4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btnDeleteSketch10File" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="btnSketch10"></Button>
+                                        <Button x:Name="btnViewSketch10File" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="btnSketch10" ></Button>
+                                    </Grid>
+
+                                    <!--첨부파일11-->
+                                    <Button x:Name="btnSketch11" Content="사용검사신청서" Grid.Column="0" Grid.Row="11" Tag="btnSketch11"
+                                                   Click="btnFileUpload_Click"/>
+
+                                    <Grid Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox x:Name="txtSketch11FileAlias" Grid.Column="0" Text="{Binding sketch11FileAlias}"
+                                                        Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
+                                                        IsReadOnly="True"/>
+                                        <TextBox x:Name="txtSketch11" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                                       Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch11FileName,UpdateSourceTrigger=PropertyChanged}" 
+                                                       Tag="{Binding sketch11FilePath,UpdateSourceTrigger=PropertyChanged}"
+                                                       IsReadOnly="True" IsEnabled="False"/>
+                                    </Grid>
+                                    <Grid Grid.Row="11" Grid.Column="4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btnDeleteSketch11File" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="btnSketch11"></Button>
+                                        <Button x:Name="btnViewSketch11File" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="btnSketch11" ></Button>
+                                    </Grid>
+
+                                    <Grid Grid.Row="12" Grid.Column="3" Grid.ColumnSpan="2">
+                                        <TextBlock Text="※다운 받은 파일은 C:\Temp 에 저장됩니다." FontStyle="Italic" FontWeight="Thin" Foreground="Blue" TextAlignment="Right"/>
+                                    </Grid>
+                                </Grid>                                
                             </GroupBox>
                         </TabItem>
                     </TabControl>

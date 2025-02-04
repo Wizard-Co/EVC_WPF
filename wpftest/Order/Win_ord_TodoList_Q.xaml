@@ -275,6 +275,7 @@
                     <ScrollViewer  Grid.Column="0" x:Name="dgdMainHeaderSh" HorizontalScrollBarVisibility="Hidden"  
                               ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Hidden"
                                 ScrollChanged="HeaderScrollViewer_ScrollChanged" >
+                        
                         <Grid  >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -285,165 +286,159 @@
                                 <!--순-->
                                 <ColumnDefinition Width="{Binding ElementName=orderNo, Path=ActualWidth}" />
                                 <!--수주번호-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo1, Path=ActualWidth}" />
-                                <!--접수일자-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo2, Path=ActualWidth}" />
-                                <!--영업회사-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo3, Path=ActualWidth}" />
-                                <!--운영회사-->
-
-                                <ColumnDefinition Width="{Binding ElementName=orderNo4, Path=ActualWidth}" />
-                                <!--실사업체-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo5, Path=ActualWidth}" />
-                                <!--운영사접수일-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo6, Path=ActualWidth}" />
-                                <!--운영사컨펌완료일-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo7, Path=ActualWidth}" />
-                                <!--충전기입고-->
-
-                                <ColumnDefinition Width="{Binding ElementName=orderNo8, Path=ActualWidth}" />
-                                <!--실사요청-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo9, Path=ActualWidth}"/>
-                                <!--실사-->
-
-                                <ColumnDefinition Width="{Binding ElementName=orderNo10, Path=ActualWidth}" />
-                                <!--승인-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo11, Path=ActualWidth}" />
-                                <!--공기마감-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo12, Path=ActualWidth}" />
-                                <!--공기최종마감-->
-
-                                <ColumnDefinition Width="{Binding ElementName=orderNo13, Path=ActualWidth}" />
-                                <!--신고발급-->
-
-                                <ColumnDefinition Width="{Binding ElementName=orderNo14, Path=ActualWidth}" />
-                                <!--전기사용신청-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo15, Path=ActualWidth}" />
-                                <!--인입승인-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo16, Path=ActualWidth}" />
-                                <!--한전불입금납부-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo17, Path=ActualWidth}" />
-                                <!--계량기부설-->
-
-                                <ColumnDefinition Width="{Binding ElementName=orderNo18, Path=ActualWidth}" />
-                                <!--착송-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo19, Path=ActualWidth}" />
-                                <!--시공완료-->
-
-                                <ColumnDefinition Width="{Binding ElementName=orderNo20, Path=ActualWidth}" />
-                                <!--안전검사요청-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo21, Path=ActualWidth}" />
-                                <!--안전점검수수료납부-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo22, Path=ActualWidth}" />
-                                <!--사용전점검요청-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo23, Path=ActualWidth}" />
-                                <!--사용전점검확인-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo24, Path=ActualWidth}" />
-                                <!--사용전검사요청-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo25, Path=ActualWidth}" />
-                                <!--사용전검사확인-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo26, Path=ActualWidth}" />
-                                <!--사용전검사수수료납부-->
-
-                                <ColumnDefinition Width="{Binding ElementName=orderNo27, Path=ActualWidth}" />
-                                <!--감리배치계산서발행-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo28, Path=ActualWidth}" />
-                                <!--사용검사신청-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo29, Path=ActualWidth}" />
-                                <!--사용전검사-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo30, Path=ActualWidth}" />
-                                <!--사용전검사확인-->
-
-                                <ColumnDefinition Width="{Binding ElementName=orderNo31, Path=ActualWidth}" />
-                                <!--준공서류회신-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo32, Path=ActualWidth}" />
-                                <!--시공보완완료-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo33, Path=ActualWidth}" />
-                                <!--준공서류보완-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo34, Path=ActualWidth}" />
-                                <!--하자보증보험발행-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo35, Path=ActualWidth}" />
-                                <!--준공서류완료-->
-
-                                <ColumnDefinition Width="{Binding ElementName=orderNo36, Path=ActualWidth}" />
-                                <!--운영사시공비-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo37, Path=ActualWidth}" />
-                                <!--시공팀-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo38, Path=ActualWidth}" />
+                                <ColumnDefinition Width="{Binding ElementName=Col2, Path=ActualWidth}" />
+                                <!--전기수전방법-->                           
+                                <ColumnDefinition Width="{Binding ElementName=Col3, Path=ActualWidth}" />
+                                <!--현장명-->                                 
+                                <ColumnDefinition Width="{Binding ElementName=Col4, Path=ActualWidth}" />
+                                <!--접수일자-->                               
+                                <ColumnDefinition Width="{Binding ElementName=Col5, Path=ActualWidth}" />
+                                <!--영업회사-->                               
+                                <ColumnDefinition Width="{Binding ElementName=Col6, Path=ActualWidth}" />
+                                <!--운영회사-->                               
+                                                                              
+                                <ColumnDefinition Width="{Binding ElementName=Col7, Path=ActualWidth}" />
+                                <!--실사업체-->                               
+                                <ColumnDefinition Width="{Binding ElementName=Col8, Path=ActualWidth}" />
+                                <!--운영사접수일-->                           
+                                <ColumnDefinition Width="{Binding ElementName=Col9, Path=ActualWidth}" />
+                                <!--운영사컨펌완료일-->                       
+                                <ColumnDefinition Width="{Binding ElementName=Col10, Path=ActualWidth}" />
+                                <!--충전기입고-->                             
+                                                                              
+                                <ColumnDefinition Width="{Binding ElementName=Col11,Path=ActualWidth}" />
+                                <!--실사요청-->                               
+                                <ColumnDefinition Width="{Binding ElementName=Col12, Path=ActualWidth}"/>
+                                <!--실사-->                                   
+                                                                              
+                                <ColumnDefinition Width="{Binding ElementName=Col13, Path=ActualWidth}" />
+                                <!--승인-->                                   
+                                <ColumnDefinition Width="{Binding ElementName=Col14, Path=ActualWidth}" />
+                                <!--공기마감-->                               
+                                <ColumnDefinition Width="{Binding ElementName=Col15, Path=ActualWidth}" />
+                                <!--공기최종마감-->                           
+                                                                              
+                                <ColumnDefinition Width="{Binding ElementName=Col16, Path=ActualWidth}" />
+                                <!--신고발급-->                               
+                                                                              
+                                <ColumnDefinition Width="{Binding ElementName=Col17, Path=ActualWidth}" />
+                                <!--전기사용신청-->                           
+                                <ColumnDefinition Width="{Binding ElementName=Col18, Path=ActualWidth}" />
+                                <!--인입승인-->                               
+                                <ColumnDefinition Width="{Binding ElementName=Col19, Path=ActualWidth}" />
+                                <!--한전불입금납부-->                         
+                                <ColumnDefinition Width="{Binding ElementName=Col20, Path=ActualWidth}" />
+                                <!--계량기부설-->                                                                                                           
+                                <ColumnDefinition Width="{Binding ElementName=Col21, Path=ActualWidth}" />
+                                <!--착공-->                                   
+                                <ColumnDefinition Width="{Binding ElementName=Col22, Path=ActualWidth}" />                                <!--시공완료-->                               
+                                                                              
+                                <ColumnDefinition Width="{Binding ElementName=Col23, Path=ActualWidth}" />
+                                <!--안전검사요청-->                           
+                                <ColumnDefinition Width="{Binding ElementName=Col24, Path=ActualWidth}" />
+                                <!--안전점검수수료납부-->                     
+                                <ColumnDefinition Width="{Binding ElementName=Col25, Path=ActualWidth}" />
+                                <!--사용전점검요청-->                         
+                                <ColumnDefinition Width="{Binding ElementName=Col26, Path=ActualWidth}" />
+                                <!--사용전점검확인-->                         
+                                <ColumnDefinition Width="{Binding ElementName=Col27, Path=ActualWidth}" />
+                                <!--사용전검사요청-->                         
+                                <ColumnDefinition Width="{Binding ElementName=Col28, Path=ActualWidth}" />
+                                <!--사용전검사확인-->                         
+                                <ColumnDefinition Width="{Binding ElementName=Col29, Path=ActualWidth}" />
+                                <!--사용전검사수수료납부-->                                                                                                 
+                                <ColumnDefinition Width="{Binding ElementName=Col30, Path=ActualWidth}" />
+                                <!--감리배치계산서발행-->                     
+                                <ColumnDefinition Width="{Binding ElementName=Col31, Path=ActualWidth}" />
+                                <!--사용검사신청-->                           
+                                <ColumnDefinition Width="{Binding ElementName=Col32, Path=ActualWidth}" />
+                                <!--사용전검사-->                             
+                                <ColumnDefinition Width="{Binding ElementName=Col33, Path=ActualWidth}" />
+                                <!--사용전검사확인-->                                                                                                       
+                                <ColumnDefinition Width="{Binding ElementName=Col34, Path=ActualWidth}" />
+                                <!--준공서류회신-->                           
+                                <ColumnDefinition Width="{Binding ElementName=Col35, Path=ActualWidth}" />
+                                <!--시공보완완료-->                           
+                                <ColumnDefinition Width="{Binding ElementName=Col36, Path=ActualWidth}" />
+                                <!--준공서류보완-->                           
+                                <ColumnDefinition Width="{Binding ElementName=Col37, Path=ActualWidth}" />
+                                <!--하자보증보험발행-->                       
+                                <ColumnDefinition Width="{Binding ElementName=Col38, Path=ActualWidth}" />
+                                <!--준공서류완료-->                                                                                                         
+                                <ColumnDefinition Width="{Binding ElementName=Col39, Path=ActualWidth}" />
+                                <!--운영사시공비-->                           
+                                <ColumnDefinition Width="{Binding ElementName=Col40, Path=ActualWidth}" />
+                                <!--시공팀-->                                 
+                                <ColumnDefinition Width="{Binding ElementName=Col41, Path=ActualWidth}" />
                                 <!--영업사원-->
 
 
                             </Grid.ColumnDefinitions>
                             <DataGridColumnHeader Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"  Content="순" />
                             <DataGridColumnHeader Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"  Content="수주번호" />
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"  Content="접수일자" />
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="3" Grid.RowSpan="2"  Content="영업회사" />
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="4" Grid.RowSpan="2"  Content="운영회사" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"  Content="전기수전방법" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="3" Grid.RowSpan="2"  Content="현장명" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="4" Grid.RowSpan="2"  Content="접수일자" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="5" Grid.RowSpan="2"  Content="영업회사" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="6" Grid.RowSpan="2"  Content="운영회사" />
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="5" Grid.RowSpan="2"  Content="실사업체" />
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="6" Grid.RowSpan="2"  Content="운영사접수일" />
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="7" Grid.RowSpan="2"  Content="운영사컨펌완료일" />
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="8" Grid.RowSpan="2"  Content="충전기입고" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="7" Grid.RowSpan="2"  Content="실사업체" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="8" Grid.RowSpan="2"  Content="운영사접수일" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="9" Grid.RowSpan="2"  Content="운영사컨펌완료일" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="10" Grid.RowSpan="2"  Content="충전기입고" />
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="9" Grid.ColumnSpan="2" Content="시공및실사" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="9" Content="실사요청"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="10" Content="실사" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="11" Grid.ColumnSpan="2" Content="시공및실사" HorizontalContentAlignment="Center"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="11" Content="실사요청"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="12" Content="실사" />
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="11" Grid.ColumnSpan="3" Content="공단" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="11" Content="승인"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="12" Content="공기마감" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="13" Content="공기최종마감" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="13" Grid.ColumnSpan="3" Content="공단" HorizontalContentAlignment="Center"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="13" Content="승인"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="14" Content="공기마감" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="15" Content="공기최종마감" />
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="14" Grid.ColumnSpan="1" Content="행위신고" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="14" Content="신고발급"/>
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="16" Grid.ColumnSpan="1" Content="행위신고" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="16" Content="신고발급"/>
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="15" Grid.ColumnSpan="4" Content="한전수전" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="15" Content="전기사용신청"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="16" Content="인입승인"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="17" Content="한전불입금납부"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="18" Content="계량기부설"/>
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="17" Grid.ColumnSpan="4" Content="한전수전" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="17" Content="전기사용신청"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="18" Content="인입승인"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="19" Content="한전불입금납부"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="20" Content="계량기부설"/>
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="19" Grid.ColumnSpan="2" Content="시공사" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="19" Content="착송"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="20" Content="시공완료"/>
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="21" Grid.ColumnSpan="2" Content="시공사" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="21" Content="착공"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="22" Content="시공완료"/>
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="21" Grid.ColumnSpan="7" Content="전기안전공사" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="21" Content="안전검사요청"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="22" Content="안전점검수수료납부"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="23" Content="사용전점검요청"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="24" Content="사용전점검확인"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="25" Content="사용전검사요청"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="26" Content="사용전검사확인"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="27" Content="사용전검사수수료납부"/>
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="23" Grid.ColumnSpan="7" Content="전기안전공사" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="23" Content="안전검사요청"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="24" Content="안전점검수수료납부"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="25" Content="사용전점검요청"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="26" Content="사용전점검확인"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="27" Content="사용전검사요청"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="28" Content="사용전검사확인"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="29" Content="사용전검사수수료납부"/>
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="28" Grid.ColumnSpan="4" Content="감리" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="28" Content="감리배치계산서발행"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="29" Content="사용검사신청"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="30" Content="사용전검사"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="31" Content="사용전검사확인"/>
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="30" Grid.ColumnSpan="4" Content="감리" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="30" Content="감리배치계산서발행"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="31" Content="사용검사신청"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="32" Content="사용전검사"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="33" Content="사용전검사확인"/>
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="32" Grid.ColumnSpan="5" Content="준공" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="32" Content="준공서류확인"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="33" Content="시공보완완료"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="34" Content="준공서류보완"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="35" Content="하자보증보험발행"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="36" Content="준공서류완료"/>
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="34" Grid.ColumnSpan="5" Content="준공" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="34" Content="준공서류확인"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="35" Content="시공보완완료"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="36" Content="준공서류보완"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="37" Content="하자보증보험발행"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="38" Content="준공서류완료"/>
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="37" Grid.ColumnSpan="3" Content="정산" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="37" Content="운영사시공비"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="38" Content="시공팀"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="39" Content="영업사원"/>
-
-
-
-
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="39" Grid.ColumnSpan="3" Content="정산" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="39" Content="운영사시공비"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="40" Content="시공팀"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="41" Content="영업사원"/>
                         </Grid>
-
-
                     </ScrollViewer>
 
                     <Grid Grid.Row="1">
-
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="629*"/>
                             <ColumnDefinition Width="192*"/>
@@ -452,7 +447,6 @@
                             <!--<RowDefinition Height="*" />-->
                             <RowDefinition Height="20*" />
                         </Grid.RowDefinitions>
-
                         <DataGrid x:Name="dgdStock"  Visibility="Visible" 
                                   HeadersVisibility="None"   
                                   Style="{DynamicResource DataGridSetTwoHeaderEdit}" Grid.ColumnSpan="2" IsReadOnly="True" 
@@ -495,54 +489,74 @@
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-                                <!--접수일자-->
-                                <DataGridTemplateColumn  x:Name="orderNo1" MinWidth="50">
+                                <!--전기조달방법-->
+                                <DataGridTemplateColumn  x:Name="Col2" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock  Width="auto"  Foreground="Black"
                                         Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center"  />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!--현장명-->
+                                <DataGridTemplateColumn  x:Name="Col3" MinWidth="50">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock  Width="auto"  Foreground="Black"
+                                        Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center"  />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!--접수일자-->
+                                <DataGridTemplateColumn  x:Name="Col4" MinWidth="50">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock  Width="auto"  Foreground="Black"
+                                        Text="{Binding acptDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center"  />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--영업회사-->
-                                <DataGridTemplateColumn  x:Name="orderNo2" MinWidth="50">
+                                <DataGridTemplateColumn  x:Name="Col5" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock  Width="auto"  Foreground="Black"
-                                        Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center"  />
+                                        Text="{Binding salesCustom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center"  />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--운영회사-->
-                                <DataGridTemplateColumn  x:Name="orderNo3" MinWidth="50">
+                                <DataGridTemplateColumn  x:Name="Col6" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock  Width="auto"  Foreground="Black"
-                                        Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center"  />
+                                        Text="{Binding manageCustom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center"  />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
 
                                 <!--실사업체-->
-                                <DataGridTemplateColumn x:Name="orderNo4" MinWidth="50" >
+                                <DataGridTemplateColumn x:Name="Col7" MinWidth="50" >
 
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                            <TextBlock Text="{Binding searchCustom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--운영사접수일-->
-                                <DataGridTemplateColumn x:Name="orderNo5" MinWidth="70" >
+                                <DataGridTemplateColumn x:Name="Col8" MinWidth="70" >
 
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding manageCustomAcptDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
@@ -550,23 +564,23 @@
                                 </DataGridTemplateColumn>
 
                                 <!--운영사컨펌완료일-->
-                                <DataGridTemplateColumn x:Name="orderNo6" MinWidth="85" >
+                                <DataGridTemplateColumn x:Name="Col9" MinWidth="85" >
 
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding manageCustomConfirmDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
 
                                 </DataGridTemplateColumn>
 
-                                <!--충전기입고-->
-                                <DataGridTemplateColumn x:Name="orderNo7" MinWidth="55" >
+                                <!--충전기입고 OrderColor-->
+                                <DataGridTemplateColumn x:Name="Col10" MinWidth="55" >
 
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding chargeInwareDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
@@ -574,25 +588,23 @@
                                 </DataGridTemplateColumn>
 
                                 <!--실사요청-->
-                                <DataGridTemplateColumn x:Name="orderNo8" MinWidth="50" >
-
+                                <DataGridTemplateColumn x:Name="Col11" MinWidth="50" >
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding searchReqDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
-
                                 </DataGridTemplateColumn>
 
 
-                                <!--실사-->
-                                <DataGridTemplateColumn x:Name="orderNo9" MinWidth="50">
+                                <!--실사일-->
+                                <DataGridTemplateColumn x:Name="Col12" MinWidth="50">
 
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock x:Name="txtnumevaluate" Width="auto"  Foreground="Black" MinWidth="50"
-                                        Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                        Text="{Binding searchDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                          HorizontalAlignment="Right" 
                                         TextAlignment="Right"
                                             />
@@ -602,102 +614,102 @@
                                 </DataGridTemplateColumn>
 
 
-                                <!--승인-->
-                                <DataGridTemplateColumn x:Name="orderNo10" MinWidth="50">
+                                <!--공단승인일-->
+                                <DataGridTemplateColumn x:Name="Col13" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding corpApprovalDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
 
-                                <!--공기마감-->
-                                <DataGridTemplateColumn x:Name="orderNo11" MinWidth="50">
+                                <!--공기마감일-->
+                                <DataGridTemplateColumn x:Name="Col14" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding corpEndDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-                                <!--공기최종마감-->
-                                <DataGridTemplateColumn x:Name="orderNo12" MinWidth="70">
+                                <!--공기최종마감일-->
+                                <DataGridTemplateColumn x:Name="Col15" MinWidth="70">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding corpLastEndDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-                                <!--신고발급-->
-                                <DataGridTemplateColumn x:Name="orderNo13" MinWidth="50">
+                                <!--행위신고발급-->
+                                <DataGridTemplateColumn x:Name="Col16" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding localGovBehaviorReportDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--전기사용신청-->
-                                <DataGridTemplateColumn x:Name="orderNo14" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="Col17" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding kepElectrReqDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--인입승인-->
-                                <DataGridTemplateColumn x:Name="orderNo15" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="Col18" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding kepInApprovalYN, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--한전불입금납부-->
-                                <DataGridTemplateColumn x:Name="orderNo16" MinWidth="75">
+                                <DataGridTemplateColumn x:Name="Col19" MinWidth="75">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding kepPaymentDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--계량기부설-->
-                                <DataGridTemplateColumn x:Name="orderNo17" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="Col20" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding kepMeterInstallDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-                                <!--착송-->
-                                <DataGridTemplateColumn x:Name="orderNo18" MinWidth="50">
+                                <!--착공-->
+                                <DataGridTemplateColumn x:Name="Col21" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding constrDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--시공완료-->
-                                <DataGridTemplateColumn x:Name="orderNo19" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="Col22" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding constrCompleteDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
@@ -705,68 +717,70 @@
 
 
                                 <!--안전검사요청-->
-                                <DataGridTemplateColumn x:Name="orderNo20" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="Col23" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding electrSafeCheckDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
+                                
                                 <!--안전점검수수료납부-->
-                                <DataGridTemplateColumn x:Name="orderNo21" MinWidth="100">
+                                <DataGridTemplateColumn x:Name="Col24" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding electrSafeCheckCostPayDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
+                                
                                 <!--사용전점검요청-->
-                                <DataGridTemplateColumn x:Name="orderNo22" MinWidth="75">
+                                <DataGridTemplateColumn x:Name="Col25" MinWidth="75">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding electrBeforeUseCheckReqDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--사용전점검확인-->
-                                <DataGridTemplateColumn x:Name="orderNo23" MinWidth="80">
+                                <DataGridTemplateColumn x:Name="Col26" MinWidth="80">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding electrBeforeInspPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--사용전검사요청-->
-                                <DataGridTemplateColumn x:Name="orderNo24" MinWidth="80">
+                                <DataGridTemplateColumn x:Name="Col27" MinWidth="80">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding electrBeforeInspReqDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--사용전검사확인-->
-                                <DataGridTemplateColumn x:Name="orderNo25" MinWidth="80">
+                                <DataGridTemplateColumn x:Name="Col28" MinWidth="80">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding electrBeforeInspPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--사용전검사수수료납부-->
-                                <DataGridTemplateColumn x:Name="orderNo26" MinWidth="105">
+                                <DataGridTemplateColumn x:Name="Col29" MinWidth="105">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding electrBeforeInspCostPayDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
@@ -774,93 +788,93 @@
 
  
                                 <!--감리배치계산서발행-->
-                                <DataGridTemplateColumn x:Name="orderNo27" MinWidth="100">
+                                <DataGridTemplateColumn x:Name="Col30" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding superSetTaxPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
 
-                                <!--사용검사신청-->
-                                <DataGridTemplateColumn x:Name="orderNo28" MinWidth="50">
+                                <!--감리-사용검사신청-->
+                                <DataGridTemplateColumn x:Name="Col31" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding superUseInspReqDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
 
-                                <!--사용전검사-->
-                                <DataGridTemplateColumn x:Name="orderNo29" MinWidth="50">
+                                <!--감리-사용전검사-->
+                                <DataGridTemplateColumn x:Name="Col32" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding superBeforeUseInspDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
 
-                                <!--사용전검사확인-->
-                                <DataGridTemplateColumn x:Name="orderNo30" MinWidth="80">
+                                <!--감리-사용전검사확인-->
+                                <DataGridTemplateColumn x:Name="Col33" MinWidth="80">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding superBeforeUseInspPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--준공서류회신 -->
-                                <DataGridTemplateColumn x:Name="orderNo31" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="Col34" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding compReplyDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--시공보완완료-->
-                                <DataGridTemplateColumn x:Name="orderNo32" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="Col35" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding suppleCompDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--준공서류보완-->
-                                <DataGridTemplateColumn x:Name="orderNo33" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="Col36" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding compSuppleReportDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--하자보증보험발행-->
-                                <DataGridTemplateColumn x:Name="orderNo34" MinWidth="85">
+                                <DataGridTemplateColumn x:Name="Col37" MinWidth="85">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding insurePrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--준공서류완료-->
-                                <DataGridTemplateColumn x:Name="orderNo35" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="Col38" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding compReportCompDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
@@ -868,30 +882,30 @@
 
 
                                 <!--운영사시공비-->
-                                <DataGridTemplateColumn x:Name="orderNo36" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="Col39" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding accntMgrWorkPreTaxPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--시공팀-->
-                                <DataGridTemplateColumn x:Name="orderNo37" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="Col40" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding accntWorkTaxPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--영업사원-->
-                                <DataGridTemplateColumn x:Name="orderNo38" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="Col41" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding accntSaleTaxPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>

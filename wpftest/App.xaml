@@ -506,7 +506,41 @@
                 </Style.Resources>
             </Style>
 
-            
+            <Style TargetType="{x:Type DataGrid}" x:Key="DataGridSet1_FixedHeight" >
+                <Setter Property="IsReadOnly" Value="True" />
+                <Setter Property="AutoGenerateColumns" Value="False" />
+                <Setter Property="EnableColumnVirtualization" Value="True"/>
+                <Setter Property="EnableRowVirtualization" Value="True" />
+                <Setter Property="ColumnHeaderHeight" Value="26" />
+                <Setter Property="MinRowHeight" Value="26" />
+                <EventSetter Event="MouseLeftButtonDown" Handler="MouseLeftDoubleClick"/>
+                <EventSetter Event="SizeChanged" Handler="DataGrid_SizeChanged" />
+                <EventSetter Event="PreviewMouseWheel" Handler="DataGrid_PreviewMouseWheel"/>
+
+                <Style.Resources>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="MaxHeight" Value="26" />
+                        <Setter Property="MinHeight" Value="26" />
+                        <Setter Property="Background" Value="#365fb1" />
+                        <Setter Property="BorderBrush" Value="White" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderThickness" Value="0.7" />
+                        <Setter Property="FontWeight" Value="Thin" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    </Style>
+
+                    <Style TargetType="DataGridRow">
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3399FF"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3399FF" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black"/>
+                        </Style.Resources>
+                    </Style>
+
+                </Style.Resources>
+            </Style>
+
             <Style x:Key="RowHeaderStyle" TargetType="DataGridRowHeader">
       
                 <Setter Property="Background" Value="#365fb1" />

@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 //using WizMes_EVC.Order.Pop;
@@ -60,6 +61,8 @@ namespace WizMes_EVC
         bool tab2_clicked = false;
         bool tab3_clicked = false;
         bool tab4_clicked = false;
+        bool tab5_clicked = false;
+
 
         //Win_ord_Pop_PreOrder preOrder = new Win_ord_Pop_PreOrder();
 
@@ -246,6 +249,13 @@ namespace WizMes_EVC
             cboOrderFlag.DisplayMemberPath = "code_name";
             cboOrderFlag.SelectedValuePath = "code_id";
             cboOrderFlag.SelectedIndex = 1;
+
+            //검색조건의 사업구분
+            ObservableCollection<CodeView> ovcOrderTypeSrh = ComboBoxUtil.Instance.Gf_DB_CM_GetComCodeDataset(null, "ORDTYPE", "Y", "", "");
+            cboOrderTypeIDSrh.ItemsSource = ovcOrderTypeSrh;
+            cboOrderTypeIDSrh.DisplayMemberPath = "code_name";
+            cboOrderTypeIDSrh.SelectedValuePath = "code_id";
+            cboOrderTypeIDSrh.SelectedIndex = 0;
 
             //inputGrid의 사업구분
             ObservableCollection<CodeView> ovcOrderType = ComboBoxUtil.Instance.Gf_DB_CM_GetComCodeDataset(null, "ORDTYPE", "Y", "", "");
@@ -577,35 +587,35 @@ namespace WizMes_EVC
             }
         }
 
-        //비고 라벨
-        private void lblInstallLocationAddCommentsSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (chkInstallLocationAddCommentsSrh.IsChecked == true)
-            {
-                chkInstallLocationAddCommentsSrh.IsChecked = false;
-                txtInstallLocationAddCommentsSrh.IsEnabled = false;
-            }
-            else
-            {
-                chkInstallLocationAddCommentsSrh.IsChecked = true;
-                txtInstallLocationAddCommentsSrh.IsEnabled = true;
-            }
-        }
+        ////비고 라벨
+        //private void lblInstallLocationAddCommentsSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    if (chkInstallLocationAddCommentsSrh.IsChecked == true)
+        //    {
+        //        chkInstallLocationAddCommentsSrh.IsChecked = false;
+        //        txtInstallLocationAddCommentsSrh.IsEnabled = false;
+        //    }
+        //    else
+        //    {
+        //        chkInstallLocationAddCommentsSrh.IsChecked = true;
+        //        txtInstallLocationAddCommentsSrh.IsEnabled = true;
+        //    }
+        //}
 
-        //비고 체크박스
-        private void chkInstallLocationAddCommentsSrh_Click(object sender, RoutedEventArgs e)
-        {
-            if (chkInstallLocationAddCommentsSrh.IsChecked == true)
-            {
-                chkInstallLocationAddCommentsSrh.IsChecked = true;
-                txtInstallLocationAddCommentsSrh.IsEnabled = true;
-            }
-            else
-            {
-                chkInstallLocationAddCommentsSrh.IsChecked = false;
-                txtInstallLocationAddCommentsSrh.IsEnabled = false;
-            }
-        }
+        ////비고 체크박스
+        //private void chkInstallLocationAddCommentsSrh_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (chkInstallLocationAddCommentsSrh.IsChecked == true)
+        //    {
+        //        chkInstallLocationAddCommentsSrh.IsChecked = true;
+        //        txtInstallLocationAddCommentsSrh.IsEnabled = true;
+        //    }
+        //    else
+        //    {
+        //        chkInstallLocationAddCommentsSrh.IsChecked = false;
+        //        txtInstallLocationAddCommentsSrh.IsEnabled = false;
+        //    }
+        //}
 
         //최종고객사
         private void lblInCustomSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -875,6 +885,7 @@ namespace WizMes_EVC
             grd2.IsHitTestVisible = false;
             grd3.IsHitTestVisible = false;
             grd4.IsHitTestVisible = false;
+            grd5.IsHitTestVisible = false;
             lblMsg.Visibility = Visibility.Hidden;
             dgdMain.IsHitTestVisible = true;
         }
@@ -897,6 +908,7 @@ namespace WizMes_EVC
             grd2.IsHitTestVisible = true;
             grd3.IsHitTestVisible =true;
             grd4.IsHitTestVisible =true;
+            grd5.IsHitTestVisible = true;
             lblMsg.Visibility = Visibility.Visible;
             dgdMain.IsHitTestVisible = false;
         }
@@ -916,6 +928,8 @@ namespace WizMes_EVC
             rowAddAccnt();            
 
             CantBtnControl();
+
+            //탭순서대로 일을 진행하므로 초기화가 불필요하다고 함..
             //UncheckDatePicker();
             //SetDatePickerToday();
             //SetComboBoxIndexZero();
@@ -1103,6 +1117,9 @@ namespace WizMes_EVC
                     case "tab4":
                         tab4_clicked = true;
                         break;
+                    case "tab5":
+                        tab5_clicked = true;
+                        break;
                 }
 
             }
@@ -1110,20 +1127,34 @@ namespace WizMes_EVC
 
         //저장
         private void btnSave_Click(object sender, RoutedEventArgs e)
-        {
-            using (Loading ld = new Loading(beSave))
-            {
-                ld.ShowDialog();
-            }
+        {         
+            //using (Loading ld = new Loading(beSave))
+            //{
+            //    ld.ShowDialog();
+            //}
+            beSave();
         }
+
+        //메세지를 업데이트
+        private void UpdateTbkMessage(string message)
+        {
+            tbkMsg.Text = message;
+            tbkMsg.UpdateLayout();
+            Application.Current.Dispatcher.Invoke(() => { }, DispatcherPriority.Render);
+            // UI 업데이트를 위한 짧은 대기
+            Application.Current.Dispatcher.Invoke(() => { }, DispatcherPriority.Background);
+            Thread.Sleep(10);
+        }
+
 
         private void beSave()
         {
             btnSave.IsEnabled = false;        
 
-            Dispatcher.BeginInvoke(new Action(() =>
-            {
+            //Dispatcher.BeginInvoke(new Action(() =>
+            //{
                 if (dgdAcc.Items.Count > 0) DataGrid_LostFocus_Calculate(dgdAcc, new RoutedEventArgs());
+                else { txtdgdAccTotal.Text = ""; }
 
                 //로직
                 if (SaveData(strFlag))
@@ -1139,8 +1170,9 @@ namespace WizMes_EVC
                     re_Search(rowNum);
                     DatePickerSetToday_RemoveHandler();
                     MessageBox.Show("저장이 완료되었습니다.");
+                    strFlag = string.Empty;
                 }
-            }), System.Windows.Threading.DispatcherPriority.Background);
+            //}), System.Windows.Threading.DispatcherPriority.Background);
 
             btnSave.IsEnabled = true;
         }
@@ -1490,9 +1522,13 @@ namespace WizMes_EVC
                 sqlParameter.Add("ChkInstallLocation", chkInstallLocationSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("InstallLocation", chkInstallLocationSrh.IsChecked == true ? txtInstallLocationSrh.Text : "");
 
+                // 사업구분
+                sqlParameter.Add("ChkOrderTypeID", chkOrderTypeIDSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("OrderTypeID", chkOrderTypeIDSrh.IsChecked == true ? cboOrderTypeIDSrh.SelectedValue.ToString(): "");
+
                 //비고
-                sqlParameter.Add("ChkInstallLocationAddComments", chkInstallLocationAddCommentsSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("InstallLocationAddComments", chkInstallLocationAddCommentsSrh.IsChecked == true ? txtInstallLocationAddCommentsSrh.Text : "");
+                //sqlParameter.Add("ChkInstallLocationAddComments", chkInstallLocationAddCommentsSrh.IsChecked == true ? 1 : 0);
+                //sqlParameter.Add("InstallLocationAddComments", chkInstallLocationAddCommentsSrh.IsChecked == true ? txtInstallLocationAddCommentsSrh.Text : "");
 
                 //견적제목
                 sqlParameter.Add("chkEstSubject", 0);
@@ -1773,6 +1809,37 @@ namespace WizMes_EVC
             }
         }
 
+        //전화번호 가져오기
+        private string callCustomData(string customID)
+        {
+            string PhoneNo = string.Empty;
+            string[] sqlList = { "select phone1, phone2, phone, damdangPhone1, damdangPhone2 from mt_custom where customID = " };
+
+            for (int i = 0; i < sqlList.Length; i++)
+            {
+                DataSet ds = DataStore.Instance.QueryToDataSet(sqlList[i] + customID);
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataTable dt = ds.Tables[0];
+                    if (dt.Rows.Count > 0)
+                    {
+                        // 각 컬럼을 순회하면서 첫 번째로 값이 있는(null이나 빈 문자열이 아닌) 컬럼의 값을 반환
+                        foreach (DataColumn column in dt.Columns)
+                        {
+                            string value = dt.Rows[0][column.ColumnName].ToString();
+                            if (!string.IsNullOrEmpty(value))
+                            {
+                                PhoneNo = value;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+            return PhoneNo;
+        }
+
         private string GetDeliCost(string estID)
         {
             string deliCost = string.Empty;
@@ -1953,7 +2020,7 @@ namespace WizMes_EVC
                                 //localGovPermissionNo = dr["localGovPermissionNo"].ToString(),
                                 //localGovBehaviorReportDate = dr["localGovBehaviorReportDate"].ToString(),
                                 localGoComments = dr["localGoComments"].ToString(),
-                                superBeforeUseInspDate = DateTypeHyphen(dr["superBeforeUseInspDate"].ToString()),
+                                //superBeforeUseInspDate = DateTypeHyphen(dr["superBeforeUseInspDate"].ToString()),
                                 superBeforeUseInspPrintDate = DateTypeHyphen(dr["superBeforeUseInspPrintDate"].ToString()),
                                 superUseInspReqDate   = DateTypeHyphen(dr["superUseInspReqDate"].ToString()),
 
@@ -1971,6 +2038,8 @@ namespace WizMes_EVC
                                 installLocationSheetFileName = dr["installLocationSheetFileName"].ToString(),
                                 localGoTaxFilePath = dr["localGoTaxFilePath"].ToString(),
                                 localGoTaxFileName = dr["localGoTaxFileName"].ToString(),
+                                LocalGovProveFilePath = dr["LocalGovProveFilePath"].ToString(),
+                                LocalGovProveFileName = dr["LocalGovProveFileName"].ToString(),
 
                             };
 
@@ -2007,7 +2076,7 @@ namespace WizMes_EVC
             }
             catch (Exception ex)
             {
-                MessageBox.Show("오류 발생(fillgrid_OrderItemList), 오류 내용 : " + ex.ToString());
+                MessageBox.Show("오류 발생(fillGridTab2), 오류 내용 : " + ex.ToString());
             }
             finally
             {
@@ -2088,8 +2157,16 @@ namespace WizMes_EVC
                                     electrSafeInspPrintFileName = dr["electrSafeInspPrintFileName"].ToString(),
                                     electrBeforeUseCheckPrintFilePath = dr["electrBeforeUseCheckPrintFilePath"].ToString(),
                                     electrBeforeUseCheckPrintFileName = dr["electrBeforeUseCheckPrintFileName"].ToString(),
-                                    electrBeforeUseInspFilePath = dr["electrBeforeUseInspFilePath"].ToString(),
-                                    electrBeforeUseInspFileName = dr["electrBeforeUseInspFileName"].ToString(),
+                                //electrBeforeUseInspFilePath = dr["electrBeforeUseInspFilePath"].ToString(),
+                                //electrBeforeUseInspFileName = dr["electrBeforeUseInspFileName"].ToString(),
+                                    electrKepAcptFilePath = dr["electrKepAcptFilePath"].ToString(),
+                                    electrKepAcptFileName = dr["electrKepAcptFileName"].ToString(),
+                                    electrKepInfraPayBillFilePath = dr["electrKepInfraPayBillFilePath"].ToString(),
+                                    electrKepInfraPayBillFileName = dr["electrKepInfraPayBillFileName"].ToString(),
+                                    electrUseContractFilePath = dr["electrUseContractFilePath"].ToString(),
+                                    electrUseContractFileName = dr["electrUseContractFileName"].ToString(),
+                                    electrBeforeUseInspCostFilePath = dr["electrBeforeUseInspCostFilePath"].ToString(),
+                                    electrBeforeUseInspCostFileName = dr["electrBeforeUseInspCostFileName"].ToString(),
                                     electrCoWorkFilePath = dr["electrCoWorkFilePath"].ToString(),
                                     electrCoWorkFileName = dr["electrCoWorkFileName"].ToString(),
                                     electrCostFilePath = dr["electrCostFilePath"].ToString(),
@@ -2110,7 +2187,7 @@ namespace WizMes_EVC
             }
             catch (Exception ex)
             {
-                MessageBox.Show("오류 발생(fillgrid_OrderItemList), 오류 내용 : " + ex.ToString());
+                MessageBox.Show("오류 발생(fillGridTab3), 오류 내용 : " + ex.ToString());
             }
             finally
             {
@@ -2177,6 +2254,8 @@ namespace WizMes_EVC
                                 superSetCheckFileName = dr["superSetCheckFileName"].ToString(),
                                 superBeforeUseInspectFilePath = dr["superBeforeUseInspectFilePath"].ToString(),
                                 superBeforeUseInspectFileName = dr["superBeforeUseInspectFileName"].ToString(),
+                                compReportFIleName = dr["compReportFIleName"].ToString(),
+                                compReportFIlePath = dr["compReportFIlePath"].ToString(),
                                 superCostFilePath = dr["superCostFilePath"].ToString(),
                                 superCostFileName = dr["superCostFileName"].ToString(),
                                 superReportFilePath = dr["superReportFilePath"].ToString(),
@@ -2198,7 +2277,7 @@ namespace WizMes_EVC
             }
             catch (Exception ex)
             {
-                MessageBox.Show("오류 발생(fillgrid_OrderItemList), 오류 내용 : " + ex.ToString());
+                MessageBox.Show("오류 발생(fillGridTab4), 오류 내용 : " + ex.ToString());
             }
             finally
             {
@@ -2238,15 +2317,10 @@ namespace WizMes_EVC
                             {
                                 column1Date = DateTypeHyphen(dr["column1Date"].ToString()),
                                 column2Amount = stringFormatN0(dr["column2Amount"]),
-                                column3Amount = stringFormatN0(dr["column3Amount"]),
-                                column4Amount = stringFormatN0(dr["column4Amount"]),
-                                column5Amount = stringFormatN0(dr["column5Amount"]),
-                                column6Amount = stringFormatN0(dr["column6Amount"]),
-                                column7Comment = dr["column7Comment"].ToString()
-
-                            };
-
-                          
+                                column3Comment = stringFormatN0(dr["column3Comment"]),
+                                column4FilePath = dr["column4FilePath"].ToString(),
+                                column5FileName = dr["column5FileName"].ToString(),
+                            };                          
 
                             dgdAccnt.Items.Add(accntList);
                         }
@@ -2254,6 +2328,86 @@ namespace WizMes_EVC
                     }
 
 
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("오류 발생(fillGridTab4_Accnt), 오류 내용 : " + ex.ToString());
+            }
+            finally
+            {
+                DataStore.Instance.CloseConnection();
+            }
+        }
+
+        private void fillgridTab5(string orderId)
+        {
+            try
+            {
+                Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+                sqlParameter.Clear();
+                sqlParameter.Add("orderID", orderId);
+
+                DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_ord_sOrder_tab5", sqlParameter, true, "R");
+
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataTable dt = ds.Tables[0];
+
+                    if (dt.Rows.Count == 0)
+                    {
+                        //MessageBox.Show("조회된 데이터가 없습니다.");
+                    }
+                    else
+                    {
+
+                        DataRowCollection drc = dt.Rows;
+
+                        foreach (DataRow dr in drc)
+                        {
+
+                            var tab5Data = new Win_ord_Order_U_CodeView_Tab5
+                            {
+                                sketch1FilePath  = dr["sketch1FilePath"].ToString(),
+                                sketch1FileName  = dr["sketch1FileName"].ToString(),
+                                sketch1FileAlias = dr["sketch1FileAlias"].ToString(),
+                                sketch2FilePath  = dr["sketch2FilePath"].ToString(),
+                                sketch2FileName  = dr["sketch2FileName"].ToString(),
+                                sketch2FileAlias = dr["sketch2FileAlias"].ToString(),
+                                sketch3FilePath  = dr["sketch3FilePath"].ToString(),
+                                sketch3FileName  = dr["sketch3FileName"].ToString(),
+                                sketch3FileAlias = dr["sketch3FileAlias"].ToString(),
+                                sketch4FilePath  = dr["sketch4FilePath"].ToString(),
+                                sketch4FileName  = dr["sketch4FileName"].ToString(),
+                                sketch4FileAlias = dr["sketch4FileAlias"].ToString(),
+                                sketch5FilePath  = dr["sketch5FilePath"].ToString(),
+                                sketch5FileName  = dr["sketch5FileName"].ToString(),
+                                sketch5FileAlias = dr["sketch5FileAlias"].ToString(),
+                                sketch6FilePath  = dr["sketch6FilePath"].ToString(),
+                                sketch6FileName  = dr["sketch6FileName"].ToString(),
+                                sketch6FileAlias = dr["sketch6FileAlias"].ToString(),
+                                sketch7FilePath  = dr["sketch7FilePath"].ToString(),
+                                sketch7FileName  = dr["sketch7FileName"].ToString(),
+                                sketch7FileAlias = dr["sketch7FileAlias"].ToString(),
+                                sketch8FilePath  = dr["sketch8FilePath"].ToString(),
+                                sketch8FileName  = dr["sketch8FileName"].ToString(),
+                                sketch8FileAlias = dr["sketch8FileAlias"].ToString(),
+                                sketch9FilePath  = dr["sketch9FilePath"].ToString(),
+                                sketch9FileName  = dr["sketch9FileName"].ToString(),
+                                sketch9FileAlias = dr["sketch9FileAlias"].ToString(),
+                                sketch10FilePath = dr["sketch10FilePath"].ToString(),
+                                sketch10FileName = dr["sketch10FileName"].ToString(),
+                                sketch10FileAlias= dr["sketch10FileAlias"].ToString(),
+                                sketch11FilePath = dr["sketch11FilePath"].ToString(),
+                                sketch11FileName = dr["sketch11FileName"].ToString(),
+                                sketch11FileAlias= dr["sketch11FileAlias"].ToString(),
+
+                            };
+
+                            AutoBindDataToControls(tab5Data, grd5);
+
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -2626,6 +2780,9 @@ namespace WizMes_EVC
 
             PrimaryKey = string.Empty;
             bool flag = false;
+
+   
+
             List<Procedure> Prolist = new List<Procedure>();
             List<Dictionary<string, object>> ListParameter = new List<Dictionary<string, object>>();
 
@@ -2633,8 +2790,10 @@ namespace WizMes_EVC
             {
                 if (CheckData() && CheckContractData())
                 {
+                    UpdateTbkMessage("기본 정보 저장 중...");
+
                     Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
-                    sqlParameter.Clear();
+                    sqlParameter.Clear();                   
 
                     sqlParameter.Add("orderID", string.IsNullOrEmpty(txtOrderID.Text) ? "" : txtOrderID.Text);
                     sqlParameter.Add("orderNo", string.IsNullOrEmpty(txtOrderNo.Text) ? "" : txtOrderNo.Text);
@@ -2674,10 +2833,9 @@ namespace WizMes_EVC
                     sqlParameter.Add("mtrPriceUnitClss", cboMtrPriceUnitClss.SelectedValue != null ? cboMtrPriceUnitClss.SelectedValue.ToString() : "");
                     sqlParameter.Add("mtrCanopyInwareInfo", txtMtrCanopyInwareInfo.Text);
                     sqlParameter.Add("mtrCanopyOrderAmount", RemoveComma(txtMtrCanopyOrderAmount.Text,true));               
-                    sqlParameter.Add("orderTypeID", cboOrderType.SelectedValue != null ? cboOrderType.SelectedValue.ToString() : "");
+                    sqlParameter.Add("orderTypeID", cboOrderType.SelectedValue != null ? cboOrderType.SelectedValue.ToString() : "");                   
 
-              
-                        
+
                     string sGetID = strFlag.Equals("I") ? string.Empty : txtOrderID.Text;
                     #region 추가
 
@@ -2744,6 +2902,8 @@ namespace WizMes_EVC
 
                     if (tab2_clicked == true)
                     {
+                        UpdateTbkMessage("시공사 정보 저장 중...");
+
                         sqlParameter.Clear();
                         sqlParameter.Add("orderID", strFlag == "I" ? PrimaryKey : txtOrderID.Text);
                         sqlParameter.Add("searchReqDate", IsDatePickerNull(dtpSearchReqDate) ? "" : ConvertDate(dtpSearchReqDate));
@@ -2763,7 +2923,7 @@ namespace WizMes_EVC
                         sqlParameter.Add("localGovPermissionNo", txtLocalGovPermissionNo.Text);
                         sqlParameter.Add("localGovBehaviorReportDate", IsDatePickerNull(dtpLocalGovBehaviorReportDate) ? "" : ConvertDate(dtpLocalGovBehaviorReportDate));
                         sqlParameter.Add("localGoComments", txtLocalGoComments.Text);
-                        sqlParameter.Add("superBeforeUseInspDate", ConvertDate(dtpSuperBeforeUseInspDate));
+                        //sqlParameter.Add("superBeforeUseInspDate", ConvertDate(dtpSuperBeforeUseInspDate));
                         sqlParameter.Add("superBeforeUseInspPrintDate", ConvertDate(dtpSuperBeforeUseInspPrintDate));
                         sqlParameter.Add("superUseInspReqDate", ConvertDate(dtpSuperUseInspReqDate));
 
@@ -2779,6 +2939,8 @@ namespace WizMes_EVC
 
                     if(tab3_clicked == true)
                     {
+                        UpdateTbkMessage("한전&전기공사 정보 저장 중...");
+
                         sqlParameter.Clear();
                         sqlParameter.Add("orderID", strFlag == "I" ? PrimaryKey : txtOrderID.Text);
                         sqlParameter.Add("kepElectrDeliveryMethodID",cboKepElectrDeliveryMethodID.SelectedValue != null ? cboKepElectrDeliveryMethodID.SelectedValue.ToString() : "");
@@ -2803,6 +2965,7 @@ namespace WizMes_EVC
                         sqlParameter.Add("constrComments", txtConstrComments.Text);
                         sqlParameter.Add("electrSafeCheckDate", IsDatePickerNull(dtpElectrSafeCheckDate)?"":ConvertDate(dtpElectrSafeCheckDate));
                         sqlParameter.Add("electrSafeCheckSuppleContext", txtElectrBeforeInspSuppleContext.Text);
+                        sqlParameter.Add("electrSafeCheckPrintDate", IsDatePickerNull(dtpElectrSafeCheckPrintDate) ? "" : ConvertDate(dtpElectrSafeCheckPrintDate));
                         sqlParameter.Add("electrSafeCheckLocation", txtElectrSafeCheckLocation.Text);
                         sqlParameter.Add("electrSafeCheckCost", RemoveComma(txtElectrSafeCheckCost.Text, true));
                         sqlParameter.Add("electrSafeCheckCostPayDate", IsDatePickerNull(dtpElectrSafeCheckCostPayDate)? "" : ConvertDate(dtpElectrSafeCheckCostPayDate));
@@ -2829,6 +2992,9 @@ namespace WizMes_EVC
 
                     if(tab4_clicked == true)
                     {
+
+                        UpdateTbkMessage("감리&준공 정보 저장 중...");
+
                         sqlParameter.Clear();
                         sqlParameter.Add("orderID", strFlag == "I" ? PrimaryKey : txtOrderID.Text);
                         sqlParameter.Add("superCustomID", txtSuperCustomID.Tag != null ? txtSuperCustomID.Tag.ToString() : "");
@@ -2856,56 +3022,130 @@ namespace WizMes_EVC
 
                         if(dgdAccnt.Items.Count > 0)
                         {
+                            UpdateTbkMessage("정산 경리 정보 저장 중...");
+
                             for (int i = 0; i < dgdAccnt.Items.Count; i++)
                             {
                                 var accntItem = dgdAccnt.Items[i] as Win_order_Order_U_CodView_dgdAccnt;
 
                                 switch (i)
                                 {
-                                    case 0:
+
+                                    //운영사 시공비
+                                    case 0: //운영사시공비 선금
                                         sqlParameter.Add("accntMgrWorkPreTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        //sqlParameter.Add("accntMgrWorkPreSubsidyAmount", RemoveComma(accntItem.column2Amount, true));
-                                        //sqlParameter.Add("accntMgrWorkPreInvestAmount", RemoveComma(accntItem.column3Amount, true));
-                                        //sqlParameter.Add("accntMgrWorkPreSellAmount", RemoveComma(accntItem.column4Amount, true));
-                                        sqlParameter.Add("accntMgrWorkPreAmount", RemoveComma(accntItem.column5Amount, true));
-                                        //sqlParameter.Add("accntMgrWorkPreLeftAmount	", RemoveComma(accntItem.column6Amount, true));
-                                        sqlParameter.Add("accntMgrWorkPreAmountComments", accntItem.column7Comment);
+                                        sqlParameter.Add("accntMgrWorkPreAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntMgrWorkPreAmountComments", accntItem.column3Comment);
+                                        sqlParameter.Add("accntMgrWorkPreTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntMgrWorkPreTaxFileName", accntItem.column5FileName);
                                         break;
-                                    case 1:
-                                        sqlParameter.Add("accntMgrtWorkAfterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        //sqlParameter.Add("accntMgrWorkAfterSubsidy", RemoveComma(accntItem.column2Amount, true));
-                                        //sqlParameter.Add("accntMgrWorkInvestAmount", RemoveComma(accntItem.column3Amount, true));
-                                        //sqlParameter.Add("accntMgrWorkSellAmount", RemoveComma(accntItem.column4Amount, true));
-                                        sqlParameter.Add("accntMgrWorkAfterAmount", RemoveComma(accntItem.column5Amount, true));
-                                        //sqlParameter.Add("accntMgrWorkAfterLeftAmount", RemoveComma(accntItem.column6Amount, true));
-                                        sqlParameter.Add("accntMgrWorkAfterAmountComments", accntItem.column7Comment);
+                                    case 1: //운영사시공비 중도금
+                                        sqlParameter.Add("accntMgrWorkInterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
+                                        sqlParameter.Add("accntMgrWorkInterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntMgrWorkInterComments", accntItem.column3Comment);
+                                        sqlParameter.Add("accntMgrWorkInterTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntMgrWorkInterTaxFileName", accntItem.column5FileName);
                                         break;
-                                    case 2:
+                                    case 2: //운영사시공비 잔금
+                                        sqlParameter.Add("accntMgrWorkAfterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
+                                        sqlParameter.Add("accntMgrWorkAfterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntMgrWorkAfterAmountComments", accntItem.column3Comment);
+                                        sqlParameter.Add("accntMgrWorkAfterTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntMgrWorkAfterTaxFileName", accntItem.column5FileName);
+                                        break;
+                                    case 3: //운영사시공비 총액
                                         sqlParameter.Add("accntMgrWorkTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        //sqlParameter.Add("accntMgrWorkSubsidyAmount", RemoveComma(accntItem.column2Amount, true));
-                                        //sqlParameter.Add("accntMgrWorkInvestAmount", RemoveComma(accntItem.column3Amount, true));
-                                        //sqlParameter.Add("accntMgrWorkSellAmount", RemoveComma(accntItem.column4Amount, true));
-                                        sqlParameter.Add("accntMgrWorkAmount", RemoveComma(accntItem.column5Amount, true));
-                                        //sqlParameter.Add("accntMgrWorkLeftAmount", RemoveComma(accntItem.column6Amount, true));
-                                        sqlParameter.Add("accntMgrWorkAmountComments", accntItem.column7Comment);
+                                        sqlParameter.Add("accntMgrWorkAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntMgrWorkAmountComments", accntItem.column3Comment);
+                                        sqlParameter.Add("accntMgrWorkTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntMgrWorkTaxFileName", accntItem.column5FileName);
                                         break;
-                                    case 3:
+                                    //운영사 영업비
+                                    case 4: //운영사 영업비 선금
+                                        sqlParameter.Add("accntMgrSalesPreTaxPrintDate", RemoveHyphen(accntItem.column1Date));
+                                        sqlParameter.Add("accntMgrSalesPreAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntMgrSalesPreAmountComments", accntItem.column3Comment);
+                                        sqlParameter.Add("accntMgrSalesPreTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntMgrSalesPreTaxFileName", accntItem.column5FileName);
+                                        break;
+                                    case 5: //운영사 영업비 중도금
+                                        sqlParameter.Add("accntMgrSalesInterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
+                                        sqlParameter.Add("accntMgrSalesInterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntMgrSalesInterAmountComments", accntItem.column3Comment);
+                                        sqlParameter.Add("accntMgrSalesInterTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntMgrSalesInterTaxFileName", accntItem.column5FileName);
+                                        break;
+                                    case 6: //운영사 영업비 잔금
+                                        sqlParameter.Add("accntMgrSalesAfterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
+                                        sqlParameter.Add("accntMgrSalesAfterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntMgrSalesAfterAmountComments", accntItem.column3Comment);
+                                        sqlParameter.Add("accntMgrSalesAfterTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntMgrSalesAfterTaxFileName", accntItem.column5FileName);
+                                        break;
+                                    case 7: //운영사 영업비 총액
+                                        sqlParameter.Add("accntMgrSalesTaxPrintDate", RemoveHyphen(accntItem.column1Date));
+                                        sqlParameter.Add("accntMgrSalesAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntMgrSalesAmountComments", accntItem.column3Comment);
+                                        sqlParameter.Add("accntMgrSalesTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntMgrSalesTaxFileName", accntItem.column5FileName);
+                                        break;
+                                    //시공팀
+                                    case 8: //시공팀 선금
+                                        sqlParameter.Add("accntWorkPreTaxPrintDate", RemoveHyphen(accntItem.column1Date));
+                                        sqlParameter.Add("accntWorkPreAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntWorkPreAmountComments", accntItem.column3Comment);
+                                        sqlParameter.Add("accntWorkPreTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntWorkPreTaxFileName", accntItem.column5FileName);
+                                        break;
+                                    case 9: //시공팀 중도금
+                                        sqlParameter.Add("accntWorkInterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
+                                        sqlParameter.Add("accntWorkInterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntWorkInterAmountComments", accntItem.column3Comment);
+                                        sqlParameter.Add("accntWorkInterTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntWorkInterTaxFileName", accntItem.column5FileName);
+                                        break;
+                                    case 10: //시공팀 잔금
+                                        sqlParameter.Add("accntWorkAfterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
+                                        sqlParameter.Add("accntWorkAfterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntWorkAfterAmountComments", accntItem.column3Comment);
+                                        sqlParameter.Add("accntWorkAfterTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntWorkAfterTaxFileName", accntItem.column5FileName);
+                                        break;
+                                    case 11: //시공팀 총액
                                         sqlParameter.Add("accntWorkTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        //sqlParameter.Add("accntWorkSubsidyAmount", RemoveComma(accntItem.column2Amount, true));
-                                        //sqlParameter.Add("accntWorkInvestAmount", RemoveComma(accntItem.column3Amount, true));
-                                        //sqlParameter.Add("accntWorkSellAmount", RemoveComma(accntItem.column4Amount, true));
-                                        sqlParameter.Add("accntWorkAmount", RemoveComma(accntItem.column5Amount, true));
-                                        //sqlParameter.Add("accntWorkLeftAmount", RemoveComma(accntItem.column6Amount, true));
-                                        sqlParameter.Add("accntWorkComments", accntItem.column7Comment);
+                                        sqlParameter.Add("accntWorkAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntWorkAmountComments", accntItem.column3Comment);
+                                        sqlParameter.Add("accntWorkTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntWorkTaxFileName", accntItem.column5FileName);
                                         break;
-                                    case 4:
-                                        sqlParameter.Add("accntSaleTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        //sqlParameter.Add("accntWorkInvestAmount", RemoveComma(accntItem.column2Amount, true));
-                                        //sqlParameter.Add("accntWorkSellAmount", RemoveComma(accntItem.column3Amount, true));
-                                        //sqlParameter.Add("accntWorkAmount", RemoveComma(accntItem.column4Amount, true));
-                                        sqlParameter.Add("accntSaleAmount", RemoveComma(accntItem.column5Amount, true));
-                                        //sqlParameter.Add("accntWorkLeftAmount", RemoveComma(accntItem.column6Amount, true));
-                                        sqlParameter.Add("accntSaleComments", accntItem.column7Comment);
+                                    //영업팀
+                                    case 12: //영업팀 선금
+                                        sqlParameter.Add("accntSalesPreTaxPrintDate", RemoveHyphen(accntItem.column1Date));
+                                        sqlParameter.Add("accntSalesPreAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntSalesPreAmountComments", accntItem.column3Comment);
+                                        sqlParameter.Add("accntSalesPreTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntSalesPreTaxFileName", accntItem.column5FileName);
+                                        break;
+                                    case 13: //영업팀 중도금
+                                        sqlParameter.Add("accntSalesInterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
+                                        sqlParameter.Add("accntSalesInterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntSalesInterAmountComments", accntItem.column3Comment);
+                                        sqlParameter.Add("accntSalesInterTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntSalesInterTaxFileName", accntItem.column5FileName);
+                                        break;
+                                    case 14: //영업팀 잔금
+                                        sqlParameter.Add("accntSalesAfterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
+                                        sqlParameter.Add("accntSalesAfterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntSalesAfterAmountComments", accntItem.column3Comment);
+                                        sqlParameter.Add("accntSalesAfterTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntSalesAfterTaxFileName", accntItem.column5FileName);
+                                        break;
+                                    case 15: //영업팀 총액
+                                        sqlParameter.Add("accntSalesTaxPrintDate", RemoveHyphen(accntItem.column1Date));
+                                        sqlParameter.Add("accntSalesAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntSalesAmountComments", accntItem.column3Comment);
+                                        sqlParameter.Add("accntSalesTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntSalesTaxFileName", accntItem.column5FileName);
                                         break;
                                 }
                             }
@@ -2924,42 +3164,50 @@ namespace WizMes_EVC
 
                     #region 계약내용 저장/수정
 
-                    for(int i = 0; i < dgdAcc.Items.Count; i++)
+                    if(dgdAcc.Items.Count > 0)
                     {
-                        var accItem = dgdAcc.Items[i] as Win_order_Order_U_CodView_dgdAcc;
+                        UpdateTbkMessage("기기&액서서리 정보 저장 중...");
 
-                        sqlParameter.Clear();
-                        sqlParameter.Add("orderID", strFlag == "I" ? PrimaryKey : txtOrderID.Text);
-                        sqlParameter.Add("orderSeq", i+1);
-                        sqlParameter.Add("articleID", accItem.articleID.Trim() != string.Empty ? accItem.articleID : "");
-                        sqlParameter.Add("orderTypeID", accItem.orderTypeID.Trim() != string.Empty ? accItem.orderTypeID : "");
-                        sqlParameter.Add("chargeInwareUnitPrice", RemoveComma(accItem.chargeInwareUnitPrice,true));
-                        sqlParameter.Add("chargeOrderDate", RemoveHyphen(accItem.chargeOrderDate));
-                        sqlParameter.Add("chargeInwareDate", RemoveHyphen(accItem.chargeInwareDate));
-                        sqlParameter.Add("chargeInwareQty", RemoveComma(accItem.chargeInwareQty, true));
-                        sqlParameter.Add("chargeInwareLocation", accItem.chargeInwareLocation != null ? accItem.chargeInwareLocation : "");
-                        sqlParameter.Add("canopyReqCustom", accItem.canopyReqCustom != null ? accItem.canopyReqCustom : "");
-                        sqlParameter.Add("chargeModelHelmat", accItem.chargeModelHelmat != null ? accItem.chargeModelHelmat : "");
-                        sqlParameter.Add("chargeModelinLoc", accItem.chargeModelinloc != null ? accItem.chargeModelinloc : "");
-                        sqlParameter.Add("chargeModelOneBody", accItem.chargeModelOneBody != null ? accItem.chargeModelOneBody : "");
-                        sqlParameter.Add("chargeStandReqDate", RemoveHyphen(accItem.chargeStandReqDate));
-                        sqlParameter.Add("chargeStandInwareDate", RemoveHyphen(accItem.chargeStandInwareDate));
-                        sqlParameter.Add("comments", accItem.Comments != null ? accItem.Comments : "");
-                        sqlParameter.Add("createUserID", MainWindow.CurrentUser);
+                        for (int i = 0; i < dgdAcc.Items.Count; i++)
+                        {
+                            var accItem = dgdAcc.Items[i] as Win_order_Order_U_CodView_dgdAcc;
 
-                        Procedure pro2 = new Procedure();
-                        pro2.Name = "xp_Order_iOrder_dgdAcc";
-                        pro2.OutputUseYN = "N";
-                        pro2.OutputName = "orderID";
-                        pro2.OutputLength = "10";
+                            sqlParameter.Clear();
+                            sqlParameter.Add("orderID", strFlag == "I" ? PrimaryKey : txtOrderID.Text);
+                            sqlParameter.Add("orderSeq", i + 1);
+                            sqlParameter.Add("articleID", accItem.articleID.Trim() != string.Empty ? accItem.articleID : "");
+                            sqlParameter.Add("orderTypeID", accItem.orderTypeID.Trim() != string.Empty ? accItem.orderTypeID : "");
+                            sqlParameter.Add("chargeInwareUnitPrice", RemoveComma(accItem.chargeInwareUnitPrice, true));
+                            sqlParameter.Add("chargeOrderDate", RemoveHyphen(accItem.chargeOrderDate));
+                            sqlParameter.Add("chargeInwareDate", RemoveHyphen(accItem.chargeInwareDate));
+                            sqlParameter.Add("chargeInwareQty", RemoveComma(accItem.chargeInwareQty, true));
+                            sqlParameter.Add("chargeInwareLocation", accItem.chargeInwareLocation != null ? accItem.chargeInwareLocation : "");
+                            sqlParameter.Add("canopyReqCustom", accItem.canopyReqCustom != null ? accItem.canopyReqCustom : "");
+                            sqlParameter.Add("chargeModelHelmat", accItem.chargeModelHelmat != null ? accItem.chargeModelHelmat : "");
+                            sqlParameter.Add("chargeModelinLoc", accItem.chargeModelinloc != null ? accItem.chargeModelinloc : "");
+                            sqlParameter.Add("chargeModelOneBody", accItem.chargeModelOneBody != null ? accItem.chargeModelOneBody : "");
+                            sqlParameter.Add("chargeStandReqDate", RemoveHyphen(accItem.chargeStandReqDate));
+                            sqlParameter.Add("chargeStandInwareDate", RemoveHyphen(accItem.chargeStandInwareDate));
+                            sqlParameter.Add("comments", accItem.Comments != null ? accItem.Comments : "");
+                            sqlParameter.Add("createUserID", MainWindow.CurrentUser);
 
-                        Prolist.Add(pro2);
-                        ListParameter.Add(new Dictionary<string, object>(sqlParameter));
+                            Procedure pro2 = new Procedure();
+                            pro2.Name = "xp_Order_iOrder_dgdAcc";
+                            pro2.OutputUseYN = "N";
+                            pro2.OutputName = "orderID";
+                            pro2.OutputLength = "10";
+
+                            Prolist.Add(pro2);
+                            ListParameter.Add(new Dictionary<string, object>(sqlParameter));
+                        }
                     }
+
+                 
 
                     if(tab2_clicked == true)
                     {
-                        for(int i = 0; i < dgdLocalGov.Items.Count; i++)
+                        UpdateTbkMessage("지자체 사항 저장 중...");
+                        for (int i = 0; i < dgdLocalGov.Items.Count; i++)
                         {
                             var localGovItem = dgdLocalGov.Items[i] as Win_order_Order_U_CodView_localGov;
 
@@ -3030,9 +3278,11 @@ namespace WizMes_EVC
                     string FtpPk_key = strFlag == "I" ? PrimaryKey : txtOrderID.Text;
 
                     if (FtpPk_key.Trim() != string.Empty)
-                    {
+                    {  
                         if (deleteListFtpFile.Count > 0)
                         {
+                            UpdateTbkMessage("첨부파일 처리 중...시간이 걸릴 수 있습니다.");
+
                             foreach (string[] str in deleteListFtpFile)
                             {
                                 FTP_RemoveFile(FtpPk_key + "/" + str[0]);
@@ -3041,6 +3291,8 @@ namespace WizMes_EVC
 
                         if (listFtpFile.Count > 0)
                         {
+                            UpdateTbkMessage("첨부파일 처리 중...시간이 걸릴 수 있습니다.");
+
                             FTP_Save_File(listFtpFile, FtpPk_key);
                         }
 
@@ -3061,8 +3313,11 @@ namespace WizMes_EVC
                 MessageBox.Show(ex.ToString());
             }
             finally
-            {
+            {            
                 DataStore.Instance.CloseConnection();
+                lblMsg.Visibility = Visibility.Hidden;
+                UpdateTbkMessage("");
+
             }
 
             return flag;
@@ -3079,6 +3334,8 @@ namespace WizMes_EVC
             //{
             try
             {
+                //UpdateTbkMessage("첨부파일 처리 중...시간이 걸릴 수 있습니다.");
+
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                 sqlParameter.Clear();
                 sqlParameter.Add("orderID", orderID);
@@ -3106,8 +3363,11 @@ namespace WizMes_EVC
                 sqlParameter.Add("installLocationSheetFileName", txtInstallLocationSheetFile.Text.Trim() != "" ? txtInstallLocationSheetFile.Text : "");
                 sqlParameter.Add("installLocationSheetFilePath", txtInstallLocationSheetFile.Tag != null ? "/ImageData/Order/" + orderID : "");
                
-                sqlParameter.Add("localGoTaxFileName", txtLocalGoTaxFile.Text.Trim() != "" ? txtLocalGoTaxFile.Text : "");
+                sqlParameter.Add("localGoTaxFileName", txtLocalGoTaxFile.Text.Trim() != "" ? txtLocalGoTaxFile.Text : "");      
                 sqlParameter.Add("localGoTaxFilePath", txtLocalGoTaxFile.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                sqlParameter.Add("localGovProveFileName", txtLocalGovProveFile.Text.Trim() != "" ? txtLocalGovProveFile.Text : "");
+                sqlParameter.Add("localGovProveFilePath", txtLocalGovProveFile.Tag != null ? "/Image/Order/" + orderID : "");
 
                 //tab3
                 sqlParameter.Add("kepElectrLineFileName", txtKepElectrLineFileName.Text.Trim() != "" ? txtKepElectrLineFileName.Text : "");
@@ -3122,8 +3382,20 @@ namespace WizMes_EVC
                 sqlParameter.Add("electrBeforeUseCheckPrintFileName", txtElectrBeforeUseCheckPrintFileName.Text.Trim() != "" ? txtElectrBeforeUseCheckPrintFileName.Text : "");
                 sqlParameter.Add("electrBeforeUseCheckPrintFilePath", txtElectrBeforeUseCheckPrintFileName.Tag !=null ? "/ImageData/Order/" + orderID : "");
 
-                sqlParameter.Add("electrBeforeUseInspFileName", txtElectrBeforeUseInspFileName.Text.Trim() != "" ? txtElectrBeforeUseInspFileName.Text : "");
-                sqlParameter.Add("electrBeforeUseInspFilePath", txtElectrBeforeUseInspFileName.Tag !=null ? "/ImageData/Order/" + orderID : "");
+                //sqlParameter.Add("electrBeforeUseInspFileName", txtElectrBeforeUseInspFileName.Text.Trim() != "" ? txtElectrBeforeUseInspFileName.Text : "");
+                //sqlParameter.Add("electrBeforeUseInspFilePath", txtElectrBeforeUseInspFileName.Tag !=null ? "/ImageData/Order/" + orderID : "");
+
+                sqlParameter.Add("electrKepAcptFileName", txtElectrKepAcptFileName.Text.Trim() != "" ? txtElectrKepAcptFileName.Text : "");
+                sqlParameter.Add("electrKepAcptFilePath", txtElectrKepAcptFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+                
+                sqlParameter.Add("electrKepInfraPayBillFileName", txtElectrKepInfraPayBillFileName.Text.Trim() != "" ? txtElectrKepInfraPayBillFileName.Text : "");
+                sqlParameter.Add("electrKepInfraPayBillFilePath", txtElectrKepInfraPayBillFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                sqlParameter.Add("electrUseContractFileName", txtElectrUseContractFileName.Text.Trim() != "" ? txtElectrUseContractFileName.Text : "");
+                sqlParameter.Add("electrUseContractFilePath", txtElectrUseContractFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                sqlParameter.Add("electrBeforeUseInspCostFileName", txtElectrBeforeUseInspCostFileName.Text.Trim() != "" ? txtElectrBeforeUseInspCostFileName.Text : "");
+                sqlParameter.Add("electrBeforeUseInspCostFilePath", txtElectrBeforeUseInspCostFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
 
                 sqlParameter.Add("electrCoWorkFileName", txtElectrCoWorkFileName.Text.Trim() != "" ? txtElectrCoWorkFileName.Text : "");
                 sqlParameter.Add("electrCoWorkFilePath", txtElectrCoWorkFileName.Tag !=null ? "/ImageData/Order/" + orderID : "");
@@ -3149,6 +3421,51 @@ namespace WizMes_EVC
 
                 sqlParameter.Add("insurePrintFileName", txtInsurePrintFileName.Text.Trim() != "" ? txtInsurePrintFileName.Text : "");
                 sqlParameter.Add("insurePrintFilePath", txtInsurePrintFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                //tab5
+                sqlParameter.Add("sketch1FileName", txtSketch1.Text.Trim() != "" ? txtSketch1.Text : "");
+                sqlParameter.Add("sketch1FilePath", txtSketch1.Tag != null ? "/ImageData/Order/" + orderID : "");
+                sqlParameter.Add("sketch1FileAlias", txtSketch1FileAlias.Text.Trim() != "" ? txtSketch1FileAlias.Text : "");
+
+                sqlParameter.Add("sketch2FileName", txtSketch2.Text.Trim() != "" ? txtSketch2.Text : "");
+                sqlParameter.Add("sketch2FilePath", txtSketch2.Tag != null ? "/ImageData/Order/" + orderID : "");
+                sqlParameter.Add("sketch2FileAlias", txtSketch2FileAlias.Text.Trim() != "" ? txtSketch2FileAlias.Text : "");
+
+                sqlParameter.Add("sketch3FileName", txtSketch3.Text.Trim() != "" ? txtSketch3.Text : "");
+                sqlParameter.Add("sketch3FilePath", txtSketch3.Tag != null ? "/ImageData/Order/" + orderID : "");
+                sqlParameter.Add("sketch3FileAlias", txtSketch3FileAlias.Text.Trim() != "" ? txtSketch3FileAlias.Text : "");
+
+                sqlParameter.Add("sketch4FileName", txtSketch4.Text.Trim() != "" ? txtSketch4.Text : "");
+                sqlParameter.Add("sketch4FilePath", txtSketch4.Tag != null ? "/ImageData/Order/" + orderID : "");
+                sqlParameter.Add("sketch4FileAlias", txtSketch4FileAlias.Text.Trim() != "" ? txtSketch4FileAlias.Text : "");
+
+                sqlParameter.Add("sketch5FileName", txtSketch5.Text.Trim() != "" ? txtSketch5.Text : "");
+                sqlParameter.Add("sketch5FilePath", txtSketch5.Tag != null ? "/ImageData/Order/" + orderID : "");
+                sqlParameter.Add("sketch5FileAlias", txtSketch5FileAlias.Text.Trim() != "" ? txtSketch5FileAlias.Text : "");
+
+                sqlParameter.Add("sketch6FileName", txtSketch6.Text.Trim() != "" ? txtSketch6.Text : "");
+                sqlParameter.Add("sketch6FilePath", txtSketch6.Tag != null ? "/ImageData/Order/" + orderID : "");
+                sqlParameter.Add("sketch6FileAlias", txtSketch6FileAlias.Text.Trim() != "" ? txtSketch6FileAlias.Text : "");
+
+                sqlParameter.Add("sketch7FileName", txtSketch7.Text.Trim() != "" ? txtSketch7.Text : "");
+                sqlParameter.Add("sketch7FilePath", txtSketch7.Tag != null ? "/ImageData/Order/" + orderID : "");
+                sqlParameter.Add("sketch7FileAlias", txtSketch7FileAlias.Text.Trim() != "" ? txtSketch7FileAlias.Text : "");
+
+                sqlParameter.Add("sketch8FileName", txtSketch8.Text.Trim() != "" ? txtSketch8.Text : "");
+                sqlParameter.Add("sketch8FilePath", txtSketch8.Tag != null ? "/ImageData/Order/" + orderID : "");
+                sqlParameter.Add("sketch8FileAlias", txtSketch8FileAlias.Text.Trim() != "" ? txtSketch8FileAlias.Text : "");
+
+                sqlParameter.Add("sketch9FileName", txtSketch9.Text.Trim() != "" ? txtSketch9.Text : "");
+                sqlParameter.Add("sketch9FilePath", txtSketch9.Tag != null ? "/ImageData/Order/" + orderID : "");
+                sqlParameter.Add("sketch9FileAlias", txtSketch9FileAlias.Text.Trim() != "" ? txtSketch9FileAlias.Text : "");
+
+                sqlParameter.Add("sketch10FileName", txtSketch10.Text.Trim() != "" ? txtSketch10.Text : "");
+                sqlParameter.Add("sketch10FilePath", txtSketch10.Tag != null ? "/ImageData/Order/" + orderID : "");
+                sqlParameter.Add("sketch10FileAlias", txtSketch10FileAlias.Text.Trim() != "" ? txtSketch10FileAlias.Text : "");
+
+                sqlParameter.Add("sketch11FileName", txtSketch11.Text.Trim() != "" ? txtSketch11.Text : "");
+                sqlParameter.Add("sketch11FilePath", txtSketch11.Tag != null ? "/ImageData/Order/" + orderID : "");
+                sqlParameter.Add("sketch11FileAlias", txtSketch11FileAlias.Text.Trim() != "" ? txtSketch11FileAlias.Text : "");
 
 
                 string[] result = DataStore.Instance.ExecuteProcedure("xp_order_uOrder_FTP", sqlParameter, true);
@@ -3274,14 +3591,14 @@ namespace WizMes_EVC
         {
             string msg = string.Empty;
 
-            string ElecTypeMgrWork = (cboElectrDeliveryMethodID.SelectedItem as CodeView)?.code_name;
-            if(tab2_clicked== true && ElecTypeMgrWork != null && ElecTypeMgrWork.Contains("한전"))
-            {
-                if (dtpSuperBeforeUseInspDate.SelectedDate == null || dtpSuperBeforeUseInspDate.SelectedDate.ToString() == string.Empty)
-                {
-                    msg += "[시공 및 실사정보] 전기수전방법이 *한전*이면\n반드시 사용전검사를 진행해야합니다.\n[시공 및 실사정보]탭의 *사용전검사 확인증 발급일*을 확인하세요";
-                }
-            }
+            //string ElecTypeMgrWork = (cboElectrDeliveryMethodID.SelectedItem as CodeView)?.code_name;
+            //if(tab2_clicked== true && ElecTypeMgrWork != null && ElecTypeMgrWork.Contains("한전"))
+            //{
+            //    if (dtpSuperBeforeUseInspDate.SelectedDate == null || dtpSuperBeforeUseInspDate.SelectedDate.ToString() == string.Empty)
+            //    {
+            //        msg += "[시공 및 실사정보] 전기수전방법이 *한전*이면\n반드시 사용전검사를 진행해야합니다.\n[시공 및 실사정보]탭의 *사용전검사 확인증 발급일*을 확인하세요";
+            //    }
+            //}
 
             if (msg.Length > 0)
             {
@@ -3566,7 +3883,7 @@ namespace WizMes_EVC
 
             foreach(Grid grid in grids)
             {
-                FindUiObject(grdInput, child =>
+                FindUiObject(grid, child =>
                 {
                     if (child is DatePicker datePicker)
                     {
@@ -3586,7 +3903,7 @@ namespace WizMes_EVC
 
             foreach (Grid grid in grids)
             {
-                 FindUiObject(grdInput, child =>
+                 FindUiObject(grid, child =>
                 {
                     if (child is DatePicker datePicker)
                     {
@@ -3680,7 +3997,7 @@ namespace WizMes_EVC
 
         private void ClearGrdInput()
         {
-            List<Grid> grids = new List<Grid> { grdInput, grd2, grd3, grd4 };
+            List<Grid> grids = new List<Grid> { grdInput, grd2, grd3, grd4, grd5 };
 
             FindUiObject(grdInput, child =>
             {
@@ -3714,7 +4031,7 @@ namespace WizMes_EVC
 
         private void ClearGrid()
         {
-            List<Grid> grids = new List<Grid> { grdInput, grd2, grd3, grd4 };
+            List<Grid> grids = new List<Grid> { grdInput, grd2, grd3, grd4, grd5 };
             FindUiObject(grdInput, child =>
             {
                 if (child is DataGrid dgd)
@@ -3931,19 +4248,24 @@ namespace WizMes_EVC
         {
             // (버튼)sender 마다 tag를 달자.
             string ClickPoint = ((Button)sender).Tag.ToString();
-            if (ClickPoint.Contains("Contract")) { FTP_Upload_TextBox(txtContractFileName); }  //긴 경로(FULL 사이즈)
+            if (ClickPoint.Equals("Contract")) { FTP_Upload_TextBox(txtContractFileName); }  //긴 경로(FULL 사이즈)
             else if (ClickPoint.Contains("BeforeSearchConsult")) { FTP_Upload_TextBox(txtBeforeSearchConsultFileName); }
             else if (ClickPoint.Contains("PictureEarth")) { FTP_Upload_TextBox(txtPictureEarthFileName); }
             else if (ClickPoint.Contains("Draw")) { FTP_Upload_TextBox(txtDrawFileName); }
             else if (ClickPoint.Equals("Search")) { FTP_Upload_TextBox(txtSearchFileName); }
             else if (ClickPoint.Contains("SearchChecksheet")) { FTP_Upload_TextBox(txtSearchChecksheetFile); }
             else if (ClickPoint.Contains("InstallLocationSheet")) { FTP_Upload_TextBox(txtInstallLocationSheetFile); }
-            else if (ClickPoint.Contains("LocalGoTax")) { FTP_Upload_TextBox(txtLocalGoTaxFile); }
+            else if (ClickPoint.Contains("LocalGoTax")) { FTP_Upload_TextBox(txtLocalGoTaxFile); }                      
+            else if (ClickPoint.Contains("LocalGovProve")) { FTP_Upload_TextBox(txtLocalGovProveFile); }
             else if (ClickPoint.Contains("kepElectrLine")) { FTP_Upload_TextBox(txtKepElectrLineFileName); }
             else if (ClickPoint.Contains("kepFaucetAcpt")) { FTP_Upload_TextBox(txtKepFaucetAcptFileName); }
             else if (ClickPoint.Contains("ElectrSafeInspPrint")) { FTP_Upload_TextBox(txtElectrSafeInspPrintFileName); }
             else if (ClickPoint.Contains("ElectrBeforeUseCheckPrint")) { FTP_Upload_TextBox(txtElectrBeforeUseCheckPrintFileName); }
-            else if (ClickPoint.Contains("ElectrBeforeUseInsp")) { FTP_Upload_TextBox(txtElectrBeforeUseInspFileName); }
+            //else if (ClickPoint.Contains("ElectrBeforeUseInsp")) { FTP_Upload_TextBox(txtElectrBeforeUseInspFileName); }
+            else if (ClickPoint.Contains("ElectrKepAcpt")) { FTP_Upload_TextBox(txtElectrKepAcptFileName); }
+            else if (ClickPoint.Contains("ElectrKepInfraPayBill")) { FTP_Upload_TextBox(txtElectrKepInfraPayBillFileName); }
+            else if (ClickPoint.Contains("ElectrUseContract")) { FTP_Upload_TextBox(txtElectrUseContractFileName); }
+            else if (ClickPoint.Contains("ElectrBeforeUseInspCost")) { FTP_Upload_TextBox(txtElectrBeforeUseInspCostFileName); }
             else if (ClickPoint.Contains("ElectrCoWork")) { FTP_Upload_TextBox(txtElectrCoWorkFileName); }
             else if (ClickPoint.Contains("ElectrCost")) { FTP_Upload_TextBox(txtElectrCostFileName); }
             else if (ClickPoint.Contains("SuperSetCheck")) { FTP_Upload_TextBox(txtSuperSetCheckFileName); }
@@ -3952,13 +4274,25 @@ namespace WizMes_EVC
             else if (ClickPoint.Contains("SuperReportFile")) { FTP_Upload_TextBox(txtSuperReportFileName); }
             else if (ClickPoint.Contains("CompReport")) { FTP_Upload_TextBox(txtCompReportFIleName); }
             else if (ClickPoint.Contains("InsurePrint")) { FTP_Upload_TextBox(txtInsurePrintFileName); }
+
+            else if(ClickPoint.Equals("btnSketch1")) { FTP_Upload_TextBox(txtSketch1); txtSketch1FileAlias.IsReadOnly = false; }
+            else if(ClickPoint.Equals("btnSketch2")) { FTP_Upload_TextBox(txtSketch2); txtSketch2FileAlias.IsReadOnly = false; }
+            else if(ClickPoint.Equals("btnSketch3")) { FTP_Upload_TextBox(txtSketch3); txtSketch3FileAlias.IsReadOnly = false; }
+            else if(ClickPoint.Equals("btnSketch4")) { FTP_Upload_TextBox(txtSketch4); txtSketch4FileAlias.IsReadOnly = false; }
+            else if(ClickPoint.Equals("btnSketch5")) { FTP_Upload_TextBox(txtSketch5); txtSketch5FileAlias.IsReadOnly = false; }
+            else if(ClickPoint.Equals("btnSketch6")) { FTP_Upload_TextBox(txtSketch6); txtSketch6FileAlias.IsReadOnly = false; }
+            else if(ClickPoint.Equals("btnSketch7")) { FTP_Upload_TextBox(txtSketch7); txtSketch7FileAlias.IsReadOnly = false; }
+            else if(ClickPoint.Equals("btnSketch8")) { FTP_Upload_TextBox(txtSketch8); txtSketch8FileAlias.IsReadOnly = false; }
+            else if(ClickPoint.Equals("btnSketch9")) { FTP_Upload_TextBox(txtSketch9); txtSketch9FileAlias.IsReadOnly = false; }
+            else if(ClickPoint.Equals("btnSketch10")) { FTP_Upload_TextBox(txtSketch10); txtSketch10FileAlias.IsReadOnly = false; }
+            else if (ClickPoint.Equals("btnSketch11")) { FTP_Upload_TextBox(txtSketch11); txtSketch11FileAlias.IsReadOnly = false; }
         }
 
 
         private void FTP_Upload_TextBox(TextBox textBox)
         {
             if (!textBox.Text.Equals(string.Empty) && strFlag.Equals("U"))
-            {
+            {  
                 MessageBox.Show("먼저 해당파일의 삭제를 진행 후 진행해주세요.");
                 return;
             }
@@ -3979,6 +4313,14 @@ namespace WizMes_EVC
 
                     string ImageFileName = OFdlg.SafeFileName;  //명.
                     string ImageFilePath = string.Empty;       // 경로
+
+
+                    // 파일명 유효성 검사 추가
+                    if (!IsValidFileName(ImageFileName))
+                    {
+                        MessageBox.Show("파일명에 허용되지 않는 특수문자가 포함되어 있습니다.\n시스템 저장시 오류를 일으킬 수 있으므로 변경 후 첨부하여 주세요");
+                        return;
+                    }
 
                     ImageFilePath = strFullPath.Replace(ImageFileName, "");
 
@@ -4003,8 +4345,36 @@ namespace WizMes_EVC
 
                         string[] strTemp = new string[] { ImageFileName, ImageFilePath.ToString() };
                         listFtpFile.Add(strTemp);
+                        lstFilesName.Add(ImageFileName);
                     }
                 }
+            }
+        }
+
+        private bool IsValidFileName(string fileName)
+        {
+            // 한글, 영문자, 숫자, 그리고 제한된 특수문자만 허용
+            // em dash(—) 등의 확장 특수문자는 제외
+            string pattern = @"^[가-힣a-zA-Z0-9\-_.()!\s]+$";
+
+            try
+            {
+                // 파일명이 정규식 패턴과 일치하는지 검사
+                bool isValid = Regex.IsMatch(fileName, pattern);
+
+                // 디버깅을 위한 로깅 (필요한 경우)
+                if (!isValid)
+                {
+                    // 어떤 문자가 패턴에 맞지 않는지 확인
+                    var invalidChars = fileName.Where(c => !Regex.IsMatch(c.ToString(), @"[가-힣a-zA-Z0-9\-_.()!\s]")).ToList();
+                    Console.WriteLine($"Invalid characters found: {string.Join(", ", invalidChars)}");
+                }
+
+                return isValid;
+            }
+            catch
+            {
+                return false;
             }
         }
 
@@ -4174,11 +4544,18 @@ namespace WizMes_EVC
                     string searchChecksheetFileName = txtSearchChecksheetFile.Text.Trim() != "" ? txtSearchChecksheetFile.Text : "";
                     string installLocationSheetFileName = txtInstallLocationSheetFile.Text.Trim() != "" ? txtInstallLocationSheetFile.Text : "";
                     string localGoTaxFileName = txtLocalGoTaxFile.Text.Trim() != "" ? txtLocalGoTaxFile.Text : "";
+                    string localGovProveFileName = txtLocalGovProveFile.Text.Trim() != "" ? txtLocalGovProveFile.Text : "";
                     string kepElectrLineFileName = txtKepElectrLineFileName.Text.Trim() != "" ? txtKepElectrLineFileName.Text : "";
                     string kepFaucetAcptFileName = txtKepFaucetAcptFileName.Text.Trim() != "" ? txtKepFaucetAcptFileName.Text : "";
                     string electrSafeInspPrintFileName = txtElectrSafeInspPrintFileName.Text.Trim() != "" ? txtElectrSafeInspPrintFileName.Text : "";
                     string electrBeforeUseCheckPrintFileName = txtElectrBeforeUseCheckPrintFileName.Text.Trim() != "" ? txtElectrBeforeUseCheckPrintFileName.Text : "";
-                    string electrBeforeUseInspFileName = txtElectrBeforeUseInspFileName.Text.Trim() != "" ? txtElectrBeforeUseInspFileName.Text : "";
+                    //string electrBeforeUseInspFileName = txtElectrBeforeUseInspFileName.Text.Trim() != "" ? txtElectrBeforeUseInspFileName.Text : "";
+
+                    string electrKepAcptFileName = txtElectrKepAcptFileName.Text.Trim() != "" ? txtElectrKepAcptFileName.Text : "";
+                    string electrKepInfraPayBillFileName = txtElectrKepInfraPayBillFileName.Text.Trim() != "" ? txtElectrKepInfraPayBillFileName.Text : "";
+                    string eectrUseContractFileName = txtElectrUseContractFileName.Text.Trim() != "" ? txtElectrUseContractFileName.Text : "";
+                    string electrBeforeUseInspCostFileName = txtElectrBeforeUseInspCostFileName.Text.Trim() != "" ? txtElectrBeforeUseInspCostFileName.Text : "";
+
                     string electrCoWorkFileName = txtElectrCoWorkFileName.Text.Trim() != "" ? txtElectrCoWorkFileName.Text : "";
                     string electrCostFileName = txtElectrCostFileName.Text.Trim() != "" ? txtElectrCostFileName.Text : "";
                     string superSetCheckFileName = txtSuperSetCheckFileName.Text.Trim() != "" ? txtSuperSetCheckFileName.Text : "";
@@ -4188,7 +4565,26 @@ namespace WizMes_EVC
                     string compReportFileName = txtCompReportFIleName.Text.Trim() != "" ? txtCompReportFIleName.Text : "";
                     string insurePrintFileName = txtInsurePrintFileName.Text.Trim() != "" ? txtInsurePrintFileName.Text : "";
 
+                    string sketch1 = txtSketch1.Text.Trim() != "" ? txtSketch1.Text : "";
+                    string sketch2 = txtSketch2.Text.Trim() != "" ? txtSketch2.Text : "";
+                    string sketch3 = txtSketch3.Text.Trim() != "" ? txtSketch3.Text : "";
+                    string sketch4 = txtSketch4.Text.Trim() != "" ? txtSketch4.Text : "";
+                    string sketch5 = txtSketch5.Text.Trim() != "" ? txtSketch5.Text : "";
+                    string sketch6 = txtSketch6.Text.Trim() != "" ? txtSketch6.Text : "";
+                    string sketch7 = txtSketch7.Text.Trim() != "" ? txtSketch7.Text : "";
+                    string sketch8 = txtSketch8.Text.Trim() != "" ? txtSketch8.Text : "";
+                    string sketch9 = txtSketch9.Text.Trim() != "" ? txtSketch9.Text : "";
+                    string sketch10 = txtSketch10.Text.Trim() != "" ? txtSketch10.Text : "";
+                    string sketch11 = txtSketch11.Text.Trim() != "" ? txtSketch11.Text : "";
 
+                    string btnAccntDown = string.Empty;
+                    if(dgdAccnt.SelectedCells.Count > 0)
+                    {
+                        var cell = dgdAccnt.SelectedCells[dgdAccnt.SelectedCells.Count - 1];
+                        btnAccntDown = (cell.Item as Win_order_Order_U_CodView_dgdAccnt)?.column5FileName ?? "";
+                    }
+
+                    
 
                     if (((ClickPoint == "Contract") && (txtContractFileName.Text == string.Empty))
                        || ((ClickPoint == "BeforeSearchConsult") && (txtBeforeSearchConsultFileName.Text == string.Empty))
@@ -4198,11 +4594,19 @@ namespace WizMes_EVC
                        || ((ClickPoint == "SearchChecksheet") && (txtSearchChecksheetFile.Text == string.Empty))
                        || ((ClickPoint == "InstallLocationSheet") && (txtInstallLocationSheetFile.Text == string.Empty))
                        || ((ClickPoint == "LocalGoTax") && (txtLocalGoTaxFile.Text == string.Empty))
+                       || ((ClickPoint == "LocalGovProve") && (txtLocalGovProveFile.Text == string.Empty))
                        || ((ClickPoint == "kepElectrLine") && (txtKepElectrLineFileName.Text == string.Empty))
                        || ((ClickPoint == "kepFaucetAcpt") && (txtKepFaucetAcptFileName.Text == string.Empty))
                        || ((ClickPoint == "ElectrSafeInspPrint") && (txtElectrSafeInspPrintFileName.Text == string.Empty))
                        || ((ClickPoint == "ElectrBeforeUseCheckPrint") && (txtElectrBeforeUseCheckPrintFileName.Text == string.Empty))
-                       || ((ClickPoint == "ElectrBeforeUseInsp") && (txtElectrBeforeUseInspFileName.Text == string.Empty))
+                       //|| ((ClickPoint == "ElectrBeforeUseInsp") && (txtElectrBeforeUseInspFileName.Text == string.Empty))
+
+                       || ((ClickPoint == "ElectrKepAcpt") && (txtElectrKepAcptFileName.Text == string.Empty))
+                       || ((ClickPoint == "ElectrKepInfraPayBill") && (txtElectrKepInfraPayBillFileName.Text == string.Empty))
+                       || ((ClickPoint == "ElectrUseContract") && (txtElectrUseContractFileName.Text == string.Empty))
+                       || ((ClickPoint == "ElectrBeforeUseInspCost") && (txtElectrBeforeUseInspCostFileName.Text == string.Empty))
+
+
                        || ((ClickPoint == "ElectrCoWork") && (txtElectrCoWorkFileName.Text == string.Empty))
                        || ((ClickPoint == "ElectrCost") && (txtElectrCostFileName.Text == string.Empty))
                        || ((ClickPoint == "SuperSetCheck") && (txtSuperSetCheckFileName.Text == string.Empty))
@@ -4210,8 +4614,23 @@ namespace WizMes_EVC
                        || ((ClickPoint == "SuperCostFile") && (txtSuperCostFileName.Text == string.Empty))
                        || ((ClickPoint == "SuperReportFile") && (txtSuperReportFileName.Text == string.Empty))
                        || ((ClickPoint == "CompReport") && (txtCompReportFIleName.Text == string.Empty))
-                       || ((ClickPoint == "InsurePrint") && (txtInsurePrintFileName.Text == string.Empty)))         
-                      
+                       || ((ClickPoint == "InsurePrint") && (txtInsurePrintFileName.Text == string.Empty))
+
+                       || ((ClickPoint == "btnSketch1") && (txtSketch1.Text == string.Empty))
+                       || ((ClickPoint == "btnSketch2") && (txtSketch2.Text == string.Empty))
+                       || ((ClickPoint == "btnSketch3") && (txtSketch3.Text == string.Empty))
+                       || ((ClickPoint == "btnSketch4") && (txtSketch4.Text == string.Empty))
+                       || ((ClickPoint == "btnSketch5") && (txtSketch5.Text == string.Empty))
+                       || ((ClickPoint == "btnSketch6") && (txtSketch6.Text == string.Empty))
+                       || ((ClickPoint == "btnSketch7") && (txtSketch7.Text == string.Empty))
+                       || ((ClickPoint == "btnSketch8") && (txtSketch8.Text == string.Empty))
+                       || ((ClickPoint == "btnSketch9") && (txtSketch9.Text == string.Empty))
+                       || ((ClickPoint == "btnSketch10") && (txtSketch10.Text == string.Empty))
+                       || ((ClickPoint == "btnSketch11") && (txtSketch11.Text == string.Empty))
+
+                       || ((ClickPoint == "AccntDown") && (btnAccntDown == string.Empty)))
+
+
                     {
                         MessageBox.Show("파일이 없습니다.");
                         return;
@@ -4230,6 +4649,7 @@ namespace WizMes_EVC
                         string str_remotepath = string.Empty;
                         string str_localpath = string.Empty;
 
+                        //원격경로
                         if (ClickPoint == "Contract") { str_remotepath = contractFileName; }
                         else if (ClickPoint == "BeforeSearchConsult") { str_remotepath = beforeSearchConsultFileName; }
                         else if (ClickPoint == "PictureEarth") { str_remotepath = pictureEarthFileName; }
@@ -4238,11 +4658,18 @@ namespace WizMes_EVC
                         else if (ClickPoint == "SearchChecksheet") { str_remotepath = searchChecksheetFileName; }
                         else if (ClickPoint == "InstallLocationSheet") { str_remotepath = installLocationSheetFileName; }
                         else if (ClickPoint == "LocalGoTax") { str_remotepath = localGoTaxFileName; }
+                        else if (ClickPoint == "LocalGovProve") { str_remotepath = localGovProveFileName; }
                         else if (ClickPoint == "kepElectrLine") { str_remotepath = kepElectrLineFileName; }
                         else if (ClickPoint == "kepFaucetAcpt") { str_remotepath = kepFaucetAcptFileName; }
                         else if (ClickPoint == "ElectrSafeInspPrint") { str_remotepath = electrSafeInspPrintFileName; }
                         else if (ClickPoint == "ElectrBeforeUseCheckPrint") { str_remotepath = electrBeforeUseCheckPrintFileName; }
-                        else if (ClickPoint == "ElectrBeforeUseInsp") { str_remotepath = electrBeforeUseInspFileName; }
+                        //else if (ClickPoint == "ElectrBeforeUseInsp") { str_remotepath = electrBeforeUseInspFileName; }
+                        
+                        else if (ClickPoint == "ElectrKepAcpt") { str_remotepath = electrKepAcptFileName; }
+                        else if (ClickPoint == "ElectrKepInfraPayBill") { str_remotepath = electrKepInfraPayBillFileName; }
+                        else if (ClickPoint == "ElectrUseContract") { str_remotepath = eectrUseContractFileName; }
+                        else if (ClickPoint == "ElectrBeforeUseInspCost") { str_remotepath = electrBeforeUseInspCostFileName; }
+
                         else if (ClickPoint == "ElectrCoWork") { str_remotepath = electrCoWorkFileName; }
                         else if (ClickPoint == "ElectrCost") { str_remotepath = electrCostFileName; }
                         else if (ClickPoint == "SuperSetCheck") { str_remotepath = superSetCheckFileName; }
@@ -4251,11 +4678,22 @@ namespace WizMes_EVC
                         else if (ClickPoint == "SuperReportFile") { str_remotepath = superReportFileFileName; }
                         else if (ClickPoint == "CompReport") { str_remotepath = compReportFileName; }
                         else if (ClickPoint == "InsurePrint") { str_remotepath = insurePrintFileName; }
-                   
 
+                        else if (ClickPoint == "btnSketch1") { str_remotepath = sketch1; }
+                        else if (ClickPoint == "btnSketch2") { str_remotepath = sketch2; }
+                        else if (ClickPoint == "btnSketch3") { str_remotepath = sketch3; }
+                        else if (ClickPoint == "btnSketch4") { str_remotepath = sketch4; }
+                        else if (ClickPoint == "btnSketch5") { str_remotepath = sketch5; }
+                        else if (ClickPoint == "btnSketch6") { str_remotepath = sketch6; }
+                        else if (ClickPoint == "btnSketch7") { str_remotepath = sketch7; }
+                        else if (ClickPoint == "btnSketch8") { str_remotepath = sketch8; }
+                        else if (ClickPoint == "btnSketch9") { str_remotepath = sketch9; }
+                        else if (ClickPoint == "btnSketch10") { str_remotepath = sketch10; }
+                        else if (ClickPoint == "btnSketch11") { str_remotepath = sketch11; }
 
-             
+                        else if (ClickPoint == "AccntDown") { str_remotepath = btnAccntDown; }
 
+                        //로컬경로
                         if (ClickPoint == "Contract") { str_localpath = LOCAL_DOWN_PATH + "\\" + contractFileName; }
                         else if (ClickPoint == "BeforeSearchConsult") { str_localpath = LOCAL_DOWN_PATH + "\\" + beforeSearchConsultFileName; }
                         else if (ClickPoint == "PictureEarth") { str_localpath = LOCAL_DOWN_PATH + "\\" + pictureEarthFileName; }
@@ -4264,11 +4702,18 @@ namespace WizMes_EVC
                         else if (ClickPoint == "SearchChecksheet") { str_localpath = LOCAL_DOWN_PATH + "\\" + searchChecksheetFileName; }
                         else if (ClickPoint == "InstallLocationSheet") { str_localpath = LOCAL_DOWN_PATH + "\\" + installLocationSheetFileName; }
                         else if (ClickPoint == "LocalGoTax") { str_localpath = LOCAL_DOWN_PATH + "\\" + localGoTaxFileName; }
+                        else if (ClickPoint == "LocalGovProve") { str_localpath = LOCAL_DOWN_PATH + "\\" + localGovProveFileName; }
                         else if (ClickPoint == "kepElectrLine") { str_localpath = LOCAL_DOWN_PATH + "\\" + kepElectrLineFileName; }
                         else if (ClickPoint == "kepFaucetAcpt") { str_localpath = LOCAL_DOWN_PATH + "\\" + kepFaucetAcptFileName; }
                         else if (ClickPoint == "ElectrSafeInspPrint") { str_localpath = LOCAL_DOWN_PATH + "\\" + electrSafeInspPrintFileName; }
                         else if (ClickPoint == "ElectrBeforeUseCheckPrint") { str_localpath = LOCAL_DOWN_PATH + "\\" + electrBeforeUseCheckPrintFileName; }
-                        else if (ClickPoint == "ElectrBeforeUseInsp") { str_localpath = LOCAL_DOWN_PATH + "\\" + electrBeforeUseInspFileName; }
+                        //else if (ClickPoint == "ElectrBeforeUseInsp") { str_localpath = LOCAL_DOWN_PATH + "\\" + electrBeforeUseInspFileName; }
+
+                        else if (ClickPoint == "ElectrKepAcpt") { str_localpath = LOCAL_DOWN_PATH + "\\" + electrKepAcptFileName; }
+                        else if (ClickPoint == "ElectrKepInfraPayBill") { str_localpath = LOCAL_DOWN_PATH + "\\" + electrKepInfraPayBillFileName; }
+                        else if (ClickPoint == "ElectrUseContract") { str_localpath = LOCAL_DOWN_PATH + "\\" + eectrUseContractFileName; }
+                        else if (ClickPoint == "ElectrBeforeUseInspCost") { str_localpath = LOCAL_DOWN_PATH + "\\" + electrBeforeUseInspCostFileName; }
+
                         else if (ClickPoint == "ElectrCoWork") { str_localpath = LOCAL_DOWN_PATH + "\\" + electrCoWorkFileName; }
                         else if (ClickPoint == "ElectrCost") { str_localpath = LOCAL_DOWN_PATH + "\\" + electrCostFileName; }
                         else if (ClickPoint == "SuperSetCheck") { str_localpath = LOCAL_DOWN_PATH + "\\" + superSetCheckFileName; }
@@ -4277,7 +4722,21 @@ namespace WizMes_EVC
                         else if (ClickPoint == "SuperReportFile") { str_localpath = LOCAL_DOWN_PATH + "\\" + superReportFileFileName; }
                         else if (ClickPoint == "CompReport") { str_localpath = LOCAL_DOWN_PATH + "\\" + compReportFileName; }
                         else if (ClickPoint == "InsurePrint") { str_localpath = LOCAL_DOWN_PATH + "\\" + insurePrintFileName; }
-                  
+
+                        else if (ClickPoint == "btnSketch1") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch1; }
+                        else if (ClickPoint == "btnSketch2") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch2; }
+                        else if (ClickPoint == "btnSketch3") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch3; }
+                        else if (ClickPoint == "btnSketch4") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch4; }
+                        else if (ClickPoint == "btnSketch5") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch5; }
+                        else if (ClickPoint == "btnSketch6") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch6; }
+                        else if (ClickPoint == "btnSketch7") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch7; }
+                        else if (ClickPoint == "btnSketch8") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch8; }
+                        else if (ClickPoint == "btnSketch9") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch9; }
+                        else if (ClickPoint == "btnSketch10") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch10; }
+                        else if (ClickPoint == "btnSketch11") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch11; }
+
+                        else if (ClickPoint == "AccntDown") { str_localpath = LOCAL_DOWN_PATH + "\\" + btnAccntDown; }
+
 
                         DirectoryInfo DI = new DirectoryInfo(LOCAL_DOWN_PATH);      // Temp 폴더가 없는 컴터라면, 만들어 줘야지.
                         if (DI.Exists == false)
@@ -4362,21 +4821,37 @@ namespace WizMes_EVC
                 string ClickPoint = ((Button)sender).Tag.ToString();
                 string fileName = string.Empty;
 
+                string btnAccntDown = string.Empty;
+                DataGridCellInfo cell;
+                if (dgdAccnt.SelectedCells.Count > 0)
+                {
+                    cell = dgdAccnt.SelectedCells[dgdAccnt.SelectedCells.Count - 1];
+                    btnAccntDown = (cell.Item as Win_order_Order_U_CodView_dgdAccnt).column5FileName;
+                }
+
                 //먼저 클릭한 버튼의 파일명을 삭제할 파일 리스트에 올린다. 리스트에 올리면서 텍스트의 텍스트와 태그를 지운다.
                 //lstFileName에는 ftp업로드할때 파일명 중복방지를 위한 리스트(파일명이 중복되면 파일이 업로드 되지 않고 삭제될때 문제생김)
                 //저장할때 리스트에 있다면 FTP삭제 요청을 한다.
                 if ((ClickPoint == "BeforeSearchConsult") && (txtBeforeSearchConsultFileName.Text != string.Empty)) { fileName = txtBeforeSearchConsultFileName.Text; FileDeleteAndTextBoxEmpty(txtBeforeSearchConsultFileName); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "Contract") && (txtContractFileName.Text != string.Empty)) { fileName = txtContractFileName.Text; FileDeleteAndTextBoxEmpty(txtContractFileName); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "PictureEarth") && (txtPictureEarthFileName.Text != string.Empty)) { fileName = txtPictureEarthFileName.Text; FileDeleteAndTextBoxEmpty(txtPictureEarthFileName); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "Draw") && (txtDrawFileName.Text != string.Empty)) { fileName = txtDrawFileName.Text; FileDeleteAndTextBoxEmpty(txtDrawFileName); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "Search") && (txtSearchFileName.Text != string.Empty)) { fileName = txtSearchFileName.Text; FileDeleteAndTextBoxEmpty(txtSearchFileName); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "SearchChecksheet") && (txtSearchChecksheetFile.Text != string.Empty)) { fileName = txtSearchChecksheetFile.Text; FileDeleteAndTextBoxEmpty(txtSearchChecksheetFile); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "InstallLocationSheet") && (txtInstallLocationSheetFile.Text != string.Empty)) { fileName = txtInstallLocationSheetFile.Text; FileDeleteAndTextBoxEmpty(txtInstallLocationSheetFile); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "LocalGoTax") && (txtLocalGoTaxFile.Text != string.Empty)) { fileName = txtLocalGoTaxFile.Text; FileDeleteAndTextBoxEmpty(txtLocalGoTaxFile); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "LocalGovProve") && (txtLocalGovProveFile.Text != string.Empty)) { fileName = txtLocalGovProveFile.Text; FileDeleteAndTextBoxEmpty(txtLocalGovProveFile); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "kepElectrLine") && (txtKepElectrLineFileName.Text != string.Empty)) { fileName = txtKepElectrLineFileName.Text; FileDeleteAndTextBoxEmpty(txtKepElectrLineFileName); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "kepFaucetAcpt") && (txtKepFaucetAcptFileName.Text != string.Empty)) { fileName = txtKepFaucetAcptFileName.Text; FileDeleteAndTextBoxEmpty(txtKepFaucetAcptFileName); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "ElectrSafeInspPrint") && (txtElectrSafeInspPrintFileName.Text != string.Empty)) { fileName = txtElectrSafeInspPrintFileName.Text; FileDeleteAndTextBoxEmpty(txtElectrSafeInspPrintFileName); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "ElectrBeforeUseCheckPrint") && (txtElectrBeforeUseCheckPrintFileName.Text != string.Empty)) { fileName = txtElectrBeforeUseCheckPrintFileName.Text; FileDeleteAndTextBoxEmpty(txtElectrBeforeUseCheckPrintFileName); lstFilesName.Remove(fileName); }
-                else if ((ClickPoint == "ElectrBeforeUseInsp") && (txtElectrBeforeUseInspFileName.Text != string.Empty)) { fileName = txtElectrBeforeUseInspFileName.Text; FileDeleteAndTextBoxEmpty(txtElectrBeforeUseInspFileName); lstFilesName.Remove(fileName); }
+                //else if ((ClickPoint == "ElectrBeforeUseInsp") && (txtElectrBeforeUseInspFileName.Text != string.Empty)) { fileName = txtElectrBeforeUseInspFileName.Text; FileDeleteAndTextBoxEmpty(txtElectrBeforeUseInspFileName); lstFilesName.Remove(fileName); }
+
+                else if ((ClickPoint == "ElectrKepAcpt") && (txtElectrKepAcptFileName.Text != string.Empty)) { fileName = txtElectrKepAcptFileName.Text; FileDeleteAndTextBoxEmpty(txtElectrKepAcptFileName); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "ElectrKepInfraPayBill") && (txtElectrKepInfraPayBillFileName.Text != string.Empty)) { fileName = txtElectrKepInfraPayBillFileName.Text; FileDeleteAndTextBoxEmpty(txtElectrKepInfraPayBillFileName); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "ElectrUseContract") && (txtElectrUseContractFileName.Text != string.Empty)) { fileName = txtElectrUseContractFileName.Text; FileDeleteAndTextBoxEmpty(txtElectrUseContractFileName); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "ElectrBeforeUseInspCost") && (txtElectrBeforeUseInspCostFileName.Text != string.Empty)) { fileName = txtElectrBeforeUseInspCostFileName.Text; FileDeleteAndTextBoxEmpty(txtElectrBeforeUseInspCostFileName); lstFilesName.Remove(fileName); }
+
                 else if ((ClickPoint == "ElectrCoWork") && (txtElectrCoWorkFileName.Text != string.Empty)) { fileName = txtElectrCoWorkFileName.Text; FileDeleteAndTextBoxEmpty(txtElectrCoWorkFileName); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "ElectrCost") && (txtElectrCostFileName.Text != string.Empty)) { fileName = txtElectrCostFileName.Text; FileDeleteAndTextBoxEmpty(txtElectrCostFileName); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "SuperSetCheck") && (txtSuperSetCheckFileName.Text != string.Empty)) { fileName = txtSuperSetCheckFileName.Text; FileDeleteAndTextBoxEmpty(txtSuperSetCheckFileName); lstFilesName.Remove(fileName); }
@@ -4385,6 +4860,42 @@ namespace WizMes_EVC
                 else if ((ClickPoint == "SuperReportFile") && (txtSuperReportFileName.Text != string.Empty)) { fileName = txtSuperReportFileName.Text; FileDeleteAndTextBoxEmpty(txtSuperReportFileName); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "CompReport") && (txtCompReportFIleName.Text != string.Empty)) { fileName = txtCompReportFIleName.Text; FileDeleteAndTextBoxEmpty(txtCompReportFIleName); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "InsurePrint") && (txtInsurePrintFileName.Text != string.Empty)) { fileName = txtInsurePrintFileName.Text; FileDeleteAndTextBoxEmpty(txtInsurePrintFileName); lstFilesName.Remove(fileName); }
+
+                else if ((ClickPoint == "btnSketch1") && (txtSketch1.Text != string.Empty)) { fileName = txtSketch1.Text; txtSketch1FileAlias.IsReadOnly = true; txtSketch1FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch1); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "btnSketch2") && (txtSketch2.Text != string.Empty)) { fileName = txtSketch2.Text; txtSketch2FileAlias.IsReadOnly = true; txtSketch2FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch2); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "btnSketch3") && (txtSketch3.Text != string.Empty)) { fileName = txtSketch3.Text; txtSketch3FileAlias.IsReadOnly = true; txtSketch3FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch3); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "btnSketch4") && (txtSketch4.Text != string.Empty)) { fileName = txtSketch4.Text; txtSketch4FileAlias.IsReadOnly = true; txtSketch4FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch4); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "btnSketch5") && (txtSketch5.Text != string.Empty)) { fileName = txtSketch5.Text; txtSketch5FileAlias.IsReadOnly = true; txtSketch5FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch5); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "btnSketch6") && (txtSketch6.Text != string.Empty)) { fileName = txtSketch6.Text; txtSketch6FileAlias.IsReadOnly = true; txtSketch6FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch6); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "btnSketch7") && (txtSketch7.Text != string.Empty)) { fileName = txtSketch7.Text; txtSketch7FileAlias.IsReadOnly = true; txtSketch7FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch7); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "btnSketch8") && (txtSketch8.Text != string.Empty)) { fileName = txtSketch8.Text; txtSketch8FileAlias.IsReadOnly = true; txtSketch8FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch8); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "btnSketch9") && (txtSketch9.Text != string.Empty)) { fileName = txtSketch9.Text; txtSketch9FileAlias.IsReadOnly = true; txtSketch9FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch9); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "btnSketch10") && (txtSketch10.Text != string.Empty)) { fileName = txtSketch10.Text; txtSketch10FileAlias.IsReadOnly = false; txtSketch10FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch10); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "btnSketch11") && (txtSketch11.Text != string.Empty)) { fileName = txtSketch11.Text; txtSketch11FileAlias.IsReadOnly = false; txtSketch11FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch11); lstFilesName.Remove(fileName); }
+
+                else if ((ClickPoint == "AccntDelete") && (btnAccntDown != string.Empty))
+                {
+                    fileName = btnAccntDown;
+                    // 임시 TextBox를 생성하고 값을 복사
+                    TextBox tempTextBox = new TextBox();
+                    tempTextBox.Text = btnAccntDown;
+                    FileDeleteAndTextBoxEmpty(tempTextBox);
+                    lstFilesName.Remove(fileName);
+
+                    if (cell.Item != null)
+                    {
+                        var item = cell.Item as Win_order_Order_U_CodView_dgdAccnt;
+                        if (item != null)
+                        {
+                            item.column5FileName = string.Empty;
+                            item.column4FilePath = string.Empty;
+                        }
+                    }
+                }
+
+
+
+
             }
 
 
@@ -4397,17 +4908,17 @@ namespace WizMes_EVC
         {
             if (strFlag.Equals("U"))
             {
-                var Article = dgdMain.SelectedItem as Win_ord_Order_U_CodeView_Nadaum;
+                //var Article = dgdMain.SelectedItem as Win_ord_Order_U_CodeView_Nadaum;
 
-                if (Article != null)
-                {
+                //if (Article != null)
+                //{
                     //FTP_RemoveFile(Article.ArticleID + "/" + txt.Text);
 
                     // 파일이름, 파일경로
                     string[] strFtp = { txt.Text, txt.Tag != null ? txt.Tag.ToString() : "" };
 
                     deleteListFtpFile.Add(strFtp);
-                }
+                //}
             }
 
             txt.Text = "";
@@ -5045,6 +5556,11 @@ namespace WizMes_EVC
                 fillGridTab4_Accnt(orderId);
                 tab4_clicked=true;
             }
+            if(tab5.IsSelected == true)
+            {
+                fillgridTab5(orderId);
+                tab5_clicked = true;
+            }
         }
 
         private void BringdLastOrder(string orderId)
@@ -5061,6 +5577,9 @@ namespace WizMes_EVC
             fillGridTab4(orderId);
             fillGridTab4_Accnt(orderId);
             tab4_clicked = true;
+
+            fillgridTab5(orderId);
+            tab5_clicked = true;
 
         }
 
@@ -5222,12 +5741,14 @@ namespace WizMes_EVC
             if (dgdAccnt.Items.Count > 0) dgdAccnt.Items.Clear();
         
 
-            int count = 5;
+            int count = 16;
             for (int i = 0; i < count; i++)
             {
                 var dgdAccntItem = Win_order_Order_U_CodView_dgdAccnt.CreateEmpty_dgdAccnt_row();
                 dgdAccnt.Items.Add(dgdAccntItem);
             }
+
+            dgdAccnt.Items.Refresh();
         }
 
 
@@ -6098,13 +6619,22 @@ namespace WizMes_EVC
         private void txtSuperCustomID_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
-                MainWindow.pf.ReturnCode(txtSuperCustomID, (int)Defind_CodeFind.DCF_CUSTOM, "");
+                MainWindow.pf.ReturnCode(txtSuperCustomID, 5104, "");
+            if(txtSuperCustomID.Tag != null)
+            {
+                txtSuperCustomPhoneNo.Text = callCustomData(txtSuperCustomID.Tag.ToString());
+            }
+            
         }
 
         //감리업체 버튼
         private void btnSuperCustomID_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.pf.ReturnCode(txtSuperCustomID, (int)Defind_CodeFind.DCF_CUSTOM, "");
+            MainWindow.pf.ReturnCode(txtSuperCustomID, 5104, "");
+            if (txtSuperCustomID.Tag != null)
+            {
+                txtSuperCustomPhoneNo.Text = callCustomData(txtSuperCustomID.Tag.ToString());
+            }
         }
         //감리비용 지출업체
         private void txtSuperCostPayCustomID_KeyDown(object sender, KeyEventArgs e)
@@ -6122,11 +6652,19 @@ namespace WizMes_EVC
         {
             if(e.Key == Key.Enter)
                 MainWindow.pf.ReturnCode(txtSafeManageCustomID, (int)Defind_CodeFind.DCF_CUSTOM, "");
+            if(txtSafeManageCustomID.Tag != null)
+            {
+                txtSafeManageCustomPhoneNo.Text = callCustomData(txtSafeManageCustomID.Tag.ToString());
+            }
         }
         //안전관리 업체명
         private void btnSafeManageCustomID_Click(object sender, RoutedEventArgs e)
         {
             MainWindow.pf.ReturnCode(txtSafeManageCustomID, (int)Defind_CodeFind.DCF_CUSTOM, "");
+            if (txtSafeManageCustomID.Tag != null)
+            {
+                txtSafeManageCustomPhoneNo.Text = callCustomData(txtSafeManageCustomID.Tag.ToString());
+            }
         }
         //사용검사 지출업체
         private void txtSuperUseInspPayCustomID_KeyDown(object sender, KeyEventArgs e)
@@ -6154,12 +6692,43 @@ namespace WizMes_EVC
 
         }
 
+
+        //검색조건 - 사업구분 라벨
+        private void lblOrderTypeIDSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (chkOrderTypeIDSrh.IsChecked == true)
+            {
+                chkOrderTypeIDSrh.IsChecked = false;
+                cboOrderTypeIDSrh.IsEnabled = false;
+            }
+            else
+            {
+                chkOrderTypeIDSrh.IsChecked = true;
+                cboOrderTypeIDSrh.IsEnabled = true;
+            }
+        }
+        //검색조건 -사업구분 체크박스
+
+        private void chkOrderTypeIDSrh_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkOrderTypeIDSrh.IsChecked == true)
+            {
+                chkOrderTypeIDSrh.IsChecked = true;
+                cboOrderTypeIDSrh.IsEnabled = true;
+            }
+            else
+            {
+                chkOrderTypeIDSrh.IsChecked = false;
+                cboOrderTypeIDSrh.IsEnabled = false;
+            }
+        }
+
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {            
             if (e.Source is TabControl)  
             {
                 TabItem selectedTab = ((TabControl)sender).SelectedItem as TabItem;
-                if (selectedTab != null)
+                if (selectedTab != null && strFlag == string.Empty)
                 {
                     if (selectedTab.Name == "tab2")
                     {
@@ -6178,7 +6747,12 @@ namespace WizMes_EVC
                         fillGridTab4_Accnt(orderID_global);
                         tab4_clicked = true;
                     }
-              
+                    if(selectedTab.Name == "tab5")
+                    {
+                        fillgridTab5(orderID_global);
+                        tab5_clicked = true;
+                    }
+                    
                 }
             }
         }
@@ -6203,6 +6777,39 @@ namespace WizMes_EVC
             }
       
         }
+
+        private void btnAccntUpload_Click(object sender, RoutedEventArgs e)
+        {
+            if (lblMsg.Visibility == Visibility.Visible)
+            {
+                var AccntView = dgdAccnt.CurrentItem as Win_order_Order_U_CodView_dgdAccnt;
+                if (AccntView != null)
+                {
+                    if (AccntView.column4FilePath != string.Empty
+                           && strFlag.Equals("U"))
+                    {
+                        MessageBox.Show("먼저 해당파일의 삭제를 진행 후 진행해주세요.");
+                        return;
+                    }
+                    else
+                    {               
+                        var button = sender as Button;
+                        var parent = button.Parent as StackPanel;
+                        var textBox = parent.Children.OfType<TextBox>().FirstOrDefault();
+
+                        if (textBox != null)
+                        {
+                            
+                            FTP_Upload_TextBox(textBox);
+                        }
+                    }
+                }
+            }
+        }
+
+   
+
+
 
         //    private void btnGoOrderCalendar_Click(object sender, RoutedEventArgs e)
         //    {
@@ -6341,11 +6948,13 @@ namespace WizMes_EVC
     {
         public string column1Date { get; set; }
         public string column2Amount { get; set; }
-        public string column3Amount { get; set; }
-        public string column4Amount { get; set; }
-        public string column5Amount { get; set; }
-        public string column6Amount { get; set; }        
-        public string column7Comment { get; set; }
+        public string column3Comment { get; set; }
+        public string column4FilePath { get; set; }
+        public string column5FileName { get; set; }
+        //public string column4Amount { get; set; }
+        //public string column5Amount { get; set; }
+        //public string column6Amount { get; set; }        
+        //public string column7Comment { get; set; }
 
         public static Win_order_Order_U_CodView_dgdAccnt CreateEmpty_dgdAccnt_row()
         {
@@ -6353,11 +6962,13 @@ namespace WizMes_EVC
             {
                 column1Date =  "",// DateTime.Now.ToString("yyyy-MM-dd"),
                 column2Amount = "",
-                column3Amount = "",
-                column4Amount = "",
-                column5Amount = "",
-                column6Amount = "",
-                column7Comment = ""
+                column3Comment = "",
+                column4FilePath = "",
+                column5FileName = "",
+                //column4Amount = "",
+                //column5Amount = "",
+                //column6Amount = "",
+                //column7Comment = ""
             };
         }
     }
@@ -6615,6 +7226,8 @@ namespace WizMes_EVC
         public string installLocationSheetFileName{get;set;}
         public string localGoTaxFilePath{get;set;}
         public string localGoTaxFileName { get; set; }
+        public string LocalGovProveFilePath { get; set; }
+        public string LocalGovProveFileName { get; set; }
 
 
     }
@@ -6668,6 +7281,14 @@ namespace WizMes_EVC
         public string electrBeforeUseCheckPrintFileName{get;set;}
         public string electrBeforeUseInspFilePath{get;set;}
         public string electrBeforeUseInspFileName{get;set;}
+        public string electrKepAcptFilePath{get;set;}
+        public string electrKepAcptFileName{get;set;}
+        public string electrKepInfraPayBillFilePath{get;set;}
+        public string electrKepInfraPayBillFileName{get;set;}
+        public string electrUseContractFilePath{get;set;}
+        public string electrUseContractFileName{get;set;}
+        public string electrBeforeUseInspCostFilePath{get;set;}
+        public string electrBeforeUseInspCostFileName { get; set; }
         public string electrCoWorkFilePath{get;set;}
         public string electrCoWorkFileName{get;set;}
         public string electrCostFilePath{get;set;}
@@ -6709,6 +7330,8 @@ namespace WizMes_EVC
        public string superSetCheckFileName{get;set;}
        public string superBeforeUseInspectFilePath{get;set;}
        public string superBeforeUseInspectFileName{get;set;}
+       public string compReportFIleName { get; set; }
+       public string compReportFIlePath { get; set; }
        public string superCostFilePath{get;set;}
        public string superCostFileName{get;set;}
        public string superReportFilePath{get;set;}
@@ -6716,7 +7339,42 @@ namespace WizMes_EVC
        public string insurePrintFilePath{get;set;}
        public string insurePrintFileName { get; set; }
 
-
+    }
+    public class Win_ord_Order_U_CodeView_Tab5 : BaseView
+    {
+        public string sketch1FilePath{get;set;}
+        public string sketch1FileName{get;set;}
+        public string sketch1FileAlias{get;set;}
+        public string sketch2FilePath{get;set;}
+        public string sketch2FileName{get;set;}
+        public string sketch2FileAlias{get;set;}
+        public string sketch3FilePath{get;set;}
+        public string sketch3FileName{get;set;}
+        public string sketch3FileAlias{get;set;}
+        public string sketch4FilePath{get;set;}
+        public string sketch4FileName{get;set;}
+        public string sketch4FileAlias{get;set;}
+        public string sketch5FilePath{get;set;}
+        public string sketch5FileName{get;set;}
+        public string sketch5FileAlias{get;set;}
+        public string sketch6FilePath{get;set;}
+        public string sketch6FileName{get;set;}
+        public string sketch6FileAlias{get;set;}
+        public string sketch7FilePath{get;set;}
+        public string sketch7FileName{get;set;}
+        public string sketch7FileAlias{get;set;}
+        public string sketch8FilePath{get;set;}
+        public string sketch8FileName{get;set;}
+        public string sketch8FileAlias{get;set;}
+        public string sketch9FilePath{get;set;}
+        public string sketch9FileName{get;set;}
+        public string sketch9FileAlias{get;set;}
+        public string sketch10FilePath{get;set;}
+        public string sketch10FileName{get;set;}
+        public string sketch10FileAlias{get;set;}
+        public string sketch11FilePath{get;set;}
+        public string sketch11FileName{get;set;}
+        public string sketch11FileAlias { get; set; }
     }
     public class Win_order_OrderColor_U_CodeView : BaseView
     {

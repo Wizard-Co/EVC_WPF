@@ -248,6 +248,28 @@
                     <TextBox x:Name="txtEstSubjecSrh" Grid.Column="1" Style="{DynamicResource TextBoxInputArea}" IsEnabled="False"/>
                 </Grid>
 
+                <!--사업구분-->
+                <Grid Grid.Row="3" Grid.Column="3" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="75*" />
+                        <ColumnDefinition Width="90*" />
+                        <ColumnDefinition Width="15*" />
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="lblOrderTypeIDSrh" Grid.Column="0"
+                                   MouseLeftButtonUp="lblOrderTypeIDSrh_MouseLeftButtonUp" Style="{DynamicResource LabelSearch}">
+                        <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                <CheckBox x:Name="chkOrderTypeIDSrh"  VerticalAlignment="Center" 
+                                         Click="chkOrderTypeIDSrh_Click"/>
+                            </Viewbox>
+                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                <TextBlock Text="사업구분" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                            </Viewbox>
+                        </StackPanel>
+                    </Label>
+                    <ComboBox x:Name="cboOrderTypeIDSrh" Grid.Column="1"  Style="{DynamicResource ComboBoxSearchString}"/>
+                </Grid>
+
 
                 <Grid Grid.Row="0" Grid.Column="4" Grid.RowSpan="4">
                     <Grid.RowDefinitions>
@@ -342,9 +364,9 @@
 
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40*" />
                     <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="80*" />
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0">
                     <Grid.RowDefinitions>
@@ -728,7 +750,7 @@
                             <!--수주등록에서 바로가기로 왔을때 담을 EstID-->
                             <TextBlock x:Name="tblEstIDHidden" Visibility="Hidden"/>
 
-                                    <!--견적번호-->
+                            <!--견적번호-->
                             <Grid Grid.Row="1" Grid.ColumnSpan="3">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="85*"/>
@@ -741,9 +763,33 @@
                                         <TextBlock Text="견적번호" Style="{DynamicResource TextBlockInViewBoxInput}" />
                                     </Viewbox>
                                 </Label>
-                                <TextBox x:Name="txtEstID" Grid.Column="1" Style="{DynamicResource TextBoxInputAutoCreate}" 
-                                                    IsReadOnly="True" Text="{Binding EstID}" />
-                            </Grid>
+                                    <Grid Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="40*"/>
+                                            <ColumnDefinition Width="50*"/>
+                                        </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="0">
+                                                <TextBox x:Name="txtEstID" Grid.Column="1" Style="{DynamicResource TextBoxInputAutoCreate}" 
+                                                IsReadOnly="True" Text="{Binding EstID}" />
+                                        </Grid>
+                                            <Grid Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="3">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="85*"/>
+                                                    <ColumnDefinition Width="105*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Row="3" Grid.Column="0" 
+                                                         Style="{DynamicResource LabelInputArea}">
+                                                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                        <TextBlock Text="사업구분" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                                    </Viewbox>
+                                                </Label>
+                                                <ComboBox x:Name="cboOrderType" Grid.Row="3" Grid.Column="1" 
+                                                   Style="{DynamicResource ComboBoxInputString}" SelectedValue="{Binding orderTypeID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </Grid>
+                                        </Grid>
+  
+                             </Grid>
 
                             <!--영업회사-->
                             <Grid Grid.Row="2" Grid.ColumnSpan="3">
@@ -1084,7 +1130,8 @@
                                            Style="{DynamicResource ComboBoxInputString}" SelectedValue="{Binding InstallLocationConditionID}"/>
                             </Grid>
 
-                            <!--상담조회, 과거계약 조회 버튼-->
+                            <!--견적서인쇄, 과거계약 조회 버튼-->
+                            <!--견적서인쇄는 필요없다하여 숨겼습니다.-->
                             <Grid Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Grid.RowSpan="2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -1094,7 +1141,7 @@
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <Button x:Name="btnPrint" Click="btnPrint_Click" Grid.Column="0" Grid.RowSpan="2">
+                                <Button x:Name="btnPrint" Click="btnPrint_Click" Grid.Column="0" Grid.RowSpan="2" Visibility="Hidden">
                                     <StackPanel>
                                         <TextBlock Text="견적서"/>
                                         <TextBlock Text="인쇄" HorizontalAlignment="Center"/>

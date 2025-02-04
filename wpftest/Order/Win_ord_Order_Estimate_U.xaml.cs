@@ -229,6 +229,22 @@ namespace WizMes_EVC
             cboEstApprovalYN.SelectedValuePath = "code_id";
             cboEstApprovalYN.SelectedIndex = 0;
 
+
+            //검색조건의 사업구분
+            ObservableCollection<CodeView> ovcOrderTypeSrh = ComboBoxUtil.Instance.Gf_DB_CM_GetComCodeDataset(null, "ORDTYPE", "Y", "", "");
+            cboOrderTypeIDSrh.ItemsSource = ovcOrderTypeSrh;
+            cboOrderTypeIDSrh.DisplayMemberPath = "code_name";
+            cboOrderTypeIDSrh.SelectedValuePath = "code_id";
+            cboOrderTypeIDSrh.SelectedIndex = 0;
+
+            //그리드의 사업구분
+            ObservableCollection<CodeView> ovcOrderType = ComboBoxUtil.Instance.Gf_DB_CM_GetComCodeDataset(null, "ORDTYPE", "Y", "", "");
+            cboOrderType.ItemsSource = ovcOrderType;
+            cboOrderType.DisplayMemberPath = "code_name";
+            cboOrderType.SelectedValuePath = "code_id";
+            cboOrderType.SelectedIndex = 0;
+
+
         }
 
         #region 체크박스 연동동작(상단)
@@ -788,7 +804,10 @@ namespace WizMes_EVC
 
                 sqlParameter.Add("chkEstSubject", chkEstSubjectSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("EstSubject", chkEstSubjectSrh.IsChecked == true ? txtEstSubjecSrh.Text : "");
-                                  			
+
+                // 사업구분
+                sqlParameter.Add("chkOrderTypeID", chkOrderTypeIDSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("OrderTypeID", chkOrderTypeIDSrh.IsChecked == true ? cboOrderTypeIDSrh.SelectedValue.ToString() : "");
 
                 ////수주등록에서 넘어왔을 때 바로 조회용도 textblock에 적어놓고 hidden처리함
                 sqlParameter.Add("EstID", tblEstIDHidden.Text.Trim() != string.Empty ? tblEstIDHidden.Text.Trim() : "");
@@ -842,6 +861,7 @@ namespace WizMes_EVC
                                 deliveryCost = stringFormatN0(dr["deliveryCost"]),
                                 totalAmount = stringFormatN0(dr["totalAmount"]),
                                 Comments = dr["Comments"].ToString(),
+                                orderTypeID = dr["orderTypeID"].ToString(),                                
 
                                 sketch1File = dr["sketch1File"].ToString(),
                                 sketch1FileAlias = dr["sketch1FileAlias"].ToString(),
@@ -1155,6 +1175,7 @@ namespace WizMes_EVC
                     sqlParameter.Add("deliveryCost", RemoveComma(txtDeliveryCost.Text,true));
                     sqlParameter.Add("totalAmount", subTotal);
                     sqlParameter.Add("Comments", txtComments.Text);
+                    sqlParameter.Add("orderTypeID", cboOrderType.SelectedValue != null ? cboOrderType.SelectedValue.ToString() : "");
 
                     string sGetID = strFlag.Equals("I") ? string.Empty : txtEstID.Text;
                     #region 추가
@@ -3813,6 +3834,36 @@ namespace WizMes_EVC
             MainWindow.pf.ReturnCode(txtZoneGbnID, 5201, "");
         }
 
+        //검색조건 - 사업구분 라벨
+        private void lblOrderTypeIDSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (chkOrderTypeIDSrh.IsChecked == true)
+            {
+                chkOrderTypeIDSrh.IsChecked = false;
+                cboOrderTypeIDSrh.IsEnabled = false;
+            }
+            else
+            {
+                chkOrderTypeIDSrh.IsChecked = true;
+                cboOrderTypeIDSrh.IsEnabled = true;
+            }
+        }
+        //검색조건 -사업구분 체크박스
+
+        private void chkOrderTypeIDSrh_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkOrderTypeIDSrh.IsChecked == true)
+            {
+                chkOrderTypeIDSrh.IsChecked = true;
+                cboOrderTypeIDSrh.IsEnabled = true;
+            }
+            else
+            {
+                chkOrderTypeIDSrh.IsChecked = false;
+                cboOrderTypeIDSrh.IsEnabled = false;
+            }
+        }
+
         //승인여부에 따른 승인일자 활성화 여부
         private void cboEstApprovalYN_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -3866,6 +3917,7 @@ namespace WizMes_EVC
             decimal qty = (decimal)RemoveComma(dataContext.EstQty, true, typeof(decimal));
             dataContext.EstAmount = (unitPrice * qty).ToString();
         }
+
 
 
 
@@ -4032,6 +4084,7 @@ namespace WizMes_EVC
         public string deliveryCost {get;set;}
         public string totalAmount {get;set;}
         public string Comments {get;set;}
+        public string orderTypeID { get; set; }
         public string CreateDate {get;set;}
         public string CreateUserID {get;set;}
         public string LastUpdateDate {get;set;}
