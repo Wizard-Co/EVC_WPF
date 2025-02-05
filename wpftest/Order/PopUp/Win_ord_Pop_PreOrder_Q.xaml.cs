@@ -59,12 +59,19 @@ namespace WizMes_EVC.Order.Pop
             cboZoneGbnIdSrh.SelectedValuePath = "code_id";
             cboZoneGbnIdSrh.SelectedIndex = 0;
 
-            //전기조달(검색조건)
-            ObservableCollection<CodeView> ovcElecDeliMethSrh = ComboBoxUtil.Instance.Gf_DB_CM_GetComCodeDataset(null, "ElecDeliMth", "Y", "", "");
-            cboElecDeliMethSrh.ItemsSource = ovcElecDeliMethSrh;
-            cboElecDeliMethSrh.DisplayMemberPath = "code_name";
-            cboElecDeliMethSrh.SelectedValuePath = "code_id";
-            cboElecDeliMethSrh.SelectedIndex = 0;
+            //검색조건의 사업구분
+            ObservableCollection<CodeView> ovcOrderTypeSrh = ComboBoxUtil.Instance.Gf_DB_CM_GetComCodeDataset(null, "ORDTYPE", "Y", "", "");
+            cboOrderTypeIDSrh.ItemsSource = ovcOrderTypeSrh;
+            cboOrderTypeIDSrh.DisplayMemberPath = "code_name";
+            cboOrderTypeIDSrh.SelectedValuePath = "code_id";
+            cboOrderTypeIDSrh.SelectedIndex = 0;
+
+            ////전기조달(검색조건)
+            //ObservableCollection<CodeView> ovcElecDeliMethSrh = ComboBoxUtil.Instance.Gf_DB_CM_GetComCodeDataset(null, "ElecDeliMth", "Y", "", "");
+            //cboElecDeliMethSrh.ItemsSource = ovcElecDeliMethSrh;
+            //cboElecDeliMethSrh.DisplayMemberPath = "code_name";
+            //cboElecDeliMethSrh.SelectedValuePath = "code_id";
+            //cboElecDeliMethSrh.SelectedIndex = 0;
 
 
         }
@@ -137,34 +144,34 @@ namespace WizMes_EVC.Order.Pop
 
 
         //비고 라벨
-        private void lblInstallLocationAddCommentsSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (chkInstallLocationAddCommentsSrh.IsChecked == true)
-            {
-                chkInstallLocationAddCommentsSrh.IsChecked = false;
-                txtInstallLocationAddCommentsSrh.IsEnabled = false;
-            }
-            else
-            {
-                chkInstallLocationAddCommentsSrh.IsChecked = true;
-                txtInstallLocationAddCommentsSrh.IsEnabled = true;
-            }
-        }
+        //private void lblInstallLocationAddCommentsSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    if (chkInstallLocationAddCommentsSrh.IsChecked == true)
+        //    {
+        //        chkInstallLocationAddCommentsSrh.IsChecked = false;
+        //        txtInstallLocationAddCommentsSrh.IsEnabled = false;
+        //    }
+        //    else
+        //    {
+        //        chkInstallLocationAddCommentsSrh.IsChecked = true;
+        //        txtInstallLocationAddCommentsSrh.IsEnabled = true;
+        //    }
+        //}
 
-        //비고 체크박스
-        private void chkInstallLocationAddCommentsSrh_Click(object sender, RoutedEventArgs e)
-        {
-            if (chkInstallLocationAddCommentsSrh.IsChecked == true)
-            {
-                chkInstallLocationAddCommentsSrh.IsChecked = true;
-                txtInstallLocationAddCommentsSrh.IsEnabled = true;
-            }
-            else
-            {
-                chkInstallLocationAddCommentsSrh.IsChecked = false;
-                txtInstallLocationAddCommentsSrh.IsEnabled = false;
-            }
-        }
+        ////비고 체크박스
+        //private void chkInstallLocationAddCommentsSrh_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (chkInstallLocationAddCommentsSrh.IsChecked == true)
+        //    {
+        //        chkInstallLocationAddCommentsSrh.IsChecked = true;
+        //        txtInstallLocationAddCommentsSrh.IsEnabled = true;
+        //    }
+        //    else
+        //    {
+        //        chkInstallLocationAddCommentsSrh.IsChecked = false;
+        //        txtInstallLocationAddCommentsSrh.IsEnabled = false;
+        //    }
+        //}
 
         //국소명 라벨
         private void lblInstallLocationSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -232,12 +239,14 @@ namespace WizMes_EVC.Order.Pop
             if (chkElecDeliMethSrh.IsChecked == true)
             {
                 chkElecDeliMethSrh.IsChecked = false;
-                cboElecDeliMethSrh.IsEnabled = false;
+                //cboElecDeliMethSrh.IsEnabled = false;
+                txtElecDeliMethSrh.IsEnabled = false;
             }
             else
             {
                 chkElecDeliMethSrh.IsChecked = true;
-                cboElecDeliMethSrh.IsEnabled = true;
+                //cboElecDeliMethSrh.IsEnabled = true;
+                txtElecDeliMethSrh.IsEnabled = true;
             }
         }
 
@@ -247,12 +256,14 @@ namespace WizMes_EVC.Order.Pop
             if (chkElecDeliMethSrh.IsChecked == true)
             {
                 chkElecDeliMethSrh.IsChecked = true;
-                cboElecDeliMethSrh.IsEnabled = true;
+                //cboElecDeliMethSrh.IsEnabled = true;
+                txtElecDeliMethSrh.IsEnabled = true;
             }
             else
             {
                 chkElecDeliMethSrh.IsChecked = false;
-                cboElecDeliMethSrh.IsEnabled = false;
+                //cboElecDeliMethSrh.IsEnabled = false;
+                txtElecDeliMethSrh.IsEnabled = false;
             }
         }
 
@@ -434,15 +445,19 @@ namespace WizMes_EVC.Order.Pop
 
                 // 전기조달방법
                 sqlParameter.Add("ChkElecDeliMeth", chkElecDeliMethSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("ElecDeliMeth", chkElecDeliMethSrh.IsChecked == true ? cboElecDeliMethSrh.SelectedValue.ToString() : "");
+                sqlParameter.Add("ElecDeliMeth", txtElecDeliMethSrh.Text);
 
                 // 국소명
                 sqlParameter.Add("ChkInstallLocation", chkInstallLocationSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("InstallLocation", chkInstallLocationSrh.IsChecked == true ? txtInstallLocationSrh.Text : "");
 
                 //비고
-                sqlParameter.Add("ChkInstallLocationAddComments", chkInstallLocationAddCommentsSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("InstallLocationAddComments", chkInstallLocationAddCommentsSrh.IsChecked == true ? txtInstallLocationAddCommentsSrh.Text : "");
+                //sqlParameter.Add("ChkInstallLocationAddComments", chkInstallLocationAddCommentsSrh.IsChecked == true ? 1 : 0);
+                //sqlParameter.Add("InstallLocationAddComments", chkInstallLocationAddCommentsSrh.IsChecked == true ? txtInstallLocationAddCommentsSrh.Text : "");
+
+                // 사업구분
+                sqlParameter.Add("ChkOrderTypeID", chkOrderTypeIDSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("OrderTypeID", chkOrderTypeIDSrh.IsChecked == true ? cboOrderTypeIDSrh.SelectedValue.ToString() : "");
 
                 //견적제목
                 sqlParameter.Add("chkEstSubject", chkEstSubjectSrh.IsChecked == true ? 1 : 0);
@@ -471,8 +486,10 @@ namespace WizMes_EVC.Order.Pop
                             {
                                 num = num,
                                 orderId = dr["orderId"].ToString(),
-                                estID = dr["estID"].ToString(),
+                                acptDate = DateTypeHyphen(dr["acptDate"].ToString()),
                                 estSubject = dr["estSubject"].ToString(),
+                                estID = dr["estID"].ToString(),
+                                orderTypeID = dr["orderTypeID"].ToString(),
                                 orderNo = dr["orderNo"].ToString(),
                                 saleCustom = dr["saleCustom"].ToString(),
                                 saleCustomID = dr["saleCustomID"].ToString(),
@@ -485,13 +502,12 @@ namespace WizMes_EVC.Order.Pop
                                 manageCustomConfirmDate = DateTypeHyphen(dr["manageCustomConfirmDate"].ToString()),
 
                                 installLocation = dr["installLocation"].ToString(),
-                                installLocationPart = dr["installLocationPart"].ToString(),
+                                //installLocationPart = dr["installLocationPart"].ToString(),
                                 InstallLocationPhone = dr["InstallLocationPhone"].ToString(),
                                 articleList = dr["articleList"].ToString(),
                                 closeYn = dr["closeYn"].ToString(),
 
                                 orderAmount = dr["orderAmount"].ToString(),
-                                acptDate = dr["acptDate"].ToString(),
                                 installLocationAddComments = dr["installLocationAddComments"].ToString(),
                                 installLocationAddress = dr["installLocationAddress"].ToString(),
                                 houseHoldCount = stringFormatN0(dr["houseHoldCount"]),
@@ -506,16 +522,19 @@ namespace WizMes_EVC.Order.Pop
                                 contractFromDate = DateTypeHyphen(dr["contractFromDate"].ToString()),
                                 openReqDate = DateTypeHyphen(dr["openReqDate"].ToString()),
                                 openDate = DateTypeHyphen(dr["openDate"].ToString()),
-                                damdangjaName = dr["damdangjaName"].ToString(),
+                                //damdangjaName = dr["damdangjaName"].ToString(),
 
                                 damdangjaEMail = dr["damdangjaEMail"].ToString(),
-                                damdangjaPhone = dr["damdangjaPhone"].ToString(),
+                                //damdangjaPhone = dr["damdangjaPhone"].ToString(),
                                 electrCarCount = stringFormatN0(dr["electrCarCount"]),
                                 reqChargeCount = stringFormatN0(dr["reqChargeCount"]),
+                                saledamdangjaName = dr["saledamdangjaName"].ToString(),
+                                saledamdangjaEmail = dr["saledamdangjaEmail"].ToString(),
                                 saledamdangjaPhone = dr["saledamdangjaPhone"].ToString(),
 
                                 saleCustomAddWork = dr["saleCustomAddWork"].ToString(),
                                 salegift = dr["salegift"].ToString(),
+                                salesComments = dr["salesComments"].ToString(),
                                 mtrAmount = stringFormatN0(dr["mtrAmount"]),
                                 mtrShippingCharge = stringFormatN0(dr["mtrShippingCharge"]),
                                 mtrPriceUnitClss = dr["mtrPriceUnitClss"].ToString(),
@@ -576,19 +595,48 @@ namespace WizMes_EVC.Order.Pop
             return DigitsDate;
         }
 
+        private void chkOrderTypeIDSrh_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkOrderTypeIDSrh.IsChecked == true)
+            {
+                chkOrderTypeIDSrh.IsChecked = true;
+                cboOrderTypeIDSrh.IsEnabled = true;
+            }
+            else
+            {
+                chkOrderTypeIDSrh.IsChecked = false;
+                cboOrderTypeIDSrh.IsEnabled = false;
+            }
+        }
+
+
+        private void lblOrderTypeIDSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (chkOrderTypeIDSrh.IsChecked == true)
+            {
+                chkOrderTypeIDSrh.IsChecked = false;
+                cboOrderTypeIDSrh.IsEnabled = false;
+            }
+            else
+            {
+                chkOrderTypeIDSrh.IsChecked = true;
+                cboOrderTypeIDSrh.IsEnabled = true;
+            }
+        }
+
+
         private void btnExcel_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-
-
         public class Win_ord_Pop_PreOrder_CodeView : BaseView
         {
             public int num { get; set; }
             public string orderId { get; set; }
-            public string estID { get; set; }
             public string estSubject { get; set; }
+            public string estID { get; set; }
+            public string orderTypeID { get; set; }
             public string orderNo { get; set; }
             public string saleCustom { get; set; }
             public string saleCustomID { get; set; }
@@ -622,9 +670,12 @@ namespace WizMes_EVC.Order.Pop
             public string damdangjaPhone { get; set; }
             public string electrCarCount { get; set; }
             public string reqChargeCount { get; set; }
+            public string saledamdangjaName { get; set; }
+            public string saledamdangjaEmail { get; set; }
             public string saledamdangjaPhone { get; set; }
             public string saleCustomAddWork { get; set; }
             public string salegift { get; set; }
+            public string salesComments { get; set; }
             public string mtrAmount { get; set; }
             public string mtrShippingCharge { get; set; }
             public string mtrPriceUnitClss { get; set; }
@@ -633,6 +684,8 @@ namespace WizMes_EVC.Order.Pop
             public string contractFileName { get; set; }
             public string contractFilePath { get; set; }
         }
+
+    
     }
 
 }

@@ -654,6 +654,7 @@
                         </DataGrid.RowStyle>
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="순" Binding="{Binding num}"  ElementStyle="{StaticResource DataGridCellCenter}"/>
+                            <DataGridTextColumn Header="순" Binding="{Binding orderType}"  ElementStyle="{StaticResource DataGridCellCenter}"/>
                             <DataGridTextColumn Header="견적번호" Binding="{Binding EstID}"  ElementStyle="{StaticResource DataGridCellLeft}"/>
                             <DataGridTextColumn Header="견적일자" Binding="{Binding EstDate}" ElementStyle="{StaticResource DataGridCellCenter}"/>
                             <DataGridTextColumn Header="설치요청일자" Binding="{Binding EstReqDate}" ElementStyle="{StaticResource DataGridCellCenter}"/>
@@ -924,7 +925,7 @@
                             </Grid>
 
 
-                            <!--설치현장-->
+                            <!--설치현장 -> 현장명 -->
                             <Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="85*"/>
@@ -935,7 +936,7 @@
                                 <Label Grid.Row="4" Grid.Column="0" 
                                             Style="{DynamicResource LabelInputArea}">
                                     <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                        <TextBlock Text="설치현장" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                        <TextBlock Text="현장명" Style="{DynamicResource TextBlockInViewBoxInput}"/>
 
                                     </Viewbox>
                                 </Label>
@@ -962,7 +963,7 @@
                                                  Style="{StaticResource TextBoxInputArea}"/>
                             </Grid>
 
-                            <!--거점명-->
+                            <!--거점명--><!--
                             <Grid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="3">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="85*"/>
@@ -979,10 +980,10 @@
                                 </Label>
                                 <TextBox x:Name="txtInstallLocationPart" Grid.Row="4" Grid.Column="1" Text="{Binding InstallLocationPart}"
                                                  Style="{StaticResource TextBoxInputArea}"/>
-                            </Grid>
+                            </Grid>-->
 
                                     <!--비고-->
-                                    <Grid Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="6">
+                                    <Grid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="6">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="29.5*"/>
                                             <ColumnDefinition Width="106*"/>
@@ -996,7 +997,7 @@
                                             </Viewbox>
                                         </Label>
                                     </Grid>
-                                    <TextBox x:Name="txtComments" Grid.Row="11" Grid.RowSpan="3" Grid.ColumnSpan="4"
+                                    <TextBox x:Name="txtComments" Grid.Row="10" Grid.RowSpan="3" Grid.ColumnSpan="4"
                                              Grid.Column="1" Text="{Binding Comments}" AcceptsReturn="True" TextWrapping="Wrap"/>
 
 
@@ -1324,7 +1325,7 @@
                                                          Style="{StaticResource TextBoxInput_Number_Right}"/>
                             </Grid>
 
-                            <Grid Grid.Row="27" Grid.Column="3" Grid.ColumnSpan="2" Grid.RowSpan="3">
+                            <Grid Grid.Row="27" Grid.Column="3" Grid.ColumnSpan="2" Grid.RowSpan="2">
                                 <DataGrid  x:Name="dgdSubTotal" Style="{DynamicResource DataGridSet1}" HeadersVisibility="Column">
                                             <DataGrid.Resources>
                                                 <Style x:Key="totalCell" TargetType="TextBlock">
@@ -1333,8 +1334,8 @@
                                                 </Style>
                                             </DataGrid.Resources>       
                                     <DataGrid.Columns>
-                                        <DataGridTextColumn Header="합계건수" Binding="{Binding count}" ElementStyle="{StaticResource totalCell }" Width="*" FontSize="10"/>
-                                                <DataGridTextColumn Header="합계금액" Binding="{Binding totalAmount}" ElementStyle="{StaticResource totalCell }" Width="*" FontSize="10"/>
+                                        <DataGridTextColumn Header="합계건수" Binding="{Binding count}" ElementStyle="{StaticResource totalCell }" Width="*" FontSize="12"/>
+                                                <DataGridTextColumn Header="합계금액" Binding="{Binding totalAmount}" ElementStyle="{StaticResource totalCell }" Width="*" FontSize="12"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </Grid>
@@ -1389,21 +1390,22 @@
                                    FontSize="12"
                                    Text="[첨부파일]" VerticalAlignment="Bottom"/>
 
+                                    <!--우선 스케치파일 명으로 되어있는것은 수주등록에 그대로 넘어갑니다-->
                                     <!--첨부파일1-->
-                                    <Button x:Name="btnSketch1" Content="첨부파일1" Grid.Column="0" Grid.Row="1" Tag="btnSketch1"
+                                    <Button x:Name="btnSketch1" Content="사전현장컨설팅결과서" Grid.Column="0" Grid.Row="1" Tag="btnSketch1"
                                                     Click="btnFileUpload_Click"/>
 
                                     <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
-                                            <ColumnDefinition/>
+                                            <!--<ColumnDefinition/>-->
                                         </Grid.ColumnDefinitions>
                                         <TextBox x:Name="txtSketch1FileAlias" Grid.Column="0" Text="{Binding sketch1FileAlias}"
-                                                         Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"/>
+                                                         Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)" Visibility="Hidden"/>
                                         <TextBox x:Name="txtSketch1" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                  Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch1File, UpdateSourceTrigger=PropertyChanged}" 
                                                  Tag="{Binding sketch1Path, UpdateSourceTrigger=PropertyChanged}"
-                                                 IsReadOnly="True" IsEnabled="False"/>    
+                                                 IsReadOnly="True" />    
                                     </Grid>
                                     <Grid Grid.Row="1" Grid.Column="4">
                                         <Grid.ColumnDefinitions>
@@ -1415,20 +1417,20 @@
                                     </Grid>
 
                                     <!--첨부파일2-->
-                                    <Button x:Name="btnSketch2" Content="첨부파일2" Grid.Column="0" Grid.Row="2" Tag="btnSketch2"
+                                    <Button x:Name="btnSketch2" Content="도면" Grid.Column="0" Grid.Row="2" Tag="btnSketch2"
                                             Click="btnFileUpload_Click"/>
 
                                     <Grid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
-                                            <ColumnDefinition/>
+                                            <!--<ColumnDefinition/>-->
                                         </Grid.ColumnDefinitions>
-                                        <TextBox x:Name="txtSketch2FileAlias" Grid.Column="0" Text="{Binding sketch2FileAlias}"
+                                        <TextBox x:Name="txtSketch2FileAlias" Grid.Column="0" Text="{Binding sketch2FileAlias}" Visibility="Hidden"
                                                     Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"/>
                                         <TextBox x:Name="txtSketch2" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                    Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch2File,UpdateSourceTrigger=PropertyChanged}" 
                                                    Tag="{Binding sketch2Path,UpdateSourceTrigger=PropertyChanged}"
-                                                   IsReadOnly="True" IsEnabled="False"/>
+                                                   IsReadOnly="True"/>
                                     </Grid>
                                     <Grid Grid.Row="2" Grid.Column="4">
                                         <Grid.ColumnDefinitions>
@@ -1441,20 +1443,20 @@
 
 
                                     <!--첨부파일3-->
-                                    <Button x:Name="btnSketch3" Content="첨부파일3" Grid.Column="0" Grid.Row="3" Tag="btnSketch3"
+                                    <Button x:Name="btnSketch3" Content="실사점검표" Grid.Column="0" Grid.Row="3" Tag="btnSketch3"
                                             Click="btnFileUpload_Click"/>
 
                                     <Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
-                                            <ColumnDefinition/>
+                                            <!--<ColumnDefinition/>-->
                                         </Grid.ColumnDefinitions>
-                                        <TextBox x:Name="txtSketch3FileAlias" Grid.Column="0" Text="{Binding sketch3FileAlias}"
+                                        <TextBox x:Name="txtSketch3FileAlias" Grid.Column="0" Text="{Binding sketch3FileAlias}" Visibility="Hidden"
                                                      Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"/>
                                         <TextBox x:Name="txtSketch3" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                   Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch3File,UpdateSourceTrigger=PropertyChanged}" 
                                                   Tag="{Binding sketch3Path,UpdateSourceTrigger=PropertyChanged}"
-                                                  IsReadOnly="True" IsEnabled="False"/>
+                                                  IsReadOnly="True"/>
                                     </Grid>
                                     <Grid Grid.Row="3" Grid.Column="4">
                                         <Grid.ColumnDefinitions>
@@ -1466,20 +1468,20 @@
                                     </Grid>
 
                                     <!--첨부파일4-->
-                                    <Button x:Name="btnSketch4" Content="첨부파일4" Grid.Column="0" Grid.Row="4" Tag="btnSketch4"
+                                    <Button x:Name="btnSketch4" Content="사전대지파일" Grid.Column="0" Grid.Row="4" Tag="btnSketch4"
                                             Click="btnFileUpload_Click"/>
 
                                     <Grid Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
-                                            <ColumnDefinition/>
+                                            <!--<ColumnDefinition/>-->
                                         </Grid.ColumnDefinitions>
-                                        <TextBox x:Name="txtSketch4FileAlias" Grid.Column="0" Text="{Binding sketch4FileAlias}"
+                                        <TextBox x:Name="txtSketch4FileAlias" Grid.Column="0" Text="{Binding sketch4FileAlias}" Visibility="Hidden"
                                                      Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"/>
                                         <TextBox x:Name="txtSketch4" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                   Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch4File,UpdateSourceTrigger=PropertyChanged}" 
                                                   Tag="{Binding sketch4Path,UpdateSourceTrigger=PropertyChanged}"
-                                                  IsReadOnly="True" IsEnabled="False"/>
+                                                  IsReadOnly="True"/>
                                     </Grid>
                                     <Grid Grid.Row="4" Grid.Column="4">
                                         <Grid.ColumnDefinitions>
@@ -1491,20 +1493,20 @@
                                     </Grid>
 
                                     <!--첨부파일5-->
-                                    <Button x:Name="btnSketch5" Content="첨부파일5" Grid.Column="0" Grid.Row="5" Tag="btnSketch5"
+                                    <Button x:Name="btnSketch5" Content="실사내역서" Grid.Column="0" Grid.Row="5" Tag="btnSketch5"
                                             Click="btnFileUpload_Click"/>
 
                                     <Grid Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
-                                            <ColumnDefinition/>
+                                            <!--<ColumnDefinition/>-->
                                         </Grid.ColumnDefinitions>
-                                        <TextBox x:Name="txtSketch5FileAlias" Grid.Column="0" Text="{Binding sketch5FileAlias}"
+                                        <TextBox x:Name="txtSketch5FileAlias" Grid.Column="0" Text="{Binding sketch5FileAlias}" Visibility="Hidden"
                                                   Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"/>
                                         <TextBox x:Name="txtSketch5" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                     Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch5File,UpdateSourceTrigger=PropertyChanged}" 
                                                     Tag="{Binding sketch5Path,UpdateSourceTrigger=PropertyChanged}"
-                                                    IsReadOnly="True" IsEnabled="False"/>
+                                                    IsReadOnly="True"/>
                                     </Grid>
                                     <Grid Grid.Row="5" Grid.Column="4">
                                         <Grid.ColumnDefinitions>
@@ -1513,6 +1515,31 @@
                                         </Grid.ColumnDefinitions>
                                         <Button x:Name="btnDeleteSketch5File" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="btnSketch5"></Button>
                                         <Button x:Name="btnViewSketch5File" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="btnSketch5" ></Button>
+                                    </Grid>      
+
+                                    <!--첨부파일6-->
+                                    <Button x:Name="btnSketch6" Content="거점투자기안" Grid.Column="0" Grid.Row="6" Tag="btnSketch6"
+                                      Click="btnFileUpload_Click"/>
+
+                                    <Grid Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <!--<ColumnDefinition/>-->
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox x:Name="txtSketch6FileAlias" Grid.Column="0" Text="{Binding sketch6FileAlias}" Visibility="Hidden"
+                                            Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"/>
+                                        <TextBox x:Name="txtSketch6" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                              Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch6File,UpdateSourceTrigger=PropertyChanged}" 
+                                              Tag="{Binding sketch6Path,UpdateSourceTrigger=PropertyChanged}"
+                                              IsReadOnly="True"/>
+                                    </Grid>
+                                    <Grid Grid.Row="6" Grid.Column="4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btnDeleteSketch6File" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="btnSketch6"></Button>
+                                        <Button x:Name="btnViewSketch6File" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="btnSketch6" ></Button>
                                     </Grid>
 
                                     <Grid Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="2">

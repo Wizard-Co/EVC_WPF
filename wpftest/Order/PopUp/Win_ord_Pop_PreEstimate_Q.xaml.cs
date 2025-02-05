@@ -66,7 +66,14 @@ namespace WizMes_EVC.Order.Pop
             cboElecDeliMethSrh.SelectedValuePath = "code_id";
             cboElecDeliMethSrh.SelectedIndex = 0;
 
-   
+            //검색조건의 사업구분
+            ObservableCollection<CodeView> ovcOrderTypeSrh = ComboBoxUtil.Instance.Gf_DB_CM_GetComCodeDataset(null, "ORDTYPE", "Y", "", "");
+            cboOrderTypeIDSrh.ItemsSource = ovcOrderTypeSrh;
+            cboOrderTypeIDSrh.DisplayMemberPath = "code_name";
+            cboOrderTypeIDSrh.SelectedValuePath = "code_id";
+            cboOrderTypeIDSrh.SelectedIndex = 0;
+
+
 
         }
 
@@ -138,34 +145,34 @@ namespace WizMes_EVC.Order.Pop
 
 
         //비고 라벨
-        private void lblCommentsSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (chkCommentsSrh.IsChecked == true)
-            {
-                chkCommentsSrh.IsChecked = false;
-                txtCommentsSrh.IsEnabled = false;
-            }
-            else
-            {
-                chkCommentsSrh.IsChecked = true;
-                txtCommentsSrh.IsEnabled = true;
-            }
-        }
+        //private void lblCommentsSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    if (chkCommentsSrh.IsChecked == true)
+        //    {
+        //        chkCommentsSrh.IsChecked = false;
+        //        txtCommentsSrh.IsEnabled = false;
+        //    }
+        //    else
+        //    {
+        //        chkCommentsSrh.IsChecked = true;
+        //        txtCommentsSrh.IsEnabled = true;
+        //    }
+        //}
 
-        //비고 체크박스
-        private void chkCommentsSrh_Click(object sender, RoutedEventArgs e)
-        {
-            if (chkCommentsSrh.IsChecked == true)
-            {
-                chkCommentsSrh.IsChecked = true;
-                txtCommentsSrh.IsEnabled = true;
-            }
-            else
-            {
-                chkCommentsSrh.IsChecked = false;
-                txtCommentsSrh.IsEnabled = false;
-            }
-        }
+        ////비고 체크박스
+        //private void chkCommentsSrh_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (chkCommentsSrh.IsChecked == true)
+        //    {
+        //        chkCommentsSrh.IsChecked = true;
+        //        txtCommentsSrh.IsEnabled = true;
+        //    }
+        //    else
+        //    {
+        //        chkCommentsSrh.IsChecked = false;
+        //        txtCommentsSrh.IsEnabled = false;
+        //    }
+        //}
 
         //국소명 라벨
         private void lblInstallLocationSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -428,8 +435,11 @@ namespace WizMes_EVC.Order.Pop
                 sqlParameter.Add("chkSmallInstallLocation", chkInstallLocationSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("smallInstallLocation", chkInstallLocationSrh.IsChecked == true ? txtInstallLocationSrh.Text : "");
 
-                sqlParameter.Add("chkComments", chkCommentsSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("Comments", chkCommentsSrh.IsChecked == true ? txtCommentsSrh.Text : "");
+                sqlParameter.Add("chkComments", 0); //비고란 검색조건 일단 없애고 사업구분 추가함
+                sqlParameter.Add("Comments", "");
+
+                sqlParameter.Add("chkOrderTypeID", chkOrderTypeIDSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("OrderTypeID", chkOrderTypeIDSrh.IsChecked == true ? cboOrderTypeIDSrh.SelectedValue != null ? cboOrderTypeIDSrh.SelectedValue.ToString() : "" : "");
           
                 sqlParameter.Add("chkEstSubject", chkEstSubjectSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("EstSubject", txtEstSubjectSrh.Text);
@@ -473,7 +483,7 @@ namespace WizMes_EVC.Order.Pop
                                 InstallSchTODate = DateTypeHyphen(dr["InstallSchTODate"].ToString()),
                                 InstalLocation = dr["InstalLocation"].ToString(),
                                 smallInstalLocation = dr["smallInstalLocation"].ToString(),
-                                InstallLocationPart = dr["InstallLocationPart"].ToString(),
+                                //InstallLocationPart = dr["InstallLocationPart"].ToString(),
                                 InstallLocationConditionID = dr["InstallLocationConditionID"].ToString(),
                                 EstSubject = dr["EstSubject"].ToString(),
                                 EstDamdangName = dr["EstDamdangName"].ToString(),
@@ -483,6 +493,8 @@ namespace WizMes_EVC.Order.Pop
                                 EstItemList = dr["EstItemList"].ToString(),
                                 electrDeliveryMethodID = dr["electrDeliveryMethodID"].ToString(),
                                 totalAmount = stringFormatN0(dr["totalAmount"]),
+                                orderTypeID = dr["orderTypeID"].ToString(),
+                                orderType = dr["orderType"].ToString(),
                                 Comments = dr["Comments"].ToString(),
                             };
 
@@ -533,8 +545,33 @@ namespace WizMes_EVC.Order.Pop
             return DigitsDate;
         }
 
-  
-       
+        private void chkOrderTypeIDSrh_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkOrderTypeIDSrh.IsChecked == true)
+            {
+                chkOrderTypeIDSrh.IsChecked = true;
+                cboOrderTypeIDSrh.IsEnabled = true;
+            }
+            else
+            {
+                chkOrderTypeIDSrh.IsChecked = false;
+                cboOrderTypeIDSrh.IsEnabled = false;
+            }
+        }
+
+        private void lblOrderTypeIDSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (chkOrderTypeIDSrh.IsChecked == true)
+            {
+                chkOrderTypeIDSrh.IsChecked = false;
+                cboOrderTypeIDSrh.IsEnabled = false;
+            }
+            else
+            {
+                chkOrderTypeIDSrh.IsChecked = true;
+                cboOrderTypeIDSrh.IsEnabled = true;
+            }
+        }
     }
 
 
@@ -542,7 +579,6 @@ namespace WizMes_EVC.Order.Pop
     {       
         public int num { get; set; }
         public string EstID { get; set; }
-        public string Estsubject { get; set; }
         public string salesCustomID { get; set; }
         public string salesCustom { get; set; }
         public string managerCustomID { get; set; }
@@ -568,6 +604,8 @@ namespace WizMes_EVC.Order.Pop
         public string EstItemList { get; set; }
         public string deliveryCost { get; set; }
         public string totalAmount { get; set; }
+        public string orderTypeID { get; set; }
+        public string orderType { get; set; }
         public string Comments { get; set; }
         public string CreateDate { get; set; }
         public string CreateUserID { get; set; }

@@ -77,7 +77,7 @@
                                           Click="chkElecDeliMethSrh_Click"/>
                         </Viewbox>
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                            <TextBlock Text="전기조달방법" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                            <TextBlock Text="전기수전방법" Style="{DynamicResource TextBlockInViewBoxSearch}" />
                         </Viewbox>
                     </StackPanel>
                 </Label>
@@ -205,7 +205,7 @@
                 </Button>
             </Grid>
 
-            <!--비고-->            
+            <!--비고--><!--            
               <Grid Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="3">
                   <Grid.ColumnDefinitions>
                       <ColumnDefinition Width="75*"/>
@@ -225,8 +225,30 @@
                       </StackPanel>
                   </Label>
                 <TextBox x:Name="txtCommentsSrh" Grid.Column="1" Style="{DynamicResource TextBoxInputArea}" IsEnabled="False"/>
-              </Grid>
-            
+              </Grid>-->
+
+            <!--사업구분-->
+            <Grid Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="3" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*" />
+                    <ColumnDefinition Width="90*" />
+                    <ColumnDefinition Width="15*" />
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblOrderTypeIDSrh" Grid.Column="0"
+                                MouseLeftButtonUp="lblOrderTypeIDSrh_MouseLeftButtonUp" Style="{DynamicResource LabelSearch}">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <CheckBox x:Name="chkOrderTypeIDSrh"  VerticalAlignment="Center" 
+                                      Click="chkOrderTypeIDSrh_Click"/>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <TextBlock Text="사업구분" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                        </Viewbox>
+                    </StackPanel>
+                </Label>
+                <ComboBox x:Name="cboOrderTypeIDSrh" Grid.Column="1"  Style="{DynamicResource ComboBoxSearchString}"/>
+            </Grid>
+
             <!--견적명-->
             <Grid Grid.Row="1" Grid.Column="9" Grid.ColumnSpan="3">
                 <Grid.ColumnDefinitions>
@@ -269,6 +291,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="" Binding="{Binding num}" ElementStyle="{DynamicResource DataGridCellCenter}"/>
                 <DataGridTextColumn Header="견적번호" Binding="{Binding EstID}"/>
+                <DataGridTextColumn Header="사업구분" Binding="{Binding orderType}"/>
                 <DataGridTextColumn Header="견적명" Binding="{Binding EstSubject}"/>
                 <DataGridTextColumn Header="견적일자" Binding="{Binding EstDate}"/>
                 <DataGridTextColumn Header="설치예정일" Binding="{Binding EstReqDate}"/>

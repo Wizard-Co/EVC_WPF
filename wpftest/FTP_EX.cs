@@ -461,6 +461,31 @@ namespace WizMes_EVC
         }
 
         /* Create a New Directory on the FTP Server */
+        //public bool createDirectory(string newDirectory)
+        //{
+        //    try
+        //    {
+        //        /* Create an FTP Request */
+        //        ftpRequest = (FtpWebRequest)WebRequest.Create(host + "/" + newDirectory);
+        //        /* Log in to the FTP Server with the User Name and Password Provided */
+        //        ftpRequest.Credentials = new NetworkCredential(user, pass);
+        //        /* When in doubt, use these options */
+        //        ftpRequest.UseBinary = true;
+        //        ftpRequest.UsePassive = true;
+        //        ftpRequest.KeepAlive = true;
+        //        /* Specify the Type of FTP Request */
+        //        ftpRequest.Method = WebRequestMethods.Ftp.MakeDirectory;
+        //        /* Establish Return Communication with the FTP Server */
+        //        ftpResponse = (FtpWebResponse)ftpRequest.GetResponse();
+        //        /* Resource Cleanup */
+        //        ftpResponse.Close();
+        //        ftpRequest = null;
+        //        return true;
+        //    }
+        //    catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+        //    return false;
+        //}
+
         public bool createDirectory(string newDirectory)
         {
             try
@@ -482,10 +507,26 @@ namespace WizMes_EVC
                 ftpRequest = null;
                 return true;
             }
-            catch (Exception ex) { Console.WriteLine(ex.ToString()); }
-            return false;
+            catch (WebException ex)
+            {
+                FtpWebResponse response = (FtpWebResponse)ex.Response;
+                if (response.StatusCode == FtpStatusCode.ActionNotTakenFileUnavailable)
+                {
+                    // 상위 디렉토리 생성 시도
+                    return createDirectoryWithParentDir(newDirectory);
+                }
+                Console.WriteLine($"FTP Error: {response.StatusCode} - {response.StatusDescription}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return false;
+            }
         }
 
+
+        //부모경로 생성
         public bool createDirectoryWithParentDir(string newDirectory)
         {
             try
@@ -854,6 +895,78 @@ namespace WizMes_EVC
             }
 
             return image;
+        }
+
+        //sourcePath는 복사하고자 하는 소스가 위치한 경로 예 : /ImageData/Reserve
+        //newForder는 호출한 곳 경로에 생성 본 문서 FTP클래스를 호출할때 전역변수인 host에 담겨있음
+        //filesNames는 소스경로에서 이 파일명을 찾아서 임시 다운하고 새로 만든 폴더에 업로드 후 삭제함
+        //파일을 찾지 못하면 넘어갑니다. 
+        public bool FTP_copyFiles(string sourcePath, string newFolderName, List<string> fileNames)
+        {
+            try
+            {
+                // 새 폴더 생성
+                // newFolderName은 보통 PK를 넘겨줍시다.
+                createDirectory(newFolderName);
+
+                string baseHost = host;
+                int portIndex = baseHost.IndexOf(":21"); //ftp기본 포트
+                if (portIndex > 0)
+                {
+                    baseHost = baseHost.Substring(0, portIndex + 3); // ":21" 길이가 3이므로 포함 포트까지 딱 끊고 그 뒤를 복사하고자 하는 위치로 선정
+                }
+
+                foreach (string fileName in fileNames)
+                {
+                    try
+                    {                   
+                        // 소스 파일 다운로드를 위한 request
+                        FtpWebRequest downloadRequest = (FtpWebRequest)WebRequest.Create($"{baseHost}{sourcePath}/{fileName}");
+                        downloadRequest.Method = WebRequestMethods.Ftp.DownloadFile;
+                        downloadRequest.Credentials = new NetworkCredential(user, pass);
+                        downloadRequest.UseBinary = true;
+                        downloadRequest.UsePassive = true;
+
+                        byte[] fileData;
+                        using (FtpWebResponse downloadResponse = (FtpWebResponse)downloadRequest.GetResponse())
+                        using (Stream responseStream = downloadResponse.GetResponseStream())
+                        using (MemoryStream memoryStream = new MemoryStream())
+                        {
+                            responseStream.CopyTo(memoryStream);
+                            fileData = memoryStream.ToArray();
+                        }
+
+                        // 새 위치에 파일 업로드를 위한 request
+                        FtpWebRequest uploadRequest = (FtpWebRequest)WebRequest.Create($"{host}/{newFolderName}/{fileName}");
+                        uploadRequest.Method = WebRequestMethods.Ftp.UploadFile;
+                        uploadRequest.Credentials = new NetworkCredential(user, pass);
+                        uploadRequest.UseBinary = true;
+                        uploadRequest.UsePassive = true;
+
+                        using (Stream requestStream = uploadRequest.GetRequestStream())
+                        {
+                            requestStream.Write(fileData, 0, fileData.Length);
+                        }
+
+                        using (FtpWebResponse uploadResponse = (FtpWebResponse)uploadRequest.GetResponse())
+                        {
+                            Console.WriteLine($"업로드 상태: {uploadResponse.StatusDescription}");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"다음 파일에 문제가 있습니다 ☞ {fileName}: {ex.Message}");
+                        continue;
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"에러: {ex.Message}");
+                return false;
+            }
         }
     }
 }

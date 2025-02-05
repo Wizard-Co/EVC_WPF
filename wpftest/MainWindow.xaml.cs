@@ -76,6 +76,32 @@ namespace WizMes_EVC
         "Rich Text files (*.rtf)|*.rtf|" +
         "CSV files (*.csv)|*.csv";
 
+        //실행파일류 필터링
+        public static string[] OFdlg_Filter_NotAllowed = new string[]
+        {
+            // 실행 파일
+            ".exe", ".msi", ".scr", ".com", 
+    
+            // 스크립트 파일
+            ".bat", ".cmd", ".vbs", ".js", ".jse", ".wsf", ".wsh", ".ps1", ".psm1", ".psd1",
+    
+            // 시스템/드라이버 파일
+            ".sys", ".dll", ".ocx", ".drv", ".cpl",
+    
+            // 레지스트리 관련
+            ".reg",
+    
+            // 바로가기
+            ".lnk", 
+    
+            // 기타 특수 실행 파일
+            ".hta", ".msc", ".jar", ".gadget",
+    
+            // 매크로 포함 가능한 문서
+            ".xlsm", ".xltm", ".xlam", ".pptm", ".potm", ".ppam", ".ppsm", ".sldm",
+            ".docm", ".dotm"
+        };
+
         #region 생성자
 
         public MainWindow()

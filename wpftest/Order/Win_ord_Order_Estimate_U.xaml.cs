@@ -22,6 +22,7 @@ using WizMes_EVC.PopUp;
 using WizMes_EVC.PopUP;
 using WizMes_EVC.Order.Pop;
 using System.Windows.Data;
+using System.Security.Policy;
 
 /**************************************************************************************************
 '** 프로그램명 : Win_ord_Order_Estimate_U.xaml.cs
@@ -403,7 +404,7 @@ namespace WizMes_EVC
             
             CantBtnControl();
             DatePickerSetToday_EventHandler();
-
+      
             //setFTP_Tag_EmptyString();
 
             tbkMsg.Text = "자료 입력 중";
@@ -849,7 +850,7 @@ namespace WizMes_EVC
                                 InstallSchTODate = DateTypeHyphen(dr["InstallSchTODate"].ToString()),
                                 InstalLocation = dr["InstalLocation"].ToString(),
                                 smallInstalLocation = dr["smallInstalLocation"].ToString(),
-                                InstallLocationPart = dr["InstallLocationPart"].ToString(),
+                                //InstallLocationPart = dr["InstallLocationPart"].ToString(),
                                 InstallLocationConditionID = dr["InstallLocationConditionID"].ToString(),
                                 EstSubject = dr["EstSubject"].ToString(),
                                 EstDamdangName = dr["EstDamdangName"].ToString(),
@@ -861,7 +862,8 @@ namespace WizMes_EVC
                                 deliveryCost = stringFormatN0(dr["deliveryCost"]),
                                 totalAmount = stringFormatN0(dr["totalAmount"]),
                                 Comments = dr["Comments"].ToString(),
-                                orderTypeID = dr["orderTypeID"].ToString(),                                
+                                orderTypeID = dr["orderTypeID"].ToString(),
+                                orderType = dr["orderType"].ToString(),
 
                                 sketch1File = dr["sketch1File"].ToString(),
                                 sketch1FileAlias = dr["sketch1FileAlias"].ToString(),
@@ -883,6 +885,10 @@ namespace WizMes_EVC
                                 sketch5FileAlias = dr["sketch5FileAlias"].ToString(),
                                 sketch5Path = dr["sketch5Path"].ToString(),
 
+                                sketch6File = dr["sketch6File"].ToString(),
+                                sketch6FileAlias = dr["sketch6FileAlias"].ToString(),
+                                sketch6Path = dr["sketch6Path"].ToString(),
+                                      
                             };
 
                             sumAmount += (int)RemoveComma(estItem.totalAmount, true);
@@ -1164,7 +1170,7 @@ namespace WizMes_EVC
                     sqlParameter.Add("InstallSchTODate", IsDatePickerNull(dtpInstallSchTODate) ? "" : SetToDate(dtpInstallSchTODate));
                     sqlParameter.Add("InstalLocation", txtInstalLocation.Text);
                     sqlParameter.Add("smallInstalLocation", txtSmallInstalLocation.Text);
-                    sqlParameter.Add("InstallLocationPart",txtInstallLocationPart.Text);
+                    //sqlParameter.Add("InstallLocationPart",txtInstallLocationPart.Text);
                     sqlParameter.Add("InstallLocationConditionID",cboInstallLocationConditionID.SelectedValue !=null ? cboInstallLocationConditionID.SelectedValue.ToString() : "");
                     sqlParameter.Add("electrDeliveryMethodID", cboElectrDeliveryMethodID.SelectedValue != null ? cboElectrDeliveryMethodID.SelectedValue.ToString() : "");
                     sqlParameter.Add("EstSubject", txtEstSubject.Text);
@@ -1370,6 +1376,10 @@ namespace WizMes_EVC
                 sqlParameter.Add("Sketch5File", txtSketch5.Text.Trim() != "" ? txtSketch5.Text : "");
                 sqlParameter.Add("Sketch5FileAlias", txtSketch5FileAlias.Text.Trim() != "" ? txtSketch5FileAlias.Text : "");
                 sqlParameter.Add("Sketch5Path", txtSketch4.Tag != null ? LoadINI.FtpImagePath + "/Estimate/" + EstID : "");
+
+                sqlParameter.Add("Sketch6File", txtSketch6.Text.Trim() != "" ? txtSketch6.Text : "");
+                sqlParameter.Add("Sketch6FileAlias", txtSketch6FileAlias.Text.Trim() != "" ? txtSketch6FileAlias.Text : "");
+                sqlParameter.Add("Sketch6Path", txtSketch6.Tag != null ? LoadINI.FtpImagePath + "/Estimate/" + EstID : "");
 
                 string[] result = DataStore.Instance.ExecuteProcedure("xp_Order_uEstimate_FTP", sqlParameter, true);
 
@@ -1918,6 +1928,7 @@ namespace WizMes_EVC
             else if (ClickPoint.Equals("btnSketch3")) { FTP_Upload_TextBox(txtSketch3); }
             else if (ClickPoint.Equals("btnSketch4")) { FTP_Upload_TextBox(txtSketch4); }
             else if (ClickPoint.Equals("btnSketch5")) { FTP_Upload_TextBox(txtSketch5); }
+            else if (ClickPoint.Equals("btnSketch6")) { FTP_Upload_TextBox(txtSketch6); }
         }
 
 
@@ -1933,14 +1944,21 @@ namespace WizMes_EVC
 
 
                 Microsoft.Win32.OpenFileDialog OFdlg = new Microsoft.Win32.OpenFileDialog();
-                OFdlg.Filter = MainWindow.OFdlg_Filter_DocAndImg;
                 //    "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png, *.pcx, *.pdf) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png; *.pcx; *.pdf | All Files|*.*";
 
-                OFdlg.Filter = MainWindow.OFdlg_Filter_DocAndImg;
+                OFdlg.Filter = OFdlg.Filter = "모든 파일 (*.*)|*.*";
 
                 Nullable<bool> result = OFdlg.ShowDialog();
                 if (result == true)
                 {
+
+                    // 선택된 파일의 확장자 체크
+                    if (MainWindow.OFdlg_Filter_NotAllowed.Contains(Path.GetExtension(OFdlg.FileName).ToLower()))
+                    {
+                        MessageBox.Show("보안상의 이유로 해당 파일은 업로드할 수 없습니다.");
+                        return;
+                    }
+
                     strFullPath = OFdlg.FileName;
 
                     string ImageFileName = OFdlg.SafeFileName;  //명.
@@ -1950,10 +1968,17 @@ namespace WizMes_EVC
 
                     StreamReader sr = new StreamReader(OFdlg.FileName);
                     long FileSize = sr.BaseStream.Length;
-                    if (sr.BaseStream.Length > (2048 * 1000))
+                    //if (sr.BaseStream.Length > (2048 * 1000))
+                    //{
+                    //    //업로드 파일 사이즈범위 초과
+                    //    MessageBox.Show("업로드하려는 파일사이즈가 2M byte를 초과하였습니다.");
+                    //    sr.Close();
+                    //    return;
+                    //}
+                    if (sr.BaseStream.Length > (1024 * 1024 * 100))  // 100MB in bytes
                     {
-                        //업로드 파일 사이즈범위 초과
-                        MessageBox.Show("업로드하려는 파일사이즈가 2M byte를 초과하였습니다.");
+                        //업로드 파일 사이즈범위 초과기
+                        MessageBox.Show("첨부파일 크기는 100Mb 미만 이어야 합니다.");
                         sr.Close();
                         return;
                     }
@@ -2070,13 +2095,15 @@ namespace WizMes_EVC
                     string Sketch3 = txtSketch3.Text.Trim() != "" ? txtSketch3.Text : "";
                     string Sketch4 = txtSketch4.Text.Trim() != "" ? txtSketch4.Text : "";
                     string Sketch5 = txtSketch5.Text.Trim() != "" ? txtSketch5.Text : "";
+                    string Sketch6 = txtSketch6.Text.Trim() != "" ? txtSketch6.Text : "";
 
 
                     if ((ClickPoint == "btnSketch1") && (Sketch1 == string.Empty)
                         || (ClickPoint == "btnSketch2") && (Sketch2 == string.Empty)
                         || (ClickPoint == "btnSketch3") && (Sketch3 == string.Empty)
                         || (ClickPoint == "btnSketch4") && (Sketch4 == string.Empty)
-                        || (ClickPoint == "btnSketch5") && (Sketch5 == string.Empty))
+                        || (ClickPoint == "btnSketch5") && (Sketch5 == string.Empty)
+                        || (ClickPoint == "btnSketch6") && (Sketch6 == string.Empty))
                     {
                         MessageBox.Show("파일이 없습니다.");
                         return;
@@ -2099,6 +2126,7 @@ namespace WizMes_EVC
                         else if (ClickPoint == "btnSketch3") { str_remotepath = Sketch3; }
                         else if (ClickPoint == "btnSketch4") { str_remotepath = Sketch4; }
                         else if (ClickPoint == "btnSketch5") { str_remotepath = Sketch5; }
+                        else if (ClickPoint == "btnSketch6") { str_remotepath = Sketch6; }
 
 
 
@@ -2107,6 +2135,7 @@ namespace WizMes_EVC
                         else if (ClickPoint == "btnSketch3") { str_localpath = LOCAL_DOWN_PATH + "\\" + Sketch3; }
                         else if (ClickPoint == "btnSketch4") { str_localpath = LOCAL_DOWN_PATH + "\\" + Sketch4; }
                         else if (ClickPoint == "btnSketch5") { str_localpath = LOCAL_DOWN_PATH + "\\" + Sketch5; }
+                        else if (ClickPoint == "btnSketch6") { str_localpath = LOCAL_DOWN_PATH + "\\" + Sketch6; }
 
                          DirectoryInfo DI = new DirectoryInfo(LOCAL_DOWN_PATH);      // Temp 폴더가 없는 컴터라면, 만들어 줘야지.
                         if (DI.Exists == false)
@@ -2194,10 +2223,11 @@ namespace WizMes_EVC
                 //lstFileName에는 ftp업로드할때 파일명 중복방지를 위한 리스트(파일명이 중복되면 파일이 업로드 되지 않고 삭제될때 문제생김)
                 ////저장할때 리스트에 있다면 FTP삭제 요청을 한다.
                 if ((ClickPoint == "btnSketch1") && (txtSketch1.Text != string.Empty)) { fileName = txtSketch1.Text; FileDeleteAndTextBoxEmpty(txtSketch1); lstFilesName.Remove(fileName); txtSketch1FileAlias.Text = string.Empty; }
-                else if ((ClickPoint == "btnSketch2") && (txtSketch2.Text != string.Empty)) { fileName = txtSketch2.Text; FileDeleteAndTextBoxEmpty(txtSketch2); lstFilesName.Remove(fileName); txtSketch1FileAlias.Text = string.Empty; }
-                else if ((ClickPoint == "btnSketch3") && (txtSketch3.Text != string.Empty)) { fileName = txtSketch3.Text; FileDeleteAndTextBoxEmpty(txtSketch3); lstFilesName.Remove(fileName); txtSketch1FileAlias.Text = string.Empty; }
-                else if ((ClickPoint == "btnSketch4") && (txtSketch4.Text != string.Empty)) { fileName = txtSketch4.Text; FileDeleteAndTextBoxEmpty(txtSketch4); lstFilesName.Remove(fileName); txtSketch1FileAlias.Text = string.Empty; }
-                else if ((ClickPoint == "btnSketch5") && (txtSketch5.Text != string.Empty)) { fileName = txtSketch5.Text; FileDeleteAndTextBoxEmpty(txtSketch5); lstFilesName.Remove(fileName); txtSketch1FileAlias.Text = string.Empty; }
+                else if ((ClickPoint == "btnSketch2") && (txtSketch2.Text != string.Empty)) { fileName = txtSketch2.Text; FileDeleteAndTextBoxEmpty(txtSketch2); lstFilesName.Remove(fileName); txtSketch2FileAlias.Text = string.Empty; }
+                else if ((ClickPoint == "btnSketch3") && (txtSketch3.Text != string.Empty)) { fileName = txtSketch3.Text; FileDeleteAndTextBoxEmpty(txtSketch3); lstFilesName.Remove(fileName); txtSketch3FileAlias.Text = string.Empty; }
+                else if ((ClickPoint == "btnSketch4") && (txtSketch4.Text != string.Empty)) { fileName = txtSketch4.Text; FileDeleteAndTextBoxEmpty(txtSketch4); lstFilesName.Remove(fileName); txtSketch4FileAlias.Text = string.Empty; }
+                else if ((ClickPoint == "btnSketch5") && (txtSketch5.Text != string.Empty)) { fileName = txtSketch5.Text; FileDeleteAndTextBoxEmpty(txtSketch5); lstFilesName.Remove(fileName); txtSketch5FileAlias.Text = string.Empty; }
+                else if ((ClickPoint == "btnSketch6") && (txtSketch6.Text != string.Empty)) { fileName = txtSketch6.Text; FileDeleteAndTextBoxEmpty(txtSketch6); lstFilesName.Remove(fileName); txtSketch6FileAlias.Text = string.Empty; }
             }
 
         }
@@ -2410,7 +2440,7 @@ namespace WizMes_EVC
             {
                 estID_Global = string.Empty;
                 articleID_global = string.Empty;
-                //lstFilesName.Clear();
+                lstFilesName.Clear();
 
                 var estimateInfo = dgdMain.SelectedItem as Win_ord_Order_Estimate_U_CodeView;
                 if (estimateInfo != null)
@@ -2568,6 +2598,7 @@ namespace WizMes_EVC
         #region 바인딩을 자동화...   
         private void AutoBindDataToControls(object dataObject, DependencyObject parent)
         {
+
             var properties = dataObject.GetType().GetProperties()
                 .ToDictionary(p => p.Name.ToLower(), p => p);
 
@@ -4075,6 +4106,7 @@ namespace WizMes_EVC
         public string InstallLocationCondition { get; set; }
         public string InstallLocationConditionID { get; set; }
         public string electrDeliveryMethodID { get; set;}
+        public string electrDeliveryMethod { get; set; }
         public string EstSubject {get;set;}
         public string EstDamdangName {get;set;}
         public string EstDamdangTelno {get;set;}
@@ -4085,6 +4117,7 @@ namespace WizMes_EVC
         public string totalAmount {get;set;}
         public string Comments {get;set;}
         public string orderTypeID { get; set; }
+        public string orderType { get; set; }
         public string CreateDate {get;set;}
         public string CreateUserID {get;set;}
         public string LastUpdateDate {get;set;}
@@ -4105,7 +4138,9 @@ namespace WizMes_EVC
         public string sketch5File {get;set;}
         public string sketch5FileAlias {get;set;}
         public string sketch5Path { get; set; }
-
+        public string sketch6File { get; set; }
+        public string sketch6FileAlias { get; set; }
+        public string sketch6Path { get; set; }
     }
 
     public class Win_ord_Order_EstimateSub_U_CodeView : BaseView
