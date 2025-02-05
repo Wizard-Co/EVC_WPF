@@ -827,7 +827,7 @@ namespace WizMes_EVC
                 {
                     TextBox tb1 = sender as TextBox;
 
-                    MainWindow.pf.ReturnCode(tb1, 1, "");
+                    MainWindow.pf.ReturnCode(tb1, 8003, "");
 
                     if (tb1.Tag != null)
                     {
@@ -860,7 +860,7 @@ namespace WizMes_EVC
                 {
                     TextBox tb1 = sender as TextBox;
 
-                    MainWindow.pf.ReturnCode(tb1, 2, "");
+                    MainWindow.pf.ReturnCode(tb1, 8004, "");
 
                     if (tb1.Tag != null)
                     {
