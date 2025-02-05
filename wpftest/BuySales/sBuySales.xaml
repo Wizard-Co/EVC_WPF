@@ -190,7 +190,7 @@
                     </Grid.RowDefinitions>
 
                     <Grid Grid.Row="0" x:Name="gridMainHeader">
-                        <ScrollViewer Grid.Column="0" x:Name="dgdMainHeader" HorizontalScrollBarVisibility="Hidden" ScrollViewer.CanContentScroll="False" VerticalScrollBarVisibility="Visible">
+                        <ScrollViewer Grid.Column="0" x:Name="dgdMainHeader" HorizontalScrollBarVisibility="Hidden" ScrollViewer.CanContentScroll="False" VerticalScrollBarVisibility="Hidden">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />

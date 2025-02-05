@@ -604,6 +604,7 @@ namespace WizMes_EVC
                             txtSalesCustom.Text = dr["salesCustom"].ToString();
                             txtSearchCustom.Text = dr["searchCustom"].ToString();
                             txtLocation.Text = dr["installLocation"].ToString();
+                            txtLocation.Text = dr["installLocation"].ToString();
                             txtSalesSum.Text = dr["totalSalesAmount"].ToString();
 
                         }

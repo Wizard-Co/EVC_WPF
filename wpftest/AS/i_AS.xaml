@@ -505,7 +505,7 @@
                                 <TextBlock Text="금액" Style="{DynamicResource TextBlockInViewBoxInput}" />
                             </Viewbox>
                         </Label>
-                        <TextBox Grid.Row="10" Grid.Column="1" x:Name="txtAmount" Style="{DynamicResource TextBoxInputArea}" Text="{Binding asAmount}" PreviewTextInput="TextBox_PreviewTextInput" />
+                        <TextBox Grid.Row="10" Grid.Column="1" x:Name="txtAmount" Style="{DynamicResource TextBoxInputArea}" Text="{Binding asAmount, StringFormat=N0}" PreviewTextInput="TextBox_PreviewTextInput" />
 
                         <Label Grid.Row="11" Grid.Column="0" Style="{DynamicResource LabelInputArea}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">

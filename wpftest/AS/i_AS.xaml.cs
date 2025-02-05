@@ -566,7 +566,7 @@ namespace WizMes_EVC
                 sqlParameter.Add("asReqUserName", txtReqName.Text ?? "");
                 sqlParameter.Add("asReqUserTelNo", txtReqTel.Text?? "");
                 sqlParameter.Add("asLocation", txtLocation.Text ?? "");
-                sqlParameter.Add("constrCustomID", txtContruct.Tag.ToString() ?? "");
+                sqlParameter.Add("constrCustomID", String.IsNullOrEmpty(txtContruct.Text) ?  "": txtContruct.Tag.ToString());
                 sqlParameter.Add("asSmallLocation", "");
                 sqlParameter.Add("asChargerMCNo", txtChargerMCNo.Text ?? "");
                 sqlParameter.Add("costYN", cboCostYN.SelectedValue != null ? cboCostYN.SelectedValue.ToString() : "");
