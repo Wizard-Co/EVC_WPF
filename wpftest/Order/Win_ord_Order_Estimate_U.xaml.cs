@@ -12,17 +12,13 @@ using System.Windows.Media;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using WPF.MDI;
-using System.Windows.Interop;
-using System.ComponentModel.Design;
-using System.Net;
 using System.Runtime.InteropServices;
 using System.Reflection;
 using WizMes_EVC.PopUp;
 using WizMes_EVC.PopUP;
 using WizMes_EVC.Order.Pop;
 using System.Windows.Data;
-using System.Security.Policy;
+
 
 /**************************************************************************************************
 '** 프로그램명 : Win_ord_Order_Estimate_U.xaml.cs
@@ -2596,6 +2592,9 @@ namespace WizMes_EVC
         }
 
         #region 바인딩을 자동화...   
+        //만약 같은 키를 참조하는 오류가 나면 넘겨주는 dataObject파라미터
+        //즉 class에 전체 이름은 같은데 대소문자만 다른 이름이 있는지 보세요
+        //또는 중복명 확인할 것
         private void AutoBindDataToControls(object dataObject, DependencyObject parent)
         {
 
