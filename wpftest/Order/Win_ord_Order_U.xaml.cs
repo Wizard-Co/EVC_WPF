@@ -3407,7 +3407,7 @@ namespace WizMes_EVC
                     if(tab2_clicked == true)
                     {
                         UpdateTbkMessage("지자체 사항 저장 중...");
-                        MessageBox.Show("dgdLocalGov Count : "+ dgdLocalGov.Items.Count.ToString());
+                        //MessageBox.Show("dgdLocalGov Count : "+ dgdLocalGov.Items.Count.ToString());
                         for (int i = 0; i < dgdLocalGov.Items.Count; i++)
                         {
                             var localGovItem = dgdLocalGov.Items[i] as Win_order_Order_U_CodView_localGov;
@@ -5794,12 +5794,12 @@ namespace WizMes_EVC
 
         private void fillGridTab2_LocalGov(string orderId)
         {
-            MessageBox.Show("dgdLocalGov count(Pre) :" + dgdLocalGov.Items.Count.ToString());
+            //MessageBox.Show("dgdLocalGov count(Pre) :" + dgdLocalGov.Items.Count.ToString());
 
 
             if (dgdLocalGov.Items.Count > 0) ovcOrder_localGov.Clear();
 
-            MessageBox.Show("dgdLocalGov count(Initiated) :" + dgdLocalGov.Items.Count.ToString());
+            //MessageBox.Show("dgdLocalGov count(Initiated) :" + dgdLocalGov.Items.Count.ToString());
 
 
 
@@ -5848,7 +5848,7 @@ namespace WizMes_EVC
                     dgdLocalGov.ItemsSource = ovcOrder_localGov;
                 }
 
-                MessageBox.Show("dgdLocalGov count(After) :" + dgdLocalGov.Items.Count.ToString());
+                //MessageBox.Show("dgdLocalGov count(After) :" + dgdLocalGov.Items.Count.ToString());
 
 
             }
