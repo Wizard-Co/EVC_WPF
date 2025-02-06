@@ -486,7 +486,7 @@ namespace WizMes_EVC
         //    return false;
         //}
 
-        public bool createDirectory(string newDirectory)
+        public bool createDirectory(string newDirectory, bool createParent = true)
         {
             try
             {

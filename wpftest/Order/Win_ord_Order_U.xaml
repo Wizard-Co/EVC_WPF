@@ -1147,7 +1147,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtAlReadyChargeCount" Grid.Row="4" Grid.Column="1" Text="{Binding alReadyChargeCount}"
-                                    Style="{StaticResource TextBoxInput_Number_Right}" MaxLength="10"/>
+                                    Style="{StaticResource TextBoxInputArea}" MaxLength="10"/>
                                     </Grid>
 
                                     <!--계약기간-->
