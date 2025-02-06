@@ -531,12 +531,19 @@ namespace WizMes_EVC
         {
             try
             {
+                // 프로토콜 이후의 시작 위치를 찾습니다
+                int protocolIndex = host.IndexOf("://");
+                // 포트 시작 위치를 찾습니다
+                int colonIndex = host.IndexOf(":", protocolIndex + 3);
+                // 포트 다음의 첫 슬래시 위치를 찾습니다
+                int slashIndex = host.IndexOf("/", colonIndex);
+
                 // host에서 기본 경로 추출 
-                string basePath = host.Substring(host.IndexOf(":21/") + 4);
+                string basePath = host.Substring(slashIndex + 1);
                 string[] pathParts = basePath.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
 
                 // 상위 경로들 순차적으로 생성
-                string currentPath = host.Substring(0, host.IndexOf(":21/") + 4);  
+                string currentPath = host.Substring(0, slashIndex + 1);
                 foreach (string part in pathParts)
                 {
                     currentPath += part + "/";
@@ -910,16 +917,20 @@ namespace WizMes_EVC
                 createDirectory(newFolderName);
 
                 string baseHost = host;
-                int colonIndex = baseHost.IndexOf(":"); // 포트 시작 위치(:) 찾기
-                if (colonIndex > 0)
+                // 프로토콜 이후의 시작 위치를 찾습니다
+                int protocolIndex = baseHost.IndexOf("://");
+                if (protocolIndex > 0)
                 {
-                    int slashIndex = baseHost.IndexOf("/", colonIndex); // 콜론 이후의 첫 번째 슬래시 찾기
-                    if (slashIndex > 0)
+                    // 프로토콜 이후부터 포트를 찾습니다
+                    int colonIndex = baseHost.IndexOf(":", protocolIndex + 3);
+                    if (colonIndex > 0)
                     {
-                        // 콜론부터 슬래시 전까지 추출
-                        baseHost = baseHost.Substring(0, slashIndex);
+                        int slashIndex = baseHost.IndexOf("/", colonIndex);
+                        if (slashIndex > 0)
+                        {
+                            baseHost = baseHost.Substring(0, slashIndex);
+                        }
                     }
-                   
                 }
 
                 foreach (string fileName in fileNames)
