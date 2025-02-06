@@ -1570,8 +1570,11 @@ namespace WizMes_EVC
                 string userID = Application.Current.Properties["UserID"].ToString();
                 string password = Application.Current.Properties["Password"].ToString();
                 
-                string ip = "localhost";  // IP 주소를 "localhost"로 설정
-                string url = $"http://{ip}:8080/?userID={Uri.EscapeDataString(userID)}&password={Uri.EscapeDataString(password)}";
+                //string ip = "localhost";  // IP 주소를 "localhost"로 설정
+                //string url = $"http://{ip}:8080/?userID={Uri.EscapeDataString(userID)}&password={Uri.EscapeDataString(password)}";
+
+                string ip = "121.254.224.196";  // IP 주소를 "localhost"로 설정
+                string url = $"http://{ip}:8096/?userID={Uri.EscapeDataString(userID)}&password={Uri.EscapeDataString(password)}";
 
 
 
