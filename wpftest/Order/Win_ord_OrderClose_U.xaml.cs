@@ -691,6 +691,117 @@ namespace WizMes_EVC
             }
         }
 
+
+
+
+
+
+
+
+        //실조회 및 하단 합계
+        private void FillGridSub()
+        {
+
+            try
+            {
+                Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+                sqlParameter.Clear();
+
+                sqlParameter.Add("ChkDate", chkOrderDay.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("SDate", chkOrderDay.IsChecked == true ? dtpSDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
+                sqlParameter.Add("EDate", chkOrderDay.IsChecked == true ? dtpEDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
+
+                //// 거래처
+                //sqlParameter.Add("ChkCustom", chkCustom.IsChecked == true ? 1 : 0);
+                //sqlParameter.Add("CustomID", chkCustom.IsChecked == true ? (txtCustom.Tag != null ? txtCustom.Tag.ToString() : txtCustom.Text) : "");
+                //// 최종고객사
+                //sqlParameter.Add("ChkInCustom", chkInCustom.IsChecked == true ? 1 : 0);
+                //sqlParameter.Add("InCustomID", chkInCustom.IsChecked == true ? (txtInCustom.Tag != null ? txtInCustom.Tag.ToString() : "") : "");
+
+
+                //// 품번
+                //sqlParameter.Add("ChkArticleID", chkBuyerArticleNo.IsChecked == true ? 1 : 0);
+                //sqlParameter.Add("ArticleID", chkBuyerArticleNo.IsChecked == true ? (txtBuyerArticleNo.Tag == null ? "" : txtBuyerArticleNo.Tag.ToString()) : "");
+                //// 품명
+                //sqlParameter.Add("ChkArticle", chkArticle.IsChecked == true ? 1 : 0);
+                //sqlParameter.Add("Article", chkArticle.IsChecked == true ? (txtArticle.Text == string.Empty ? "" : txtArticle.Text) : "");
+
+
+                // 수주상태
+                sqlParameter.Add("ChkClose", int.Parse(cboOrderStatus.SelectedValue != null ? cboOrderStatus.SelectedValue.ToString() : ""));
+
+
+
+                DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_Order_sOrderTotal_Sum", sqlParameter, true, "R");
+
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataTable dt = ds.Tables[0];
+
+                    //dataGrid.Items.Clear();
+                    if (dt.Rows.Count == 0)
+                    {
+                        Style_ColumHead_Shrink();
+                        MessageBox.Show("조회된 데이터가 없습니다.");
+                    }
+                    else
+                    {
+                        DataRowCollection drc = dt.Rows;
+
+                        int i = 0;
+                        int OrderSum = 0;
+                        //int Count = 0;
+                        double InspectSum = 0;
+                        double PassSum = 0;
+                        double DefectSum = 0;
+                        double OutSum = 0;
+                        double PersonSum = 0;
+
+
+                        foreach (DataRow dr in drc)
+                        {
+                            var Window_OrderClose_DTO = new dgOrderSum()
+                            {
+
+
+                                Treat = dr["Treat"].ToString(),
+                                orderSum = dr["orderSum"].ToString(),
+                                accntMgrWorkAmount = dr["accntMgrWorkAmount"].ToString(),
+
+
+                            };
+                            PersonSum = 3 * ConvertInt(Window_OrderClose_DTO.Treat) * ConvertInt(Window_OrderClose_DTO.orderSum);
+                            Window_OrderClose_DTO.PersonSum = PersonSum.ToString();
+
+                            Window_OrderClose_DTO.Count = dgdMain.Items.Count;
+                            dgdSum.Items.Add(Window_OrderClose_DTO);
+
+                            i++;
+
+                        }
+
+
+
+                    }
+
+                }
+                if (ds.Tables.Count == 0)
+                {
+                    MessageBox.Show("조회된 데이터가 없습니다.");
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                DataStore.Instance.CloseConnection();
+            }
+        }
+
+
         private void HideColumns()
         {
             //dgdtpechkChoice.Visibility = Visibility.Hidden;
@@ -1236,6 +1347,7 @@ namespace WizMes_EVC
             return result;
         }
 
+
         private void re_Search()
         {
             //검색버튼 비활성화
@@ -1245,6 +1357,7 @@ namespace WizMes_EVC
             {
                 //로직
                 FillGrid();
+                FillGridSub();
             }), System.Windows.Threading.DispatcherPriority.Background);
 
             btnSearch.IsEnabled = true;
@@ -1853,14 +1966,19 @@ namespace WizMes_EVC
 
         public string TextData { get; set; }
 
-        //public int Count { get; set; }
-        //public int OrderSum { get; set; }
-        //public int InsertSum { get; set; }
-        //public double InspectSum { get; set; }
-        //public double PassSum { get; set; }
-        //public double DefectSum { get; set; }
-        //public double OutSum { get; set; }
-        //public double OasSum { get; set; }
+
+        public string acptDate { get; set; }
+        public string corpApprovalDate { get; set; }
+        public string chargeOrderDate { get; set; }
+        public string kepElectrReqDate { get; set; }
+        public string constrDate { get; set; }
+        public string kepMeterInstallDate { get; set; }
+        public string accntMgrWorkTaxPrintDate { get; set; }
+        public string Treat { get; set; }
+        public string orderSum { get; set; }
+        public string PersonSum { get; set; }
+        public string accntMgrWorkAmount { get; set; }
+
     }
 }
 
