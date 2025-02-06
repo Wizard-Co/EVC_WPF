@@ -3528,7 +3528,7 @@
                                     </Grid>
 
                                     <!--첨부파일 좌측 1-->
-                                    <!--시설부담금 고지서-->
+                                    <!--변압기공동이용계약서-->
                                     <Grid Grid.Row="26" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>

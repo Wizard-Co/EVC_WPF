@@ -1250,7 +1250,7 @@ namespace WizMes_EVC
                         sqlParameter.Add("EstID", strFlag == "I" ? PrimaryKey : txtEstID.Text);   
                         sqlParameter.Add("EstArticleID", estItem.EstArticleID);
                         sqlParameter.Add("EstUnitPrice", RemoveComma(estItem.EstUnitPrice,true));
-                        sqlParameter.Add("EstQty", RemoveComma(estItem.EstUnitPrice, true));
+                        sqlParameter.Add("EstQty", RemoveComma(estItem.EstQty, true));
                         sqlParameter.Add("EstAmount", RemoveComma(estItem.EstAmount, true));
                         sqlParameter.Add("Comments", estItem.Comments);
                         sqlParameter.Add("CreateUserID", MainWindow.CurrentUser);

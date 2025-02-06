@@ -910,10 +910,16 @@ namespace WizMes_EVC
                 createDirectory(newFolderName);
 
                 string baseHost = host;
-                int portIndex = baseHost.IndexOf(":21"); //ftp기본 포트
-                if (portIndex > 0)
+                int colonIndex = baseHost.IndexOf(":"); // 포트 시작 위치(:) 찾기
+                if (colonIndex > 0)
                 {
-                    baseHost = baseHost.Substring(0, portIndex + 3); // ":21" 길이가 3이므로 포함 포트까지 딱 끊고 그 뒤를 복사하고자 하는 위치로 선정
+                    int slashIndex = baseHost.IndexOf("/", colonIndex); // 콜론 이후의 첫 번째 슬래시 찾기
+                    if (slashIndex > 0)
+                    {
+                        // 콜론부터 슬래시 전까지 추출
+                        baseHost = baseHost.Substring(0, slashIndex);
+                    }
+                   
                 }
 
                 foreach (string fileName in fileNames)

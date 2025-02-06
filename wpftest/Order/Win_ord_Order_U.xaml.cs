@@ -2323,8 +2323,8 @@ namespace WizMes_EVC
                                     electrSafeInspPrintFileName = dr["electrSafeInspPrintFileName"].ToString(),
                                     electrBeforeUseCheckPrintFilePath = dr["electrBeforeUseCheckPrintFilePath"].ToString(),
                                     electrBeforeUseCheckPrintFileName = dr["electrBeforeUseCheckPrintFileName"].ToString(),
-                                //electrBeforeUseInspFilePath = dr["electrBeforeUseInspFilePath"].ToString(),
-                                //electrBeforeUseInspFileName = dr["electrBeforeUseInspFileName"].ToString(),
+                                    electrBeforeUseInspFilePath = dr["electrBeforeUseInspFilePath"].ToString(),
+                                    electrBeforeUseInspFileName = dr["electrBeforeUseInspFileName"].ToString(),
                                     electrKepAcptFilePath = dr["electrKepAcptFilePath"].ToString(),
                                     electrKepAcptFileName = dr["electrKepAcptFileName"].ToString(),
                                     electrKepInfraPayBillFilePath = dr["electrKepInfraPayBillFilePath"].ToString(),
@@ -2337,6 +2337,8 @@ namespace WizMes_EVC
                                     electrCoWorkFileName = dr["electrCoWorkFileName"].ToString(),
                                     electrCostFilePath = dr["electrCostFilePath"].ToString(),
                                     electrCostFileName  = dr["electrCostFileName"].ToString(),
+                                    electrTransCoUseFilePath = dr["electrTransCoUseFilePath"].ToString(),
+                                    electrTransCoUseFileName = dr["electrTransCoUseFileName"].ToString(),
 
                             };
 
@@ -3590,8 +3592,8 @@ namespace WizMes_EVC
                 sqlParameter.Add("electrBeforeUseCheckPrintFileName", txtElectrBeforeUseCheckPrintFileName.Text.Trim() != "" ? txtElectrBeforeUseCheckPrintFileName.Text : "");
                 sqlParameter.Add("electrBeforeUseCheckPrintFilePath", txtElectrBeforeUseCheckPrintFileName.Tag !=null ? "/ImageData/Order/" + orderID : "");
 
-                //sqlParameter.Add("electrBeforeUseInspFileName", txtElectrBeforeUseInspFileName.Text.Trim() != "" ? txtElectrBeforeUseInspFileName.Text : "");
-                //sqlParameter.Add("electrBeforeUseInspFilePath", txtElectrBeforeUseInspFileName.Tag !=null ? "/ImageData/Order/" + orderID : "");
+                sqlParameter.Add("electrBeforeUseInspFileName", txtElectrBeforeUseInspFileName.Text.Trim() != "" ? txtElectrBeforeUseInspFileName.Text : "");
+                sqlParameter.Add("electrBeforeUseInspFilePath", txtElectrBeforeUseInspFileName.Tag !=null ? "/ImageData/Order/" + orderID : "");
 
                 sqlParameter.Add("electrKepAcptFileName", txtElectrKepAcptFileName.Text.Trim() != "" ? txtElectrKepAcptFileName.Text : "");
                 sqlParameter.Add("electrKepAcptFilePath", txtElectrKepAcptFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
@@ -4566,7 +4568,7 @@ namespace WizMes_EVC
             else if (ClickPoint.Contains("kepFaucetAcpt")) { FTP_Upload_TextBox(txtKepFaucetAcptFileName); }
             else if (ClickPoint.Contains("ElectrSafeInspPrint")) { FTP_Upload_TextBox(txtElectrSafeInspPrintFileName); }
             else if (ClickPoint.Contains("ElectrBeforeUseCheckPrint")) { FTP_Upload_TextBox(txtElectrBeforeUseCheckPrintFileName); }
-            //else if (ClickPoint.Contains("ElectrBeforeUseInsp")) { FTP_Upload_TextBox(txtElectrBeforeUseInspFileName); }
+            else if (ClickPoint.Contains("ElectrBeforeUseInsp")) { FTP_Upload_TextBox(txtElectrBeforeUseInspFileName); }
             else if (ClickPoint.Contains("ElectrKepAcpt")) { FTP_Upload_TextBox(txtElectrKepAcptFileName); }
             else if (ClickPoint.Contains("ElectrKepInfraPayBill")) { FTP_Upload_TextBox(txtElectrKepInfraPayBillFileName); }
             //else if (ClickPoint.Contains("ElectrUseContract")) { FTP_Upload_TextBox(txtElectrUseContractFileName); }
@@ -4870,7 +4872,7 @@ namespace WizMes_EVC
                     string kepFaucetAcptFileName = txtKepFaucetAcptFileName.Text.Trim() != "" ? txtKepFaucetAcptFileName.Text : "";
                     string electrSafeInspPrintFileName = txtElectrSafeInspPrintFileName.Text.Trim() != "" ? txtElectrSafeInspPrintFileName.Text : "";
                     string electrBeforeUseCheckPrintFileName = txtElectrBeforeUseCheckPrintFileName.Text.Trim() != "" ? txtElectrBeforeUseCheckPrintFileName.Text : "";
-                    //string electrBeforeUseInspFileName = txtElectrBeforeUseInspFileName.Text.Trim() != "" ? txtElectrBeforeUseInspFileName.Text : "";
+                    string electrBeforeUseInspFileName = txtElectrBeforeUseInspFileName.Text.Trim() != "" ? txtElectrBeforeUseInspFileName.Text : "";
 
                     string electrKepAcptFileName = txtElectrKepAcptFileName.Text.Trim() != "" ? txtElectrKepAcptFileName.Text : "";
                     string electrKepInfraPayBillFileName = txtElectrKepInfraPayBillFileName.Text.Trim() != "" ? txtElectrKepInfraPayBillFileName.Text : "";
@@ -4921,7 +4923,7 @@ namespace WizMes_EVC
                        || ((ClickPoint == "kepFaucetAcpt") && (txtKepFaucetAcptFileName.Text == string.Empty))
                        || ((ClickPoint == "ElectrSafeInspPrint") && (txtElectrSafeInspPrintFileName.Text == string.Empty))
                        || ((ClickPoint == "ElectrBeforeUseCheckPrint") && (txtElectrBeforeUseCheckPrintFileName.Text == string.Empty))
-                       //|| ((ClickPoint == "ElectrBeforeUseInsp") && (txtElectrBeforeUseInspFileName.Text == string.Empty))
+                       || ((ClickPoint == "ElectrBeforeUseInsp") && (txtElectrBeforeUseInspFileName.Text == string.Empty))
 
                        || ((ClickPoint == "ElectrKepAcpt") && (txtElectrKepAcptFileName.Text == string.Empty))
                        || ((ClickPoint == "ElectrKepInfraPayBill") && (txtElectrKepInfraPayBillFileName.Text == string.Empty))
@@ -4986,7 +4988,7 @@ namespace WizMes_EVC
                         else if (ClickPoint == "kepFaucetAcpt") { str_remotepath = kepFaucetAcptFileName; }
                         else if (ClickPoint == "ElectrSafeInspPrint") { str_remotepath = electrSafeInspPrintFileName; }
                         else if (ClickPoint == "ElectrBeforeUseCheckPrint") { str_remotepath = electrBeforeUseCheckPrintFileName; }
-                        //else if (ClickPoint == "ElectrBeforeUseInsp") { str_remotepath = electrBeforeUseInspFileName; }
+                        else if (ClickPoint == "ElectrBeforeUseInsp") { str_remotepath = electrBeforeUseInspFileName; }
                         
                         else if (ClickPoint == "ElectrKepAcpt") { str_remotepath = electrKepAcptFileName; }
                         else if (ClickPoint == "ElectrKepInfraPayBill") { str_remotepath = electrKepInfraPayBillFileName; }
@@ -5031,7 +5033,7 @@ namespace WizMes_EVC
                         else if (ClickPoint == "kepFaucetAcpt") { str_localpath = LOCAL_DOWN_PATH + "\\" + kepFaucetAcptFileName; }
                         else if (ClickPoint == "ElectrSafeInspPrint") { str_localpath = LOCAL_DOWN_PATH + "\\" + electrSafeInspPrintFileName; }
                         else if (ClickPoint == "ElectrBeforeUseCheckPrint") { str_localpath = LOCAL_DOWN_PATH + "\\" + electrBeforeUseCheckPrintFileName; }
-                        //else if (ClickPoint == "ElectrBeforeUseInsp") { str_localpath = LOCAL_DOWN_PATH + "\\" + electrBeforeUseInspFileName; }
+                        else if (ClickPoint == "ElectrBeforeUseInsp") { str_localpath = LOCAL_DOWN_PATH + "\\" + electrBeforeUseInspFileName; }
 
                         else if (ClickPoint == "ElectrKepAcpt") { str_localpath = LOCAL_DOWN_PATH + "\\" + electrKepAcptFileName; }
                         else if (ClickPoint == "ElectrKepInfraPayBill") { str_localpath = LOCAL_DOWN_PATH + "\\" + electrKepInfraPayBillFileName; }
@@ -5170,7 +5172,7 @@ namespace WizMes_EVC
                 else if ((ClickPoint == "kepFaucetAcpt") && (txtKepFaucetAcptFileName.Text != string.Empty)) { fileName = txtKepFaucetAcptFileName.Text; FileDeleteAndTextBoxEmpty(txtKepFaucetAcptFileName); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "ElectrSafeInspPrint") && (txtElectrSafeInspPrintFileName.Text != string.Empty)) { fileName = txtElectrSafeInspPrintFileName.Text; FileDeleteAndTextBoxEmpty(txtElectrSafeInspPrintFileName); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "ElectrBeforeUseCheckPrint") && (txtElectrBeforeUseCheckPrintFileName.Text != string.Empty)) { fileName = txtElectrBeforeUseCheckPrintFileName.Text; FileDeleteAndTextBoxEmpty(txtElectrBeforeUseCheckPrintFileName); lstFilesName.Remove(fileName); }
-                //else if ((ClickPoint == "ElectrBeforeUseInsp") && (txtElectrBeforeUseInspFileName.Text != string.Empty)) { fileName = txtElectrBeforeUseInspFileName.Text; FileDeleteAndTextBoxEmpty(txtElectrBeforeUseInspFileName); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "ElectrBeforeUseInsp") && (txtElectrBeforeUseInspFileName.Text != string.Empty)) { fileName = txtElectrBeforeUseInspFileName.Text; FileDeleteAndTextBoxEmpty(txtElectrBeforeUseInspFileName); lstFilesName.Remove(fileName); }
 
                 else if ((ClickPoint == "ElectrKepAcpt") && (txtElectrKepAcptFileName.Text != string.Empty)) { fileName = txtElectrKepAcptFileName.Text; FileDeleteAndTextBoxEmpty(txtElectrKepAcptFileName); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "ElectrKepInfraPayBill") && (txtElectrKepInfraPayBillFileName.Text != string.Empty)) { fileName = txtElectrKepInfraPayBillFileName.Text; FileDeleteAndTextBoxEmpty(txtElectrKepInfraPayBillFileName); lstFilesName.Remove(fileName); }
@@ -7662,8 +7664,8 @@ namespace WizMes_EVC
         public string electrCoWorkFileName{get;set;}
         public string electrCostFilePath{get;set;}
         public string electrCostFileName { get; set; }
-
-
+        public string electrTransCoUseFilePath { get; set; }
+        public string electrTransCoUseFileName { get; set; }
 
     }
 
