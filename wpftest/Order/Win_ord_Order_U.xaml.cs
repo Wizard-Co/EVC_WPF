@@ -926,7 +926,7 @@ namespace WizMes_EVC
             lstFilesName.Clear();
 
             //유지추가 활성화 여부 확인
-            if (chkEoAddSrh.IsChecked == false) { orderID_global = string.Empty; this.DataContext = new object(); ClearGrdInput(); rowAddAccnt(); }
+            if (chkEoAddSrh.IsChecked == false) { orderID_global = string.Empty; this.DataContext = new object(); ClearGrdInput();}
             else { BringLastOrder(orderID_global); }
 
             chkEoAddSrh.IsEnabled = false;    
@@ -2455,7 +2455,13 @@ namespace WizMes_EVC
 
         private void fillGridTab4_Accnt(string orderId)
         {
-            if(dgdAccnt.Items.Count > 0) dgdAccnt.Items.Clear();    
+            if(dgdAccnt.Items.Count > 0) dgdAccnt.Items.Clear();
+
+            if (strFlag == "I" && chkEoAddSrh.IsChecked != true)
+            {
+                rowAddAccnt();
+                return;
+            }
 
             try
             {
@@ -3401,6 +3407,7 @@ namespace WizMes_EVC
                     if(tab2_clicked == true)
                     {
                         UpdateTbkMessage("지자체 사항 저장 중...");
+                        MessageBox.Show("dgdLocalGov Count : "+ dgdLocalGov.Items.Count.ToString());
                         for (int i = 0; i < dgdLocalGov.Items.Count; i++)
                         {
                             var localGovItem = dgdLocalGov.Items[i] as Win_order_Order_U_CodView_localGov;
@@ -4284,34 +4291,41 @@ namespace WizMes_EVC
         {
             List<Grid> grids = new List<Grid> { grdInput, grd2, grd3, grd4, grd5 };
 
-            FindUiObject(grdInput, child =>
+            foreach(Grid grd in grids)
             {
-                if (child is TextBox textbox)
+                FindUiObject(grd, child =>
                 {
-                    textbox.Text = string.Empty;
-                    textbox.Tag = null;
-                }
-                else if(child is DatePicker datePicker)
-                {
-                    datePicker.SelectedDate = null;
-                }
-                else if(child is ComboBox combo)
-                {
-                    if(combo.Name == "cboOrderType" && combo != null)
+                    if (child is TextBox textbox)
                     {
-                        combo.SelectedIndex = 0;                        
+                        textbox.Text = string.Empty;
+                        textbox.Tag = null;
+                    }
+                    else if (child is DatePicker datePicker)
+                    {
+                        datePicker.SelectedDate = null;
+                    }
+                    else if (child is ComboBox combo)
+                    {
+                        if (combo.Name == "cboOrderType" && combo != null)
+                        {
+                            combo.SelectedIndex = 0;
 
+                        }
                     }
-                }
-                else if(child is DataGrid dgd)
-                {
-                    if(dgd.Items.Count > 0)
+                    else if (child is DataGrid dgd)
                     {
-                        dgd.ItemsSource = null;
-                        dgd.Items.Clear();
+                    
+                        if (dgd.Items.Count > 0)
+                        {
+                            dgd.ItemsSource = null;
+                            dgd.Items.Clear();
+                        }
+                                          
                     }
-                }
-            });
+                });
+            }
+
+           
         }
 
         private void ClearGrid()
@@ -5780,7 +5794,14 @@ namespace WizMes_EVC
 
         private void fillGridTab2_LocalGov(string orderId)
         {
+            MessageBox.Show("dgdLocalGov count(Pre) :" + dgdLocalGov.Items.Count.ToString());
+
+
             if (dgdLocalGov.Items.Count > 0) ovcOrder_localGov.Clear();
+
+            MessageBox.Show("dgdLocalGov count(Initiated) :" + dgdLocalGov.Items.Count.ToString());
+
+
 
             try
             {
@@ -5827,6 +5848,8 @@ namespace WizMes_EVC
                     dgdLocalGov.ItemsSource = ovcOrder_localGov;
                 }
 
+                MessageBox.Show("dgdLocalGov count(After) :" + dgdLocalGov.Items.Count.ToString());
+
 
             }
             catch (Exception ex)
@@ -5850,6 +5873,7 @@ namespace WizMes_EVC
                 tab2_clicked = false;
                 tab3_clicked = false;
                 tab4_clicked = false;
+                tab5_clicked = false;
 
 
                 var OrderInfo = dgdMain.SelectedItem as Win_ord_Order_U_CodeView_dgdMain;
@@ -6083,8 +6107,8 @@ namespace WizMes_EVC
 
         private void rowAddAccnt() 
         {
-            if (dgdAccnt.Items.Count > 0) dgdAccnt.Items.Clear();
-        
+
+            if (dgdAccnt.Items.Count > 0) dgdAccnt.Items.Clear();        
 
             int count = 16;
             for (int i = 0; i < count; i++)
@@ -7079,26 +7103,26 @@ namespace WizMes_EVC
             if (e.Source is TabControl)  
             {
                 TabItem selectedTab = ((TabControl)sender).SelectedItem as TabItem;
-                if (selectedTab != null && strFlag == string.Empty)
+                if (selectedTab != null)
                 {
-                    if (selectedTab.Name == "tab2")
+                    if (selectedTab.Name == "tab2" && tab2_clicked != true)
                     {
                         fillGridTab2(orderID_global);
                         fillGridTab2_LocalGov(orderID_global);
                         tab2_clicked = true;
                     }
-                    if (selectedTab.Name == "tab3")
+                    if (selectedTab.Name == "tab3" && tab3_clicked != true)
                     {
                         fillGridTab3(orderID_global);
                         tab3_clicked = true;
                     }
-                    if (selectedTab.Name == "tab4")
+                    if (selectedTab.Name == "tab4" && tab4_clicked != true)
                     {
                         fillGridTab4(orderID_global);
                         fillGridTab4_Accnt(orderID_global);
                         tab4_clicked = true;
                     }
-                    if(selectedTab.Name == "tab5")
+                    if(selectedTab.Name == "tab5" && tab5_clicked != true)
                     {
                         fillgridTab5(orderID_global);
                         tab5_clicked = true;

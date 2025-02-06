@@ -635,7 +635,7 @@
                         <RowDefinition Height="18*" />
                     </Grid.RowDefinitions>
                     <TabControl x:Name="grdTabs" Grid.Row="0" Background="#f0f0f0" TabStripPlacement="Bottom" Margin="1" 
-                                SelectionChanged="tabControl_SelectionChanged">
+                                SelectionChanged="tabControl_SelectionChanged" >
                         <TabItem x:Name="tabBasicData" Header="기본 정보">
                             <GroupBox Grid.Row="0" Margin="1">
                                 <Grid x:Name="grdInput" IsHitTestVisible="False">
@@ -745,36 +745,7 @@
                                             <!--<Image Source="{DynamicResource btiPlusFind}"  />-->
                                         </Button>
                                     </Grid>
-
-                                    <!--견적번호-->
-                                    <Grid Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="85*"/>
-                                            <ColumnDefinition Width="105*"/>
-                                            <ColumnDefinition Width="20*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Row="3" Grid.Column="0" 
-                                            Style="{DynamicResource LabelInputArea}">
-                                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                                <TextBlock Text="견적 번호" Style="{DynamicResource TextBlockInViewBoxInput}"/>
-
-                                            </Viewbox>
-                                        </Label>
-                                        <Grid Grid.Row="3" Grid.Column="1">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBox x:Name="txtEstSubject" Text="{Binding estSubject, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalContentAlignment="Center"/>
-                                            <TextBox x:Name="txtEstID" Grid.Column="1" Text="{Binding estID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                     Tag="{Binding estID, UpdateSourceTrigger=PropertyChanged}"
-                                            Keyboard.KeyDown="txtEstID_KeyDown" Style="{DynamicResource TextBoxInputNecessary}" TextChanged="txtEstID_TextChanged"/>
-                                        </Grid>
-
-                                        <Button x:Name="btnEstID" Content="견적이동" Grid.Row="3" Grid.Column="2" Click="btnEstID_Click">
-                                            <!--<Image Source="{DynamicResource btiPlusFind}"  />-->
-                                        </Button>
-                                    </Grid>
+                                    
 
                                     <!--운영회사-->
                                     <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
@@ -796,6 +767,36 @@
                                            Style="{StaticResource TextBoxInputNecessary}" Keyboard.KeyDown="txtManagerCustomID_KeyDown"/>
                                         <Button x:Name="btnManagerCustomID" Grid.Row="4" Grid.Column="2" Click="btnManagerCustomID_Click">
                                             <Image Source="{DynamicResource btiPlusFind}" />
+                                        </Button>
+                                    </Grid>
+
+                                    <!--견적번호-->
+                                    <Grid Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="85*"/>
+                                            <ColumnDefinition Width="105*"/>
+                                            <ColumnDefinition Width="20*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Row="3" Grid.Column="0" 
+                                                     Style="{DynamicResource LabelInputArea}">
+                                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                <TextBlock Text="견적 번호" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+
+                                            </Viewbox>
+                                        </Label>
+                                        <Grid Grid.Row="3" Grid.Column="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox x:Name="txtEstSubject" Text="{Binding estSubject, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalContentAlignment="Center"/>
+                                            <TextBox x:Name="txtEstID" Grid.Column="1" Text="{Binding estID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                    Tag="{Binding estID, UpdateSourceTrigger=PropertyChanged}"
+                                                     Keyboard.KeyDown="txtEstID_KeyDown" Style="{DynamicResource TextBoxInputNecessary}" TextChanged="txtEstID_TextChanged"/>
+                                        </Grid>
+
+                                        <Button x:Name="btnEstID" Content="견적이동" Grid.Row="3" Grid.Column="2" Click="btnEstID_Click">
+                                            <!--<Image Source="{DynamicResource btiPlusFind}"  />-->
                                         </Button>
                                     </Grid>
 
@@ -1049,26 +1050,6 @@
                                     </Grid>-->
 
 
-                                    <!--주차면수-->
-                                    <Grid Grid.Row="9" Grid.Column="3" Grid.ColumnSpan="3">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="85*"/>
-                                            <ColumnDefinition Width="105*"/>
-                                            <ColumnDefinition Width="20*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Label Grid.Row="4" Grid.Column="0" 
-                                            Style="{DynamicResource LabelInputArea}">
-                                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                                <TextBlock Text="주차면수" Style="{DynamicResource TextBlockInViewBoxInput}"/>
-
-                                            </Viewbox>
-                                        </Label>
-                                        <TextBox x:Name="txtCarParkingCount" Grid.Row="4" Grid.Column="1" Text="{Binding carParkingCount}"
-                                                 Style="{StaticResource TextBoxInput_Number_Right}" MaxLength="10"/>
-                                    </Grid>
-
-
                                     <!--기설충전기운영사-->
                                     <Grid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
@@ -1093,8 +1074,8 @@
                                         </Button>
                                     </Grid>
 
-                                    <!--전기차수-->
-                                    <Grid Grid.Row="10" Grid.Column="3" Grid.ColumnSpan="3">
+                                    <!--주차면수-->
+                                    <Grid Grid.Row="9" Grid.Column="3" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="85*"/>
                                             <ColumnDefinition Width="105*"/>
@@ -1104,11 +1085,11 @@
                                         <Label Grid.Row="4" Grid.Column="0" 
                                             Style="{DynamicResource LabelInputArea}">
                                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                                <TextBlock Text="전기차수" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                                <TextBlock Text="주차면수" Style="{DynamicResource TextBlockInViewBoxInput}"/>
 
                                             </Viewbox>
                                         </Label>
-                                        <TextBox x:Name="txtElectrCarCount" Grid.Row="4" Grid.Column="1" Text="{Binding electrCarCount}"
+                                        <TextBox x:Name="txtCarParkingCount" Grid.Row="4" Grid.Column="1" Text="{Binding carParkingCount}"
                                                  Style="{StaticResource TextBoxInput_Number_Right}" MaxLength="10"/>
                                     </Grid>
 
@@ -1131,8 +1112,8 @@
                                     Style="{StaticResource TextBoxInputArea}"/>
                                     </Grid>
 
-                                    <!--기설충전기수-->
-                                    <Grid Grid.Row="11" Grid.Column="3" Grid.ColumnSpan="3">
+                                    <!--전기차수-->
+                                    <Grid Grid.Row="10" Grid.Column="3" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="85*"/>
                                             <ColumnDefinition Width="105*"/>
@@ -1142,12 +1123,12 @@
                                         <Label Grid.Row="4" Grid.Column="0" 
                                             Style="{DynamicResource LabelInputArea}">
                                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                                <TextBlock Text="기설충전기수" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                                <TextBlock Text="전기차수" Style="{DynamicResource TextBlockInViewBoxInput}"/>
 
                                             </Viewbox>
                                         </Label>
-                                        <TextBox x:Name="txtAlReadyChargeCount" Grid.Row="4" Grid.Column="1" Text="{Binding alReadyChargeCount}"
-                                    Style="{StaticResource TextBoxInputArea}" MaxLength="10"/>
+                                        <TextBox x:Name="txtElectrCarCount" Grid.Row="4" Grid.Column="1" Text="{Binding electrCarCount}"
+                                                 Style="{StaticResource TextBoxInput_Number_Right}" MaxLength="10"/>
                                     </Grid>
 
                                     <!--계약기간-->
@@ -1178,8 +1159,8 @@
                                         </Grid>
                                     </Grid>
 
-                                    <!--충전기신청수-->
-                                    <Grid Grid.Row="12" Grid.Column="3" Grid.ColumnSpan="3">
+                                    <!--기설충전기수-->
+                                    <Grid Grid.Row="11" Grid.Column="3" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="85*"/>
                                             <ColumnDefinition Width="105*"/>
@@ -1187,14 +1168,14 @@
                                         </Grid.ColumnDefinitions>
 
                                         <Label Grid.Row="4" Grid.Column="0" 
-                                      Style="{DynamicResource LabelInputArea}">
+                                            Style="{DynamicResource LabelInputArea}">
                                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                                <TextBlock Text="충전기신청수" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                                <TextBlock Text="기설충전기수" Style="{DynamicResource TextBlockInViewBoxInput}"/>
 
                                             </Viewbox>
                                         </Label>
-                                        <TextBox x:Name="txtReqChargeCount" Grid.Row="4" Grid.Column="1" Text="{Binding reqChargeCount}"
-                                            Style="{StaticResource TextBoxInputArea}" MaxLength="10"/>
+                                        <TextBox x:Name="txtAlReadyChargeCount" Grid.Row="4" Grid.Column="1" Text="{Binding alReadyChargeCount}"
+                                    Style="{StaticResource TextBoxInputArea}" MaxLength="10"/>
                                     </Grid>
 
                                     <!--개통요청일-->
@@ -1218,6 +1199,43 @@
 
                                     </Grid>
 
+                                    <!--충전기신청수-->
+                                    <Grid Grid.Row="12" Grid.Column="3" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="85*"/>
+                                            <ColumnDefinition Width="105*"/>
+                                            <ColumnDefinition Width="20*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Row="4" Grid.Column="0" 
+                                      Style="{DynamicResource LabelInputArea}">
+                                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                <TextBlock Text="충전기신청수" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+
+                                            </Viewbox>
+                                        </Label>
+                                        <TextBox x:Name="txtReqChargeCount" Grid.Row="4" Grid.Column="1" Text="{Binding reqChargeCount}"
+                                            Style="{StaticResource TextBoxInputArea}" MaxLength="10"/>
+                                    </Grid>
+
+                                    <!--상담담당자이메일-->
+                                    <Grid Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="85*"/>
+                                            <ColumnDefinition Width="105*"/>
+                                            <ColumnDefinition Width="20*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Row="4" Grid.Column="0" 
+                                      Style="{DynamicResource LabelInputArea}">
+                                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                <TextBlock Text="담당이메일" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+
+                                            </Viewbox>
+                                        </Label>
+                                        <TextBox x:Name="txtDamdangjaEMail" Grid.Row="4" Grid.Column="1" Text="{Binding damdangjaEMail}"
+                                            Style="{StaticResource TextBoxInputArea}"/>
+                                    </Grid>
 
                                     <!--개통일-->
                                     <Grid Grid.Row="13" Grid.Column="3" Grid.ColumnSpan="3">
@@ -1240,24 +1258,6 @@
 
                                     </Grid>
 
-                                    <!--상담담당자이메일-->
-                                    <Grid Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="3">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="85*"/>
-                                            <ColumnDefinition Width="105*"/>
-                                            <ColumnDefinition Width="20*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Label Grid.Row="4" Grid.Column="0" 
-                                      Style="{DynamicResource LabelInputArea}">
-                                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                                <TextBlock Text="담당이메일" Style="{DynamicResource TextBlockInViewBoxInput}"/>
-
-                                            </Viewbox>
-                                        </Label>
-                                        <TextBox x:Name="txtDamdangjaEMail" Grid.Row="4" Grid.Column="1" Text="{Binding damdangjaEMail}"
-                                            Style="{StaticResource TextBoxInputArea}"/>
-                                    </Grid>
 
                                     <!--비고-->
                                     <Grid Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="3">
