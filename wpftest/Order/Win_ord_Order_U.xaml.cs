@@ -10,7 +10,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-//using WizMes_EVC.Order.Pop;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -921,12 +920,32 @@ namespace WizMes_EVC
         {
             strFlag = "I";
             boolCallEst = false;
+            tab2_clicked = false;
+            tab3_clicked = false;
+            tab4_clicked = false;
+            tab5_clicked = false;
+
+            
+
             //btnPreOrder.IsEnabled = true;
             //tabBasicData.Focus();            
             lstFilesName.Clear();
 
             //유지추가 활성화 여부 확인
-            if (chkEoAddSrh.IsChecked == false) { orderID_global = string.Empty; this.DataContext = new object(); ClearGrdInput();}
+            if (chkEoAddSrh.IsChecked == false) 
+            {
+                tbkMsg.Text = "자료 입력 중";
+                orderID_global = string.Empty; 
+                this.DataContext = new object(); 
+                ClearGrdInput();
+
+                var args = new SelectionChangedEventArgs(
+                           TabControl.SelectionChangedEvent,
+                           new List<object>(), // 이전 선택 항목들
+                           new List<object> { grdTabs.SelectedItem } // 새로 선택된 항목들
+);
+                grdTabs.RaiseEvent(args);
+            }
             else { BringLastOrder(orderID_global); }
 
             chkEoAddSrh.IsEnabled = false;    
@@ -945,7 +964,7 @@ namespace WizMes_EVC
             //dtpJobFromDate.SelectedDate = DateTime.Today;                                               //계약시작일
             //dtpJobToDate.SelectedDate = DateTime.Today.AddMonths(1).AddDays(-DateTime.Today.Day);       //계약종료일   
 
-            if (chkEoAddSrh.IsChecked == false) { tbkMsg.Text = "자료 입력 중"; rowNum = Math.Max(0, dgdMain.SelectedIndex); }
+   
        
         }
 
@@ -1169,8 +1188,8 @@ namespace WizMes_EVC
                     lblMsg.Visibility = Visibility.Hidden;
                     dgdMain.IsHitTestVisible = true;
                     PrimaryKey = string.Empty;
-                    orderID_global = string.Empty;       
-                    rowNum = strFlag == "I" ? selRowIndex + 1 : strFlag == "U" ? rowNum : rowNum - 1;
+                    orderID_global = string.Empty;
+                    rowNum = strFlag == "I" ? selRowIndex + 1 : strFlag == "U" ? rowNum : 0;
                     chkEoAddSrh.IsChecked = false;
                     chkEoAddSrh.IsEnabled = true;
                     re_Search(rowNum);
@@ -1178,7 +1197,8 @@ namespace WizMes_EVC
                     MessageBox.Show("저장이 완료되었습니다.");
                     strFlag = string.Empty;
                     boolCallEst = false;
-                }
+                    // 현재 선택된 탭 데이터 새로고침
+                 }
             //}), System.Windows.Threading.DispatcherPriority.Background);
 
             btnSave.IsEnabled = true;
@@ -1189,7 +1209,7 @@ namespace WizMes_EVC
         {   
             CanBtnControl();
 
-            ovcOrder_Acc.Clear();
+            ovcOrder_Acc.Clear();            
             ovcOrder_localGov.Clear();
             dgdAccnt.Items.Clear();
 
@@ -1466,16 +1486,20 @@ namespace WizMes_EVC
         }
 
         private void re_Search(int selectedIndex)
-        {
+        {           
             FillGrid();
 
             if (dgdMain.Items.Count > 0)
-            {
-
-                //dgdMain.SelectedIndex = PrimaryKey.Equals(string.Empty) ?
-                //    selectedIndex : SelectItem(PrimaryKey, dgdMain);
-                if(strFlag == "I") { selectedIndex = selectedIndex - 1; }               
+            {                 
                 dgdMain.SelectedIndex = selectedIndex;
+
+                var args = new SelectionChangedEventArgs(
+                           TabControl.SelectionChangedEvent,
+                           new List<object>(), // 이전 선택 항목들
+                           new List<object> { grdTabs.SelectedItem } // 새로 선택된 항목들
+);
+                grdTabs.RaiseEvent(args);
+
             }
             else
                 this.DataContext = new object();
@@ -1669,8 +1693,7 @@ namespace WizMes_EVC
             {
                 DataStore.Instance.CloseConnection();
             }
-        }
-        
+        } 
 
         private void fillAccGrid(string orderId)
         {
@@ -2035,6 +2058,8 @@ namespace WizMes_EVC
 
             return deliCost;
         }
+
+        
 
         //텍스트박스 , DatePicker, 콤보박스의 바인딩 값과 넘겨주는 오브젝트 value가 일치하는 곳에
         //자동으로 바인딩
@@ -2457,7 +2482,7 @@ namespace WizMes_EVC
         {
             if(dgdAccnt.Items.Count > 0) dgdAccnt.Items.Clear();
 
-            if (strFlag == "I" && chkEoAddSrh.IsChecked != true)
+            if (strFlag == "I" && chkEoAddSrh.IsChecked != true && string.IsNullOrEmpty(txtOrderID.Text))
             {
                 rowAddAccnt();
                 return;
@@ -5794,14 +5819,7 @@ namespace WizMes_EVC
 
         private void fillGridTab2_LocalGov(string orderId)
         {
-            //MessageBox.Show("dgdLocalGov count(Pre) :" + dgdLocalGov.Items.Count.ToString());
-
-
-            if (dgdLocalGov.Items.Count > 0) ovcOrder_localGov.Clear();
-
-            //MessageBox.Show("dgdLocalGov count(Initiated) :" + dgdLocalGov.Items.Count.ToString());
-
-
+             ovcOrder_localGov.Clear();
 
             try
             {
