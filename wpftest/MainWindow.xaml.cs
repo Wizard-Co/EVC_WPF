@@ -734,9 +734,9 @@ namespace WizMes_EVC
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                 //sqlParameter.Add("@sUserID", CurrentUser);
                 //sqlParameter.Add("@sPgGubun", "9");
-                sqlParameter.Add("personID", CurrentUser);
+                sqlParameter.Add("personID", CurrentPersonID);
                 sqlParameter.Add("pgGubun", "7");
-
+                //CurrentPersonID
                 DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Menu_sUserMenu", sqlParameter, false);
 
                 if (ds != null && ds.Tables.Count > 0)
