@@ -2267,7 +2267,7 @@
                                         <DataGridTemplateColumn  Header="건수" Width="100">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                                                         <TextBlock Text="{Binding Count,StringFormat={}{0:#\,#}}" />
                                                         <TextBlock Text=" 건" />
                                                     </StackPanel>
@@ -2277,29 +2277,29 @@
                                         <DataGridTemplateColumn  Header="금액" Width="100">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding accntMgrWorkAmount,StringFormat={}{0:#\,#}}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="{Binding mtrAmount,StringFormat={}{0:#\,#}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
 
-                                        <DataGridTemplateColumn  Header="수주정산소요일(평균)" Width="100">
+                                        <DataGridTemplateColumn  Header="수주정산소요일(평균)" MinWidth="100">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding OrderSum,StringFormat={}{0:#\,#}}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="{Binding dateDiffSum,StringFormat={}{0:#\,#}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
                                         <DataGridTemplateColumn  Header="처리건수(EA)" Width="100">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding orderSum,StringFormat={}{0:#\,#}}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="{Binding orderSum,StringFormat={}{0:#\,#}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
                                         <DataGridTemplateColumn  Header="인당처리건수(EA)" Width="100">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding PersonSum,StringFormat={}{0:#\,#}}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="{Binding PersonSum,StringFormat={}{0:#\,#}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>

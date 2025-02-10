@@ -30,6 +30,8 @@ using Excel = Microsoft.Office.Interop.Excel;
 ' 변경일자  , 변경자, 요청자    , 요구사항ID      , 요청 및 작업내용
 '**************************************************************************************************
 ' 2024.12.31, 최대현,                              최초생성 나다음에듀 order활용
+' 2025.02.04, 최대현,                              첨부파일 추가 및 디자인 변경
+' 2025.02.10, 최대현,                              한전수전정보 기본정보 입력란 위치 변경및 textbox -> datePicker로 변경
 '**************************************************************************************************/
 
 namespace WizMes_EVC
@@ -1625,7 +1627,7 @@ namespace WizMes_EVC
 
                                 carParkingCount = stringFormatN0(dr["carParkingCount"]),
                                 alreadyManageCustom = dr["alreadyManageCustom"].ToString(),
-                                alreadyManageCustomID = dr["alreadyManageCustomID"].ToString(),
+                                //alreadyManageCustomID = dr["alreadyManageCustomID"].ToString(),
                                 installLocationComments = dr["installLocationComments"].ToString(),
                                 alReadyChargeCount = dr["alReadyChargeCount"].ToString(),
 
@@ -2001,31 +2003,44 @@ namespace WizMes_EVC
         //전화번호 가져오기
         private string callCustomData(string customID)
         {
-            string PhoneNo = string.Empty;
-            string[] sqlList = { "select phone1, phone2, phone, damdangPhone1, damdangPhone2 from mt_custom where customID = " };
 
-            for (int i = 0; i < sqlList.Length; i++)
+            string PhoneNo = string.Empty;
+
+            if (customID == null || customID.Trim() == string.Empty)
             {
-                DataSet ds = DataStore.Instance.QueryToDataSet(sqlList[i] + customID);
-                if (ds != null && ds.Tables.Count > 0)
-                {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
+                try
+                {                   
+                    string[] sqlList = { "select phone1, phone2, phone, damdangPhone1, damdangPhone2 from mt_custom where customID = " };
+
+                    for (int i = 0; i < sqlList.Length; i++)
                     {
-                        // 각 컬럼을 순회하면서 첫 번째로 값이 있는(null이나 빈 문자열이 아닌) 컬럼의 값을 반환
-                        foreach (DataColumn column in dt.Columns)
+                        DataSet ds = DataStore.Instance.QueryToDataSet(sqlList[i] + customID);
+                        if (ds != null && ds.Tables.Count > 0)
                         {
-                            string value = dt.Rows[0][column.ColumnName].ToString();
-                            if (!string.IsNullOrEmpty(value))
+                            DataTable dt = ds.Tables[0];
+                            if (dt.Rows.Count > 0)
                             {
-                                PhoneNo = value;
+                                // 각 컬럼을 순회하면서 첫 번째로 값이 있는(null이나 빈 문자열이 아닌) 컬럼의 값을 반환
+                                foreach (DataColumn column in dt.Columns)
+                                {
+                                    string value = dt.Rows[0][column.ColumnName].ToString();
+                                    if (!string.IsNullOrEmpty(value))
+                                    {
+                                        PhoneNo = value;
+                                        break;
+                                    }
+                                }
                                 break;
                             }
                         }
-                        break;
-                    }
+                    }                    
+                }
+                catch
+                {
+                    return string.Empty;
                 }
             }
+
             return PhoneNo;
         }
 
@@ -2307,7 +2322,8 @@ namespace WizMes_EVC
                                     kepInstallLocationCount = stringFormatN0(dr["kepInstallLocationCount"]),
                                     kepOutLineConstructContext = dr["kepOutLineConstructContext"].ToString(),
                                     kepInfraPayAmount = stringFormatN0(dr["kepInfraPayAmount"]),
-                                    kepManageInfraPayAmount = stringFormatN0(dr["kepManageInfraPayAmount"]),
+                                    //kepManageInfraPayAmount = stringFormatN0(dr["kepManageInfraPayAmount"]),
+                                    kepManageInfraPayDate = dr["kepManageInfraPayDate"].ToString(),
                                     kepElectrReqDate = dr["kepElectrReqDate"].ToString(),
                                     kepInApprovalYN = dr["kepInApprovalYN"].ToString(),
                                     kepInApprovalDate = dr["kepInApprovalDate"].ToString(),
@@ -3032,7 +3048,8 @@ namespace WizMes_EVC
                     sqlParameter.Add("houseHoldCount", RemoveComma(txthouseHoldCount.Text,true));
                     //sqlParameter.Add("installLocationPart", txtInstallLocationPart.Text);
                     sqlParameter.Add("carParkingCount", RemoveComma(txtCarParkingCount.Text, true));
-                    sqlParameter.Add("alreadyManageCustomID", txtAlreadyManageCustomID.Tag != null ? txtAlreadyManageCustomID.Tag.ToString() : "");
+                    //sqlParameter.Add("alreadyManageCustomID", txtAlreadyManageCustomID.Tag != null ? txtAlreadyManageCustomID.Tag.ToString() : "");
+                    sqlParameter.Add("alreadyManageCustom", txtAlreadyManageCustom.Text);
                     sqlParameter.Add("electrCarCount", RemoveComma(txtElectrCarCount.Text, true));
                     sqlParameter.Add("installLocationComments", txtInstallLocationComments.Text);
                     sqlParameter.Add("alreadyChargeCount", txtAlReadyChargeCount.Text);
@@ -3172,7 +3189,8 @@ namespace WizMes_EVC
                         sqlParameter.Add("kepInstallLocationCount",RemoveComma(txtKepInstallLocationCount.Text, true));
                         sqlParameter.Add("kepOutLineConstructContext",txtKepOutLineConstructContext.Text);
                         sqlParameter.Add("kepInfraPayAmount",RemoveComma(txtKepInfraPayAmount.Text, true));
-                        sqlParameter.Add("kepManageInfraPayAmount",RemoveComma(txtKepManageInfraPayAmount.Text, true));
+                        //sqlParameter.Add("kepManageInfraPayAmount",RemoveComma(txtKepManageInfraPayAmount.Text, true)); 운영사 시설부담금 
+                        sqlParameter.Add("kepManageInfraPayDate", IsDatePickerNull(dtpKepManageInfraPayDate) ? "" : ConvertDate(dtpKepManageInfraPayDate));
                         sqlParameter.Add("kepElectrReqDate", IsDatePickerNull(dtpKepElectrReqDate) ? "" : ConvertDate(dtpKepElectrReqDate));
                         sqlParameter.Add("kepInApprovalYN", cboKepInApprovalYN.SelectedValue != null ? cboKepInApprovalYN.SelectedValue.ToString() : "");
                         sqlParameter.Add("kepInApprovalDate", IsDatePickerNull(dtpKepInApprovalDate) ? "" : ConvertDate(dtpKepInApprovalDate));
@@ -7071,19 +7089,21 @@ namespace WizMes_EVC
              MainWindow.pf.ReturnCode(txtSuperUseInspPayCustomID, (int)Defind_CodeFind.DCF_CUSTOM, "");
         }
 
-        //기설충전업체
-        private void txtAlreadyManageCustomID_KeyDown(object sender, KeyEventArgs e)
-        {
-            if(e.Key == Key.Enter)
-              MainWindow.pf.ReturnCode(txtAlreadyManageCustomID, (int)Defind_CodeFind.DCF_CUSTOM, "");
-        }
 
-        //기설충전업체
-        private void btnAlreadyManageCustomID_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow.pf.ReturnCode(txtAlreadyManageCustomID, (int)Defind_CodeFind.DCF_CUSTOM, "");
+        //2025.02.10 자유입력식으로 변경해달라함
+        ////기설충전업체
+        //private void txtAlreadyManageCustomID_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    if(e.Key == Key.Enter)
+        //      MainWindow.pf.ReturnCode(txtAlreadyManageCustomID, (int)Defind_CodeFind.DCF_CUSTOM, "");
+        //}
 
-        }
+        ////기설충전업체
+        //private void btnAlreadyManageCustomID_Click(object sender, RoutedEventArgs e)
+        //{
+        //    MainWindow.pf.ReturnCode(txtAlreadyManageCustomID, (int)Defind_CodeFind.DCF_CUSTOM, "");
+
+        //}
 
 
         //검색조건 - 사업구분 라벨
@@ -7652,6 +7672,7 @@ namespace WizMes_EVC
         public string kepOutLineConstructContext {get;set;}
         public string kepInfraPayAmount {get;set;}
         public string kepManageInfraPayAmount {get;set;}
+        public string kepManageInfraPayDate{get;set;}
         public string kepElectrReqDate {get;set;}
         public string kepInApprovalYN {get;set;}
         public string kepInApprovalDate {get;set;}

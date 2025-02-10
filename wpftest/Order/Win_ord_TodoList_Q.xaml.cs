@@ -9,6 +9,7 @@ using WizMes_EVC.PopUP;
 using WizMes_EVC.PopUp;
 using WPF.MDI;
 using System.Windows.Media;
+using System.Text.RegularExpressions;
 
 namespace WizMes_EVC
 {
@@ -256,7 +257,7 @@ namespace WizMes_EVC
                                 orderNo = item["orderNo"].ToString(),
                                 CLoseYn = item["CLoseYn"].ToString(),
                                 orderid = item["orderid"].ToString(),
-                                acptDate = item["acptDate"].ToString(),
+                                acptDate = DateTypeHyphen(item["acptDate"].ToString()),
                                 EstID = item["EstID"].ToString(),
                                 saleCustomName = item["saleCustomName"].ToString(),
                                 saleCustomID = item["saleCustomID"].ToString(),
@@ -266,8 +267,8 @@ namespace WizMes_EVC
                                 searchCustomID = item["searchCustomID"].ToString(),
                                 zoneGbnName = item["zoneGbnName"].ToString(),
                                 zoneGbnID = item["zoneGbnID"].ToString(),
-                                manageCustomAcptDate = item["manageCustomAcptDate"].ToString(),
-                                manageCustomConfirmDate = item["manageCustomConfirmDate"].ToString(),
+                                manageCustomAcptDate = DateTypeHyphen(item["manageCustomAcptDate"].ToString()),
+                                manageCustomConfirmDate = DateTypeHyphen(item["manageCustomConfirmDate"].ToString()),
                                 installLocation = item["installLocation"].ToString(),
                                 installLocationAddress = item["installLocationAddress"].ToString(),
                                 InstallLocationPhone = item["InstallLocationPhone"].ToString(),
@@ -801,6 +802,27 @@ namespace WizMes_EVC
         }
         #endregion
 
+
+        private string DateTypeHyphen(string DigitsDate)
+        {
+            string pattern1 = @"(\d{4})(\d{2})(\d{2})";
+            string pattern2 = @"(\d{4})(\d{2})(\d{2})(\d{4})(\d{2})(\d{2})";
+
+            if (DigitsDate.Length == 8)
+            {
+                DigitsDate = Regex.Replace(DigitsDate, pattern1, "$1-$2-$3");
+            }
+            else if (DigitsDate.Length == 16)
+            {
+                DigitsDate = Regex.Replace(DigitsDate, pattern2, "$1-$2-$3 ~ $4-$5-$6");
+            }
+            else if (DigitsDate.Length == 0)
+            {
+                DigitsDate = string.Empty;
+            }
+
+            return DigitsDate;
+        }
 
 
         private void GoOrderButton_Click(object sender, RoutedEventArgs e)

@@ -683,7 +683,7 @@
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-                                <!--착송-->
+                                <!--착공-->
                                 <DataGridTemplateColumn x:Name="orderNo18" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>

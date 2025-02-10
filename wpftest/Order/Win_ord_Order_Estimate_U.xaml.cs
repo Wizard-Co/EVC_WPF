@@ -975,7 +975,7 @@ namespace WizMes_EVC
                 {
                     return (object)longResult;
                 }
-                else if (returnType == typeof(double) && long.TryParse(digits, out long doubleResult))
+                else if (returnType == typeof(double) && double.TryParse(digits, out double doubleResult))
                 {
                     return (object)doubleResult;
                 }
@@ -3943,9 +3943,24 @@ namespace WizMes_EVC
             var dataContext = cell.DataContext as Win_ord_Order_EstimateSub_U_CodeView;
             if (dataContext == null) return;
 
-            decimal unitPrice = (decimal)RemoveComma(dataContext.EstUnitPrice, true, typeof(decimal));
-            decimal qty = (decimal)RemoveComma(dataContext.EstQty, true, typeof(decimal));
-            dataContext.EstAmount = (unitPrice * qty).ToString();
+            try
+            {
+                if (string.IsNullOrWhiteSpace(dataContext.EstUnitPrice) ||
+                    string.IsNullOrWhiteSpace(dataContext.EstQty))
+                {
+                    dataContext.EstAmount = "0";
+                    return;
+                }
+
+                decimal unitPrice = (decimal)RemoveComma(dataContext.EstUnitPrice, true, typeof(decimal));
+                decimal qty = (decimal)RemoveComma(dataContext.EstQty, true, typeof(decimal));
+                dataContext.EstAmount = (unitPrice * qty).ToString();
+            }
+            catch (Exception ex)
+            {
+                // 로깅 또는 사용자에게 알림
+                dataContext.EstAmount = "0";
+            }
         }
 
 

@@ -12,6 +12,7 @@ using WPF.MDI;
 using System.Linq;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Text.RegularExpressions;
 
 namespace WizMes_EVC
 {
@@ -519,7 +520,7 @@ namespace WizMes_EVC
                                 Num = i + 1,
                                 CLoseYn = item["CLoseYn"].ToString(),
                                 orderid = item["orderid"].ToString(),
-                                acptDate = item["acptDate"].ToString(),
+                                acptDate = DateTypeHyphen(item["acptDate"].ToString()),
                                 EstID = item["EstID"].ToString(),
                                 saleCustomName = item["saleCustomName"].ToString(),
                                 saleCustomID = item["saleCustomID"].ToString(),
@@ -529,8 +530,8 @@ namespace WizMes_EVC
                                 searchCustomID = item["searchCustomID"].ToString(),
                                 zoneGbnName = item["zoneGbnName"].ToString(),
                                 zoneGbnID = item["zoneGbnID"].ToString(),
-                                manageCustomAcptDate = item["manageCustomAcptDate"].ToString(),
-                                manageCustomConfirmDate = item["manageCustomConfirmDate"].ToString(),
+                                manageCustomAcptDate = DateTypeHyphen(item["manageCustomAcptDate"].ToString()),
+                                manageCustomConfirmDate = DateTypeHyphen(item["manageCustomConfirmDate"].ToString()),
                                 installLocation = item["installLocation"].ToString(),
                                 installLocationAddress = item["installLocationAddress"].ToString(),
                                 InstallLocationPhone = item["InstallLocationPhone"].ToString(),
@@ -543,10 +544,10 @@ namespace WizMes_EVC
                                 alreadyManageCustomName = item["alreadyManageCustomName"].ToString(),
                                 alreadyManageCustomID = item["alreadyManageCustomID"].ToString(),
                                 installLocationComments = item["installLocationComments"].ToString(),
-                                contractFromDate = item["contractFromDate"].ToString(),
-                                contractToDate = item["contractToDate"].ToString(),
-                                openReqDate = item["openReqDate"].ToString(),
-                                openDate = item["openDate"].ToString(),
+                                contractFromDate = DateTypeHyphen(item["contractFromDate"].ToString()),
+                                contractToDate = DateTypeHyphen(item["contractToDate"].ToString()),
+                                openReqDate = DateTypeHyphen(item["openReqDate"].ToString()),
+                                openDate = DateTypeHyphen(item["openDate"].ToString()),
                                 damdangjaName = item["damdangjaName"].ToString(),
                                 damdangjaPhone = item["damdangjaPhone"].ToString(),
                                 damdangjaEMail = item["damdangjaEMail"].ToString(),
@@ -555,23 +556,23 @@ namespace WizMes_EVC
                                 saleCustomAddWork = item["saleCustomAddWork"].ToString(),
                                 salegift = item["salegift"].ToString(),
                                 article = item["article"].ToString(),
-                                chargeOrderDate = item["chargeOrderDate"].ToString(),
-                                chargeInwareDate = item["chargeInwareDate"].ToString(),
+                                chargeOrderDate = DateTypeHyphen(item["chargeOrderDate"].ToString()),
+                                chargeInwareDate = DateTypeHyphen(item["chargeInwareDate"].ToString()),
                                 chargeInwareQty = item["chargeInwareQty"].ToString(),
                                 chargeInwareLocation = item["chargeInwareLocation"].ToString(),
                                 canopyReqCustom = item["canopyReqCustom"].ToString(),
                                 chargeModelHelmat = item["chargeModelHelmat"].ToString(),
                                 chargeModelinloc = item["chargeModelinloc"].ToString(),
                                 chargeModelOneBody = item["chargeModelOneBody"].ToString(),
-                                chargeStandReqDate = item["chargeStandReqDate"].ToString(),
-                                chargeStandInwareDate = item["chargeStandInwareDate"].ToString(),
+                                chargeStandReqDate = DateTypeHyphen(item["chargeStandReqDate"].ToString()),
+                                chargeStandInwareDate = DateTypeHyphen(item["chargeStandInwareDate"].ToString()),
                                 mtrCanopyInwareInfo = item["mtrCanopyInwareInfo"].ToString(),
                                 mtrCanopyOrderAmount = item["mtrCanopyOrderAmount"].ToString(),
                                 comments = item["comments"].ToString(),
-                                searchReqDate = item["searchReqDate"].ToString(),
-                                searchDate = item["searchDate"].ToString(),
+                                searchReqDate = DateTypeHyphen(item["searchReqDate"].ToString()),
+                                searchDate = DateTypeHyphen(item["searchDate"].ToString()),
                                 searchQty = item["searchQty"].ToString(),
-                                searchDataAcptDate = item["searchDataAcptDate"].ToString(),
+                                searchDataAcptDate = DateTypeHyphen(item["searchDataAcptDate"].ToString()),
                                 installLocationCount = item["installLocationCount"].ToString(),
                                 electrDeliveryMethod = item["electrDeliveryMethod"].ToString(),
                                 inspectionNeedYN = item["inspectionNeedYN"].ToString(),
@@ -579,44 +580,44 @@ namespace WizMes_EVC
                                 addConstructCost = item["addConstructCost"].ToString(),
                                 searchComments = item["searchComments"].ToString(),
                                 corpAcptNo = item["corpAcptNo"].ToString(),
-                                corpApprovalDate = item["corpApprovalDate"].ToString(),
-                                corpEndDate = item["corpEndDate"].ToString(),
-                                corpLastEndDate = item["corpLastEndDate"].ToString(),
+                                corpApprovalDate = DateTypeHyphen(item["corpApprovalDate"].ToString()),
+                                corpEndDate = DateTypeHyphen(item["corpEndDate"].ToString()),
+                                corpLastEndDate = DateTypeHyphen(item["corpLastEndDate"].ToString()),
                                 corpComments = item["corpComments"].ToString(),
                                 kepInstallLocationCount = item["kepInstallLocationCount"].ToString(),
                                 kepElectrDeliveryMethod = item["kepElectrDeliveryMethod"].ToString(),
                                 kepOutLineConstructContext = item["kepOutLineConstructContext"].ToString(),
                                 kepInfraPayAmount = item["kepInfraPayAmount"].ToString(),
                                 kepManageInfraPayAmount = item["kepManageInfraPayAmount"].ToString(),
-                                kepElectrReqDate = item["kepElectrReqDate"].ToString(),
+                                kepElectrReqDate = DateTypeHyphen(item["kepElectrReqDate"].ToString()),
                                 kepInApprovalYN = item["kepInApprovalYN"].ToString(),
-                                kepInApprovalDate = item["kepInApprovalDate"].ToString(),
+                                kepInApprovalDate = DateTypeHyphen(item["kepInApprovalDate"].ToString()),
                                 kepMeterInstallContext = item["kepMeterInstallContext"].ToString(),
                                 kepDamdangjaPhone = item["kepDamdangjaPhone"].ToString(),
                                 kepCustomNo = item["kepCustomNo"].ToString(),
-                                kepPaymentDate = item["kepPaymentDate"].ToString(),
-                                kepMeterInstallDate = item["kepMeterInstallDate"].ToString(),
+                                kepPaymentDate = DateTypeHyphen(item["kepPaymentDate"].ToString()),
+                                kepMeterInstallDate = DateTypeHyphen(item["kepMeterInstallDate"].ToString()),
                                 kepFaucetComments = item["kepFaucetComments"].ToString(),
                                 constrCustomName = item["constrCustomName"].ToString(),
                                 constrCustomID = item["constrCustomID"].ToString(),
-                                constrOrderDate = item["constrOrderDate"].ToString(),
+                                constrOrderDate = DateTypeHyphen(item["constrOrderDate"].ToString()),
                                 constrDate = item["constrDate"].ToString(),
                                 constrDelyReason = item["constrDelyReason"].ToString(),
-                                constrCompleteDate = item["constrCompleteDate"].ToString(),
+                                constrCompleteDate = DateTypeHyphen(item["constrCompleteDate"].ToString()),
                                 constrComments = item["constrComments"].ToString(),
-                                electrSafeCheckDate = item["electrSafeCheckDate"].ToString(),
+                                electrSafeCheckDate = DateTypeHyphen(item["electrSafeCheckDate"].ToString()),
                                 electrSafeCheckSuppleContext = item["electrSafeCheckSuppleContext"].ToString(),
                                 electrSafeCheckLocation = item["electrSafeCheckLocation"].ToString(),
                                 electrSafeCheckCost = item["electrSafeCheckCost"].ToString(),
-                                electrSafeCheckCostPayDate = item["electrSafeCheckCostPayDate"].ToString(),
-                                electrBeforeUseCheckReqDate = item["electrBeforeUseCheckReqDate"].ToString(),
-                                electrSafeCheckPrintDate = item["electrSafeCheckPrintDate"].ToString(),
+                                electrSafeCheckCostPayDate = DateTypeHyphen(item["electrSafeCheckCostPayDate"].ToString()),
+                                electrBeforeUseCheckReqDate = DateTypeHyphen(item["electrBeforeUseCheckReqDate"].ToString()),
+                                electrSafeCheckPrintDate = DateTypeHyphen(item["electrSafeCheckPrintDate"].ToString()),
                                 electrBeforeUseCheckSuppleContext = item["electrBeforeUseCheckSuppleContext"].ToString(),
                                 electrBeforeInspLocation = item["electrBeforeInspLocation"].ToString(),
-                                electrBeforeInspReqDate = item["electrBeforeInspReqDate"].ToString(),
+                                electrBeforeInspReqDate = DateTypeHyphen(item["electrBeforeInspReqDate"].ToString()),
                                 electrBeforeInspPrintDate = item["electrBeforeInspPrintDate"].ToString(),
                                 electrBeforeInspCost = item["electrBeforeInspCost"].ToString(),
-                                electrBeforeInspCostPayDate = item["electrBeforeInspCostPayDate"].ToString(),
+                                electrBeforeInspCostPayDate = DateTypeHyphen(item["electrBeforeInspCostPayDate"].ToString()),
                                 electrBeforeInspSuppleContext = item["electrBeforeInspSuppleContext"].ToString(),
                                 electrSafeCheckComments = item["electrSafeCheckComments"].ToString(),
                                 superCustomName = item["superCustomName"].ToString(),
@@ -628,50 +629,42 @@ namespace WizMes_EVC
                                 safeManageCustomID = item["safeManageCustomID"].ToString(),
                                 safeManageCustomPhoneNo = item["safeManageCustomPhoneNo"].ToString(),
                                 superSetCost = item["superSetCost"].ToString(),
-                                superSetTaxPrintDate = item["superSetTaxPrintDate"].ToString(),
+                                superSetTaxPrintDate = DateTypeHyphen(item["superSetTaxPrintDate"].ToString()),
                                 superUseInspPayCustomName = item["superUseInspPayCustomName"].ToString(),
                                 superUseInspPayCustomID = item["superUseInspPayCustomID"].ToString(),
-                                superUseInspReqDate = item["superUseInspReqDate"].ToString(),
-                                superFromUseInspReqDate = item["superFromUseInspReqDate"].ToString(),
-                                superBeforeUseInspDate = item["superBeforeUseInspDate"].ToString(),
+                                superUseInspReqDate = DateTypeHyphen(item["superUseInspReqDate"].ToString()),
+                                superFromUseInspReqDate = DateTypeHyphen(item["superFromUseInspReqDate"].ToString()),
+                                superBeforeUseInspDate = DateTypeHyphen(item["superBeforeUseInspDate"].ToString()),
                                 superComments = item["superComments"].ToString(),
-                                compReplyDate = item["compReplyDate"].ToString(),
+                                compReplyDate = DateTypeHyphen(item["compReplyDate"].ToString()),
                                 suppleContext = item["suppleContext"].ToString(),
-                                suppleCompDate = item["suppleCompDate"].ToString(),
+                                suppleCompDate = DateTypeHyphen(item["suppleCompDate"].ToString()),
                                 compSuppleReportContext = item["compSuppleReportContext"].ToString(),
-                                compSuppleReportDate = item["compSuppleReportDate"].ToString(),
+                                compSuppleReportDate = DateTypeHyphen(item["compSuppleReportDate"].ToString()),
                                 insurePrintDate = item["insurePrintDate"].ToString(),
-                                compReportCompDate = item["compReportCompDate"].ToString(),
+                                compReportCompDate = DateTypeHyphen(item["compReportCompDate"].ToString()),
                                 compReportComments = item["compReportComments"].ToString(),
-                                accntMgrWorkPreTaxPrintDate = item["accntMgrWorkPreTaxPrintDate"].ToString(),
+                                accntMgrWorkPreTaxPrintDate = DateTypeHyphen(item["accntMgrWorkPreTaxPrintDate"].ToString()),
                                 accntMgrWorkPreAmount = item["accntMgrWorkPreAmount"].ToString(),
                                 accntMgrWorkPreAmountComments = item["accntMgrWorkPreAmountComments"].ToString(),
-                                accntMgrWorkAfterTaxPrintDate = item["accntMgrWorkAfterTaxPrintDate"].ToString(),
+                                accntMgrWorkAfterTaxPrintDate = DateTypeHyphen(item["accntMgrWorkAfterTaxPrintDate"].ToString()),
                                 accntMgrWorkAfterAmount = item["accntMgrWorkAfterAmount"].ToString(),
                                 accntMgrWorkAfterAmountComments = item["accntMgrWorkAfterAmountComments"].ToString(),
-                                accntMgrWorkTaxPrintDate = item["accntMgrWorkTaxPrintDate"].ToString(),
+                                accntMgrWorkTaxPrintDate = DateTypeHyphen(item["accntMgrWorkTaxPrintDate"].ToString()),
                                 accntMgrWorkAmount = item["accntMgrWorkAmount"].ToString(),
                                 accntMgrWorkAmountComments = item["accntMgrWorkAmountComments"].ToString(),
-                                accntWorkTaxPrintDate = item["accntWorkTaxPrintDate"].ToString(),
+                                accntWorkTaxPrintDate = DateTypeHyphen(item["accntWorkTaxPrintDate"].ToString()),
                                 accntWorkAmount = item["accntWorkAmount"].ToString(),
                                 accntWorkAmountComments = item["accntWorkAmountComments"].ToString(),
                                 accntSalesTaxPrintDate = item["accntSalesTaxPrintDate"].ToString(),
                                 accntSalesAmount = item["accntSalesAmount"].ToString(),
                                 accntSalesAmountComments = item["accntSalesAmountComments"].ToString(),
 
-
-
-
                             };
                             dgdMain.Items.Add(Window_OrderClose_DTO);
 
                             i++;
-
-
                         }
-
-
-
                     }
 
                 }
@@ -767,6 +760,8 @@ namespace WizMes_EVC
                                 Treat = dr["Treat"].ToString(),
                                 orderSum = dr["orderSum"].ToString(),
                                 accntMgrWorkAmount = dr["accntMgrWorkAmount"].ToString(),
+                                dateDiffSum = dr["dateDiffSum"].ToString(),
+                                mtrAmount = stringFormatN0(dr["mtrAmount"]),
 
 
                             };
@@ -801,6 +796,29 @@ namespace WizMes_EVC
             }
         }
 
+
+        //8자리 char형태 날짜 년도-월-일 하이픈 삽입
+        //16자리 일경우 8자리 사이에 ~ 삽입
+        private string DateTypeHyphen(string DigitsDate)
+        {
+            string pattern1 = @"(\d{4})(\d{2})(\d{2})";
+            string pattern2 = @"(\d{4})(\d{2})(\d{2})(\d{4})(\d{2})(\d{2})";
+
+            if (DigitsDate.Length == 8)
+            {
+                DigitsDate = Regex.Replace(DigitsDate, pattern1, "$1-$2-$3");
+            }
+            else if (DigitsDate.Length == 16)
+            {
+                DigitsDate = Regex.Replace(DigitsDate, pattern2, "$1-$2-$3 ~ $4-$5-$6");
+            }
+            else if (DigitsDate.Length == 0)
+            {
+                DigitsDate = string.Empty;
+            }
+
+            return DigitsDate;
+        }
 
         private void HideColumns()
         {
@@ -1976,8 +1994,10 @@ namespace WizMes_EVC
         public string accntMgrWorkTaxPrintDate { get; set; }
         public string Treat { get; set; }
         public string orderSum { get; set; }
+        public string dateDiffSum { get; set; }
         public string PersonSum { get; set; }
         public string accntMgrWorkAmount { get; set; }
+        public string mtrAmount { get; set; }
 
     }
 }
