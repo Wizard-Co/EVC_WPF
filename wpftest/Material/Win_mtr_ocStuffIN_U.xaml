@@ -165,8 +165,8 @@
                     <Image Source="{DynamicResource btiPlusFind}" />
                 </Button>
             </Grid>
-            
-            
+
+
             <Grid Grid.Row="0" Grid.Column="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="75*" />
@@ -467,7 +467,7 @@
                             </DataGridTemplateColumn>
                             <DataGridTextColumn Header="금액" Binding="{Binding Amount,StringFormat=N0}"
                                                 CellStyle="{StaticResource NumericDataGridCell}"/>
-                             
+
                             <!--<DataGridTextColumn Header="환율" Binding="{Binding ExchRate}"/>-->
                             <DataGridTemplateColumn Header="비고">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -483,15 +483,15 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            
-                            
-                            
+
+
+
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
                 <GroupBox Grid.Row="1">
                     <DataGrid x:Name="dgdTotal"  Style="{StaticResource DataGridSet1}">
-                        
+
                         <DataGrid.RowStyle>
                             <Style TargetType="DataGridRow">
                                 <Style.Resources>
@@ -503,7 +503,7 @@
                             </Style>
                         </DataGrid.RowStyle>
                         <DataGrid.Columns>
-                            
+
                             <DataGridTextColumn />
                             <DataGridTemplateColumn Header="입고량" Width="*"
                                                 CellStyle="{StaticResource NumericDataGridCell}">
@@ -525,7 +525,7 @@
                                                 CellStyle="{StaticResource NumericDataGridCell}">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Amount, StringFormat=N0}" TextAlignment="Center" />
+                                        <TextBlock Text="{Binding SumAmount, StringFormat=N0}" TextAlignment="Center" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -665,7 +665,7 @@
 
                         <TextBox x:Name="txtStuffInID" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Style="{DynamicResource TextBoxInputAutoCreate}"
                                  Text="{Binding StuffInID}" Foreground="#b7b7b7" IsHitTestVisible="False"/>
-                        
+
                         <Label Grid.Row="2" Grid.Column="0" Style="{DynamicResource LabelInputArea}" >
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                 <TextBlock Text="입고 구분" Style="{DynamicResource TextBlockInViewBoxInput}"/>
@@ -716,18 +716,18 @@
                         <Label Grid.Row="5" Grid.Column="0"    Style="{DynamicResource LabelInputArea}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                 <TextBlock Text="수주번호" Style="{DynamicResource TextBlockInViewBoxInput}"/>
-                            </Viewbox> 
+                            </Viewbox>
                         </Label>
                         <TextBox x:Name="txtOrderID" Grid.Row="5" Grid.Column="1" Style="{DynamicResource TextBoxInputArea}" Grid.ColumnSpan="2"
                                  Text="{Binding orderid}" Tag="{Binding orderid}" 
                                  Keyboard.KeyDown="txtOrderID_KeyDown" />
-                        
+
                         <Button x:Name="btnPfOrderID" Grid.Row="5" Grid.Column="3" Margin="1"
                                 Click="btnPfOrderID_Click">
                             <Image Source="{DynamicResource btiPlusFind}" />
                         </Button>
-                        
-       
+
+
                         <Label Grid.Row="6" Grid.Column="0" Style="{DynamicResource LabelInputArea}" >
                             <Viewbox  Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                 <TextBlock Text="품     번" Style="{DynamicResource TextBlockInViewBoxInput}"/>
@@ -783,7 +783,7 @@
                         <ComboBox x:Name="cboPriceClss" Grid.Row="5" Grid.Column="5" Background="White" Style="{StaticResource ComboBoxInputString}"
                                   SelectedValue="{Binding Priceclss}" IsEnabled="False"></ComboBox>
 
-                  
+
 
                         <Label Grid.Row="3" Grid.Column="4"  Style="{DynamicResource LabelInputArea}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
@@ -809,7 +809,7 @@
                         <DatePicker x:Name="dtpCustomInspectDate" Grid.Row="7" Grid.Column="5" Style="{DynamicResource DatePickerInputArea}"
                                     Background="White" SelectedDate="{Binding CustomInspectDate_CV}"></DatePicker>
 
- 
+
 
                         <Label Grid.Row="6" Grid.Column="4"  Style="{DynamicResource LabelInputArea}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
@@ -860,7 +860,7 @@
                         <ComboBox x:Name="cboImditlyOutYN" Grid.Row="11" Grid.Column="1" Style="{StaticResource ComboBoxInputString}"
                                   SelectedValue="{Binding ImditlyOutYN}"/>
 
-                        
+
                         <Label Grid.Row="2" Grid.Column="4"  Style="{DynamicResource LabelInputArea}">
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                 <TextBlock  Text="단 가" Style="{DynamicResource TextBlockInViewBoxInput}"/>
@@ -886,8 +886,8 @@
                         </Label>
                         <DatePicker x:Name="dtpInspectDate" Grid.Column="1" Grid.Row="15" Style="{DynamicResource DatePickerInputArea}" 
                                     SelectedDate="{Binding InspectDate_CV}" />
-                        
-                        
+
+
                         <Label Grid.Column="0" Grid.Row="16" Style="{DynamicResource LabelInputArea}"  >
                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                 <TextBlock Text="승인여부" Style="{DynamicResource TextBlockInViewBoxInput}"/>
@@ -906,7 +906,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    
+
                     <Grid Grid.Row="13" Grid.Column="3"  >
                         <Button x:Name="ButtonDataGridSubRowAdd" Grid.Column="3" Content="추가" Click="ButtonDataGridSubRowAdd_Click"/>
                     </Grid>
@@ -964,8 +964,8 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                           
-                            
+
+
                             <DataGridTemplateColumn Header="충전기번호" Width="auto" MinWidth="50" >
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -999,8 +999,8 @@
 
 
                 </Grid>
-                
-                
+
+
                 <GroupBox x:Name="gbxInput2" Grid.Row="2" Padding="1" IsHitTestVisible="False" Visibility="Hidden">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -1036,10 +1036,10 @@
                             </Viewbox>
                         </Label>
                         <TextBox x:Name="txtWeight" Grid.Row="1" Grid.Column="1" Style="{DynamicResource TextBoxInput_Number_Right}" Text="{Binding mtrWeight}" Visibility="Hidden" />
-                 
+
                     </Grid>
                 </GroupBox>
-               
+
             </Grid>
 
             <Grid Grid.Row="1" Grid.ColumnSpan="3" Visibility="Hidden">
