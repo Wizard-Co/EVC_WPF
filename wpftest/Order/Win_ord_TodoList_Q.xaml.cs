@@ -468,54 +468,57 @@ namespace WizMes_EVC
                                "accntSalesPreTaxPrintDate",
                             };
 
-                            string[] nextDates = {
-                               "manageCustomConfirmDate",
-                               "chargeStandInwareDate",
-                               "searchReqDate",
-                               "searchDate",
-                               "corpApprovalDate",
-                               "corpEndDate",
-                               "corpLastEndDate",
-                               "localGovBehaviorReportDate",
-                               "kepElectrReqDate",
-                               "kepInApprovalDate",
-                               "kepPaymentDate",
-                               "kepMeterInstallDate",
-                               "constrDate",
-                               "constrCompleteDate",
-                               "electrSafeCheckDate",
-                               "electrSafeCheckCostPayDate",
-                               "electrBeforeUseCheckReqDate",
-                               "electrBeforeUseCheckPrintDate",
-                               "electrBeforeInspReqDate",
-                               "electrBeforeInspPrintDate",
-                               "electrBeforeInspCostPayDate",
-                               "superSetTaxPrintDate",
-                               "superUseInspReqDate",
-                               "superBeforeUseInspDate",
-                               "superBeforeUseInspPrintDate",
-                               "compReplyDate",
-                               "suppleCompDate",
-                               "compSuppleReportDate",
-                               "insurePrintDate",
-                               "compReportCompDate",
-                               "accntMgrWorkPreTaxPrintDate",
-                               "accntMgrSalesPreTaxPrintDate",
-                               "accntWorkPreTaxPrintDate",
-                               "accntSalesPreTaxPrintDate",
-                            };
+                            //string[] nextDates = {
+                            //   "manageCustomConfirmDate",
+                            //   "chargeStandInwareDate",
+                            //   "searchReqDate",
+                            //   "searchDate",
+                            //   "corpApprovalDate",
+                            //   "corpEndDate",
+                            //   "corpLastEndDate",
+                            //   "localGovBehaviorReportDate",
+                            //   "kepElectrReqDate",
+                            //   "kepInApprovalDate",
+                            //   "kepPaymentDate",
+                            //   "kepMeterInstallDate",
+                            //   "constrDate",
+                            //   "constrCompleteDate",
+                            //   "electrSafeCheckDate",
+                            //   "electrSafeCheckCostPayDate",
+                            //   "electrBeforeUseCheckReqDate",
+                            //   "electrBeforeUseCheckPrintDate",
+                            //   "electrBeforeInspReqDate",
+                            //   "electrBeforeInspPrintDate",
+                            //   "electrBeforeInspCostPayDate",
+                            //   "superSetTaxPrintDate",
+                            //   "superUseInspReqDate",
+                            //   "superBeforeUseInspDate",
+                            //   "superBeforeUseInspPrintDate",
+                            //   "compReplyDate",
+                            //   "suppleCompDate",
+                            //   "compSuppleReportDate",
+                            //   "insurePrintDate",
+                            //   "compReportCompDate",
+                            //   "accntMgrWorkPreTaxPrintDate",
+                            //   "accntMgrSalesPreTaxPrintDate",
+                            //   "accntWorkPreTaxPrintDate",
+                            //   "accntSalesPreTaxPrintDate",
+                            //};
 
 
                             //Win_ord_TodoList_Q_View에서 배열로 넘겨준 이름을 찾아서
                             //true또는 false를 반환
                             //만약 5일이상 다음단계로 미진행시 false를 반환하고 다음행으로 
                             //정상적일 경우 false를 반환할때까지 반복
-                            for (int j = 0; j < currentDates.Length - 1; j++)
+
+                            //그냥 일자 있으면 전부 녹색불로 변경 2025.02.11
+                            for (int j = 0; j < currentDates.Length; j++)
                             {
                                 var currentDate = item[currentDates[j]].ToString();
-                                var nextDate = item[nextDates[j]].ToString();
+                                //var nextDate = item[nextDates[j]].ToString();
 
-                                if (!string.IsNullOrEmpty(currentDate.Trim()) && CheckDays(currentDate, nextDate))
+                                //if (!string.IsNullOrEmpty(currentDate.Trim()) && CheckDays(currentDate, nextDate))
+                                if (!string.IsNullOrEmpty(currentDate.Trim()))
                                 {
                                     typeof(Win_ord_TodoList_Q_View).GetProperty(currentDates[j])
                                         ?.SetValue(dgdCondition, true);
@@ -526,7 +529,7 @@ namespace WizMes_EVC
                                 {
                                     typeof(Win_ord_TodoList_Q_View).GetProperty(currentDates[j])
                                         ?.SetValue(dgdCondition, false);                                                         
-                                    break;
+                                 
                                 }
                             }
                                                  
@@ -638,10 +641,10 @@ namespace WizMes_EVC
                 {
                     DataStore.Instance.InsertLogByForm(this.GetType().Name, "E");
                     //MessageBox.Show("대분류");
-                    if (ExpExc.Check.Equals("Y"))
+                    //if (ExpExc.Check.Equals("Y"))
                         dt = lib3.DataGridToDTinHidden(dgdMain);
-                    else
-                        dt = lib3.DataGirdToDataTable(dgdMain);
+                    //else
+                    //    dt = lib3.DataGirdToDataTable(dgdMain);
 
                     Name = dgdMain.Name;
 

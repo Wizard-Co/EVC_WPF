@@ -751,44 +751,101 @@ namespace WizMes_EVC
             return new string[] { "" };
         }
 
+        //이거 폴더안에 비어있거나 미리 안 만들면 오류 무조건 남
         /* List Directory Contents File/Folder Name Only */
+        //public string[] directoryListSimple(string directory, Encoding encoding)
+        //{
+        //    try
+        //    {
+        //        /* Create an FTP Request */
+        //        ftpRequest = (FtpWebRequest)FtpWebRequest.Create(host + "/" + directory);
+        //        /* Log in to the FTP Server with the User Name and Password Provided */
+        //        ftpRequest.Credentials = new NetworkCredential(user, pass);
+        //        /* When in doubt, use these options */
+        //        ftpRequest.UseBinary = true;
+        //        ftpRequest.UsePassive = true;
+        //        ftpRequest.KeepAlive = true;
+        //        /* Specify the Type of FTP Request */
+        //        ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
+        //        /* Establish Return Communication with the FTP Server */
+        //        ftpResponse = (FtpWebResponse)ftpRequest.GetResponse();
+        //        /* Establish Return Communication with the FTP Server */
+        //        ftpStream = ftpResponse.GetResponseStream();
+        //        /* Get the FTP Server's Response Stream */
+        //        StreamReader ftpReader = new StreamReader(ftpStream, encoding);
+        //        /* Store the Raw Response */
+        //        string directoryRaw = null;
+        //        /* Read Each Line of the Response and Append a Pipe to Each Line for Easy Parsing */
+        //        try { while (ftpReader.Peek() != -1) { directoryRaw += ftpReader.ReadLine() + "|"; } }
+        //        catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+        //        /* Resource Cleanup */
+        //        ftpReader.Close();
+        //        ftpStream.Close();
+        //        ftpResponse.Close();
+        //        ftpRequest = null;
+        //        /* Return the Directory Listing as a string Array by Parsing 'directoryRaw' with the Delimiter you Append (I use | in This Example) */
+        //        try { string[] directoryList = directoryRaw.Split("|".ToCharArray()); return directoryList; }
+        //        catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+        //    }
+        //    catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+        //    /* Return an Empty string Array if an Exception Occurs */
+        //    return new string[] { "" };
+        //}
+
+        //host의 폴더를 보고 만약 비어있을때 빈 문자열 반환
         public string[] directoryListSimple(string directory, Encoding encoding)
         {
             try
             {
-                /* Create an FTP Request */
-                ftpRequest = (FtpWebRequest)FtpWebRequest.Create(host + "/" + directory);
-                /* Log in to the FTP Server with the User Name and Password Provided */
+                string fullPath = host + "/" + directory;
+                ftpRequest = (FtpWebRequest)FtpWebRequest.Create(fullPath);
                 ftpRequest.Credentials = new NetworkCredential(user, pass);
-                /* When in doubt, use these options */
                 ftpRequest.UseBinary = true;
                 ftpRequest.UsePassive = true;
                 ftpRequest.KeepAlive = true;
-                /* Specify the Type of FTP Request */
                 ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
-                /* Establish Return Communication with the FTP Server */
-                ftpResponse = (FtpWebResponse)ftpRequest.GetResponse();
-                /* Establish Return Communication with the FTP Server */
-                ftpStream = ftpResponse.GetResponseStream();
-                /* Get the FTP Server's Response Stream */
-                StreamReader ftpReader = new StreamReader(ftpStream, encoding);
-                /* Store the Raw Response */
-                string directoryRaw = null;
-                /* Read Each Line of the Response and Append a Pipe to Each Line for Easy Parsing */
-                try { while (ftpReader.Peek() != -1) { directoryRaw += ftpReader.ReadLine() + "|"; } }
-                catch (Exception ex) { Console.WriteLine(ex.ToString()); }
-                /* Resource Cleanup */
-                ftpReader.Close();
-                ftpStream.Close();
-                ftpResponse.Close();
-                ftpRequest = null;
-                /* Return the Directory Listing as a string Array by Parsing 'directoryRaw' with the Delimiter you Append (I use | in This Example) */
-                try { string[] directoryList = directoryRaw.Split("|".ToCharArray()); return directoryList; }
-                catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+
+                using (ftpResponse = (FtpWebResponse)ftpRequest.GetResponse())
+                using (ftpStream = ftpResponse.GetResponseStream())
+                using (StreamReader ftpReader = new StreamReader(ftpStream, encoding))
+                {
+                    StringBuilder directoryRaw = new StringBuilder();
+                    string line;
+
+                    while ((line = ftpReader.ReadLine()) != null)
+                    {
+                        directoryRaw.Append(line + "|");
+                    }
+
+                    string result = directoryRaw.ToString();
+                    if (string.IsNullOrEmpty(result))
+                    {
+                        return new string[0];
+                    }
+
+                    string[] splitResult = result.Split('|');
+                    List<string> cleanResult = new List<string>();
+
+                    for (int i = 0; i < splitResult.Length; i++)
+                    {
+                        if (!string.IsNullOrEmpty(splitResult[i]))
+                        {
+                            cleanResult.Add(splitResult[i]);
+                        }
+                    }
+
+                    return cleanResult.ToArray();
+                }
             }
-            catch (Exception ex) { Console.WriteLine(ex.ToString()); }
-            /* Return an Empty string Array if an Exception Occurs */
-            return new string[] { "" };
+            catch (Exception ex)
+            {
+                Console.WriteLine($"FTP 저장 중 중 실패 Line in 796: {ex.Message}");
+                return new string[0];
+            }
+            finally
+            {                     
+                ftpRequest = null;      //리소스 해제  IDisposable.Dispose()가 자동호출되어서 null로 충분하다 함..
+            }
         }
 
         /* List Directory Contents in Detail (Name, Size, Created, etc.) */

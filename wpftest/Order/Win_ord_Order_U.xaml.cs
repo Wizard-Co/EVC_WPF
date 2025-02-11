@@ -503,48 +503,48 @@ namespace WizMes_EVC
             MainWindow.pf.ReturnCode(txtManagerCustomIdSrh, (int)Defind_CodeFind.DCF_CUSTOM, "");
         }
 
-        //영업회사
-        private void lblSalesCustomIdSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if(chkSalesCustomIdSrh.IsChecked == true)
-            {
-                chkSalesCustomIdSrh.IsChecked = false;
-                txtSalesCustomIdSrh.IsEnabled = false;
-                btnSalesCustomIdSrh.IsEnabled = false;
-            }
-            else
-            {
-                chkSalesCustomIdSrh.IsChecked = true;
-                txtSalesCustomIdSrh.IsEnabled = true;
-                btnSalesCustomIdSrh.IsEnabled = true;
-            }
-        }
+        ////영업회사
+        //private void lblSalesCustomIdSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    if(chkSalesCustomIdSrh.IsChecked == true)
+        //    {
+        //        chkSalesCustomIdSrh.IsChecked = false;
+        //        txtSalesCustomIdSrh.IsEnabled = false;
+        //        btnSalesCustomIdSrh.IsEnabled = false;
+        //    }
+        //    else
+        //    {
+        //        chkSalesCustomIdSrh.IsChecked = true;
+        //        txtSalesCustomIdSrh.IsEnabled = true;
+        //        btnSalesCustomIdSrh.IsEnabled = true;
+        //    }
+        //}
 
-        //영업회사
-        private void chkSalesCustomIdSrh_Click(object sender, RoutedEventArgs e)
-        {
-            if (chkSalesCustomIdSrh.IsChecked == true)
-            {
-                txtSalesCustomIdSrh.IsEnabled = true;
-                btnSalesCustomIdSrh.IsEnabled = true;
-            }
-            else
-            {
-                txtSalesCustomIdSrh.IsEnabled = false;
-                btnSalesCustomIdSrh.IsEnabled = false;
-            }
-        }
-        //영업회사
-        private void txtSalesCustomIdSrh_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-                MainWindow.pf.ReturnCode(txtSalesCustomIdSrh, (int)Defind_CodeFind.DCF_CUSTOM, "");
-        }
-        //영업회사
-        private void btnSalesCustomIdSrh_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow.pf.ReturnCode(txtSalesCustomIdSrh, (int)Defind_CodeFind.DCF_CUSTOM, "");
-        }
+        ////영업회사
+        //private void chkSalesCustomIdSrh_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (chkSalesCustomIdSrh.IsChecked == true)
+        //    {
+        //        txtSalesCustomIdSrh.IsEnabled = true;
+        //        btnSalesCustomIdSrh.IsEnabled = true;
+        //    }
+        //    else
+        //    {
+        //        txtSalesCustomIdSrh.IsEnabled = false;
+        //        btnSalesCustomIdSrh.IsEnabled = false;
+        //    }
+        //}
+        ////영업회사
+        //private void txtSalesCustomIdSrh_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    if (e.Key == Key.Enter)
+        //        MainWindow.pf.ReturnCode(txtSalesCustomIdSrh, (int)Defind_CodeFind.DCF_CUSTOM, "");
+        //}
+        ////영업회사
+        //private void btnSalesCustomIdSrh_Click(object sender, RoutedEventArgs e)
+        //{
+        //    MainWindow.pf.ReturnCode(txtSalesCustomIdSrh, (int)Defind_CodeFind.DCF_CUSTOM, "");
+        //}
 
         //지역구분 콤보박스
         private void chkZoneIdSrh_Click(object sender, RoutedEventArgs e)
@@ -1543,8 +1543,12 @@ namespace WizMes_EVC
                 sqlParameter.Add("ManageCustomId", chkManagerCustomIdSrh.IsChecked == true ? (txtManagerCustomIdSrh.Tag != null ? txtManagerCustomIdSrh.Tag.ToString() : "") : "");
 
                 //영업사
-                sqlParameter.Add("ChkSalesCustomId", chkSalesCustomIdSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("SalesCustomId", chkSalesCustomIdSrh.IsChecked == true ? (txtSalesCustomIdSrh.Tag != null ? txtSalesCustomIdSrh.Tag.ToString() : "") : "");
+                //sqlParameter.Add("ChkSalesCustomId", chkSalesCustomIdSrh.IsChecked == true ? 1 : 0);
+                //sqlParameter.Add("SalesCustomId", chkSalesCustomIdSrh.IsChecked == true ? (txtSalesCustomIdSrh.Tag != null ? txtSalesCustomIdSrh.Tag.ToString() : "") : "");
+
+                //영업담당
+                sqlParameter.Add("ChkSaledamdangjaName", chkSaledamdangjaNameSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("SaledamdangjaName", chkSaledamdangjaNameSrh.IsChecked == true ? txtSaledamdangjaNameSrh.Text : "");
 
                 // 품목 강경단 책임 주석처리 요청 2025-02-11
                 //sqlParameter.Add("ChkArticleId", chkArticleSrh.IsChecked == true ? 1 : 0);
@@ -2445,8 +2449,8 @@ namespace WizMes_EVC
 
                                 superCustomID = dr["superCustomID"].ToString(),
                                 superCustom = dr["superCustom"].ToString(),
-                                superCostPayCustomID = dr["superCostPayCustomID"].ToString(),
-                                superCostPayCustom = dr["superCostPayCustom"].ToString(),
+                                //superCostPayCustomID = dr["superCostPayCustomID"].ToString(),
+                                //superCostPayCustom = dr["superCostPayCustom"].ToString(),
                                 superCustomPhoneNo = dr["superCustomPhoneNo"].ToString(),
                                 safeManageCustomID = dr["safeManageCustomID"].ToString(),
                                 safeManageCustom = dr["safeManageCustom"].ToString(),
@@ -2475,8 +2479,10 @@ namespace WizMes_EVC
                                 superBeforeUseInspectFileName = dr["superBeforeUseInspectFileName"].ToString(),
                                 compReportFIleName = dr["compReportFIleName"].ToString(),
                                 compReportFIlePath = dr["compReportFIlePath"].ToString(),
-                                superCostFilePath = dr["superCostFilePath"].ToString(),
-                                superCostFileName = dr["superCostFileName"].ToString(),
+                                //superCostFilePath = dr["superCostFilePath"].ToString(),
+                                //superCostFileName = dr["superCostFileName"].ToString(),
+                                safeManagerCertiFileName  = dr["safeManagerCertiFileName"].ToString(),
+                                safeManagerCertiFilePath  = dr["safeManagerCertiFilePath"].ToString(),
                                 superReportFilePath = dr["superReportFilePath"].ToString(),
                                 superReportFileName = dr["superReportFileName"].ToString(),
                                 insurePrintFilePath = dr["insurePrintFilePath"].ToString(),
@@ -3254,7 +3260,7 @@ namespace WizMes_EVC
                         sqlParameter.Clear();
                         sqlParameter.Add("orderID", strFlag == "I" ? PrimaryKey : txtOrderID.Text);
                         sqlParameter.Add("superCustomID", txtSuperCustomID.Tag != null ? txtSuperCustomID.Tag.ToString() : "");
-                        sqlParameter.Add("superCostPayCustomID", txtSuperCostPayCustomID.Tag !=null? txtSuperCostPayCustomID.Tag.ToString() : "");
+                        //sqlParameter.Add("superCostPayCustomID", txtSuperCostPayCustomID.Tag !=null? txtSuperCostPayCustomID.Tag.ToString() : ""); //감리비용 지출업체 주석처리 요청 2025.02.11
                         sqlParameter.Add("superCustomPhoneNo", txtSuperCustomPhoneNo.Text);
                         sqlParameter.Add("safeManageCustomID", txtSafeManageCustomID.Tag != null? txtSafeManageCustomID.Tag.ToString() :"");
                         sqlParameter.Add("safeManageCustomPhoneNo", txtSafeManageCustomPhoneNo.Text);
@@ -3683,11 +3689,15 @@ namespace WizMes_EVC
                 sqlParameter.Add("superSetCheckFileName", txtSuperSetCheckFileName.Text.Trim() != "" ? txtSuperSetCheckFileName.Text : "");
                 sqlParameter.Add("superSetCheckFilePath", txtSuperSetCheckFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
 
-                sqlParameter.Add("superBeforeUseInspectFileNamet", txtSuperBeforeUseInspectFileName.Text.Trim() != "" ? txtSuperBeforeUseInspectFileName.Text : "");
+                sqlParameter.Add("superBeforeUseInspectFileName", txtSuperBeforeUseInspectFileName.Text.Trim() != "" ? txtSuperBeforeUseInspectFileName.Text : "");
                 sqlParameter.Add("superBeforeUseInspectFilePath", txtSuperBeforeUseInspectFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
 
-                sqlParameter.Add("superCostFileName", txtSuperCostFileName.Text.Trim() != "" ? txtSuperCostFileName.Text : "");
-                sqlParameter.Add("superCostFilePath", txtSuperCostFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+                //sqlParameter.Add("superCostFileName", txtSuperCostFileName.Text.Trim() != "" ? txtSuperCostFileName.Text : "");                   --(감리) 수수료 내역서 2025.02.11 주석처리 요청
+                //sqlParameter.Add("superCostFilePath", txtSuperCostFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                sqlParameter.Add("safeManagerCertiFileName", txtSafeManagerCertiFileName.Text.Trim() != "" ? txtSafeManagerCertiFileName.Text: "");
+                sqlParameter.Add("safeManagerCertiFilePath", txtSafeManagerCertiFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+                
 
                 sqlParameter.Add("superReportFileName", txtSuperReportFileName.Text.Trim() != "" ? txtSuperReportFileName.Text : "");
                 sqlParameter.Add("superReportFilePath", txtSuperReportFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
@@ -4652,7 +4662,8 @@ namespace WizMes_EVC
             else if (ClickPoint.Contains("ElectrCost")) { FTP_Upload_TextBox(txtElectrCostFileName); }
             else if (ClickPoint.Contains("SuperSetCheck")) { FTP_Upload_TextBox(txtSuperSetCheckFileName); }
             else if (ClickPoint.Contains("SuperBeforeUseInspect")) { FTP_Upload_TextBox(txtSuperBeforeUseInspectFileName); }
-            else if (ClickPoint.Contains("SuperCostFile")) { FTP_Upload_TextBox(txtSuperCostFileName); }
+            //else if (ClickPoint.Contains("SuperCostFile")) { FTP_Upload_TextBox(txtSuperCostFileName); }
+            else if (ClickPoint.Contains("SafeManagerCerti")) { FTP_Upload_TextBox(txtSafeManagerCertiFileName); }
             else if (ClickPoint.Contains("SuperReportFile")) { FTP_Upload_TextBox(txtSuperReportFileName); }
             else if (ClickPoint.Contains("CompReport")) { FTP_Upload_TextBox(txtCompReportFIleName); }
             else if (ClickPoint.Contains("InsurePrint")) { FTP_Upload_TextBox(txtInsurePrintFileName); }
@@ -4707,11 +4718,11 @@ namespace WizMes_EVC
 
 
                     // 파일명 유효성 검사 추가
-                    if (!IsValidFileName(ImageFileName))
-                    {
-                        MessageBox.Show("파일명에 허용되지 않는 특수문자가 포함되어 있습니다.\n시스템 저장시 오류를 일으킬 수 있으므로 변경 후 첨부하여 주세요");
-                        return;
-                    }
+                    //if (!IsValidFileName(ImageFileName))
+                    //{
+                    //    MessageBox.Show("파일명에 허용되지 않는 특수문자가 포함되어 있습니다.\n시스템 저장시 오류를 일으킬 수 있으므로 변경 후 첨부하여 주세요");
+                    //    return;
+                    //}
 
                     ImageFilePath = strFullPath.Replace(ImageFileName, "");
 
@@ -4751,23 +4762,17 @@ namespace WizMes_EVC
 
         private bool IsValidFileName(string fileName)
         {
-            // 한글, 영문자, 숫자, 그리고 제한된 특수문자만 허용
-            // em dash(—) 등의 확장 특수문자는 제외
-            string pattern = @"^[가-힣a-zA-Z0-9\-_.()!\s]+$";
-
+            // Windows에서 파일명으로 사용할 수 없는 문자들만 체크
+            string pattern = $"^[^{Regex.Escape(new string(Path.GetInvalidFileNameChars()))}]+$";
             try
             {
-                // 파일명이 정규식 패턴과 일치하는지 검사
                 bool isValid = Regex.IsMatch(fileName, pattern);
-
-                // 디버깅을 위한 로깅 (필요한 경우)
                 if (!isValid)
                 {
-                    // 어떤 문자가 패턴에 맞지 않는지 확인
-                    var invalidChars = fileName.Where(c => !Regex.IsMatch(c.ToString(), @"[가-힣a-zA-Z0-9\-_.()!\s]")).ToList();
+                    // 어떤 문자가 불가능한지 확인
+                    var invalidChars = fileName.Where(c => Path.GetInvalidFileNameChars().Contains(c)).ToList();
                     Console.WriteLine($"Invalid characters found: {string.Join(", ", invalidChars)}");
                 }
-
                 return isValid;
             }
             catch
@@ -4959,7 +4964,8 @@ namespace WizMes_EVC
                     string electrCostFileName = txtElectrCostFileName.Text.Trim() != "" ? txtElectrCostFileName.Text : "";
                     string superSetCheckFileName = txtSuperSetCheckFileName.Text.Trim() != "" ? txtSuperSetCheckFileName.Text : "";
                     string superBeforeUseInspectFileName = txtSuperBeforeUseInspectFileName.Text.Trim() != "" ? txtSuperBeforeUseInspectFileName.Text : "";
-                    string superCostFileFileName = txtSuperCostFileName.Text.Trim() != "" ? txtSuperCostFileName.Text : "";
+                    //string superCostFileFileName = txtSuperCostFileName.Text.Trim() != "" ? txtSuperCostFileName.Text : "";
+                    string safeManagerCertiFileName = txtSafeManagerCertiFileName.Text.Trim() != "" ? txtSafeManagerCertiFileName.Text : "";
                     string superReportFileFileName = txtSuperReportFileName.Text.Trim() != "" ? txtSuperReportFileName.Text : "";
                     string compReportFileName = txtCompReportFIleName.Text.Trim() != "" ? txtCompReportFIleName.Text : "";
                     string insurePrintFileName = txtInsurePrintFileName.Text.Trim() != "" ? txtInsurePrintFileName.Text : "";
@@ -5012,7 +5018,8 @@ namespace WizMes_EVC
                        || ((ClickPoint == "ElectrCost") && (txtElectrCostFileName.Text == string.Empty))
                        || ((ClickPoint == "SuperSetCheck") && (txtSuperSetCheckFileName.Text == string.Empty))
                        || ((ClickPoint == "SuperBeforeUseInspect") && (txtSuperBeforeUseInspectFileName.Text == string.Empty))
-                       || ((ClickPoint == "SuperCostFile") && (txtSuperCostFileName.Text == string.Empty))
+                       //|| ((ClickPoint == "SuperCostFile") && (txtSuperCostFileName.Text == string.Empty))
+                       || ((ClickPoint == "SafeManagerCerti") && (txtSafeManagerCertiFileName.Text == string.Empty))
                        || ((ClickPoint == "SuperReportFile") && (txtSuperReportFileName.Text == string.Empty))
                        || ((ClickPoint == "CompReport") && (txtCompReportFIleName.Text == string.Empty))
                        || ((ClickPoint == "InsurePrint") && (txtInsurePrintFileName.Text == string.Empty))
@@ -5077,7 +5084,8 @@ namespace WizMes_EVC
                         else if (ClickPoint == "ElectrCost") { str_remotepath = electrCostFileName; }
                         else if (ClickPoint == "SuperSetCheck") { str_remotepath = superSetCheckFileName; }
                         else if (ClickPoint == "SuperBeforeUseInspect") { str_remotepath = superBeforeUseInspectFileName; }
-                        else if (ClickPoint == "SuperCostFile") { str_remotepath = superCostFileFileName; }
+                        //else if (ClickPoint == "SuperCostFile") { str_remotepath = superCostFileFileName; }
+                        else if (ClickPoint == "SafeManagerCerti") { str_remotepath = safeManagerCertiFileName; }
                         else if (ClickPoint == "SuperReportFile") { str_remotepath = superReportFileFileName; }
                         else if (ClickPoint == "CompReport") { str_remotepath = compReportFileName; }
                         else if (ClickPoint == "InsurePrint") { str_remotepath = insurePrintFileName; }
@@ -5123,7 +5131,8 @@ namespace WizMes_EVC
                         else if (ClickPoint == "ElectrCost") { str_localpath = LOCAL_DOWN_PATH + "\\" + electrCostFileName; }
                         else if (ClickPoint == "SuperSetCheck") { str_localpath = LOCAL_DOWN_PATH + "\\" + superSetCheckFileName; }
                         else if (ClickPoint == "SuperBeforeUseInspect") { str_localpath = LOCAL_DOWN_PATH + "\\" + superBeforeUseInspectFileName; }
-                        else if (ClickPoint == "SuperCostFile") { str_localpath = LOCAL_DOWN_PATH + "\\" + superCostFileFileName; }
+                        //else if (ClickPoint == "SuperCostFile") { str_localpath = LOCAL_DOWN_PATH + "\\" + superCostFileFileName; }
+                        else if (ClickPoint == "SafeManagerCerti") { str_localpath = LOCAL_DOWN_PATH + "\\" + safeManagerCertiFileName; }
                         else if (ClickPoint == "SuperReportFile") { str_localpath = LOCAL_DOWN_PATH + "\\" + superReportFileFileName; }
                         else if (ClickPoint == "CompReport") { str_localpath = LOCAL_DOWN_PATH + "\\" + compReportFileName; }
                         else if (ClickPoint == "InsurePrint") { str_localpath = LOCAL_DOWN_PATH + "\\" + insurePrintFileName; }
@@ -5263,7 +5272,8 @@ namespace WizMes_EVC
                 else if ((ClickPoint == "ElectrCost") && (txtElectrCostFileName.Text != string.Empty)) { fileName = txtElectrCostFileName.Text; FileDeleteAndTextBoxEmpty(txtElectrCostFileName); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "SuperSetCheck") && (txtSuperSetCheckFileName.Text != string.Empty)) { fileName = txtSuperSetCheckFileName.Text; FileDeleteAndTextBoxEmpty(txtSuperSetCheckFileName); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "SuperBeforeUseInspect") && (txtSuperBeforeUseInspectFileName.Text != string.Empty)) { fileName = txtSuperBeforeUseInspectFileName.Text; FileDeleteAndTextBoxEmpty(txtSuperBeforeUseInspectFileName); lstFilesName.Remove(fileName); }
-                else if ((ClickPoint == "SuperCostFile") && (txtSuperCostFileName.Text != string.Empty)) { fileName = txtSuperCostFileName.Text; FileDeleteAndTextBoxEmpty(txtSuperCostFileName); lstFilesName.Remove(fileName); }
+                //else if ((ClickPoint == "SuperCostFile") && (txtSuperCostFileName.Text != string.Empty)) { fileName = txtSuperCostFileName.Text; FileDeleteAndTextBoxEmpty(txtSuperCostFileName); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "SafeManagerCerti") && (txtSafeManagerCertiFileName.Text != string.Empty)) { fileName = txtSafeManagerCertiFileName.Text; FileDeleteAndTextBoxEmpty(txtSafeManagerCertiFileName); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "SuperReportFile") && (txtSuperReportFileName.Text != string.Empty)) { fileName = txtSuperReportFileName.Text; FileDeleteAndTextBoxEmpty(txtSuperReportFileName); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "CompReport") && (txtCompReportFIleName.Text != string.Empty)) { fileName = txtCompReportFIleName.Text; FileDeleteAndTextBoxEmpty(txtCompReportFIleName); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "InsurePrint") && (txtInsurePrintFileName.Text != string.Empty)) { fileName = txtInsurePrintFileName.Text; FileDeleteAndTextBoxEmpty(txtInsurePrintFileName); lstFilesName.Remove(fileName); }
@@ -7070,17 +7080,17 @@ namespace WizMes_EVC
                 txtSuperCustomPhoneNo.Text = callCustomData(txtSuperCustomID.Tag.ToString());
             }
         }
-        //감리비용 지출업체
-        private void txtSuperCostPayCustomID_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-                MainWindow.pf.ReturnCode(txtSuperCostPayCustomID, (int)Defind_CodeFind.DCF_CUSTOM, "");
-        }
-        //감리비용 지출업체
-        private void btnSuperCostPayCustomID_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow.pf.ReturnCode(txtSuperCostPayCustomID, (int)Defind_CodeFind.DCF_CUSTOM, "");
-        }
+        ////감리비용 지출업체
+        //private void txtSuperCostPayCustomID_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    if (e.Key == Key.Enter)
+        //        MainWindow.pf.ReturnCode(txtSuperCostPayCustomID, (int)Defind_CodeFind.DCF_CUSTOM, "");
+        //}
+        ////감리비용 지출업체
+        //private void btnSuperCostPayCustomID_Click(object sender, RoutedEventArgs e)
+        //{
+        //    MainWindow.pf.ReturnCode(txtSuperCostPayCustomID, (int)Defind_CodeFind.DCF_CUSTOM, "");
+        //}
         //안전관리 업체명
         private void txtSafeManageCustomID_KeyDown(object sender, KeyEventArgs e)
         {
@@ -7303,10 +7313,35 @@ namespace WizMes_EVC
             }
         }
 
-       
+        //영업담당자 라벨클릭
+        private void lblSaledamdangjaNameSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if(chkSaledamdangjaNameSrh.IsChecked == true)
+            {
+                chkSaledamdangjaNameSrh.IsChecked = false;
+                txtSaledamdangjaNameSrh.IsEnabled = false;
+            }
+            else
+            {
+                chkSaledamdangjaNameSrh.IsChecked = true; ;
+                txtSaledamdangjaNameSrh.IsEnabled = true;
+            }
+        }
 
-    
-
+        //영업담당자 체크
+        private void chkSaledamdangjaNameSrh_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkSaledamdangjaNameSrh.IsChecked == true)
+            {
+                chkSaledamdangjaNameSrh.IsChecked = true;
+                txtSaledamdangjaNameSrh.IsEnabled = true;
+            }
+            else
+            {
+                chkSaledamdangjaNameSrh.IsChecked = false; ;
+                txtSaledamdangjaNameSrh.IsEnabled = false;
+            }
+        }
 
 
 
@@ -7840,6 +7875,8 @@ namespace WizMes_EVC
        public string compReportFIlePath { get; set; }
        public string superCostFilePath{get;set;}
        public string superCostFileName{get;set;}
+       public string safeManagerCertiFileName{get;set;}
+       public string safeManagerCertiFilePath { get; set; }
        public string superReportFilePath{get;set;}
        public string superReportFileName{get;set;}
        public string insurePrintFilePath{get;set;}

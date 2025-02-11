@@ -103,8 +103,30 @@
                     </Button>
                 </Grid>
 
-                <!--영업회사-->
+                <!--영업담당자-->
                 <Grid Grid.Row="1" Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="75*"/>
+                        <ColumnDefinition Width="90*"/>
+                        <ColumnDefinition Width="15*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="lblSaledamdangjaNameSrh" Grid.Column="0"
+                                    MouseLeftButtonUp="lblSaledamdangjaNameSrh_MouseLeftButtonUp" Style="{DynamicResource LabelSearch}">
+                        <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                <CheckBox x:Name="chkSaledamdangjaNameSrh"  VerticalAlignment="Center" 
+                                          Click="chkSaledamdangjaNameSrh_Click"/>
+                            </Viewbox>
+                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                <TextBlock Text="영엄담당자" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                            </Viewbox>
+                        </StackPanel>
+                    </Label>
+                    <TextBox x:Name="txtSaledamdangjaNameSrh" Grid.Column="1" Style="{DynamicResource TextBoxInputArea}" IsEnabled="False"/>
+                </Grid>
+
+                <!--영업회사-->
+                <!--<Grid Grid.Row="1" Grid.Column="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="75*" />
                         <ColumnDefinition Width="90*" />
@@ -128,7 +150,7 @@
                             Click="btnSalesCustomIdSrh_Click" >
                         <Image Source="{DynamicResource btiPlusFind}"   />
                     </Button>
-                </Grid>
+                </Grid>-->
 
                 <Grid Grid.Column="2" Grid.Row="1" Visibility="Hidden" >
                     <Grid.ColumnDefinitions>
@@ -2624,7 +2646,7 @@
 
                                     
 
-                                    <!--사용전검사 확인증 발급일--><!--
+                                    <!--사용전검사일--><!--
                                     <Grid Grid.Row="24" Grid.Column="0" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="85*"/>
@@ -2636,7 +2658,7 @@
                                                  HorizontalContentAlignment="Center">
                                             <StackPanel Orientation="Horizontal" >
                                                 <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                                    <TextBlock Text="사용전검사 확인증 발급일" Style="{DynamicResource TextBlockInViewBoxInput}" />
+                                                    <TextBlock Text="사용전검사일" Style="{DynamicResource TextBlockInViewBoxInput}" />
                                                 </Viewbox>
                                             </StackPanel>
                                         </Label>
@@ -3421,7 +3443,7 @@
                                                  HorizontalContentAlignment="Center">
                                             <StackPanel Orientation="Horizontal" >
                                                 <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                                    <TextBlock Text="사용전점검 확인증 요청일" Padding="0" Style="{DynamicResource TextBlockInViewBoxInput}" />
+                                                    <TextBlock Text="사용전점검 확인증 발급일" Padding="0" Style="{DynamicResource TextBlockInViewBoxInput}" />
                                                 </Viewbox>
                                             </StackPanel>
                                         </Label>
@@ -3915,6 +3937,7 @@
 
 
                                     <!--안전관리 업체명 (컬럼명이 Name인데 실제 값은 customID를 가져오도록 합시다)-->
+                                    <!---->
                                     <Grid Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="85*"/>
@@ -3955,7 +3978,7 @@
                                                     Style="{StaticResource TextBoxInputArea}"/>
                                     </Grid>
 
-                                    <!--안전관리자 연락처-->
+                                    <!--안전관리자 연락처 -> 전기안전관리자 연락처 -->
                                     <Grid Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="85*"/>
@@ -3966,7 +3989,7 @@
                                         <Label Grid.Row="4" Grid.Column="0" 
                                                    Style="{DynamicResource LabelInputArea}">
                                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                                <TextBlock Text="안전관리자 연락처" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                                <TextBlock Text="전기안전관리자 연락처" Style="{DynamicResource TextBlockInViewBoxInput}"/>
 
                                             </Viewbox>
                                         </Label>
@@ -3974,9 +3997,33 @@
                                                     Style="{StaticResource TextBoxInputArea}"/>
                                     </Grid>
 
-
-                                    <!--감리비용 지출업체-->
+                                    <!--사용검사 지출업체-->
                                     <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="85*"/>
+                                            <ColumnDefinition Width="105*"/>
+                                            <ColumnDefinition Width="20*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Row="5" Grid.Column="0" 
+                                              Style="{DynamicResource LabelInputArea}">
+                                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                <TextBlock Text="사용검사(감리)지출업체" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+
+                                            </Viewbox>
+                                        </Label>
+                                        <TextBox x:Name="txtSuperUseInspPayCustomID" Grid.Row="5" Grid.Column="1" Text="{Binding superUseInspPayCustom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                   Keyboard.KeyDown="txtSuperUseInspPayCustomID_KeyDown" Tag="{Binding superUseInspPayCustomID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   VerticalContentAlignment="Center"/>
+                                        <Button x:Name="btnSuperUseInspPayCustomID" Grid.Row="5" Grid.Column="2" Click="btnSuperUseInspPayCustomID_Click">
+                                            <Image Source="{DynamicResource btiPlusFind}"  />
+                                        </Button>
+                                    </Grid>
+
+
+                                    <!--사용검사 지출업체와 함께 합쳐달라고 요청함 2025.02.11-->
+                                    <!--감리비용 지출업체-->
+                                    <!--<Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="85*"/>
                                             <ColumnDefinition Width="105*"/>
@@ -3996,7 +4043,7 @@
                                         <Button x:Name="btnSuperCostPayCustomID" Grid.Row="5" Grid.Column="2" Click="btnSuperCostPayCustomID_Click">
                                             <Image Source="{DynamicResource btiPlusFind}"  />
                                         </Button>
-                                    </Grid>
+                                    </Grid>-->
 
                                     <!--감리배치 수수료-->
                                     <Grid Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="3">
@@ -4017,33 +4064,8 @@
                                                     Style="{StaticResource TextBoxInput_Number_Right}" MaxLength="15"/>
                                     </Grid>
 
-
-                                    <!--사용검사 지출업체-->
-                                    <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="85*"/>
-                                            <ColumnDefinition Width="105*"/>
-                                            <ColumnDefinition Width="20*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Label Grid.Row="5" Grid.Column="0" 
-                                                Style="{DynamicResource LabelInputArea}">
-                                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                                <TextBlock Text="사용검사 지출업체" Style="{DynamicResource TextBlockInViewBoxInput}"/>
-
-                                            </Viewbox>
-                                        </Label>
-                                        <TextBox x:Name="txtSuperUseInspPayCustomID" Grid.Row="5" Grid.Column="1" Text="{Binding superUseInspPayCustom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                     Keyboard.KeyDown="txtSuperUseInspPayCustomID_KeyDown" Tag="{Binding superUseInspPayCustomID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                     VerticalContentAlignment="Center"/>
-                                        <Button x:Name="btnSuperUseInspPayCustomID" Grid.Row="5" Grid.Column="2" Click="btnSuperUseInspPayCustomID_Click">
-                                            <Image Source="{DynamicResource btiPlusFind}"  />
-                                        </Button>
-                                    </Grid>
-
-
                                     <!--감리배치 계산서 발행일-->
-                                    <Grid Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="85*"/>
                                             <ColumnDefinition Width="105*"/>
@@ -4130,8 +4152,8 @@
                                         </Grid>
                                     </Grid>
 
-                                    <!--수수료내역서 -> (감리)수수료내역서-->
-                                    <Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
+                                    <!--수수료내역서 -> (감리)수수료내역서 김동호 팀장 주석처리 요청-->                                    
+                                    <!--<Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="75.2*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -4151,16 +4173,39 @@
                                             <Button x:Name="btnDelSuperCostFile" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="SuperCostFile"></Button>
                                             <Button x:Name="btnViewSuperCostFile" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="SuperCostFile" ></Button>
                                         </Grid>
+                                    </Grid>-->
+
+                                    <!--안전관리자선임증-->
+                                    <Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,1.5,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75.2*"/>
+                                            <ColumnDefinition Width="50*"/>
+                                            <ColumnDefinition Width="60*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btnSafeManagerCertiFile" Content="안전관리자선임증" Grid.Column="0" Grid.Row="1" Tag="SafeManagerCerti"
+                                                     Click="btnFileUpload_Click"/>
+                                        <TextBox x:Name="txtSafeManagerCertiFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding safeManagerCertiFileName}" 
+                                                Tag="{Binding safeManagerCertiFilePath}"
+                                                 IsReadOnly="True"/>
+                                        <Grid Grid.Row="1" Grid.Column="4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button x:Name="btnDelSafeManagerCertiFile" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="SafeManagerCerti"></Button>
+                                            <Button x:Name="btnViewSafeManagerCertiFile" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="SafeManagerCerti" ></Button>
+                                        </Grid>
                                     </Grid>
 
-                                    <!--신고서 -> 준공도면-->
+                                    <!--신고서 -> 준공도면 -> 검사용 준공도면 -->
                                     <Grid Grid.Row="8" Grid.Column="3" Grid.ColumnSpan="3" Margin="1.5,0,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>
                                             <ColumnDefinition Width="50*"/>
                                             <ColumnDefinition Width="60*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Button x:Name="btnSuperReportFile" Content="신고서" Grid.Column="0" Grid.Row="1" Tag="SuperReportFile"
+                                        <Button x:Name="btnSuperReportFile" Content="검사용 준공도면" Grid.Column="0" Grid.Row="1" Tag="SuperReportFile"
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtSuperReportFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                 Style="{DynamicResource TextBoxInputArea}" Text="{Binding superReportFileName}" 

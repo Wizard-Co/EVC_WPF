@@ -1962,6 +1962,13 @@ namespace WizMes_EVC
 
                     ImageFilePath = strFullPath.Replace(ImageFileName, "");
 
+                    // 파일명 유효성 검사 추가
+                    //if (!IsValidFileName(ImageFileName))
+                    //{
+                    //    MessageBox.Show("파일명에 허용되지 않는 특수문자가 포함되어 있습니다.\n시스템 저장시 오류를 일으킬 수 있으므로 변경 후 첨부하여 주세요");
+                    //    return;
+                    //}
+
                     StreamReader sr = new StreamReader(OFdlg.FileName);
                     long FileSize = sr.BaseStream.Length;
                     //if (sr.BaseStream.Length > (2048 * 1000))
@@ -1992,6 +1999,27 @@ namespace WizMes_EVC
                         listFtpFile.Add(strTemp);
                     }
                 }
+            }
+        }
+
+        private bool IsValidFileName(string fileName)
+        {
+            // Windows에서 파일명으로 사용할 수 없는 문자들만 체크
+            string pattern = $"^[^{Regex.Escape(new string(Path.GetInvalidFileNameChars()))}]+$";
+            try
+            {
+                bool isValid = Regex.IsMatch(fileName, pattern);
+                if (!isValid)
+                {
+                    // 어떤 문자가 불가능한지 확인
+                    var invalidChars = fileName.Where(c => Path.GetInvalidFileNameChars().Contains(c)).ToList();
+                    Console.WriteLine($"Invalid characters found: {string.Join(", ", invalidChars)}");
+                }
+                return isValid;
+            }
+            catch
+            {
+                return false;
             }
         }
 
