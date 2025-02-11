@@ -1509,6 +1509,12 @@
     <Resource Include="Quality\Analysis,Search\x-bar.PNG" />
     <Resource Include="Images\icon_MES.JPG" />
     <Resource Include="Images\Upload.bmp" />
+    <Resource Include="Images\ok_circle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\warn_circle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Content Include="x64\liblept172.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

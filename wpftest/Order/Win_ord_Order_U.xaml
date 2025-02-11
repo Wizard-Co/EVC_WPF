@@ -187,8 +187,8 @@
                     </Button>
                 </Grid>
 
-                <!--품목-->
-                <Grid Grid.Row="2" Grid.Column="2" >
+                <!--품목 2025.02.11 검색조건 삭제 요청-->
+                <!--<Grid Grid.Row="2" Grid.Column="2" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="75*" />
                         <ColumnDefinition Width="90*" />
@@ -214,6 +214,37 @@
                              KeyDown="txtArticleSrh_KeyDown"></TextBox>
                     <Button x:Name="btnArticleSrh" Grid.Column="2" IsEnabled="False"
                             Click="btnArticleSrh_Click" >
+                        <Image Source="{DynamicResource btiPlusFind}" ></Image>
+                    </Button>
+                </Grid>-->
+
+                <!--한전&전기공사시공사업체-->
+                <Grid Grid.Row="2" Grid.Column="2" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="75*" />
+                        <ColumnDefinition Width="90*" />
+                        <ColumnDefinition Width="15*" />
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="lblConstrCustomIdSrh" Grid.Column="0" 
+                           MouseLeftButtonUp="lblConstrCustomIdSrh_MouseLeftButtonUp" Style="{DynamicResource LabelSearch}">
+                        <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                <CheckBox x:Name="chkConstrCustomIdSrh" 
+                                          VerticalAlignment="Center"
+                                          Click="chkConstrCustomIdSrh_Click" ></CheckBox>
+                            </Viewbox>
+                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                <TextBlock Text="시공사업체" 
+                                       Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                            </Viewbox>
+
+                        </StackPanel>
+                    </Label>
+                    <TextBox x:Name="txtConstrCustomIdSrh" Grid.Column="1" IsEnabled="False"
+                            Style="{DynamicResource TextBoxSearch}"
+                             KeyDown="txtConstrCustomIdSrh_KeyDown"></TextBox>
+                    <Button x:Name="btnConstrCustomIdSrh" Grid.Column="2" IsEnabled="False"
+                            Click="btnConstrCustomIdSrh_Click" >
                         <Image Source="{DynamicResource btiPlusFind}" ></Image>
                     </Button>
                 </Grid>
@@ -5007,11 +5038,38 @@
                                         <Button x:Name="btnViewSketch4File" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="btnSketch4" ></Button>
                                     </Grid>
 
-                                    <!--첨부파일5-->
-                                    <Button x:Name="btnSketch5" Content="회의록" Grid.Column="0" Grid.Row="5" Tag="btnSketch5"
+                                    <!--첨부파일5 2025.02.11에 추가해달라 함 이 사이에 꼭
+                                    넣어달라해서 이름이 12번입니다...-->
+                                    <Button x:Name="btnSketch12" Content="계약서" Grid.Column="0" Grid.Row="5" Tag="btnSketch12"
                                                     Click="btnFileUpload_Click"/>
 
                                     <Grid Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox x:Name="txtSketch12FileAlias" Grid.Column="0" Text="{Binding sketch12FileAlias}"
+                                                          Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
+                                                          IsReadOnly="True"/>
+                                        <TextBox x:Name="txtSketch12" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                                          Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch12FileName,UpdateSourceTrigger=PropertyChanged}" 
+                                                          Tag="{Binding sketch12FilePath,UpdateSourceTrigger=PropertyChanged}"
+                                                          IsReadOnly="True" IsEnabled="False"/>
+                                    </Grid>
+                                    <Grid Grid.Row="5" Grid.Column="4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btnDeleteSketch12File" Content="삭제" Click="btnFileDelete_Click"  Grid.Column="0" Tag="btnSketch12"></Button>
+                                        <Button x:Name="btnViewSketch12File" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="btnSketch12" ></Button>
+                                    </Grid>
+
+                                    <!--첨부파일6-->
+                                    <Button x:Name="btnSketch5" Content="회의록" Grid.Column="0" Grid.Row="6" Tag="btnSketch5"
+                                                    Click="btnFileUpload_Click"/>
+
+                                    <Grid Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
@@ -5024,7 +5082,7 @@
                                                         Tag="{Binding sketch5FilePath,UpdateSourceTrigger=PropertyChanged}"
                                                         IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
-                                    <Grid Grid.Row="5" Grid.Column="4">
+                                    <Grid Grid.Row="6" Grid.Column="4">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
@@ -5033,11 +5091,11 @@
                                         <Button x:Name="btnViewSketch5File" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="btnSketch5" ></Button>
                                     </Grid>
 
-                                    <!--첨부파일6-->
-                                    <Button x:Name="btnSketch6" Content="직인사용동의서" Grid.Column="0" Grid.Row="6" Tag="btnSketch6"
+                                    <!--첨부파일7-->
+                                    <Button x:Name="btnSketch6" Content="직인사용동의서" Grid.Column="0" Grid.Row="7" Tag="btnSketch6"
                                                     Click="btnFileUpload_Click"/>
 
-                                    <Grid Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
@@ -5050,7 +5108,7 @@
                                                         Tag="{Binding sketch6FilePath,UpdateSourceTrigger=PropertyChanged}"
                                                         IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
-                                    <Grid Grid.Row="6" Grid.Column="4">
+                                    <Grid Grid.Row="7" Grid.Column="4">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
@@ -5059,11 +5117,11 @@
                                         <Button x:Name="btnViewSketch6File" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="btnSketch6" ></Button>
                                     </Grid>
 
-                                    <!--첨부파일7-->
-                                    <Button x:Name="btnSketch7" Content="전기사용요금고지서" Grid.Column="0" Grid.Row="7" Tag="btnSketch7"
+                                    <!--첨부파일8-->
+                                    <Button x:Name="btnSketch7" Content="전기사용요금고지서" Grid.Column="0" Grid.Row="8" Tag="btnSketch7"
                                                    Click="btnFileUpload_Click"/>
 
-                                    <Grid Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
@@ -5076,7 +5134,7 @@
                                                        Tag="{Binding sketch7FilePath,UpdateSourceTrigger=PropertyChanged}"
                                                        IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
-                                    <Grid Grid.Row="7" Grid.Column="4">
+                                    <Grid Grid.Row="8" Grid.Column="4">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
@@ -5085,11 +5143,11 @@
                                         <Button x:Name="btnViewSketch7File" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="btnSketch7" ></Button>
                                     </Grid>
 
-                                    <!--첨부파일8-->
-                                    <Button x:Name="btnSketch8" Content="직인" Grid.Column="0" Grid.Row="8" Tag="btnSketch8"
+                                    <!--첨부파일9-->
+                                    <Button x:Name="btnSketch8" Content="직인" Grid.Column="0" Grid.Row="9" Tag="btnSketch8"
                                                    Click="btnFileUpload_Click"/>
 
-                                    <Grid Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
@@ -5102,7 +5160,7 @@
                                                        Tag="{Binding sketch8FilePath,UpdateSourceTrigger=PropertyChanged}"
                                                        IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
-                                    <Grid Grid.Row="8" Grid.Column="4">
+                                    <Grid Grid.Row="9" Grid.Column="4">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
@@ -5112,12 +5170,12 @@
                                     </Grid>
 
 
-                                    <!--첨부파일9-->
+                                    <!--첨부파일10-->
                                     <!--전기사용신청서 -> 대리인 위임장-->
-                                    <Button x:Name="btnSketch9" Content="대리인 위임장" Grid.Column="0" Grid.Row="9" Tag="btnSketch9"
+                                    <Button x:Name="btnSketch9" Content="대리인 위임장" Grid.Column="0" Grid.Row="10" Tag="btnSketch9"
                                                    Click="btnFileUpload_Click"/>
 
-                                    <Grid Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
@@ -5130,7 +5188,7 @@
                                                        Tag="{Binding sketch9FilePath,UpdateSourceTrigger=PropertyChanged}"
                                                        IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
-                                    <Grid Grid.Row="9" Grid.Column="4">
+                                    <Grid Grid.Row="10" Grid.Column="4">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
@@ -5139,11 +5197,11 @@
                                         <Button x:Name="btnViewSketch9File" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="btnSketch9" ></Button>
                                     </Grid>
 
-                                    <!--첨부파일10-->
-                                    <Button x:Name="btnSketch10" Content="행위신고서" Grid.Column="0" Grid.Row="10" Tag="btnSketch10"
+                                    <!--첨부파일11-->
+                                    <Button x:Name="btnSketch10" Content="행위신고서" Grid.Column="0" Grid.Row="11" Tag="btnSketch10"
                                                    Click="btnFileUpload_Click"/>
 
-                                    <Grid Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
@@ -5156,7 +5214,7 @@
                                                        Tag="{Binding sketch10FilePath,UpdateSourceTrigger=PropertyChanged}"
                                                        IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
-                                    <Grid Grid.Row="10" Grid.Column="4">
+                                    <Grid Grid.Row="11" Grid.Column="4">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
@@ -5165,11 +5223,11 @@
                                         <Button x:Name="btnViewSketch10File" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="btnSketch10" ></Button>
                                     </Grid>
 
-                                    <!--첨부파일11-->
-                                    <Button x:Name="btnSketch11" Content="사용검사신청서" Grid.Column="0" Grid.Row="11" Tag="btnSketch11"
+                                    <!--첨부파일12-->
+                                    <Button x:Name="btnSketch11" Content="사용검사신청서" Grid.Column="0" Grid.Row="12" Tag="btnSketch11"
                                                    Click="btnFileUpload_Click"/>
 
-                                    <Grid Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
@@ -5182,7 +5240,7 @@
                                                        Tag="{Binding sketch11FilePath,UpdateSourceTrigger=PropertyChanged}"
                                                        IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
-                                    <Grid Grid.Row="11" Grid.Column="4">
+                                    <Grid Grid.Row="12" Grid.Column="4">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
@@ -5191,7 +5249,7 @@
                                         <Button x:Name="btnViewSketch11File" Content="다운"  Click="btnFileSee_Click"  Grid.Column="1" Tag="btnSketch11" ></Button>
                                     </Grid>
 
-                                    <Grid Grid.Row="12" Grid.Column="3" Grid.ColumnSpan="2">
+                                    <Grid Grid.Row="13" Grid.Column="3" Grid.ColumnSpan="2">
                                         <TextBlock Text="※다운 받은 파일은 C:\Temp 에 저장됩니다." FontStyle="Italic" FontWeight="Thin" Foreground="Blue" TextAlignment="Right"/>
                                     </Grid>
                                 </Grid>                                

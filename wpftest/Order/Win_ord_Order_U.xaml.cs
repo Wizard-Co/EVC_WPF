@@ -29,9 +29,10 @@ using Excel = Microsoft.Office.Interop.Excel;
 '**************************************************************************************************
 ' 변경일자  , 변경자, 요청자    , 요구사항ID      , 요청 및 작업내용
 '**************************************************************************************************
-' 2024.12.31, 최대현,                              최초생성 나다음에듀 order활용
-' 2025.02.04, 최대현,                              첨부파일 추가 및 디자인 변경
-' 2025.02.10, 최대현,                              한전수전정보 기본정보 입력란 위치 변경및 textbox -> datePicker로 변경
+' 2024.12.31, 최대현, 강경단 책임                 최초생성 나다음에듀 order활용
+' 2025.02.04, 최대현, 강경단 책임                 첨부파일 추가 및 디자인 변경
+' 2025.02.10, 최대현, 강경단 책임                 한전수전정보 기본정보 입력란 위치 변경및 textbox -> datePicker로 변경
+' 2025.02.11, 최대현, 강경단 책임                 검색조건 품목 주석처리 -> 시공사업체 검색조건으로 변경
 '**************************************************************************************************/
 
 namespace WizMes_EVC
@@ -174,20 +175,20 @@ namespace WizMes_EVC
             //txtOrderYds.Text = "0";
 
 
-            //if (!string.IsNullOrEmpty(MainWindow.orderID))
-            //{
-            //    intFlag = 1;
-            //    tblOrderID.Text = MainWindow.orderID;
-            //    lblDateSrh_MouseLeftButtonDown(null, null);
+            if (!string.IsNullOrEmpty(MainWindow.OrderID))
+            {
+                intFlag = 1;
+                tblOrderID.Text = MainWindow.OrderID;
+                lblDateSrh_MouseLeftButtonDown(null, null);
 
-            //    FillGrid();
+                FillGrid();
 
-            //    intFlag = 0;
-            //    tblOrderID.Text = string.Empty;
+                intFlag = 0;
+                tblOrderID.Text = string.Empty;
 
-            //    if (dgdMain.Items.Count > 0) dgdMain.SelectedIndex = 0;
-            //    MainWindow.orderID = string.Empty;
-            //}
+                if (dgdMain.Items.Count > 0) dgdMain.SelectedIndex = 0;
+                MainWindow.OrderID = string.Empty;
+            }
 
 
 
@@ -731,68 +732,69 @@ namespace WizMes_EVC
             }
         }
 
+        //강경단 책임 주석처리 요청 2025-02-10
         //품명 라벨 클릭
-        private void lblArticleSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if(chkArticleSrh.IsChecked == true)
-            {
-                chkArticleSrh.IsChecked = false;
-                txtArticleSrh.IsEnabled = false;
-                btnArticleSrh.IsEnabled = false;
-            }
-            else
-            {
-                chkArticleSrh.IsChecked = true;
-                txtArticleSrh.IsEnabled = true;
-                btnArticleSrh.IsEnabled = true;
-            }
-        }
+        //private void lblArticleSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    if(chkArticleSrh.IsChecked == true)
+        //    {
+        //        chkArticleSrh.IsChecked = false;
+        //        txtArticleSrh.IsEnabled = false;
+        //        btnArticleSrh.IsEnabled = false;
+        //    }
+        //    else
+        //    {
+        //        chkArticleSrh.IsChecked = true;
+        //        txtArticleSrh.IsEnabled = true;
+        //        btnArticleSrh.IsEnabled = true;
+        //    }
+        //}
 
-        //품명 체크박스
-        private void chkArticleSrh_Click(object sender, RoutedEventArgs e)
-        {
-            if(chkArticleSrh.IsChecked == true)
-            {            
-                txtArticleSrh.IsEnabled = true;
-                btnArticleSrh.IsEnabled = true;
-            }
-            else
-            {
+        ////품명 체크박스
+        //private void chkArticleSrh_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if(chkArticleSrh.IsChecked == true)
+        //    {            
+        //        txtArticleSrh.IsEnabled = true;
+        //        btnArticleSrh.IsEnabled = true;
+        //    }
+        //    else
+        //    {
                
-                txtArticleSrh.IsEnabled = false;
-                btnArticleSrh.IsEnabled = false;
-            }
-        }
+        //        txtArticleSrh.IsEnabled = false;
+        //        btnArticleSrh.IsEnabled = false;
+        //    }
+        //}
 
 
         //품명 텍스트박스 키다운 이벤트
-        private void txtArticleSrh_KeyDown(object sender, KeyEventArgs e)
-        {
-            try
-            {
-                if (e.Key == Key.Enter)
-                {
-                    pf.ReturnCode(txtArticleSrh, 5102, txtArticleSrh.Text);
-                }
-            }
-            catch (Exception ee)
-            {
-                MessageBox.Show("오류지점 - " + ee.ToString());
-            }
-        }
+        //private void txtArticleSrh_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (e.Key == Key.Enter)
+        //        {
+        //            pf.ReturnCode(txtArticleSrh, 5102, txtArticleSrh.Text);
+        //        }
+        //    }
+        //    catch (Exception ee)
+        //    {
+        //        MessageBox.Show("오류지점 - " + ee.ToString());
+        //    }
+        //}
 
-        //품명 플러스파인더 버튼
-        private void btnArticleSrh_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                pf.ReturnCode(txtArticleSrh, 5102, txtArticleSrh.Text);
-            }
-            catch (Exception ee)
-            {
-                MessageBox.Show("오류지점 - " + ee.ToString());
-            }
-        }
+        ////품명 플러스파인더 버튼
+        //private void btnArticleSrh_Click(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        pf.ReturnCode(txtArticleSrh, 5102, txtArticleSrh.Text);
+        //    }
+        //    catch (Exception ee)
+        //    {
+        //        MessageBox.Show("오류지점 - " + ee.ToString());
+        //    }
+        //}
 
         //수주번호
         private void lblOrderIDSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -999,6 +1001,7 @@ namespace WizMes_EVC
             {
                 ld.ShowDialog();
             }
+
         }
 
         //점1
@@ -1021,15 +1024,19 @@ namespace WizMes_EVC
 
                         if (MessageBox.Show("선택하신 항목을 삭제하시겠습니까?", "삭제 전 확인", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                         {
-                            if (dgdMain.Items.Count > 0 && dgdMain.SelectedItem != null)
-                                rowNum = dgdMain.SelectedIndex;
 
-                            FTP_RemoveDir(OrderView.orderId);
-
-                            if (DeleteData(OrderView.orderId))
+                            if(MessageBox.Show($"수주번호 :{OrderView.orderNo} 데이터를 삭제합니다!\n정말 진행하시겠습니까?","경고",MessageBoxButton.YesNo,MessageBoxImage.Warning) == MessageBoxResult.Yes)
                             {
-                                rowNum = Math.Max(0, rowNum - 1);
-                                re_Search(rowNum);
+                                if (dgdMain.Items.Count > 0 && dgdMain.SelectedItem != null)
+                                    rowNum = dgdMain.SelectedIndex;
+
+                                FTP_RemoveDir(OrderView.orderId);
+
+                                if (DeleteData(OrderView.orderId))
+                                {
+                                    rowNum = Math.Max(0, rowNum - 1);
+                                    re_Search(rowNum);
+                                }
                             }
                         }
                     }              
@@ -1537,11 +1544,15 @@ namespace WizMes_EVC
 
                 //영업사
                 sqlParameter.Add("ChkSalesCustomId", chkSalesCustomIdSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("SalesCustomId", chkSalesCustomIdSrh.IsChecked == true ? (txtSalesCustomIdSrh.Tag != null ? txtSalesCustomIdSrh.Tag.ToString() : "") : "");                
+                sqlParameter.Add("SalesCustomId", chkSalesCustomIdSrh.IsChecked == true ? (txtSalesCustomIdSrh.Tag != null ? txtSalesCustomIdSrh.Tag.ToString() : "") : "");
 
-                // 품목
-                sqlParameter.Add("ChkArticleId", chkArticleSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("ArticleId", chkArticleSrh.IsChecked == true ? (txtArticleSrh.Tag != null ? txtArticleSrh.Tag.ToString() : "") : "");
+                // 품목 강경단 책임 주석처리 요청 2025-02-11
+                //sqlParameter.Add("ChkArticleId", chkArticleSrh.IsChecked == true ? 1 : 0);
+                //sqlParameter.Add("ArticleId", chkArticleSrh.IsChecked == true ? (txtArticleSrh.Tag != null ? txtArticleSrh.Tag.ToString() : "") : "");
+
+                //한전&전기공사 탭 시공사업체
+                sqlParameter.Add("ChkConstrCustomId", chkConstrCustomIdSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("ConstrCustomId", chkConstrCustomIdSrh.IsChecked == true ? (txtConstrCustomIdSrh.Tag != null ? txtConstrCustomIdSrh.Tag.ToString() : "") : "");
 
                 // 마감포함
                 sqlParameter.Add("ChkCloseYn", chkCloseClssSrh.IsChecked == true ? 1 : 0);  
@@ -1571,8 +1582,7 @@ namespace WizMes_EVC
                 sqlParameter.Add("chkEstSubject", 0);
                 sqlParameter.Add("EstSubject", "");
 
-                //계약진행관리에서 넘어왔을 때 바로 조회용도 textblock에 적어놓고 hidden처리함
-                //sqlParameter.Add("orderID", tblOrderID.Text.Trim());
+                sqlParameter.Add("orderID", intFlag == 1 ? tblOrderID.Text : "");
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_ord_sOrder", sqlParameter, true, "R");
 
@@ -2625,6 +2635,9 @@ namespace WizMes_EVC
                                 sketch11FilePath = dr["sketch11FilePath"].ToString(),
                                 sketch11FileName = dr["sketch11FileName"].ToString(),
                                 sketch11FileAlias= dr["sketch11FileAlias"].ToString(),
+                                sketch12FilePath = dr["sketch12FilePath"].ToString(),
+                                sketch12FileName = dr["sketch12FileName"].ToString(),
+                                sketch12FileAlias = dr["sketch12FileAlias"].ToString(),
 
                             };
 
@@ -3730,6 +3743,10 @@ namespace WizMes_EVC
                 sqlParameter.Add("sketch11FilePath", txtSketch11.Tag != null ? "/ImageData/Order/" + orderID : "");
                 sqlParameter.Add("sketch11FileAlias", txtSketch11FileAlias.Text.Trim() != "" ? txtSketch11FileAlias.Text : "");
 
+                sqlParameter.Add("sketch12FileName", txtSketch12.Text.Trim() != "" ? txtSketch12.Text : "");
+                sqlParameter.Add("sketch12FilePath", txtSketch12.Tag != null ? "/ImageData/Order/" + orderID : "");
+                sqlParameter.Add("sketch12FileAlias", txtSketch12FileAlias.Text.Trim() != "" ? txtSketch12FileAlias.Text : "");
+
 
                 string[] result = DataStore.Instance.ExecuteProcedure("xp_order_uOrder_FTP", sqlParameter, true);
 
@@ -4652,6 +4669,7 @@ namespace WizMes_EVC
             else if(ClickPoint.Equals("btnSketch9")) { FTP_Upload_TextBox(txtSketch9); txtSketch9FileAlias.IsReadOnly = false; }
             else if(ClickPoint.Equals("btnSketch10")) { FTP_Upload_TextBox(txtSketch10); txtSketch10FileAlias.IsReadOnly = false; }
             else if (ClickPoint.Equals("btnSketch11")) { FTP_Upload_TextBox(txtSketch11); txtSketch11FileAlias.IsReadOnly = false; }
+            else if (ClickPoint.Equals("btnSketch12")) { FTP_Upload_TextBox(txtSketch12); txtSketch12FileAlias.IsReadOnly = false; }
         }
 
 
@@ -4957,6 +4975,7 @@ namespace WizMes_EVC
                     string sketch9 = txtSketch9.Text.Trim() != "" ? txtSketch9.Text : "";
                     string sketch10 = txtSketch10.Text.Trim() != "" ? txtSketch10.Text : "";
                     string sketch11 = txtSketch11.Text.Trim() != "" ? txtSketch11.Text : "";
+                    string sketch12 = txtSketch12.Text.Trim() != "" ? txtSketch12.Text : "";
 
                     string btnAccntDown = string.Empty;
                     if(dgdAccnt.SelectedCells.Count > 0)
@@ -5009,6 +5028,7 @@ namespace WizMes_EVC
                        || ((ClickPoint == "btnSketch9") && (txtSketch9.Text == string.Empty))
                        || ((ClickPoint == "btnSketch10") && (txtSketch10.Text == string.Empty))
                        || ((ClickPoint == "btnSketch11") && (txtSketch11.Text == string.Empty))
+                       || ((ClickPoint == "btnSketch12") && (txtSketch12.Text == string.Empty))
 
                        || ((ClickPoint == "AccntDown") && (btnAccntDown == string.Empty)))
 
@@ -5073,6 +5093,7 @@ namespace WizMes_EVC
                         else if (ClickPoint == "btnSketch9") { str_remotepath = sketch9; }
                         else if (ClickPoint == "btnSketch10") { str_remotepath = sketch10; }
                         else if (ClickPoint == "btnSketch11") { str_remotepath = sketch11; }
+                        else if (ClickPoint == "btnSketch12") { str_remotepath = sketch12; }
 
                         else if (ClickPoint == "AccntDown") { str_remotepath = btnAccntDown; }
 
@@ -5118,6 +5139,7 @@ namespace WizMes_EVC
                         else if (ClickPoint == "btnSketch9") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch9; }
                         else if (ClickPoint == "btnSketch10") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch10; }
                         else if (ClickPoint == "btnSketch11") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch11; }
+                        else if (ClickPoint == "btnSketch12") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch12; }
 
                         else if (ClickPoint == "AccntDown") { str_localpath = LOCAL_DOWN_PATH + "\\" + btnAccntDown; }
 
@@ -5257,6 +5279,7 @@ namespace WizMes_EVC
                 else if ((ClickPoint == "btnSketch9") && (txtSketch9.Text != string.Empty)) { fileName = txtSketch9.Text; txtSketch9FileAlias.IsReadOnly = true; txtSketch9FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch9); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "btnSketch10") && (txtSketch10.Text != string.Empty)) { fileName = txtSketch10.Text; txtSketch10FileAlias.IsReadOnly = false; txtSketch10FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch10); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "btnSketch11") && (txtSketch11.Text != string.Empty)) { fileName = txtSketch11.Text; txtSketch11FileAlias.IsReadOnly = false; txtSketch11FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch11); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "btnSketch12") && (txtSketch12.Text != string.Empty)) { fileName = txtSketch12.Text; txtSketch12FileAlias.IsReadOnly = false; txtSketch12FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch12); lstFilesName.Remove(fileName); }
 
                 else if ((ClickPoint == "AccntDelete") && (btnAccntDown != string.Empty))
                 {
@@ -7105,6 +7128,52 @@ namespace WizMes_EVC
 
         //}
 
+        //한전&전기공사 검색조건 라벨클릭
+        private void lblConstrCustomIdSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (chkConstrCustomIdSrh.IsChecked == true)
+            {
+                chkConstrCustomIdSrh.IsChecked = false;
+                txtConstrCustomIdSrh.IsEnabled = false;
+                btnConstrCustomIdSrh.IsEnabled = false;
+            }
+            else
+            {
+                chkConstrCustomIdSrh.IsChecked = true;
+                txtConstrCustomIdSrh.IsEnabled = true;
+                btnConstrCustomIdSrh.IsEnabled = true;
+            }
+        }
+
+        //한전&전기공사 검색조건 체크박스클릭
+        private void chkConstrCustomIdSrh_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkConstrCustomIdSrh.IsChecked == true)
+            {
+                chkConstrCustomIdSrh.IsChecked = true;
+                txtConstrCustomIdSrh.IsEnabled = true;
+                btnConstrCustomIdSrh.IsEnabled = true;
+            }
+            else
+            {
+                chkConstrCustomIdSrh.IsChecked = false;
+                txtConstrCustomIdSrh.IsEnabled = false;
+                btnConstrCustomIdSrh.IsEnabled = false;
+            }
+        }
+
+        private void txtConstrCustomIdSrh_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                MainWindow.pf.ReturnCode(txtConstrCustomIdSrh, (int)Defind_CodeFind.DCF_CUSTOM, "");
+        }
+
+        private void btnConstrCustomIdSrh_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.pf.ReturnCode(txtConstrCustomIdSrh, (int)Defind_CodeFind.DCF_CUSTOM, "");
+        }
+
+
 
         //검색조건 - 사업구분 라벨
         private void lblOrderTypeIDSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -7234,6 +7303,9 @@ namespace WizMes_EVC
             }
         }
 
+       
+
+    
 
 
 
@@ -7809,6 +7881,9 @@ namespace WizMes_EVC
         public string sketch11FilePath{get;set;}
         public string sketch11FileName{get;set;}
         public string sketch11FileAlias { get; set; }
+        public string sketch12FilePath { get; set; }
+        public string sketch12FileName { get; set; }
+        public string sketch12FileAlias { get; set; }
     }
     public class Win_order_OrderColor_U_CodeView : BaseView
     {

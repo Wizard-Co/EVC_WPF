@@ -46,6 +46,8 @@ namespace WizMes_EVC
 
         //견적등록 넘겨줄 변수
         public static string EstID = string.Empty;
+        //ToDolist에 수주등록으로 넘겨줄 변수
+        public static string OrderID = string.Empty;
        //aa
         // 넘겨줄 임시 데이터 변수(수주 진행 및 마감 -> 수주등록 화면으로)
         public static List<string> tempContent = new List<string>();
