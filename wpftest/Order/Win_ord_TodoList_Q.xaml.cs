@@ -1009,15 +1009,36 @@ namespace WizMes_EVC
             }
             try
             {
+                //if (MainWindow.MainMdiContainer.Children.Contains(MainWindow.mMenulist[i].subProgramID as MdiChild))
+                //{
+                //    (MainWindow.mMenulist[i].subProgramID as MdiChild).Focus();
+                //}
+                //else
+                //{
+                //    Type type = Type.GetType("WizMes_EVC." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
+                //    object uie = Activator.CreateInstance(type);
+
+                //    MainWindow.mMenulist[i].subProgramID = new MdiChild()
+                //    {
+                //        Title = "WizMes_EVC [" + MainWindow.mMenulist[i].MenuID.Trim() + "] " + MainWindow.mMenulist[i].Menu.Trim() +
+                //                " (→" + MainWindow.mMenulist[i].ProgramID + ")",
+                //        Height = SystemParameters.PrimaryScreenHeight * 0.8,
+                //        MaxHeight = SystemParameters.PrimaryScreenHeight * 0.85,
+                //        Width = SystemParameters.WorkArea.Width * 0.85,
+                //        MaxWidth = SystemParameters.WorkArea.Width,
+                //        Content = uie as UIElement,
+                //        Tag = MainWindow.mMenulist[i]
+                //    };
+                //    Lib.Instance.AllMenuLogInsert(MainWindow.mMenulist[i].MenuID, MainWindow.mMenulist[i].Menu, MainWindow.mMenulist[i].subProgramID);
+                //    MainWindow.MainMdiContainer.Children.Add(MainWindow.mMenulist[i].subProgramID as MdiChild);
+                //}
                 if (MainWindow.MainMdiContainer.Children.Contains(MainWindow.mMenulist[i].subProgramID as MdiChild))
                 {
-                    (MainWindow.mMenulist[i].subProgramID as MdiChild).Focus();
-                }
-                else
-                {
+                    MainWindow.MainMdiContainer.Children.Remove(MainWindow.mMenulist[i].subProgramID as MdiChild);
+
+                    // 다시 창 열기
                     Type type = Type.GetType("WizMes_EVC." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
                     object uie = Activator.CreateInstance(type);
-
                     MainWindow.mMenulist[i].subProgramID = new MdiChild()
                     {
                         Title = "WizMes_EVC [" + MainWindow.mMenulist[i].MenuID.Trim() + "] " + MainWindow.mMenulist[i].Menu.Trim() +
@@ -1029,7 +1050,6 @@ namespace WizMes_EVC
                         Content = uie as UIElement,
                         Tag = MainWindow.mMenulist[i]
                     };
-                    Lib.Instance.AllMenuLogInsert(MainWindow.mMenulist[i].MenuID, MainWindow.mMenulist[i].Menu, MainWindow.mMenulist[i].subProgramID);
                     MainWindow.MainMdiContainer.Children.Add(MainWindow.mMenulist[i].subProgramID as MdiChild);
                 }
             }
