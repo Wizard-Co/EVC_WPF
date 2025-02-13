@@ -2047,7 +2047,7 @@
                                         SelectedDate="{Binding searchDate}"/>
                                     </Grid>
 
-                                    <!--실사자료수집일-->
+                                    <!--실사자료수집일 -> 실사자료접수일-->
                                     <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="85*"/>
@@ -2059,7 +2059,7 @@
                                            HorizontalContentAlignment="Center">
                                             <StackPanel Orientation="Horizontal" >
                                                 <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                                    <TextBlock Text="실사자료수집일" Style="{DynamicResource TextBlockInViewBoxInput}" />
+                                                    <TextBlock Text="실사자료접수일" Style="{DynamicResource TextBlockInViewBoxInput}" />
                                                 </Viewbox>
                                             </StackPanel>
                                         </Label>
@@ -2623,7 +2623,7 @@
                                                       SelectedDate="{Binding superUseInspReqDate}"/>
                                     </Grid>
 
-                                    <!--사용전 확인증 발급일 -> 사용 검사 필증 발급일-->
+                                    <!--사용전 확인증 발급일 -> 사용 검사 필증 발급일 컬럼은 그대로 사용-->
                                     <Grid Grid.Row="25" Grid.Column="3" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="85*"/>

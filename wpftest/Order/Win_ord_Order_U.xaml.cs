@@ -950,7 +950,7 @@ namespace WizMes_EVC
 );
                 grdTabs.RaiseEvent(args);
             }
-            else { BringLastOrder(orderID_global); }
+            else { BringLastOrder(orderID_global); ClearGrdFtpTextBox(); }
 
             chkEoAddSrh.IsEnabled = false;    
             CantBtnControl();
@@ -1182,8 +1182,6 @@ namespace WizMes_EVC
         {
             btnSave.IsEnabled = false;
 
-            int selRowIndex = 0;
-            if(dgdMain.Items.Count > 0) {  selRowIndex = dgdMain.Items.Count; }
 
             //Dispatcher.BeginInvoke(new Action(() =>
             //{
@@ -1197,8 +1195,8 @@ namespace WizMes_EVC
                     lblMsg.Visibility = Visibility.Hidden;
                     dgdMain.IsHitTestVisible = true;
                     PrimaryKey = string.Empty;
-                    orderID_global = string.Empty;
-                    rowNum = strFlag == "I" ? selRowIndex + 1 : strFlag == "U" ? rowNum : 0;
+                    orderID_global = string.Empty;                   
+                    rowNum = strFlag == "I" ? dgdMain.Items.Count + 1 : strFlag == "U" ? rowNum : 0;
                     chkEoAddSrh.IsChecked = false;
                     chkEoAddSrh.IsEnabled = true;
                     re_Search(rowNum);
@@ -2354,6 +2352,7 @@ namespace WizMes_EVC
                                     constrDelyReason = dr["constrDelyReason"].ToString(),
                                     constrCompleteDate = dr["constrCompleteDate"].ToString(),
                                     constrComments = dr["constrComments"].ToString(),
+                                    electrSafeCheckPrintDate = dr["electrSafeCheckPrintDate"].ToString(), //20250213
                                     electrSafeCheckDate = dr["electrSafeCheckDate"].ToString(),
                                     electrSafeCheckSuppleContext = dr["electrSafeCheckSuppleContext"].ToString(),
                                     electrSafeCheckLocation = dr["electrSafeCheckLocation"].ToString(),
@@ -2552,14 +2551,23 @@ namespace WizMes_EVC
                             {
                                 column1Date = DateTypeHyphen(dr["column1Date"].ToString()),
                                 column2Amount = stringFormatN0(dr["column2Amount"]),
-                                column3Comment = stringFormatN0(dr["column3Comment"]),
-                                column4FilePath = chkEoAddSrh.IsChecked == true ? (isBringLastOrder == true ? string.Empty : dr["column4FilePath"].ToString()) : string.Empty,
-                                column5FileName = chkEoAddSrh.IsChecked == true ? (isBringLastOrder == true ? string.Empty : dr["column5FileName"].ToString()) : string.Empty,
+                                column3Comment = stringFormatN0(dr["column3Comment"]),                             
 
                                 // 스타일 관련 속성 추가
                                 isBold = (rowCount % 4 == 3),  // 4번째 행
                                 isNegative = (rowCount % 4 == 2 && decimalAmount < 0)
                             };                          
+
+                            if(chkEoAddSrh.IsChecked != true && isBringLastOrder != true)
+                            {
+                                accntList.column4FilePath = dr["column4FilePath"].ToString();
+                                accntList.column5FileName = dr["column5FileName"].ToString();
+                            }
+                            else
+                            {
+                                accntList.column4FilePath = string.Empty;
+                                accntList.column5FileName = string.Empty;
+                            }
 
                             dgdAccnt.Items.Add(accntList);
                             rowCount++;
@@ -3092,8 +3100,9 @@ namespace WizMes_EVC
                     sqlParameter.Add("mtrPriceUnitClss", cboMtrPriceUnitClss.SelectedValue != null ? cboMtrPriceUnitClss.SelectedValue.ToString() : "");
                     sqlParameter.Add("mtrCanopyInwareInfo", txtMtrCanopyInwareInfo.Text);
                     sqlParameter.Add("mtrCanopyOrderAmount", RemoveComma(txtMtrCanopyOrderAmount.Text,true));               
-                    sqlParameter.Add("orderTypeID", cboOrderType.SelectedValue != null ? cboOrderType.SelectedValue.ToString() : "");                   
+                    sqlParameter.Add("orderTypeID", cboOrderType.SelectedValue != null ? cboOrderType.SelectedValue.ToString() : "");
 
+                    sqlParameter.Add("delOrderGov", strFlag == "U" ? tab2_clicked != true ? 0 : 1 : 1);
 
                     string sGetID = strFlag.Equals("I") ? string.Empty : txtOrderID.Text;
                     #region 추가
@@ -3286,6 +3295,8 @@ namespace WizMes_EVC
                         {
                             UpdateTbkMessage("정산 경리 정보 저장 중...");
 
+                            string orderID = strFlag == "I" ? PrimaryKey : txtOrderID.Text;
+
                             for (int i = 0; i < dgdAccnt.Items.Count; i++)
                             {
                                 var accntItem = dgdAccnt.Items[i] as Win_order_Order_U_CodView_dgdAccnt;
@@ -3298,28 +3309,28 @@ namespace WizMes_EVC
                                         sqlParameter.Add("accntMgrWorkPreTaxPrintDate", RemoveHyphen(accntItem.column1Date));
                                         sqlParameter.Add("accntMgrWorkPreAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
                                         sqlParameter.Add("accntMgrWorkPreAmountComments", accntItem.column3Comment);
-                                        sqlParameter.Add("accntMgrWorkPreTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntMgrWorkPreTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntMgrWorkPreTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 1: //운영사시공비 중도금
                                         sqlParameter.Add("accntMgrWorkInterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
                                         sqlParameter.Add("accntMgrWorkInterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
                                         sqlParameter.Add("accntMgrWorkInterComments", accntItem.column3Comment);
-                                        sqlParameter.Add("accntMgrWorkInterTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntMgrWorkInterTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntMgrWorkInterTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 2: //운영사시공비 잔금
                                         sqlParameter.Add("accntMgrWorkAfterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
                                         sqlParameter.Add("accntMgrWorkAfterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
                                         sqlParameter.Add("accntMgrWorkAfterAmountComments", accntItem.column3Comment);
-                                        sqlParameter.Add("accntMgrWorkAfterTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntMgrWorkAfterTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntMgrWorkAfterTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 3: //운영사시공비 총액
                                         sqlParameter.Add("accntMgrWorkTaxPrintDate", RemoveHyphen(accntItem.column1Date));
                                         sqlParameter.Add("accntMgrWorkAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
                                         sqlParameter.Add("accntMgrWorkAmountComments", accntItem.column3Comment);
-                                        sqlParameter.Add("accntMgrWorkTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntMgrWorkTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntMgrWorkTaxFileName", accntItem.column5FileName);
                                         break;
                                     //운영사 영업비
@@ -3327,28 +3338,28 @@ namespace WizMes_EVC
                                         sqlParameter.Add("accntMgrSalesPreTaxPrintDate", RemoveHyphen(accntItem.column1Date));
                                         sqlParameter.Add("accntMgrSalesPreAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
                                         sqlParameter.Add("accntMgrSalesPreAmountComments", accntItem.column3Comment);
-                                        sqlParameter.Add("accntMgrSalesPreTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntMgrSalesPreTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntMgrSalesPreTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 5: //운영사 영업비 중도금
                                         sqlParameter.Add("accntMgrSalesInterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
                                         sqlParameter.Add("accntMgrSalesInterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
                                         sqlParameter.Add("accntMgrSalesInterAmountComments", accntItem.column3Comment);
-                                        sqlParameter.Add("accntMgrSalesInterTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntMgrSalesInterTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntMgrSalesInterTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 6: //운영사 영업비 잔금
                                         sqlParameter.Add("accntMgrSalesAfterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
                                         sqlParameter.Add("accntMgrSalesAfterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
                                         sqlParameter.Add("accntMgrSalesAfterAmountComments", accntItem.column3Comment);
-                                        sqlParameter.Add("accntMgrSalesAfterTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntMgrSalesAfterTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntMgrSalesAfterTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 7: //운영사 영업비 총액
                                         sqlParameter.Add("accntMgrSalesTaxPrintDate", RemoveHyphen(accntItem.column1Date));
                                         sqlParameter.Add("accntMgrSalesAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
                                         sqlParameter.Add("accntMgrSalesAmountComments", accntItem.column3Comment);
-                                        sqlParameter.Add("accntMgrSalesTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntMgrSalesTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntMgrSalesTaxFileName", accntItem.column5FileName);
                                         break;
                                     //시공팀
@@ -3356,28 +3367,28 @@ namespace WizMes_EVC
                                         sqlParameter.Add("accntWorkPreTaxPrintDate", RemoveHyphen(accntItem.column1Date));
                                         sqlParameter.Add("accntWorkPreAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
                                         sqlParameter.Add("accntWorkPreAmountComments", accntItem.column3Comment);
-                                        sqlParameter.Add("accntWorkPreTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntWorkPreTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntWorkPreTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 9: //시공팀 중도금
                                         sqlParameter.Add("accntWorkInterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
                                         sqlParameter.Add("accntWorkInterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
                                         sqlParameter.Add("accntWorkInterAmountComments", accntItem.column3Comment);
-                                        sqlParameter.Add("accntWorkInterTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntWorkInterTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntWorkInterTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 10: //시공팀 잔금
                                         sqlParameter.Add("accntWorkAfterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
                                         sqlParameter.Add("accntWorkAfterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
                                         sqlParameter.Add("accntWorkAfterAmountComments", accntItem.column3Comment);
-                                        sqlParameter.Add("accntWorkAfterTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntWorkAfterTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntWorkAfterTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 11: //시공팀 총액
                                         sqlParameter.Add("accntWorkTaxPrintDate", RemoveHyphen(accntItem.column1Date));
                                         sqlParameter.Add("accntWorkAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
                                         sqlParameter.Add("accntWorkAmountComments", accntItem.column3Comment);
-                                        sqlParameter.Add("accntWorkTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntWorkTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntWorkTaxFileName", accntItem.column5FileName);
                                         break;
                                     //영업팀
@@ -3385,28 +3396,28 @@ namespace WizMes_EVC
                                         sqlParameter.Add("accntSalesPreTaxPrintDate", RemoveHyphen(accntItem.column1Date));
                                         sqlParameter.Add("accntSalesPreAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
                                         sqlParameter.Add("accntSalesPreAmountComments", accntItem.column3Comment);
-                                        sqlParameter.Add("accntSalesPreTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntSalesPreTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntSalesPreTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 13: //영업팀 중도금
                                         sqlParameter.Add("accntSalesInterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
                                         sqlParameter.Add("accntSalesInterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
                                         sqlParameter.Add("accntSalesInterAmountComments", accntItem.column3Comment);
-                                        sqlParameter.Add("accntSalesInterTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntSalesInterTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntSalesInterTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 14: //영업팀 잔금
                                         sqlParameter.Add("accntSalesAfterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
                                         sqlParameter.Add("accntSalesAfterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
                                         sqlParameter.Add("accntSalesAfterAmountComments", accntItem.column3Comment);
-                                        sqlParameter.Add("accntSalesAfterTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntSalesAfterTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntSalesAfterTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 15: //영업팀 총액
                                         sqlParameter.Add("accntSalesTaxPrintDate", RemoveHyphen(accntItem.column1Date));
                                         sqlParameter.Add("accntSalesAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
                                         sqlParameter.Add("accntSalesAmountComments", accntItem.column3Comment);
-                                        sqlParameter.Add("accntSalesTaxFilePath", accntItem.column4FilePath != null ? accntItem.column4FilePath : "");
+                                        sqlParameter.Add("accntSalesTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntSalesTaxFileName", accntItem.column5FileName);
                                         break;
                                 }
@@ -3623,140 +3634,153 @@ namespace WizMes_EVC
                 sqlParameter.Add("ContractFileName", txtContractFileName.Text.Trim() != "" ? txtContractFileName.Text : "");
                 sqlParameter.Add("ContractFilePath", txtContractFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
 
-                //tab2
-                sqlParameter.Add("beforeSearchConsultFileName", txtBeforeSearchConsultFileName.Text.Trim() != "" ? txtBeforeSearchConsultFileName.Text : "");
-                sqlParameter.Add("beforeSearchConsultFilePath", txtBeforeSearchConsultFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+                if(tab2_clicked == true)
+                {
+                    //tab2
+                    sqlParameter.Add("beforeSearchConsultFileName", txtBeforeSearchConsultFileName.Text.Trim() != "" ? txtBeforeSearchConsultFileName.Text : "");
+                    sqlParameter.Add("beforeSearchConsultFilePath", txtBeforeSearchConsultFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
 
-                sqlParameter.Add("pictureEarthFileName", txtPictureEarthFileName.Text.Trim() != "" ? txtPictureEarthFileName.Text : "");
-                sqlParameter.Add("pictureEarthFilePath", txtPictureEarthFileName.Tag !=null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("pictureEarthFileName", txtPictureEarthFileName.Text.Trim() != "" ? txtPictureEarthFileName.Text : "");
+                    sqlParameter.Add("pictureEarthFilePath", txtPictureEarthFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
 
-                sqlParameter.Add("drawFileName", txtDrawFileName.Text.Trim() != "" ? txtDrawFileName.Text : "");
-                sqlParameter.Add("drawFilePath", txtDrawFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("drawFileName", txtDrawFileName.Text.Trim() != "" ? txtDrawFileName.Text : "");
+                    sqlParameter.Add("drawFilePath", txtDrawFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
 
-                sqlParameter.Add("searchFileName", txtSearchFileName.Text.Trim() != "" ? txtSearchFileName.Text : "");
-                sqlParameter.Add("searchFilePath", txtSearchFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("searchFileName", txtSearchFileName.Text.Trim() != "" ? txtSearchFileName.Text : "");
+                    sqlParameter.Add("searchFilePath", txtSearchFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
 
-                sqlParameter.Add("searchChecksheetFileName", txtSearchChecksheetFileName.Text.Trim() != "" ? txtSearchChecksheetFileName.Text : "");
-                sqlParameter.Add("searchChecksheetFilePath", txtSearchChecksheetFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("searchChecksheetFileName", txtSearchChecksheetFileName.Text.Trim() != "" ? txtSearchChecksheetFileName.Text : "");
+                    sqlParameter.Add("searchChecksheetFilePath", txtSearchChecksheetFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
 
-                sqlParameter.Add("installLocationSheetFileName", txtInstallLocationSheetFileName.Text.Trim() != "" ? txtInstallLocationSheetFileName.Text : "");
-                sqlParameter.Add("installLocationSheetFilePath", txtInstallLocationSheetFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("installLocationSheetFileName", txtInstallLocationSheetFileName.Text.Trim() != "" ? txtInstallLocationSheetFileName.Text : "");
+                    sqlParameter.Add("installLocationSheetFilePath", txtInstallLocationSheetFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                    sqlParameter.Add("localGoTaxFileName", txtLocalGoTaxFileName.Text.Trim() != "" ? txtLocalGoTaxFileName.Text : "");
+                    sqlParameter.Add("localGoTaxFilePath", txtLocalGoTaxFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                    sqlParameter.Add("localGovProveFileName", txtLocalGovProveFileName.Text.Trim() != "" ? txtLocalGovProveFileName.Text : "");
+                    sqlParameter.Add("localGovProveFilePath", txtLocalGovProveFileName.Tag != null ? "/Image/Order/" + orderID : "");
+                }
+                
+                if(tab3_clicked == true)
+                {
+                    //tab3
+                    sqlParameter.Add("kepElectrLineFileName", txtKepElectrLineFileName.Text.Trim() != "" ? txtKepElectrLineFileName.Text : "");
+                    sqlParameter.Add("kepElectrLineFilePath", txtKepElectrLineFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                    sqlParameter.Add("kepFaucetAcptFileName", txtKepFaucetAcptFileName.Text.Trim() != "" ? txtKepFaucetAcptFileName.Text : "");
+                    sqlParameter.Add("kepFaucetAcptFilePath", txtKepFaucetAcptFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                    sqlParameter.Add("electrSafeInspPrintFileName", txtElectrSafeInspPrintFileName.Text.Trim() != "" ? txtElectrSafeInspPrintFileName.Text : "");
+                    sqlParameter.Add("electrSafeInspPrintFilePath", txtElectrSafeInspPrintFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                    sqlParameter.Add("electrBeforeUseCheckPrintFileName", txtElectrBeforeUseCheckPrintFileName.Text.Trim() != "" ? txtElectrBeforeUseCheckPrintFileName.Text : "");
+                    sqlParameter.Add("electrBeforeUseCheckPrintFilePath", txtElectrBeforeUseCheckPrintFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                    sqlParameter.Add("electrBeforeUseInspFileName", txtElectrBeforeUseInspFileName.Text.Trim() != "" ? txtElectrBeforeUseInspFileName.Text : "");
+                    sqlParameter.Add("electrBeforeUseInspFilePath", txtElectrBeforeUseInspFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                    sqlParameter.Add("electrKepAcptFileName", txtElectrKepAcptFileName.Text.Trim() != "" ? txtElectrKepAcptFileName.Text : "");
+                    sqlParameter.Add("electrKepAcptFilePath", txtElectrKepAcptFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                    sqlParameter.Add("electrKepInfraPayBillFileName", txtElectrKepInfraPayBillFileName.Text.Trim() != "" ? txtElectrKepInfraPayBillFileName.Text : "");
+                    sqlParameter.Add("electrKepInfraPayBillFilePath", txtElectrKepInfraPayBillFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                    //sqlParameter.Add("electrUseContractFileName", txtElectrUseContractFileName.Text.Trim() != "" ? txtElectrUseContractFileName.Text : "");
+                    //sqlParameter.Add("electrUseContractFilePath", txtElectrUseContractFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                    sqlParameter.Add("electrBeforeUseInspCostFileName", txtElectrBeforeUseInspCostFileName.Text.Trim() != "" ? txtElectrBeforeUseInspCostFileName.Text : "");
+                    sqlParameter.Add("electrBeforeUseInspCostFilePath", txtElectrBeforeUseInspCostFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                    sqlParameter.Add("electrTransCoUseFileName", txtElectrTransCoUseFileName.Text.Trim() != "" ? txtElectrTransCoUseFileName.Text : "");
+                    sqlParameter.Add("electrTransCoUseFilePath", txtElectrTransCoUseFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                    //sqlParameter.Add("electrCoWorkFileName", txtElectrCoWorkFileName.Text.Trim() != "" ? txtElectrCoWorkFileName.Text : "");
+                    //sqlParameter.Add("electrCoWorkFilePath", txtElectrCoWorkFileName.Tag !=null ? "/ImageData/Order/" + orderID : "");
+
+                    sqlParameter.Add("electrCostFileName", txtElectrCostFileName.Text.Trim() != "" ? txtElectrCostFileName.Text : "");
+                    sqlParameter.Add("electrCostFilePath", txtElectrCostFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                }
+
+                if(tab4_clicked == true)
+                {
+                    //tab4
+                    sqlParameter.Add("superSetCheckFileName", txtSuperSetCheckFileName.Text.Trim() != "" ? txtSuperSetCheckFileName.Text : "");
+                    sqlParameter.Add("superSetCheckFilePath", txtSuperSetCheckFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                    sqlParameter.Add("superBeforeUseInspectFileName", txtSuperBeforeUseInspectFileName.Text.Trim() != "" ? txtSuperBeforeUseInspectFileName.Text : "");
+                    sqlParameter.Add("superBeforeUseInspectFilePath", txtSuperBeforeUseInspectFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                    //sqlParameter.Add("superCostFileName", txtSuperCostFileName.Text.Trim() != "" ? txtSuperCostFileName.Text : "");                   --(감리) 수수료 내역서 2025.02.11 주석처리 요청
+                    //sqlParameter.Add("superCostFilePath", txtSuperCostFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                    sqlParameter.Add("safeManagerCertiFileName", txtSafeManagerCertiFileName.Text.Trim() != "" ? txtSafeManagerCertiFileName.Text : "");
+                    sqlParameter.Add("safeManagerCertiFilePath", txtSafeManagerCertiFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+
+                    sqlParameter.Add("superReportFileName", txtSuperReportFileName.Text.Trim() != "" ? txtSuperReportFileName.Text : "");
+                    sqlParameter.Add("superReportFilePath", txtSuperReportFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                    sqlParameter.Add("compReportFIleName", txtCompReportFIleName.Text.Trim() != "" ? txtCompReportFIleName.Text : "");
+                    sqlParameter.Add("compReportFIlePath", txtCompReportFIleName.Tag != null ? "/ImageData/Order/" + orderID : "");
+
+                    sqlParameter.Add("insurePrintFileName", txtInsurePrintFileName.Text.Trim() != "" ? txtInsurePrintFileName.Text : "");
+                    sqlParameter.Add("insurePrintFilePath", txtInsurePrintFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+                }
                
-                sqlParameter.Add("localGoTaxFileName", txtLocalGoTaxFileName.Text.Trim() != "" ? txtLocalGoTaxFileName.Text : "");      
-                sqlParameter.Add("localGoTaxFilePath", txtLocalGoTaxFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+                if(tab5_clicked == true)
+                {
+                    //tab5
+                    sqlParameter.Add("sketch1FileName", txtSketch1.Text.Trim() != "" ? txtSketch1.Text : "");
+                    sqlParameter.Add("sketch1FilePath", txtSketch1.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("sketch1FileAlias", txtSketch1FileAlias.Text.Trim() != "" ? txtSketch1FileAlias.Text : "");
 
-                sqlParameter.Add("localGovProveFileName", txtLocalGovProveFileName.Text.Trim() != "" ? txtLocalGovProveFileName.Text : "");
-                sqlParameter.Add("localGovProveFilePath", txtLocalGovProveFileName.Tag != null ? "/Image/Order/" + orderID : "");
+                    sqlParameter.Add("sketch2FileName", txtSketch2.Text.Trim() != "" ? txtSketch2.Text : "");
+                    sqlParameter.Add("sketch2FilePath", txtSketch2.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("sketch2FileAlias", txtSketch2FileAlias.Text.Trim() != "" ? txtSketch2FileAlias.Text : "");
 
-                //tab3
-                sqlParameter.Add("kepElectrLineFileName", txtKepElectrLineFileName.Text.Trim() != "" ? txtKepElectrLineFileName.Text : "");
-                sqlParameter.Add("kepElectrLineFilePath", txtKepElectrLineFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("sketch3FileName", txtSketch3.Text.Trim() != "" ? txtSketch3.Text : "");
+                    sqlParameter.Add("sketch3FilePath", txtSketch3.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("sketch3FileAlias", txtSketch3FileAlias.Text.Trim() != "" ? txtSketch3FileAlias.Text : "");
 
-                sqlParameter.Add("kepFaucetAcptFileName", txtKepFaucetAcptFileName.Text.Trim() != "" ? txtKepFaucetAcptFileName.Text : "");
-                sqlParameter.Add("kepFaucetAcptFilePath", txtKepFaucetAcptFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("sketch4FileName", txtSketch4.Text.Trim() != "" ? txtSketch4.Text : "");
+                    sqlParameter.Add("sketch4FilePath", txtSketch4.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("sketch4FileAlias", txtSketch4FileAlias.Text.Trim() != "" ? txtSketch4FileAlias.Text : "");
 
-                sqlParameter.Add("electrSafeInspPrintFileName", txtElectrSafeInspPrintFileName.Text.Trim() != "" ? txtElectrSafeInspPrintFileName.Text : "");
-                sqlParameter.Add("electrSafeInspPrintFilePath", txtElectrSafeInspPrintFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("sketch5FileName", txtSketch5.Text.Trim() != "" ? txtSketch5.Text : "");
+                    sqlParameter.Add("sketch5FilePath", txtSketch5.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("sketch5FileAlias", txtSketch5FileAlias.Text.Trim() != "" ? txtSketch5FileAlias.Text : "");
 
-                sqlParameter.Add("electrBeforeUseCheckPrintFileName", txtElectrBeforeUseCheckPrintFileName.Text.Trim() != "" ? txtElectrBeforeUseCheckPrintFileName.Text : "");
-                sqlParameter.Add("electrBeforeUseCheckPrintFilePath", txtElectrBeforeUseCheckPrintFileName.Tag !=null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("sketch6FileName", txtSketch6.Text.Trim() != "" ? txtSketch6.Text : "");
+                    sqlParameter.Add("sketch6FilePath", txtSketch6.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("sketch6FileAlias", txtSketch6FileAlias.Text.Trim() != "" ? txtSketch6FileAlias.Text : "");
 
-                sqlParameter.Add("electrBeforeUseInspFileName", txtElectrBeforeUseInspFileName.Text.Trim() != "" ? txtElectrBeforeUseInspFileName.Text : "");
-                sqlParameter.Add("electrBeforeUseInspFilePath", txtElectrBeforeUseInspFileName.Tag !=null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("sketch7FileName", txtSketch7.Text.Trim() != "" ? txtSketch7.Text : "");
+                    sqlParameter.Add("sketch7FilePath", txtSketch7.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("sketch7FileAlias", txtSketch7FileAlias.Text.Trim() != "" ? txtSketch7FileAlias.Text : "");
 
-                sqlParameter.Add("electrKepAcptFileName", txtElectrKepAcptFileName.Text.Trim() != "" ? txtElectrKepAcptFileName.Text : "");
-                sqlParameter.Add("electrKepAcptFilePath", txtElectrKepAcptFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
-                
-                sqlParameter.Add("electrKepInfraPayBillFileName", txtElectrKepInfraPayBillFileName.Text.Trim() != "" ? txtElectrKepInfraPayBillFileName.Text : "");
-                sqlParameter.Add("electrKepInfraPayBillFilePath", txtElectrKepInfraPayBillFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("sketch8FileName", txtSketch8.Text.Trim() != "" ? txtSketch8.Text : "");
+                    sqlParameter.Add("sketch8FilePath", txtSketch8.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("sketch8FileAlias", txtSketch8FileAlias.Text.Trim() != "" ? txtSketch8FileAlias.Text : "");
 
-                //sqlParameter.Add("electrUseContractFileName", txtElectrUseContractFileName.Text.Trim() != "" ? txtElectrUseContractFileName.Text : "");
-                //sqlParameter.Add("electrUseContractFilePath", txtElectrUseContractFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("sketch9FileName", txtSketch9.Text.Trim() != "" ? txtSketch9.Text : "");
+                    sqlParameter.Add("sketch9FilePath", txtSketch9.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("sketch9FileAlias", txtSketch9FileAlias.Text.Trim() != "" ? txtSketch9FileAlias.Text : "");
 
-                sqlParameter.Add("electrBeforeUseInspCostFileName", txtElectrBeforeUseInspCostFileName.Text.Trim() != "" ? txtElectrBeforeUseInspCostFileName.Text : "");
-                sqlParameter.Add("electrBeforeUseInspCostFilePath", txtElectrBeforeUseInspCostFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("sketch10FileName", txtSketch10.Text.Trim() != "" ? txtSketch10.Text : "");
+                    sqlParameter.Add("sketch10FilePath", txtSketch10.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("sketch10FileAlias", txtSketch10FileAlias.Text.Trim() != "" ? txtSketch10FileAlias.Text : "");
 
-                sqlParameter.Add("electrTransCoUseFileName", txtElectrTransCoUseFileName.Text.Trim() != "" ? txtElectrTransCoUseFileName.Text : "");
-                sqlParameter.Add("electrTransCoUseFilePath", txtElectrTransCoUseFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("sketch11FileName", txtSketch11.Text.Trim() != "" ? txtSketch11.Text : "");
+                    sqlParameter.Add("sketch11FilePath", txtSketch11.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("sketch11FileAlias", txtSketch11FileAlias.Text.Trim() != "" ? txtSketch11FileAlias.Text : "");
 
-                //sqlParameter.Add("electrCoWorkFileName", txtElectrCoWorkFileName.Text.Trim() != "" ? txtElectrCoWorkFileName.Text : "");
-                //sqlParameter.Add("electrCoWorkFilePath", txtElectrCoWorkFileName.Tag !=null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("sketch12FileName", txtSketch12.Text.Trim() != "" ? txtSketch12.Text : "");
+                    sqlParameter.Add("sketch12FilePath", txtSketch12.Tag != null ? "/ImageData/Order/" + orderID : "");
+                    sqlParameter.Add("sketch12FileAlias", txtSketch12FileAlias.Text.Trim() != "" ? txtSketch12FileAlias.Text : "");
 
-                sqlParameter.Add("electrCostFileName", txtElectrCostFileName.Text.Trim() != "" ? txtElectrCostFileName.Text : "");
-                sqlParameter.Add("electrCostFilePath", txtElectrCostFileName.Tag !=null? "/ImageData/Order/" + orderID : "");
-
-                //tab4
-                sqlParameter.Add("superSetCheckFileName", txtSuperSetCheckFileName.Text.Trim() != "" ? txtSuperSetCheckFileName.Text : "");
-                sqlParameter.Add("superSetCheckFilePath", txtSuperSetCheckFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
-
-                sqlParameter.Add("superBeforeUseInspectFileName", txtSuperBeforeUseInspectFileName.Text.Trim() != "" ? txtSuperBeforeUseInspectFileName.Text : "");
-                sqlParameter.Add("superBeforeUseInspectFilePath", txtSuperBeforeUseInspectFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
-
-                //sqlParameter.Add("superCostFileName", txtSuperCostFileName.Text.Trim() != "" ? txtSuperCostFileName.Text : "");                   --(감리) 수수료 내역서 2025.02.11 주석처리 요청
-                //sqlParameter.Add("superCostFilePath", txtSuperCostFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
-
-                sqlParameter.Add("safeManagerCertiFileName", txtSafeManagerCertiFileName.Text.Trim() != "" ? txtSafeManagerCertiFileName.Text: "");
-                sqlParameter.Add("safeManagerCertiFilePath", txtSafeManagerCertiFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
-                
-
-                sqlParameter.Add("superReportFileName", txtSuperReportFileName.Text.Trim() != "" ? txtSuperReportFileName.Text : "");
-                sqlParameter.Add("superReportFilePath", txtSuperReportFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
-
-                sqlParameter.Add("compReportFIleName", txtCompReportFIleName.Text.Trim() != "" ? txtCompReportFIleName.Text : "");
-                sqlParameter.Add("compReportFIlePath", txtCompReportFIleName.Tag != null ? "/ImageData/Order/" + orderID : "");
-
-                sqlParameter.Add("insurePrintFileName", txtInsurePrintFileName.Text.Trim() != "" ? txtInsurePrintFileName.Text : "");
-                sqlParameter.Add("insurePrintFilePath", txtInsurePrintFileName.Tag != null ? "/ImageData/Order/" + orderID : "");
-
-                //tab5
-                sqlParameter.Add("sketch1FileName", txtSketch1.Text.Trim() != "" ? txtSketch1.Text : "");
-                sqlParameter.Add("sketch1FilePath", txtSketch1.Tag != null ? "/ImageData/Order/" + orderID : "");
-                sqlParameter.Add("sketch1FileAlias", txtSketch1FileAlias.Text.Trim() != "" ? txtSketch1FileAlias.Text : "");
-
-                sqlParameter.Add("sketch2FileName", txtSketch2.Text.Trim() != "" ? txtSketch2.Text : "");
-                sqlParameter.Add("sketch2FilePath", txtSketch2.Tag != null ? "/ImageData/Order/" + orderID : "");
-                sqlParameter.Add("sketch2FileAlias", txtSketch2FileAlias.Text.Trim() != "" ? txtSketch2FileAlias.Text : "");
-
-                sqlParameter.Add("sketch3FileName", txtSketch3.Text.Trim() != "" ? txtSketch3.Text : "");
-                sqlParameter.Add("sketch3FilePath", txtSketch3.Tag != null ? "/ImageData/Order/" + orderID : "");
-                sqlParameter.Add("sketch3FileAlias", txtSketch3FileAlias.Text.Trim() != "" ? txtSketch3FileAlias.Text : "");
-
-                sqlParameter.Add("sketch4FileName", txtSketch4.Text.Trim() != "" ? txtSketch4.Text : "");
-                sqlParameter.Add("sketch4FilePath", txtSketch4.Tag != null ? "/ImageData/Order/" + orderID : "");
-                sqlParameter.Add("sketch4FileAlias", txtSketch4FileAlias.Text.Trim() != "" ? txtSketch4FileAlias.Text : "");
-
-                sqlParameter.Add("sketch5FileName", txtSketch5.Text.Trim() != "" ? txtSketch5.Text : "");
-                sqlParameter.Add("sketch5FilePath", txtSketch5.Tag != null ? "/ImageData/Order/" + orderID : "");
-                sqlParameter.Add("sketch5FileAlias", txtSketch5FileAlias.Text.Trim() != "" ? txtSketch5FileAlias.Text : "");
-
-                sqlParameter.Add("sketch6FileName", txtSketch6.Text.Trim() != "" ? txtSketch6.Text : "");
-                sqlParameter.Add("sketch6FilePath", txtSketch6.Tag != null ? "/ImageData/Order/" + orderID : "");
-                sqlParameter.Add("sketch6FileAlias", txtSketch6FileAlias.Text.Trim() != "" ? txtSketch6FileAlias.Text : "");
-
-                sqlParameter.Add("sketch7FileName", txtSketch7.Text.Trim() != "" ? txtSketch7.Text : "");
-                sqlParameter.Add("sketch7FilePath", txtSketch7.Tag != null ? "/ImageData/Order/" + orderID : "");
-                sqlParameter.Add("sketch7FileAlias", txtSketch7FileAlias.Text.Trim() != "" ? txtSketch7FileAlias.Text : "");
-
-                sqlParameter.Add("sketch8FileName", txtSketch8.Text.Trim() != "" ? txtSketch8.Text : "");
-                sqlParameter.Add("sketch8FilePath", txtSketch8.Tag != null ? "/ImageData/Order/" + orderID : "");
-                sqlParameter.Add("sketch8FileAlias", txtSketch8FileAlias.Text.Trim() != "" ? txtSketch8FileAlias.Text : "");
-
-                sqlParameter.Add("sketch9FileName", txtSketch9.Text.Trim() != "" ? txtSketch9.Text : "");
-                sqlParameter.Add("sketch9FilePath", txtSketch9.Tag != null ? "/ImageData/Order/" + orderID : "");
-                sqlParameter.Add("sketch9FileAlias", txtSketch9FileAlias.Text.Trim() != "" ? txtSketch9FileAlias.Text : "");
-
-                sqlParameter.Add("sketch10FileName", txtSketch10.Text.Trim() != "" ? txtSketch10.Text : "");
-                sqlParameter.Add("sketch10FilePath", txtSketch10.Tag != null ? "/ImageData/Order/" + orderID : "");
-                sqlParameter.Add("sketch10FileAlias", txtSketch10FileAlias.Text.Trim() != "" ? txtSketch10FileAlias.Text : "");
-
-                sqlParameter.Add("sketch11FileName", txtSketch11.Text.Trim() != "" ? txtSketch11.Text : "");
-                sqlParameter.Add("sketch11FilePath", txtSketch11.Tag != null ? "/ImageData/Order/" + orderID : "");
-                sqlParameter.Add("sketch11FileAlias", txtSketch11FileAlias.Text.Trim() != "" ? txtSketch11FileAlias.Text : "");
-
-                sqlParameter.Add("sketch12FileName", txtSketch12.Text.Trim() != "" ? txtSketch12.Text : "");
-                sqlParameter.Add("sketch12FilePath", txtSketch12.Tag != null ? "/ImageData/Order/" + orderID : "");
-                sqlParameter.Add("sketch12FileAlias", txtSketch12FileAlias.Text.Trim() != "" ? txtSketch12FileAlias.Text : "");
-
+                }
 
                 string[] result = DataStore.Instance.ExecuteProcedure("xp_order_uOrder_FTP", sqlParameter, true);
 
@@ -4392,11 +4416,32 @@ namespace WizMes_EVC
                         }
                                           
                     }
+              
+                });
+            }           
+        }
+
+        private void ClearGrdFtpTextBox()
+        {
+            List<Grid> grids = new List<Grid> { grdInput, grd2, grd3, grd4, grd5 };
+
+            foreach (Grid grd in grids)
+            {
+                FindUiObject(grd, child =>
+                {
+                    if ((chkEoAddSrh.IsChecked==true || isBringLastOrder == true)&&(child is TextBox textbox))
+                    {
+                        if(textbox.Name.Contains("FileName") || textbox.Name.Contains("txtSketch"))
+                        {
+                            textbox.Text = string.Empty;
+                            textbox.Tag = null;
+                        }               
+                    }
                 });
             }
-
-           
         }
+
+
 
         private void ClearGrid()
         {
@@ -4640,33 +4685,33 @@ namespace WizMes_EVC
             // (버튼)sender 마다 tag를 달자.
             string ClickPoint = ((Button)sender).Tag.ToString();
             if (ClickPoint.Equals("Contract")) { FTP_Upload_TextBox(txtContractFileName); }  //긴 경로(FULL 사이즈)
-            else if (ClickPoint.Contains("BeforeSearchConsult")) { FTP_Upload_TextBox(txtBeforeSearchConsultFileName); }
-            else if (ClickPoint.Contains("PictureEarth")) { FTP_Upload_TextBox(txtPictureEarthFileName); }
-            else if (ClickPoint.Contains("Draw")) { FTP_Upload_TextBox(txtDrawFileName); }
+            else if (ClickPoint.Equals("BeforeSearchConsult")) { FTP_Upload_TextBox(txtBeforeSearchConsultFileName); }
+            else if (ClickPoint.Equals("PictureEarth")) { FTP_Upload_TextBox(txtPictureEarthFileName); }
+            else if (ClickPoint.Equals("Draw")) { FTP_Upload_TextBox(txtDrawFileName); }
             else if (ClickPoint.Equals("Search")) { FTP_Upload_TextBox(txtSearchFileName); }
-            else if (ClickPoint.Contains("SearchChecksheet")) { FTP_Upload_TextBox(txtSearchChecksheetFileName); }
-            else if (ClickPoint.Contains("InstallLocationSheet")) { FTP_Upload_TextBox(txtInstallLocationSheetFileName); }
-            else if (ClickPoint.Contains("LocalGoTax")) { FTP_Upload_TextBox(txtLocalGoTaxFileName); }                      
-            else if (ClickPoint.Contains("LocalGovProve")) { FTP_Upload_TextBox(txtLocalGovProveFileName); }
-            else if (ClickPoint.Contains("kepElectrLine")) { FTP_Upload_TextBox(txtKepElectrLineFileName); }
-            else if (ClickPoint.Contains("kepFaucetAcpt")) { FTP_Upload_TextBox(txtKepFaucetAcptFileName); }
-            else if (ClickPoint.Contains("ElectrSafeInspPrint")) { FTP_Upload_TextBox(txtElectrSafeInspPrintFileName); }
-            else if (ClickPoint.Contains("ElectrBeforeUseCheckPrint")) { FTP_Upload_TextBox(txtElectrBeforeUseCheckPrintFileName); }
-            else if (ClickPoint.Contains("ElectrBeforeUseInsp")) { FTP_Upload_TextBox(txtElectrBeforeUseInspFileName); }
-            else if (ClickPoint.Contains("ElectrKepAcpt")) { FTP_Upload_TextBox(txtElectrKepAcptFileName); }
-            else if (ClickPoint.Contains("ElectrKepInfraPayBill")) { FTP_Upload_TextBox(txtElectrKepInfraPayBillFileName); }
+            else if (ClickPoint.Equals("SearchChecksheet")) { FTP_Upload_TextBox(txtSearchChecksheetFileName); }
+            else if (ClickPoint.Equals("InstallLocationSheet")) { FTP_Upload_TextBox(txtInstallLocationSheetFileName); }
+            else if (ClickPoint.Equals("LocalGoTax")) { FTP_Upload_TextBox(txtLocalGoTaxFileName); }                      
+            else if (ClickPoint.Equals("LocalGovProve")) { FTP_Upload_TextBox(txtLocalGovProveFileName); }
+            else if (ClickPoint.Equals("kepElectrLine")) { FTP_Upload_TextBox(txtKepElectrLineFileName); }
+            else if (ClickPoint.Equals("kepFaucetAcpt")) { FTP_Upload_TextBox(txtKepFaucetAcptFileName); }
+            else if (ClickPoint.Equals("ElectrSafeInspPrint")) { FTP_Upload_TextBox(txtElectrSafeInspPrintFileName); }
+            else if (ClickPoint.Equals("ElectrBeforeUseCheckPrint")) { FTP_Upload_TextBox(txtElectrBeforeUseCheckPrintFileName); }
+            else if (ClickPoint.Equals("ElectrBeforeUseInsp")) { FTP_Upload_TextBox(txtElectrBeforeUseInspFileName); }
+            else if (ClickPoint.Equals("ElectrKepAcpt")) { FTP_Upload_TextBox(txtElectrKepAcptFileName); }
+            else if (ClickPoint.Equals("ElectrKepInfraPayBill")) { FTP_Upload_TextBox(txtElectrKepInfraPayBillFileName); }
             //else if (ClickPoint.Contains("ElectrUseContract")) { FTP_Upload_TextBox(txtElectrUseContractFileName); }
-            else if (ClickPoint.Contains("ElectrBeforeUseInspCost")) { FTP_Upload_TextBox(txtElectrBeforeUseInspCostFileName); }
+            else if (ClickPoint.Equals("ElectrBeforeUseInspCost")) { FTP_Upload_TextBox(txtElectrBeforeUseInspCostFileName); }
            // else if (ClickPoint.Contains("ElectrCoWork")) { FTP_Upload_TextBox(txtElectrCoWorkFileName); }
-            else if (ClickPoint.Contains("ElectrTransCoUse")) { FTP_Upload_TextBox(txtElectrTransCoUseFileName); } //변압기공동이용계약서
-            else if (ClickPoint.Contains("ElectrCost")) { FTP_Upload_TextBox(txtElectrCostFileName); }
-            else if (ClickPoint.Contains("SuperSetCheck")) { FTP_Upload_TextBox(txtSuperSetCheckFileName); }
-            else if (ClickPoint.Contains("SuperBeforeUseInspect")) { FTP_Upload_TextBox(txtSuperBeforeUseInspectFileName); }
+            else if (ClickPoint.Equals("ElectrTransCoUse")) { FTP_Upload_TextBox(txtElectrTransCoUseFileName); } //변압기공동이용계약서
+            else if (ClickPoint.Equals("ElectrCost")) { FTP_Upload_TextBox(txtElectrCostFileName); }
+            else if (ClickPoint.Equals("SuperSetCheck")) { FTP_Upload_TextBox(txtSuperSetCheckFileName); }
+            else if (ClickPoint.Equals("SuperBeforeUseInspect")) { FTP_Upload_TextBox(txtSuperBeforeUseInspectFileName); }
             //else if (ClickPoint.Contains("SuperCostFile")) { FTP_Upload_TextBox(txtSuperCostFileName); }
-            else if (ClickPoint.Contains("SafeManagerCerti")) { FTP_Upload_TextBox(txtSafeManagerCertiFileName); }
-            else if (ClickPoint.Contains("SuperReportFile")) { FTP_Upload_TextBox(txtSuperReportFileName); }
-            else if (ClickPoint.Contains("CompReport")) { FTP_Upload_TextBox(txtCompReportFIleName); }
-            else if (ClickPoint.Contains("InsurePrint")) { FTP_Upload_TextBox(txtInsurePrintFileName); }
+            else if (ClickPoint.Equals("SafeManagerCerti")) { FTP_Upload_TextBox(txtSafeManagerCertiFileName); }
+            else if (ClickPoint.Equals("SuperReportFile")) { FTP_Upload_TextBox(txtSuperReportFileName); }
+            else if (ClickPoint.Equals("CompReport")) { FTP_Upload_TextBox(txtCompReportFIleName); }
+            else if (ClickPoint.Equals("InsurePrint")) { FTP_Upload_TextBox(txtInsurePrintFileName); }
             
 
             else if(ClickPoint.Equals("btnSketch1")) { FTP_Upload_TextBox(txtSketch1); txtSketch1FileAlias.IsReadOnly = false; }
@@ -6840,6 +6885,7 @@ namespace WizMes_EVC
                             txtOrderID.Text = string.Empty;
 
                             isBringLastOrder = true;
+                            if(isBringLastOrder == true)
                             BringLastOrder(selectedRow.orderId);
 
                             ClearFTP_TextBox();
@@ -7261,12 +7307,16 @@ namespace WizMes_EVC
                 {
                     tbkMsg.Text = "자료 유지 추가 중";                    
                     txtOrderID.Text = string.Empty;
-                    strFlag = "I";                  
+                    strFlag = "I";
+                    ClearGrdFtpTextBox();
                 }
                 else
                 {
                     tbkMsg.Text = "자료 입력 중";
                     txtOrderID.Text = orderID_global;
+                    CheckTabClicked();
+                    if(txtOrderID.Text != string.Empty)
+                    FillTabs(txtOrderID.Text);
                     strFlag = lastStrFlag;
                 }
             }
@@ -7799,6 +7849,7 @@ namespace WizMes_EVC
         public string electrSafeCheckDate {get;set;}
         public string electrSafeCheckSuppleContext {get;set;}
         public string electrSafeCheckLocation {get;set;}
+        public string electrSafeCheckPrintDate { get; set; } 
         public string electrSafeCheckCost {get;set;}
         public string electrSafeCheckCostPayDate {get;set;}
         public string electrBeforeUseCheckReqDate {get;set;}
@@ -7811,7 +7862,7 @@ namespace WizMes_EVC
         public string electrBeforeInspCostPayDate {get;set;}
         public string electrBeforeInspSuppleContext {get;set;}
         public string electrSafeCheckComments { get; set; }
-
+     
         public string kepElectrLineFilePath{get;set;}
         public string kepElectrLineFileName{get;set;}
         public string kepFaucetAcptFilePath{get;set;}

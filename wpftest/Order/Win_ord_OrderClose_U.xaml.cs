@@ -74,8 +74,6 @@ namespace WizMes_EVC
             cboOrderStatus.SelectedValuePath = "code_id";
             cboOrderStatus.SelectedIndex = 0;
 
-
-
         }
 
         #region 라벨 체크박스 이벤트 관련
@@ -518,30 +516,40 @@ namespace WizMes_EVC
 
                                 IsCheck = false,
                                 Num = i + 1,
+
+                                //기본정보
                                 CLoseYn = item["CLoseYn"].ToString(),
                                 orderid = item["orderid"].ToString(),
                                 acptDate = DateTypeHyphen(item["acptDate"].ToString()),
                                 EstID = item["EstID"].ToString(),
                                 saleCustomName = item["saleCustomName"].ToString(),
                                 saleCustomID = item["saleCustomID"].ToString(),
+
                                 managerCustomName = item["managerCustomName"].ToString(),
                                 managerCustomID = item["managerCustomID"].ToString(),
+
                                 searchCustomName = item["searchCustomName"].ToString(),
                                 searchCustomID = item["searchCustomID"].ToString(),
+
                                 zoneGbnName = item["zoneGbnName"].ToString(),
                                 zoneGbnID = item["zoneGbnID"].ToString(),
+
                                 manageCustomAcptDate = DateTypeHyphen(item["manageCustomAcptDate"].ToString()),
                                 manageCustomConfirmDate = DateTypeHyphen(item["manageCustomConfirmDate"].ToString()),
+
+                                //국소정보
                                 installLocation = item["installLocation"].ToString(),
                                 installLocationAddress = item["installLocationAddress"].ToString(),
                                 InstallLocationPhone = item["InstallLocationPhone"].ToString(),
                                 installLocationPart = item["installLocationPart"].ToString(),
-                                houseHoldCount = item["houseHoldCount"].ToString(),
-                                carParkingCount = item["carParkingCount"].ToString(),
-                                electrCarCount = item["electrCarCount"].ToString(),
-                                alReadyChargeCount = item["alReadyChargeCount"].ToString(),
-                                reqChargeCount = item["reqChargeCount"].ToString(),
+                                houseHoldCount = stringFormatN0(item["houseHoldCount"]),
+                                carParkingCount = stringFormatN0(item["carParkingCount"]),
+                                electrCarCount = stringFormatN0(item["electrCarCount"]),
+                                alReadyChargeCount = stringFormatN0(item["alReadyChargeCount"]),
+
+                                reqChargeCount = stringFormatN0(item["reqChargeCount"]),
                                 alreadyManageCustomName = item["alreadyManageCustomName"].ToString(),
+
                                 alreadyManageCustomID = item["alreadyManageCustomID"].ToString(),
                                 installLocationComments = item["installLocationComments"].ToString(),
                                 contractFromDate = DateTypeHyphen(item["contractFromDate"].ToString()),
@@ -552,9 +560,13 @@ namespace WizMes_EVC
                                 damdangjaPhone = item["damdangjaPhone"].ToString(),
                                 damdangjaEMail = item["damdangjaEMail"].ToString(),
                                 installLocationAddComments = item["installLocationAddComments"].ToString(),
+
+                                //영업회사
                                 saledamdangjaPhone = item["saledamdangjaPhone"].ToString(),
                                 saleCustomAddWork = item["saleCustomAddWork"].ToString(),
                                 salegift = item["salegift"].ToString(),
+
+                                //기기 및 액서사리 정보
                                 article = item["article"].ToString(),
                                 chargeOrderDate = DateTypeHyphen(item["chargeOrderDate"].ToString()),
                                 chargeInwareDate = DateTypeHyphen(item["chargeInwareDate"].ToString()),
@@ -567,28 +579,37 @@ namespace WizMes_EVC
                                 chargeStandReqDate = DateTypeHyphen(item["chargeStandReqDate"].ToString()),
                                 chargeStandInwareDate = DateTypeHyphen(item["chargeStandInwareDate"].ToString()),
                                 mtrCanopyInwareInfo = item["mtrCanopyInwareInfo"].ToString(),
-                                mtrCanopyOrderAmount = item["mtrCanopyOrderAmount"].ToString(),
+                                mtrCanopyOrderAmount = stringFormatN0(item["mtrCanopyOrderAmount"]),
                                 comments = item["comments"].ToString(),
+
+                                //시공 및 실사 정보
                                 searchReqDate = DateTypeHyphen(item["searchReqDate"].ToString()),
                                 searchDate = DateTypeHyphen(item["searchDate"].ToString()),
-                                searchQty = item["searchQty"].ToString(),
+                                searchQty = stringFormatN0(item["searchQty"]),
                                 searchDataAcptDate = DateTypeHyphen(item["searchDataAcptDate"].ToString()),
-                                installLocationCount = item["installLocationCount"].ToString(),
+                                installLocationCount = stringFormatN0(item["installLocationCount"]),
                                 electrDeliveryMethod = item["electrDeliveryMethod"].ToString(),
                                 inspectionNeedYN = item["inspectionNeedYN"].ToString(),
                                 addConstructCostSearch = item["addConstructCostSearch"].ToString(),
                                 addConstructCost = item["addConstructCost"].ToString(),
-                                searchComments = item["searchComments"].ToString(),
+                                searchComments = stringFormatN0(item["searchComments"]),
+
+                                //지자체사항
+                                superUseInspReqDate = DateTypeHyphen(item["superUseInspReqDate"].ToString()),
+                                superBeforeUseInspPrintDate = DateTypeHyphen(item["superBeforeUseInspPrintDate"].ToString()),
+
+                                //공단사항
                                 corpAcptNo = item["corpAcptNo"].ToString(),
                                 corpApprovalDate = DateTypeHyphen(item["corpApprovalDate"].ToString()),
                                 corpEndDate = DateTypeHyphen(item["corpEndDate"].ToString()),
                                 corpLastEndDate = DateTypeHyphen(item["corpLastEndDate"].ToString()),
                                 corpComments = item["corpComments"].ToString(),
-                                kepInstallLocationCount = item["kepInstallLocationCount"].ToString(),
+                                kepInstallLocationCount = stringFormatN0(item["kepInstallLocationCount"]),
                                 kepElectrDeliveryMethod = item["kepElectrDeliveryMethod"].ToString(),
                                 kepOutLineConstructContext = item["kepOutLineConstructContext"].ToString(),
-                                kepInfraPayAmount = item["kepInfraPayAmount"].ToString(),
-                                kepManageInfraPayAmount = item["kepManageInfraPayAmount"].ToString(),
+                                kepInfraPayAmount = stringFormatN0(item["kepInfraPayAmount"]),
+                                kepManageInfraPayAmount = stringFormatN0(item["kepManageInfraPayAmount"]),
+                                kepManageInfraPayDate = DateTypeHyphen(item["kepManageInfraPayDate"].ToString()),
                                 kepElectrReqDate = DateTypeHyphen(item["kepElectrReqDate"].ToString()),
                                 kepInApprovalYN = item["kepInApprovalYN"].ToString(),
                                 kepInApprovalDate = DateTypeHyphen(item["kepInApprovalDate"].ToString()),
@@ -598,6 +619,8 @@ namespace WizMes_EVC
                                 kepPaymentDate = DateTypeHyphen(item["kepPaymentDate"].ToString()),
                                 kepMeterInstallDate = DateTypeHyphen(item["kepMeterInstallDate"].ToString()),
                                 kepFaucetComments = item["kepFaucetComments"].ToString(),
+
+                                //전기안전공사진행정보
                                 constrCustomName = item["constrCustomName"].ToString(),
                                 constrCustomID = item["constrCustomID"].ToString(),
                                 constrOrderDate = DateTypeHyphen(item["constrOrderDate"].ToString()),
@@ -620,10 +643,12 @@ namespace WizMes_EVC
                                 electrBeforeInspCostPayDate = DateTypeHyphen(item["electrBeforeInspCostPayDate"].ToString()),
                                 electrBeforeInspSuppleContext = item["electrBeforeInspSuppleContext"].ToString(),
                                 electrSafeCheckComments = item["electrSafeCheckComments"].ToString(),
+
+                                //감리
                                 superCustomName = item["superCustomName"].ToString(),
                                 superCustomID = item["superCustomID"].ToString(),
-                                superCostPayCustom = item["superCostPayCustom"].ToString(),
-                                superCostPayCustomID = item["superCostPayCustomID"].ToString(),
+                                //superCostPayCustom = item["superCostPayCustom"].ToString(),
+                                //superCostPayCustomID = item["superCostPayCustomID"].ToString(),
                                 superCustomPhoneNo = item["superCustomPhoneNo"].ToString(),
                                 safeManageCustomName = item["safeManageCustomName"].ToString(),
                                 safeManageCustomID = item["safeManageCustomID"].ToString(),
@@ -632,10 +657,11 @@ namespace WizMes_EVC
                                 superSetTaxPrintDate = DateTypeHyphen(item["superSetTaxPrintDate"].ToString()),
                                 superUseInspPayCustomName = item["superUseInspPayCustomName"].ToString(),
                                 superUseInspPayCustomID = item["superUseInspPayCustomID"].ToString(),
-                                superUseInspReqDate = DateTypeHyphen(item["superUseInspReqDate"].ToString()),
-                                superFromUseInspReqDate = DateTypeHyphen(item["superFromUseInspReqDate"].ToString()),
-                                superBeforeUseInspDate = DateTypeHyphen(item["superBeforeUseInspDate"].ToString()),
+                                //superFromUseInspReqDate = DateTypeHyphen(item["superFromUseInspReqDate"].ToString()),
+                                //superBeforeUseInspDate = DateTypeHyphen(item["superBeforeUseInspDate"].ToString()),
                                 superComments = item["superComments"].ToString(),
+
+                                //준공서류
                                 compReplyDate = DateTypeHyphen(item["compReplyDate"].ToString()),
                                 suppleContext = item["suppleContext"].ToString(),
                                 suppleCompDate = DateTypeHyphen(item["suppleCompDate"].ToString()),
@@ -644,21 +670,43 @@ namespace WizMes_EVC
                                 insurePrintDate = item["insurePrintDate"].ToString(),
                                 compReportCompDate = DateTypeHyphen(item["compReportCompDate"].ToString()),
                                 compReportComments = item["compReportComments"].ToString(),
-                                accntMgrWorkPreTaxPrintDate = DateTypeHyphen(item["accntMgrWorkPreTaxPrintDate"].ToString()),
+
+                                //정산경리 정보
+                                //운영사시공비
+                                accntMgrWorkPreTaxPrintDate = item["accntMgrWorkPreTaxPrintDate"].ToString(),
                                 accntMgrWorkPreAmount = item["accntMgrWorkPreAmount"].ToString(),
                                 accntMgrWorkPreAmountComments = item["accntMgrWorkPreAmountComments"].ToString(),
-                                accntMgrWorkAfterTaxPrintDate = DateTypeHyphen(item["accntMgrWorkAfterTaxPrintDate"].ToString()),
-                                accntMgrWorkAfterAmount = item["accntMgrWorkAfterAmount"].ToString(),
-                                accntMgrWorkAfterAmountComments = item["accntMgrWorkAfterAmountComments"].ToString(),
-                                accntMgrWorkTaxPrintDate = DateTypeHyphen(item["accntMgrWorkTaxPrintDate"].ToString()),
-                                accntMgrWorkAmount = item["accntMgrWorkAmount"].ToString(),
-                                accntMgrWorkAmountComments = item["accntMgrWorkAmountComments"].ToString(),
-                                accntWorkTaxPrintDate = DateTypeHyphen(item["accntWorkTaxPrintDate"].ToString()),
-                                accntWorkAmount = item["accntWorkAmount"].ToString(),
-                                accntWorkAmountComments = item["accntWorkAmountComments"].ToString(),
-                                accntSalesTaxPrintDate = item["accntSalesTaxPrintDate"].ToString(),
-                                accntSalesAmount = item["accntSalesAmount"].ToString(),
-                                accntSalesAmountComments = item["accntSalesAmountComments"].ToString(),
+                                //운영사영업비
+                                accntMgrSalesPreTaxPrintDate = item["accntMgrSalesPreTaxPrintDate"].ToString(),
+                                accntMgrSalesPreAmount = item["accntMgrSalesPreAmount"].ToString(),
+                                accntMgrSalesPreAmountComments = item["accntMgrSalesPreAmountComments"].ToString(),
+                                //시공팀
+                                accntWorkPreTaxPrintDate = item["accntWorkPreTaxPrintDate"].ToString(),
+                                accntWorkPreAmount = item["accntWorkPreAmount"].ToString(),
+                                accntWorkPreAmountComments = item["accntWorkPreAmountComments"].ToString(),
+                                //영업사원
+                                accntSalesPreTaxPrintDate = item["accntSalesPreTaxPrintDate"].ToString(),
+                                accntSalesPreAmount = item["accntSalesPreAmount"].ToString(),
+                                accntSalesPreAmountComments = item["accntSalesPreAmountComments"].ToString(),
+                                //accntMgrWorkPreTaxPrintDate = DateTypeHyphen(item["accntMgrWorkPreTaxPrintDate"].ToString()),
+                                //accntMgrWorkPreAmount = item["accntMgrWorkPreAmount"].ToString(),
+                                //accntMgrWorkPreAmountComments = item["accntMgrWorkPreAmountComments"].ToString(),
+
+                                //accntMgrWorkAfterTaxPrintDate = DateTypeHyphen(item["accntMgrWorkAfterTaxPrintDate"].ToString()),
+                                //accntMgrWorkAfterAmount = item["accntMgrWorkAfterAmount"].ToString(),
+                                //accntMgrWorkAfterAmountComments = item["accntMgrWorkAfterAmountComments"].ToString(),
+
+                                //accntMgrWorkTaxPrintDate = DateTypeHyphen(item["accntMgrWorkTaxPrintDate"].ToString()),
+                                //accntMgrWorkAmount = item["accntMgrWorkAmount"].ToString(),
+                                //accntMgrWorkAmountComments = item["accntMgrWorkAmountComments"].ToString(),
+
+                                //accntWorkTaxPrintDate = DateTypeHyphen(item["accntWorkTaxPrintDate"].ToString()),
+                                //accntWorkAmount = item["accntWorkAmount"].ToString(),
+                                //accntWorkAmountComments = item["accntWorkAmountComments"].ToString(),
+
+                                //accntSalesTaxPrintDate = item["accntSalesTaxPrintDate"].ToString(),
+                                //accntSalesAmount = item["accntSalesAmount"].ToString(),
+                                //accntSalesAmountComments = item["accntSalesAmountComments"].ToString(),
 
                             };
                             dgdMain.Items.Add(Window_OrderClose_DTO);
@@ -750,9 +798,10 @@ namespace WizMes_EVC
                         double OutSum = 0;
                         double PersonSum = 0;
 
-
-                        foreach (DataRow dr in drc)
-                        {
+                        DataRow dr = dt.Rows[0];
+                     
+                        //foreach (DataRow dr in drc)
+                        //{
                             var Window_OrderClose_DTO = new dgOrderSum()
                             {
 
@@ -765,15 +814,18 @@ namespace WizMes_EVC
 
 
                             };
-                            PersonSum = 3 * ConvertInt(Window_OrderClose_DTO.Treat) * ConvertInt(Window_OrderClose_DTO.orderSum);
+                            double dateDiff = Convert.ToDouble(Window_OrderClose_DTO.dateDiffSum) / dgdMain.Items.Count;
+                            Window_OrderClose_DTO.dateDiffSum = dateDiff.ToString();
+                            //PersonSum = 3 * ConvertInt(Window_OrderClose_DTO.Treat) * ConvertInt(Window_OrderClose_DTO.orderSum);
                             Window_OrderClose_DTO.PersonSum = PersonSum.ToString();
+                            
 
                             Window_OrderClose_DTO.Count = dgdMain.Items.Count;
                             dgdSum.Items.Add(Window_OrderClose_DTO);
 
-                            i++;
+                            //i++;
 
-                        }
+                        //}
 
 
 
@@ -796,6 +848,32 @@ namespace WizMes_EVC
             }
         }
 
+
+        private int SetJobDoneByPerson()
+        {
+            int value = 0;
+
+            if(dgdMain.Items.Count > 0)
+            {
+                foreach(Win_ord_OrderClose_U_CodeView item in dgdMain.Items)
+                {
+                    int step = 0;
+                    if (!string.IsNullOrEmpty(item.acptDate)) { step++; }
+                    if (!string.IsNullOrEmpty(item.corpApprovalDate)) { step++; }
+                    if (!string.IsNullOrEmpty(item.acptDate)) { step++; }
+                    if (!string.IsNullOrEmpty(item.acptDate)) { step++; }
+                    if (!string.IsNullOrEmpty(item.acptDate)) { step++; }
+                    if (!string.IsNullOrEmpty(item.acptDate)) { step++; }
+                    if (!string.IsNullOrEmpty(item.acptDate)) { step++; }
+                    if (!string.IsNullOrEmpty(item.acptDate)) { step++; }
+                    if (!string.IsNullOrEmpty(item.acptDate)) { step++; }
+                    if (!string.IsNullOrEmpty(item.acptDate)) { step++; }
+                  
+                }
+            }
+
+            return value;
+        }
 
         //8자리 char형태 날짜 년도-월-일 하이픈 삽입
         //16자리 일경우 8자리 사이에 ~ 삽입
@@ -1891,6 +1969,7 @@ namespace WizMes_EVC
         public string kepOutLineConstructContext { get; set; }
         public string kepInfraPayAmount { get; set; }
         public string kepManageInfraPayAmount { get; set; }
+        public string kepManageInfraPayDate { get; set; } //시설부담금 운영사 전달일(신규 추가)
         public string kepElectrReqDate { get; set; }
         public string kepInApprovalYN { get; set; }
         public string kepInApprovalDate { get; set; }
@@ -1938,6 +2017,7 @@ namespace WizMes_EVC
         public string superUseInspPayCustomID { get; set; }
         public string superUseInspReqDate { get; set; }
         public string superFromUseInspReqDate { get; set; }
+        public string superBeforeUseInspPrintDate { get; set; } //사용검사필증발급일
         public string superBeforeUseInspDate { get; set; }
         public string superComments { get; set; }
         public string compReplyDate { get; set; }
@@ -1948,21 +2028,35 @@ namespace WizMes_EVC
         public string insurePrintDate { get; set; }
         public string compReportCompDate { get; set; }
         public string compReportComments { get; set; }
-        public string accntMgrWorkPreTaxPrintDate { get; set; }
-        public string accntMgrWorkPreAmount { get; set; }
-        public string accntMgrWorkPreAmountComments { get; set; }
-        public string accntMgrWorkAfterTaxPrintDate { get; set; }
-        public string accntMgrWorkAfterAmount { get; set; }
-        public string accntMgrWorkAfterAmountComments { get; set; }
-        public string accntMgrWorkTaxPrintDate { get; set; }
-        public string accntMgrWorkAmount { get; set; }
-        public string accntMgrWorkAmountComments { get; set; }
-        public string accntWorkTaxPrintDate { get; set; }
-        public string accntWorkAmount { get; set; }
-        public string accntWorkAmountComments { get; set; }
-        public string accntSalesTaxPrintDate { get; set; }
-        public string accntSalesAmount { get; set; }
-        public string accntSalesAmountComments { get; set; }
+        //정산경리정보
+        public string accntMgrWorkPreTaxPrintDate {get;set;}
+        public string accntMgrWorkPreAmount {get;set;}
+        public string accntMgrWorkPreAmountComments {get;set;}
+        public string accntMgrSalesPreTaxPrintDate {get;set;}
+        public string accntMgrSalesPreAmount {get;set;}
+        public string accntMgrSalesPreAmountComments {get;set;}
+        public string accntWorkPreTaxPrintDate {get;set;}
+        public string accntWorkPreAmount {get;set;}
+        public string accntWorkPreAmountComments {get;set;}
+        public string accntSalesPreTaxPrintDate {get;set;}
+        public string accntSalesPreAmount {get;set;}
+        public string accntSalesPreAmountComments { get; set; }
+
+        //public string accntMgrWorkPreTaxPrintDate { get; set; }
+        //public string accntMgrWorkPreAmount { get; set; }
+        //public string accntMgrWorkPreAmountComments { get; set; }
+        //public string accntMgrWorkAfterTaxPrintDate { get; set; }
+        //public string accntMgrWorkAfterAmount { get; set; }
+        //public string accntMgrWorkAfterAmountComments { get; set; }
+        //public string accntMgrWorkTaxPrintDate { get; set; }
+        //public string accntMgrWorkAmount { get; set; }
+        //public string accntMgrWorkAmountComments { get; set; }
+        //public string accntWorkTaxPrintDate { get; set; }
+        //public string accntWorkAmount { get; set; }
+        //public string accntWorkAmountComments { get; set; }
+        //public string accntSalesTaxPrintDate { get; set; }
+        //public string accntSalesAmount { get; set; }
+        //public string accntSalesAmountComments { get; set; }
 
 
 

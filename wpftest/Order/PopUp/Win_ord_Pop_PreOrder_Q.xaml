@@ -191,7 +191,7 @@
                     <ColumnDefinition Width="90*" />
                     <ColumnDefinition Width="15*" />
                 </Grid.ColumnDefinitions>
-                <Label x:Name="lblArticleSrh" Grid.Column="0" 
+                <!--<Label x:Name="lblArticleSrh" Grid.Column="0" 
                            MouseLeftButtonUp="lblArticleSrh_MouseLeftButtonUp" Style="{DynamicResource LabelSearch}">
                     <StackPanel Style="{DynamicResource StackPanelInLabel}">
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
@@ -212,8 +212,32 @@
                 <Button x:Name="btnArticleSrh" Grid.Column="2" IsEnabled="False"
                             Click="btnArticleSrh_Click" >
                     <Image Source="{DynamicResource btiPlusFind}" ></Image>
+                </Button>-->
+                <Label x:Name="lblConstrCustomIdSrh" Grid.Column="0" 
+                  MouseLeftButtonUp="lblConstrCustomIdSrh_MouseLeftButtonUp" Style="{DynamicResource LabelSearch}">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <CheckBox x:Name="chkConstrCustomIdSrh" 
+                                 VerticalAlignment="Center"
+                                 Click="chkConstrCustomIdSrh_Click" ></CheckBox>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <TextBlock Text="시공사업체" 
+                              Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                        </Viewbox>
+
+                    </StackPanel>
+                </Label>
+                <TextBox x:Name="txtConstrCustomIdSrh" Grid.Column="1" IsEnabled="False"
+                   Style="{DynamicResource TextBoxSearch}"
+                    KeyDown="txtConstrCustomIdSrh_KeyDown"></TextBox>
+                <Button x:Name="btnConstrCustomIdSrh" Grid.Column="2" IsEnabled="False"
+                   Click="btnConstrCustomIdSrh_Click" >
+                    <Image Source="{DynamicResource btiPlusFind}" ></Image>
                 </Button>
             </Grid>
+
+   
 
             <!--비고-->            
               <!--<Grid Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="3">
