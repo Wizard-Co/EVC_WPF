@@ -52,6 +52,7 @@ namespace WizMes_EVC
         public Win_ord_OrderClose_U()
         {
             InitializeComponent();
+            this.GotFocus += Win_ord_OrderClose_U_GotFocus;
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -65,6 +66,18 @@ namespace WizMes_EVC
             btnToday_Click(null, null);
             SetComboBox();
 
+        }
+
+        private void Win_ord_OrderClose_U_GotFocus(object sender, EventArgs e)
+        {
+            if(dgdMain.Items.Count > 0 && dgdMain.SelectedIndex != -1)
+            {
+                var item = dgdMain.SelectedItem as Win_ord_OrderClose_U_CodeView;
+                if(item != null)
+                {
+                    MainWindow.OrderID = item.orderid;
+                }
+            }
         }
 
         //콤보박스 세팅
@@ -350,6 +363,7 @@ namespace WizMes_EVC
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             DataStore.Instance.InsertLogByFormS(this.GetType().Name, stDate, stTime, "E");
+            this.GotFocus -= Win_ord_OrderClose_U_GotFocus;
             Lib.Instance.ChildMenuClose(this.ToString());
         }
 
@@ -1855,12 +1869,15 @@ namespace WizMes_EVC
 
         private void GoOrderButton_Click(object sender, RoutedEventArgs e)
         {
-            // 수주등록 ㄱㄱㄱ
+            if (orderID_global == string.Empty)
+                return;
+
             int i = 0;
             foreach (MenuViewModel mvm in MainWindow.mMenulist)
             {
                 if (mvm.Menu.Equals("수주등록"))
                 {
+                    MainWindow.OrderID = orderID_global;
                     break;
                 }
                 i++;
@@ -1869,13 +1886,11 @@ namespace WizMes_EVC
             {
                 if (MainWindow.MainMdiContainer.Children.Contains(MainWindow.mMenulist[i].subProgramID as MdiChild))
                 {
-                    (MainWindow.mMenulist[i].subProgramID as MdiChild).Focus();
-                }
-                else
-                {
+                    MainWindow.MainMdiContainer.Children.Remove(MainWindow.mMenulist[i].subProgramID as MdiChild);
+
+                    // 다시 창 열기
                     Type type = Type.GetType("WizMes_EVC." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
                     object uie = Activator.CreateInstance(type);
-
                     MainWindow.mMenulist[i].subProgramID = new MdiChild()
                     {
                         Title = "WizMes_EVC [" + MainWindow.mMenulist[i].MenuID.Trim() + "] " + MainWindow.mMenulist[i].Menu.Trim() +
@@ -1887,7 +1902,6 @@ namespace WizMes_EVC
                         Content = uie as UIElement,
                         Tag = MainWindow.mMenulist[i]
                     };
-                    Lib.Instance.AllMenuLogInsert(MainWindow.mMenulist[i].MenuID, MainWindow.mMenulist[i].Menu, MainWindow.mMenulist[i].subProgramID);
                     MainWindow.MainMdiContainer.Children.Add(MainWindow.mMenulist[i].subProgramID as MdiChild);
                 }
             }

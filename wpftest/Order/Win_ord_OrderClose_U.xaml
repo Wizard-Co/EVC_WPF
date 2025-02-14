@@ -224,9 +224,8 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button Content="수주등록 바로가기"  Click="GoOrderButton_Click" Visibility="Hidden"/>
-                <Button Content="첨부문서 조회"  Click="AttachFileSearch_Click" />
-
+                <Button x:Name="btnAttachFileSearch" Grid.Column="0" Content="첨부문서 조회"  Click="AttachFileSearch_Click" />
+                <Button x:Name="btnGoOrder" Grid.Column="1" Content="수주등록 바로가기"  Click="GoOrderButton_Click" />   
             </Grid>
 
 

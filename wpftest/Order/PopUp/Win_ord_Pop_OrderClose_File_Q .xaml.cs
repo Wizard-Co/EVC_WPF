@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,14 +13,14 @@ using static System.Net.WebRequestMethods;
 
 /**************************************************************************************************
 '** 프로그램명 : Win_ord_Pop_dgdFile
-'** 설명       : 계약등록 과거계약조회 상담등록 팝업
+'** 설명       : 수주진행관리 첨부파일 다운로드
 '** 작성일자   : 2024.12.11
 '** 작성자     : 최대현
 '**------------------------------------------------------------------------------------------------
 '**************************************************************************************************
 ' 변경일자  , 변경자, 요청자    , 요구사항ID      , 요청 및 작업내용
 '**************************************************************************************************
-' 2024.12.11, 최대현, 최초작성, 계약등록 과거계약조회 기능작성, 선택 값 돌려주기  
+' 2025.02.14, 최대현, 최초작성
 '**************************************************************************************************/
 
 namespace WizMes_EVC.Order.Pop
@@ -92,22 +94,35 @@ namespace WizMes_EVC.Order.Pop
         {
             int count = ovcFile_OrderClose.Count;
 
+            if (count == 0) return;
+
             MessageBoxResult msgresult = MessageBox.Show($"선택하신 {count}개의 파일을 다운로드 하시겠습니까??", "보기 확인", MessageBoxButton.YesNo);
             if(msgresult == MessageBoxResult.Yes)
             {
                 if (PopUp_FTPDownload(count))
                 {
-                    MessageBox.Show($"{fileDown_Success} 의 파일을 다운로드 하였습니다.");
+                    string[] msg = {$"{fileDown_Success}건의 파일을 다운로드 하였습니다.",
+                                    $"일부 파일을 제외하고 다운 받았습니다. 받은건수 :{fileDown_Success} 건\n서버에서 삭제되었거나 저장된 경로에 문제가 있습니다.",
+                                    "파일을 다운로드하지 못하였습니다.\n서버에서 삭제되었거나 FTP 네트워크가 다를 수 있습니다."};
+
+                    int messageIndex = (fileDown_Success == count) ? 0 : (fileDown_Success > 0) ? 1 : 2;
+
+                    MessageBox.Show(msg[messageIndex]);
+                }
+
+                string folderPath = LOCAL_DOWN_PATH + "\\" + orderID;
+                if (Directory.Exists(folderPath) && fileDown_Success > 0)
+                {
+                    Process.Start("explorer.exe", folderPath);
                 }
 
                 fileDown_Success = 0;
+                btnDeSelAll_Click(null, null);
+                ovcFile_OrderClose.Clear();
             }
-            //int selectrow = dgdFile.SelectedIndex;
-            //DataGridRow dgr = lib.GetRow(selectrow, dgdFile);
-            //SelectedItem = dgr.Item as Win_ord_Pop_OrderClose_File;
-            //DialogResult = true;
-            //this.Close();
+      
         }
+
         private bool PopUp_FTPDownload(int count)
         {
             bool flag = true;
@@ -141,7 +156,15 @@ namespace WizMes_EVC.Order.Pop
                         file.Delete();
                     }
 
-                    if (_ftp.download(str_remotepath, str_localpath)) fileDown_Success++;
+                    try
+                    {
+                        if (_ftp.download(str_remotepath, str_localpath, false)) fileDown_Success++;
+                    }
+                    catch
+                    {
+                        continue; //일단 조용히 넘어갑시다...
+                    }
+
                 }
             }
             catch
@@ -170,10 +193,9 @@ namespace WizMes_EVC.Order.Pop
             {
                 foreach(Win_ord_Pop_OrderClose_File item in dgdFile.Items)
                 {
-                    if(item.chk == false)
+                    if (item.chk == false && !ovcFile_OrderClose.Select(x => x.fileName).Contains(item.fileName))
                     {
                         item.chk = true;
-                        ovcFile_OrderClose.Add(item);
                     }
                 }
             }
@@ -188,7 +210,6 @@ namespace WizMes_EVC.Order.Pop
                     if (item.chk == true)
                     {
                         item.chk = false;
-                        ovcFile_OrderClose.Remove(item);
                     }
                 }
             }
@@ -230,13 +251,16 @@ namespace WizMes_EVC.Order.Pop
                             var fileList = new Win_ord_Pop_OrderClose_File()
                             {
                                 num = num,
+                                fileAlias = dr["fileAlias"].ToString(),
                                 fileName = dr["fileName"].ToString(),
                                 filePath = dr["filePath"].ToString(),
                             };
 
                             if(fileList.fileName.Trim() != string.Empty)
-                            dgdFile.Items.Add(fileList);
-                            num++;
+                            {
+                                dgdFile.Items.Add(fileList);
+                                num++;
+                            }
                         }
 
       
@@ -250,6 +274,29 @@ namespace WizMes_EVC.Order.Pop
                 return false;
             }
 
+        }
+
+        private void chk_Checked(object sender, RoutedEventArgs e)
+        {
+            CheckBox checkBox = sender as CheckBox;
+
+            if(checkBox!= null && checkBox.IsChecked == true)
+            {
+                var item = (checkBox.DataContext as Win_ord_Pop_OrderClose_File);
+                checkBox.IsChecked = true;
+                ovcFile_OrderClose.Add(item);
+            }
+        }
+        private void chk_UnChecked(object sender, RoutedEventArgs e)
+        {
+            CheckBox checkBox = sender as CheckBox;
+
+            if (checkBox != null && checkBox.IsChecked == false)
+            {
+                var item = (checkBox.DataContext as Win_ord_Pop_OrderClose_File);
+                checkBox.IsChecked = false;
+                ovcFile_OrderClose.Remove(item);
+            }
         }
 
         // 천마리 콤마, 소수점 버리기
@@ -286,6 +333,7 @@ namespace WizMes_EVC.Order.Pop
         {
 
             public bool chk { get; set; }
+            public string fileAlias{get;set;}
             public string fileName { get; set; }
             public string filePath { get; set; }
             public int num { get; set; }

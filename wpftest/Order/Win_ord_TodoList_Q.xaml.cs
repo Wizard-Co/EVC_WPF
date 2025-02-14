@@ -23,6 +23,7 @@ namespace WizMes_EVC
         public Win_ord_TodoList_Q()
         {
             InitializeComponent();
+            this.GotFocus += Win_ord_TodoList_Q_GotFocus;
         }
         Lib lib = new Lib();
         PlusFinder pf = new PlusFinder();
@@ -58,6 +59,18 @@ namespace WizMes_EVC
             ComboBoxSetting();
             //제품으로 고정
 
+        }
+
+        private void Win_ord_TodoList_Q_GotFocus(object sender, EventArgs e)
+        {
+            if (dgdMain.Items.Count > 0 && dgdMain.SelectedIndex != -1)
+            {
+                var item = dgdMain.SelectedItem as Win_ord_TodoList_Q_View;
+                if (item != null)
+                {
+                    MainWindow.OrderID = item.orderId;
+                }
+            }
         }
 
         #region 첫단계 / 날짜버튼 세팅 / 조회용 체크박스 세팅
@@ -597,6 +610,7 @@ namespace WizMes_EVC
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             DataStore.Instance.InsertLogByFormS(this.GetType().Name, stDate, stTime, "E");
+            this.GotFocus -= Win_ord_TodoList_Q_GotFocus;
 
             int i = 0;
             foreach (MenuViewModel mvm in MainWindow.mMenulist)

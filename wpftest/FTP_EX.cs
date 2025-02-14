@@ -154,7 +154,7 @@ namespace WizMes_EVC
 
 
         /* Download File */
-        public bool download(string remoteFile, string localFile)
+        public bool download(string remoteFile, string localFile, bool showMsg = true)
         {
             try
             {
@@ -192,8 +192,8 @@ namespace WizMes_EVC
                 }
                 catch (Exception ex)
                 {
-                    System.Windows.MessageBox.Show("1" + ex.Message + " / " + ex.Source);
-                    throw ex;
+                    if(showMsg == true) System.Windows.MessageBox.Show("1" + ex.Message + " / " + ex.Source);
+                    throw;
                 }
                 /* Resource Cleanup */
                 localFileStream.Close();
@@ -204,7 +204,7 @@ namespace WizMes_EVC
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show("2" + ex.Message + " / " + ex.Source);
+                if (showMsg == true)  System.Windows.MessageBox.Show("2" + ex.Message + " / " + ex.Source);
                 return false;
                 //throw ex;
             }
