@@ -818,7 +818,7 @@
                             <!--<DataGridColumnHeader Grid.Row="1" Grid.Column="94" Grid.RowSpan="2"  Content="감리비용지출업체"/>-->
                             <DataGridColumnHeader Grid.Row="1" Grid.Column="96" Grid.RowSpan="2"  Content="감리업체연락처"/>
                             <DataGridColumnHeader Grid.Row="1" Grid.Column="97" Grid.RowSpan="2"  Content="안전관리업체명"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="98" Grid.RowSpan="2"  Content="안전관리연락처"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="98" Grid.RowSpan="2"  Content="전기안전관리연락처"/>
 
                             <DataGridColumnHeader Grid.Row="1" Grid.Column="99" Grid.RowSpan="2"  Content="감리배치수수료"/>
                             <DataGridColumnHeader Grid.Row="1" Grid.Column="100" Grid.RowSpan="2"  Content="감리배치계산서발행일"/>
@@ -843,23 +843,23 @@
                             <!--정산 경리 정보-운영사시공비-->
                             <DataGridColumnHeader Grid.Row="0" Grid.Column="111" Grid.ColumnSpan="15" Content="정산 경리 정보(선금)" />
                             <DataGridColumnHeader Grid.Row="1" Grid.Column="111" Grid.ColumnSpan="3" Content="운영사시공비"/>
-                            <DataGridColumnHeader Grid.Row="2" Grid.Column="111" Content="계산서발행일"/>
-                            <DataGridColumnHeader Grid.Row="2" Grid.Column="112" Content="금액"/>
+                            <DataGridColumnHeader Grid.Row="2" Grid.Column="111" Content="선금 계산서발행일"/>
+                            <DataGridColumnHeader Grid.Row="2" Grid.Column="112" Content="선금 금액"/>
                             <DataGridColumnHeader Grid.Row="2" Grid.Column="113" Content="비고"/>
 
                             <DataGridColumnHeader Grid.Row="1" Grid.Column="114" Grid.ColumnSpan="3" Content="운영사영업비"/>
-                            <DataGridColumnHeader Grid.Row="2" Grid.Column="114" Content="계산서발행일"/>
-                            <DataGridColumnHeader Grid.Row="2" Grid.Column="115" Content="금액"/>
+                            <DataGridColumnHeader Grid.Row="2" Grid.Column="114" Content="선금 계산서발행일"/>
+                            <DataGridColumnHeader Grid.Row="2" Grid.Column="115" Content="선금 금액"/>
                             <DataGridColumnHeader Grid.Row="2" Grid.Column="116" Content="비고"/>
 
                             <DataGridColumnHeader Grid.Row="1" Grid.Column="117" Grid.ColumnSpan="3" Content="시공팀"/>
-                            <DataGridColumnHeader Grid.Row="2" Grid.Column="117" Content="계산서발행일"/>
-                            <DataGridColumnHeader Grid.Row="2" Grid.Column="118" Content="금액"/>
+                            <DataGridColumnHeader Grid.Row="2" Grid.Column="117" Content="선금 계산서발행일"/>
+                            <DataGridColumnHeader Grid.Row="2" Grid.Column="118" Content="선금 금액"/>
                             <DataGridColumnHeader Grid.Row="2" Grid.Column="119" Content="비고"/>
 
                             <DataGridColumnHeader Grid.Row="1" Grid.Column="120" Grid.ColumnSpan="3" Content="영업사원"/>
-                            <DataGridColumnHeader Grid.Row="2" Grid.Column="120" Content="계산서발행일"/>
-                            <DataGridColumnHeader Grid.Row="2" Grid.Column="121" Content="금액"/>
+                            <DataGridColumnHeader Grid.Row="2" Grid.Column="120" Content="선금 계산서발행일"/>
+                            <DataGridColumnHeader Grid.Row="2" Grid.Column="121" Content="선금 금액"/>
                             <DataGridColumnHeader Grid.Row="2" Grid.Column="122" Content="비고"/>
 
                             <!--<DataGridColumnHeader Grid.Row="1" Grid.Column="126" Grid.ColumnSpan="3" Content="　"/>
@@ -1386,7 +1386,7 @@
 
                                 <!--시공및 실사정보-->
                                 <!--실사요청일-->
-                                <DataGridTemplateColumn x:Name="searchReqDate" MinWidth="70">
+                                <DataGridTemplateColumn x:Name="searchReqDate" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding searchReqDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1466,7 +1466,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--추가공사비(EVC부담)-->
-                                <DataGridTemplateColumn x:Name="addConstructCost" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="addConstructCost" MinWidth="130">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding addConstructCost, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1476,7 +1476,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--실사처리비고-->
-                                <DataGridTemplateColumn x:Name="searchComments" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="searchComments" MinWidth="120">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding searchComments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1487,7 +1487,7 @@
 
                                 <!--공단사항-->
                                 <!--공단접수번호-->
-                                <DataGridTemplateColumn x:Name="corpAcptNo" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="corpAcptNo" MinWidth="80">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding corpAcptNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1497,27 +1497,27 @@
                                 </DataGridTemplateColumn>
 
                                 <!--공단승인일-->
-                                <DataGridTemplateColumn x:Name="corpApprovalDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="corpApprovalDate" MinWidth="70">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding corpApprovalDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                                        TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,5,0"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--공단마감일-->
-                                <DataGridTemplateColumn x:Name="corpEndDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="corpEndDate" MinWidth="70">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding corpEndDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                                        TextAlignment="Center" VerticalAlignment="Center" Margin="5,0,5,0"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--공기최종마감일-->
-                                <DataGridTemplateColumn x:Name="corpLastEndDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="corpLastEndDate" MinWidth="95">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding corpLastEndDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1527,7 +1527,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--공단사항비고-->
-                                <DataGridTemplateColumn x:Name="corpComments" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="corpComments" MinWidth="95">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding corpComments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1558,7 +1558,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--외선공사내용-->
-                                <DataGridTemplateColumn x:Name="kepOutLineConstructContext" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="kepOutLineConstructContext" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding kepOutLineConstructContext, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1568,7 +1568,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--시설부담금-->
-                                <DataGridTemplateColumn x:Name="kepInfraPayAmount" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="kepInfraPayAmount" MinWidth="80">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding kepInfraPayAmount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1578,7 +1578,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--운영사전달(시설부담금) -> 시설부담금 운영사 전달일 바인딩도 변경-->
-                                <DataGridTemplateColumn x:Name="kepManageInfraPayDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="kepManageInfraPayDate" MinWidth="110">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding kepManageInfraPayDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1588,7 +1588,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--전기사용신청일-->
-                                <DataGridTemplateColumn x:Name="kepElectrReqDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="kepElectrReqDate" MinWidth="95">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding kepElectrReqDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1598,7 +1598,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--인입승인여부-->
-                                <DataGridTemplateColumn x:Name="kepInApprovalYN" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="kepInApprovalYN" MinWidth="95">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding kepInApprovalYN, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1608,7 +1608,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--인입승인일-->
-                                <DataGridTemplateColumn x:Name="kepInApprovalDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="kepInApprovalDate" MinWidth="95">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding kepInApprovalDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1638,7 +1638,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--접수증(고객번호)-->
-                                <DataGridTemplateColumn x:Name="kepCustomNo" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="kepCustomNo" MinWidth="80">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding kepCustomNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1648,7 +1648,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--한전불입금납부일-->
-                                <DataGridTemplateColumn x:Name="kepPaymentDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="kepPaymentDate" MinWidth="110">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding kepPaymentDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1658,7 +1658,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--계량기부설일-->
-                                <DataGridTemplateColumn x:Name="kepMeterInstallDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="kepMeterInstallDate" MinWidth="95">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding kepMeterInstallDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1672,14 +1672,14 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding kepFaucetComments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                                        TextAlignment="Left" VerticalAlignment="Center" Margin="5,0,5,0"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--사전공사정보-->
                                 <!--시공사업체-->
-                                <DataGridTemplateColumn x:Name="constrCustomName" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="constrCustomName" MinWidth="80">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding constrCustomName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1689,7 +1689,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--착공지시일-->
-                                <DataGridTemplateColumn x:Name="constrOrderDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="constrOrderDate" MinWidth="80">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding constrOrderDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1699,7 +1699,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--착공일-->
-                                <DataGridTemplateColumn x:Name="constrDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="constrDate" MinWidth="80">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding constrDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1709,7 +1709,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--지연사유-->
-                                <DataGridTemplateColumn x:Name="constrDelyReason" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="constrDelyReason" MinWidth="80">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding constrDelyReason, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1719,7 +1719,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--시공완료일-->
-                                <DataGridTemplateColumn x:Name="constrCompleteDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="constrCompleteDate" MinWidth="80">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding constrCompleteDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1729,7 +1729,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--시공비고-->
-                                <DataGridTemplateColumn x:Name="constrComments" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="constrComments" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding constrComments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1740,7 +1740,7 @@
                                 
                                 <!--지자체사항-->
                                 <!--사용검사신청일-->
-                                <DataGridTemplateColumn x:Name="superUseInspReqDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="superUseInspReqDate" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding superUseInspReqDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1750,7 +1750,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--사용전검사 확인증 발급일 -> 사용 검사 필증 발급일 컬럼은 그대로 사용-->
-                                <DataGridTemplateColumn x:Name="superBeforeUseInspPrintDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="superBeforeUseInspPrintDate" MinWidth="120">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding superBeforeUseInspPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1761,7 +1761,7 @@
 
                                 <!--전기안전공사진행정보-->
                                 <!--전기안전검사요청일 -> 전기안전점검요청일로 변경-->
-                                <DataGridTemplateColumn x:Name="electrSafeCheckDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="electrSafeCheckDate" MinWidth="120">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding electrSafeCheckDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1771,7 +1771,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--[전기안전점검]보완사항-->
-                                <DataGridTemplateColumn x:Name="electrSafeCheckSuppleContext" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="electrSafeCheckSuppleContext" MinWidth="140">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding electrSafeCheckSuppleContext, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1781,7 +1781,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--[전기안전점검]접수지사-->
-                                <DataGridTemplateColumn x:Name="electrSafeCheckLocation" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="electrSafeCheckLocation" MinWidth="140">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding electrSafeCheckLocation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1791,7 +1791,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--[전기안전점검]수수료-->
-                                <DataGridTemplateColumn x:Name="electrSafeCheckCost" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="electrSafeCheckCost" MinWidth="130">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding electrSafeCheckCost, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1801,7 +1801,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--[전기안전점검]수수료납부일-->
-                                <DataGridTemplateColumn x:Name="electrSafeCheckCostPayDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="electrSafeCheckCostPayDate" MinWidth="165">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding electrSafeCheckCostPayDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1811,7 +1811,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--[사용전점검]요청일-->
-                                <DataGridTemplateColumn x:Name="electrBeforeUseCheckReqDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="electrBeforeUseCheckReqDate" MinWidth="130">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding electrBeforeUseCheckReqDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1821,7 +1821,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--[사용전점검]확인증발급일-->
-                                <DataGridTemplateColumn x:Name="electrSafeCheckPrintDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="electrSafeCheckPrintDate" MinWidth="160">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding electrSafeCheckPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1831,7 +1831,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--[사용전점검]보완사항-->
-                                <DataGridTemplateColumn x:Name="electrBeforeUseCheckSuppleContext" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="electrBeforeUseCheckSuppleContext" MinWidth="140">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding electrBeforeUseCheckSuppleContext, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1840,18 +1840,9 @@
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-                                <!--[사용전검사]접수지사-->
-                                <DataGridTemplateColumn x:Name="electrBeforeInspLocation" MinWidth="50">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding electrBeforeInspLocation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
 
                                 <!--[사용전검사]요청일-->
-                                <DataGridTemplateColumn x:Name="electrBeforeInspReqDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="electrBeforeInspReqDate" MinWidth="120">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding electrBeforeInspReqDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1860,8 +1851,18 @@
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
+                                <!--[사용전검사]접수지사-->
+                                <DataGridTemplateColumn x:Name="electrBeforeInspLocation" MinWidth="130">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding electrBeforeInspLocation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
                                 <!--[사용전검사]확인증 발급일-->
-                                <DataGridTemplateColumn x:Name="electrBeforeInspPrintDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="electrBeforeInspPrintDate" MinWidth="160">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding electrBeforeInspPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1871,7 +1872,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--[사용전검사]수수료-->
-                                <DataGridTemplateColumn x:Name="electrBeforeInspCost" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="electrBeforeInspCost" MinWidth="130">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding electrBeforeInspCost, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1881,7 +1882,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--[사용전점검사수수료납부일-->
-                                <DataGridTemplateColumn x:Name="electrBeforeInspCostPayDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="electrBeforeInspCostPayDate" MinWidth="160">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding electrBeforeInspCostPayDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1891,7 +1892,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--[사용전검사]보완사항-->
-                                <DataGridTemplateColumn x:Name="electrBeforeInspSuppleContext" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="electrBeforeInspSuppleContext" MinWidth="140">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding electrBeforeInspSuppleContext, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1901,7 +1902,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--전기안전공사비고사항-->
-                                <DataGridTemplateColumn x:Name="electrSafeCheckComments" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="electrSafeCheckComments" MinWidth="140">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding electrSafeCheckComments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1912,7 +1913,7 @@
 
                                 <!--감리-->
                                 <!--감리업체명-->
-                                <DataGridTemplateColumn x:Name="superCustomName" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="superCustomName" MinWidth="70">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding superCustomName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1932,7 +1933,7 @@
                                 </DataGridTemplateColumn>-->
 
                                 <!--감리업체연락처-->
-                                <DataGridTemplateColumn x:Name="superCustomPhoneNo" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="superCustomPhoneNo" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding superCustomPhoneNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1942,7 +1943,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--안전관리업체명-->
-                                <DataGridTemplateColumn x:Name="safeManageCustomName" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="safeManageCustomName" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding safeManageCustomName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1952,7 +1953,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--안전관리연락처-->
-                                <DataGridTemplateColumn x:Name="safeManageCustomPhoneNo" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="safeManageCustomPhoneNo" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding safeManageCustomPhoneNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1962,7 +1963,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--감리배치수수료-->
-                                <DataGridTemplateColumn x:Name="superSetCost" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="superSetCost" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding superSetCost, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1972,7 +1973,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--감리배치계산서발행일-->
-                                <DataGridTemplateColumn x:Name="superSetTaxPrintDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="superSetTaxPrintDate" MinWidth="130">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding superSetTaxPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -1982,7 +1983,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--사용검사지출업체 -> 사용검사(감리)지출업체-->
-                                <DataGridTemplateColumn x:Name="superUseInspPayCustomName" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="superUseInspPayCustomName" MinWidth="140">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding superUseInspPayCustomName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -2012,7 +2013,7 @@
                                 </DataGridTemplateColumn>-->
 
                                 <!--감리비고-->
-                                <DataGridTemplateColumn x:Name="superComments" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="superComments" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding superComments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -2023,7 +2024,7 @@
 
                                 <!--준공서류-->
                                 <!--준공서류회신일-->
-                                <DataGridTemplateColumn x:Name="compReplyDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="compReplyDate" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding compReplyDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -2033,7 +2034,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--시공보완내용-->
-                                <DataGridTemplateColumn x:Name="suppleContext" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="suppleContext" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding suppleContext, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -2043,7 +2044,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--시공보완완료일-->
-                                <DataGridTemplateColumn x:Name="suppleCompDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="suppleCompDate" MinWidth="110">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding suppleCompDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -2053,7 +2054,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--준공서류보완내용-->
-                                <DataGridTemplateColumn x:Name="compSuppleReportContext" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="compSuppleReportContext" MinWidth="120">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding compSuppleReportContext, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -2063,7 +2064,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--준공서류보안일-->
-                                <DataGridTemplateColumn x:Name="compSuppleReportDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="compSuppleReportDate" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding compSuppleReportDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -2073,7 +2074,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--하자보증보험 발행일-->
-                                <DataGridTemplateColumn x:Name="insurePrintDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="insurePrintDate" MinWidth="140">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding insurePrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -2083,7 +2084,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--준공서류 완료일-->
-                                <DataGridTemplateColumn x:Name="compReportCompDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="compReportCompDate" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding compReportCompDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -2093,7 +2094,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--준공서류비고-->
-                                <DataGridTemplateColumn x:Name="compReportComments" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="compReportComments" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding compReportComments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -2105,7 +2106,7 @@
                                 <!--정산 경리 정보-운영사시공비-->
                                 <!--선금 운영사시공비-->
                                 <!--선금 운영사시공비 세금계산서발행일-->
-                                <DataGridTemplateColumn x:Name="accntMgrWorkPreTaxPrintDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="accntMgrWorkPreTaxPrintDate" MinWidth="120">
                                      <DataGridTemplateColumn.CellTemplate>
                                          <DataTemplate>
                                              <TextBlock Text="{Binding accntMgrWorkPreTaxPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -2115,7 +2116,7 @@
                                   </DataGridTemplateColumn>
 
                                 <!--선금 운영사시공비 선금-->
-                                <DataGridTemplateColumn x:Name="accntMgrWorkPreAmount" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="accntMgrWorkPreAmount" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding accntMgrWorkPreTaxPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -2125,7 +2126,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--선금 운영사시공비 선금비고-->
-                                <DataGridTemplateColumn x:Name="accntMgrWorkPreAmountComments" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="accntMgrWorkPreAmountComments" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding accntMgrWorkPreTaxPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -2136,7 +2137,7 @@
 
                                 <!--선금 운영사영업비-->
                                 <!--선금 운영사시공비 세금계산서발행일-->
-                                <DataGridTemplateColumn x:Name="accntMgrSalesPreTaxPrintDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="accntMgrSalesPreTaxPrintDate" MinWidth="120">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding accntMgrWorkPreTaxPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -2146,7 +2147,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--선금 운영사시공비 선금-->
-                                <DataGridTemplateColumn x:Name="accntMgrSalesPreAmount" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="accntMgrSalesPreAmount" MinWidth="120">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding accntMgrWorkPreTaxPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -2156,7 +2157,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--선금 운영사시공비 선금비고-->
-                                <DataGridTemplateColumn x:Name="accntMgrSalesPreAmountComments" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="accntMgrSalesPreAmountComments" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding accntMgrWorkPreTaxPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -2167,7 +2168,7 @@
 
                                 <!--선금 시공팀-->
                                 <!--선금 시공팀 세금계산서발행일-->
-                                <DataGridTemplateColumn x:Name="accntWorkPreTaxPrintDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="accntWorkPreTaxPrintDate" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding accntMgrWorkPreTaxPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -2177,7 +2178,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--선금 시공팀 선금-->
-                                <DataGridTemplateColumn x:Name="accntWorkPreAmount" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="accntWorkPreAmount" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding accntMgrWorkPreTaxPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -2187,7 +2188,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--선금 시공팀 선금비고-->
-                                <DataGridTemplateColumn x:Name="accntWorkPreAmountComments" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="accntWorkPreAmountComments" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding accntMgrWorkPreTaxPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -2198,7 +2199,7 @@
 
                                 <!--선금 영업사원-->
                                 <!--선금 영업사원 세금계산서발행일-->
-                                <DataGridTemplateColumn x:Name="accntSalesPreTaxPrintDate" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="accntSalesPreTaxPrintDate" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding accntMgrWorkPreTaxPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -2208,7 +2209,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--선금 영업사원 선금-->
-                                <DataGridTemplateColumn x:Name="accntSalesPreAmount" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="accntSalesPreAmount" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding accntMgrWorkPreTaxPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
@@ -2218,7 +2219,7 @@
                                 </DataGridTemplateColumn>
 
                                 <!--선금 영업사원 선금비고-->
-                                <DataGridTemplateColumn x:Name="accntSalesPreAmountComments" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="accntSalesPreAmountComments" MinWidth="100">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding accntMgrWorkPreTaxPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
