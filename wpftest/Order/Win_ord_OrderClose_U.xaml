@@ -219,12 +219,12 @@
             </Grid>
 
 
-            <Grid Grid.Column="3" Grid.Row="3" Visibility="Hidden">
+            <Grid Grid.Column="3" Grid.Row="3" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button Content="수주등록 바로가기"  Click="GoOrderButton_Click" />
+                <Button Content="수주등록 바로가기"  Click="GoOrderButton_Click" Visibility="Hidden"/>
                 <Button Content="첨부문서 조회"  Click="AttachFileSearch_Click" />
 
             </Grid>
@@ -884,7 +884,7 @@
                         <DataGrid x:Name="dgdMain"  Visibility="Visible" 
                                   HeadersVisibility="None"   
                                   Style="{DynamicResource DataGridSetTwoHeaderEdit}" Grid.ColumnSpan="2" IsReadOnly="True" 
-                                  Loaded="DataGrid_Loaded" Margin="0,0,0,0.2"
+                                  Loaded="DataGrid_Loaded" Margin="0,0,0,0.2"    SelectionChanged="dgdMain_SelectionChanged"
                                   >
 
                             <DataGrid.RowStyle>

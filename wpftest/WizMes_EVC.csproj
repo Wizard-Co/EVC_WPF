@@ -340,6 +340,9 @@
     <Compile Include="MIS\Win_MIS_RunningRate_Q.xaml.cs">
       <DependentUpon>Win_MIS_RunningRate_Q.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Order\PopUp\Win_ord_Pop_OrderClose_File_Q .xaml.cs">
+      <DependentUpon>Win_ord_Pop_OrderClose_File_Q .xaml</DependentUpon>
+    </Compile>
     <Compile Include="Order\PopUp\Win_ord_Pop_PreEstimate_Q.xaml.cs">
       <DependentUpon>Win_ord_Pop_PreEstimate_Q.xaml</DependentUpon>
     </Compile>
@@ -880,6 +883,10 @@
     <Page Include="MRPPlusResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Order\PopUp\Win_ord_Pop_OrderClose_File_Q .xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Order\PopUp\Win_ord_Pop_PreEstimate_Q.xaml">
       <Generator>MSBuild:Compile</Generator>

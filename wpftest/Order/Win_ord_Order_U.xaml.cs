@@ -77,12 +77,6 @@ namespace WizMes_EVC
         Win_ord_Order_U_CodeView_dgdMain OrderView = new Win_ord_Order_U_CodeView_dgdMain();
 
         //계약내용 쪽
-        ObservableCollection<Win_ord_Order_U_CodeView_OrderItemList_Nadaum> ovcOrder_OrderItemList
-        = new ObservableCollection<Win_ord_Order_U_CodeView_OrderItemList_Nadaum>();
-
-        ObservableCollection<Win_ord_Order_U_CodeView_OrderColor_Nadaum> ovcOrder_OrderColor
-        = new ObservableCollection<Win_ord_Order_U_CodeView_OrderColor_Nadaum>();
-
         ObservableCollection<Win_order_Order_U_CodView_dgdAcc> ovcOrder_Acc
         = new ObservableCollection<Win_order_Order_U_CodView_dgdAcc>();
 
@@ -93,7 +87,7 @@ namespace WizMes_EVC
 
         ObservableCollection<CodeView> ovcOrderTypeAcc = null;
 
-        ArticleData articleData = new ArticleData();
+        //ArticleData articleData = new ArticleData();
         string PrimaryKey = string.Empty;
 
         string FullPath1 = string.Empty;
@@ -1350,124 +1344,124 @@ namespace WizMes_EVC
 
         private void btnUpload_Click(object sender, RoutedEventArgs e)
         {
-            Microsoft.Win32.OpenFileDialog file = new Microsoft.Win32.OpenFileDialog();
-            file.Filter = "Excel files (*.xls,*xlsx)|*.xls;*xlsx|All files (*.*)|*.*";
-            file.InitialDirectory = "C:\\";
+            //Microsoft.Win32.OpenFileDialog file = new Microsoft.Win32.OpenFileDialog();
+            //file.Filter = "Excel files (*.xls,*xlsx)|*.xls;*xlsx|All files (*.*)|*.*";
+            //file.InitialDirectory = "C:\\";
 
-            if (file.ShowDialog() == true)
-            {
-                upload_fileName = file.FileName;
+            //if (file.ShowDialog() == true)
+            //{
+            //    upload_fileName = file.FileName;
 
-                btnUpload.IsEnabled = false;
+            //    btnUpload.IsEnabled = false;
 
-                using (Loading ld = new Loading("excel", beUpload))
-                {
-                    ld.ShowDialog();
-                }
+            //    using (Loading ld = new Loading("excel", beUpload))
+            //    {
+            //        ld.ShowDialog();
+            //    }
 
-                re_Search(0);
+            //    re_Search(0);
 
-                btnUpload.IsEnabled = true;
-            }
+            //    btnUpload.IsEnabled = true;
+            //}
         }
 
-        private void beUpload()
-        {
-            Lib lib2 = new Lib();
+        //private void beUpload()
+        //{
+        //    Lib lib2 = new Lib();
 
-            Excel.Application excelapp = null;
-            Excel.Workbook workbook = null;
-            Excel.Worksheet worksheet = null;
-            Excel.Range workrange = null;
+        //    Excel.Application excelapp = null;
+        //    Excel.Workbook workbook = null;
+        //    Excel.Worksheet worksheet = null;
+        //    Excel.Range workrange = null;
 
-            List<OrderExcel> listExcel = new List<OrderExcel>();
+        //    List<OrderExcel> listExcel = new List<OrderExcel>();
 
-            try
-            {
-                excelapp = new Excel.Application();
-                workbook = excelapp.Workbooks.Add(upload_fileName);
-                worksheet = workbook.Sheets["Sheet"];
-                workrange = worksheet.UsedRange;
+        //    try
+        //    {
+        //        excelapp = new Excel.Application();
+        //        workbook = excelapp.Workbooks.Add(upload_fileName);
+        //        worksheet = workbook.Sheets["Sheet"];
+        //        workrange = worksheet.UsedRange;
 
-                for (int row = 3; row <= workrange.Rows.Count; row++)
-                {
-                    OrderExcel excel = new OrderExcel();
-                    excel.CustomID = workrange.get_Range("A" + row.ToString()).Value2;
-                    excel.Model = workrange.get_Range("B" + row.ToString()).Value2;
-                    excel.BuyerArticleNo = workrange.get_Range("C" + row.ToString()).Value2;
-                    excel.Article = workrange.get_Range("D" + row.ToString()).Value2;
-                    excel.UnitClss = workrange.get_Range("E" + row.ToString()).Value2;
+        //        for (int row = 3; row <= workrange.Rows.Count; row++)
+        //        {
+        //            OrderExcel excel = new OrderExcel();
+        //            excel.CustomID = workrange.get_Range("A" + row.ToString()).Value2;
+        //            excel.Model = workrange.get_Range("B" + row.ToString()).Value2;
+        //            excel.BuyerArticleNo = workrange.get_Range("C" + row.ToString()).Value2;
+        //            excel.Article = workrange.get_Range("D" + row.ToString()).Value2;
+        //            excel.UnitClss = workrange.get_Range("E" + row.ToString()).Value2;
 
-                    object objOrderQty = workrange.get_Range("H" + row.ToString()).Value2;
-                    if (objOrderQty != null)
-                        excel.OrderQty = objOrderQty.ToString();
+        //            object objOrderQty = workrange.get_Range("H" + row.ToString()).Value2;
+        //            if (objOrderQty != null)
+        //                excel.OrderQty = objOrderQty.ToString();
 
-                    if (!string.IsNullOrEmpty(excel.CustomID)
-                        && !string.IsNullOrEmpty(excel.BuyerArticleNo) && !string.IsNullOrEmpty(excel.Article)
-                        && !string.IsNullOrEmpty(excel.UnitClss) && !string.IsNullOrEmpty(excel.OrderQty))
-                    {
-                        listExcel.Add(excel);
-                    }
+        //            if (!string.IsNullOrEmpty(excel.CustomID)
+        //                && !string.IsNullOrEmpty(excel.BuyerArticleNo) && !string.IsNullOrEmpty(excel.Article)
+        //                && !string.IsNullOrEmpty(excel.UnitClss) && !string.IsNullOrEmpty(excel.OrderQty))
+        //            {
+        //                listExcel.Add(excel);
+        //            }
 
-                    if (string.IsNullOrEmpty(excel.CustomID) && string.IsNullOrEmpty(excel.Model)
-                        && string.IsNullOrEmpty(excel.BuyerArticleNo) && string.IsNullOrEmpty(excel.Article)
-                        && string.IsNullOrEmpty(excel.UnitClss) && string.IsNullOrEmpty(excel.OrderQty))
-                    {
-                        break;
-                    }
-                }
+        //            if (string.IsNullOrEmpty(excel.CustomID) && string.IsNullOrEmpty(excel.Model)
+        //                && string.IsNullOrEmpty(excel.BuyerArticleNo) && string.IsNullOrEmpty(excel.Article)
+        //                && string.IsNullOrEmpty(excel.UnitClss) && string.IsNullOrEmpty(excel.OrderQty))
+        //            {
+        //                break;
+        //            }
+        //        }
 
-                if (listExcel.Count > 0)
-                {
-                    List<Procedure> Prolist = new List<Procedure>();
-                    List<Dictionary<string, object>> ListParameter = new List<Dictionary<string, object>>();
-                    for (int i = 0; i < listExcel.Count; i++)
-                    {
-                        Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
-                        sqlParameter.Add("CustomID", string.IsNullOrEmpty(listExcel[i].CustomID) ? "" : listExcel[i].CustomID);
-                        sqlParameter.Add("Model", string.IsNullOrEmpty(listExcel[i].Model) ? "" : listExcel[i].Model);
-                        sqlParameter.Add("BuyerArticleNo", string.IsNullOrEmpty(listExcel[i].BuyerArticleNo) ? "" : listExcel[i].BuyerArticleNo);
-                        sqlParameter.Add("Article", string.IsNullOrEmpty(listExcel[i].Article) ? "" : listExcel[i].Article);
-                        sqlParameter.Add("UnitClss", string.IsNullOrEmpty(listExcel[i].UnitClss) ? "" : listExcel[i].UnitClss);
-                        sqlParameter.Add("OrderQty", string.IsNullOrEmpty(listExcel[i].OrderQty) ? "" : listExcel[i].OrderQty);
+        //        if (listExcel.Count > 0)
+        //        {
+        //            List<Procedure> Prolist = new List<Procedure>();
+        //            List<Dictionary<string, object>> ListParameter = new List<Dictionary<string, object>>();
+        //            for (int i = 0; i < listExcel.Count; i++)
+        //            {
+        //                Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+        //                sqlParameter.Add("CustomID", string.IsNullOrEmpty(listExcel[i].CustomID) ? "" : listExcel[i].CustomID);
+        //                sqlParameter.Add("Model", string.IsNullOrEmpty(listExcel[i].Model) ? "" : listExcel[i].Model);
+        //                sqlParameter.Add("BuyerArticleNo", string.IsNullOrEmpty(listExcel[i].BuyerArticleNo) ? "" : listExcel[i].BuyerArticleNo);
+        //                sqlParameter.Add("Article", string.IsNullOrEmpty(listExcel[i].Article) ? "" : listExcel[i].Article);
+        //                sqlParameter.Add("UnitClss", string.IsNullOrEmpty(listExcel[i].UnitClss) ? "" : listExcel[i].UnitClss);
+        //                sqlParameter.Add("OrderQty", string.IsNullOrEmpty(listExcel[i].OrderQty) ? "" : listExcel[i].OrderQty);
 
-                        Procedure pro2 = new Procedure();
-                        pro2.Name = "xp_Order_iOrderExcel";
-                        pro2.OutputUseYN = "N";
-                        pro2.OutputName = "";
-                        pro2.OutputLength = "10";
+        //                Procedure pro2 = new Procedure();
+        //                pro2.Name = "xp_Order_iOrderExcel";
+        //                pro2.OutputUseYN = "N";
+        //                pro2.OutputName = "";
+        //                pro2.OutputLength = "10";
 
-                        Prolist.Add(pro2);
-                        ListParameter.Add(sqlParameter);
-                    }
+        //                Prolist.Add(pro2);
+        //                ListParameter.Add(sqlParameter);
+        //            }
 
-                    string[] Confirm = new string[2];
-                    Confirm = DataStore.Instance.ExecuteAllProcedureOutputNew_NewLog(Prolist, ListParameter, "C");
-                    if (Confirm[0] != "success")
-                        MessageBox.Show("[저장실패]\r\n" + Confirm[1].ToString());
-                    else
-                        MessageBox.Show("업로드가 완료되었습니다.");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message.ToString());
-            }
-            finally
-            {
-                excelapp.Visible = true;
-                workbook.Close(true);
-                excelapp.Quit();
+        //            string[] Confirm = new string[2];
+        //            Confirm = DataStore.Instance.ExecuteAllProcedureOutputNew_NewLog(Prolist, ListParameter, "C");
+        //            if (Confirm[0] != "success")
+        //                MessageBox.Show("[저장실패]\r\n" + Confirm[1].ToString());
+        //            else
+        //                MessageBox.Show("업로드가 완료되었습니다.");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message.ToString());
+        //    }
+        //    finally
+        //    {
+        //        excelapp.Visible = true;
+        //        workbook.Close(true);
+        //        excelapp.Quit();
 
-                lib2.ReleaseExcelObject(workbook);
-                lib2.ReleaseExcelObject(worksheet);
-                lib2.ReleaseExcelObject(excelapp);
-                lib2 = null;
+        //        lib2.ReleaseExcelObject(workbook);
+        //        lib2.ReleaseExcelObject(worksheet);
+        //        lib2.ReleaseExcelObject(excelapp);
+        //        lib2 = null;
 
-                upload_fileName = "";
-                listExcel.Clear();
-            }
-        }
+        //        upload_fileName = "";
+        //        listExcel.Clear();
+        //    }
+        //}
 
         private int SelectItem(string strPrimary, DataGrid dataGrid)
         {
@@ -2773,56 +2767,142 @@ namespace WizMes_EVC
         //Remove(value, true, typeof(decimal)) decimal타입으로 콤마를 제거하여 decimal로 내보냅니다(큰 숫자 필요시)
         //다른 숫자 자료형에 대입하려면 형변환을 해주세요
         //int intVal = (int)RemoveComma(value, true)
-        private object RemoveComma(object obj, bool returnNumeric = false, Type returnType = null)
+        //private object RemoveComma(object obj, bool returnNumeric = false, Type returnType = null)
+        //{
+        //    if (returnType == null) returnType = typeof(int);
+        //    if (obj == null || string.IsNullOrEmpty(obj.ToString()))
+        //    {
+        //        if (returnNumeric)
+        //        {
+        //            if (returnType == typeof(int)) return 0;
+        //            if (returnType == typeof(decimal)) return 0m;
+        //            if (returnType == typeof(long)) return 0L;
+        //            if (returnType == typeof(double)) return 0d;
+        //            return 0;
+        //        }
+        //        return "0";
+        //    }
+        //    string digits = obj.ToString().Replace(",", "");
+        //    // 추출된 숫자가 없는 경우
+        //    if (string.IsNullOrEmpty(digits))
+        //    {
+        //        if (returnNumeric)
+        //        {
+        //            if (returnType == typeof(int)) return 0;
+        //            if (returnType == typeof(decimal)) return 0m;
+        //            if (returnType == typeof(long)) return 0L;
+        //            if (returnType == typeof(double)) return 0d;
+        //            return 0;
+        //        }
+        //        return "0";
+        //    }
+        //    if (returnNumeric)
+        //    {
+        //        if (returnType == typeof(int))
+        //        {
+        //            return int.TryParse(digits, out int intResult) ? intResult : 0;
+        //        }
+        //        else if (returnType == typeof(decimal))
+        //        {
+        //            return decimal.TryParse(digits, out decimal decimalResult) ? decimalResult : 0m;
+        //        }
+        //        else if (returnType == typeof(long))
+        //        {
+        //            return long.TryParse(digits, out long longResult) ? longResult : 0L;
+        //        }
+        //        else if (returnType == typeof(double))
+        //        {
+        //            return double.TryParse(digits, out double doubleResult) ? doubleResult : 0d;
+        //        }
+        //    }
+        //    return digits;
+        //}
+
+        private object RemoveComma(object obj, bool returnAsNumber = false, Type returnType = null)
         {
-            if (returnType == null) returnType = typeof(int);
-            if (obj == null || string.IsNullOrEmpty(obj.ToString()))
+            if (obj == null)
             {
-                if (returnNumeric)
-                {
-                    if (returnType == typeof(int)) return 0;
-                    if (returnType == typeof(decimal)) return 0m;
-                    if (returnType == typeof(long)) return 0L;
-                    if (returnType == typeof(double)) return 0d;
-                    return 0;
-                }
-                return "0";
+                return returnAsNumber ? (object)0 : "0";
             }
-            string digits = obj.ToString().Replace(",", "");
-            // 추출된 숫자가 없는 경우
+
+            string digits = obj.ToString()
+                              .Trim()
+                              .Replace(",", "");
+
             if (string.IsNullOrEmpty(digits))
             {
-                if (returnNumeric)
-                {
-                    if (returnType == typeof(int)) return 0;
-                    if (returnType == typeof(decimal)) return 0m;
-                    if (returnType == typeof(long)) return 0L;
-                    if (returnType == typeof(double)) return 0d;
-                    return 0;
-                }
-                return "0";
+                return returnAsNumber ? (object)0 : "0";
             }
-            if (returnNumeric)
+
+            if (!returnAsNumber)
             {
-                if (returnType == typeof(int))
+                return digits;
+            }
+
+            try
+            {
+                Type targetType = returnType ?? typeof(int);
+
+                switch (targetType.Name)
                 {
-                    return int.TryParse(digits, out int intResult) ? intResult : 0;
-                }
-                else if (returnType == typeof(decimal))
-                {
-                    return decimal.TryParse(digits, out decimal decimalResult) ? decimalResult : 0m;
-                }
-                else if (returnType == typeof(long))
-                {
-                    return long.TryParse(digits, out long longResult) ? longResult : 0L;
-                }
-                else if (returnType == typeof(double))
-                {
-                    return double.TryParse(digits, out double doubleResult) ? doubleResult : 0d;
+                    case "Int32":
+                        if (decimal.TryParse(digits, out decimal intParsed))
+                        {
+                            if (intParsed > int.MaxValue) return int.MaxValue;
+                            if (intParsed < int.MinValue) return int.MinValue;
+                            return (int)intParsed;
+                        }
+                        return int.MaxValue;
+
+                    case "Int64":
+                        if (decimal.TryParse(digits, out decimal longParsed))
+                        {
+                            if (longParsed > long.MaxValue) return long.MaxValue;
+                            if (longParsed < long.MinValue) return long.MinValue;
+                            return (long)longParsed;
+                        }
+                        return long.MaxValue;
+
+                    case "Double":
+                        if (double.TryParse(digits, out double doubleParsed))
+                        {
+                            return doubleParsed;
+                        }
+                        return double.MaxValue;
+
+                    case "Decimal":
+                        if (decimal.TryParse(digits, out decimal decimalParsed))
+                        {
+                            return decimalParsed;
+                        }
+                        return decimal.MaxValue;
+
+                    default:
+                        return int.MaxValue;
                 }
             }
-            return digits;
+            catch
+            {
+                if (returnType != null)
+                {
+                    switch (returnType.Name)
+                    {
+                        case "Int32":
+                            return int.MaxValue;
+                        case "Int64":
+                            return long.MaxValue;
+                        case "Double":
+                            return double.MaxValue;
+                        case "Decimal":
+                            return decimal.MaxValue;
+                        default:
+                            return int.MaxValue;
+                    }
+                }
+                return int.MaxValue;
+            }
         }
+
         private object RemoveHyphen(object obj)
         {
             if (obj == null)
@@ -2967,37 +3047,7 @@ namespace WizMes_EVC
             return dr;
         }
 
-        //그리드 하단 합계 표시
-        private void CalculGridSum()
-        {
-            Int64 numYDS = 0;
-            double numTotal = 0;
 
-            //txtOrderCount.Text = string.Format("{0:N0}", dgdMain.Items.Count) + " 건";
-            if (dgdMain.Items.Count > 0)
-            {
-                Win_ord_Order_U_CodeView WinOrder = new Win_ord_Order_U_CodeView();
-
-                for (int i = 0; i < dgdMain.Items.Count; i++)
-                {
-                    WinOrder = dgdMain.Items[i] as Win_ord_Order_U_CodeView;
-
-                    if (WinOrder.UnitClss.Equals("0"))
-                    {
-                        numYDS += long.Parse(lib.CheckNullZero(WinOrder.OrderQty.Replace(",", "")));
-                        numTotal += double.Parse(lib.CheckNullZero(WinOrder.UnitPrice.Replace(",", "")));
-                    }
-                    else
-                    {
-                        numYDS += long.Parse(lib.CheckNullZero(WinOrder.OrderQty.Replace(",", "")));
-                        numTotal += double.Parse(lib.CheckNullZero(WinOrder.UnitPrice.Replace(",", "")));
-                    }
-                }
-            }
-
-            //txtOrderYds.Text = string.Format("{0:N0}", numYDS) + " EA";
-            //txtOrderAmount.Text = string.Format("{0:N0}", numTotal) + " 원";
-        }
 
         /// <summary>
         /// 실삭제
@@ -4007,56 +4057,56 @@ namespace WizMes_EVC
 
         private void CallArticleData(string strArticleID)
         {
-            try
-            {
-                Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
-                sqlParameter.Add("ArticleID", strArticleID);
+            //try
+            //{
+            //    Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+            //    sqlParameter.Add("ArticleID", strArticleID);
 
-                DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Order_sArticleData_Estimate", sqlParameter, false);
+            //    DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Order_sArticleData_Estimate", sqlParameter, false);
 
-                if (ds != null && ds.Tables.Count > 0)
-                {
-                    DataTable dt = ds.Tables[0];
+            //    if (ds != null && ds.Tables.Count > 0)
+            //    {
+            //        DataTable dt = ds.Tables[0];
 
-                    if (dt.Rows.Count > 0)
-                    {
-                        DataRow dr = dt.Rows[0];
+            //        if (dt.Rows.Count > 0)
+            //        {
+            //            DataRow dr = dt.Rows[0];
 
-                        articleData = new ArticleData
-                        {
-                            articleID = dr["articleID"].ToString(),
-                            article = dr["article"].ToString(),
-                            //ThreadID = dr["ThreadID"].ToString(),
-                            //thread = dr["thread"].ToString(),
-                            //StuffWidth = dr["StuffWidth"].ToString(),
-                            //DyeingID = dr["DyeingID"].ToString(),
-                            weight = dr["weight"].ToString(),
-                            spec = dr["spec"].ToString(),
-                            //ArticleGrpID = dr["ArticleGrpID"].ToString(),
-                            //BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
-                            unitPrice = dr["outUnitPrice"].ToString().Split('.')[0],
-                            unitPriceTypeID = dr["outUnitTypeID"].ToString(),
-                            unitTypeID = dr["unitTypeID"].ToString(),
-                            codeName = dr["codeName"].ToString(),
-                            //ProcessName = dr["ProcessName"].ToString(),
-                            //HSCode = dr["HSCode"].ToString(),
-                            outUnitPrice = dr["OutUnitPrice"].ToString(),
-                            //BuyerModelID = dr["BuyerModelID"].ToString(),
-                            //BuyerModel = dr["BuyerModel"].ToString(),
-                        };
-                    }
+            //            articleData = new ArticleData
+            //            {
+            //                articleID = dr["articleID"].ToString(),
+            //                article = dr["article"].ToString(),
+            //                //ThreadID = dr["ThreadID"].ToString(),
+            //                //thread = dr["thread"].ToString(),
+            //                //StuffWidth = dr["StuffWidth"].ToString(),
+            //                //DyeingID = dr["DyeingID"].ToString(),
+            //                weight = dr["weight"].ToString(),
+            //                spec = dr["spec"].ToString(),
+            //                //ArticleGrpID = dr["ArticleGrpID"].ToString(),
+            //                //BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
+            //                unitPrice = dr["outUnitPrice"].ToString().Split('.')[0],
+            //                unitPriceTypeID = dr["outUnitTypeID"].ToString(),
+            //                unitTypeID = dr["unitTypeID"].ToString(),
+            //                codeName = dr["codeName"].ToString(),
+            //                //ProcessName = dr["ProcessName"].ToString(),
+            //                //HSCode = dr["HSCode"].ToString(),
+            //                outUnitPrice = dr["OutUnitPrice"].ToString(),
+            //                //BuyerModelID = dr["BuyerModelID"].ToString(),
+            //                //BuyerModel = dr["BuyerModel"].ToString(),
+            //            };
+            //        }
 
 
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("오류 발생, 오류 내용 : " + ex.ToString());
-            }
-            finally
-            {
-                DataStore.Instance.CloseConnection();
-            }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("오류 발생, 오류 내용 : " + ex.ToString());
+            //}
+            //finally
+            //{
+            //    DataStore.Instance.CloseConnection();
+            //}
 
         }
         #endregion
@@ -8024,307 +8074,6 @@ namespace WizMes_EVC
 
     }
 
-    public class Win_ord_Order_U_CodeView_Nadaum : BaseView
-    {
-        public int num { get; set; }
-        public string orderID { get; set; }
-        public string orderNo { get; set; }
-        public string reServeID { get; set; }
-        public string article { get; set; }
-        public string articleID { get; set; }
-        public string customID { get; set; }
-        public string kCustom { get; set; }
-        public string orderDate { get; set; }
-        public string jobFromDate { get; set; }
-        public string jobToDate { get;set; }  
-        public string jobPeriod { get; set; }
-        public string closeYN{get;set;}
-        public string orderAmount{get;set;}
-        public string vatIndYN{get;set;}
-        public string priceUnitClss{get;set;}
-        public string contractMethodID{get;set;}
-        public string contractMethod { get; set; }
-        public string contractProgressID{get;set;}
-        public string contractProgress { get; set; }
-        public string settingCompDate{get;set;}
-        public string reportSubmitDate{get;set;}
-        public string pictureSubmitYN{get;set;}
-        public string taxPrintReqDate{get;set;}
-        public string taxPrintDate{get;set;}
-        public string taxAmount{get;set;}
-        public string depositDate{get;set;}
-        public string depositAmount{get;set;}
-        public string damdangName{get;set;}
-        public string damdangDepartName{get;set;}
-        public string damdangPositionName{get;set;}
-        public string damdangDirPhone{get;set;}
-        public string damdangHandPhone{get;set;}
-        public string damdangEMail{get;set;}
-        public string customjobReqContext{get;set;}
-        public string memoContext{get;set;}
-        public string customjobReqFileList{get;set;}
-        public string contractFileName{get;set;}
-        public string contractFilePath{get;set;}
-        public string contractOkFileName{get;set;}
-        public string contractOkFilePath{get;set;}
-        public string rightOkFileName{get;set;}
-        public string rightOkFilePath{get;set;}
-        public string sexAssaultAcptFileName{get;set;}
-        public string sexAssaultAcptFilePath{get;set;}
-        public string customjobAcptFileName{get;set;}
-        public string customjobAcptFilePath{get;set;}
-        public string comments{get;set;}
-        public string classTh { get; set; }
-        public string articleList { get; set; }
-        public string articleCount { get; set; }
-        public string readyMaterial { get; set; }
-        public string createDate{get;set;}
-        public string createUserID{get;set;}
-        public string lastUpdateDate{get;set;}
-        public string lastUpdateUserID { get; set; }
-
-    }
-
-    public class Win_ord_Order_U_CodeView_OrderItemList_Nadaum : BaseView
-    {
-        public int num { get; set; }        
-        public string itemSeq { get; set; }
-        public string articleID { get; set; }
-        public string article { get; set; }
-        public string itemUnitPrice { get; set; }
-        public string itemQty { get; set; }
-        public string itemAmount { get; set; }
-        public string comments { get; set; }
-
-        public static Win_ord_Order_U_CodeView_OrderItemList_Nadaum CreateEmpty_OrderItemList()
-        {           
-
-            return new Win_ord_Order_U_CodeView_OrderItemList_Nadaum()
-            {
-                num = 0,
-                itemSeq = "",
-                articleID = "",
-                article = "",
-                itemUnitPrice = "",
-                itemQty = "",
-                itemAmount = "",
-                comments = ""
-            };
-        }
-    }
-
-
-    public class Win_ord_Order_U_CodeView_OrderColor_Nadaum : BaseView
-    {
-        public int num { get; set; }
-        public string orderSeq { get; set; }
-        public string articleID { get; set; }
-        public string article { get; set; }
-        public string spec { get; set; }
-        public string itemUnitPrice { get; set; }
-        public string itemQty { get; set; }
-        public string itemAmount { get; set; }
-        public string comments { get; set; }
-
-        public static Win_ord_Order_U_CodeView_OrderColor_Nadaum CreateEmpty_OrderColor()
-        {
-
-            return new Win_ord_Order_U_CodeView_OrderColor_Nadaum()
-            {
-                num = 0,
-                orderSeq = "",
-                articleID = "",
-                article = "",
-                spec = "",
-                itemUnitPrice = "",
-                itemQty = "",
-                itemAmount = "",
-                comments = ""
-            };
-        }
-    }
-
-    public class Win_ord_Order_U_CodeView_OrderStudent_Nadaum : BaseView
-    {
-        public int num {get; set; }
-        public string studSeq { get; set; }
-        public string grade { get; set; }
-        public string classTh { get; set; }     
-        public string ban { get; set; }         //DB에는 컬럼명이 class입니다. 컬럼설명은 반
-        public string manCountPerClass { get; set; }
-        public string totalManCount { get; set; }
-        public string jobStartTime { get; set; }
-        public string jobEndTime { get; set; }
-        public string comments { get; set; }
-
-        public static Win_ord_Order_U_CodeView_OrderStudent_Nadaum CreateEmpty_OrderStudent()
-        {
-
-            return new Win_ord_Order_U_CodeView_OrderStudent_Nadaum()
-            {
-                num = 0,
-                studSeq = "",
-                grade= "",
-                classTh= "",
-                ban="",
-                manCountPerClass = "",
-                totalManCount="",
-                jobStartTime="",
-                jobEndTime="",
-                comments=""
-            };
-        }
-
-    }
-
-    public class Win_order_Order_U_CodeView_Total_Nadaum : BaseView
-    {
-        public string count { get; set; }
-        public string totalSum { get; set; }
-    }
-
-    #region 기존 Hanyoung 속성
-
-    public class Win_ord_Order_U_CodeView : BaseView
-    {
-        public string OrderID { get; set; }
-        public string OrderNO { get; set; }
-        public string CustomID { get; set; }
-        public string KCustom { get; set; }
-        public string CloseClss { get; set; }
-
-        public string OrderQty { get; set; }
-        public string UnitClss { get; set; }
-        public string Article { get; set; }
-        public string ChunkRate { get; set; }
-        public string PatternID { get; set; }
-
-        public string Amount { get; set; }
-        public string BuyerModelID { get; set; }
-        public string BuyerModel { get; set; }
-        public string BuyerArticleNo { get; set; }
-        public string PONO { get; set; }
-
-        public string OrderForm { get; set; }
-        public string OrderClss { get; set; }
-        public string InCustomID { get; set; }
-        public string AcptDate { get; set; }
-        public string DvlyDate { get; set; }
-
-        public string ArticleID { get; set; }
-        public string DvlyPlace { get; set; }
-        public string WorkID { get; set; }
-        public string PriceClss { get; set; }
-        public string ExchRate { get; set; }
-
-        public string Vat_IND_YN { get; set; }
-        public string ColorCnt { get; set; }
-        public string StuffWidth { get; set; }
-        public string StuffWeight { get; set; }
-        public string CutQty { get; set; }
-
-        public string WorkWidth { get; set; }
-        public string WorkWeight { get; set; }
-        public string WorkDensity { get; set; }
-        public string LossRate { get; set; }
-        public string ReduceRate { get; set; }
-
-        public string TagClss { get; set; }
-        public string LabelID { get; set; }
-        public string BandID { get; set; }
-        public string EndClss { get; set; }
-        public string MadeClss { get; set; }
-
-        public string SurfaceClss { get; set; }
-        public string ShipClss { get; set; }
-        public string AdvnClss { get; set; }
-        public string LotClss { get; set; }
-        public string EndMark { get; set; }
-
-        public string TagArticle { get; set; }
-        public string TagArticle2 { get; set; }
-        public string TagOrderNo { get; set; }
-        public string TagRemark { get; set; }
-        public string Tag { get; set; }
-
-        public string BasisID { get; set; }
-        public string BasisUnit { get; set; }
-        public string SpendingClss { get; set; }
-        public string DyeingID { get; set; }
-        public string WorkingClss { get; set; }
-
-        public string BTID { get; set; }
-        public string BTIDSeq { get; set; }
-        public string ChemClss { get; set; }
-        public string AccountClss { get; set; }
-        public string ModifyClss { get; set; }
-
-        public string ModifyRemark { get; set; }
-        public string CancelRemark { get; set; }
-        public string Remark { get; set; }
-        public string ActiveClss { get; set; }
-        public string ModifyDate { get; set; }
-
-        public string OrderFlag { get; set; }
-        public string TagRemark2 { get; set; }
-        public string TagRemark3 { get; set; }
-        public string TagRemark4 { get; set; }
-        public string UnitPriceClss { get; set; }
-
-        public string WeightPerYard { get; set; }
-        public string WorkUnitClss { get; set; }
-        public string ArticleGrpID { get; set; }
-        public string OrderSpec { get; set; }
-        public string UnitPrice { get; set; }
-
-        public string CompleteArticleFile { get; set; }
-        public string CompleteArticlePath { get; set; }
-        public string FirstArticleFile { get; set; }
-        public string FirstArticlePath { get; set; }
-        public string MediumArticleFIle { get; set; }
-
-        public string MediumArticlePath { get; set; }
-        public string sketch1Path { get; set; }
-        public string sketch1file { get; set; }
-        public string sketch2Path { get; set; }
-        public string sketch2file { get; set; }
-
-        public string sketch3Path { get; set; }
-        public string sketch3file { get; set; }
-        public string sketch4Path { get; set; }
-        public string sketch4file { get; set; }
-        public string sketch5Path { get; set; }
-
-        public string sketch5file { get; set; }
-        public string sketch6Path { get; set; }
-        public string sketch6file { get; set; }
-        public string ProductAutoInspectYN { get; set; }
-        public string kBuyer { get; set; }
-
-        public string BuyerID { get; set; }
-        public int Num { get; set; }
-        public string AcptDate_CV { get; set; }
-        public string DvlyDate_CV { get; set; }
-        public string Amount_CV { get; set; }
-
-        public string KInCustom { get; set; }
-        public string SketchFile { get; set; }
-        public string SketchPath { get; set; }
-        public string ImageName { get; set; }
-
-        public string CompanyID { get; set; }
-        public string OrderNo { get; set; }
-        public string PoNo { get; set; }
-        public string OrderFormName { get; set; }
-        public string BrandClss { get; set; }
-        public string WorkName { get; set; }
-        public string OrderClssName { get; set; }
-
-        public string NewArticleQty { get; set; }
-        public string RePolishingQty { get; set; }
-    }
-
-
     public class ArticleData : BaseView
     {
         public string articleID { get; set; }
@@ -8352,26 +8101,5 @@ namespace WizMes_EVC
         //public string BuyerModel { get; set; }
     }
 
-    public class ArticleNeedStockQty : BaseView
-    {
-        public string BuyerArticleNo { get; set; }
-        public string Article { get; set; }
-        public string NeedQty { get; set; }
-        public string FinalNeedQty { get; set; }
-        public string UnitClss { get; set; }
-        public string UnitClssName { get; set; }
-    }
-
-    public class OrderExcel : BaseView
-    {
-        public string CustomID { get; set; }
-        public string Model { get; set; }
-        public string BuyerArticleNo { get; set; }
-        public string Article { get; set; }
-        public string UnitClss { get; set; }
-        public string OrderQty { get; set; }
-    }
-
-    #endregion
 }
 

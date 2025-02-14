@@ -13,6 +13,7 @@ using System.Linq;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Text.RegularExpressions;
+using WizMes_EVC.Order.Pop;
 
 namespace WizMes_EVC
 {
@@ -35,12 +36,18 @@ namespace WizMes_EVC
         Win_ord_OrderClose_U_CodeView WinOrderClose = new Win_ord_OrderClose_U_CodeView();
         Lib lib = new Lib();
         string rowHeaderNum = string.Empty;
+        string orderID_global = string.Empty;
         int rowNum = 0;
         int rbnOrder = 0;
+
+        private Win_ord_Pop_OrderClose_File_Q OrderClose_filePop;
 
         NoticeMessage msg = new NoticeMessage();
         DataTable DT;
         ////private List<DataGridColumn> _dynamicColumns = new List<DataGridColumn>();
+
+
+
 
         public Win_ord_OrderClose_U()
         {
@@ -1893,7 +1900,43 @@ namespace WizMes_EVC
         //첨부파일문서 조회
         private void AttachFileSearch_Click(object sender, RoutedEventArgs e)
         {
+            if (orderID_global != string.Empty)
+            {
+                OrderClose_filePop = new Win_ord_Pop_OrderClose_File_Q(orderID_global);
 
+                if (OrderClose_filePop.ShowDialog() == true)
+                {
+                    try
+                    {
+                        var selectedRow = OrderClose_filePop.SelectedItem;
+                        if (selectedRow != null)
+                        {
+
+                            //AutoBindDataToControls(selectedRow, grdInput);
+
+                     
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("첨부파일을 받는 중 오류가 발생했습니다.. 오류내용\n" + ex.ToString());
+                    }
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("먼저 데이터를 선택해 주세요");
+            }
+        }
+
+        private void dgdMain_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var OrderInfo = dgdMain.SelectedItem as Win_ord_OrderClose_U_CodeView;
+            if (OrderInfo != null)
+            {
+                orderID_global = OrderInfo.orderid;
+            }
         }
     }
 
