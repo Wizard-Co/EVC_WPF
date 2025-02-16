@@ -46,6 +46,8 @@ namespace WizMes_EVC
 
         //견적등록 넘겨줄 변수
         public static string EstID = string.Empty;
+        //ToDolist에 수주등록으로 넘겨줄 변수
+        public static string OrderID = string.Empty;
        //aa
         // 넘겨줄 임시 데이터 변수(수주 진행 및 마감 -> 수주등록 화면으로)
         public static List<string> tempContent = new List<string>();
@@ -734,9 +736,9 @@ namespace WizMes_EVC
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                 //sqlParameter.Add("@sUserID", CurrentUser);
                 //sqlParameter.Add("@sPgGubun", "9");
-                sqlParameter.Add("personID", CurrentUser);
+                sqlParameter.Add("personID", CurrentPersonID);
                 sqlParameter.Add("pgGubun", "7");
-
+                //CurrentPersonID
                 DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Menu_sUserMenu", sqlParameter, false);
 
                 if (ds != null && ds.Tables.Count > 0)

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WizMes_EVC"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="620" d:DesignWidth="820" Loaded="Win_ord_TodoList_Q_Loaded">
     <Grid>
@@ -163,10 +164,8 @@
 
                     </StackPanel>
                 </Label>
-                <TextBox x:Name="txtInstallLocationSrh" Grid.Column="1" Style="{DynamicResource TextBoxSearch}" IsEnabled="False" KeyDown="txtInstallLocation_KeyDown"/>
-                <Button x:Name="btnInstallLocationSrh"  Grid.Column="2"  Click="btnInstallLocation_Click" IsEnabled="False">
-                    <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}"/>
-                </Button>
+                <TextBox x:Name="txtInstallLocationSrh" Grid.Column="1" Style="{DynamicResource TextBoxInputArea}" IsEnabled="False"/>
+                
             </Grid>
 
 
@@ -191,15 +190,9 @@
                 </Label>
             </Grid>
 
-
             <Grid Grid.Column="4" Grid.Row="3">
-                <Button Content="수주등록 바로가기"  Click="GoOrderButton_Click" /> 
+                <Button Content="수주등록 바로가기"  Click="GoOrderButton_Click" />
             </Grid>
- 
-
-
-
-
 
             <Grid Grid.Column="3" Grid.Row="2">
                 <Grid.ColumnDefinitions>
@@ -275,8 +268,18 @@
                     <ScrollViewer  Grid.Column="0" x:Name="dgdMainHeaderSh" HorizontalScrollBarVisibility="Hidden"  
                               ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Hidden"
                                 ScrollChanged="HeaderScrollViewer_ScrollChanged" >
-                        
-                        <Grid  >
+                        <Grid>
+                            <Grid.Resources>                        
+                                <Style TargetType="DataGridColumnHeader">                      
+                                    <Setter Property="Background" Value="#365fb1" />
+                                    <Setter Property="BorderBrush" Value="White" />
+                                    <Setter Property="Foreground" Value="White" />
+                                    <Setter Property="BorderThickness" Value="0.7" />
+                                    <Setter Property="FontWeight" Value="Thin" />
+                                    <Setter Property="FontSize" Value="12"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                </Style>                               
+                            </Grid.Resources>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="*" />
@@ -284,161 +287,176 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="{Binding ElementName=Num, Path=ActualWidth}" />
                                 <!--순-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo, Path=ActualWidth}" />
+                                <ColumnDefinition Width="{Binding ElementName=orderno, Path=ActualWidth}" />
                                 <!--수주번호-->
-                                <ColumnDefinition Width="{Binding ElementName=Col2, Path=ActualWidth}" />
-                                <!--전기수전방법-->                           
-                                <ColumnDefinition Width="{Binding ElementName=Col3, Path=ActualWidth}" />
-                                <!--현장명-->                                 
-                                <ColumnDefinition Width="{Binding ElementName=Col4, Path=ActualWidth}" />
-                                <!--접수일자-->                               
-                                <ColumnDefinition Width="{Binding ElementName=Col5, Path=ActualWidth}" />
-                                <!--영업회사-->                               
-                                <ColumnDefinition Width="{Binding ElementName=Col6, Path=ActualWidth}" />
-                                <!--운영회사-->                               
-                                                                              
-                                <ColumnDefinition Width="{Binding ElementName=Col7, Path=ActualWidth}" />
-                                <!--실사업체-->                               
-                                <ColumnDefinition Width="{Binding ElementName=Col8, Path=ActualWidth}" />
-                                <!--운영사접수일-->                           
-                                <ColumnDefinition Width="{Binding ElementName=Col9, Path=ActualWidth}" />
-                                <!--운영사컨펌완료일-->                       
-                                <ColumnDefinition Width="{Binding ElementName=Col10, Path=ActualWidth}" />
-                                <!--충전기입고-->                             
-                                                                              
-                                <ColumnDefinition Width="{Binding ElementName=Col11,Path=ActualWidth}" />
-                                <!--실사요청-->                               
-                                <ColumnDefinition Width="{Binding ElementName=Col12, Path=ActualWidth}"/>
-                                <!--실사-->                                   
-                                                                              
-                                <ColumnDefinition Width="{Binding ElementName=Col13, Path=ActualWidth}" />
-                                <!--승인-->                                   
-                                <ColumnDefinition Width="{Binding ElementName=Col14, Path=ActualWidth}" />
-                                <!--공기마감-->                               
-                                <ColumnDefinition Width="{Binding ElementName=Col15, Path=ActualWidth}" />
-                                <!--공기최종마감-->                           
-                                                                              
-                                <ColumnDefinition Width="{Binding ElementName=Col16, Path=ActualWidth}" />
-                                <!--신고발급-->                               
-                                                                              
-                                <ColumnDefinition Width="{Binding ElementName=Col17, Path=ActualWidth}" />
-                                <!--전기사용신청-->                           
-                                <ColumnDefinition Width="{Binding ElementName=Col18, Path=ActualWidth}" />
-                                <!--인입승인-->                               
-                                <ColumnDefinition Width="{Binding ElementName=Col19, Path=ActualWidth}" />
-                                <!--한전불입금납부-->                         
-                                <ColumnDefinition Width="{Binding ElementName=Col20, Path=ActualWidth}" />
-                                <!--계량기부설-->                                                                                                           
-                                <ColumnDefinition Width="{Binding ElementName=Col21, Path=ActualWidth}" />
-                                <!--착공-->                                   
-                                <ColumnDefinition Width="{Binding ElementName=Col22, Path=ActualWidth}" />                                <!--시공완료-->                               
-                                                                              
-                                <ColumnDefinition Width="{Binding ElementName=Col23, Path=ActualWidth}" />
-                                <!--안전검사요청-->                           
-                                <ColumnDefinition Width="{Binding ElementName=Col24, Path=ActualWidth}" />
-                                <!--안전점검수수료납부-->                     
-                                <ColumnDefinition Width="{Binding ElementName=Col25, Path=ActualWidth}" />
-                                <!--사용전점검요청-->                         
-                                <ColumnDefinition Width="{Binding ElementName=Col26, Path=ActualWidth}" />
-                                <!--사용전점검확인-->                         
-                                <ColumnDefinition Width="{Binding ElementName=Col27, Path=ActualWidth}" />
-                                <!--사용전검사요청-->                         
-                                <ColumnDefinition Width="{Binding ElementName=Col28, Path=ActualWidth}" />
-                                <!--사용전검사확인-->                         
-                                <ColumnDefinition Width="{Binding ElementName=Col29, Path=ActualWidth}" />
-                                <!--사용전검사수수료납부-->                                                                                                 
-                                <ColumnDefinition Width="{Binding ElementName=Col30, Path=ActualWidth}" />
-                                <!--감리배치계산서발행-->                     
-                                <ColumnDefinition Width="{Binding ElementName=Col31, Path=ActualWidth}" />
-                                <!--사용검사신청-->                           
-                                <ColumnDefinition Width="{Binding ElementName=Col32, Path=ActualWidth}" />
-                                <!--사용전검사-->                             
-                                <ColumnDefinition Width="{Binding ElementName=Col33, Path=ActualWidth}" />
-                                <!--사용전검사확인-->                                                                                                       
-                                <ColumnDefinition Width="{Binding ElementName=Col34, Path=ActualWidth}" />
-                                <!--준공서류회신-->                           
-                                <ColumnDefinition Width="{Binding ElementName=Col35, Path=ActualWidth}" />
-                                <!--시공보완완료-->                           
-                                <ColumnDefinition Width="{Binding ElementName=Col36, Path=ActualWidth}" />
-                                <!--준공서류보완-->                           
-                                <ColumnDefinition Width="{Binding ElementName=Col37, Path=ActualWidth}" />
-                                <!--하자보증보험발행-->                       
-                                <ColumnDefinition Width="{Binding ElementName=Col38, Path=ActualWidth}" />
-                                <!--준공서류완료-->                                                                                                         
-                                <ColumnDefinition Width="{Binding ElementName=Col39, Path=ActualWidth}" />
-                                <!--운영사시공비-->                           
-                                <ColumnDefinition Width="{Binding ElementName=Col40, Path=ActualWidth}" />
-                                <!--시공팀-->                                 
-                                <ColumnDefinition Width="{Binding ElementName=Col41, Path=ActualWidth}" />
+                                <ColumnDefinition Width="{Binding ElementName=installLocation, Path=ActualWidth}" />
+                                <!--현장명-->
+                                <ColumnDefinition Width="{Binding ElementName=electrDeliveryMethod, Path=ActualWidth}" />
+                                <!--시공사 및 실사정보(전기조달)-->
+                                <ColumnDefinition Width="{Binding ElementName=kepElectrDeliveryMethod, Path=ActualWidth}" />
+                                <!--한전수전&전기공사(전기조달)-->
+                                <ColumnDefinition Width="{Binding ElementName=acptDate, Path=ActualWidth}" />
+                                <!--접수일자-->
+                                <ColumnDefinition Width="{Binding ElementName=saleCustomName, Path=ActualWidth}" />
+                                <!--영업회사-->
+                                <ColumnDefinition Width="{Binding ElementName=managerCustomName, Path=ActualWidth}" />
+                                <!--운영회사-->
+
+                                <ColumnDefinition Width="{Binding ElementName=searchCustomName, Path=ActualWidth}" />
+                                <!--실사업체-->
+                                <ColumnDefinition Width="{Binding ElementName=manageCustomAcptDate, Path=ActualWidth}" />
+                                <!--운영사접수일-->
+                                <ColumnDefinition Width="{Binding ElementName=manageCustomConfirmDate, Path=ActualWidth}" />
+                                <!--운영사컨펌완료일-->
+                                <ColumnDefinition Width="{Binding ElementName=chargeStandInwareDate, Path=ActualWidth}" />
+                                <!--자재입고-->
+
+                                <ColumnDefinition Width="{Binding ElementName=orderNo8, Path=ActualWidth}" />
+                                <!--실사요청-->
+                                <ColumnDefinition Width="{Binding ElementName=orderNo9, Path=ActualWidth}"/>
+                                <!--실사-->
+
+                                <ColumnDefinition Width="{Binding ElementName=orderNo10, Path=ActualWidth}" />
+                                <!--승인-->
+                                <ColumnDefinition Width="{Binding ElementName=orderNo11, Path=ActualWidth}" />
+                                <!--공기마감-->
+                                <ColumnDefinition Width="{Binding ElementName=orderNo12, Path=ActualWidth}" />
+                                <!--공기최종마감-->
+
+                                <ColumnDefinition Width="{Binding ElementName=orderNo13, Path=ActualWidth}" />
+                                <!--행위신고발급일-->
+                                <ColumnDefinition Width="{Binding ElementName=orderNo14, Path=ActualWidth}" />
+                                <!--사용검사요청일-->                       
+                                <ColumnDefinition Width="{Binding ElementName=orderNo15, Path=ActualWidth}" />
+                                <!--사용전검사 필증 발급일-->
+
+                                <ColumnDefinition Width="{Binding ElementName=orderNo16, Path=ActualWidth}" />
+                                <!--전기사용신청-->
+                                <ColumnDefinition Width="{Binding ElementName=orderNo17, Path=ActualWidth}" />
+                                <!--인입승인-->
+                                <ColumnDefinition Width="{Binding ElementName=orderNo18, Path=ActualWidth}" />
+                                <!--한전불입금납부-->
+                                <ColumnDefinition Width="{Binding ElementName=orderNo19, Path=ActualWidth}" />
+                                <!--계량기부설-->
+
+                                <ColumnDefinition Width="{Binding ElementName=orderNo20, Path=ActualWidth}" />
+                                <!--착송-->
+                                <ColumnDefinition Width="{Binding ElementName=orderNo21, Path=ActualWidth}" />
+                                <!--시공완료-->
+
+                                <ColumnDefinition Width="{Binding ElementName=orderNo22, Path=ActualWidth}" />
+                                <!--안전검사요청-->
+                                <ColumnDefinition Width="{Binding ElementName=orderNo23, Path=ActualWidth}" />
+                                <!--안전점검수수료납부-->
+                                <ColumnDefinition Width="{Binding ElementName=orderNo24, Path=ActualWidth}" />
+                                <!--사용전점검요청-->
+                                <ColumnDefinition Width="{Binding ElementName=orderNo25, Path=ActualWidth}" />
+                                <!--사용전점검확인-->
+                                <ColumnDefinition Width="{Binding ElementName=orderNo26, Path=ActualWidth}" />
+                                <!--사용전검사요청-->
+                                <ColumnDefinition Width="{Binding ElementName=orderNo27, Path=ActualWidth}" />
+                                <!--사용전검사확인-->
+                                <ColumnDefinition Width="{Binding ElementName=orderNo28, Path=ActualWidth}" />
+                                <!--사용전검사수수료납부-->
+
+                                <ColumnDefinition Width="{Binding ElementName=orderNo29, Path=ActualWidth}" />
+                                <!--감리배치계산서발행-->
+
+                                <ColumnDefinition Width="{Binding ElementName=orderNo30, Path=ActualWidth}" />
+                                <!--준공서류회신-->
+                                <ColumnDefinition Width="{Binding ElementName=orderNo31, Path=ActualWidth}" />
+                                <!--시공보완완료-->
+                                <ColumnDefinition Width="{Binding ElementName=orderNo32, Path=ActualWidth}" />
+                                <!--준공서류보완-->
+                                <ColumnDefinition Width="{Binding ElementName=orderNo33, Path=ActualWidth}" />
+                                <!--하자보증보험발행-->
+                                <ColumnDefinition Width="{Binding ElementName=orderNo34, Path=ActualWidth}" />
+                                <!--준공서류완료-->
+
+                                <ColumnDefinition Width="{Binding ElementName=orderNo35, Path=ActualWidth}" />
+                                <!--운영사시공비-->
+                                <ColumnDefinition Width="{Binding ElementName=orderNo36, Path=ActualWidth}" />
+                                <!--운영사영업비-->
+                                <ColumnDefinition Width="{Binding ElementName=orderNo37, Path=ActualWidth}" />
+                                <!--시공팀-->
+                                <ColumnDefinition Width="{Binding ElementName=orderNo38, Path=ActualWidth}" />
                                 <!--영업사원-->
 
 
                             </Grid.ColumnDefinitions>
                             <DataGridColumnHeader Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"  Content="순" />
+                            
                             <DataGridColumnHeader Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"  Content="수주번호" />
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"  Content="전기수전방법" />
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="3" Grid.RowSpan="2"  Content="현장명" />
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="4" Grid.RowSpan="2"  Content="접수일자" />
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="5" Grid.RowSpan="2"  Content="영업회사" />
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="6" Grid.RowSpan="2"  Content="운영회사" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"  Content="현장명" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="3" Grid.RowSpan="2"  Content="전기수전방법(실사)" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="4" Grid.RowSpan="2"  Content="전기수전방법(한전)" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="5" Grid.RowSpan="2"  Content="접수일자" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="6" Grid.RowSpan="2"  Content="영업회사" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="7" Grid.RowSpan="2"  Content="운영회사" />
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="7" Grid.RowSpan="2"  Content="실사업체" />
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="8" Grid.RowSpan="2"  Content="운영사접수일" />
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="9" Grid.RowSpan="2"  Content="운영사컨펌완료일" />
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="10" Grid.RowSpan="2"  Content="충전기입고" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="8" Grid.RowSpan="2"  Content="실사업체" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="9" Grid.RowSpan="2"  Content="운영사접수일" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="10" Grid.RowSpan="2"  Content="운영사 컨펌일" />
+                            
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="11" Content="기기 및 액서서리 정보" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="11" Content="입고일" />
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="11" Grid.ColumnSpan="2" Content="시공및실사" HorizontalContentAlignment="Center"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="11" Content="실사요청"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="12" Content="실사" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="12" Grid.ColumnSpan="2" Content="시공 및 실사정보" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="12" Content="실사요청일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="13" Content="실사일" />
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="13" Grid.ColumnSpan="3" Content="공단" HorizontalContentAlignment="Center"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="13" Content="승인"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="14" Content="공기마감" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="15" Content="공기최종마감" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="14" Grid.ColumnSpan="3" Content="공단사항" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="14" Content="공단 승인일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="15" Content="공기마감일" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="16" Content="공기최종마감일" />
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="16" Grid.ColumnSpan="1" Content="행위신고" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="16" Content="신고발급"/>
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="17" Grid.ColumnSpan="3" Content="지자체 사항" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="17" Content="행위신고발급일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="18" Content="사용검사 신청일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="19" Content="사용검사 필증 발급일"/>
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="17" Grid.ColumnSpan="4" Content="한전수전" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="17" Content="전기사용신청"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="18" Content="인입승인"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="19" Content="한전불입금납부"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="20" Content="계량기부설"/>
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="20" Grid.ColumnSpan="4" Content="한전수전정보" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="20" Content="전기사용신청일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="21" Content="인입승인일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="22" Content="한전불입납부일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="23" Content="계량기부설일"/>
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="21" Grid.ColumnSpan="2" Content="시공사" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="21" Content="착공"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="22" Content="시공완료"/>
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="24" Grid.ColumnSpan="2" Content="시공사 정보" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="24" Content="착공일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="25" Content="완공일"/>
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="23" Grid.ColumnSpan="7" Content="전기안전공사" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="23" Content="안전검사요청"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="24" Content="안전점검수수료납부"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="25" Content="사용전점검요청"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="26" Content="사용전점검확인"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="27" Content="사용전검사요청"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="28" Content="사용전검사확인"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="29" Content="사용전검사수수료납부"/>
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="26" Grid.ColumnSpan="7" Content="전기 안전공사 진행 정보" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="26" Content="전기 안전점검요청일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="27" Content="전기 안전점검수수료납부일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="28" Content="사용전점검 요청일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="29" Content="사용전점검 확인증 발급일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="30" Content="사용전검사 요청일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="31" Content="사용전검사 확인증 발급일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="32" Content="사용전검사 수수료 납부일"/>
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="30" Grid.ColumnSpan="4" Content="감리" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="30" Content="감리배치계산서발행"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="31" Content="사용검사신청"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="32" Content="사용전검사"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="33" Content="사용전검사확인"/>
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="33" Content="감리" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="33" Content="감리 배치계산서 발행일"/>   
 
                             <DataGridColumnHeader Grid.Row="0" Grid.Column="34" Grid.ColumnSpan="5" Content="준공" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="34" Content="준공서류확인"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="35" Content="시공보완완료"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="36" Content="준공서류보완"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="37" Content="하자보증보험발행"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="38" Content="준공서류완료"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="34" Content="준공 서류회신일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="35" Content="시공보완 완료일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="36" Content="준공서류 보완일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="37" Content="하자보증보험 발행일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="38" Content="준공 서류완료일"/>
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="39" Grid.ColumnSpan="3" Content="정산" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="39" Content="운영사시공비"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="40" Content="시공팀"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="41" Content="영업사원"/>
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="39" Grid.ColumnSpan="4" Content="정산" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="39" Content="운영사시공비(선금)계산서 발행일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="40" Content="운영사영업비(선금)계산서 발행일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="41" Content="시공팀(선금)계산서 발행일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="42" Content="영업사원(선금)계산서 발행일"/>
+                            
                         </Grid>
+
+
                     </ScrollViewer>
 
                     <Grid Grid.Row="1">
+
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="629*"/>
                             <ColumnDefinition Width="192*"/>
@@ -447,12 +465,13 @@
                             <!--<RowDefinition Height="*" />-->
                             <RowDefinition Height="20*" />
                         </Grid.RowDefinitions>
-                        <DataGrid x:Name="dgdStock"  Visibility="Visible" 
+
+                        <DataGrid x:Name="dgdMain"  Visibility="Visible" 
                                   HeadersVisibility="None"   
                                   Style="{DynamicResource DataGridSetTwoHeaderEdit}" Grid.ColumnSpan="2" IsReadOnly="True" 
-                                  Loaded="DataGrid_Loaded" Margin="0,0,0,0.2"
-                                  >
-
+                                  SelectionChanged="dgdMain_SelectionChanged" 
+                                  Loaded="DataGrid_Loaded" Margin="0,0,0,0.2">
+                        
                             <DataGrid.RowStyle>
                                 <Style TargetType="DataGridRow" >
                                     <Style.Resources>
@@ -460,17 +479,15 @@
                                         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White"/>
                                         <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3399FF" />
                                         <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="White"/>
-
                                     </Style.Resources>
                                 </Style>
+                                
                             </DataGrid.RowStyle>
-
-
-
+                       
 
                             <DataGrid.Columns >
                                 <!--순-->
-                                <DataGridTemplateColumn  x:Name="Num" MinWidth="50">
+                                <DataGridTemplateColumn  x:Name="Num" MinWidth="50" Header="순">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock  Width="auto"  Foreground="Black"
@@ -480,37 +497,49 @@
                                 </DataGridTemplateColumn>
 
                                 <!--수주번호-->
-                                <DataGridTemplateColumn  x:Name="orderNo" MinWidth="50">
+                                <DataGridTemplateColumn  x:Name="orderno" MinWidth="80" Header="수주번호">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock  Width="auto"  Foreground="Black"
-                                        Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center"  />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-
-                                <!--전기조달방법-->
-                                <DataGridTemplateColumn  x:Name="Col2" MinWidth="50">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock  Width="auto"  Foreground="Black"
-                                        Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center"  />
+                                        Text="{Binding orderno, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center"  />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--현장명-->
-                                <DataGridTemplateColumn  x:Name="Col3" MinWidth="50">
+                                <DataGridTemplateColumn  x:Name="installLocation" MinWidth="80" Header="현장명">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock  Width="auto"  Foreground="Black"
-                                        Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center"  />
+                                        Text="{Binding installLocation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center"  />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+
+                                <!--전기수전방법(실사)-->
+                                <DataGridTemplateColumn  x:Name="electrDeliveryMethod" MinWidth="140" Header="전기수전방법(실사)">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock  Width="auto"  Foreground="Black"
+                                        Text="{Binding electrDeliveryMethod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center"  />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+
+                                <!--전기수전방법(한전)-->
+                                <DataGridTemplateColumn  x:Name="kepElectrDeliveryMethod" MinWidth="160" Header="전기수전방법(한전)">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock  Width="auto"  Foreground="Black"
+                                        Text="{Binding kepElectrDeliveryMethod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center"  />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--접수일자-->
-                                <DataGridTemplateColumn  x:Name="Col4" MinWidth="50">
+                                <DataGridTemplateColumn  x:Name="acptDate" MinWidth="80" Header="접수일자">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock  Width="auto"  Foreground="Black"
@@ -520,400 +549,1014 @@
                                 </DataGridTemplateColumn>
 
                                 <!--영업회사-->
-                                <DataGridTemplateColumn  x:Name="Col5" MinWidth="50">
+                                <DataGridTemplateColumn  x:Name="saleCustomName" MinWidth="100" Header="영업회사">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock  Width="auto"  Foreground="Black"
-                                        Text="{Binding salesCustom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center"  />
+                                        Text="{Binding saleCustomName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center"  />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--운영회사-->
-                                <DataGridTemplateColumn  x:Name="Col6" MinWidth="50">
+                                <DataGridTemplateColumn  x:Name="managerCustomName" MinWidth="100" Header="운영회사">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock  Width="auto"  Foreground="Black"
-                                        Text="{Binding manageCustom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center"  />
+                                        Text="{Binding managerCustomName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center"  />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
 
                                 <!--실사업체-->
-                                <DataGridTemplateColumn x:Name="Col7" MinWidth="50" >
+                                <DataGridTemplateColumn x:Name="searchCustomName" MinWidth="100" Header="실사업체">
 
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding searchCustom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                            <TextBlock Text="{Binding searchCustomName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--운영사접수일-->
-                                <DataGridTemplateColumn x:Name="Col8" MinWidth="70" >
+                                <DataGridTemplateColumn x:Name="manageCustomAcptDate" MinWidth="120" Header="운영사접수일">
 
-                                    <DataGridTemplateColumn.CellTemplate>
+                                    <!--<DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding manageCustomAcptDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-
-                                </DataGridTemplateColumn>
-
-                                <!--운영사컨펌완료일-->
-                                <DataGridTemplateColumn x:Name="Col9" MinWidth="85" >
+                                    </DataGridTemplateColumn.CellTemplate>-->
 
                                     <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Image Width="16" Height="16" ToolTip="{Binding manageCustomAcptDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding manageCustomAcptDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding manageCustomAcptDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!--운영사컨펌완료일 -> 운영사 컨펌일-->
+                                <DataGridTemplateColumn x:Name="manageCustomConfirmDate" MinWidth="120" Header="운영사 컨펌일">
+
+                                    <!--<DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding manageCustomConfirmDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
+
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Image Width="16" Height="16" ToolTip="{Binding manageCustomConfirmDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">                                                                               
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding manageCustomConfirmDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding manageCustomConfirmDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>                                                        
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                        </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
 
                                 </DataGridTemplateColumn>
 
-                                <!--충전기입고 OrderColor-->
-                                <DataGridTemplateColumn x:Name="Col10" MinWidth="55" >
+                                <!--충전기입고 -> 입고일 -->
+                                <DataGridTemplateColumn x:Name="chargeStandInwareDate" MinWidth="140" Header="입고일">
 
-                                    <DataGridTemplateColumn.CellTemplate>
+                                    <!--<DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding chargeInwareDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
 
-                                </DataGridTemplateColumn>
-
-                                <!--실사요청-->
-                                <DataGridTemplateColumn x:Name="Col11" MinWidth="50" >
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding searchReqDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding chargeStandInwareDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding chargeStandInwareDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding chargeStandInwareDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
+
+                                </DataGridTemplateColumn>
+
+                                <!--실사요청 -> 실사요청일-->
+                                <DataGridTemplateColumn x:Name="orderNo8" MinWidth="120" Header="실사요청일">
+
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Image Width="16" Height="16" ToolTip="{Binding searchReqDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding searchReqDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding searchReqDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+
                                 </DataGridTemplateColumn>
 
 
-                                <!--실사일-->
-                                <DataGridTemplateColumn x:Name="Col12" MinWidth="50">
+                                <!--실사-->
+                                <DataGridTemplateColumn x:Name="orderNo9" MinWidth="120" Header="실사일">
 
-                                    <DataGridTemplateColumn.CellTemplate>
+                                    <!--<DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock x:Name="txtnumevaluate" Width="auto"  Foreground="Black" MinWidth="50"
-                                        Text="{Binding searchDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                        Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                          HorizontalAlignment="Right" 
-                                        TextAlignment="Right"
+                                        TextAlignment="Center"
                                             />
                                         </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Image Width="16" Height="16" ToolTip="{Binding searchDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding searchDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding searchDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                        </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
 
                                 </DataGridTemplateColumn>
 
 
-                                <!--공단승인일-->
-                                <DataGridTemplateColumn x:Name="Col13" MinWidth="50">
+                                <!--승인-->
+                                <DataGridTemplateColumn x:Name="orderNo10" MinWidth="120" Header="공단 승인일">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding corpApprovalDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <Image Width="16" Height="16" ToolTip="{Binding corpApprovalDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding corpApprovalDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding corpApprovalDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+
+                                </DataGridTemplateColumn>
+
+
+                                <!--공기마감-->
+                                <DataGridTemplateColumn x:Name="orderNo11" MinWidth="120" Header="공기마감일">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Image Width="16" Height="16" ToolTip="{Binding corpEndDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding corpEndDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding corpEndDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-
-                                <!--공기마감일-->
-                                <DataGridTemplateColumn x:Name="Col14" MinWidth="50">
+                                <!--공기최종마감-->
+                                <DataGridTemplateColumn x:Name="orderNo12" MinWidth="120" Header="공기최종마감일">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding corpEndDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding corpLastEndDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding corpLastEndDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding corpLastEndDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-                                <!--공기최종마감일-->
-                                <DataGridTemplateColumn x:Name="Col15" MinWidth="70">
+                                <!--신고발급-->
+                                <DataGridTemplateColumn x:Name="orderNo13" MinWidth="120" Header="행위신고발급일">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding corpLastEndDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding localGovBehaviorReportDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding localGovBehaviorReportDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding localGovBehaviorReportDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-                                <!--행위신고발급-->
-                                <DataGridTemplateColumn x:Name="Col16" MinWidth="50">
+                                <!--사용검사신청-->
+                                <DataGridTemplateColumn x:Name="orderNo14" MinWidth="120" Header="사용검사신청일">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                          <DataTemplate>
+                                              <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                          TextAlignment="Center" VerticalAlignment="Center"/>
+                                          </DataTemplate>
+                                      </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding localGovBehaviorReportDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding superUseInspReqDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding superUseInspReqDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding superUseInspReqDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>                        
+
+
+                                <!--사용전검사확인증 발급일 -> 사용검사 필증 발급일-->
+                                <DataGridTemplateColumn x:Name="orderNo15" MinWidth="160" Header="사용검사 필증 발급일">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                          <DataTemplate>
+                                              <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                          TextAlignment="Center" VerticalAlignment="Center"/>
+                                          </DataTemplate>
+                                      </DataGridTemplateColumn.CellTemplate>-->
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Image Width="16" Height="16" ToolTip="{Binding superBeforeUseInspPrintDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding superBeforeUseInspPrintDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding superBeforeUseInspPrintDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--전기사용신청-->
-                                <DataGridTemplateColumn x:Name="Col17" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="orderNo16" MinWidth="120">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding kepElectrReqDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding kepElectrReqDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding kepElectrReqDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding kepElectrReqDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--인입승인-->
-                                <DataGridTemplateColumn x:Name="Col18" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="orderNo17" MinWidth="120">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding kepInApprovalYN, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding kepInApprovalDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding kepInApprovalDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding kepInApprovalDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--한전불입금납부-->
-                                <DataGridTemplateColumn x:Name="Col19" MinWidth="75">
+                                <DataGridTemplateColumn x:Name="orderNo18" MinWidth="120">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding kepPaymentDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding kepPaymentDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding kepPaymentDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding kepPaymentDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--계량기부설-->
-                                <DataGridTemplateColumn x:Name="Col20" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="orderNo19" MinWidth="120">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding kepMeterInstallDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding kepMeterInstallDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding kepMeterInstallDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding kepMeterInstallDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--착공-->
-                                <DataGridTemplateColumn x:Name="Col21" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="orderNo20" MinWidth="120">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding constrDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding constrDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding constrDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding constrDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--시공완료-->
-                                <DataGridTemplateColumn x:Name="Col22" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="orderNo21" MinWidth="120">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding constrCompleteDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding constrCompleteDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding constrCompleteDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding constrCompleteDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
 
-                                <!--안전검사요청-->
-                                <DataGridTemplateColumn x:Name="Col23" MinWidth="50">
+                                <!--안전검사요청 -> 안전점검요청일 -> 전기안전점검요청일 -->
+                                <DataGridTemplateColumn x:Name="orderNo22" MinWidth="120">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding electrSafeCheckDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding electrSafeCheckDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding electrSafeCheckDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding electrSafeCheckDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                                 
-                                <!--안전점검수수료납부-->
-                                <DataGridTemplateColumn x:Name="Col24" MinWidth="100">
+                                <!--안전점검수수료납부 -> 안전점검수수료 납부일 -> 전기안전점검수수료납부일-->
+                                <DataGridTemplateColumn x:Name="orderNo23" MinWidth="160">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding electrSafeCheckCostPayDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding electrSafeCheckCostPayDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding electrSafeCheckCostPayDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding electrSafeCheckCostPayDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                                 
-                                <!--사용전점검요청-->
-                                <DataGridTemplateColumn x:Name="Col25" MinWidth="75">
+                                
+                                <!--사용전점검요청 -> 사용전점검요청 요청일-->
+                                <DataGridTemplateColumn x:Name="orderNo24" MinWidth="120">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding electrBeforeUseCheckReqDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding electrBeforeUseCheckReqDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding electrBeforeUseCheckReqDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding electrBeforeUseCheckReqDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-                                <!--사용전점검확인-->
-                                <DataGridTemplateColumn x:Name="Col26" MinWidth="80">
+                                <!--사용전점검확인증 발급일-->
+                                <DataGridTemplateColumn x:Name="orderNo25" MinWidth="160">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding electrBeforeInspPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding electrBeforeUseCheckPrintDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding electrBeforeUseCheckPrintDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding electrBeforeUseCheckPrintDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--사용전검사요청-->
-                                <DataGridTemplateColumn x:Name="Col27" MinWidth="80">
+                                <DataGridTemplateColumn x:Name="orderNo26" MinWidth="120">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding electrBeforeInspReqDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding electrBeforeInspReqDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding electrBeforeInspReqDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding electrBeforeInspReqDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--사용전검사확인-->
-                                <DataGridTemplateColumn x:Name="Col28" MinWidth="80">
+                                <DataGridTemplateColumn x:Name="orderNo27" MinWidth="150">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding electrBeforeInspPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding electrBeforeInspPrintDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding electrBeforeInspPrintDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding electrBeforeInspPrintDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--사용전검사수수료납부-->
-                                <DataGridTemplateColumn x:Name="Col29" MinWidth="105">
+                                <DataGridTemplateColumn x:Name="orderNo28" MinWidth="140">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding electrBeforeInspCostPayDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding electrBeforeInspCostPayDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding electrBeforeInspCostPayDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding electrBeforeInspCostPayDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
- 
+
                                 <!--감리배치계산서발행-->
-                                <DataGridTemplateColumn x:Name="Col30" MinWidth="100">
-                                    <DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn x:Name="orderNo29" MinWidth="140">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding superSetTaxPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-
-
-                                <!--감리-사용검사신청-->
-                                <DataGridTemplateColumn x:Name="Col31" MinWidth="50">
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding superUseInspReqDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding superSetTaxPrintDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding superSetTaxPrintDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding superSetTaxPrintDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-
-
-                                <!--감리-사용전검사-->
-                                <DataGridTemplateColumn x:Name="Col32" MinWidth="50">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding superBeforeUseInspDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-
-
-                                <!--감리-사용전검사확인-->
-                                <DataGridTemplateColumn x:Name="Col33" MinWidth="80">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding superBeforeUseInspPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
+                                </DataGridTemplateColumn>                              
 
                                 <!--준공서류회신 -->
-                                <DataGridTemplateColumn x:Name="Col34" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="orderNo30" MinWidth="120">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding compReplyDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding compReplyDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding compReplyDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding compReplyDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--시공보완완료-->
-                                <DataGridTemplateColumn x:Name="Col35" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="orderNo31" MinWidth="120">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding suppleCompDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding suppleCompDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding suppleCompDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding suppleCompDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--준공서류보완-->
-                                <DataGridTemplateColumn x:Name="Col36" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="orderNo32" MinWidth="120">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding compSuppleReportDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding compSuppleReportDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding compSuppleReportDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding compSuppleReportDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--하자보증보험발행-->
-                                <DataGridTemplateColumn x:Name="Col37" MinWidth="85">
+                                <DataGridTemplateColumn x:Name="orderNo33" MinWidth="120">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding insurePrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding insurePrintDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding insurePrintDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding insurePrintDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!--준공서류완료-->
-                                <DataGridTemplateColumn x:Name="Col38" MinWidth="50">
+                                <DataGridTemplateColumn x:Name="orderNo34" MinWidth="120">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding compReportCompDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding compReportCompDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding compReportCompDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding compReportCompDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
 
-                                <!--운영사시공비-->
-                                <DataGridTemplateColumn x:Name="Col39" MinWidth="50">
+                                <!--운영사시공비(선금)-->
+                                <DataGridTemplateColumn x:Name="orderNo35" MinWidth="190">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding accntMgrWorkPreTaxPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding accntMgrWorkPreTaxPrintDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding accntMgrWorkPreTaxPrintDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding accntMgrWorkPreTaxPrintDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-                                <!--시공팀-->
-                                <DataGridTemplateColumn x:Name="Col40" MinWidth="50">
+                                <!--운영사영업비(선금)-->
+                                <DataGridTemplateColumn x:Name="orderNo36" MinWidth="190">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                              TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding accntWorkTaxPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
-                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                            <Image Width="16" Height="16" ToolTip="{Binding accntMgrSalesPreTaxPrintDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding accntMgrSalesPreTaxPrintDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding accntMgrSalesPreTaxPrintDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-                                <!--영업사원-->
-                                <DataGridTemplateColumn x:Name="Col41" MinWidth="50">
-                                    <DataGridTemplateColumn.CellTemplate>
+                                <!--시공팀(선금)-->
+                                <DataGridTemplateColumn x:Name="orderNo37" MinWidth="190">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding accntSaleTaxPrintDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Image Width="16" Height="16" ToolTip="{Binding accntWorkPreTaxPrintDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding accntWorkPreTaxPrintDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding accntWorkPreTaxPrintDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                        </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
 
+                                <!--영업사원(선금)-->
+                                <DataGridTemplateColumn x:Name="orderNo38" MinWidth="190">
+                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
+                                                        TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>-->
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Image Width="16" Height="16" ToolTip="{Binding accntSalesPreTaxPrintDate_ToolTip}" ToolTipService.InitialShowDelay="200">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding accntSalesPreTaxPrintDate}" Value="false">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/warn_circle.png"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding accntSalesPreTaxPrintDate}" Value="true">
+                                                                <Setter Property="Source" Value="pack://application:,,,/Images/ok_circle.png"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                             </DataGrid.Columns>
-
 
                         </DataGrid>
 
@@ -921,11 +1564,6 @@
                     </Grid>
 
                 </Grid>
-
-
-
-
-
                 <!--서브 데이터그리드-->
 
 

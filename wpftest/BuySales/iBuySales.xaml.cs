@@ -884,7 +884,7 @@ namespace WizMes_EVC
         }
         private void btnPfOrderID_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.pf.ReturnCode(txtOrderID, 0, "");
+            MainWindow.pf.ReturnCode(txtOrderID, 8000, "");
             if (String.IsNullOrEmpty(txtOrderIDSrh.Text))
             {
                 FillGrid(txtOrderID.Text);

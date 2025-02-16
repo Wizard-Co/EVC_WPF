@@ -12,6 +12,8 @@ using WPF.MDI;
 using System.Linq;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Text.RegularExpressions;
+using WizMes_EVC.Order.Pop;
 
 namespace WizMes_EVC
 {
@@ -34,16 +36,23 @@ namespace WizMes_EVC
         Win_ord_OrderClose_U_CodeView WinOrderClose = new Win_ord_OrderClose_U_CodeView();
         Lib lib = new Lib();
         string rowHeaderNum = string.Empty;
+        string orderID_global = string.Empty;
         int rowNum = 0;
         int rbnOrder = 0;
+
+        private Win_ord_Pop_OrderClose_File_Q OrderClose_filePop;
 
         NoticeMessage msg = new NoticeMessage();
         DataTable DT;
         ////private List<DataGridColumn> _dynamicColumns = new List<DataGridColumn>();
 
+
+
+
         public Win_ord_OrderClose_U()
         {
             InitializeComponent();
+            this.GotFocus += Win_ord_OrderClose_U_GotFocus;
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -59,6 +68,18 @@ namespace WizMes_EVC
 
         }
 
+        private void Win_ord_OrderClose_U_GotFocus(object sender, EventArgs e)
+        {
+            if(dgdMain.Items.Count > 0 && dgdMain.SelectedIndex != -1)
+            {
+                var item = dgdMain.SelectedItem as Win_ord_OrderClose_U_CodeView;
+                if(item != null)
+                {
+                    MainWindow.OrderID = item.orderid;
+                }
+            }
+        }
+
         //콤보박스 세팅
         private void SetComboBox()
         {
@@ -72,8 +93,6 @@ namespace WizMes_EVC
             cboOrderStatus.DisplayMemberPath = "code_name";
             cboOrderStatus.SelectedValuePath = "code_id";
             cboOrderStatus.SelectedIndex = 0;
-
-
 
         }
 
@@ -344,6 +363,7 @@ namespace WizMes_EVC
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             DataStore.Instance.InsertLogByFormS(this.GetType().Name, stDate, stTime, "E");
+            this.GotFocus -= Win_ord_OrderClose_U_GotFocus;
             Lib.Instance.ChildMenuClose(this.ToString());
         }
 
@@ -517,158 +537,318 @@ namespace WizMes_EVC
 
                                 IsCheck = false,
                                 Num = i + 1,
+
+                                //기본정보
                                 CLoseYn = item["CLoseYn"].ToString(),
                                 orderid = item["orderid"].ToString(),
-                                acptDate = item["acptDate"].ToString(),
+                                acptDate = DateTypeHyphen(item["acptDate"].ToString()),
                                 EstID = item["EstID"].ToString(),
                                 saleCustomName = item["saleCustomName"].ToString(),
                                 saleCustomID = item["saleCustomID"].ToString(),
+
                                 managerCustomName = item["managerCustomName"].ToString(),
                                 managerCustomID = item["managerCustomID"].ToString(),
+
                                 searchCustomName = item["searchCustomName"].ToString(),
                                 searchCustomID = item["searchCustomID"].ToString(),
+
                                 zoneGbnName = item["zoneGbnName"].ToString(),
                                 zoneGbnID = item["zoneGbnID"].ToString(),
-                                manageCustomAcptDate = item["manageCustomAcptDate"].ToString(),
-                                manageCustomConfirmDate = item["manageCustomConfirmDate"].ToString(),
+
+                                manageCustomAcptDate = DateTypeHyphen(item["manageCustomAcptDate"].ToString()),
+                                manageCustomConfirmDate = DateTypeHyphen(item["manageCustomConfirmDate"].ToString()),
+
+                                //국소정보
                                 installLocation = item["installLocation"].ToString(),
                                 installLocationAddress = item["installLocationAddress"].ToString(),
                                 InstallLocationPhone = item["InstallLocationPhone"].ToString(),
                                 installLocationPart = item["installLocationPart"].ToString(),
-                                houseHoldCount = item["houseHoldCount"].ToString(),
-                                carParkingCount = item["carParkingCount"].ToString(),
-                                electrCarCount = item["electrCarCount"].ToString(),
-                                alReadyChargeCount = item["alReadyChargeCount"].ToString(),
-                                reqChargeCount = item["reqChargeCount"].ToString(),
+                                houseHoldCount = stringFormatN0(item["houseHoldCount"]),
+                                carParkingCount = stringFormatN0(item["carParkingCount"]),
+                                electrCarCount = stringFormatN0(item["electrCarCount"]),
+                                alReadyChargeCount = stringFormatN0(item["alReadyChargeCount"]),
+
+                                reqChargeCount = stringFormatN0(item["reqChargeCount"]),
                                 alreadyManageCustomName = item["alreadyManageCustomName"].ToString(),
+
                                 alreadyManageCustomID = item["alreadyManageCustomID"].ToString(),
                                 installLocationComments = item["installLocationComments"].ToString(),
-                                contractFromDate = item["contractFromDate"].ToString(),
-                                contractToDate = item["contractToDate"].ToString(),
-                                openReqDate = item["openReqDate"].ToString(),
-                                openDate = item["openDate"].ToString(),
+                                contractFromDate = DateTypeHyphen(item["contractFromDate"].ToString()),
+                                contractToDate = DateTypeHyphen(item["contractToDate"].ToString()),
+                                openReqDate = DateTypeHyphen(item["openReqDate"].ToString()),
+                                openDate = DateTypeHyphen(item["openDate"].ToString()),
                                 damdangjaName = item["damdangjaName"].ToString(),
                                 damdangjaPhone = item["damdangjaPhone"].ToString(),
                                 damdangjaEMail = item["damdangjaEMail"].ToString(),
                                 installLocationAddComments = item["installLocationAddComments"].ToString(),
+
+                                //영업회사
                                 saledamdangjaPhone = item["saledamdangjaPhone"].ToString(),
                                 saleCustomAddWork = item["saleCustomAddWork"].ToString(),
                                 salegift = item["salegift"].ToString(),
+
+                                //기기 및 액서사리 정보
                                 article = item["article"].ToString(),
-                                chargeOrderDate = item["chargeOrderDate"].ToString(),
-                                chargeInwareDate = item["chargeInwareDate"].ToString(),
+                                //chargeOrderDate = DateTypeHyphen(item["chargeOrderDate"].ToString()), //충전기발주
+                                //chargeInwareDate = DateTypeHyphen(item["chargeInwareDate"].ToString()),//충전기입고
                                 chargeInwareQty = item["chargeInwareQty"].ToString(),
                                 chargeInwareLocation = item["chargeInwareLocation"].ToString(),
                                 canopyReqCustom = item["canopyReqCustom"].ToString(),
                                 chargeModelHelmat = item["chargeModelHelmat"].ToString(),
                                 chargeModelinloc = item["chargeModelinloc"].ToString(),
                                 chargeModelOneBody = item["chargeModelOneBody"].ToString(),
-                                chargeStandReqDate = item["chargeStandReqDate"].ToString(),
-                                chargeStandInwareDate = item["chargeStandInwareDate"].ToString(),
+                                chargeStandReqDate = DateTypeHyphen(item["chargeStandReqDate"].ToString()),
+                                chargeStandInwareDate = DateTypeHyphen(item["chargeStandInwareDate"].ToString()),
                                 mtrCanopyInwareInfo = item["mtrCanopyInwareInfo"].ToString(),
-                                mtrCanopyOrderAmount = item["mtrCanopyOrderAmount"].ToString(),
+                                mtrCanopyOrderAmount = stringFormatN0(item["mtrCanopyOrderAmount"]),
                                 comments = item["comments"].ToString(),
-                                searchReqDate = item["searchReqDate"].ToString(),
-                                searchDate = item["searchDate"].ToString(),
-                                searchQty = item["searchQty"].ToString(),
-                                searchDataAcptDate = item["searchDataAcptDate"].ToString(),
-                                installLocationCount = item["installLocationCount"].ToString(),
+
+                                //시공 및 실사 정보
+                                searchReqDate = DateTypeHyphen(item["searchReqDate"].ToString()),
+                                searchDate = DateTypeHyphen(item["searchDate"].ToString()),
+                                searchQty = stringFormatN0(item["searchQty"]),
+                                searchDataAcptDate = DateTypeHyphen(item["searchDataAcptDate"].ToString()),
+                                installLocationCount = stringFormatN0(item["installLocationCount"]),
                                 electrDeliveryMethod = item["electrDeliveryMethod"].ToString(),
                                 inspectionNeedYN = item["inspectionNeedYN"].ToString(),
-                                addConstructCostSearch = item["addConstructCostSearch"].ToString(),
-                                addConstructCost = item["addConstructCost"].ToString(),
-                                searchComments = item["searchComments"].ToString(),
+                                addConstructCostSearch = stringFormatN0(item["addConstructCostSearch"]),
+                                addConstructCost = stringFormatN0(item["addConstructCost"]),
+                                searchComments = stringFormatN0(item["searchComments"]),
+
+                                //지자체사항
+                                superUseInspReqDate = DateTypeHyphen(item["superUseInspReqDate"].ToString()),
+                                superBeforeUseInspPrintDate = DateTypeHyphen(item["superBeforeUseInspPrintDate"].ToString()),
+
+                                //공단사항
                                 corpAcptNo = item["corpAcptNo"].ToString(),
-                                corpApprovalDate = item["corpApprovalDate"].ToString(),
-                                corpEndDate = item["corpEndDate"].ToString(),
-                                corpLastEndDate = item["corpLastEndDate"].ToString(),
+                                corpApprovalDate = DateTypeHyphen(item["corpApprovalDate"].ToString()),
+                                corpEndDate = DateTypeHyphen(item["corpEndDate"].ToString()),
+                                corpLastEndDate = DateTypeHyphen(item["corpLastEndDate"].ToString()),
                                 corpComments = item["corpComments"].ToString(),
-                                kepInstallLocationCount = item["kepInstallLocationCount"].ToString(),
+                                kepInstallLocationCount = stringFormatN0(item["kepInstallLocationCount"]),
                                 kepElectrDeliveryMethod = item["kepElectrDeliveryMethod"].ToString(),
                                 kepOutLineConstructContext = item["kepOutLineConstructContext"].ToString(),
-                                kepInfraPayAmount = item["kepInfraPayAmount"].ToString(),
-                                kepManageInfraPayAmount = item["kepManageInfraPayAmount"].ToString(),
-                                kepElectrReqDate = item["kepElectrReqDate"].ToString(),
+                                kepInfraPayAmount = stringFormatN0(item["kepInfraPayAmount"]),
+                                kepManageInfraPayAmount = stringFormatN0(item["kepManageInfraPayAmount"]),
+                                kepManageInfraPayDate = DateTypeHyphen(item["kepManageInfraPayDate"].ToString()),
+                                kepElectrReqDate = DateTypeHyphen(item["kepElectrReqDate"].ToString()),
                                 kepInApprovalYN = item["kepInApprovalYN"].ToString(),
-                                kepInApprovalDate = item["kepInApprovalDate"].ToString(),
-                                kepMeterInstallContext = item["kepMeterInstallContext"].ToString(),
+                                kepInApprovalDate = DateTypeHyphen(item["kepInApprovalDate"].ToString()),
+                                //kepMeterInstallContext = item["kepMeterInstallContext"].ToString(),
                                 kepDamdangjaPhone = item["kepDamdangjaPhone"].ToString(),
                                 kepCustomNo = item["kepCustomNo"].ToString(),
-                                kepPaymentDate = item["kepPaymentDate"].ToString(),
-                                kepMeterInstallDate = item["kepMeterInstallDate"].ToString(),
+                                kepPaymentDate = DateTypeHyphen(item["kepPaymentDate"].ToString()),
+                                kepMeterInstallDate = DateTypeHyphen(item["kepMeterInstallDate"].ToString()),
                                 kepFaucetComments = item["kepFaucetComments"].ToString(),
+
+                                //전기안전공사진행정보
                                 constrCustomName = item["constrCustomName"].ToString(),
                                 constrCustomID = item["constrCustomID"].ToString(),
-                                constrOrderDate = item["constrOrderDate"].ToString(),
-                                constrDate = item["constrDate"].ToString(),
+                                constrOrderDate = DateTypeHyphen(item["constrOrderDate"].ToString()),
+                                constrDate = DateTypeHyphen(item["constrDate"].ToString()),
                                 constrDelyReason = item["constrDelyReason"].ToString(),
-                                constrCompleteDate = item["constrCompleteDate"].ToString(),
+                                constrCompleteDate = DateTypeHyphen(item["constrCompleteDate"].ToString()),
                                 constrComments = item["constrComments"].ToString(),
-                                electrSafeCheckDate = item["electrSafeCheckDate"].ToString(),
+                                electrSafeCheckDate = DateTypeHyphen(item["electrSafeCheckDate"].ToString()),
                                 electrSafeCheckSuppleContext = item["electrSafeCheckSuppleContext"].ToString(),
                                 electrSafeCheckLocation = item["electrSafeCheckLocation"].ToString(),
-                                electrSafeCheckCost = item["electrSafeCheckCost"].ToString(),
-                                electrSafeCheckCostPayDate = item["electrSafeCheckCostPayDate"].ToString(),
-                                electrBeforeUseCheckReqDate = item["electrBeforeUseCheckReqDate"].ToString(),
-                                electrSafeCheckPrintDate = item["electrSafeCheckPrintDate"].ToString(),
+                                electrSafeCheckCost = stringFormatN0(item["electrSafeCheckCost"]),
+                                electrSafeCheckCostPayDate = DateTypeHyphen(item["electrSafeCheckCostPayDate"].ToString()),
+                                electrBeforeUseCheckReqDate = DateTypeHyphen(item["electrBeforeUseCheckReqDate"].ToString()),
+                                electrSafeCheckPrintDate = DateTypeHyphen(item["electrSafeCheckPrintDate"].ToString()),
                                 electrBeforeUseCheckSuppleContext = item["electrBeforeUseCheckSuppleContext"].ToString(),
                                 electrBeforeInspLocation = item["electrBeforeInspLocation"].ToString(),
-                                electrBeforeInspReqDate = item["electrBeforeInspReqDate"].ToString(),
+                                electrBeforeInspReqDate = DateTypeHyphen(item["electrBeforeInspReqDate"].ToString()),
                                 electrBeforeInspPrintDate = item["electrBeforeInspPrintDate"].ToString(),
-                                electrBeforeInspCost = item["electrBeforeInspCost"].ToString(),
-                                electrBeforeInspCostPayDate = item["electrBeforeInspCostPayDate"].ToString(),
+                                electrBeforeInspCost = stringFormatN0(item["electrBeforeInspCost"]),
+                                electrBeforeInspCostPayDate = DateTypeHyphen(item["electrBeforeInspCostPayDate"].ToString()),
                                 electrBeforeInspSuppleContext = item["electrBeforeInspSuppleContext"].ToString(),
                                 electrSafeCheckComments = item["electrSafeCheckComments"].ToString(),
+
+                                //감리
                                 superCustomName = item["superCustomName"].ToString(),
                                 superCustomID = item["superCustomID"].ToString(),
-                                superCostPayCustom = item["superCostPayCustom"].ToString(),
-                                superCostPayCustomID = item["superCostPayCustomID"].ToString(),
+                                //superCostPayCustom = item["superCostPayCustom"].ToString(),
+                                //superCostPayCustomID = item["superCostPayCustomID"].ToString(),
                                 superCustomPhoneNo = item["superCustomPhoneNo"].ToString(),
                                 safeManageCustomName = item["safeManageCustomName"].ToString(),
                                 safeManageCustomID = item["safeManageCustomID"].ToString(),
                                 safeManageCustomPhoneNo = item["safeManageCustomPhoneNo"].ToString(),
-                                superSetCost = item["superSetCost"].ToString(),
-                                superSetTaxPrintDate = item["superSetTaxPrintDate"].ToString(),
+                                superSetCost = stringFormatN0(item["superSetCost"]),
+                                superSetTaxPrintDate = DateTypeHyphen(item["superSetTaxPrintDate"].ToString()),
                                 superUseInspPayCustomName = item["superUseInspPayCustomName"].ToString(),
                                 superUseInspPayCustomID = item["superUseInspPayCustomID"].ToString(),
-                                superUseInspReqDate = item["superUseInspReqDate"].ToString(),
-                                superFromUseInspReqDate = item["superFromUseInspReqDate"].ToString(),
-                                superBeforeUseInspDate = item["superBeforeUseInspDate"].ToString(),
+                                //superFromUseInspReqDate = DateTypeHyphen(item["superFromUseInspReqDate"].ToString()),
+                                //superBeforeUseInspDate = DateTypeHyphen(item["superBeforeUseInspDate"].ToString()),
                                 superComments = item["superComments"].ToString(),
-                                compReplyDate = item["compReplyDate"].ToString(),
+
+                                //준공서류
+                                compReplyDate = DateTypeHyphen(item["compReplyDate"].ToString()),
                                 suppleContext = item["suppleContext"].ToString(),
-                                suppleCompDate = item["suppleCompDate"].ToString(),
+                                suppleCompDate = DateTypeHyphen(item["suppleCompDate"].ToString()),
                                 compSuppleReportContext = item["compSuppleReportContext"].ToString(),
-                                compSuppleReportDate = item["compSuppleReportDate"].ToString(),
-                                insurePrintDate = item["insurePrintDate"].ToString(),
-                                compReportCompDate = item["compReportCompDate"].ToString(),
+                                compSuppleReportDate = DateTypeHyphen(item["compSuppleReportDate"].ToString()),
+                                insurePrintDate = DateTypeHyphen(item["insurePrintDate"].ToString()),
+                                compReportCompDate = DateTypeHyphen(item["compReportCompDate"].ToString()),
                                 compReportComments = item["compReportComments"].ToString(),
-                                accntMgrWorkPreTaxPrintDate = item["accntMgrWorkPreTaxPrintDate"].ToString(),
-                                accntMgrWorkPreAmount = item["accntMgrWorkPreAmount"].ToString(),
+
+                                //정산경리 정보
+                                //운영사시공비
+                                accntMgrWorkPreTaxPrintDate = DateTypeHyphen(item["accntMgrWorkPreTaxPrintDate"].ToString()),
+                                accntMgrWorkPreAmount = stringFormatN0(item["accntMgrWorkPreAmount"]),
                                 accntMgrWorkPreAmountComments = item["accntMgrWorkPreAmountComments"].ToString(),
-                                accntMgrWorkAfterTaxPrintDate = item["accntMgrWorkAfterTaxPrintDate"].ToString(),
-                                accntMgrWorkAfterAmount = item["accntMgrWorkAfterAmount"].ToString(),
-                                accntMgrWorkAfterAmountComments = item["accntMgrWorkAfterAmountComments"].ToString(),
-                                accntMgrWorkTaxPrintDate = item["accntMgrWorkTaxPrintDate"].ToString(),
-                                accntMgrWorkAmount = item["accntMgrWorkAmount"].ToString(),
-                                accntMgrWorkAmountComments = item["accntMgrWorkAmountComments"].ToString(),
-                                accntWorkTaxPrintDate = item["accntWorkTaxPrintDate"].ToString(),
-                                accntWorkAmount = item["accntWorkAmount"].ToString(),
-                                accntWorkAmountComments = item["accntWorkAmountComments"].ToString(),
-                                accntSalesTaxPrintDate = item["accntSalesTaxPrintDate"].ToString(),
-                                accntSalesAmount = item["accntSalesAmount"].ToString(),
-                                accntSalesAmountComments = item["accntSalesAmountComments"].ToString(),
+                                //운영사영업비
+                                accntMgrSalesPreTaxPrintDate = DateTypeHyphen(item["accntMgrSalesPreTaxPrintDate"].ToString()),
+                                accntMgrSalesPreAmount = stringFormatN0(item["accntMgrSalesPreAmount"]),
+                                accntMgrSalesPreAmountComments = item["accntMgrSalesPreAmountComments"].ToString(),
+                                //시공팀
+                                accntWorkPreTaxPrintDate = DateTypeHyphen(item["accntWorkPreTaxPrintDate"].ToString()),
+                                accntWorkPreAmount = stringFormatN0(item["accntWorkPreAmount"]),
+                                accntWorkPreAmountComments = item["accntWorkPreAmountComments"].ToString(),
+                                //영업사원
+                                accntSalesPreTaxPrintDate = DateTypeHyphen(item["accntSalesPreTaxPrintDate"].ToString()),
+                                accntSalesPreAmount = stringFormatN0(item["accntSalesPreAmount"]),
+                                accntSalesPreAmountComments = item["accntSalesPreAmountComments"].ToString(),
+                                //accntMgrWorkPreTaxPrintDate = DateTypeHyphen(item["accntMgrWorkPreTaxPrintDate"].ToString()),
+                                //accntMgrWorkPreAmount = item["accntMgrWorkPreAmount"].ToString(),
+                                //accntMgrWorkPreAmountComments = item["accntMgrWorkPreAmountComments"].ToString(),
 
+                                //accntMgrWorkAfterTaxPrintDate = DateTypeHyphen(item["accntMgrWorkAfterTaxPrintDate"].ToString()),
+                                //accntMgrWorkAfterAmount = item["accntMgrWorkAfterAmount"].ToString(),
+                                //accntMgrWorkAfterAmountComments = item["accntMgrWorkAfterAmountComments"].ToString(),
 
+                                //accntMgrWorkTaxPrintDate = DateTypeHyphen(item["accntMgrWorkTaxPrintDate"].ToString()),
+                                //accntMgrWorkAmount = item["accntMgrWorkAmount"].ToString(),
+                                //accntMgrWorkAmountComments = item["accntMgrWorkAmountComments"].ToString(),
 
+                                //accntWorkTaxPrintDate = DateTypeHyphen(item["accntWorkTaxPrintDate"].ToString()),
+                                //accntWorkAmount = item["accntWorkAmount"].ToString(),
+                                //accntWorkAmountComments = item["accntWorkAmountComments"].ToString(),
+
+                                //accntSalesTaxPrintDate = item["accntSalesTaxPrintDate"].ToString(),
+                                //accntSalesAmount = item["accntSalesAmount"].ToString(),
+                                //accntSalesAmountComments = item["accntSalesAmountComments"].ToString(),
 
                             };
                             dgdMain.Items.Add(Window_OrderClose_DTO);
 
                             i++;
-
-
                         }
+                    }
+
+                }
+                if (ds.Tables.Count == 0)
+                {
+                    MessageBox.Show("조회된 데이터가 없습니다.");
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                DataStore.Instance.CloseConnection();
+            }
+        }
+
+
+
+
+
+
+
+
+        //실조회 및 하단 합계
+        private void FillGridSub()
+        {
+
+            try
+            {
+                Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+                sqlParameter.Clear();
+
+                sqlParameter.Add("ChkDate", chkOrderDay.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("SDate", chkOrderDay.IsChecked == true ? dtpSDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
+                sqlParameter.Add("EDate", chkOrderDay.IsChecked == true ? dtpEDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
+
+                //// 거래처
+                //sqlParameter.Add("ChkCustom", chkCustom.IsChecked == true ? 1 : 0);
+                //sqlParameter.Add("CustomID", chkCustom.IsChecked == true ? (txtCustom.Tag != null ? txtCustom.Tag.ToString() : txtCustom.Text) : "");
+                //// 최종고객사
+                //sqlParameter.Add("ChkInCustom", chkInCustom.IsChecked == true ? 1 : 0);
+                //sqlParameter.Add("InCustomID", chkInCustom.IsChecked == true ? (txtInCustom.Tag != null ? txtInCustom.Tag.ToString() : "") : "");
+
+
+                //// 품번
+                //sqlParameter.Add("ChkArticleID", chkBuyerArticleNo.IsChecked == true ? 1 : 0);
+                //sqlParameter.Add("ArticleID", chkBuyerArticleNo.IsChecked == true ? (txtBuyerArticleNo.Tag == null ? "" : txtBuyerArticleNo.Tag.ToString()) : "");
+                //// 품명
+                //sqlParameter.Add("ChkArticle", chkArticle.IsChecked == true ? 1 : 0);
+                //sqlParameter.Add("Article", chkArticle.IsChecked == true ? (txtArticle.Text == string.Empty ? "" : txtArticle.Text) : "");
+
+
+                // 수주상태
+                sqlParameter.Add("ChkClose", int.Parse(cboOrderStatus.SelectedValue != null ? cboOrderStatus.SelectedValue.ToString() : ""));
+
+
+
+                DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_Order_sOrderTotal_Sum", sqlParameter, true, "R");
+
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataTable dt = ds.Tables[0];
+
+                    //dataGrid.Items.Clear();
+                    if (dt.Rows.Count == 0)
+                    {
+                        Style_ColumHead_Shrink();
+                        MessageBox.Show("조회된 데이터가 없습니다.");
+                    }
+                    else
+                    {
+                        DataRowCollection drc = dt.Rows;
+
+                        int i = 0;
+                        int OrderSum = 0;
+                        //int Count = 0;
+                        double InspectSum = 0;
+                        double PassSum = 0;
+                        double DefectSum = 0;
+                        double OutSum = 0;
+                        double PersonSum = 0;
+                        double dateDiff= 0;
+
+                        DataRow dr = dt.Rows[0];
+                     
+                        //foreach (DataRow dr in drc)
+                        //{
+                            var Window_OrderClose_DTO = new dgOrderSum()
+                            {
+
+
+                                Treat = dr["Treat"].ToString(),
+                                orderSum = dr["orderSum"].ToString(),
+                                accntMgrWorkAmount = dr["accntMgrWorkAmount"].ToString(),
+                                dateDiffSum = dr["dateDiffSum"].ToString(),
+                                mtrAmount = stringFormatN0(dr["mtrAmount"]),
+
+
+                            };
+
+                           dateDiff = Window_OrderClose_DTO.dateDiffSum != string.Empty ? Convert.ToDouble(Window_OrderClose_DTO.dateDiffSum) / Convert.ToDouble(dgdMain.Items.Count) : 0;
+
+                            Window_OrderClose_DTO.dateDiffSum = dateDiff.ToString();
+                            //PersonSum = 3 * ConvertInt(Window_OrderClose_DTO.Treat) * ConvertInt(Window_OrderClose_DTO.orderSum);
+                            Window_OrderClose_DTO.PersonSum = stringFormatN0(SetJobDoneByPerson());
+
+                            Window_OrderClose_DTO.Count = dgdMain.Items.Count;
+                            dgdSum.Items.Add(Window_OrderClose_DTO);
+
+                            //i++;
+
+                        //}
 
 
 
@@ -689,6 +869,67 @@ namespace WizMes_EVC
             {
                 DataStore.Instance.CloseConnection();
             }
+        }
+
+
+        private int SetJobDoneByPerson()
+        {
+            int value = 0;
+            int person = 3; //KPI 작업인원
+
+            if(dgdMain.Items.Count > 0)
+            {
+                foreach(Win_ord_OrderClose_U_CodeView item in dgdMain.Items)
+                {
+                    
+                    int step = 0;
+                    if (!string.IsNullOrEmpty(item.acptDate)) { step++; }
+                    if (!string.IsNullOrEmpty(item.corpApprovalDate)) { step++; }
+                    if (!string.IsNullOrEmpty(item.localGovBehaviorReportDate)) { step++; }
+                    if (!string.IsNullOrEmpty(item.chargeStandReqDate)) { step++; }
+                    if (!string.IsNullOrEmpty(item.kepElectrReqDate)) { step++; }
+                    if (!string.IsNullOrEmpty(item.constrDate)) { step++; }
+                    if (!string.IsNullOrEmpty(item.constrCompleteDate)) { step++; }
+                    if (!string.IsNullOrEmpty(item.superBeforeUseInspPrintDate)) { step++; }
+                    if (!string.IsNullOrEmpty(item.kepMeterInstallDate)) { step++; }
+                    if (!string.IsNullOrEmpty(item.accntMgrWorkPreTaxPrintDate) 
+                        || !string.IsNullOrEmpty(item.accntMgrSalesPreTaxPrintDate)
+                        || !string.IsNullOrEmpty(item.accntSalesPreTaxPrintDate)
+                        || !string.IsNullOrEmpty(item.accntWorkPreTaxPrintDate)) { step++; }
+
+                    value += person * step * dgdMain.Items.Count;
+                }
+            }
+
+            if(value != 0 && value > 0)
+            {
+                value = value / dgdMain.Items.Count;
+            }
+
+            return value;
+        }
+
+        //8자리 char형태 날짜 년도-월-일 하이픈 삽입
+        //16자리 일경우 8자리 사이에 ~ 삽입
+        private string DateTypeHyphen(string DigitsDate)
+        {
+            string pattern1 = @"(\d{4})(\d{2})(\d{2})";
+            string pattern2 = @"(\d{4})(\d{2})(\d{2})(\d{4})(\d{2})(\d{2})";
+
+            if (DigitsDate.Length == 8)
+            {
+                DigitsDate = Regex.Replace(DigitsDate, pattern1, "$1-$2-$3");
+            }
+            else if (DigitsDate.Length == 16)
+            {
+                DigitsDate = Regex.Replace(DigitsDate, pattern2, "$1-$2-$3 ~ $4-$5-$6");
+            }
+            else if (DigitsDate.Length == 0)
+            {
+                DigitsDate = string.Empty;
+            }
+
+            return DigitsDate;
         }
 
         private void HideColumns()
@@ -1236,6 +1477,7 @@ namespace WizMes_EVC
             return result;
         }
 
+
         private void re_Search()
         {
             //검색버튼 비활성화
@@ -1245,6 +1487,7 @@ namespace WizMes_EVC
             {
                 //로직
                 FillGrid();
+                FillGridSub();
             }), System.Windows.Threading.DispatcherPriority.Background);
 
             btnSearch.IsEnabled = true;
@@ -1626,12 +1869,15 @@ namespace WizMes_EVC
 
         private void GoOrderButton_Click(object sender, RoutedEventArgs e)
         {
-            // 수주등록 ㄱㄱㄱ
+            if (orderID_global == string.Empty)
+                return;
+
             int i = 0;
             foreach (MenuViewModel mvm in MainWindow.mMenulist)
             {
                 if (mvm.Menu.Equals("수주등록"))
                 {
+                    MainWindow.OrderID = orderID_global;
                     break;
                 }
                 i++;
@@ -1640,13 +1886,11 @@ namespace WizMes_EVC
             {
                 if (MainWindow.MainMdiContainer.Children.Contains(MainWindow.mMenulist[i].subProgramID as MdiChild))
                 {
-                    (MainWindow.mMenulist[i].subProgramID as MdiChild).Focus();
-                }
-                else
-                {
+                    MainWindow.MainMdiContainer.Children.Remove(MainWindow.mMenulist[i].subProgramID as MdiChild);
+
+                    // 다시 창 열기
                     Type type = Type.GetType("WizMes_EVC." + MainWindow.mMenulist[i].ProgramID.Trim(), true);
                     object uie = Activator.CreateInstance(type);
-
                     MainWindow.mMenulist[i].subProgramID = new MdiChild()
                     {
                         Title = "WizMes_EVC [" + MainWindow.mMenulist[i].MenuID.Trim() + "] " + MainWindow.mMenulist[i].Menu.Trim() +
@@ -1658,7 +1902,6 @@ namespace WizMes_EVC
                         Content = uie as UIElement,
                         Tag = MainWindow.mMenulist[i]
                     };
-                    Lib.Instance.AllMenuLogInsert(MainWindow.mMenulist[i].MenuID, MainWindow.mMenulist[i].Menu, MainWindow.mMenulist[i].subProgramID);
                     MainWindow.MainMdiContainer.Children.Add(MainWindow.mMenulist[i].subProgramID as MdiChild);
                 }
             }
@@ -1671,7 +1914,43 @@ namespace WizMes_EVC
         //첨부파일문서 조회
         private void AttachFileSearch_Click(object sender, RoutedEventArgs e)
         {
+            if (orderID_global != string.Empty)
+            {
+                OrderClose_filePop = new Win_ord_Pop_OrderClose_File_Q(orderID_global);
 
+                if (OrderClose_filePop.ShowDialog() == true)
+                {
+                    try
+                    {
+                        var selectedRow = OrderClose_filePop.SelectedItem;
+                        if (selectedRow != null)
+                        {
+
+                            //AutoBindDataToControls(selectedRow, grdInput);
+
+                     
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("첨부파일을 받는 중 오류가 발생했습니다.. 오류내용\n" + ex.ToString());
+                    }
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("먼저 데이터를 선택해 주세요");
+            }
+        }
+
+        private void dgdMain_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var OrderInfo = dgdMain.SelectedItem as Win_ord_OrderClose_U_CodeView;
+            if (OrderInfo != null)
+            {
+                orderID_global = OrderInfo.orderid;
+            }
         }
     }
 
@@ -1760,6 +2039,7 @@ namespace WizMes_EVC
         public string kepOutLineConstructContext { get; set; }
         public string kepInfraPayAmount { get; set; }
         public string kepManageInfraPayAmount { get; set; }
+        public string kepManageInfraPayDate { get; set; } //시설부담금 운영사 전달일(신규 추가)
         public string kepElectrReqDate { get; set; }
         public string kepInApprovalYN { get; set; }
         public string kepInApprovalDate { get; set; }
@@ -1807,6 +2087,7 @@ namespace WizMes_EVC
         public string superUseInspPayCustomID { get; set; }
         public string superUseInspReqDate { get; set; }
         public string superFromUseInspReqDate { get; set; }
+        public string superBeforeUseInspPrintDate { get; set; } //사용검사필증발급일
         public string superBeforeUseInspDate { get; set; }
         public string superComments { get; set; }
         public string compReplyDate { get; set; }
@@ -1817,21 +2098,22 @@ namespace WizMes_EVC
         public string insurePrintDate { get; set; }
         public string compReportCompDate { get; set; }
         public string compReportComments { get; set; }
-        public string accntMgrWorkPreTaxPrintDate { get; set; }
-        public string accntMgrWorkPreAmount { get; set; }
-        public string accntMgrWorkPreAmountComments { get; set; }
-        public string accntMgrWorkAfterTaxPrintDate { get; set; }
-        public string accntMgrWorkAfterAmount { get; set; }
-        public string accntMgrWorkAfterAmountComments { get; set; }
-        public string accntMgrWorkTaxPrintDate { get; set; }
-        public string accntMgrWorkAmount { get; set; }
-        public string accntMgrWorkAmountComments { get; set; }
-        public string accntWorkTaxPrintDate { get; set; }
-        public string accntWorkAmount { get; set; }
-        public string accntWorkAmountComments { get; set; }
-        public string accntSalesTaxPrintDate { get; set; }
-        public string accntSalesAmount { get; set; }
-        public string accntSalesAmountComments { get; set; }
+        //정산경리정보
+        public string accntMgrWorkPreTaxPrintDate {get;set;}
+        public string accntMgrWorkPreAmount {get;set;}
+        public string accntMgrWorkPreAmountComments {get;set;}
+        public string accntMgrSalesPreTaxPrintDate {get;set;}
+        public string accntMgrSalesPreAmount {get;set;}
+        public string accntMgrSalesPreAmountComments {get;set;}
+        public string accntWorkPreTaxPrintDate {get;set;}
+        public string accntWorkPreAmount {get;set;}
+        public string accntWorkPreAmountComments {get;set;}
+        public string accntSalesPreTaxPrintDate {get;set;}
+        public string accntSalesPreAmount {get;set;}
+        public string accntSalesPreAmountComments { get; set; }
+
+        //KPI 단계집계용 컬럼
+        public string localGovBehaviorReportDate { get; set; }
 
 
 
@@ -1853,14 +2135,21 @@ namespace WizMes_EVC
 
         public string TextData { get; set; }
 
-        //public int Count { get; set; }
-        //public int OrderSum { get; set; }
-        //public int InsertSum { get; set; }
-        //public double InspectSum { get; set; }
-        //public double PassSum { get; set; }
-        //public double DefectSum { get; set; }
-        //public double OutSum { get; set; }
-        //public double OasSum { get; set; }
+
+        public string acptDate { get; set; }
+        public string corpApprovalDate { get; set; }
+        public string chargeOrderDate { get; set; }
+        public string kepElectrReqDate { get; set; }
+        public string constrDate { get; set; }
+        public string kepMeterInstallDate { get; set; }
+        public string accntMgrWorkTaxPrintDate { get; set; }
+        public string Treat { get; set; }
+        public string orderSum { get; set; }
+        public string dateDiffSum { get; set; }
+        public string PersonSum { get; set; }
+        public string accntMgrWorkAmount { get; set; }
+        public string mtrAmount { get; set; }
+
     }
 }
 

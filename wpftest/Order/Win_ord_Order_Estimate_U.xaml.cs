@@ -516,7 +516,7 @@ namespace WizMes_EVC
                     estID_Global = string.Empty;
                     articleID_global = string.Empty;
                     dgdMain.IsHitTestVisible = true;
-                    rowNum = strFlag == "I" ? rowNum + 1 : strFlag == "U" ? rowNum : rowNum - 1;
+                    rowNum = strFlag == "I" ? dgdMain.Items.Count : strFlag == "U" ? rowNum : 0;
                     re_Search(rowNum);                  
                     PrimaryKey = string.Empty;
                     btnPreEstimate.Visibility = Visibility.Hidden;
@@ -631,93 +631,93 @@ namespace WizMes_EVC
             Excel.Worksheet worksheet = null;
             Excel.Range workrange = null;
 
-            List<OrderExcel> listExcel = new List<OrderExcel>();
+            //List<OrderExcel> listExcel = new List<OrderExcel>();
 
-            try
-            {
-                excelapp = new Excel.Application();
-                workbook = excelapp.Workbooks.Add(upload_fileName);
-                worksheet = workbook.Sheets["Sheet"];
-                workrange = worksheet.UsedRange;
+            //try
+            //{
+            //    excelapp = new Excel.Application();
+            //    workbook = excelapp.Workbooks.Add(upload_fileName);
+            //    worksheet = workbook.Sheets["Sheet"];
+            //    workrange = worksheet.UsedRange;
 
-                for (int row = 3; row <= workrange.Rows.Count; row++)
-                {
-                    OrderExcel excel = new OrderExcel();
-                    excel.CustomID = workrange.get_Range("A" + row.ToString()).Value2;
-                    excel.Model = workrange.get_Range("B" + row.ToString()).Value2;
-                    excel.BuyerArticleNo = workrange.get_Range("C" + row.ToString()).Value2;
-                    excel.Article = workrange.get_Range("D" + row.ToString()).Value2;
-                    excel.UnitClss = workrange.get_Range("E" + row.ToString()).Value2;
+            //    for (int row = 3; row <= workrange.Rows.Count; row++)
+            //    {
+            //        OrderExcel excel = new OrderExcel();
+            //        excel.CustomID = workrange.get_Range("A" + row.ToString()).Value2;
+            //        excel.Model = workrange.get_Range("B" + row.ToString()).Value2;
+            //        excel.BuyerArticleNo = workrange.get_Range("C" + row.ToString()).Value2;
+            //        excel.Article = workrange.get_Range("D" + row.ToString()).Value2;
+            //        excel.UnitClss = workrange.get_Range("E" + row.ToString()).Value2;
 
-                    object objOrderQty = workrange.get_Range("H" + row.ToString()).Value2;
-                    if (objOrderQty != null)
-                        excel.OrderQty = objOrderQty.ToString();
+            //        object objOrderQty = workrange.get_Range("H" + row.ToString()).Value2;
+            //        if (objOrderQty != null)
+            //            excel.OrderQty = objOrderQty.ToString();
 
-                    if (!string.IsNullOrEmpty(excel.CustomID)
-                        && !string.IsNullOrEmpty(excel.BuyerArticleNo) && !string.IsNullOrEmpty(excel.Article)
-                        && !string.IsNullOrEmpty(excel.UnitClss) && !string.IsNullOrEmpty(excel.OrderQty))
-                    {
-                        listExcel.Add(excel);
-                    }
+            //        if (!string.IsNullOrEmpty(excel.CustomID)
+            //            && !string.IsNullOrEmpty(excel.BuyerArticleNo) && !string.IsNullOrEmpty(excel.Article)
+            //            && !string.IsNullOrEmpty(excel.UnitClss) && !string.IsNullOrEmpty(excel.OrderQty))
+            //        {
+            //            listExcel.Add(excel);
+            //        }
 
-                    if (string.IsNullOrEmpty(excel.CustomID) && string.IsNullOrEmpty(excel.Model)
-                        && string.IsNullOrEmpty(excel.BuyerArticleNo) && string.IsNullOrEmpty(excel.Article)
-                        && string.IsNullOrEmpty(excel.UnitClss) && string.IsNullOrEmpty(excel.OrderQty))
-                    {
-                        break;
-                    }
-                }
+            //        if (string.IsNullOrEmpty(excel.CustomID) && string.IsNullOrEmpty(excel.Model)
+            //            && string.IsNullOrEmpty(excel.BuyerArticleNo) && string.IsNullOrEmpty(excel.Article)
+            //            && string.IsNullOrEmpty(excel.UnitClss) && string.IsNullOrEmpty(excel.OrderQty))
+            //        {
+            //            break;
+            //        }
+            //    }
 
-                if (listExcel.Count > 0)
-                {
-                    List<Procedure> Prolist = new List<Procedure>();
-                    List<Dictionary<string, object>> ListParameter = new List<Dictionary<string, object>>();
-                    for (int i = 0; i < listExcel.Count; i++)
-                    {
-                        Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
-                        sqlParameter.Add("CustomID", string.IsNullOrEmpty(listExcel[i].CustomID) ? "" : listExcel[i].CustomID);
-                        sqlParameter.Add("Model", string.IsNullOrEmpty(listExcel[i].Model) ? "" : listExcel[i].Model);
-                        sqlParameter.Add("BuyerArticleNo", string.IsNullOrEmpty(listExcel[i].BuyerArticleNo) ? "" : listExcel[i].BuyerArticleNo);
-                        sqlParameter.Add("Article", string.IsNullOrEmpty(listExcel[i].Article) ? "" : listExcel[i].Article);
-                        sqlParameter.Add("UnitClss", string.IsNullOrEmpty(listExcel[i].UnitClss) ? "" : listExcel[i].UnitClss);
-                        sqlParameter.Add("OrderQty", string.IsNullOrEmpty(listExcel[i].OrderQty) ? "" : listExcel[i].OrderQty);
+            //    if (listExcel.Count > 0)
+            //    {
+            //        List<Procedure> Prolist = new List<Procedure>();
+            //        List<Dictionary<string, object>> ListParameter = new List<Dictionary<string, object>>();
+            //        for (int i = 0; i < listExcel.Count; i++)
+            //        {
+            //            Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+            //            sqlParameter.Add("CustomID", string.IsNullOrEmpty(listExcel[i].CustomID) ? "" : listExcel[i].CustomID);
+            //            sqlParameter.Add("Model", string.IsNullOrEmpty(listExcel[i].Model) ? "" : listExcel[i].Model);
+            //            sqlParameter.Add("BuyerArticleNo", string.IsNullOrEmpty(listExcel[i].BuyerArticleNo) ? "" : listExcel[i].BuyerArticleNo);
+            //            sqlParameter.Add("Article", string.IsNullOrEmpty(listExcel[i].Article) ? "" : listExcel[i].Article);
+            //            sqlParameter.Add("UnitClss", string.IsNullOrEmpty(listExcel[i].UnitClss) ? "" : listExcel[i].UnitClss);
+            //            sqlParameter.Add("OrderQty", string.IsNullOrEmpty(listExcel[i].OrderQty) ? "" : listExcel[i].OrderQty);
 
-                        Procedure pro2 = new Procedure();
-                        pro2.Name = "xp_Order_iOrderExcel";
-                        pro2.OutputUseYN = "N";
-                        pro2.OutputName = "";
-                        pro2.OutputLength = "10";
+            //            Procedure pro2 = new Procedure();
+            //            pro2.Name = "xp_Order_iOrderExcel";
+            //            pro2.OutputUseYN = "N";
+            //            pro2.OutputName = "";
+            //            pro2.OutputLength = "10";
 
-                        Prolist.Add(pro2);
-                        ListParameter.Add(sqlParameter);
-                    }
+            //            Prolist.Add(pro2);
+            //            ListParameter.Add(sqlParameter);
+            //        }
 
-                    string[] Confirm = new string[2];
-                    Confirm = DataStore.Instance.ExecuteAllProcedureOutputNew_NewLog(Prolist, ListParameter, "C");
-                    if (Confirm[0] != "success")
-                        MessageBox.Show("[저장실패]\r\n" + Confirm[1].ToString());
-                    else
-                        MessageBox.Show("업로드가 완료되었습니다.");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message.ToString());
-            }
-            finally
-            {
-                excelapp.Visible = true;
-                workbook.Close(true);
-                excelapp.Quit();
+            //        string[] Confirm = new string[2];
+            //        Confirm = DataStore.Instance.ExecuteAllProcedureOutputNew_NewLog(Prolist, ListParameter, "C");
+            //        if (Confirm[0] != "success")
+            //            MessageBox.Show("[저장실패]\r\n" + Confirm[1].ToString());
+            //        else
+            //            MessageBox.Show("업로드가 완료되었습니다.");
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message.ToString());
+            //}
+            //finally
+            //{
+            //    excelapp.Visible = true;
+            //    workbook.Close(true);
+            //    excelapp.Quit();
 
-                lib2.ReleaseExcelObject(workbook);
-                lib2.ReleaseExcelObject(worksheet);
-                lib2.ReleaseExcelObject(excelapp);
-                lib2 = null;
+            //    lib2.ReleaseExcelObject(workbook);
+            //    lib2.ReleaseExcelObject(worksheet);
+            //    lib2.ReleaseExcelObject(excelapp);
+            //    lib2 = null;
 
-                upload_fileName = "";
-                listExcel.Clear();
-            }
+            //    upload_fileName = "";
+            //    listExcel.Clear();
+            //}
         }
 
         private int SelectItem(string strPrimary, DataGrid dataGrid)
@@ -765,11 +765,10 @@ namespace WizMes_EVC
         {
             ovcOrder_EstSub.Clear();
 
-            if (dgdMain.Items.Count > 0)
-            {
-                dgdTotal.Items.Clear();
-                dgdMain.Items.Clear();
-            }            
+         
+            dgdTotal.Items.Clear();
+            dgdMain.Items.Clear();
+                   
 
             int sumAmount = 0;
 
@@ -942,46 +941,131 @@ namespace WizMes_EVC
             return DigitsDate;
         }
 
-   
-        private object RemoveComma(object obj,bool returnNumeric = false, Type returnType = null)
+
+        //private object RemoveComma(object obj,bool returnNumeric = false, Type returnType = null)
+        //{
+
+        //    if (returnType == null) returnType = typeof(int);
+
+        //    if (obj == null || string.IsNullOrEmpty(obj.ToString()))
+        //    {
+        //        return returnNumeric ? (object)0 : "0";
+        //    }
+
+        //    string digits = obj.ToString().Replace(",", "");
+
+        //    // 추출된 숫자가 없는 경우
+        //    if (string.IsNullOrEmpty(digits))
+        //    {
+        //        return returnNumeric ? (object)0 : "0";
+        //    }
+
+        //    if (returnNumeric)
+        //    {
+        //        if (returnType == typeof(int) && int.TryParse(digits, out int intResult))
+        //        {
+        //            return (object)intResult;
+        //        }
+        //        else if (returnType == typeof(decimal) && decimal.TryParse(digits, out decimal decimalResult))
+        //        {
+        //            return (object)decimalResult;
+        //        }
+        //        else if (returnType == typeof(long) && long.TryParse(digits, out long longResult))
+        //        {
+        //            return (object)longResult;
+        //        }
+        //        else if (returnType == typeof(double) && double.TryParse(digits, out double doubleResult))
+        //        {
+        //            return (object)doubleResult;
+        //        }
+
+        //    }
+        //    return digits;
+        //}
+
+        private object RemoveComma(object obj, bool returnAsNumber = false, Type returnType = null)
         {
-
-            if (returnType == null) returnType = typeof(int);
-
-            if (obj == null || string.IsNullOrEmpty(obj.ToString()))
+            if (obj == null)
             {
-                return returnNumeric ? (object)0 : "0";
+                return returnAsNumber ? (object)0 : "0";
             }
 
-            string digits = obj.ToString().Replace(",", "");
+            string digits = obj.ToString()
+                              .Trim()
+                              .Replace(",", "");
 
-            // 추출된 숫자가 없는 경우
             if (string.IsNullOrEmpty(digits))
             {
-                return returnNumeric ? (object)0 : "0";
+                return returnAsNumber ? (object)0 : "0";
             }
 
-            if (returnNumeric)
+            if (!returnAsNumber)
             {
-                if (returnType == typeof(int) && int.TryParse(digits, out int intResult))
-                {
-                    return (object)intResult;
-                }
-                else if (returnType == typeof(decimal) && decimal.TryParse(digits, out decimal decimalResult))
-                {
-                    return (object)decimalResult;
-                }
-                else if (returnType == typeof(long) && long.TryParse(digits, out long longResult))
-                {
-                    return (object)longResult;
-                }
-                else if (returnType == typeof(double) && long.TryParse(digits, out long doubleResult))
-                {
-                    return (object)doubleResult;
-                }
-
+                return digits;
             }
-            return digits;
+
+            try
+            {
+                Type targetType = returnType ?? typeof(int);
+
+                switch (targetType.Name)
+                {
+                    case "Int32":
+                        if (decimal.TryParse(digits, out decimal intParsed))
+                        {
+                            if (intParsed > int.MaxValue) return int.MaxValue;
+                            if (intParsed < int.MinValue) return int.MinValue;
+                            return (int)intParsed;
+                        }
+                        return int.MaxValue;
+
+                    case "Int64":
+                        if (decimal.TryParse(digits, out decimal longParsed))
+                        {
+                            if (longParsed > long.MaxValue) return long.MaxValue;
+                            if (longParsed < long.MinValue) return long.MinValue;
+                            return (long)longParsed;
+                        }
+                        return long.MaxValue;
+
+                    case "Double":
+                        if (double.TryParse(digits, out double doubleParsed))
+                        {
+                            return doubleParsed;
+                        }
+                        return double.MaxValue;
+
+                    case "Decimal":
+                        if (decimal.TryParse(digits, out decimal decimalParsed))
+                        {
+                            return decimalParsed;
+                        }
+                        return decimal.MaxValue;
+
+                    default:
+                        return int.MaxValue;
+                }
+            }
+            catch
+            {
+                if (returnType != null)
+                {
+                    switch (returnType.Name)
+                    {
+                        case "Int32":
+                            return int.MaxValue;
+                        case "Int64":
+                            return long.MaxValue;
+                        case "Double":
+                            return double.MaxValue;
+                        case "Decimal":
+                            return decimal.MaxValue;
+                        default:
+                            return int.MaxValue;
+                    }
+                }
+                return int.MaxValue;
+            }
         }
 
         private object RemoveHyphen(object obj)
@@ -1962,6 +2046,13 @@ namespace WizMes_EVC
 
                     ImageFilePath = strFullPath.Replace(ImageFileName, "");
 
+                    // 파일명 유효성 검사 추가
+                    //if (!IsValidFileName(ImageFileName))
+                    //{
+                    //    MessageBox.Show("파일명에 허용되지 않는 특수문자가 포함되어 있습니다.\n시스템 저장시 오류를 일으킬 수 있으므로 변경 후 첨부하여 주세요");
+                    //    return;
+                    //}
+
                     StreamReader sr = new StreamReader(OFdlg.FileName);
                     long FileSize = sr.BaseStream.Length;
                     //if (sr.BaseStream.Length > (2048 * 1000))
@@ -1992,6 +2083,27 @@ namespace WizMes_EVC
                         listFtpFile.Add(strTemp);
                     }
                 }
+            }
+        }
+
+        private bool IsValidFileName(string fileName)
+        {
+            // Windows에서 파일명으로 사용할 수 없는 문자들만 체크
+            string pattern = $"^[^{Regex.Escape(new string(Path.GetInvalidFileNameChars()))}]+$";
+            try
+            {
+                bool isValid = Regex.IsMatch(fileName, pattern);
+                if (!isValid)
+                {
+                    // 어떤 문자가 불가능한지 확인
+                    var invalidChars = fileName.Where(c => Path.GetInvalidFileNameChars().Contains(c)).ToList();
+                    Console.WriteLine($"Invalid characters found: {string.Join(", ", invalidChars)}");
+                }
+                return isValid;
+            }
+            catch
+            {
+                return false;
             }
         }
 
@@ -3943,9 +4055,24 @@ namespace WizMes_EVC
             var dataContext = cell.DataContext as Win_ord_Order_EstimateSub_U_CodeView;
             if (dataContext == null) return;
 
-            decimal unitPrice = (decimal)RemoveComma(dataContext.EstUnitPrice, true, typeof(decimal));
-            decimal qty = (decimal)RemoveComma(dataContext.EstQty, true, typeof(decimal));
-            dataContext.EstAmount = (unitPrice * qty).ToString();
+            try
+            {
+                if (string.IsNullOrWhiteSpace(dataContext.EstUnitPrice) ||
+                    string.IsNullOrWhiteSpace(dataContext.EstQty))
+                {
+                    dataContext.EstAmount = "0";
+                    return;
+                }
+
+                decimal unitPrice = (decimal)RemoveComma(dataContext.EstUnitPrice, true, typeof(decimal));
+                decimal qty = (decimal)RemoveComma(dataContext.EstQty, true, typeof(decimal));
+                dataContext.EstAmount = (unitPrice * qty).ToString();
+            }
+            catch (Exception ex)
+            {
+                // 로깅 또는 사용자에게 알림
+                dataContext.EstAmount = "0";
+            }
         }
 
 

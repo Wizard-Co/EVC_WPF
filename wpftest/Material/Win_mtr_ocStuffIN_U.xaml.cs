@@ -76,7 +76,7 @@ namespace WizMes_EVC
             dtpSDateSrh.SelectedDate = DateTime.Today;
             dtpEDateSrh.SelectedDate = DateTime.Today;
 
-            
+
             SetComboBox();
         }
 
@@ -241,7 +241,7 @@ namespace WizMes_EVC
             this.cboImditlyOutYN.DisplayMemberPath = "code_name";
             this.cboImditlyOutYN.SelectedValuePath = "code_id";
 
-            
+
             cbosInspectApprovalYN.SelectedIndex = 1; // 검색 입곡검수승인 N을 기본으로 해놓기
 
             // 관리사업장
@@ -1670,7 +1670,7 @@ namespace WizMes_EVC
 
 
                     MainWindow.pf.ReturnCode(txtArticle, 7071, "");
-                    
+
 
                     if (txtArticle.Tag != null)
                     {
@@ -1859,7 +1859,10 @@ namespace WizMes_EVC
             if (chkRemainAddSrh.IsChecked == true) { txtStuffInID.Text = null; }
             else { this.DataContext = null; }
 
-
+            if (dgdOutwareSub.Items.Count > 0)
+            {
+                dgdOutwareSub.Items.Clear();
+            }
 
             strFlag = "I";
             SaveUpdateMode();
@@ -2171,6 +2174,7 @@ namespace WizMes_EVC
                             OcStuffIn.StuffDate_CV = DatePickerFormat(OcStuffIn.StuffDate);
 
                             SumStuffIN.SumStuffInQty += ConvertDouble(OcStuffIn.StuffQty);
+                            SumStuffIN.SumAmount += ConvertDouble(OcStuffIn.Amount);
 
                             dgdMain.Items.Add(OcStuffIn);
                         }
@@ -2798,7 +2802,7 @@ namespace WizMes_EVC
                     sqlParameter.Add("ProdAutoStuffinYN", "");
                     sqlParameter.Add("mtrWeightPerBonsu", txtWeightPerBonsu.Text != null && !txtWeightPerBonsu.Text.Trim().Equals("") ? ConvertDouble(txtWeightPerBonsu.Text) : 0);
                     sqlParameter.Add("mtrWeight", txtWeight.Text != null && !txtWeight.Text.Trim().Equals("") ? ConvertDouble(txtWeight.Text) : 0);
-                    
+
                     sqlParameter.Add("FreeStuffinYN", cboFreeStuffinYN.SelectedValue != null ? cboFreeStuffinYN.SelectedValue.ToString() : ""); // 검사필요 여부 Y/N
 
                     sqlParameter.Add("ImditlyOutYN", cboImditlyOutYN.SelectedValue != null ? cboImditlyOutYN.SelectedValue.ToString() : ""); // 검사필요 여부 Y/N
@@ -2859,7 +2863,7 @@ namespace WizMes_EVC
 
                             sqlParameter.Add("StuffInID", sGetID);
 
-                            sqlParameter.Add("StuffinSubseq", i + 1 ); // 얘는 뭔데 다 0인거냐
+                            sqlParameter.Add("StuffinSubseq", i + 1); // 얘는 뭔데 다 0인거냐
                             sqlParameter.Add("Qty", ConvertDouble(txInQty.Text));
                             sqlParameter.Add("sCustomInspector", txtCustomInspector.Text != null && !txtCustomInspector.Text.Trim().Equals("") ? txtCustomInspector.Text : "");
                             sqlParameter.Add("sCustomInspectDate", dtpCustomInspectDate.SelectedDate != null ? dtpCustomInspectDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
@@ -2886,7 +2890,7 @@ namespace WizMes_EVC
 
                         }
 
-                            
+
                     }
                     else // 수정시
                     {
@@ -2909,7 +2913,7 @@ namespace WizMes_EVC
 
                             sqlParameter.Add("StuffInID", txtStuffInID.Text);
 
-                            sqlParameter.Add("StuffinSubseq", i + 1 ); // 얘는 뭔데 다 0인거냐
+                            sqlParameter.Add("StuffinSubseq", i + 1); // 얘는 뭔데 다 0인거냐
                             sqlParameter.Add("Qty", ConvertDouble(txInQty.Text));
                             sqlParameter.Add("sCustomInspector", txtCustomInspector.Text != null && !txtCustomInspector.Text.Trim().Equals("") ? txtCustomInspector.Text : "");
                             sqlParameter.Add("sCustomInspectDate", dtpCustomInspectDate.SelectedDate != null ? dtpCustomInspectDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
@@ -2933,7 +2937,7 @@ namespace WizMes_EVC
                             Prolist.Add(pro2);
                             ListParameter.Add(sqlParameter);
                         }
-                        
+
                     }
 
                     string[] Confirm = new string[2];
@@ -3360,8 +3364,8 @@ namespace WizMes_EVC
                 var WOOSSC = new Win_mtr_ocStuffINSub()
                 {
                     Num = index + 1,
-                    Comments   = "", 
-                    chargerNo  = ""
+                    Comments = "",
+                    chargerNo = ""
                 };
                 dgdOutwareSub.Items.Add(WOOSSC);
 
@@ -3781,6 +3785,7 @@ namespace WizMes_EVC
     {
         public double SumStuffInQty { get; set; }
         public double SumStuffInCount { get; set; }
+        public double SumAmount { get; set; }
     }
 
     class Win_mtr_ocStuffIN_U_CodeViewSub : BaseView
@@ -3929,19 +3934,21 @@ namespace WizMes_EVC
         public string articleID { get; set; }
         public string article { get; set; }
         public string buyerArticleNo { get; set; }
-        
+
         public string priceUnitClss { get; set; }
         public string unitClssName { get; set; }
+        public string saleCustomID { get; set; }
+        public string saleCustomName { get; set; }
 
     }
 
-        //필요한가? 서브그리드에서 쓸꺼
-        class Win_mtr_ocStuffINSub : BaseView
+    //필요한가? 서브그리드에서 쓸꺼
+    class Win_mtr_ocStuffINSub : BaseView
     {
         public double Num { get; set; }
-        public string Comments  { get; set; } // 비고
+        public string Comments { get; set; } // 비고
         public string chargerNo { get; set; } // 충전기번호
-        
+
     }
 
     #endregion

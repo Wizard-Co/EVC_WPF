@@ -746,6 +746,7 @@
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
 
                             <!--수주등록에서 바로가기로 왔을때 담을 EstID-->
@@ -1325,7 +1326,7 @@
                                                          Style="{StaticResource TextBoxInput_Number_Right}"/>
                             </Grid>
 
-                            <Grid Grid.Row="27" Grid.Column="3" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                            <Grid Grid.Row="27" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2">
                                 <DataGrid  x:Name="dgdSubTotal" Style="{DynamicResource DataGridSet1}" HeadersVisibility="Column">
                                             <DataGrid.Resources>
                                                 <Style x:Key="totalCell" TargetType="TextBlock">

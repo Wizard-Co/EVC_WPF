@@ -267,65 +267,65 @@ namespace WizMes_EVC.Order.Pop
             }
         }
 
-        //품명 라벨 클릭
-        private void lblArticleSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (chkArticleSrh.IsChecked == true)
-            {
-                chkArticleSrh.IsChecked = false;
-                txtArticleSrh.IsEnabled = false;
-            }
-            else
-            {
-                chkArticleSrh.IsChecked = true;
-                txtArticleSrh.IsEnabled = true;
-            }
-        }
+        ////품명 라벨 클릭
+        //private void lblArticleSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    if (chkArticleSrh.IsChecked == true)
+        //    {
+        //        chkArticleSrh.IsChecked = false;
+        //        txtArticleSrh.IsEnabled = false;
+        //    }
+        //    else
+        //    {
+        //        chkArticleSrh.IsChecked = true;
+        //        txtArticleSrh.IsEnabled = true;
+        //    }
+        //}
 
-        //품명 체크박스
-        private void chkArticleSrh_Click(object sender, RoutedEventArgs e)
-        {
-            if (chkArticleSrh.IsChecked == true)
-            {
-                chkArticleSrh.IsChecked = true;
-                txtArticleSrh.IsEnabled = true;
-            }
-            else
-            {
-                chkArticleSrh.IsChecked = false;
-                txtArticleSrh.IsEnabled = false;
-            }
-        }
+        ////품명 체크박스
+        //private void chkArticleSrh_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (chkArticleSrh.IsChecked == true)
+        //    {
+        //        chkArticleSrh.IsChecked = true;
+        //        txtArticleSrh.IsEnabled = true;
+        //    }
+        //    else
+        //    {
+        //        chkArticleSrh.IsChecked = false;
+        //        txtArticleSrh.IsEnabled = false;
+        //    }
+        //}
 
 
-        //품명 텍스트박스 키다운 이벤트
-        private void txtArticleSrh_KeyDown(object sender, KeyEventArgs e)
-        {
-            try
-            {
-                if (e.Key == Key.Enter)
-                {
-                    pf.ReturnCode(txtArticleSrh, 5102, txtArticleSrh.Text);
-                }
-            }
-            catch (Exception ee)
-            {
-                MessageBox.Show("오류지점 - " + ee.ToString());
-            }
-        }
+        ////품명 텍스트박스 키다운 이벤트
+        //private void txtArticleSrh_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (e.Key == Key.Enter)
+        //        {
+        //            pf.ReturnCode(txtArticleSrh, 5102, txtArticleSrh.Text);
+        //        }
+        //    }
+        //    catch (Exception ee)
+        //    {
+        //        MessageBox.Show("오류지점 - " + ee.ToString());
+        //    }
+        //}
 
-        //품명 플러스파인더 버튼
-        private void btnArticleSrh_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                pf.ReturnCode(txtArticleSrh, 5102, txtArticleSrh.Text);
-            }
-            catch (Exception ee)
-            {
-                MessageBox.Show("오류지점 - " + ee.ToString());
-            }
-        }
+        ////품명 플러스파인더 버튼
+        //private void btnArticleSrh_Click(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        pf.ReturnCode(txtArticleSrh, 5102, txtArticleSrh.Text);
+        //    }
+        //    catch (Exception ee)
+        //    {
+        //        MessageBox.Show("오류지점 - " + ee.ToString());
+        //    }
+        //}
 
         //운영회사
         private void lblManagerCustomIdSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -429,12 +429,20 @@ namespace WizMes_EVC.Order.Pop
                 sqlParameter.Add("ManageCustomId", chkManagerCustomIdSrh.IsChecked == true ? (txtManagerCustomIdSrh.Tag != null ? txtManagerCustomIdSrh.Tag.ToString() : "") : "");
 
                 //영업사
-                sqlParameter.Add("ChkSalesCustomId", 0);
-                sqlParameter.Add("SalesCustomId", "");
+                //sqlParameter.Add("ChkSalesCustomId", 0);
+                //sqlParameter.Add("SalesCustomId", "");
+
+                //담당자명
+                sqlParameter.Add("ChkSaledamdangjaName", 0);
+                sqlParameter.Add("SaledamdangjaName", "");
+
+                //시공사업체
+                sqlParameter.Add("ChkConstrCustomId", chkConstrCustomIdSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("ConstrCustomId", chkConstrCustomIdSrh.IsChecked == true ? (txtConstrCustomIdSrh.Tag != null ? txtConstrCustomIdSrh.Tag.ToString() : "") : "");
 
                 // 품목
-                sqlParameter.Add("ChkArticleId", chkArticleSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("ArticleId", chkArticleSrh.IsChecked == true ? (txtArticleSrh.Text == string.Empty ? "" : chkArticleSrh.Tag.ToString()) : "");
+                //sqlParameter.Add("ChkArticleId", chkArticleSrh.IsChecked == true ? 1 : 0);
+                //sqlParameter.Add("ArticleId", chkArticleSrh.IsChecked == true ? (txtArticleSrh.Text == string.Empty ? "" : chkArticleSrh.Tag.ToString()) : "");
 
                 // 마감포함
                 sqlParameter.Add("ChkCloseYn", 0);
@@ -463,6 +471,8 @@ namespace WizMes_EVC.Order.Pop
                 sqlParameter.Add("chkEstSubject", chkEstSubjectSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("EstSubject", txtEstSubjectSrh.Text);
 
+                //바로가기용 파라미터
+                sqlParameter.Add("orderID", "");
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_ord_sOrder", sqlParameter, false);
 
@@ -514,7 +524,7 @@ namespace WizMes_EVC.Order.Pop
 
                                 carParkingCount = stringFormatN0(dr["carParkingCount"]),
                                 alreadyManageCustom = dr["alreadyManageCustom"].ToString(),
-                                alreadyManageCustomID = dr["alreadyManageCustomID"].ToString(),
+                                //alreadyManageCustomID = dr["alreadyManageCustomID"].ToString(),
                                 installLocationComments = dr["installLocationComments"].ToString(),
                                 alReadyChargeCount = dr["alReadyChargeCount"].ToString(),
 
@@ -624,6 +634,50 @@ namespace WizMes_EVC.Order.Pop
             }
         }
 
+        //한전&전기공사 검색조건 라벨클릭
+        private void lblConstrCustomIdSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (chkConstrCustomIdSrh.IsChecked == true)
+            {
+                chkConstrCustomIdSrh.IsChecked = false;
+                txtConstrCustomIdSrh.IsEnabled = false;
+                btnConstrCustomIdSrh.IsEnabled = false;
+            }
+            else
+            {
+                chkConstrCustomIdSrh.IsChecked = true;
+                txtConstrCustomIdSrh.IsEnabled = true;
+                btnConstrCustomIdSrh.IsEnabled = true;
+            }
+        }
+
+        //한전&전기공사 검색조건 체크박스클릭
+        private void chkConstrCustomIdSrh_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkConstrCustomIdSrh.IsChecked == true)
+            {
+                chkConstrCustomIdSrh.IsChecked = true;
+                txtConstrCustomIdSrh.IsEnabled = true;
+                btnConstrCustomIdSrh.IsEnabled = true;
+            }
+            else
+            {
+                chkConstrCustomIdSrh.IsChecked = false;
+                txtConstrCustomIdSrh.IsEnabled = false;
+                btnConstrCustomIdSrh.IsEnabled = false;
+            }
+        }
+
+        private void txtConstrCustomIdSrh_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                MainWindow.pf.ReturnCode(txtConstrCustomIdSrh, (int)Defind_CodeFind.DCF_CUSTOM, "");
+        }
+
+        private void btnConstrCustomIdSrh_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.pf.ReturnCode(txtConstrCustomIdSrh, (int)Defind_CodeFind.DCF_CUSTOM, "");
+        }
 
         private void btnExcel_Click(object sender, RoutedEventArgs e)
         {
@@ -685,7 +739,7 @@ namespace WizMes_EVC.Order.Pop
             public string contractFilePath { get; set; }
         }
 
-    
+   
     }
 
 }
