@@ -123,14 +123,7 @@
                         </Viewbox>
                     </StackPanel>
                 </Label>
-                <TextBox x:Name="txtLocationSrh"
-                         Grid.Column="1"
-                         Padding="0"
-                         IsEnabled="False"
-                         Style="{DynamicResource TextBoxSearch}" />
-                <Button x:Name="btnPfLocationSrh" Grid.Column="2" IsEnabled="False" Click="btnPfLocationSrh_Click">
-                    <Image Source="{DynamicResource btiPlusFind}" />
-                </Button>
+                <TextBox x:Name="txtLocationSrh" Grid.Column="1" Padding="0" IsEnabled="False" Style="{DynamicResource TextBoxSearch}" />
 
             </Grid>
             <Grid Grid.Row="1" Grid.Column="2">

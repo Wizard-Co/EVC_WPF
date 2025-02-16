@@ -213,14 +213,12 @@ namespace WizMes_EVC
         private void chkLocationSrh_Checked(object sender, RoutedEventArgs e)
         {
             txtLocationSrh.IsEnabled = true;
-            btnPfLocationSrh.IsEnabled = true;
             txtLocationSrh.Focus();
         }
 
         private void chkLocationSrh_Unchecked(object sender, RoutedEventArgs e)
         {
             txtLocationSrh.IsEnabled = false;
-            btnPfLocationSrh.IsEnabled = false;
         }
 
         private void txtLocationSrh_KeyDown(object sender, KeyEventArgs e)

@@ -397,7 +397,7 @@
                                             Binding="{Binding searchCustom}"
                                             Width="auto" />
                         <DataGridTextColumn Header="국소명" CellStyle="{DynamicResource DataGridCellAndCentering}"
-                                            Binding="{Binding installLoccation}"
+                                            Binding="{Binding installLocation}"
                                             Width="auto" />
                         <DataGridTextColumn Header="매입금액" CellStyle="{DynamicResource NumericDataGridCell}"
                                             Binding="{Binding totalBuyAmount, StringFormat=N0}"

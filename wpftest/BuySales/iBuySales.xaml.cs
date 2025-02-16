@@ -171,13 +171,13 @@ namespace WizMes_EVC
         {
             if (e.Key == Key.Enter)
             {
-                MainWindow.pf.ReturnCode(txtSalesCustom, (int)Defind_CodeFind.DCF_21, "");
+                MainWindow.pf.ReturnCode(txtSalesCustomSrh, (int)Defind_CodeFind.DCF_CUSTOM, "");
             }
         }
 
         private void btnPfSalesCustomSrh_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.pf.ReturnCode(txtSalesCustomSrh, (int)Defind_CodeFind.DCF_21, "");
+            MainWindow.pf.ReturnCode(txtSalesCustomSrh, (int)Defind_CodeFind.DCF_CUSTOM, "");
         }
 
         // 실사업체
@@ -210,13 +210,13 @@ namespace WizMes_EVC
         {
             if (e.Key == Key.Enter)
             {
-                MainWindow.pf.ReturnCode(txtSearchCustomSrh, (int)Defind_CodeFind.DCF_21, "");
+                MainWindow.pf.ReturnCode(txtSearchCustomSrh, (int)Defind_CodeFind.DCF_CUSTOM, "");
             }
         }
 
         private void btnPfSearchCustomSrh_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.pf.ReturnCode(txtSearchCustomSrh, (int)Defind_CodeFind.DCF_21, "");
+            MainWindow.pf.ReturnCode(txtSearchCustomSrh, (int)Defind_CodeFind.DCF_CUSTOM, "");
         }
 
         // Order ID  
@@ -248,13 +248,13 @@ namespace WizMes_EVC
         {
             if (e.Key == Key.Enter)
             {
-                MainWindow.pf.ReturnCode(txtOrderIDSrh, (int)Defind_CodeFind.DCF_21, "");
+                MainWindow.pf.ReturnCode(txtOrderIDSrh, 8000, "");
             }
         }
 
         private void btnPfOrderIDSrh_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.pf.ReturnCode(txtOrderIDSrh, (int)Defind_CodeFind.DCF_21, "");
+            MainWindow.pf.ReturnCode(txtOrderIDSrh, 8000, "");
 
         }
 
@@ -507,12 +507,13 @@ namespace WizMes_EVC
                 sqlParameter.Add("sDate", chkDateSrh.IsChecked == true && dtpSDate.SelectedDate != null ? dtpSDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
                 sqlParameter.Add("eDate", chkDateSrh.IsChecked == true && dtpEDate.SelectedDate != null ? dtpEDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
                 sqlParameter.Add("chkSalesCustom", chkSalesCustomSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("salesCustomID", chkSalesCustomSrh.IsChecked == true && txtSalesCustomSrh.Tag.ToString() != null ? txtSalesCustomSrh.Tag.ToString() : "");
+                sqlParameter.Add("salesCustomID", chkSalesCustomSrh.IsChecked == true && !String.IsNullOrEmpty(txtSalesCustomSrh.Text) ? txtSalesCustomSrh.Tag.ToString() : "");
 
                 sqlParameter.Add("chkSearchCustom", chkSearchCustomSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("searchCustomID", chkSearchCustomSrh.IsChecked == true && txtSearchCustomSrh.Tag.ToString() != null ? txtSearchCustomSrh.Tag.ToString() : "");
+                sqlParameter.Add("searchCustomID", chkSearchCustomSrh.IsChecked == true && !String.IsNullOrEmpty(txtSearchCustom.Text) ? txtSearchCustomSrh.Tag.ToString() : "");
                 sqlParameter.Add("chkOrderID", chkOrderIDSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("orderID", chkOrderIDSrh.IsChecked == true && txtOrderIDSrh.Tag.ToString() != null ? txtOrderIDSrh.Tag.ToString() : "");
+                sqlParameter.Add("orderID", chkOrderIDSrh.IsChecked == true && !String.IsNullOrEmpty(txtOrderIDSrh.Text) ? txtOrderIDSrh.Tag.ToString() : "");
+                sqlParameter.Add("chkLocation", chkLocationSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("location", txtLocationSrh.Text ?? "");
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_OrderCost_sOrder", sqlParameter, true, "R");
