@@ -8101,5 +8101,16 @@ namespace WizMes_EVC
         //public string BuyerModel { get; set; }
     }
 
+    public class OrderExcel : BaseView
+    {
+        public string CustomID { get; set; }
+        public string Model { get; set; }
+        public string BuyerArticleNo { get; set; }
+        public string Article { get; set; }
+        public string UnitClss { get; set; }
+        public string OrderQty { get; set; }
+    }
+
+
 }
 
