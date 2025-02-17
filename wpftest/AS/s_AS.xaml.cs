@@ -394,10 +394,8 @@ namespace WizMes_EVC
                 sqlParameter.Add("chkDate", chkDateSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("sDate", chkDateSrh.IsChecked == true && dtpSDate.SelectedDate != null ? dtpSDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
                 sqlParameter.Add("eDate", chkDateSrh.IsChecked == true && dtpEDate.SelectedDate != null ? dtpEDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
-                //sqlParameter.Add("chkLocation", chkLocationSrh.IsChecked == true ? 1 : 0);
-                //sqlParameter.Add("locationID", chkLocationSrh.IsChecked == true && txtLocationSrh.Tag.ToString() != null ? txtLocationSrh.Tag.ToString() : "");
-                sqlParameter.Add("chkAsSmallInstallLocation", chkLocationSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("asSmallInstallLocation", txtLocationSrh.Text);
+                sqlParameter.Add("chkLocation", chkLocationSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("locationID", chkLocationSrh.IsChecked == true ? txtLocationSrh.Text : "");
 
                 sqlParameter.Add("chkReqName", chkReqNameSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("reqName", chkReqNameSrh.IsChecked == true && txtReqNameSrh.Text != null ? txtReqNameSrh.Text : "");

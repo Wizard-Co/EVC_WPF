@@ -481,20 +481,17 @@ namespace WizMes_EVC
                 sqlParameter.Add("SDate", chkOrderDay.IsChecked == true ? dtpSDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
                 sqlParameter.Add("EDate", chkOrderDay.IsChecked == true ? dtpEDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
 
-                //// 거래처
-                //sqlParameter.Add("ChkCustom", chkCustom.IsChecked == true ? 1 : 0);
-                //sqlParameter.Add("CustomID", chkCustom.IsChecked == true ? (txtCustom.Tag != null ? txtCustom.Tag.ToString() : txtCustom.Text) : "");
-                //// 최종고객사
-                //sqlParameter.Add("ChkInCustom", chkInCustom.IsChecked == true ? 1 : 0);
-                //sqlParameter.Add("InCustomID", chkInCustom.IsChecked == true ? (txtInCustom.Tag != null ? txtInCustom.Tag.ToString() : "") : "");
+                sqlParameter.Add("chkSaleCustomID", chkSalesCustomSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("SaleCustomID", chkSalesCustomSrh.IsChecked == true ? txtSalesCustomSrh.Tag != null ? txtSalesCustomSrh.Tag.ToString() : "" : "");
 
+                sqlParameter.Add("chkManageCustomID", chkManageCustomSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("ManageCustomID", chkManageCustomSrh.IsChecked == true ? txtManageCustomSrh.Tag != null ? txtManageCustomSrh.Tag.ToString() : "" : "");
 
-                //// 품번
-                //sqlParameter.Add("ChkArticleID", chkBuyerArticleNo.IsChecked == true ? 1 : 0);
-                //sqlParameter.Add("ArticleID", chkBuyerArticleNo.IsChecked == true ? (txtBuyerArticleNo.Tag == null ? "" : txtBuyerArticleNo.Tag.ToString()) : "");
-                //// 품명
-                //sqlParameter.Add("ChkArticle", chkArticle.IsChecked == true ? 1 : 0);
-                //sqlParameter.Add("Article", chkArticle.IsChecked == true ? (txtArticle.Text == string.Empty ? "" : txtArticle.Text) : "");
+                sqlParameter.Add("chkArticleID", chkArticleIdSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("ArticleID", chkArticleIdSrh.IsChecked == true ? txtArticleIdSrh.Tag != null ? txtArticleIdSrh.Tag.ToString() : "" : "");
+
+                sqlParameter.Add("chkInstallLocation", chkInstallLocationSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("InstallLocation", txtInstallLocationSrh.Text);
 
 
                 // 수주상태
@@ -519,15 +516,7 @@ namespace WizMes_EVC
                         DataRowCollection drc = dt.Rows;
 
                         int i = 0;
-                        int OrderSum = 0;
-                        int InsertSum = 0;
-                        double InspectSum = 0;
-                        double PassSum = 0;
-                        double DefectSum = 0;
-                        double OutSum = 0;
-                        double OasSum = 0;
-
-
+                  
 
                         foreach (DataRow item in drc)
                         {
@@ -773,20 +762,17 @@ namespace WizMes_EVC
                 sqlParameter.Add("SDate", chkOrderDay.IsChecked == true ? dtpSDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
                 sqlParameter.Add("EDate", chkOrderDay.IsChecked == true ? dtpEDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
 
-                //// 거래처
-                //sqlParameter.Add("ChkCustom", chkCustom.IsChecked == true ? 1 : 0);
-                //sqlParameter.Add("CustomID", chkCustom.IsChecked == true ? (txtCustom.Tag != null ? txtCustom.Tag.ToString() : txtCustom.Text) : "");
-                //// 최종고객사
-                //sqlParameter.Add("ChkInCustom", chkInCustom.IsChecked == true ? 1 : 0);
-                //sqlParameter.Add("InCustomID", chkInCustom.IsChecked == true ? (txtInCustom.Tag != null ? txtInCustom.Tag.ToString() : "") : "");
+                sqlParameter.Add("chkSaleCustomID", chkSalesCustomSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("SaleCustomID", chkSalesCustomSrh.IsChecked == true ? txtSalesCustomSrh.Tag != null ? txtSalesCustomSrh.Tag.ToString() : "" : "");
 
+                sqlParameter.Add("chkManageCustomID", chkManageCustomSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("ManageCustomID", chkManageCustomSrh.IsChecked == true ? txtManageCustomSrh.Tag != null ? txtManageCustomSrh.Tag.ToString() : "" : "");
 
-                //// 품번
-                //sqlParameter.Add("ChkArticleID", chkBuyerArticleNo.IsChecked == true ? 1 : 0);
-                //sqlParameter.Add("ArticleID", chkBuyerArticleNo.IsChecked == true ? (txtBuyerArticleNo.Tag == null ? "" : txtBuyerArticleNo.Tag.ToString()) : "");
-                //// 품명
-                //sqlParameter.Add("ChkArticle", chkArticle.IsChecked == true ? 1 : 0);
-                //sqlParameter.Add("Article", chkArticle.IsChecked == true ? (txtArticle.Text == string.Empty ? "" : txtArticle.Text) : "");
+                sqlParameter.Add("chkArticleID", chkArticleIdSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("ArticleID", chkArticleIdSrh.IsChecked == true ? txtArticleIdSrh.Tag != null ? txtArticleIdSrh.Tag.ToString() : "" : "");
+
+                sqlParameter.Add("chkInstallLocation", chkInstallLocationSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("InstallLocation", txtInstallLocationSrh.Text);
 
 
                 // 수주상태
@@ -810,15 +796,9 @@ namespace WizMes_EVC
                     {
                         DataRowCollection drc = dt.Rows;
 
-                        int i = 0;
-                        int OrderSum = 0;
-                        //int Count = 0;
-                        double InspectSum = 0;
-                        double PassSum = 0;
-                        double DefectSum = 0;
-                        double OutSum = 0;
-                        double PersonSum = 0;
+                          
                         double dateDiff= 0;
+                        double zeroDiffCount = 0; //orderColor 입고일이 아에 없는 것 카운트(KPI 계산할때 빼야됨)
 
                         DataRow dr = dt.Rows[0];
                      
@@ -828,16 +808,18 @@ namespace WizMes_EVC
                             {
 
 
-                                Treat = dr["Treat"].ToString(),
                                 orderSum = dr["orderSum"].ToString(),
-                                accntMgrWorkAmount = dr["accntMgrWorkAmount"].ToString(),
                                 dateDiffSum = dr["dateDiffSum"].ToString(),
                                 mtrAmount = stringFormatN0(dr["mtrAmount"]),
-
+                                zeroDiffSumCount = dr["zeroDiffSumCount"].ToString(),
 
                             };
 
-                           dateDiff = Window_OrderClose_DTO.dateDiffSum != string.Empty ? Convert.ToDouble(Window_OrderClose_DTO.dateDiffSum) / Convert.ToDouble(dgdMain.Items.Count) : 0;
+                            if (!string.IsNullOrEmpty(Window_OrderClose_DTO.zeroDiffSumCount))
+                            {
+                                zeroDiffCount = Convert.ToDouble(Window_OrderClose_DTO.zeroDiffSumCount);
+                                dateDiff = Window_OrderClose_DTO.dateDiffSum != string.Empty ? Convert.ToDouble(Window_OrderClose_DTO.dateDiffSum) / Convert.ToDouble(dgdMain.Items.Count - zeroDiffCount) : 0;
+                            }
 
                             Window_OrderClose_DTO.dateDiffSum = dateDiff.ToString();
                             //PersonSum = 3 * ConvertInt(Window_OrderClose_DTO.Treat) * ConvertInt(Window_OrderClose_DTO.orderSum);
@@ -1698,14 +1680,14 @@ namespace WizMes_EVC
             if (e.Key == Key.Enter)
             {
                 e.Handled = true;
-                MainWindow.pf.ReturnCode(txtManageCustomSrh, 76, "");
+                MainWindow.pf.ReturnCode(txtManageCustomSrh, (int)Defind_CodeFind.DCF_CUSTOM, "");
             }
 
         }
         //운영사 플러스파인더
         private void btnManageCustom_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.pf.ReturnCode(txtManageCustomSrh, 76, "");
+            MainWindow.pf.ReturnCode(txtManageCustomSrh, (int)Defind_CodeFind.DCF_CUSTOM, "");
         }
 
 
@@ -1743,13 +1725,13 @@ namespace WizMes_EVC
             if (e.Key == Key.Enter)
             {
                 e.Handled = true;
-                MainWindow.pf.ReturnCode(txtSalesCustomSrh, 76, "");
+                MainWindow.pf.ReturnCode(txtSalesCustomSrh, (int)Defind_CodeFind.DCF_CUSTOM, "");
             }
         }
         //영업사 pf
         private void btnSalesCustom_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.pf.ReturnCode(txtSalesCustomSrh, 76, "");
+            MainWindow.pf.ReturnCode(txtSalesCustomSrh, (int)Defind_CodeFind.DCF_CUSTOM, "");
         }
 
         //제품명 라벨클릭
@@ -1787,13 +1769,13 @@ namespace WizMes_EVC
             if (e.Key == Key.Enter)
             {
                 e.Handled = true;
-                MainWindow.pf.ReturnCode(txtArticleIdSrh, 76, "");
+                MainWindow.pf.ReturnCode(txtArticleIdSrh, 5102, "");
             }
         }
         //제품명 pf
         private void btnCustomer_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.pf.ReturnCode(txtArticleIdSrh, 76, "");
+            MainWindow.pf.ReturnCode(txtArticleIdSrh, 5102, "");
         }
 
         //국소명 라벨클릭
@@ -2149,6 +2131,7 @@ namespace WizMes_EVC
         public string PersonSum { get; set; }
         public string accntMgrWorkAmount { get; set; }
         public string mtrAmount { get; set; }
+        public string zeroDiffSumCount { get; set; }
 
     }
 }

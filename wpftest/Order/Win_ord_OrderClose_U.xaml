@@ -185,13 +185,13 @@
                             <CheckBox x:Name="chkInstallLocationSrh" Checked="chkInstallLocation_Checked" Unchecked="chkInstallLocation_UnChecked"/>
                         </Viewbox>
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                            <TextBlock Text="국 소 명" Style="{DynamicResource TextBlockInViewBoxSearch}"/>
+                            <TextBlock Text="현 장 명" Style="{DynamicResource TextBlockInViewBoxSearch}"/>
                         </Viewbox>
 
                     </StackPanel>
                 </Label>
-                <TextBox x:Name="txtInstallLocationSrh" Grid.Column="1" Style="{DynamicResource TextBoxSearch}" IsEnabled="False" KeyDown="txtInstallLocation_KeyDown"/>
-                <Button x:Name="btnInstallLocationSrh"  Grid.Column="2"  Click="btnInstallLocation_Click" IsEnabled="False">
+                <TextBox x:Name="txtInstallLocationSrh" Grid.Column="1" Style="{DynamicResource TextBoxSearch}" IsEnabled="False"/>
+                <Button x:Name="btnInstallLocationSrh"  Grid.Column="2"  Click="btnInstallLocation_Click" IsEnabled="False" Visibility="Hidden">
                     <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}"/>
                 </Button>
             </Grid>
@@ -1323,7 +1323,7 @@
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-                                <!--스탠드발주일 ->발주일로 변경 컬럼은 그대로 사용-->
+                                <!--스탠드발주일 ->발주일로 변경 컬럼은 그대로 사용(이걸 충전기 발주일로 삼기로 함)-->
                                 <DataGridTemplateColumn x:Name="chargeStandReqDate" MinWidth="50">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>

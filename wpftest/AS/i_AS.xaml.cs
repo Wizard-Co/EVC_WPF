@@ -479,7 +479,7 @@ namespace WizMes_EVC
                 sqlParameter.Add("sDate", chkDateSrh.IsChecked == true && dtpSDate.SelectedDate != null ? dtpSDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
                 sqlParameter.Add("eDate", chkDateSrh.IsChecked == true && dtpEDate.SelectedDate != null ? dtpEDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
                 sqlParameter.Add("chkLocation", chkLocationSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("locationID", chkLocationSrh.IsChecked == true && txtLocationSrh.Tag.ToString() != null ? txtLocationSrh.Tag.ToString() : "");
+                sqlParameter.Add("locationID", chkLocationSrh.IsChecked == true ? txtLocationSrh.Text : ""); 
 
                 sqlParameter.Add("chkReqName", chkReqNameSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("reqName", chkReqNameSrh.IsChecked == true && txtReqNameSrh.Text != null ? txtReqNameSrh.Text : "");
@@ -564,11 +564,11 @@ namespace WizMes_EVC
                 sqlParameter.Add("asReqUserName", txtReqName.Text ?? "");
                 sqlParameter.Add("asReqUserTelNo", txtReqTel.Text?? "");
                 sqlParameter.Add("asLocation", txtLocation.Text ?? "");
-                sqlParameter.Add("constrCustomID", String.IsNullOrEmpty(txtContruct.Text) ?  "": txtContruct.Tag.ToString());
+                sqlParameter.Add("constrCustomID", string.IsNullOrEmpty(txtContruct.Text) ?  "": txtContruct.Tag.ToString());
                 sqlParameter.Add("asSmallLocation", "");
                 sqlParameter.Add("asChargerMCNo", txtChargerMCNo.Text ?? "");
                 sqlParameter.Add("costYN", cboCostYN.SelectedValue != null ? cboCostYN.SelectedValue.ToString() : "");
-                sqlParameter.Add("asAmount", String.IsNullOrEmpty(txtAmount.Text) ? 0 :Convert.ToDouble(txtAmount.Text));
+                sqlParameter.Add("asAmount", string.IsNullOrEmpty(txtAmount.Text) ? 0 :Convert.ToDouble(txtAmount.Text));
                 sqlParameter.Add("asDamDangJa", txtDamDang.Text ?? "");
                 sqlParameter.Add("asDate", txtasDate.SelectedDate != null ? txtasDate.SelectedDate.Value.ToString("yyyyMMdd") : "");
                 sqlParameter.Add("asCompleteYN", cboCompleteYN.SelectedValue.ToString() ?? "");
@@ -679,7 +679,7 @@ namespace WizMes_EVC
 
         private void btnPfLocation_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.pf.ReturnCode(txtContruct, 7078, txtLocation.Text);
+            MainWindow.pf.ReturnCode(txtLocation,txtContruct, 7078, txtLocation.Text);
         }
 
         #region 유지추가 

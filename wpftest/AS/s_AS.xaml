@@ -118,7 +118,7 @@
                                       VerticalAlignment="Center" />
                         </Viewbox>
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                            <TextBlock Text="국소명"
+                            <TextBlock Text="현장명"
                                        Style="{DynamicResource TextBlockInViewBoxSearch}" />
                         </Viewbox>
                     </StackPanel>
@@ -290,8 +290,8 @@
                                           Width="auto" />
                         <DataGridTextColumn Header="시공업체" Binding="{Binding constrCustom}" CellStyle="{DynamicResource NonNumericDataGridCell}"
                                             Width="auto" />
-                        <DataGridTextColumn Header="국소명" Binding="{Binding asSmallLocation, StringFormat=N0}" CellStyle="{DynamicResource NonNumericDataGridCell}"
-                                            Width="auto" />
+                        <!--<DataGridTextColumn Header="국소명" Binding="{Binding asSmallLocation, StringFormat=N0}" CellStyle="{DynamicResource NonNumericDataGridCell}"
+                                            Width="auto" />-->
                         <DataGridTextColumn Header="요청자명" Binding="{Binding asReqUserName, StringFormat=N0}" CellStyle="{DynamicResource DataGridCellAndCentering}" 
                                             Width="auto" />
                         <DataGridTextColumn Header="요청자 전화번호" Binding="{Binding asReqUserTelNo}" Width="auto" CellStyle="{DynamicResource NonNumericDataGridCell}" />
