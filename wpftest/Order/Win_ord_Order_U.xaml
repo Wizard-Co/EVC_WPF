@@ -983,7 +983,8 @@
                                             <ColumnDefinition Width="60*"/>
                                         </Grid.ColumnDefinitions>
                                         <Button x:Name="btnContractFile" Grid.Column="0" Click="btnFileUpload_Click" Content="시공발주서" Padding="0" Tag="Contract"/>
-                                        <TextBox x:Name="txtContractFileName" Text="{Binding contractFileName}" Tag="{Binding contractFilePath}" 
+                                        <TextBox x:Name="txtContractFileName" Text="{Binding contractFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                 Tag="{Binding contractFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                                  Style="{DynamicResource TextBoxInputArea}" 
                                                  IsReadOnly="True" Grid.Column="1"/>
                                         <Grid Grid.Column="2">
@@ -2195,8 +2196,8 @@
                                         <Button x:Name="btnBeforeSearchConsultFile" Content="사전현장컨설팅결과서" Grid.Column="0" Grid.Row="1" Tag="BeforeSearchConsult"
                                         Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtBeforeSearchConsultFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                           Style="{DynamicResource TextBoxInputArea}" Text="{Binding beforeSearchConsultFileName}" 
-                                           Tag="{Binding beforeSearchConsultFilePath}"
+                                           Style="{DynamicResource TextBoxInputArea}" Text="{Binding beforeSearchConsultFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                           Tag="{Binding beforeSearchConsultFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                            IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -2218,8 +2219,8 @@
                                         <Button x:Name="btnPictureEarthFile" Content="사전대지파일" Grid.Column="0" Grid.Row="1" Tag="PictureEarth"
                                         Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtPictureEarthFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                           Style="{DynamicResource TextBoxInputArea}" Text="{Binding pictureEarthFileName}" 
-                                           Tag="{Binding pictureEarthFilePath}"
+                                           Style="{DynamicResource TextBoxInputArea}" Text="{Binding pictureEarthFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                           Tag="{Binding pictureEarthFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                            IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -2241,8 +2242,8 @@
                                         <Button x:Name="btnDrawFile" Content="도면" Grid.Column="0" Grid.Row="1" Tag="Draw"
                                        Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtDrawFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                          Style="{DynamicResource TextBoxInputArea}" Text="{Binding drawFileName}" 
-                                          Tag="{Binding drawFilePath}"
+                                          Style="{DynamicResource TextBoxInputArea}" Text="{Binding drawFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                          Tag="{Binding drawFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                           IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -2264,8 +2265,8 @@
                                         <Button x:Name="btnSearchFile" Content="실사내역서" Grid.Column="0" Grid.Row="1" Tag="Search"
                                        Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtSearchFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                          Style="{DynamicResource TextBoxInputArea}" Text="{Binding searchFileName}" 
-                                          Tag="{Binding searchFilePath}"
+                                          Style="{DynamicResource TextBoxInputArea}" Text="{Binding searchFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                          Tag="{Binding searchFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                           IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -2287,8 +2288,8 @@
                                         <Button x:Name="btnSearchChecksheetFile" Content="실사점검표" Grid.Column="0" Grid.Row="1" Tag="SearchChecksheet"
                                        Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtSearchChecksheetFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                          Style="{DynamicResource TextBoxInputArea}" Text="{Binding searchChecksheetFileName}" 
-                                          Tag="{Binding searchChecksheetFilePath}"
+                                          Style="{DynamicResource TextBoxInputArea}" Text="{Binding searchChecksheetFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                          Tag="{Binding searchChecksheetFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                           IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -2310,8 +2311,8 @@
                                         <Button x:Name="btnInstallLocationSheetFile" Content="거점투자기안" Grid.Column="0" Grid.Row="1" Tag="InstallLocationSheet"
                                        Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtInstallLocationSheetFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                          Style="{DynamicResource TextBoxInputArea}" Text="{Binding installLocationSheetFileName}" 
-                                          Tag="{Binding installLocationSheetFilePath}"
+                                          Style="{DynamicResource TextBoxInputArea}" Text="{Binding installLocationSheetFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                          Tag="{Binding installLocationSheetFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                           IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -2682,8 +2683,8 @@
                                         <Button x:Name="btnLocalGovProveFile" Content="행위신고증명서" Grid.Column="0" Grid.Row="1" Tag="LocalGovProve"
                                         Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtLocalGovProveFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                           Style="{DynamicResource TextBoxInputArea}" Text="{Binding LocalGovProveFileName}" 
-                                           Tag="{Binding LocalGovProveFilePath}"
+                                           Style="{DynamicResource TextBoxInputArea}" Text="{Binding LocalGovProveFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                           Tag="{Binding LocalGovProveFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                            IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -2706,8 +2707,8 @@
                                         <Button x:Name="btnLocalGoTaxFile" Content="사용검사필증" Grid.Column="0" Grid.Row="1" Tag="LocalGoTax"
                                                         Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtLocalGoTaxFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                       Style="{DynamicResource TextBoxInputArea}" Text="{Binding localGoTaxFileName}" 
-                                                       Tag="{Binding localGoTaxFilePath}"
+                                                       Style="{DynamicResource TextBoxInputArea}" Text="{Binding localGoTaxFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                       Tag="{Binding localGoTaxFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                        IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -3109,8 +3110,8 @@
                                         <Button x:Name="btnElectrKepAcptFile" Content="한전수전신청서" Grid.Column="0" Grid.Row="1" Tag="ElectrKepAcpt"
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtElectrKepAcptFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrKepAcptFileName}" 
-                                                Tag="{Binding electrKepAcptFilePath}"
+                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrKepAcptFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Tag="{Binding electrKepAcptFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -3132,8 +3133,8 @@
                                         <Button x:Name="btnKepFaucetAcptFile" Content="수전 접수증" Grid.Column="0" Grid.Row="1" Tag="kepFaucetAcpt"
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtKepFaucetAcptFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                    Style="{DynamicResource TextBoxInputArea}" Text="{Binding kepFaucetAcptFileName}" 
-                                                    Tag="{Binding kepFaucetAcptFilePath}"
+                                                    Style="{DynamicResource TextBoxInputArea}" Text="{Binding kepFaucetAcptFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                    Tag="{Binding kepFaucetAcptFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                     IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -3638,8 +3639,8 @@
                                         <Button x:Name="btnElectrTransCoUseFile" Content="변압기공동이용계약서" Grid.Column="0" Grid.Row="1" Tag="ElectrTransCoUse"
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtElectrTransCoUseFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrTransCoUseFileName}" 
-                                                Tag="{Binding electrTransCoUseFilePath}"
+                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrTransCoUseFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Tag="{Binding electrTransCoUseFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -3661,8 +3662,8 @@
                                         <Button x:Name="btnElectrKepInfraPayBillFile" Content="시설부담금 고지서" Grid.Column="0" Grid.Row="1" Tag="ElectrKepInfraPayBill"
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtElectrKepInfraPayBillFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrKepInfraPayBillFileName}" 
-                                                Tag="{Binding electrKepInfraPayBillFilePath}"
+                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrKepInfraPayBillFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Tag="{Binding electrKepInfraPayBillFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -3684,8 +3685,8 @@
                                         <Button x:Name="btnKepElectrLineFile" Content="결선도/업무협조안내서" Grid.Column="0" Grid.Row="1" Tag="kepElectrLine"
                                                       Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtKepElectrLineFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                 Style="{DynamicResource TextBoxInputArea}" Text="{Binding kepElectrLineFileName}" 
-                                                 Tag="{Binding kepElectrLineFilePath}"
+                                                 Style="{DynamicResource TextBoxInputArea}" Text="{Binding kepElectrLineFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                 Tag="{Binding kepElectrLineFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -3707,8 +3708,8 @@
                                         <Button x:Name="btnElectrCostFile" Content="전기안전점검 수수료" Grid.Column="0" Tag="ElectrCost"
                                                      Click="btnFileUpload_Click" />
                                         <TextBox x:Name="txtElectrCostFileName" Grid.Column="1" Grid.ColumnSpan="3"
-                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrCostFileName}" 
-                                                Tag="{Binding electrCostFilePath}"
+                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrCostFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Tag="{Binding electrCostFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                  IsReadOnly="True" Margin="1,1,1,0"/>
                                         <Grid Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -3731,8 +3732,8 @@
                                         <Button x:Name="btnElectrSafeInspPrintFile" Content="전기안전점검 확인증" Grid.Column="0" Grid.Row="1" Tag="ElectrSafeInspPrint"
                                                  Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtElectrSafeInspPrintFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                 Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrSafeInspPrintFileName}" 
-                                                 Tag="{Binding electrSafeInspPrintFilePath}"
+                                                 Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrSafeInspPrintFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                 Tag="{Binding electrSafeInspPrintFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                   IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -3754,8 +3755,8 @@
                                         <Button x:Name="btnElectrBeforeUseCheckPrintFile" Content="사용전점검 확인증" Grid.Column="0" Grid.Row="1" Tag="ElectrBeforeUseCheckPrint"
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtElectrBeforeUseCheckPrintFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrBeforeUseCheckPrintFileName}" 
-                                                Tag="{Binding electrBeforeUseCheckPrintFilePath}"
+                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrBeforeUseCheckPrintFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Tag="{Binding electrBeforeUseCheckPrintFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -3801,8 +3802,8 @@
                                         <Button x:Name="btnElectrBeforeUseInspCostFile" Content="사용전검사 수수료" Grid.Column="0" Grid.Row="1" Tag="ElectrBeforeUseInspCost"
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtElectrBeforeUseInspCostFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrBeforeUseInspCostFileName}" 
-                                                Tag="{Binding electrBeforeUseInspCostFilePath}"
+                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrBeforeUseInspCostFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Tag="{Binding electrBeforeUseInspCostFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -3824,8 +3825,8 @@
                                         <Button x:Name="btnElectrBeforeUseInspFile" Content="사용전검사 확인증" Grid.Column="0" Grid.Row="1" Tag="ElectrBeforeUseInsp"
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtElectrBeforeUseInspFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrBeforeUseInspFileName}" 
-                                                Tag="{Binding electrBeforeUseInspFilePath}"
+                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrBeforeUseInspFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Tag="{Binding electrBeforeUseInspFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -4121,8 +4122,8 @@
                                         <Button x:Name="btnSuperSetCheckFile" Content="감리배치확인서" Grid.Column="0" Grid.Row="1" Tag="SuperSetCheck"
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtSuperSetCheckFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding superSetCheckFileName}" 
-                                                Tag="{Binding superSetCheckFilePath}"
+                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding superSetCheckFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Tag="{Binding superSetCheckFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -4144,8 +4145,8 @@
                                         <Button x:Name="btnSuperBeforeUseInspectFile" Content="수검자 자료" Grid.Column="0" Grid.Row="1" Tag="SuperBeforeUseInspect"
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtSuperBeforeUseInspectFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding superBeforeUseInspectFileName}" 
-                                                Tag="{Binding superBeforeUseInspectFilePath}"
+                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding superBeforeUseInspectFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Tag="{Binding superBeforeUseInspectFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -4190,8 +4191,8 @@
                                         <Button x:Name="btnSafeManagerCertiFile" Content="안전관리자선임증" Grid.Column="0" Grid.Row="1" Tag="SafeManagerCerti"
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtSafeManagerCertiFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding safeManagerCertiFileName}" 
-                                                Tag="{Binding safeManagerCertiFilePath}"
+                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding safeManagerCertiFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Tag="{Binding safeManagerCertiFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -4213,8 +4214,8 @@
                                         <Button x:Name="btnSuperReportFile" Content="검사용 준공도면" Grid.Column="0" Grid.Row="1" Tag="SuperReportFile"
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtSuperReportFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding superReportFileName}" 
-                                                Tag="{Binding superReportFilePath}"
+                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding superReportFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Tag="{Binding superReportFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -4412,8 +4413,8 @@
                                         <Button x:Name="btnCompReportFIle" Content="준공서류파일명" Grid.Column="0" Grid.Row="1" Tag="CompReport"
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtCompReportFIleName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding compReportFIleName}" 
-                                                Tag="{Binding compReportFIlePath}"
+                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding compReportFIleName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Tag="{Binding compReportFIlePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -4435,8 +4436,8 @@
                                         <Button x:Name="btnInsurePrintFile" Content="하자보증보험증권" Grid.Column="0" Grid.Row="1" Tag="InsurePrint"
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtInsurePrintFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding insurePrintFileName}" 
-                                                Tag="{Binding insurePrintFilePath}"
+                                                Style="{DynamicResource TextBoxInputArea}" Text="{Binding insurePrintFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                Tag="{Binding insurePrintFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -5000,12 +5001,12 @@
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox x:Name="txtSketch1FileAlias" Grid.Column="0" Text="{Binding sketch1FileAlias}"
+                                        <TextBox x:Name="txtSketch1FileAlias" Grid.Column="0" Text="{Binding sketch1FileAlias,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                             Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
                                                             IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch1" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                         Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch1FileName, UpdateSourceTrigger=PropertyChanged}" 
-                                                         Tag="{Binding sketch1FilePath, UpdateSourceTrigger=PropertyChanged}"
+                                                         Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch1FileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                         Tag="{Binding sketch1FilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                          IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="1" Grid.Column="4">
@@ -5030,8 +5031,8 @@
                                                         Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
                                                         IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch2" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                       Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch2FileName,UpdateSourceTrigger=PropertyChanged}" 
-                                                       Tag="{Binding sketch2FilePath,UpdateSourceTrigger=PropertyChanged}"
+                                                       Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch2FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                                                       Tag="{Binding sketch2FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                        IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="2" Grid.Column="4">
@@ -5057,8 +5058,8 @@
                                                           Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
                                                           IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch3" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                      Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch3FileName,UpdateSourceTrigger=PropertyChanged}" 
-                                                      Tag="{Binding sketch3FilePath,UpdateSourceTrigger=PropertyChanged}"
+                                                      Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch3FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                                                      Tag="{Binding sketch3FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                       IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="3" Grid.Column="4">
@@ -5083,8 +5084,8 @@
                                                           Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
                                                           IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch4" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                          Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch4FileName,UpdateSourceTrigger=PropertyChanged}" 
-                                                          Tag="{Binding sketch4FilePath,UpdateSourceTrigger=PropertyChanged}"
+                                                          Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch4FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                                                          Tag="{Binding sketch4FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                           IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="4" Grid.Column="4">
@@ -5110,8 +5111,8 @@
                                                           Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
                                                           IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch12" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                          Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch12FileName,UpdateSourceTrigger=PropertyChanged}" 
-                                                          Tag="{Binding sketch12FilePath,UpdateSourceTrigger=PropertyChanged}"
+                                                          Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch12FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                                                          Tag="{Binding sketch12FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                           IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="5" Grid.Column="4">
@@ -5136,8 +5137,8 @@
                                                          Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
                                                          IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch5" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                        Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch5FileName,UpdateSourceTrigger=PropertyChanged}" 
-                                                        Tag="{Binding sketch5FilePath,UpdateSourceTrigger=PropertyChanged}"
+                                                        Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch5FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                                                        Tag="{Binding sketch5FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                         IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="6" Grid.Column="4">
@@ -5162,8 +5163,8 @@
                                                          Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
                                                          IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch6" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                        Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch6FileName,UpdateSourceTrigger=PropertyChanged}" 
-                                                        Tag="{Binding sketch6FilePath,UpdateSourceTrigger=PropertyChanged}"
+                                                        Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch6FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                                                        Tag="{Binding sketch6FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                         IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="7" Grid.Column="4">
@@ -5188,8 +5189,8 @@
                                                         Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
                                                         IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch7" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                       Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch7FileName,UpdateSourceTrigger=PropertyChanged}" 
-                                                       Tag="{Binding sketch7FilePath,UpdateSourceTrigger=PropertyChanged}"
+                                                       Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch7FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                                                       Tag="{Binding sketch7FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                        IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="8" Grid.Column="4">
@@ -5214,8 +5215,8 @@
                                                         Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
                                                         IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch8" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                       Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch8FileName,UpdateSourceTrigger=PropertyChanged}" 
-                                                       Tag="{Binding sketch8FilePath,UpdateSourceTrigger=PropertyChanged}"
+                                                       Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch8FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                                                       Tag="{Binding sketch8FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                        IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="9" Grid.Column="4">
@@ -5242,8 +5243,8 @@
                                                         Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
                                                         IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch9" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                       Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch9FileName,UpdateSourceTrigger=PropertyChanged}" 
-                                                       Tag="{Binding sketch9FilePath,UpdateSourceTrigger=PropertyChanged}"
+                                                       Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch9FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                                                       Tag="{Binding sketch9FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                        IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="10" Grid.Column="4">
@@ -5268,8 +5269,8 @@
                                                         Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
                                                         IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch10" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                       Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch10FileName,UpdateSourceTrigger=PropertyChanged}" 
-                                                       Tag="{Binding sketch10FilePath,UpdateSourceTrigger=PropertyChanged}"
+                                                       Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch10FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                                                       Tag="{Binding sketch10FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                        IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="11" Grid.Column="4">
@@ -5294,8 +5295,8 @@
                                                         Style="{DynamicResource TextBoxInputArea}" ToolTip="파일 별칭을 입력하세요(선택)"
                                                         IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch11" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                                                       Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch11FileName,UpdateSourceTrigger=PropertyChanged}" 
-                                                       Tag="{Binding sketch11FilePath,UpdateSourceTrigger=PropertyChanged}"
+                                                       Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch11FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                                                       Tag="{Binding sketch11FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                        IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="12" Grid.Column="4">

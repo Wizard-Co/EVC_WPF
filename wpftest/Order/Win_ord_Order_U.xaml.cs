@@ -33,6 +33,8 @@ using Excel = Microsoft.Office.Interop.Excel;
 ' 2025.02.04, 최대현, 강경단 책임                 첨부파일 추가 및 디자인 변경
 ' 2025.02.10, 최대현, 강경단 책임                 한전수전정보 기본정보 입력란 위치 변경및 textbox -> datePicker로 변경
 ' 2025.02.11, 최대현, 강경단 책임                 검색조건 품목 주석처리 -> 시공사업체 검색조건으로 변경
+' 2025.02.17, 최대현,                             탭별 클릭 저장로직 처리를 풀었음(btnupdate, btnadd시에 무조건 각 탭별 true에 fillgridTabs() 실행) 차후 저장 느리다고 하면 다시 수정해야합니다.
+                                                  중점 확인사항은 tab클릭시, 클릭 후 저장 후 보고있는 화면 tab_Click= true로 해주기 및 refresh, 탭 클릭 안한 데이터 보존처리, FTP저장 처리 등...
 '**************************************************************************************************/
 
 namespace WizMes_EVC
@@ -917,13 +919,7 @@ namespace WizMes_EVC
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             strFlag = "I";
-            boolCallEst = false;
-            tab2_clicked = false;
-            tab3_clicked = false;
-            tab4_clicked = false;
-            tab5_clicked = false;
-
-            
+            boolCallEst = false;  
 
             //btnPreOrder.IsEnabled = true;
             //tabBasicData.Focus();            
@@ -943,6 +939,7 @@ namespace WizMes_EVC
                            new List<object> { grdTabs.SelectedItem } // 새로 선택된 항목들
 );
                 grdTabs.RaiseEvent(args);
+                tabCheckTrue();
             }
             else { BringLastOrder(orderID_global); ClearGrdFtpTextBox(); }
 
@@ -978,6 +975,8 @@ namespace WizMes_EVC
             //btnPreOrder.IsEnabled = false;
             if (OrderView != null)
             {
+                
+                FillTabs(OrderView.orderId);
                 //rowNum = dgdMain.SelectedIndex;
                 dgdMain.IsHitTestVisible = false;
                 tbkMsg.Text = "자료 수정 중";
@@ -986,6 +985,8 @@ namespace WizMes_EVC
                 Tab5TextBoxEnable();
                 DatePickerSetToday_EventHandler();
                 PrimaryKey = OrderView.orderId;
+                tabCheckTrue();
+
             }
         }
 
@@ -1095,6 +1096,21 @@ namespace WizMes_EVC
             return flag;
         }
 
+        private void tabCheckTrue()
+        {
+            tab2_clicked = true;
+            tab3_clicked = true;
+            tab4_clicked = true;
+            tab5_clicked = true;
+        }
+
+        private void tabCheckFalse()
+        {
+            tab2_clicked = false;
+            tab3_clicked = false;
+            tab4_clicked = false;
+            tab5_clicked = false;
+        }
 
         //닫기
         private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -1496,12 +1512,12 @@ namespace WizMes_EVC
             {                 
                 dgdMain.SelectedIndex = selectedIndex;
 
-                var args = new SelectionChangedEventArgs(
-                           TabControl.SelectionChangedEvent,
-                           new List<object>(), // 이전 선택 항목들
-                           new List<object> { grdTabs.SelectedItem } // 새로 선택된 항목들
-);
-                grdTabs.RaiseEvent(args);
+//                var args = new SelectionChangedEventArgs(
+//                           TabControl.SelectionChangedEvent,
+//                           new List<object>(), // 이전 선택 항목들
+//                           new List<object> { grdTabs.SelectedItem } // 새로 선택된 항목들
+//);
+//                grdTabs.RaiseEvent(args);
 
             }
             else
@@ -2086,6 +2102,7 @@ namespace WizMes_EVC
 
         //텍스트박스 , DatePicker, 콤보박스의 바인딩 값과 넘겨주는 오브젝트 value가 일치하는 곳에
         //자동으로 바인딩
+        //사용하려하면 바인딩하려는 UI개체에 updateSourceTrigger를 propertyChange, Tag값도 변경하려면 mode=TwoWay를 작성하세요
         private void AutoBindDataToControls(object dataObject, DependencyObject parent)
         {
             var properties = dataObject.GetType().GetProperties()
@@ -2115,8 +2132,8 @@ namespace WizMes_EVC
                 if (tagBinding != null && !string.IsNullOrEmpty(tagBinding.Path.Path))
                 {
                     var tagPropertyName = tagBinding.Path.Path.ToLower();
-                    if (properties.TryGetValue(tagPropertyName, out var tagProperty))
-                    {
+                    if (properties.TryGetValue(tagPropertyName, out var tagProperty) )
+                    {                      
                         textBox.Tag = tagProperty.GetValue(dataObject)?.ToString();
                     }
                 }
@@ -2654,6 +2671,9 @@ namespace WizMes_EVC
                             AutoBindDataToControls(tab5Data, grd5);
 
                         }
+
+
+                
                     }
                 }
             }
@@ -3097,7 +3117,7 @@ namespace WizMes_EVC
             PrimaryKey = string.Empty;
             bool flag = false;
 
-   
+            tabCheckTrue();
 
             List<Procedure> Prolist = new List<Procedure>();
             List<Dictionary<string, object>> ListParameter = new List<Dictionary<string, object>>();
@@ -4466,6 +4486,29 @@ namespace WizMes_EVC
             }           
         }
 
+        private void addLstFile_FTP()
+        {
+            List<Grid> grids = new List<Grid> { grdInput, grd2, grd3, grd4, grd5 };
+
+            foreach (Grid grd in grids)
+            {
+                FindUiObject(grd, child =>
+                {
+                    if (child is TextBox textbox)
+                    {
+                        if (textbox.Name.Contains("FileName") || textbox.Name.Contains("txtSketch"))
+                        {
+                            if (!string.IsNullOrWhiteSpace(textbox.Text))
+                            {
+                                lstFilesName.Add(textbox.Text.Trim());
+                            }
+                        }
+                    }                
+
+                });
+            }
+        }
+
         private void ClearGrdFtpTextBox()
         {
             List<Grid> grids = new List<Grid> { grdInput, grd2, grd3, grd4, grd5 };
@@ -4866,7 +4909,7 @@ namespace WizMes_EVC
                     if (!FTP_Upload_Name_Cheking(ImageFileName))
                     {
                         MessageBox.Show("업로드 하려는 파일 중, 이름이 중복된 항목이 있습니다." +
-                                        "\n파일 이름을 변경하고 다시 시도하여 주세요");
+                                        "\n파일 이름을 변경하고 다시 시도하여 주세요\n다른 탭에 중복된 파일이 있는지 확인하세요.");
                     }
                     else
                     {
@@ -5281,9 +5324,39 @@ namespace WizMes_EVC
                         }
 
                         FileInfo file = new FileInfo(str_localpath);
-                        if (file.Exists)
+                        //if (file.Exists)
+                        //{
+                        //    file.Delete();
+                        //}
+                        try
                         {
                             file.Delete();
+                        }
+                        catch (IOException)
+                        {
+                            // 파일명과 확장자 분리
+                            string directory = Path.GetDirectoryName(str_localpath);
+                            string fileName = Path.GetFileNameWithoutExtension(str_localpath);
+                            string extension = Path.GetExtension(str_localpath);
+
+                            // 복사본 파일명 생성 (예: test.hwp -> test - 복사본.hwp)
+                            int copyNum = 1;
+                            string newPath = Path.Combine(directory, $"{fileName} - 복사본{extension}");
+
+                            // 복사본 파일이 이미 존재하면 번호 추가 (예: test - 복사본 (2).hwp)
+                            while (File.Exists(newPath))
+                            {
+                                copyNum++;
+                                newPath = Path.Combine(directory, $"{fileName} - 복사본 ({copyNum}){extension}");
+                            }
+
+                            str_localpath = newPath; // 새로운 경로로 업데이트
+                            MessageBox.Show("파일이 사용 중이어서 복사본으로 다운로드 했습니다.", "알림");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("파일 처리 중 오류가 발생했습니다: " + ex.Message);
+                            return;
                         }
 
                         _ftp.download(str_remotepath, str_localpath);
@@ -5341,6 +5414,7 @@ namespace WizMes_EVC
                     }
                     catch (Exception ex) // 뭐든 간에 파일 없다고 하자
                     {
+                
                         MessageBox.Show("파일이 존재하지 않습니다.\r관리자에게 문의해주세요.");
                         return;
                     }
@@ -6060,11 +6134,7 @@ namespace WizMes_EVC
             {
                 orderID_global = string.Empty;      
                 lstFilesName.Clear();
-                tab2_clicked = false;
-                tab3_clicked = false;
-                tab4_clicked = false;
-                tab5_clicked = false;
-
+              
 
                 var OrderInfo = dgdMain.SelectedItem as Win_ord_Order_U_CodeView_dgdMain;
                 if (OrderInfo != null)
@@ -6078,6 +6148,7 @@ namespace WizMes_EVC
                     CheckTabClicked();
                     FillTabs(OrderInfo.orderId);
 
+                    addLstFile_FTP();
                 }
 
 
@@ -6091,28 +6162,21 @@ namespace WizMes_EVC
 
         private void FillTabs(string orderId)
         {
-            if (tab2.IsSelected == true)
-            {
-                fillGridTab2(orderId);
-                fillGridTab2_LocalGov(orderId);
-                tab2_clicked = true;
-            }
-            if (tab3.IsSelected == true)
-            {
-                fillGridTab3(orderId);
-                tab3_clicked = true;
-            }
-            if (tab4.IsSelected == true)
-            {
-                fillGridTab4(orderId);
-                fillGridTab4_Accnt(orderId);
-                tab4_clicked=true;
-            }
-            if(tab5.IsSelected == true)
-            {
-                fillgridTab5(orderId);
-                tab5_clicked = true;
-            }
+         
+            fillGridTab2(orderId);
+            fillGridTab2_LocalGov(orderId);
+            tab2_clicked = true;        
+          
+            fillGridTab3(orderId);
+            tab3_clicked = true;        
+         
+            fillGridTab4(orderId);
+            fillGridTab4_Accnt(orderId);
+            tab4_clicked=true;
+       
+            fillgridTab5(orderId);
+            tab5_clicked = true;
+        
         }
 
         private void BringLastOrder(string orderId)
@@ -7342,26 +7406,26 @@ namespace WizMes_EVC
             if (e.Source is TabControl)  
             {
                 TabItem selectedTab = ((TabControl)sender).SelectedItem as TabItem;
-                if (selectedTab != null)
+                if (selectedTab != null && strFlag != "I" && strFlag != "U") 
                 {
-                    if (selectedTab.Name == "tab2" && tab2_clicked != true)
+                    if (selectedTab.Name == "tab2")
                     {
                         fillGridTab2(orderID_global);
                         fillGridTab2_LocalGov(orderID_global);
                         tab2_clicked = true;
                     }
-                    if (selectedTab.Name == "tab3" && tab3_clicked != true)
+                    else if (selectedTab.Name == "tab3")
                     {
                         fillGridTab3(orderID_global);
                         tab3_clicked = true;
                     }
-                    if (selectedTab.Name == "tab4" && tab4_clicked != true)
+                    else if(selectedTab.Name == "tab4" )
                     {
                         fillGridTab4(orderID_global);
                         fillGridTab4_Accnt(orderID_global);
                         tab4_clicked = true;
                     }
-                    if(selectedTab.Name == "tab5" && tab5_clicked != true)
+                    else if (selectedTab.Name == "tab5")
                     {
                         fillgridTab5(orderID_global);
                         tab5_clicked = true;
