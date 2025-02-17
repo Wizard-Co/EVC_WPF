@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using static System.Net.WebRequestMethods;
 
 /**************************************************************************************************
@@ -93,10 +94,14 @@ namespace WizMes_EVC.Order.Pop
         private void btnConfirm_Click(object sender, RoutedEventArgs e)
         {
             int count = ovcFile_OrderClose.Count;
+            int dgdCount = dgdFile.Items.Count;
+            int dupliCount = dgdCount - count;
+
+            string addMsg = dupliCount > 0 ? $"\n중복 파일 {dupliCount}건 제외" : "";
 
             if (count == 0) return;
 
-            MessageBoxResult msgresult = MessageBox.Show($"선택하신 {count}개의 파일을 다운로드 하시겠습니까??", "보기 확인", MessageBoxButton.YesNo);
+            MessageBoxResult msgresult = MessageBox.Show($"선택하신 {count}개의 파일을 다운로드 하시겠습니까??{addMsg}", "보기 확인", MessageBoxButton.YesNo);
             if(msgresult == MessageBoxResult.Yes)
             {
                 if (PopUp_FTPDownload(count))
@@ -189,13 +194,19 @@ namespace WizMes_EVC.Order.Pop
 
         private void btnSelAll_Click(object sender, RoutedEventArgs e)
         {
-            if(dgdFile.Items.Count > 0)
+            if (dgdFile.Items.Count > 0)
             {
-                foreach(Win_ord_Pop_OrderClose_File item in dgdFile.Items)
+                foreach (Win_ord_Pop_OrderClose_File item in dgdFile.Items)
                 {
-                    if (item.chk == false && !ovcFile_OrderClose.Select(x => x.fileName).Contains(item.fileName))
+                    if (item.chk == false)
                     {
                         item.chk = true;
+
+                        // 같은 파일명이 없을 때만 추가
+                        if (!ovcFile_OrderClose.Any(x => x.fileName.Trim() == item.fileName.Trim()))
+                        {
+                            ovcFile_OrderClose.Add(item);
+                        }
                     }
                 }
             }
@@ -210,6 +221,12 @@ namespace WizMes_EVC.Order.Pop
                     if (item.chk == true)
                     {
                         item.chk = false;
+
+                        // 같은 파일명이 없을 때만 추가
+                        if (ovcFile_OrderClose.Any(x => x.fileName.Trim() == item.fileName.Trim()))
+                        {
+                            ovcFile_OrderClose.Remove(item);
+                        }
                     }
                 }
             }
@@ -280,22 +297,26 @@ namespace WizMes_EVC.Order.Pop
         {
             CheckBox checkBox = sender as CheckBox;
 
-            if(checkBox!= null && checkBox.IsChecked == true)
+            if (checkBox != null && checkBox.IsChecked == true)
             {
                 var item = (checkBox.DataContext as Win_ord_Pop_OrderClose_File);
-                checkBox.IsChecked = true;
-                ovcFile_OrderClose.Add(item);
+                if (!ovcFile_OrderClose.Any(x => x.fileName.Trim() == item.fileName.Trim()))
+                {
+                    ovcFile_OrderClose.Add(item);
+                }
             }
         }
         private void chk_UnChecked(object sender, RoutedEventArgs e)
         {
             CheckBox checkBox = sender as CheckBox;
 
-            if (checkBox != null && checkBox.IsChecked == false)
+            if (checkBox != null && checkBox.IsChecked == true)
             {
                 var item = (checkBox.DataContext as Win_ord_Pop_OrderClose_File);
-                checkBox.IsChecked = false;
-                ovcFile_OrderClose.Remove(item);
+                if (ovcFile_OrderClose.Any(x => x.fileName.Trim() == item.fileName.Trim()))
+                {
+                    ovcFile_OrderClose.Remove(item);
+                }
             }
         }
 
