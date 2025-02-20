@@ -190,7 +190,7 @@ namespace WizMes_EVC
 
         private void btnPfSalesCustomSrh_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.pf.ReturnCode(txtSalesCustomSrh, (int)Defind_CodeFind.DCF_21, "");
+            MainWindow.pf.ReturnCode(txtSalesCustomSrh, (int)Defind_CodeFind.DCF_CUSTOM, "");
         }
 
         // 실사업체
