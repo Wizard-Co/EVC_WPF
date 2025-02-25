@@ -2489,8 +2489,8 @@ namespace WizMes_EVC
                                 superSetCheckFileName = dr["superSetCheckFileName"].ToString(),
                                 superBeforeUseInspectFilePath = dr["superBeforeUseInspectFilePath"].ToString(),
                                 superBeforeUseInspectFileName = dr["superBeforeUseInspectFileName"].ToString(),
-                                compReportFIleName = dr["compReportFIleName"].ToString(),
-                                compReportFIlePath = dr["compReportFIlePath"].ToString(),
+                                compReportFileName = dr["compReportFileName"].ToString(),
+                                compReportFilePath = dr["compReportFilePath"].ToString(),
                                 //superCostFilePath = dr["superCostFilePath"].ToString(),
                                 //superCostFileName = dr["superCostFileName"].ToString(),
                                 safeManagerCertiFileName  = dr["safeManagerCertiFileName"].ToString(),
@@ -2665,6 +2665,37 @@ namespace WizMes_EVC
                                 sketch12FilePath = dr["sketch12FilePath"].ToString(),
                                 sketch12FileName = dr["sketch12FileName"].ToString(),
                                 sketch12FileAlias = dr["sketch12FileAlias"].ToString(),
+
+                                sketch13FileName   = dr["sketch13FileName"].ToString(),
+                                sketch13FilePath   = dr["sketch13FilePath"].ToString(),
+                                sketch13FileAlias  = dr["sketch13FileAlias"].ToString(),
+                                sketch14FileName   = dr["sketch14FileName"].ToString(),
+                                sketch14FilePath   = dr["sketch14FilePath"].ToString(),
+                                sketch14FileAlias  = dr["sketch14FileAlias"].ToString(),
+                                sketch15FileName   = dr["sketch15FileName"].ToString(),
+                                sketch15FilePath   = dr["sketch15FilePath"].ToString(),
+                                sketch15FileAlias  = dr["sketch15FileAlias"].ToString(),
+                                sketch16FileName   = dr["sketch16FileName"].ToString(),
+                                sketch16FilePath   = dr["sketch16FilePath"].ToString(),
+                                sketch16FileAlias  = dr["sketch16FileAlias"].ToString(),
+                                sketch17FileName   = dr["sketch17FileName"].ToString(),
+                                sketch17FilePath   = dr["sketch17FilePath"].ToString(),
+                                sketch17FileAlias  = dr["sketch17FileAlias"].ToString(),
+                                sketch18FileName   = dr["sketch18FileName"].ToString(),
+                                sketch18FilePath   = dr["sketch18FilePath"].ToString(),
+                                sketch18FileAlias  = dr["sketch18FileAlias"].ToString(),
+                                sketch19FileName   = dr["sketch19FileName"].ToString(),
+                                sketch19FilePath   = dr["sketch19FilePath"].ToString(),
+                                sketch19FileAlias  = dr["sketch19FileAlias"].ToString(),
+                                sketch20FileName   = dr["sketch20FileName"].ToString(),
+                                sketch20FilePath   = dr["sketch20FilePath"].ToString(),
+                                sketch20FileAlias  = dr["sketch20FileAlias"].ToString(),
+                                sketch21FileName   = dr["sketch21FileName"].ToString(),
+                                sketch21FilePath   = dr["sketch21FilePath"].ToString(),
+                                sketch21FileAlias  = dr["sketch21FileAlias"].ToString(),
+                                sketch22FileName   = dr["sketch22FileName"].ToString(),
+                                sketch22FilePath   = dr["sketch22FilePath"].ToString(),
+                                sketch22FileAlias  = dr["sketch22FileAlias"].ToString(),
 
                             };
 
@@ -3791,8 +3822,8 @@ namespace WizMes_EVC
                 sqlParameter.Add("superReportFileName", txtSuperReportFileName.Text.Trim() != "" ? txtSuperReportFileName.Text : "");
                 sqlParameter.Add("superReportFilePath", txtSuperReportFileName.Tag != null ? txtSuperReportFileName.Tag.ToString().Trim() != string.Empty ? "/ImageData/Order/" + orderID : "DEL" : "");
 
-                sqlParameter.Add("compReportFIleName", txtCompReportFIleName.Text.Trim() != "" ? txtCompReportFIleName.Text : "");
-                sqlParameter.Add("compReportFIlePath", txtCompReportFIleName.Tag != null ? txtCompReportFIleName.Tag.ToString().Trim() != string.Empty? "/ImageData/Order/" + orderID : "DEL" : "");
+                sqlParameter.Add("compReportFileName", txtCompReportFileName.Text.Trim() != "" ? txtCompReportFileName.Text : "");
+                sqlParameter.Add("compReportFilePath", txtCompReportFileName.Tag != null ? txtCompReportFileName.Tag.ToString().Trim() != string.Empty? "/ImageData/Order/" + orderID : "DEL" : "");
 
                 sqlParameter.Add("insurePrintFileName", txtInsurePrintFileName.Text.Trim() != "" ? txtInsurePrintFileName.Text : "");
                 sqlParameter.Add("insurePrintFilePath", txtInsurePrintFileName.Tag != null ? txtInsurePrintFileName.Tag.ToString().Trim() != string.Empty ? "/ImageData/Order/" + orderID : "DEL" : "");
@@ -3845,6 +3876,49 @@ namespace WizMes_EVC
                 sqlParameter.Add("sketch12FileName", txtSketch12.Text.Trim() != "" ? txtSketch12.Text : "");
                 sqlParameter.Add("sketch12FilePath", txtSketch12.Tag != null ? txtSketch12.Tag.ToString().Trim() != string.Empty ? "/ImageData/Order/" + orderID : "DEL" : "");
                 sqlParameter.Add("sketch12FileAlias", txtSketch12FileAlias.Text.Trim() != "" ? txtSketch12FileAlias.Text : "");
+
+                //양식
+                sqlParameter.Add("sketch13FileName", txtSketch13.Text.Trim() != "" ? txtSketch13.Text : "");
+                sqlParameter.Add("sketch13FilePath", txtSketch13.Tag != null ? txtSketch13.Tag.ToString().Trim() != string.Empty ? "/ImageData/Order/" + orderID : "DEL" : "");
+                sqlParameter.Add("sketch13FileAlias", txtSketch13FileAlias.Text.Trim() != "" ? txtSketch13FileAlias.Text : "");
+
+                sqlParameter.Add("sketch14FileName", txtSketch14.Text.Trim() != "" ? txtSketch14.Text : "");
+                sqlParameter.Add("sketch14FilePath", txtSketch14.Tag != null ? txtSketch14.Tag.ToString().Trim() != string.Empty ? "/ImageData/Order/" + orderID : "DEL" : "");
+                sqlParameter.Add("sketch14FileAlias", txtSketch14FileAlias.Text.Trim() != "" ? txtSketch14FileAlias.Text : "");
+
+                sqlParameter.Add("sketch15FileName", txtSketch15.Text.Trim() != "" ? txtSketch15.Text : "");
+                sqlParameter.Add("sketch15FilePath", txtSketch15.Tag != null ? txtSketch15.Tag.ToString().Trim() != string.Empty ? "/ImageData/Order/" + orderID : "DEL" : "");
+                sqlParameter.Add("sketch15FileAlias", txtSketch15FileAlias.Text.Trim() != "" ? txtSketch15FileAlias.Text : "");
+
+                sqlParameter.Add("sketch16FileName", txtSketch16.Text.Trim() != "" ? txtSketch16.Text : "");
+                sqlParameter.Add("sketch16FilePath", txtSketch16.Tag != null ? txtSketch16.Tag.ToString().Trim() != string.Empty ? "/ImageData/Order/" + orderID : "DEL" : "");
+                sqlParameter.Add("sketch16FileAlias", txtSketch16FileAlias.Text.Trim() != "" ? txtSketch16FileAlias.Text : "");
+
+                sqlParameter.Add("sketch17FileName", txtSketch17.Text.Trim() != "" ? txtSketch17.Text : "");
+                sqlParameter.Add("sketch17FilePath", txtSketch17.Tag != null ? txtSketch17.Tag.ToString().Trim() != string.Empty ? "/ImageData/Order/" + orderID : "DEL" : "");
+                sqlParameter.Add("sketch17FileAlias", txtSketch17FileAlias.Text.Trim() != "" ? txtSketch17FileAlias.Text : "");
+                                         
+                sqlParameter.Add("sketch18FileName", txtSketch18.Text.Trim() != "" ? txtSketch18.Text : "");
+                sqlParameter.Add("sketch18FilePath", txtSketch18.Tag != null ? txtSketch18.Tag.ToString().Trim() != string.Empty ? "/ImageData/Order/" + orderID : "DEL" : "");
+                sqlParameter.Add("sketch18FileAlias", txtSketch18FileAlias.Text.Trim() != "" ? txtSketch18FileAlias.Text : "");
+
+                sqlParameter.Add("sketch19FileName", txtSketch19.Text.Trim() != "" ? txtSketch19.Text : "");
+                sqlParameter.Add("sketch19FilePath", txtSketch19.Tag != null ? txtSketch19.Tag.ToString().Trim() != string.Empty ? "/ImageData/Order/" + orderID : "DEL" : "");
+                sqlParameter.Add("sketch19FileAlias", txtSketch19FileAlias.Text.Trim() != "" ? txtSketch19FileAlias.Text : "");
+
+                sqlParameter.Add("sketch20FileName", txtSketch20.Text.Trim() != "" ? txtSketch20.Text : "");
+                sqlParameter.Add("sketch20FilePath", txtSketch20.Tag != null ? txtSketch20.Tag.ToString().Trim() != string.Empty ? "/ImageData/Order/" + orderID : "DEL" : "");
+                sqlParameter.Add("sketch20FileAlias", txtSketch20FileAlias.Text.Trim() != "" ? txtSketch20FileAlias.Text : "");
+
+                sqlParameter.Add("sketch21FileName", txtSketch21.Text.Trim() != "" ? txtSketch21.Text : "");
+                sqlParameter.Add("sketch21FilePath", txtSketch21.Tag != null ? txtSketch21.Tag.ToString().Trim() != string.Empty ? "/ImageData/Order/" + orderID : "DEL" : "");
+                sqlParameter.Add("sketch21FileAlias", txtSketch21FileAlias.Text.Trim() != "" ? txtSketch21FileAlias.Text : "");
+
+                sqlParameter.Add("sketch22FileName", txtSketch22.Text.Trim() != "" ? txtSketch22.Text : "");
+                sqlParameter.Add("sketch22FilePath", txtSketch22.Tag != null ? txtSketch22.Tag.ToString().Trim() != string.Empty ? "/ImageData/Order/" + orderID : "DEL" : "");
+                sqlParameter.Add("sketch22FileAlias", txtSketch22FileAlias.Text.Trim() != "" ? txtSketch22FileAlias.Text : "");
+
+
 
 
                 string[] result = DataStore.Instance.ExecuteProcedure("xp_order_uOrder_FTP", sqlParameter, true);
@@ -4829,7 +4903,7 @@ namespace WizMes_EVC
             //else if (ClickPoint.Contains("SuperCostFile")) { FTP_Upload_TextBox(txtSuperCostFileName); }
             else if (ClickPoint.Equals("SafeManagerCerti")) { FTP_Upload_TextBox(txtSafeManagerCertiFileName); }
             else if (ClickPoint.Equals("SuperReportFile")) { FTP_Upload_TextBox(txtSuperReportFileName); }
-            else if (ClickPoint.Equals("CompReport")) { FTP_Upload_TextBox(txtCompReportFIleName); }
+            else if (ClickPoint.Equals("CompReport")) { FTP_Upload_TextBox(txtCompReportFileName); }
             else if (ClickPoint.Equals("InsurePrint")) { FTP_Upload_TextBox(txtInsurePrintFileName); }
             
 
@@ -4845,6 +4919,19 @@ namespace WizMes_EVC
             else if(ClickPoint.Equals("btnSketch10")) { FTP_Upload_TextBox(txtSketch10); txtSketch10FileAlias.IsReadOnly = false; }
             else if (ClickPoint.Equals("btnSketch11")) { FTP_Upload_TextBox(txtSketch11); txtSketch11FileAlias.IsReadOnly = false; }
             else if (ClickPoint.Equals("btnSketch12")) { FTP_Upload_TextBox(txtSketch12); txtSketch12FileAlias.IsReadOnly = false; }
+
+            //양식
+            else if (ClickPoint.Equals("btnSketch13")) { FTP_Upload_TextBox(txtSketch13); txtSketch13FileAlias.IsReadOnly = false; }
+            else if (ClickPoint.Equals("btnSketch14")) { FTP_Upload_TextBox(txtSketch14); txtSketch14FileAlias.IsReadOnly = false; }
+            else if (ClickPoint.Equals("btnSketch15")) { FTP_Upload_TextBox(txtSketch15); txtSketch15FileAlias.IsReadOnly = false; }
+            else if (ClickPoint.Equals("btnSketch16")) { FTP_Upload_TextBox(txtSketch16); txtSketch16FileAlias.IsReadOnly = false; }
+            else if (ClickPoint.Equals("btnSketch17")) { FTP_Upload_TextBox(txtSketch17); txtSketch17FileAlias.IsReadOnly = false; }
+            else if (ClickPoint.Equals("btnSketch18")) { FTP_Upload_TextBox(txtSketch18); txtSketch18FileAlias.IsReadOnly = false; }
+            else if (ClickPoint.Equals("btnSketch19")) { FTP_Upload_TextBox(txtSketch19); txtSketch19FileAlias.IsReadOnly = false; }
+            else if (ClickPoint.Equals("btnSketch20")) { FTP_Upload_TextBox(txtSketch20); txtSketch20FileAlias.IsReadOnly = false; }
+            else if (ClickPoint.Equals("btnSketch21")) { FTP_Upload_TextBox(txtSketch21); txtSketch21FileAlias.IsReadOnly = false; }
+            else if (ClickPoint.Equals("btnSketch22")) { FTP_Upload_TextBox(txtSketch22); txtSketch22FileAlias.IsReadOnly = false; }
+
         }
 
 
@@ -5131,7 +5218,7 @@ namespace WizMes_EVC
                     //string superCostFileFileName = txtSuperCostFileName.Text.Trim() != "" ? txtSuperCostFileName.Text : "";
                     string safeManagerCertiFileName = txtSafeManagerCertiFileName.Text.Trim() != "" ? txtSafeManagerCertiFileName.Text : "";
                     string superReportFileFileName = txtSuperReportFileName.Text.Trim() != "" ? txtSuperReportFileName.Text : "";
-                    string compReportFileName = txtCompReportFIleName.Text.Trim() != "" ? txtCompReportFIleName.Text : "";
+                    string compReportFileName = txtCompReportFileName.Text.Trim() != "" ? txtCompReportFileName.Text : "";
                     string insurePrintFileName = txtInsurePrintFileName.Text.Trim() != "" ? txtInsurePrintFileName.Text : "";
 
                     string sketch1 = txtSketch1.Text.Trim() != "" ? txtSketch1.Text : "";
@@ -5146,6 +5233,19 @@ namespace WizMes_EVC
                     string sketch10 = txtSketch10.Text.Trim() != "" ? txtSketch10.Text : "";
                     string sketch11 = txtSketch11.Text.Trim() != "" ? txtSketch11.Text : "";
                     string sketch12 = txtSketch12.Text.Trim() != "" ? txtSketch12.Text : "";
+
+                    string sketch13 = txtSketch13.Text.Trim() != "" ? txtSketch13.Text : "";
+                    string sketch14 = txtSketch14.Text.Trim() != "" ? txtSketch14.Text : "";
+                    string sketch15 = txtSketch15.Text.Trim() != "" ? txtSketch15.Text : "";
+                    string sketch16 = txtSketch16.Text.Trim() != "" ? txtSketch16.Text : "";
+                    string sketch17 = txtSketch17.Text.Trim() != "" ? txtSketch17.Text : "";
+                    string sketch18 = txtSketch18.Text.Trim() != "" ? txtSketch18.Text : "";
+                    string sketch19 = txtSketch19.Text.Trim() != "" ? txtSketch19.Text : "";
+                    string sketch20 = txtSketch20.Text.Trim() != "" ? txtSketch20.Text : "";
+                    string sketch21 = txtSketch21.Text.Trim() != "" ? txtSketch21.Text : "";
+                    string sketch22 = txtSketch22.Text.Trim() != "" ? txtSketch22.Text : "";
+
+
 
                     string btnAccntDown = string.Empty;
                     if(dgdAccnt.SelectedCells.Count > 0)
@@ -5185,7 +5285,7 @@ namespace WizMes_EVC
                        //|| ((ClickPoint == "SuperCostFile") && (txtSuperCostFileName.Text == string.Empty))
                        || ((ClickPoint == "SafeManagerCerti") && (txtSafeManagerCertiFileName.Text == string.Empty))
                        || ((ClickPoint == "SuperReportFile") && (txtSuperReportFileName.Text == string.Empty))
-                       || ((ClickPoint == "CompReport") && (txtCompReportFIleName.Text == string.Empty))
+                       || ((ClickPoint == "CompReport") && (txtCompReportFileName.Text == string.Empty))
                        || ((ClickPoint == "InsurePrint") && (txtInsurePrintFileName.Text == string.Empty))
 
                        || ((ClickPoint == "btnSketch1") && (txtSketch1.Text == string.Empty))
@@ -5200,6 +5300,18 @@ namespace WizMes_EVC
                        || ((ClickPoint == "btnSketch10") && (txtSketch10.Text == string.Empty))
                        || ((ClickPoint == "btnSketch11") && (txtSketch11.Text == string.Empty))
                        || ((ClickPoint == "btnSketch12") && (txtSketch12.Text == string.Empty))
+
+                       || ((ClickPoint == "btnSketch13") && (txtSketch13.Text == string.Empty))
+                       || ((ClickPoint == "btnSketch14") && (txtSketch14.Text == string.Empty))
+                       || ((ClickPoint == "btnSketch15") && (txtSketch15.Text == string.Empty))
+                       || ((ClickPoint == "btnSketch16") && (txtSketch16.Text == string.Empty))
+                       || ((ClickPoint == "btnSketch17") && (txtSketch17.Text == string.Empty))
+                       || ((ClickPoint == "btnSketch18") && (txtSketch18.Text == string.Empty))
+                       || ((ClickPoint == "btnSketch19") && (txtSketch19.Text == string.Empty))
+                       || ((ClickPoint == "btnSketch20") && (txtSketch20.Text == string.Empty))
+                       || ((ClickPoint == "btnSketch21") && (txtSketch21.Text == string.Empty))
+                       || ((ClickPoint == "btnSketch22") && (txtSketch22.Text == string.Empty))
+
 
                        || ((ClickPoint == "AccntDown") && (btnAccntDown == string.Empty)))
 
@@ -5267,6 +5379,18 @@ namespace WizMes_EVC
                         else if (ClickPoint == "btnSketch11") { str_remotepath = sketch11; }
                         else if (ClickPoint == "btnSketch12") { str_remotepath = sketch12; }
 
+                        else if (ClickPoint == "btnSketch13") { str_remotepath = sketch13; }
+                        else if (ClickPoint == "btnSketch14") { str_remotepath = sketch14; }
+                        else if (ClickPoint == "btnSketch15") { str_remotepath = sketch15; }
+                        else if (ClickPoint == "btnSketch16") { str_remotepath = sketch16; }
+                        else if (ClickPoint == "btnSketch17") { str_remotepath = sketch17; }
+                        else if (ClickPoint == "btnSketch18") { str_remotepath = sketch18; }
+                        else if (ClickPoint == "btnSketch19") { str_remotepath = sketch19; }
+                        else if (ClickPoint == "btnSketch20") { str_remotepath = sketch20; }
+                        else if (ClickPoint == "btnSketch21") { str_remotepath = sketch21; }
+                        else if (ClickPoint == "btnSketch22") { str_remotepath = sketch22; }
+
+
                         else if (ClickPoint == "AccntDown") { str_remotepath = btnAccntDown; }
 
                         //로컬경로
@@ -5313,6 +5437,18 @@ namespace WizMes_EVC
                         else if (ClickPoint == "btnSketch10") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch10; }
                         else if (ClickPoint == "btnSketch11") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch11; }
                         else if (ClickPoint == "btnSketch12") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch12; }
+
+                        else if (ClickPoint == "btnSketch13") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch13; }
+                        else if (ClickPoint == "btnSketch14") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch14; }
+                        else if (ClickPoint == "btnSketch15") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch15; }
+                        else if (ClickPoint == "btnSketch16") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch16; }
+                        else if (ClickPoint == "btnSketch17") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch17; }
+                        else if (ClickPoint == "btnSketch18") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch18; }
+                        else if (ClickPoint == "btnSketch19") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch19; }
+                        else if (ClickPoint == "btnSketch20") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch20; }
+                        else if (ClickPoint == "btnSketch21") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch21; }
+                        else if (ClickPoint == "btnSketch22") { str_localpath = LOCAL_DOWN_PATH + "\\" + sketch22; }
+
 
                         else if (ClickPoint == "AccntDown") { str_localpath = LOCAL_DOWN_PATH + "\\" + btnAccntDown; }
 
@@ -5470,7 +5606,7 @@ namespace WizMes_EVC
                 //else if ((ClickPoint == "SuperCostFile") && (txtSuperCostFileName.Text != string.Empty)) { fileName = txtSuperCostFileName.Text; FileDeleteAndTextBoxEmpty(txtSuperCostFileName); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "SafeManagerCerti") && (txtSafeManagerCertiFileName.Text != string.Empty)) { fileName = txtSafeManagerCertiFileName.Text; FileDeleteAndTextBoxEmpty(txtSafeManagerCertiFileName); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "SuperReportFile") && (txtSuperReportFileName.Text != string.Empty)) { fileName = txtSuperReportFileName.Text; FileDeleteAndTextBoxEmpty(txtSuperReportFileName); lstFilesName.Remove(fileName); }
-                else if ((ClickPoint == "CompReport") && (txtCompReportFIleName.Text != string.Empty)) { fileName = txtCompReportFIleName.Text; FileDeleteAndTextBoxEmpty(txtCompReportFIleName); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "CompReport") && (txtCompReportFileName.Text != string.Empty)) { fileName = txtCompReportFileName.Text; FileDeleteAndTextBoxEmpty(txtCompReportFileName); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "InsurePrint") && (txtInsurePrintFileName.Text != string.Empty)) { fileName = txtInsurePrintFileName.Text; FileDeleteAndTextBoxEmpty(txtInsurePrintFileName); lstFilesName.Remove(fileName); }
 
                 else if ((ClickPoint == "btnSketch1") && (txtSketch1.Text != string.Empty)) { fileName = txtSketch1.Text; txtSketch1FileAlias.IsReadOnly = true; txtSketch1FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch1); lstFilesName.Remove(fileName); }
@@ -5485,6 +5621,18 @@ namespace WizMes_EVC
                 else if ((ClickPoint == "btnSketch10") && (txtSketch10.Text != string.Empty)) { fileName = txtSketch10.Text; txtSketch10FileAlias.IsReadOnly = false; txtSketch10FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch10); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "btnSketch11") && (txtSketch11.Text != string.Empty)) { fileName = txtSketch11.Text; txtSketch11FileAlias.IsReadOnly = false; txtSketch11FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch11); lstFilesName.Remove(fileName); }
                 else if ((ClickPoint == "btnSketch12") && (txtSketch12.Text != string.Empty)) { fileName = txtSketch12.Text; txtSketch12FileAlias.IsReadOnly = false; txtSketch12FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch12); lstFilesName.Remove(fileName); }
+
+                else if ((ClickPoint == "btnSketch13") && (txtSketch13.Text != string.Empty)) { fileName = txtSketch13.Text; txtSketch13FileAlias.IsReadOnly = false; txtSketch13FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch13); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "btnSketch14") && (txtSketch14.Text != string.Empty)) { fileName = txtSketch14.Text; txtSketch14FileAlias.IsReadOnly = false; txtSketch14FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch14); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "btnSketch15") && (txtSketch15.Text != string.Empty)) { fileName = txtSketch15.Text; txtSketch15FileAlias.IsReadOnly = false; txtSketch15FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch15); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "btnSketch16") && (txtSketch16.Text != string.Empty)) { fileName = txtSketch16.Text; txtSketch16FileAlias.IsReadOnly = false; txtSketch16FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch16); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "btnSketch17") && (txtSketch17.Text != string.Empty)) { fileName = txtSketch17.Text; txtSketch17FileAlias.IsReadOnly = false; txtSketch17FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch17); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "btnSketch18") && (txtSketch18.Text != string.Empty)) { fileName = txtSketch18.Text; txtSketch18FileAlias.IsReadOnly = false; txtSketch18FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch18); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "btnSketch19") && (txtSketch19.Text != string.Empty)) { fileName = txtSketch19.Text; txtSketch19FileAlias.IsReadOnly = false; txtSketch19FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch19); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "btnSketch20") && (txtSketch20.Text != string.Empty)) { fileName = txtSketch20.Text; txtSketch20FileAlias.IsReadOnly = false; txtSketch20FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch20); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "btnSketch21") && (txtSketch21.Text != string.Empty)) { fileName = txtSketch21.Text; txtSketch21FileAlias.IsReadOnly = false; txtSketch21FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch21); lstFilesName.Remove(fileName); }
+                else if ((ClickPoint == "btnSketch22") && (txtSketch22.Text != string.Empty)) { fileName = txtSketch22.Text; txtSketch22FileAlias.IsReadOnly = false; txtSketch22FileAlias.Text = string.Empty; FileDeleteAndTextBoxEmpty(txtSketch22); lstFilesName.Remove(fileName); }
+
 
                 else if ((ClickPoint == "AccntDelete") && (btnAccntDown != string.Empty))
                 {
@@ -6139,8 +6287,9 @@ namespace WizMes_EVC
                 var OrderInfo = dgdMain.SelectedItem as Win_ord_Order_U_CodeView_dgdMain;
                 if (OrderInfo != null)
                 {
-                    rowNum = dgdMain.SelectedIndex;    
-                    this.DataContext = OrderInfo;
+                    rowNum = dgdMain.SelectedIndex;
+                    AutoBindDataToControls(OrderInfo, grdInput);
+                    //this.DataContext = OrderInfo;
 
                     orderID_global = OrderInfo.orderId;       
                     fillAccGrid(OrderInfo.orderId);
@@ -7463,6 +7612,7 @@ namespace WizMes_EVC
       
         }
 
+        //셀 업로드 이벤트
         private void btnAccntUpload_Click(object sender, RoutedEventArgs e)
         {
             if (lblMsg.Visibility == Visibility.Visible)
@@ -8062,8 +8212,8 @@ namespace WizMes_EVC
        public string superSetCheckFileName{get;set;}
        public string superBeforeUseInspectFilePath{get;set;}
        public string superBeforeUseInspectFileName{get;set;}
-       public string compReportFIleName { get; set; }
-       public string compReportFIlePath { get; set; }
+       public string compReportFileName { get; set; }
+       public string compReportFilePath { get; set; }
        public string superCostFilePath{get;set;}
        public string superCostFileName{get;set;}
        public string safeManagerCertiFileName{get;set;}
@@ -8112,6 +8262,36 @@ namespace WizMes_EVC
         public string sketch12FilePath { get; set; }
         public string sketch12FileName { get; set; }
         public string sketch12FileAlias { get; set; }
+        public string sketch13FilePath {get;set;}
+        public string sketch13FileName {get;set;}
+        public string sketch13FileAlias {get;set;}
+        public string sketch14FilePath {get;set;}
+        public string sketch14FileName {get;set;}
+        public string sketch14FileAlias {get;set;}
+        public string sketch15FilePath {get;set;}
+        public string sketch15FileName {get;set;}
+        public string sketch15FileAlias {get;set;}
+        public string sketch16FilePath {get;set;}
+        public string sketch16FileName {get;set;}
+        public string sketch16FileAlias {get;set;}
+        public string sketch17FilePath {get;set;}
+        public string sketch17FileName {get;set;}
+        public string sketch17FileAlias {get;set;}
+        public string sketch18FilePath {get;set;}
+        public string sketch18FileName {get;set;}
+        public string sketch18FileAlias {get;set;}
+        public string sketch19FilePath {get;set;}
+        public string sketch19FileName {get;set;}
+        public string sketch19FileAlias {get;set;}
+        public string sketch20FilePath {get;set;}
+        public string sketch20FileName {get;set;}
+        public string sketch20FileAlias {get;set;}
+        public string sketch21FilePath {get;set;}
+        public string sketch21FileName {get;set;}
+        public string sketch21FileAlias {get;set;}
+        public string sketch22FilePath {get;set;}
+        public string sketch22FileName {get;set;}
+        public string sketch22FileAlias { get; set; }
     }
     public class Win_order_OrderColor_U_CodeView : BaseView
     {
