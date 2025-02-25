@@ -984,7 +984,7 @@
                                         </Grid.ColumnDefinitions>
                                         <Button x:Name="btnContractFile" Grid.Column="0" Click="btnFileUpload_Click" Content="시공발주서" Padding="0" Tag="Contract"/>
                                         <TextBox x:Name="txtContractFileName" Text="{Binding contractFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                 Tag="{Binding contractFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                 Tag="{Binding contractFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                  Style="{DynamicResource TextBoxInputArea}" 
                                                  IsReadOnly="True" Grid.Column="1"/>
                                         <Grid Grid.Column="2">
@@ -1081,8 +1081,10 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txthouseHoldCount" Grid.Row="4" Grid.Column="1" Text="{Binding houseHoldCount}"
-                                                 Style="{StaticResource TextBoxInput_Number_Right}"
-                                                         TextAlignment="Right"/>
+                                              PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                        PreviewTextInput="TextBox_NumberValidation"
+                                                        DataObject.Pasting="TextBox_PastingHandler"
+                                                         TextAlignment="Right" VerticalContentAlignment="Center"/>
                                     </Grid>
 
                                     <!--거점명-->
@@ -1165,7 +1167,11 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtCarParkingCount" Grid.Row="4" Grid.Column="1" Text="{Binding carParkingCount}"
-                                                 Style="{StaticResource TextBoxInput_Number_Right}" MaxLength="10"/>
+                                                  PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                    PreviewTextInput="TextBox_NumberValidation"
+                                                    DataObject.Pasting="TextBox_PastingHandler"
+                                                 TextAlignment="Right" VerticalContentAlignment="Center"
+                                                 MaxLength="10"/>
                                     </Grid>
 
                                     <!--국소특이사항-->
@@ -1203,7 +1209,11 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtElectrCarCount" Grid.Row="4" Grid.Column="1" Text="{Binding electrCarCount}"
-                                                 Style="{StaticResource TextBoxInput_Number_Right}" MaxLength="10"/>
+                                                 PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                PreviewTextInput="TextBox_NumberValidation"
+                                                DataObject.Pasting="TextBox_PastingHandler"
+                                                 TextAlignment="Right" VerticalContentAlignment="Center"
+                                                 MaxLength="10"/>
                                     </Grid>
 
                                     <!--계약기간-->
@@ -1250,7 +1260,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtAlReadyChargeCount" Grid.Row="4" Grid.Column="1" Text="{Binding alReadyChargeCount}"
-                                    Style="{StaticResource TextBoxInputArea}" MaxLength="10"/>
+                                    Style="{StaticResource TextBoxInputArea}"/>
                                     </Grid>
 
                                     <!--개통요청일-->
@@ -1290,7 +1300,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtReqChargeCount" Grid.Row="4" Grid.Column="1" Text="{Binding reqChargeCount}"
-                                            Style="{StaticResource TextBoxInputArea}" MaxLength="10"/>
+                                            Style="{StaticResource TextBoxInputArea}" />
                                     </Grid>
 
                                     <!--상담담당자이메일-->
@@ -1561,10 +1571,10 @@
                                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                                                 <TextBlock  Text="계약금액" Style="{DynamicResource TextBlockInViewBoxInput}"/>
                                             </Viewbox>
-                                        </Label>
-                                        <Border Grid.Column="1" Style="{StaticResource BorderedTextBlock}">
-                                            <TextBlock x:Name="txtMtrAmount" Style="{StaticResource TextBlockViewArea_Number}"  Text="{Binding mtrAmount}"/>
-                                        </Border>
+                                        </Label>                                       
+                                            <TextBox x:Name="txtMtrAmount"  Grid.Column="1" TextAlignment="Right"  VerticalContentAlignment="Center"
+                                                     Text="{Binding mtrAmount}" ToolTip="배송금액 &amp; + 캐노피&amp;스탠드 발주금 &amp; + (우측 하단)금액"/>
+                                     
 
                                         <!--화폐단위-->
                                         <Label Grid.Column="2" 
@@ -1583,7 +1593,11 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox Grid.Column="5" x:Name="txtMtrShippingCharge"  Text="{Binding mtrShippingCharge}"
-                                                  Style="{StaticResource TextBoxInput_Number_Right}"/>
+                                                 PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                PreviewTextInput="TextBox_NumberValidation"
+                                                DataObject.Pasting="TextBox_PastingHandler"
+                                                 TextAlignment="Right" VerticalContentAlignment="Center"
+                                                 />
                                     </Grid>
 
                                     <Grid x:Name="grdAcc" Grid.Row="24" Grid.ColumnSpan="6" Grid.RowSpan="7">
@@ -1660,7 +1674,7 @@
                                                 </Style>
                                             </DataGrid.CellStyle>
                                             <DataGrid.Columns>
-                                                <DataGridTextColumn Header="순" x:Name="num" Binding="{Binding num}" Width="auto"/>
+                                                <DataGridTextColumn Header="순" x:Name="num" Binding="{Binding num}" Width="auto" IsReadOnly="True" CellStyle="{DynamicResource DataGridCellAndCentering}"/>
                                                 <DataGridTextColumn Header="Seq" x:Name="orderSeq" Binding="{Binding orderSeq}" Width="0" Visibility="Hidden"/>
 
                                                 <DataGridTemplateColumn x:Name="orderTypeID" MinWidth="80" >
@@ -1675,7 +1689,7 @@
                                                     <DataGridTemplateColumn.CellEditingTemplate>
                                                         <DataTemplate>
                                                             <ComboBox Text="{Binding orderType,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay, IsAsync=True}"
-                                                                       SelectedValue="{Binding orderTypeID,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                                       SelectedValue="{Binding orderTypeID,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" HorizontalContentAlignment="Center"
                                                                       ItemsSource="{Binding ovcOrderTypeAcc}" DisplayMemberPath="code_name" SelectedValuePath="code_id"/>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellEditingTemplate>
@@ -1708,7 +1722,8 @@
                                                         <DataTemplate>
                                                             <TextBox Text="{Binding chargeInwareUnitPrice, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Padding="5 0 3 0" 
                                                                     PreviewTextInput="TextBox_NumberValidation"
-                                                                    PreviewKeyDown="TextBox_PreventCopyPaste"/>
+                                                                    PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                                     TextAlignment="Right" VerticalContentAlignment="Center"/>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellEditingTemplate>
                                                 </DataGridTemplateColumn>
@@ -1862,7 +1877,8 @@
                                                         <DataTemplate>
                                                             <TextBox Text="{Binding chargeInwareQty, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Padding="5 0 3 0" 
                                                                     PreviewTextInput="TextBox_NumberValidation"
-                                                                    PreviewKeyDown="TextBox_PreventCopyPaste"/>
+                                                                    PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                                    TextAlignment="Right"  VerticalContentAlignment="Center"/>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellEditingTemplate>
                                                 </DataGridTemplateColumn>
@@ -1919,7 +1935,10 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtMtrCanopyOrderAmount" Grid.Row="4" Grid.Column="1" Text="{Binding mtrCanopyOrderAmount}"
-                                            Style="{StaticResource TextBoxInput_Number_Right}"/>
+                                             PreviewKeyDown="TextBox_PreventCopyPaste"
+                                        PreviewTextInput="TextBox_NumberValidation"
+                                        DataObject.Pasting="TextBox_PastingHandler"
+                                                 TextAlignment="Right" VerticalContentAlignment="Center"/>
                                     </Grid>
 
 
@@ -1937,8 +1956,12 @@
                                                 <TextBlock Text="tbldgdAccTotal" Padding="0" Style="{DynamicResource TextBlockInViewBoxInput}"/>
                                             </Viewbox>
                                         </Label>
-                                        <TextBox x:Name="txtdgdAccTotal" Grid.Row="4" Grid.Column="1" Text="{Binding mtrCanopyOrderAmount}"
-                                            Style="{StaticResource TextBoxInput_Number_Right}"/>
+                                        <TextBox x:Name="txtdgdAccTotal" Grid.Row="4" Grid.Column="1" 
+                                            PreviewKeyDown="TextBox_PreventCopyPaste"
+                                            PreviewTextInput="TextBox_NumberValidation"
+                                            DataObject.Pasting="TextBox_PastingHandler"
+                                                 TextAlignment="Right" VerticalContentAlignment="Center"
+                                                 />
                                     </Grid>
 
                                     <Grid Grid.Row="31" Grid.Column="3" Grid.RowSpan="3" Grid.ColumnSpan="2">
@@ -2090,7 +2113,10 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtInstallLocationCount" Grid.Row="4" Grid.Column="1" Text="{Binding InstallLocationCount}"
-                                                 Style="{StaticResource TextBoxInput_Number_Right}"/>
+                                                 PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                    PreviewTextInput="TextBox_NumberValidation"
+                                                    DataObject.Pasting="TextBox_PastingHandler"
+                                                    TextAlignment="Right" VerticalContentAlignment="Center"/>
                                     </Grid>
 
                                     <!--전기조달방식 -> 전기수전방법-->
@@ -2146,7 +2172,11 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtAddConstructCostSearch" Grid.Row="4" Grid.Column="1" Text="{Binding addConstructCostSearch}"
-                                                 Style="{StaticResource TextBoxInput_Number_Right}" MaxLength="15"/>
+                                               PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                PreviewTextInput="TextBox_NumberValidation"
+                                                DataObject.Pasting="TextBox_PastingHandler"
+                                                 TextAlignment="Right" VerticalContentAlignment="Center"
+                                                 MaxLength="15"/>
                                     </Grid>
 
                                     <!--추가공사비(EVC부담)-->
@@ -2165,7 +2195,11 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtAddConstructCost" Grid.Row="4" Grid.Column="1" Text="{Binding addConstructCost}"
-                                                 Style="{StaticResource TextBoxInput_Number_Right}" MaxLength="15"/>
+                                                  PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                    PreviewTextInput="TextBox_NumberValidation"
+                                                    DataObject.Pasting="TextBox_PastingHandler"
+                                                 TextAlignment="Right" VerticalContentAlignment="Center"
+                                                 MaxLength="15"/>
                                     </Grid>
 
                                     <!--실사처리 비고-->
@@ -2197,7 +2231,7 @@
                                         Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtBeforeSearchConsultFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                            Style="{DynamicResource TextBoxInputArea}" Text="{Binding beforeSearchConsultFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                           Tag="{Binding beforeSearchConsultFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                           Tag="{Binding beforeSearchConsultFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                            IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -2220,7 +2254,7 @@
                                         Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtPictureEarthFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                            Style="{DynamicResource TextBoxInputArea}" Text="{Binding pictureEarthFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                           Tag="{Binding pictureEarthFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                           Tag="{Binding pictureEarthFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                            IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -2243,7 +2277,7 @@
                                        Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtDrawFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                           Style="{DynamicResource TextBoxInputArea}" Text="{Binding drawFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                          Tag="{Binding drawFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                          Tag="{Binding drawFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                           IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -2266,7 +2300,7 @@
                                        Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtSearchFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                           Style="{DynamicResource TextBoxInputArea}" Text="{Binding searchFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                          Tag="{Binding searchFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                          Tag="{Binding searchFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                           IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -2289,7 +2323,7 @@
                                        Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtSearchChecksheetFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                           Style="{DynamicResource TextBoxInputArea}" Text="{Binding searchChecksheetFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                          Tag="{Binding searchChecksheetFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                          Tag="{Binding searchChecksheetFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter" 
                                           IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -2312,7 +2346,7 @@
                                        Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtInstallLocationSheetFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                           Style="{DynamicResource TextBoxInputArea}" Text="{Binding installLocationSheetFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                          Tag="{Binding installLocationSheetFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                          Tag="{Binding installLocationSheetFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                           IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -2351,7 +2385,11 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtCorpAcptNo" Grid.Row="4" Grid.Column="1" Text="{Binding corpAcptNo}"
-                                                 Style="{StaticResource TextBoxInput_Number_Right}"/>
+                                                  PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                    PreviewTextInput="TextBox_NumberValidation"
+                                                    DataObject.Pasting="TextBox_PastingHandler"
+                                                   TextAlignment="Right" VerticalContentAlignment="Center"/>
+                                        
                                     </Grid>
 
 
@@ -2490,7 +2528,7 @@
                                                 <DataGridTemplateColumn Header="행위신고일">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <TextBlock Text="{Binding localGovBehaviorDate,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" TextAlignment="Left" Loaded="TextBlock_Loaded"/>
+                                                            <TextBlock Text="{Binding localGovBehaviorDate,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" TextAlignment="Center" Loaded="TextBlock_Loaded"/>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
                                                     <DataGridTemplateColumn.CellEditingTemplate>
@@ -2506,7 +2544,7 @@
                                                 <DataGridTemplateColumn Header="행위신고발급일">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <TextBlock Text="{Binding localGovBehaviorReportDate,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" TextAlignment="Left" Loaded="TextBlock_Loaded"/>
+                                                            <TextBlock Text="{Binding localGovBehaviorReportDate,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" TextAlignment="Center" Loaded="TextBlock_Loaded"/>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
                                                     <DataGridTemplateColumn.CellEditingTemplate>
@@ -2536,7 +2574,7 @@
                                                 <DataGridTemplateColumn Header="보완처리일">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <TextBlock Text="{Binding localGovSuppleDate,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" TextAlignment="Left" Loaded="TextBlock_Loaded"/>
+                                                            <TextBlock Text="{Binding localGovSuppleDate,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" TextAlignment="Center" Loaded="TextBlock_Loaded"/>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
                                                     <DataGridTemplateColumn.CellEditingTemplate>
@@ -2583,7 +2621,10 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtLocalGovPermissionNo" Grid.Row="4" Grid.Column="1" Text="{Binding localGovPermissionNo}"
-                                                 Style="{StaticResource TextBoxInput_Number_Right}"/>
+                                                  PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                    PreviewTextInput="TextBox_NumberValidation"
+                                                    DataObject.Pasting="TextBox_PastingHandler"
+                                                    TextAlignment="Right" VerticalContentAlignment="Center"/>
                                     </Grid>
 
                                     <!--행위신고발급일 hidden처리함-->
@@ -2684,7 +2725,7 @@
                                         Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtLocalGovProveFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                            Style="{DynamicResource TextBoxInputArea}" Text="{Binding LocalGovProveFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                           Tag="{Binding LocalGovProveFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                           Tag="{Binding LocalGovProveFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                            IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -2708,7 +2749,7 @@
                                                         Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtLocalGoTaxFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                        Style="{DynamicResource TextBoxInputArea}" Text="{Binding localGoTaxFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                       Tag="{Binding localGoTaxFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                       Tag="{Binding localGoTaxFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                        IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -2817,7 +2858,10 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtKepInstallLocationCount" Grid.Row="4" Grid.Column="1" Text="{Binding kepInstallLocationCount}"
-                                                   Style="{StaticResource TextBoxInput_Number_Right}"/>
+                                                   PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                    PreviewTextInput="TextBox_NumberValidation"
+                                                    DataObject.Pasting="TextBox_PastingHandler"
+                                                 TextAlignment="Right" VerticalContentAlignment="Center"/>
                                     </Grid>
 
 
@@ -2876,7 +2920,11 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtKepInfraPayAmount" Grid.Row="4" Grid.Column="1" Text="{Binding kepInfraPayAmount}"
-                                                 Style="{StaticResource TextBoxInput_Number_Right}" MaxLength="15"/>
+                                                  PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                    PreviewTextInput="TextBox_NumberValidation"
+                                                    DataObject.Pasting="TextBox_PastingHandler"
+                                                 TextAlignment="Right" VerticalContentAlignment="Center"
+                                                  MaxLength="15"/>
                                     </Grid>
 
                                     <!--(한전)전기사용신청일-->
@@ -3040,6 +3088,25 @@
                                                 Style="{StaticResource TextBoxInputArea}"/>
                                     </Grid>
 
+                                    <!--(한전)접수증(고객번호)-->
+                                    <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="85*"/>
+                                            <ColumnDefinition Width="105*"/>
+                                            <ColumnDefinition Width="20*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Row="4" Grid.Column="0" 
+                                                 Style="{DynamicResource LabelInputArea}">
+                                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                <TextBlock Text="접수증(고객번호)" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+
+                                            </Viewbox>
+                                        </Label>
+                                        <TextBox x:Name="txtKepCustomNo" Grid.Row="4" Grid.Column="1" Text="{Binding kepCustomNo}"
+                                                     Style="{StaticResource TextBoxInputArea}"/>
+                                    </Grid>
+
                                     <!--(한전)한전불입금 납부일-->
                                     <Grid Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
@@ -3059,26 +3126,7 @@
                                         <DatePicker x:Name="dtpKepPaymentDate" Grid.Row="0" Grid.Column="1" 
                                                       Style="{DynamicResource DatePickerInputArea}" 
                                                       SelectedDate="{Binding kepPaymentDate}"/>
-                                    </Grid>
-
-                                    <!--(한전)접수증(고객번호)-->
-                                    <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="85*"/>
-                                            <ColumnDefinition Width="105*"/>
-                                            <ColumnDefinition Width="20*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Label Grid.Row="4" Grid.Column="0" 
-                                                 Style="{DynamicResource LabelInputArea}">
-                                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                                <TextBlock Text="접수증(고객번호)" Style="{DynamicResource TextBlockInViewBoxInput}"/>
-
-                                            </Viewbox>
-                                        </Label>
-                                        <TextBox x:Name="txtKepCustomNo" Grid.Row="4" Grid.Column="1" Text="{Binding kepCustomNo}"
-                                                     Style="{StaticResource TextBoxInputArea}"/>
-                                    </Grid>
+                                    </Grid> 
 
                                     <!--(한전)한전수전 비고-->
                                     <Grid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="6">
@@ -3111,7 +3159,7 @@
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtElectrKepAcptFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                 Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrKepAcptFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                Tag="{Binding electrKepAcptFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                Tag="{Binding electrKepAcptFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -3134,7 +3182,7 @@
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtKepFaucetAcptFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                     Style="{DynamicResource TextBoxInputArea}" Text="{Binding kepFaucetAcptFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                    Tag="{Binding kepFaucetAcptFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                    Tag="{Binding kepFaucetAcptFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                     IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -3350,7 +3398,10 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtElectrSafeCheckCost" Grid.Row="4" Grid.Column="1" Text="{Binding electrSafeCheckCost}"
-                                                 Style="{StaticResource TextBoxInput_Number_Right}"/>
+                                                 PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                PreviewTextInput="TextBox_NumberValidation"
+                                                DataObject.Pasting="TextBox_PastingHandler"
+                                                 TextAlignment="Right" VerticalContentAlignment="Center"/>
                                     </Grid>
 
 
@@ -3533,7 +3584,11 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtElectrBeforeInspCost" Grid.Row="4" Grid.Column="1" Text="{Binding electrBeforeInspCost}"
-                                         Style="{StaticResource TextBoxInput_Number_Right}" MaxLength="15"/>
+                                                  PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                    PreviewTextInput="TextBox_NumberValidation"
+                                                    DataObject.Pasting="TextBox_PastingHandler" 
+                                                 TextAlignment="Right" VerticalContentAlignment="Center"
+                                                    MaxLength="15"/>
                                     </Grid>
 
                                     <!--사용전검사 수수료 납부일-->
@@ -3640,7 +3695,7 @@
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtElectrTransCoUseFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                 Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrTransCoUseFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                Tag="{Binding electrTransCoUseFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                Tag="{Binding electrTransCoUseFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -3663,7 +3718,7 @@
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtElectrKepInfraPayBillFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                 Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrKepInfraPayBillFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                Tag="{Binding electrKepInfraPayBillFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                Tag="{Binding electrKepInfraPayBillFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -3686,7 +3741,7 @@
                                                       Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtKepElectrLineFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                  Style="{DynamicResource TextBoxInputArea}" Text="{Binding kepElectrLineFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                 Tag="{Binding kepElectrLineFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                 Tag="{Binding kepElectrLineFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -3709,7 +3764,7 @@
                                                      Click="btnFileUpload_Click" />
                                         <TextBox x:Name="txtElectrCostFileName" Grid.Column="1" Grid.ColumnSpan="3"
                                                 Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrCostFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                Tag="{Binding electrCostFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                Tag="{Binding electrCostFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                  IsReadOnly="True" Margin="1,1,1,0"/>
                                         <Grid Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -3733,7 +3788,7 @@
                                                  Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtElectrSafeInspPrintFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                  Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrSafeInspPrintFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                 Tag="{Binding electrSafeInspPrintFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                 Tag="{Binding electrSafeInspPrintFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                   IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -3756,7 +3811,7 @@
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtElectrBeforeUseCheckPrintFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                 Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrBeforeUseCheckPrintFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                Tag="{Binding electrBeforeUseCheckPrintFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                Tag="{Binding electrBeforeUseCheckPrintFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -3803,7 +3858,7 @@
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtElectrBeforeUseInspCostFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                 Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrBeforeUseInspCostFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                Tag="{Binding electrBeforeUseInspCostFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                Tag="{Binding electrBeforeUseInspCostFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -3826,7 +3881,7 @@
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtElectrBeforeUseInspFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                 Style="{DynamicResource TextBoxInputArea}" Text="{Binding electrBeforeUseInspFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                Tag="{Binding electrBeforeUseInspFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                Tag="{Binding electrBeforeUseInspFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -4067,7 +4122,11 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtSuperSetCost" Grid.Row="4" Grid.Column="1" Text="{Binding superSetCost}"
-                                                    Style="{StaticResource TextBoxInput_Number_Right}" MaxLength="15"/>
+                                                PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                PreviewTextInput="TextBox_NumberValidation"
+                                                DataObject.Pasting="TextBox_PastingHandler"    
+                                                 TextAlignment="Right" VerticalContentAlignment="Center"
+                                                 MaxLength="15"/>
                                     </Grid>
 
                                     <!--감리배치 계산서 발행일-->
@@ -4123,7 +4182,7 @@
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtSuperSetCheckFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                 Style="{DynamicResource TextBoxInputArea}" Text="{Binding superSetCheckFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                Tag="{Binding superSetCheckFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                Tag="{Binding superSetCheckFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -4146,7 +4205,7 @@
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtSuperBeforeUseInspectFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                 Style="{DynamicResource TextBoxInputArea}" Text="{Binding superBeforeUseInspectFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                Tag="{Binding superBeforeUseInspectFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                Tag="{Binding superBeforeUseInspectFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -4192,7 +4251,7 @@
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtSafeManagerCertiFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                 Style="{DynamicResource TextBoxInputArea}" Text="{Binding safeManagerCertiFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                Tag="{Binding safeManagerCertiFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                Tag="{Binding safeManagerCertiFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -4215,7 +4274,7 @@
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtSuperReportFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                 Style="{DynamicResource TextBoxInputArea}" Text="{Binding superReportFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                Tag="{Binding superReportFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                Tag="{Binding superReportFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -4414,7 +4473,7 @@
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtCompReportFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                 Style="{DynamicResource TextBoxInputArea}" Text="{Binding compReportFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                Tag="{Binding compReportFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                Tag="{Binding compReportFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -4437,7 +4496,7 @@
                                                      Click="btnFileUpload_Click"/>
                                         <TextBox x:Name="txtInsurePrintFileName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                 Style="{DynamicResource TextBoxInputArea}" Text="{Binding insurePrintFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                Tag="{Binding insurePrintFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                Tag="{Binding insurePrintFilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                  IsReadOnly="True"/>
                                         <Grid Grid.Row="1" Grid.Column="4">
                                             <Grid.ColumnDefinitions>
@@ -4807,9 +4866,11 @@
                                                             <DataGridTemplateColumn.CellEditingTemplate>
                                                                 <DataTemplate>
                                                                     <TextBox Text="{Binding column2Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Padding="5 0 3 0" 
-                                                                            PreviewTextInput="TextBox_NumberValidation"
-                                                                            PreviewKeyDown="TextBox_PreventCopyPaste"
-                                                                             HorizontalAlignment="Right"/>
+                                                                             PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                                                PreviewTextInput="TextBox_NumberValidation"
+                                                                                DataObject.Pasting="TextBox_PastingHandler"
+                                                                             VerticalContentAlignment="Center"
+                                                                             TextAlignment="Right"/>
                                                                 </DataTemplate>
                                                             </DataGridTemplateColumn.CellEditingTemplate>
                                                         </DataGridTemplateColumn>
@@ -5006,7 +5067,7 @@
                                                             IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch1" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                          Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch1FileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                         Tag="{Binding sketch1FilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                         Tag="{Binding sketch1FilePath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                          IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="1" Grid.Column="4">
@@ -5032,7 +5093,7 @@
                                                         IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch2" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                        Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch2FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                                       Tag="{Binding sketch2FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                       Tag="{Binding sketch2FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                        IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="2" Grid.Column="4">
@@ -5059,7 +5120,7 @@
                                                           IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch3" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                       Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch3FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                                      Tag="{Binding sketch3FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                      Tag="{Binding sketch3FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                       IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="3" Grid.Column="4">
@@ -5085,7 +5146,7 @@
                                                           IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch4" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                           Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch4FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                                          Tag="{Binding sketch4FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                          Tag="{Binding sketch4FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                           IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="4" Grid.Column="4">
@@ -5112,7 +5173,7 @@
                                                           IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch12" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                           Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch12FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                                          Tag="{Binding sketch12FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                          Tag="{Binding sketch12FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                           IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="5" Grid.Column="4">
@@ -5138,7 +5199,7 @@
                                                          IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch5" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                         Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch5FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                                        Tag="{Binding sketch5FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                        Tag="{Binding sketch5FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                         IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="6" Grid.Column="4">
@@ -5164,7 +5225,7 @@
                                                          IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch6" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                         Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch6FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                                        Tag="{Binding sketch6FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                        Tag="{Binding sketch6FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                         IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="7" Grid.Column="4">
@@ -5190,7 +5251,7 @@
                                                         IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch7" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                        Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch7FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                                       Tag="{Binding sketch7FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                       Tag="{Binding sketch7FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                        IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="8" Grid.Column="4">
@@ -5216,7 +5277,7 @@
                                                         IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch8" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                        Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch8FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                                       Tag="{Binding sketch8FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                       Tag="{Binding sketch8FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                        IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="9" Grid.Column="4">
@@ -5244,7 +5305,7 @@
                                                         IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch9" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                        Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch9FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                                       Tag="{Binding sketch9FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                       Tag="{Binding sketch9FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                        IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="10" Grid.Column="4">
@@ -5270,7 +5331,7 @@
                                                         IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch10" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                        Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch10FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                                       Tag="{Binding sketch10FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                       Tag="{Binding sketch10FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                        IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="11" Grid.Column="4">
@@ -5296,7 +5357,7 @@
                                                         IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch11" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                        Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch11FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                                       Tag="{Binding sketch11FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                       Tag="{Binding sketch11FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                        IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="12" Grid.Column="4">
@@ -5327,7 +5388,7 @@
                                                      IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch13" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                     Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch13FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                                    Tag="{Binding sketch13FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                    Tag="{Binding sketch13FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                     IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="14" Grid.Column="4">
@@ -5353,7 +5414,7 @@
                                                    IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch14" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                   Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch14FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                                  Tag="{Binding sketch14FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                  Tag="{Binding sketch14FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                   IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="15" Grid.Column="4">
@@ -5379,7 +5440,7 @@
                                                    IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch15" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                   Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch15FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                                  Tag="{Binding sketch15FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                  Tag="{Binding sketch15FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                   IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="16" Grid.Column="4">
@@ -5405,7 +5466,7 @@
                                                    IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch16" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                   Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch16FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                                  Tag="{Binding sketch16FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                  Tag="{Binding sketch16FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                   IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="17" Grid.Column="4">
@@ -5432,7 +5493,7 @@
                                                    IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch17" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                   Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch17FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                                  Tag="{Binding sketch17FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                  Tag="{Binding sketch17FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                   IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="18" Grid.Column="4">
@@ -5459,7 +5520,7 @@
                                                    IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch18" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                                   Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch18FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                                  Tag="{Binding sketch18FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                  Tag="{Binding sketch18FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                                   IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="19" Grid.Column="4">
@@ -5485,7 +5546,7 @@
                                             IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch19" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                            Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch19FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                           Tag="{Binding sketch19FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                           Tag="{Binding sketch19FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                            IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="20" Grid.Column="4">
@@ -5511,7 +5572,7 @@
                                             IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch20" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                            Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch20FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                           Tag="{Binding sketch20FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                           Tag="{Binding sketch20FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                            IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="21" Grid.Column="4">
@@ -5537,7 +5598,7 @@
                                             IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch21" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                            Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch21FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                           Tag="{Binding sketch21FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                           Tag="{Binding sketch21FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                            IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="22" Grid.Column="4">
@@ -5564,7 +5625,7 @@
                                             IsReadOnly="True"/>
                                         <TextBox x:Name="txtSketch22" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                                            Style="{DynamicResource TextBoxInputArea}" Text="{Binding sketch22FileName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                                           Tag="{Binding sketch22FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                           Tag="{Binding sketch22FilePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MouseEnter="txtFileTextBox_MouseEnter"
                                            IsReadOnly="True" IsEnabled="False"/>
                                     </Grid>
                                     <Grid Grid.Row="23" Grid.Column="4">

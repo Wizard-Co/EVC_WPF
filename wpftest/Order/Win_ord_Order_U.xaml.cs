@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -10,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -18,7 +20,6 @@ using WizMes_EVC.Order.Pop;
 using WizMes_EVC.PopUp;
 using WizMes_EVC.PopUP;
 using WPF.MDI;
-using Excel = Microsoft.Office.Interop.Excel;
 
 /**************************************************************************************************
 '** 프로그램명 : Win_ord_Order_U
@@ -70,6 +71,8 @@ namespace WizMes_EVC
         bool isBringLastOrder = false;
         bool boolCallEst = false;
 
+        private ToolTip currentToolTip;
+        private System.Windows.Threading.DispatcherTimer currentTimer;
 
         //Win_ord_Pop_PreOrder preOrder = new Win_ord_Pop_PreOrder();
 
@@ -933,6 +936,10 @@ namespace WizMes_EVC
                 this.DataContext = new object(); 
                 ClearGrdInput();
 
+                //ovcOrder_Acc.Clear();
+                //ovcOrder_localGov.Clear();
+                //dgdAcc.ItemsSource = ovcOrder_Acc;
+                //dgdLocalGov.ItemsSource = ovcOrder_localGov;
 
                 rowAddAccnt();
                 //var args = new SelectionChangedEventArgs(
@@ -1725,7 +1732,7 @@ namespace WizMes_EVC
 
         private void fillAccGrid(string orderId)
         {
-           dgdAcc.ItemsSource = null;
+            dgdAcc.ItemsSource = null;
             ovcOrder_Acc.Clear();
 
             try
@@ -1773,7 +1780,8 @@ namespace WizMes_EVC
                                 chargeStandReqDate = DateTypeHyphen(dr["chargeStandReqDate"].ToString()),
                                 chargeStandInwareDate= DateTypeHyphen(dr["chargeStandInwareDate"].ToString()),
                                 Comments = dr["Comments"].ToString(),
-               
+                                ovcOrderTypeAcc = ovcOrderTypeAcc
+
                             };
                             sum += (int)RemoveComma(accList.chargeInwareUnitPrice,true) * (int)RemoveComma(accList.chargeInwareQty,true);
 
@@ -3026,6 +3034,67 @@ namespace WizMes_EVC
             return DigitsTime;
         }
 
+        private void ShowTooltipMessage(FrameworkElement element, string message, PlacementMode placement = PlacementMode.Bottom)
+        {
+            // 이미 열려있는 툴팁이 있다면 닫기
+            if (currentToolTip != null && currentToolTip.IsOpen)
+            {
+                currentToolTip.IsOpen = false;
+                if (currentTimer != null)
+                {
+                    currentTimer.Stop();
+                    currentTimer = null;
+                }
+            }
+
+            // 새 툴팁 생성
+            var tooltip = new ToolTip
+            {
+                Content = message,
+                PlacementTarget = element,
+                Placement = placement,
+                IsOpen = true
+            };
+
+            // 위치에 따른 설정
+            if (placement == PlacementMode.Bottom)
+            {
+                tooltip.VerticalOffset = 5;
+            }
+            else if (placement == PlacementMode.Right)
+            {
+                tooltip.Placement = PlacementMode.Bottom;
+                tooltip.VerticalOffset = 5;
+
+                element.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    double offset = element.ActualWidth - tooltip.ActualWidth;
+                    tooltip.HorizontalOffset = offset;
+                }));
+            }       
+
+            currentToolTip = tooltip;
+
+            // 3초 후 툴팁 자동 닫기
+            var timer = new System.Windows.Threading.DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(3)
+            };
+            timer.Tick += (s, eventArgs) =>
+            {
+                tooltip.IsOpen = false;
+                timer.Stop();
+            };
+            timer.Start();
+            currentTimer = timer;
+        }
+
+        //오른쪽 클릭으로 복사 붙여넣기 방지
+        private void TextBox_PastingHandler(object sender, DataObjectPastingEventArgs e)
+        {
+            e.CancelCommand();
+        }
+
         //셀에 복사 붙여넣기 방지
         private void TextBox_PreventCopyPaste(object sender, KeyEventArgs e)
         {
@@ -3040,7 +3109,37 @@ namespace WizMes_EVC
         private void TextBox_NumberValidation(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
+            if (regex.IsMatch(e.Text))
+            {
+                e.Handled = true;
+                ShowTooltipMessage(sender as FrameworkElement, "숫자만 입력 가능합니다.", PlacementMode.Right);
+            }
+        }
+
+        //셀에 숫자와 음수 기호 입력 허용
+        private void TextBox_NumberValidationWithMinus(object sender, TextCompositionEventArgs e)
+        {
+            // 이미 입력된 텍스트 가져오기
+            TextBox textBox = sender as TextBox;
+            string currentText = textBox.Text;
+
+            // 새로운 텍스트 (현재 입력 포함)
+            string newText = currentText.Substring(0, textBox.SelectionStart) + e.Text + currentText.Substring(textBox.SelectionStart + textBox.SelectionLength);
+
+            // '-'는 첫 번째 위치에만 허용
+            if (e.Text == "-" && textBox.SelectionStart == 0 && !currentText.Contains("-"))
+            {
+                e.Handled = false;
+                return;
+            }
+
+            // 나머지 문자는 숫자만 허용
+            Regex regex = new Regex("[^0-9]+");
+            if (regex.IsMatch(e.Text))
+            {
+                e.Handled = true;
+                ShowTooltipMessage(sender as FrameworkElement, "숫자형태만 입력 가능합니다.", PlacementMode.Right);
+            }
         }
 
         private void TextBox_DatePicker(object sender, RoutedEventArgs e)
@@ -4563,15 +4662,25 @@ namespace WizMes_EVC
                     }
                     else if (child is DataGrid dgd)
                     {
-                    
-                        if (dgd.Items.Count > 0)
+                        if (dgd.ItemsSource != null)
                         {
-                            dgd.ItemsSource = null;
-                            dgd.Items.Clear();
+                            var originalCollection = dgd.ItemsSource;
+                            dgd.ItemsSource = null; // 연결 해제
+
+                            if (originalCollection is IList list)
+                            {
+                                list.Clear();                          
+                                dgd.ItemsSource = originalCollection;
+                            }
+                            else if (originalCollection is ObservableCollection<object> ovc)
+                            {
+                                ovc.Clear();                     
+                                dgd.ItemsSource = originalCollection;
+                            }
+                     
                         }
-                                          
                     }
-              
+
                 });
             }           
         }
@@ -6499,7 +6608,7 @@ namespace WizMes_EVC
             Button button = sender as Button;
             string xName = button.Name;
 
-
+            
             if (xName.Contains("AccItem"))
             {
                 int num = dgdAcc.Items.Count + 1;
@@ -7696,6 +7805,18 @@ namespace WizMes_EVC
             {
                 chkSaledamdangjaNameSrh.IsChecked = false; ;
                 txtSaledamdangjaNameSrh.IsEnabled = false;
+            }
+        }
+
+        private void txtFileTextBox_MouseEnter(object sender, MouseEventArgs e)
+        {
+            TextBox textBlock = sender as TextBox;
+            if(textBlock != null && !string.IsNullOrEmpty(textBlock.Text))
+            {
+                ToolTip tooltip = new ToolTip();
+                tooltip.Content = textBlock.Text;
+                textBlock.ToolTip = tooltip;
+                tooltip.StaysOpen = true;
             }
         }
 
