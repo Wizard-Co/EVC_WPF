@@ -987,7 +987,16 @@ namespace WizMes_EVC
         {
             if (obj == null)
             {
-                return returnAsNumber ? (object)0 : "0";
+                if (!returnAsNumber) return "0";
+
+                // null일 때도 returnType에 따라 적절한 타입의 0 반환
+                switch (returnType?.Name)
+                {
+                    case "Decimal": return (object)0m;
+                    case "Double": return (object)0d;
+                    case "Int64": return (object)0L;
+                    default: return (object)0;
+                }
             }
 
             string digits = obj.ToString()
@@ -996,12 +1005,16 @@ namespace WizMes_EVC
 
             if (string.IsNullOrEmpty(digits))
             {
-                return returnAsNumber ? (object)0 : "0";
-            }
+                if (!returnAsNumber) return "0";
 
-            if (!returnAsNumber)
-            {
-                return digits;
+                // returnType을 활용해서 적절한 타입으로 반환
+                switch (returnType?.Name)
+                {
+                    case "Decimal": return (object)0m;
+                    case "Double": return (object)0d;
+                    case "Int64": return (object)0L;
+                    default: return (object)0;
+                }
             }
 
             try
