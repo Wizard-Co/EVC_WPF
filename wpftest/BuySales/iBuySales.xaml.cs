@@ -586,6 +586,7 @@ namespace WizMes_EVC
                 sqlParameter.Add("searchCustomID", "");
                 sqlParameter.Add("chkOrderID", 1);
                 sqlParameter.Add("orderID", orderID);
+                sqlParameter.Add("chkLocation", 0);
                 sqlParameter.Add("location", "");
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_OrderCost_sOrder", sqlParameter, true, "R");
