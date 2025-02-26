@@ -407,12 +407,12 @@ namespace WizMes_EVC
             if (e.Key == Key.Enter)
             {
                 e.Handled = true;
-                MainWindow.pf.ReturnCode(txtOrderNum, (int)Defind_CodeFind.DCF_ORDER, "");
+                MainWindow.pf.ReturnCode(txtOrderNum, (int)Defind_CodeFind.DCF_REQ, "");
             }
         }
         private void btnOrderNum_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.pf.ReturnCode(txtOrderNum, (int)Defind_CodeFind.DCF_ORDER, "");
+            MainWindow.pf.ReturnCode(txtOrderNum, (int)Defind_CodeFind.DCF_REQ, "");
         }
 
         // 입고구분

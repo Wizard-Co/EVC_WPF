@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -10,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -18,7 +20,6 @@ using WizMes_EVC.Order.Pop;
 using WizMes_EVC.PopUp;
 using WizMes_EVC.PopUP;
 using WPF.MDI;
-using Excel = Microsoft.Office.Interop.Excel;
 
 /**************************************************************************************************
 '** 프로그램명 : Win_ord_Order_U
@@ -70,6 +71,8 @@ namespace WizMes_EVC
         bool isBringLastOrder = false;
         bool boolCallEst = false;
 
+        private ToolTip currentToolTip;
+        private System.Windows.Threading.DispatcherTimer currentTimer;
 
         //Win_ord_Pop_PreOrder preOrder = new Win_ord_Pop_PreOrder();
 
@@ -933,12 +936,18 @@ namespace WizMes_EVC
                 this.DataContext = new object(); 
                 ClearGrdInput();
 
-                var args = new SelectionChangedEventArgs(
-                           TabControl.SelectionChangedEvent,
-                           new List<object>(), // 이전 선택 항목들
-                           new List<object> { grdTabs.SelectedItem } // 새로 선택된 항목들
-);
-                grdTabs.RaiseEvent(args);
+                //ovcOrder_Acc.Clear();
+                //ovcOrder_localGov.Clear();
+                //dgdAcc.ItemsSource = ovcOrder_Acc;
+                //dgdLocalGov.ItemsSource = ovcOrder_localGov;
+
+                rowAddAccnt();
+                //var args = new SelectionChangedEventArgs(
+                //           TabControl.SelectionChangedEvent,
+                //           new List<object>(), // 이전 선택 항목들
+                //           new List<object> { grdTabs.SelectedItem } // 새로 선택된 항목들
+                //);
+                //grdTabs.RaiseEvent(args);
                 tabCheckTrue();
             }
             else { BringLastOrder(orderID_global); ClearGrdFtpTextBox(); }
@@ -1723,7 +1732,7 @@ namespace WizMes_EVC
 
         private void fillAccGrid(string orderId)
         {
-           dgdAcc.ItemsSource = null;
+            dgdAcc.ItemsSource = null;
             ovcOrder_Acc.Clear();
 
             try
@@ -1771,7 +1780,8 @@ namespace WizMes_EVC
                                 chargeStandReqDate = DateTypeHyphen(dr["chargeStandReqDate"].ToString()),
                                 chargeStandInwareDate= DateTypeHyphen(dr["chargeStandInwareDate"].ToString()),
                                 Comments = dr["Comments"].ToString(),
-               
+                                ovcOrderTypeAcc = ovcOrderTypeAcc
+
                             };
                             sum += (int)RemoveComma(accList.chargeInwareUnitPrice,true) * (int)RemoveComma(accList.chargeInwareQty,true);
 
@@ -2564,7 +2574,7 @@ namespace WizMes_EVC
                             {
                                 column1Date = DateTypeHyphen(dr["column1Date"].ToString()),
                                 column2Amount = stringFormatN0(dr["column2Amount"]),
-                                column3Comment = stringFormatN0(dr["column3Comment"]),                             
+                                column3Comment = dr["column3Comment"].ToString(),                             
 
                                 // 스타일 관련 속성 추가
                                 isBold = (rowCount % 4 == 3),  // 4번째 행
@@ -2873,7 +2883,16 @@ namespace WizMes_EVC
         {
             if (obj == null)
             {
-                return returnAsNumber ? (object)0 : "0";
+                if (!returnAsNumber) return "0";
+
+                // null일 때도 returnType에 따라 적절한 타입의 0 반환
+                switch (returnType?.Name)
+                {
+                    case "Decimal": return (object)0m;
+                    case "Double": return (object)0d;
+                    case "Int64": return (object)0L;
+                    default: return (object)0;
+                }
             }
 
             string digits = obj.ToString()
@@ -2882,13 +2901,18 @@ namespace WizMes_EVC
 
             if (string.IsNullOrEmpty(digits))
             {
-                return returnAsNumber ? (object)0 : "0";
+                if (!returnAsNumber) return "0";
+
+                // returnType을 활용해서 적절한 타입으로 반환
+                switch (returnType?.Name)
+                {
+                    case "Decimal": return (object)0m;
+                    case "Double": return (object)0d;
+                    case "Int64": return (object)0L;
+                    default: return (object)0;
+                }
             }
 
-            if (!returnAsNumber)
-            {
-                return digits;
-            }
 
             try
             {
@@ -3010,6 +3034,67 @@ namespace WizMes_EVC
             return DigitsTime;
         }
 
+        private void ShowTooltipMessage(FrameworkElement element, string message, PlacementMode placement = PlacementMode.Bottom)
+        {
+            // 이미 열려있는 툴팁이 있다면 닫기
+            if (currentToolTip != null && currentToolTip.IsOpen)
+            {
+                currentToolTip.IsOpen = false;
+                if (currentTimer != null)
+                {
+                    currentTimer.Stop();
+                    currentTimer = null;
+                }
+            }
+
+            // 새 툴팁 생성
+            var tooltip = new ToolTip
+            {
+                Content = message,
+                PlacementTarget = element,
+                Placement = placement,
+                IsOpen = true
+            };
+
+            // 위치에 따른 설정
+            if (placement == PlacementMode.Bottom)
+            {
+                tooltip.VerticalOffset = 5;
+            }
+            else if (placement == PlacementMode.Right)
+            {
+                tooltip.Placement = PlacementMode.Bottom;
+                tooltip.VerticalOffset = 5;
+
+                element.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    double offset = element.ActualWidth - tooltip.ActualWidth;
+                    tooltip.HorizontalOffset = offset;
+                }));
+            }       
+
+            currentToolTip = tooltip;
+
+            // 3초 후 툴팁 자동 닫기
+            var timer = new System.Windows.Threading.DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(3)
+            };
+            timer.Tick += (s, eventArgs) =>
+            {
+                tooltip.IsOpen = false;
+                timer.Stop();
+            };
+            timer.Start();
+            currentTimer = timer;
+        }
+
+        //오른쪽 클릭으로 복사 붙여넣기 방지
+        private void TextBox_PastingHandler(object sender, DataObjectPastingEventArgs e)
+        {
+            e.CancelCommand();
+        }
+
         //셀에 복사 붙여넣기 방지
         private void TextBox_PreventCopyPaste(object sender, KeyEventArgs e)
         {
@@ -3024,7 +3109,37 @@ namespace WizMes_EVC
         private void TextBox_NumberValidation(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
+            if (regex.IsMatch(e.Text))
+            {
+                e.Handled = true;
+                ShowTooltipMessage(sender as FrameworkElement, "숫자만 입력 가능합니다.", PlacementMode.Right);
+            }
+        }
+
+        //셀에 숫자와 음수 기호 입력 허용
+        private void TextBox_NumberValidationWithMinus(object sender, TextCompositionEventArgs e)
+        {
+            // 이미 입력된 텍스트 가져오기
+            TextBox textBox = sender as TextBox;
+            string currentText = textBox.Text;
+
+            // 새로운 텍스트 (현재 입력 포함)
+            string newText = currentText.Substring(0, textBox.SelectionStart) + e.Text + currentText.Substring(textBox.SelectionStart + textBox.SelectionLength);
+
+            // '-'는 첫 번째 위치에만 허용
+            if (e.Text == "-" && textBox.SelectionStart == 0 && !currentText.Contains("-"))
+            {
+                e.Handled = false;
+                return;
+            }
+
+            // 나머지 문자는 숫자만 허용
+            Regex regex = new Regex("[^0-9]+");
+            if (regex.IsMatch(e.Text))
+            {
+                e.Handled = true;
+                ShowTooltipMessage(sender as FrameworkElement, "숫자형태만 입력 가능합니다.", PlacementMode.Right);
+            }
         }
 
         private void TextBox_DatePicker(object sender, RoutedEventArgs e)
@@ -3410,28 +3525,28 @@ namespace WizMes_EVC
                                     //운영사 시공비
                                     case 0: //운영사시공비 선금
                                         sqlParameter.Add("accntMgrWorkPreTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntMgrWorkPreAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntMgrWorkPreAmount", Convert.ToDecimal(RemoveComma(accntItem.column2Amount, true, typeof(decimal))));
                                         sqlParameter.Add("accntMgrWorkPreAmountComments", accntItem.column3Comment);
                                         sqlParameter.Add("accntMgrWorkPreTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntMgrWorkPreTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 1: //운영사시공비 중도금
                                         sqlParameter.Add("accntMgrWorkInterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntMgrWorkInterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntMgrWorkInterAmount", Convert.ToDecimal(RemoveComma(accntItem.column2Amount, true, typeof(decimal))));
                                         sqlParameter.Add("accntMgrWorkInterComments", accntItem.column3Comment);
                                         sqlParameter.Add("accntMgrWorkInterTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntMgrWorkInterTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 2: //운영사시공비 잔금
                                         sqlParameter.Add("accntMgrWorkAfterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntMgrWorkAfterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntMgrWorkAfterAmount", Convert.ToDecimal(RemoveComma(accntItem.column2Amount, true, typeof(decimal))));
                                         sqlParameter.Add("accntMgrWorkAfterAmountComments", accntItem.column3Comment);
                                         sqlParameter.Add("accntMgrWorkAfterTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntMgrWorkAfterTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 3: //운영사시공비 총액
                                         sqlParameter.Add("accntMgrWorkTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntMgrWorkAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntMgrWorkAmount", Convert.ToDecimal(RemoveComma(accntItem.column2Amount, true, typeof(decimal))));
                                         sqlParameter.Add("accntMgrWorkAmountComments", accntItem.column3Comment);
                                         sqlParameter.Add("accntMgrWorkTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntMgrWorkTaxFileName", accntItem.column5FileName);
@@ -3439,28 +3554,28 @@ namespace WizMes_EVC
                                     //운영사 영업비
                                     case 4: //운영사 영업비 선금
                                         sqlParameter.Add("accntMgrSalesPreTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntMgrSalesPreAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntMgrSalesPreAmount", Convert.ToDecimal(RemoveComma(accntItem.column2Amount, true, typeof(decimal))));
                                         sqlParameter.Add("accntMgrSalesPreAmountComments", accntItem.column3Comment);
                                         sqlParameter.Add("accntMgrSalesPreTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntMgrSalesPreTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 5: //운영사 영업비 중도금
                                         sqlParameter.Add("accntMgrSalesInterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntMgrSalesInterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntMgrSalesInterAmount", Convert.ToDecimal(RemoveComma(accntItem.column2Amount, true, typeof(decimal))));
                                         sqlParameter.Add("accntMgrSalesInterAmountComments", accntItem.column3Comment);
                                         sqlParameter.Add("accntMgrSalesInterTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntMgrSalesInterTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 6: //운영사 영업비 잔금
                                         sqlParameter.Add("accntMgrSalesAfterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntMgrSalesAfterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntMgrSalesAfterAmount", Convert.ToDecimal(RemoveComma(accntItem.column2Amount, true, typeof(decimal))));
                                         sqlParameter.Add("accntMgrSalesAfterAmountComments", accntItem.column3Comment);
                                         sqlParameter.Add("accntMgrSalesAfterTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntMgrSalesAfterTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 7: //운영사 영업비 총액
                                         sqlParameter.Add("accntMgrSalesTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntMgrSalesAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntMgrSalesAmount", Convert.ToDecimal(RemoveComma(accntItem.column2Amount, true, typeof(decimal))));
                                         sqlParameter.Add("accntMgrSalesAmountComments", accntItem.column3Comment);
                                         sqlParameter.Add("accntMgrSalesTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntMgrSalesTaxFileName", accntItem.column5FileName);
@@ -3468,28 +3583,28 @@ namespace WizMes_EVC
                                     //시공팀
                                     case 8: //시공팀 선금
                                         sqlParameter.Add("accntWorkPreTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntWorkPreAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntWorkPreAmount", Convert.ToDecimal(RemoveComma(accntItem.column2Amount, true, typeof(decimal))));
                                         sqlParameter.Add("accntWorkPreAmountComments", accntItem.column3Comment);
                                         sqlParameter.Add("accntWorkPreTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntWorkPreTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 9: //시공팀 중도금
                                         sqlParameter.Add("accntWorkInterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntWorkInterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntWorkInterAmount", Convert.ToDecimal(RemoveComma(accntItem.column2Amount, true, typeof(decimal))));
                                         sqlParameter.Add("accntWorkInterAmountComments", accntItem.column3Comment);
                                         sqlParameter.Add("accntWorkInterTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntWorkInterTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 10: //시공팀 잔금
                                         sqlParameter.Add("accntWorkAfterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntWorkAfterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntWorkAfterAmount", Convert.ToDecimal(RemoveComma(accntItem.column2Amount, true, typeof(decimal))));
                                         sqlParameter.Add("accntWorkAfterAmountComments", accntItem.column3Comment);
                                         sqlParameter.Add("accntWorkAfterTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntWorkAfterTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 11: //시공팀 총액
                                         sqlParameter.Add("accntWorkTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntWorkAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntWorkAmount", Convert.ToDecimal(RemoveComma(accntItem.column2Amount, true, typeof(decimal))));
                                         sqlParameter.Add("accntWorkAmountComments", accntItem.column3Comment);
                                         sqlParameter.Add("accntWorkTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntWorkTaxFileName", accntItem.column5FileName);
@@ -3497,28 +3612,28 @@ namespace WizMes_EVC
                                     //영업팀
                                     case 12: //영업팀 선금
                                         sqlParameter.Add("accntSalesPreTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntSalesPreAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntSalesPreAmount", Convert.ToDecimal(RemoveComma(accntItem.column2Amount, true, typeof(decimal))));
                                         sqlParameter.Add("accntSalesPreAmountComments", accntItem.column3Comment);
                                         sqlParameter.Add("accntSalesPreTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntSalesPreTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 13: //영업팀 중도금
                                         sqlParameter.Add("accntSalesInterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntSalesInterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntSalesInterAmount", Convert.ToDecimal(RemoveComma(accntItem.column2Amount, true, typeof(decimal))));
                                         sqlParameter.Add("accntSalesInterAmountComments", accntItem.column3Comment);
                                         sqlParameter.Add("accntSalesInterTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntSalesInterTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 14: //영업팀 잔금
                                         sqlParameter.Add("accntSalesAfterTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntSalesAfterAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntSalesAfterAmount", Convert.ToDecimal(RemoveComma(accntItem.column2Amount, true, typeof(decimal))));
                                         sqlParameter.Add("accntSalesAfterAmountComments", accntItem.column3Comment);
                                         sqlParameter.Add("accntSalesAfterTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntSalesAfterTaxFileName", accntItem.column5FileName);
                                         break;
                                     case 15: //영업팀 총액
                                         sqlParameter.Add("accntSalesTaxPrintDate", RemoveHyphen(accntItem.column1Date));
-                                        sqlParameter.Add("accntSalesAmount", (decimal)RemoveComma(accntItem.column2Amount, true, typeof(decimal)));
+                                        sqlParameter.Add("accntSalesAmount", Convert.ToDecimal(RemoveComma(accntItem.column2Amount, true, typeof(decimal))));
                                         sqlParameter.Add("accntSalesAmountComments", accntItem.column3Comment);
                                         sqlParameter.Add("accntSalesTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntSalesTaxFileName", accntItem.column5FileName);
@@ -4547,15 +4662,25 @@ namespace WizMes_EVC
                     }
                     else if (child is DataGrid dgd)
                     {
-                    
-                        if (dgd.Items.Count > 0)
+                        if (dgd.ItemsSource != null)
                         {
-                            dgd.ItemsSource = null;
-                            dgd.Items.Clear();
+                            var originalCollection = dgd.ItemsSource;
+                            dgd.ItemsSource = null; // 연결 해제
+
+                            if (originalCollection is IList list)
+                            {
+                                list.Clear();                          
+                                dgd.ItemsSource = originalCollection;
+                            }
+                            else if (originalCollection is ObservableCollection<object> ovc)
+                            {
+                                ovc.Clear();                     
+                                dgd.ItemsSource = originalCollection;
+                            }
+                     
                         }
-                                          
                     }
-              
+
                 });
             }           
         }
@@ -6483,7 +6608,7 @@ namespace WizMes_EVC
             Button button = sender as Button;
             string xName = button.Name;
 
-
+            
             if (xName.Contains("AccItem"))
             {
                 int num = dgdAcc.Items.Count + 1;
@@ -7680,6 +7805,18 @@ namespace WizMes_EVC
             {
                 chkSaledamdangjaNameSrh.IsChecked = false; ;
                 txtSaledamdangjaNameSrh.IsEnabled = false;
+            }
+        }
+
+        private void txtFileTextBox_MouseEnter(object sender, MouseEventArgs e)
+        {
+            TextBox textBlock = sender as TextBox;
+            if(textBlock != null && !string.IsNullOrEmpty(textBlock.Text))
+            {
+                ToolTip tooltip = new ToolTip();
+                tooltip.Content = textBlock.Text;
+                textBlock.ToolTip = tooltip;
+                tooltip.StaysOpen = true;
             }
         }
 
