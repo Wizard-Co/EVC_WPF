@@ -242,6 +242,7 @@ namespace WizMes_EVC
         private void chkOrderIDSrh_Unchecked(object sender, RoutedEventArgs e)
         {
             txtOrderIDSrh.IsEnabled = false;
+            btnPfOrderIDSrh.IsEnabled = false;
         }
 
         private void txtOrderIDSrh_KeyDown(object sender, KeyEventArgs e)
@@ -413,6 +414,7 @@ namespace WizMes_EVC
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             defaltMode();
+            initInput();
             FillGrid();
             dgdMain.SelectedIndex = rowNum;
         }
@@ -485,6 +487,16 @@ namespace WizMes_EVC
                 dgdSubSum.Items.Clear();
             }
         }
+        
+        private void initInput()
+        {
+            txtOrderID.Text = "";
+            txtOrderID.Tag = "";
+            txtSalesCustom.Text = "";
+            txtSearchCustom.Text = "";
+            txtLocation.Text = "";
+            txtSalesSum.Text = "0";
+        }
         #endregion
 
        
@@ -516,7 +528,7 @@ namespace WizMes_EVC
                 sqlParameter.Add("chkLocation", chkLocationSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("location", txtLocationSrh.Text ?? "");
 
-                DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_OrderCost_sOrder", sqlParameter, true, "R");
+                DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_OrderCost_sCost", sqlParameter, true, "R");
 
                 if (ds != null && ds.Tables.Count > 0)
                 {
@@ -569,32 +581,21 @@ namespace WizMes_EVC
             }
         }
 
-        private void FillGrid(String orderID)
+        private void GetOrder(String orderID)
         {
             try
             {
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                 sqlParameter.Clear();
 
-                sqlParameter.Add("chkDate", 0);
-                sqlParameter.Add("sDate", "");
-                sqlParameter.Add("eDate", "");
-                sqlParameter.Add("chkSalesCustom", 0);
-                sqlParameter.Add("salesCustomID", "");
 
-                sqlParameter.Add("chkSearchCustom", 0);
-                sqlParameter.Add("searchCustomID", "");
-                sqlParameter.Add("chkOrderID", 1);
                 sqlParameter.Add("orderID", orderID);
-                sqlParameter.Add("chkLocation", 0);
-                sqlParameter.Add("location", "");
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_OrderCost_sOrder", sqlParameter, true, "R");
 
                 if (ds != null && ds.Tables.Count > 0)
                 {
                     DataTable dt = ds.Tables[0];
-                    int i = 0;
 
                     if (dt.Rows.Count > 0)
                     {
@@ -602,10 +603,10 @@ namespace WizMes_EVC
 
                         foreach (DataRow dr in drc)
                         {
-                            txtOrderID.Text = dr["orderID"].ToString();
+                            txtOrderID.Text = dr["orderNo"].ToString();
+                            txtOrderID.Tag = dr["orderID"].ToString();
                             txtSalesCustom.Text = dr["salesCustom"].ToString();
                             txtSearchCustom.Text = dr["searchCustom"].ToString();
-                            txtLocation.Text = dr["installLocation"].ToString();
                             txtLocation.Text = dr["installLocation"].ToString();
                             txtSalesSum.Text = dr["totalSalesAmount"].ToString();
 
@@ -635,7 +636,7 @@ namespace WizMes_EVC
 
                 sqlParameter.Add("orderID", orderID);
 
-                DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_OrderCost_sOrderCost", sqlParameter, true, "R");
+                DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_OrderCost_sCostSub", sqlParameter, true, "R");
 
                 if (ds != null && ds.Tables.Count > 0)
                 {
@@ -698,7 +699,7 @@ namespace WizMes_EVC
         {
             if (dgdSales.Items.Count != 0 || dgdBuy.Items.Count != 0)
             {
-                DeleteData(txtOrderID.Text);
+                DeleteData(txtOrderID.Tag.ToString());
 
                 for (int i = 0; i < dgdSales.Items.Count; i++)
                 {
@@ -729,8 +730,8 @@ namespace WizMes_EVC
             {
                 Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                 sqlParameter.Clear();
-                sqlParameter.Add("orderID", txtOrderID.Text);
-                sqlParameter.Add("buySalesTypeID", item.buySalesTypeID ?? ""); 
+                sqlParameter.Add("orderID", txtOrderID.Tag.ToString());
+                sqlParameter.Add("buySalesTypeID", item.buySalesTypeID ?? "");  
                 sqlParameter.Add("buySalesCodeTypeID", item.buySalesCodeTypeID);
                 sqlParameter.Add("buySalesAmount", item.buySalesAmount);
                 sqlParameter.Add("comments", item.comments);
@@ -886,10 +887,10 @@ namespace WizMes_EVC
         private void btnPfOrderID_Click(object sender, RoutedEventArgs e)
         {
             MainWindow.pf.ReturnCode(txtOrderID, 8000, "");
-            if (String.IsNullOrEmpty(txtOrderIDSrh.Text))
+            if (!String.IsNullOrEmpty(txtOrderID.Text))
             {
-                FillGrid(txtOrderID.Text);
-                FillGridSub(txtOrderID.Text);
+                GetOrder(txtOrderID.Tag.ToString());
+                FillGridSub(txtOrderID.Tag.ToString());
             }
         }
         private void txtOrderID_KeyDown(object sender, KeyEventArgs e)
@@ -897,10 +898,10 @@ namespace WizMes_EVC
             if (e.Key == Key.Enter)
             {
                 MainWindow.pf.ReturnCode(txtOrderID, 8000, "");
-                if (String.IsNullOrEmpty(txtOrderIDSrh.Text))
+                if (!String.IsNullOrEmpty(txtOrderID.Text))
                 {
-                    FillGrid(txtOrderID.Text);
-                    FillGridSub(txtOrderID.Text);
+                    GetOrder(txtOrderID.Tag.ToString());
+                    FillGridSub(txtOrderID.Tag.ToString());
                 }
             }
         }
@@ -936,7 +937,7 @@ namespace WizMes_EVC
         }
         private void btnAddRow_Sales(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtOrderID.Text))
+            if (!string.IsNullOrEmpty(txtOrderID.Tag.ToString()))
             {
                 AddRow(dgdSales);
 

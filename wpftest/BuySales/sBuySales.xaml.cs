@@ -390,7 +390,7 @@ namespace WizMes_EVC
                 sqlParameter.Add("chkLocation", chkLocationSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("location", txtLocationSrh.Text ?? "");
 
-                DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_OrderCost_sOrder", sqlParameter, true, "R");
+                DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_OrderCost_sCost", sqlParameter, true, "R");
 
                 if (ds != null && ds.Tables.Count > 0)
                 {
