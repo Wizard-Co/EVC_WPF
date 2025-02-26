@@ -3638,6 +3638,22 @@ namespace WizMes_EVC
                                         sqlParameter.Add("accntSalesTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
                                         sqlParameter.Add("accntSalesTaxFileName", accntItem.column5FileName);
                                         break;
+
+                                    case 16: //도색 총액
+                                        sqlParameter.Add("accntPaintTaxPrintDate", RemoveHyphen(accntItem.column1Date));
+                                        sqlParameter.Add("accntPaintAmount", Convert.ToDecimal(RemoveComma(accntItem.column2Amount, true, typeof(decimal))));
+                                        sqlParameter.Add("accntPaintAmountComments", accntItem.column3Comment);
+                                        sqlParameter.Add("accntPaintTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
+                                        sqlParameter.Add("accntPaintTaxFileName", accntItem.column5FileName);
+                                        break;
+
+                                    case 17: //기타 총액
+                                        sqlParameter.Add("accntEtcTaxPrintDate", RemoveHyphen(accntItem.column1Date));
+                                        sqlParameter.Add("accntEtcAmount", Convert.ToDecimal(RemoveComma(accntItem.column2Amount, true, typeof(decimal))));
+                                        sqlParameter.Add("accntEtcAmountComments", accntItem.column3Comment);
+                                        sqlParameter.Add("accntEtcTaxFilePath", !string.IsNullOrEmpty(accntItem.column4FilePath) ? "/ImageData/Order" + orderID : "");
+                                        sqlParameter.Add("accntEtcTaxFileName", accntItem.column5FileName);
+                                        break;
                                 }
                             }
                         }
@@ -4550,7 +4566,7 @@ namespace WizMes_EVC
                 int currentRowIndex = currentGrid.Items.IndexOf(cell.DataContext);
                 int currentColumnIndex = cell.Column.DisplayIndex;
 
-                if (currentColumnIndex == 1)
+                if (currentColumnIndex == 1 && currentRowIndex < 16)
                 {
                     var currentItem = currentGrid.Items[currentRowIndex] as Win_order_Order_U_CodView_dgdAccnt;
                     if (currentItem == null) return;
@@ -6655,7 +6671,7 @@ namespace WizMes_EVC
 
             if (dgdAccnt.Items.Count > 0) dgdAccnt.Items.Clear();        
 
-            int count = 16;
+            int count = 18;
             for (int i = 0; i < count; i++)
             {
                 var dgdAccntItem = Win_order_Order_U_CodView_dgdAccnt.CreateEmpty_dgdAccnt_row();

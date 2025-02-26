@@ -4643,30 +4643,39 @@
                                                 <Grid Margin="0">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition MinHeight="26" MaxHeight="20"/>
-                                                        <RowDefinition MinHeight="26" MaxHeight="26"/>
                                                         <!--운영사시공비-->
+                                                        <RowDefinition MinHeight="26" MaxHeight="26"/>                                                       
                                                         <RowDefinition MinHeight="26" MaxHeight="26"/>
                                                         <RowDefinition MinHeight="26" MaxHeight="26"/>
                                                         <RowDefinition MinHeight="26" MaxHeight="26"/>
                                                         <!--운영사시공비end-->
-                                                        <RowDefinition MinHeight="26" MaxHeight="26"/>
+                                                        
                                                         <!--운영사영업비-->
+                                                        <RowDefinition MinHeight="26" MaxHeight="26"/>                                                       
                                                         <RowDefinition MinHeight="26" MaxHeight="26"/>
                                                         <RowDefinition MinHeight="26" MaxHeight="26"/>
                                                         <RowDefinition MinHeight="26" MaxHeight="26"/>
                                                         <!--운영사영업비end-->
-                                                        <RowDefinition MinHeight="26" MaxHeight="26"/>
+
                                                         <!--시공팀-->
+                                                        <RowDefinition MinHeight="26" MaxHeight="26"/>                                                     
                                                         <RowDefinition MinHeight="26" MaxHeight="26"/>
                                                         <RowDefinition MinHeight="26" MaxHeight="26"/>
                                                         <RowDefinition MinHeight="26" MaxHeight="26"/>
+                                                    
                                                         <!--시공팀end-->
-                                                        <RowDefinition MinHeight="26" MaxHeight="26"/>
+                                                     
                                                         <!--영업사원-->
                                                         <RowDefinition MinHeight="26" MaxHeight="26"/>
                                                         <RowDefinition MinHeight="26" MaxHeight="26"/>
                                                         <RowDefinition MinHeight="26" MaxHeight="26"/>
+                                                        <RowDefinition MinHeight="26" MaxHeight="26"/>
                                                         <!--영업사원end-->
+
+                                                        <!--도색-->
+                                                        <RowDefinition MinHeight="26" MaxHeight="26"/>
+                                                        <!--기타-->
+                                                        <RowDefinition MinHeight="26" MaxHeight="26"/>
 
                                                     </Grid.RowDefinitions>
                                                     <DataGridRowHeader Grid.Row="0" Content="구분" Style="{StaticResource RowHeaderStyle}" VerticalAlignment="Stretch" />
@@ -4747,6 +4756,35 @@
                                                             <DataGridRowHeader Grid.Column="0" Grid.Row="1" Content="중도금" Style="{StaticResource RowHeaderStyle}"/>
                                                             <DataGridRowHeader Grid.Column="0" Grid.Row="2" Content="잔액" Style="{StaticResource RowHeaderStyle}"/>
                                                             <DataGridRowHeader Grid.Column="0" Grid.Row="3" Content="총액" Style="{StaticResource RowHeaderStyle}"/>
+                                                        </Grid>
+                                                    </Grid>
+
+                                                    <Grid Grid.Row="17">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="5*"/>
+                                                            <ColumnDefinition Width="10*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <DataGridRowHeader Grid.Column="0" Content="도   색" Style="{StaticResource RowHeaderStyleNoMaxHeight}"/>
+                                                        <Grid Grid.Column="1">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition MaxHeight="26"/>
+                                                            </Grid.RowDefinitions>
+                                                            <DataGridRowHeader Grid.Column="0" Grid.Row="0" Content="총액"  Style="{StaticResource RowHeaderStyle}"/>
+                                                        </Grid>
+                                                    </Grid>
+
+
+                                                    <Grid Grid.Row="18">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="5*"/>
+                                                            <ColumnDefinition Width="10*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <DataGridRowHeader Grid.Column="0" Content="기   타" Style="{StaticResource RowHeaderStyleNoMaxHeight}"/>
+                                                        <Grid Grid.Column="1">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition MaxHeight="26"/>
+                                                            </Grid.RowDefinitions>
+                                                            <DataGridRowHeader Grid.Column="0" Grid.Row="0" Content="총액"  Style="{StaticResource RowHeaderStyle}"/>
                                                         </Grid>
                                                     </Grid>
                                                 </Grid>
