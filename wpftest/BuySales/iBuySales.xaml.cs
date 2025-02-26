@@ -937,7 +937,7 @@ namespace WizMes_EVC
         }
         private void btnAddRow_Sales(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtOrderID.Tag.ToString()))
+            if (!string.IsNullOrEmpty(txtOrderID.Text))
             {
                 AddRow(dgdSales);
 
