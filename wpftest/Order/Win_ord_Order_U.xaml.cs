@@ -5062,78 +5062,95 @@ namespace WizMes_EVC
 
         private void FTP_Upload_TextBox(TextBox textBox)
         {
-            if (!textBox.Text.Equals(string.Empty) && strFlag.Equals("U"))
-            {  
-                MessageBox.Show("먼저 해당파일의 삭제를 진행 후 진행해주세요.");
-                return;
-            }
-            else
+
+            try
             {
-
-
-                Microsoft.Win32.OpenFileDialog OFdlg = new Microsoft.Win32.OpenFileDialog();
-                //OFdlg.Filter =
-                //    "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png, *.pcx, *.pdf) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png; *.pcx; *.pdf | All Files|*.*";
-
-                OFdlg.Filter = "모든 파일 (*.*)|*.*";
-
-                Nullable<bool> result = OFdlg.ShowDialog();
-                if (result == true)
+                if (!textBox.Text.Equals(string.Empty) && strFlag.Equals("U"))
                 {
-                    // 선택된 파일의 확장자 체크
-                    if (MainWindow.OFdlg_Filter_NotAllowed.Contains(Path.GetExtension(OFdlg.FileName).ToLower()))
+                    MessageBox.Show("먼저 해당파일의 삭제를 진행 후 진행해주세요.");
+                    return;
+                }
+                else
+                {
+
+
+                    Microsoft.Win32.OpenFileDialog OFdlg = new Microsoft.Win32.OpenFileDialog();
+                    //OFdlg.Filter =
+                    //    "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png, *.pcx, *.pdf) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png; *.pcx; *.pdf | All Files|*.*";
+
+                    OFdlg.Filter = "모든 파일 (*.*)|*.*";
+
+                    Nullable<bool> result = OFdlg.ShowDialog();
+                    if (result == true)
                     {
-                        MessageBox.Show("보안상의 이유로 해당 파일은 업로드할 수 없습니다.");
-                        return;
-                    }
+                        // 선택된 파일의 확장자 체크
+                        if (MainWindow.OFdlg_Filter_NotAllowed.Contains(Path.GetExtension(OFdlg.FileName).ToLower()))
+                        {
+                            MessageBox.Show("보안상의 이유로 해당 파일은 업로드할 수 없습니다.");
+                            return;
+                        }
 
-                    strFullPath = OFdlg.FileName;
+                        strFullPath = OFdlg.FileName;
 
-                    string ImageFileName = OFdlg.SafeFileName;  //명.
-                    string ImageFilePath = string.Empty;       // 경로
+                        string ImageFileName = OFdlg.SafeFileName;  //명.
+                        string ImageFilePath = string.Empty;       // 경로
 
 
-                    // 파일명 유효성 검사 추가
-                    //if (!IsValidFileName(ImageFileName))
-                    //{
-                    //    MessageBox.Show("파일명에 허용되지 않는 특수문자가 포함되어 있습니다.\n시스템 저장시 오류를 일으킬 수 있으므로 변경 후 첨부하여 주세요");
-                    //    return;
-                    //}
+                        //프로세스 점유중인 파일도 스트림 가능한데 이거하려면 FTP업로드하는 메서드도 다 바꿔야함
+                        //long FileSize;
+                        //using (FileStream fs = new FileStream(OFdlg.FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                        //{
+                        //    FileSize = fs.Length;
+                        //}
 
-                    ImageFilePath = strFullPath.Replace(ImageFileName, "");
+                        // 파일명 유효성 검사 추가
+                        //if (!IsValidFileName(ImageFileName))
+                        //{
+                        //    MessageBox.Show("파일명에 허용되지 않는 특수문자가 포함되어 있습니다.\n시스템 저장시 오류를 일으킬 수 있으므로 변경 후 첨부하여 주세요");
+                        //    return;
+                        //}
 
-                    StreamReader sr = new StreamReader(OFdlg.FileName);
-                    long FileSize = sr.BaseStream.Length;
-                    //if (sr.BaseStream.Length > (4096 * 1000))
-                    //{
-                    //    //업로드 파일 사이즈범위 초과
-                    //    MessageBox.Show("이미지의 파일사이즈가 4M byte를 초과하였습니다.");
-                    //    sr.Close();
-                    //    return;
-                    //}
-                    if (sr.BaseStream.Length > (1024 * 1024 * 100))  // 100MB in bytes
-                    {
-                        //업로드 파일 사이즈범위 초과기
-                        MessageBox.Show("첨부파일 크기는 100Mb 미만 이어야 합니다.");
-                        sr.Close();
-                        return;
-                    }
-                    if (!FTP_Upload_Name_Cheking(ImageFileName))
-                    {
-                        MessageBox.Show("업로드 하려는 파일 중, 이름이 중복된 항목이 있습니다." +
-                                        "\n파일 이름을 변경하고 다시 시도하여 주세요\n다른 탭에 중복된 파일이 있는지 확인하세요.");
-                    }
-                    else
-                    {
-                        textBox.Text = ImageFileName;
-                        textBox.Tag = ImageFilePath;
+                        ImageFilePath = strFullPath.Replace(ImageFileName, "");
 
-                        string[] strTemp = new string[] { ImageFileName, ImageFilePath.ToString() };
-                        listFtpFile.Add(strTemp);
-                        lstFilesName.Add(ImageFileName);
+                        StreamReader sr = new StreamReader(OFdlg.FileName);
+                        long FileSize = sr.BaseStream.Length;
+                        //if (sr.BaseStream.Length > (4096 * 1000))
+                        //{
+                        //    //업로드 파일 사이즈범위 초과
+                        //    MessageBox.Show("이미지의 파일사이즈가 4M byte를 초과하였습니다.");
+                        //    sr.Close();
+                        //    return;
+                        //}
+                        if (sr.BaseStream.Length > (1024 * 1024 * 100))  // 100MB in bytes
+                        {
+                            //업로드 파일 사이즈범위 초과기
+                            MessageBox.Show("첨부파일 크기는 100Mb 미만 이어야 합니다.");
+                            sr.Close();
+                            return;
+                        }
+                        if (!FTP_Upload_Name_Cheking(ImageFileName))
+                        {
+                            MessageBox.Show("업로드 하려는 파일 중, 이름이 중복된 항목이 있습니다." +
+                                            "\n파일 이름을 변경하고 다시 시도하여 주세요\n다른 탭에 중복된 파일이 있는지 확인하세요.");
+                        }
+                        else
+                        {
+                            textBox.Text = ImageFileName;
+                            textBox.Tag = ImageFilePath;
+
+                            string[] strTemp = new string[] { ImageFileName, ImageFilePath.ToString() };
+                            listFtpFile.Add(strTemp);
+                            lstFilesName.Add(ImageFileName);
+                        }
                     }
                 }
             }
+            catch(Exception ex)
+            {
+                if (ex.ToString().Contains("사용 중"))
+                    MessageBox.Show("업로드하려는 파일이 열려 있습니다.\n먼저 파일을 닫고 첨부하여 주세요");
+            }
+           
         }
 
         private bool IsValidFileName(string fileName)
