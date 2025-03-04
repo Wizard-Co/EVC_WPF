@@ -18,6 +18,7 @@ using WizMes_EVC.PopUp;
 using WizMes_EVC.PopUP;
 using WizMes_EVC.Order.Pop;
 using System.Windows.Data;
+using System.Windows.Controls.Primitives;
 
 
 /**************************************************************************************************
@@ -63,7 +64,10 @@ namespace WizMes_EVC
         ObservableCollection<Win_ord_Order_EstimateSub_U_CodeView> ovcOrder_EstSub
         = new ObservableCollection<Win_ord_Order_EstimateSub_U_CodeView>();
 
-     
+
+        private ToolTip currentToolTip;
+        private System.Windows.Threading.DispatcherTimer currentTimer;
+
 
         //ObservableCollection<Win_ord_Order_Reservation_U_CodeView_RsrvStudent_Nadaum> ovcOrder_RsvrStudent
         //= new ObservableCollection<Win_ord_Order_Reservation_U_CodeView_RsrvStudent_Nadaum>();
@@ -141,6 +145,55 @@ namespace WizMes_EVC
         public Win_ord_Order_Estimate_U()
         {
             InitializeComponent();
+            if (!isUserInWorkTeam())
+            {
+
+                btnSketch6.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                btnSketch6.Visibility = Visibility.Visible;
+            }
+        }
+
+        //로그인 한 사람이 시공팀 소속인지 
+        private bool isUserInWorkTeam()
+        {
+            bool flag = true;
+
+            string[] sqlList = { "select mp.personID ,md.depart from mt_Person mp " +
+                                 "LEFT JOIN mt_Depart md on md.departID = mp.departID " +
+                                 "where PersonID =  "
+
+            };
+
+
+            //반복문을 돌다가 걸리면 종료, 경고문 띄우고 false반환
+            for (int i = 0; i < sqlList.Length; i++)
+            {
+                DataSet ds = DataStore.Instance.QueryToDataSet(sqlList[i] + "'" + MainWindow.CurrentPersonID.Trim() + "'");
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataTable dt = ds.Tables[0];
+                    if (dt.Rows.Count > 0)
+                    {
+                        if (dt.Rows[0][1].ToString().Contains("시공"))
+                        {
+                            flag = false;
+                            break;
+                        }
+
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+            }
+
+
+
+            return flag;
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -1120,6 +1173,129 @@ namespace WizMes_EVC
                 return false;
         }
 
+        private void ShowTooltipMessage(FrameworkElement element, string message, MessageBoxImage iconType = MessageBoxImage.None, PlacementMode placement = PlacementMode.Bottom)
+        {
+            // 이미 열려있는 툴팁이 있다면 닫기
+            if (currentToolTip != null && currentToolTip.IsOpen)
+            {
+                currentToolTip.IsOpen = false;
+                if (currentTimer != null)
+                {
+                    currentTimer.Stop();
+                    currentTimer = null;
+                }
+            }
+
+            object tooltipContent;
+
+            // 아이콘이 필요 없는 경우
+            if (iconType == MessageBoxImage.None)
+            {
+                tooltipContent = message;
+            }
+            else
+            {
+                // StackPanel 생성
+                var stackPanel = new StackPanel
+                {
+                    Orientation = Orientation.Horizontal
+                };
+
+                // 시스템 아이콘 설정
+                System.Drawing.Icon systemIcon;
+                switch (iconType)
+                {
+                    case MessageBoxImage.Information:
+                        systemIcon = System.Drawing.SystemIcons.Information;
+                        break;
+                    case MessageBoxImage.Warning:
+                        systemIcon = System.Drawing.SystemIcons.Warning;
+                        break;
+                    case MessageBoxImage.Error:
+                        systemIcon = System.Drawing.SystemIcons.Error;
+                        break;
+                    case MessageBoxImage.Question:
+                        systemIcon = System.Drawing.SystemIcons.Question;
+                        break;
+                    default:
+                        systemIcon = null;
+                        break;
+                }
+
+                if (systemIcon != null)
+                {
+                    // System.Drawing에서 아이콘 가져오기
+                    System.Windows.Media.Imaging.BitmapSource iconSource =
+                        System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
+                            systemIcon.Handle,
+                            System.Windows.Int32Rect.Empty,
+                            System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+
+                    // 이미지 생성
+                    var image = new Image
+                    {
+                        Source = iconSource,
+                        Width = 16,
+                        Height = 16,
+                        Margin = new Thickness(0, 0, 5, 0)
+                    };
+
+                    // StackPanel에 추가
+                    stackPanel.Children.Add(image);
+                }
+
+                // 텍스트블록 생성
+                var textBlock = new TextBlock
+                {
+                    Text = message,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+
+                stackPanel.Children.Add(textBlock);
+                tooltipContent = stackPanel;
+            }
+
+            // 새 툴팁 생성
+            var tooltip = new ToolTip
+            {
+                Content = tooltipContent,
+                PlacementTarget = element,
+                Placement = placement,
+                IsOpen = true
+            };
+
+            // 위치에 따른 설정
+            if (placement == PlacementMode.Bottom)
+            {
+                tooltip.VerticalOffset = 5;
+            }
+            else if (placement == PlacementMode.Right)
+            {
+                tooltip.Placement = PlacementMode.Bottom;
+                tooltip.VerticalOffset = 5;
+                element.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    double offset = element.ActualWidth - tooltip.ActualWidth;
+                    tooltip.HorizontalOffset = offset;
+                }));
+            }
+
+            currentToolTip = tooltip;
+
+            // 3초 후 툴팁 자동 닫기
+            var timer = new System.Windows.Threading.DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(3)
+            };
+            timer.Tick += (s, eventArgs) =>
+            {
+                tooltip.IsOpen = false;
+                timer.Stop();
+            };
+            timer.Start();
+            currentTimer = timer;
+        }
+
 
         //셀에 복사 붙여넣기 방지
         private void TextBox_PreventCopyPaste(object sender, KeyEventArgs e)
@@ -1135,7 +1311,11 @@ namespace WizMes_EVC
         private void TextBox_NumberValidation(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
+            if (regex.IsMatch(e.Text))
+            {
+                e.Handled = true;
+                ShowTooltipMessage(sender as FrameworkElement, "숫자만 입력 가능합니다.", MessageBoxImage.Error, PlacementMode.Right);
+            }
         }
 
         //셀에 숫자와 하이픈과 마침표 입력
@@ -2075,10 +2255,10 @@ namespace WizMes_EVC
                     //    sr.Close();
                     //    return;
                     //}
-                    if (sr.BaseStream.Length > (1024 * 1024 * 100))  // 100MB in bytes
+                    if (sr.BaseStream.Length > (1024 * 1024 * 500))  // 100MB in bytes
                     {
                         //업로드 파일 사이즈범위 초과기
-                        MessageBox.Show("첨부파일 크기는 100Mb 미만 이어야 합니다.");
+                        MessageBox.Show("첨부파일 크기는 500Mb 미만 이어야 합니다.");
                         sr.Close();
                         return;
                     }

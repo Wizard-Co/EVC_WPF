@@ -1081,10 +1081,11 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txthouseHoldCount" Grid.Row="4" Grid.Column="1" Text="{Binding houseHoldCount}"
+                                                InputMethod.IsInputMethodEnabled="False"
                                               PreviewKeyDown="TextBox_PreventCopyPaste"
-                                                        PreviewTextInput="TextBox_NumberValidation"
-                                                        DataObject.Pasting="TextBox_PastingHandler"
-                                                         TextAlignment="Right" VerticalContentAlignment="Center"/>
+                                              PreviewTextInput="TextBox_NumberValidation"
+                                              DataObject.Pasting="TextBox_PastingHandler"
+                                               TextAlignment="Right" VerticalContentAlignment="Center"/>
                                     </Grid>
 
                                     <!--거점명-->
@@ -1167,6 +1168,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtCarParkingCount" Grid.Row="4" Grid.Column="1" Text="{Binding carParkingCount}"
+                                                    InputMethod.IsInputMethodEnabled="False"
                                                   PreviewKeyDown="TextBox_PreventCopyPaste"
                                                     PreviewTextInput="TextBox_NumberValidation"
                                                     DataObject.Pasting="TextBox_PastingHandler"
@@ -1209,6 +1211,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtElectrCarCount" Grid.Row="4" Grid.Column="1" Text="{Binding electrCarCount}"
+                                                    InputMethod.IsInputMethodEnabled="False"
                                                  PreviewKeyDown="TextBox_PreventCopyPaste"
                                                 PreviewTextInput="TextBox_NumberValidation"
                                                 DataObject.Pasting="TextBox_PastingHandler"
@@ -1360,9 +1363,52 @@
                                             </Viewbox>
                                         </Label>
                                     </Grid>
-
-                                    <TextBox x:Name="txtInstallLocationAddComments" Grid.Row="14" Grid.ColumnSpan="4" Grid.Column="1" Grid.RowSpan="2" Text="{Binding installLocationAddComments}"
+                                    <TextBox x:Name="txtInstallLocationAddComments" Grid.Row="14" Grid.ColumnSpan="2" Grid.Column="1" Grid.RowSpan="2" Text="{Binding installLocationAddComments}"
                                        Style="{StaticResource TextBoxMultiLine}" AcceptsReturn="True" TextWrapping="Wrap"/>
+
+                                    <!--김동호 팀장 추가 요청-->
+                                    <!--CPO정산-->
+                                    <Grid Grid.Row="14" Grid.Column="3" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="85*"/>
+                                            <ColumnDefinition Width="105*"/>
+                                            <ColumnDefinition Width="20*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Row="4" Grid.Column="0" Background="Aquamarine"
+                                             Style="{DynamicResource LabelInputArea}">
+                                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                <TextBlock Text="CPO정산" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                            </Viewbox>
+                                        </Label>
+
+                                        <DatePicker x:Name="dtpCpoCalcuDate" Grid.Row="0" Grid.Column="1" 
+                                         Style="{DynamicResource DatePickerInputArea}" 
+                                         SelectedDate="{Binding cpoCalcuDate}"/>
+
+                                    </Grid>
+
+                                    <!--시공사정산-->
+                                    <Grid Grid.Row="15" Grid.Column="3" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="85*"/>
+                                            <ColumnDefinition Width="105*"/>
+                                            <ColumnDefinition Width="20*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Row="4" Grid.Column="0" Background="Cornsilk"
+                                                              Style="{DynamicResource LabelInputArea}">
+                                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                <TextBlock Text="시공사정산" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                            </Viewbox>
+                                        </Label>
+
+                                        <DatePicker x:Name="dtpConstrCalcuDate" Grid.Row="0" Grid.Column="1" 
+                                                     Style="{DynamicResource DatePickerInputArea}" 
+                                                     SelectedDate="{Binding constrCalcuDate}"/>
+
+                                    </Grid>
+
 
                                     <!--영업회사 TextBlock-->
                                     <Grid Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="3">
@@ -1593,6 +1639,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox Grid.Column="5" x:Name="txtMtrShippingCharge"  Text="{Binding mtrShippingCharge}"
+                                                    InputMethod.IsInputMethodEnabled="False"
                                                  PreviewKeyDown="TextBox_PreventCopyPaste"
                                                 PreviewTextInput="TextBox_NumberValidation"
                                                 DataObject.Pasting="TextBox_PastingHandler"
@@ -1602,7 +1649,7 @@
 
                                     <Grid x:Name="grdAcc" Grid.Row="24" Grid.ColumnSpan="6" Grid.RowSpan="7">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="20*"/>
+                                            <RowDefinition Height="22*"/>
                                             <RowDefinition Height="50*"/>
                                         </Grid.RowDefinitions>
                                         <ScrollViewer x:Name="dgdAccSV" Grid.Column="0" HorizontalScrollBarVisibility="Hidden" 
@@ -1633,6 +1680,9 @@
                                                     <!--<ColumnDefinition Width="{Binding ElementName=chargeInwareDate, Path=ActualWidth}" />-->
                                                     <ColumnDefinition Width="{Binding ElementName=chargeInwareLocation, Path=ActualWidth}" />
                                                     <ColumnDefinition Width="{Binding ElementName=canopyReqCustom, Path=ActualWidth}" />
+                                                    
+                                                    <ColumnDefinition Width="{Binding ElementName=chargeOrderQty, Path=ActualWidth}" />
+                                                    
                                                     <ColumnDefinition Width="{Binding ElementName=chargeModelHelmat, Path=ActualWidth}" />
                                                     <ColumnDefinition Width="{Binding ElementName=chargeModelinloc, Path=ActualWidth}" />
                                                     <ColumnDefinition Width="{Binding ElementName=chargeModelOneBody, Path=ActualWidth}" />
@@ -1648,17 +1698,21 @@
                                                 <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="4" Content="견적단가" FontSize="12"/>
                                                 <!--<DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="5" Content="충전기발주일" FontSize="12"/>-->
                                                 <!--<DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="6" Content="충전기입고일" FontSize="12"/>-->
-                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="5" Content="    충전기&#10;입고지정보" FontSize="12"/>
-                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="6" Content="   자재발주업체" FontSize="12"/>
+                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="5" Content="입고지정보" FontSize="12"/>
+                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="6" Content="발주업체" FontSize="12"/>
+
+                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="7" Content="  충전기&#x0a;발주수량"  FontSize="12"/>
+
+
                                                 <!--스탠드&캐노피발주업체 -> 자재 발주업체-->
-                                                <DataGridColumnHeader Grid.Row="0" Grid.Column="7" Grid.ColumnSpan="3" Content="모델구분" FontSize="12"/>
-                                                <DataGridColumnHeader Grid.Row="1" Grid.Column="7" Content="헬멧형" FontSize="12"/>
-                                                <DataGridColumnHeader Grid.Row="1" Grid.Column="8" Content="실내폴" FontSize="12"/>
-                                                <DataGridColumnHeader Grid.Row="1" Grid.Column="9" Content="일체형" FontSize="12"/>
-                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="10" Content="발주일" FontSize="12"/>
-                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="11" Content="입고일" FontSize="12"/>
-                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="12" Content="입고수량" FontSize="12"/>
-                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="13" Content="비고" FontSize="12"/>
+                                                <DataGridColumnHeader Grid.Row="0" Grid.Column="8" Grid.ColumnSpan="3" Content="모델구분" FontSize="12"/>
+                                                <DataGridColumnHeader Grid.Row="1" Grid.Column="8" Content="헬멧형" FontSize="12"/>
+                                                <DataGridColumnHeader Grid.Row="1" Grid.Column="9" Content="실내폴" FontSize="12"/>
+                                                <DataGridColumnHeader Grid.Row="1" Grid.Column="10" Content="일체형" FontSize="12"/>
+                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="11" Content="발주일" FontSize="12"/>
+                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="12" Content="입고일" FontSize="12"/>
+                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="13" Content="입고수량" FontSize="12"/>
+                                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="14" Content="비고" FontSize="12"/>
                                             </Grid>
                                         </ScrollViewer>
 
@@ -1705,6 +1759,7 @@
                                                         <DataTemplate>
                                                             <TextBox Text="{Binding article, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                                           Tag="{Binding articleID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                                          PreviewTextInput="TextBox_SearchFirst"
                                                                           KeyDown="dgdtpeGetArticleID_KeyDown" 
                                                                           Background="#c1bfff" 
                                                                           TextAlignment="Left"/>
@@ -1721,6 +1776,7 @@
                                                     <DataGridTemplateColumn.CellEditingTemplate>
                                                         <DataTemplate>
                                                             <TextBox Text="{Binding chargeInwareUnitPrice, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Padding="5 0 3 0" 
+                                                                        InputMethod.IsInputMethodEnabled="False"
                                                                     PreviewTextInput="TextBox_NumberValidation"
                                                                     PreviewKeyDown="TextBox_PreventCopyPaste"
                                                                      TextAlignment="Right" VerticalContentAlignment="Center"/>
@@ -1762,7 +1818,7 @@
                                                 </DataGridTemplateColumn>-->
 
 
-                                                <DataGridTemplateColumn Header="충전기입고지정보" x:Name="chargeInwareLocation" MinWidth="100">
+                                                <DataGridTemplateColumn Header="입고지정보" x:Name="chargeInwareLocation" MinWidth="100">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <TextBlock Text="{Binding chargeInwareLocation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center" TextAlignment="Center" Padding="5 0" />
@@ -1775,16 +1831,40 @@
                                                     </DataGridTemplateColumn.CellEditingTemplate>
                                                 </DataGridTemplateColumn>
 
-
-                                                <DataGridTemplateColumn Header="스탠드&amp;캐노피발주업체" x:Name="canopyReqCustom" MinWidth="120">
+                                                <!--스탠드&캐노피발주업체 -> 발주업체-->
+                                                <DataGridTemplateColumn Header="발주업체" x:Name="canopyReqCustom" MinWidth="120">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <TextBlock Text="{Binding canopyReqCustom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center" TextAlignment="Center" Padding="5 0" />
+                                                            <TextBlock Text="{Binding canopyReqCustom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  
+                                                                       Tag="{Binding canopyReqCustomID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                                       TextAlignment="Left" Padding="5 0 3 0" />
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
                                                     <DataGridTemplateColumn.CellEditingTemplate>
                                                         <DataTemplate>
-                                                            <TextBox Text="{Binding canopyReqCustom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TextAlignment="Center" Padding="5 0 3 0" />
+                                                            <TextBox Text="{Binding canopyReqCustom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                                     Tag="{Binding canopyReqCustomID,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                                     TextAlignment="Left" Padding="5 0 3 0"
+                                                                     KeyDown="AccGrid_canopyReqCustom_KeyDown"
+                                                                     PreviewTextInput="TextBox_SearchFirst"
+                                                                     Background="#c1bfff" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                                </DataGridTemplateColumn>
+
+                                                <DataGridTemplateColumn Header="충전기발주수량" x:Name="chargeOrderQty" MinWidth="80">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding chargeOrderQty, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center" TextAlignment="Center" Padding="5 0" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                                        <DataTemplate>
+                                                            <TextBox Text="{Binding chargeOrderQty, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Padding="5 0 3 0" 
+                                                            InputMethod.IsInputMethodEnabled="False"
+                                                           PreviewTextInput="TextBox_NumberValidation"
+                                                           PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                            TextAlignment="Right" VerticalContentAlignment="Center"/>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellEditingTemplate>
                                                 </DataGridTemplateColumn>
@@ -1876,6 +1956,7 @@
                                                     <DataGridTemplateColumn.CellEditingTemplate>
                                                         <DataTemplate>
                                                             <TextBox Text="{Binding chargeInwareQty, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Padding="5 0 3 0" 
+                                                                    InputMethod.IsInputMethodEnabled="False"
                                                                     PreviewTextInput="TextBox_NumberValidation"
                                                                     PreviewKeyDown="TextBox_PreventCopyPaste"
                                                                     TextAlignment="Right"  VerticalContentAlignment="Center"/>
@@ -1935,10 +2016,11 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtMtrCanopyOrderAmount" Grid.Row="4" Grid.Column="1" Text="{Binding mtrCanopyOrderAmount}"
-                                             PreviewKeyDown="TextBox_PreventCopyPaste"
-                                        PreviewTextInput="TextBox_NumberValidation"
-                                        DataObject.Pasting="TextBox_PastingHandler"
-                                                 TextAlignment="Right" VerticalContentAlignment="Center"/>
+                                                    InputMethod.IsInputMethodEnabled="False"
+                                                     PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                     PreviewTextInput="TextBox_NumberValidation"
+                                                     DataObject.Pasting="TextBox_PastingHandler"
+                                                     TextAlignment="Right" VerticalContentAlignment="Center"/>
                                     </Grid>
 
 
@@ -1957,9 +2039,10 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtdgdAccTotal" Grid.Row="4" Grid.Column="1" 
-                                            PreviewKeyDown="TextBox_PreventCopyPaste"
-                                            PreviewTextInput="TextBox_NumberValidation"
-                                            DataObject.Pasting="TextBox_PastingHandler"
+                                                InputMethod.IsInputMethodEnabled="False"
+                                                 PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                 PreviewTextInput="TextBox_NumberValidation"
+                                                 DataObject.Pasting="TextBox_PastingHandler"
                                                  TextAlignment="Right" VerticalContentAlignment="Center"
                                                  />
                                     </Grid>
@@ -2113,6 +2196,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtInstallLocationCount" Grid.Row="4" Grid.Column="1" Text="{Binding InstallLocationCount}"
+                                                    InputMethod.IsInputMethodEnabled="False"
                                                  PreviewKeyDown="TextBox_PreventCopyPaste"
                                                     PreviewTextInput="TextBox_NumberValidation"
                                                     DataObject.Pasting="TextBox_PastingHandler"
@@ -2157,7 +2241,7 @@
 
 
                                     <!--추가공사비(시공사부담)-->
-                                    <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3">
+                                    <Grid  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="85*"/>
                                             <ColumnDefinition Width="105*"/>
@@ -2172,15 +2256,16 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtAddConstructCostSearch" Grid.Row="4" Grid.Column="1" Text="{Binding addConstructCostSearch}"
-                                               PreviewKeyDown="TextBox_PreventCopyPaste"
-                                                PreviewTextInput="TextBox_NumberValidation"
-                                                DataObject.Pasting="TextBox_PastingHandler"
+                                                InputMethod.IsInputMethodEnabled="False"
+                                                PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                 PreviewTextInput="TextBox_NumberValidation"
+                                                 DataObject.Pasting="TextBox_PastingHandler"
                                                  TextAlignment="Right" VerticalContentAlignment="Center"
                                                  MaxLength="15"/>
                                     </Grid>
 
                                     <!--추가공사비(EVC부담)-->
-                                    <Grid Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="3">
+                                    <Grid x:Name="hideGridForWorkTeam1" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="85*"/>
                                             <ColumnDefinition Width="105*"/>
@@ -2195,9 +2280,10 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtAddConstructCost" Grid.Row="4" Grid.Column="1" Text="{Binding addConstructCost}"
-                                                  PreviewKeyDown="TextBox_PreventCopyPaste"
-                                                    PreviewTextInput="TextBox_NumberValidation"
-                                                    DataObject.Pasting="TextBox_PastingHandler"
+                                                InputMethod.IsInputMethodEnabled="False"
+                                                 PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                 PreviewTextInput="TextBox_NumberValidation"
+                                                 DataObject.Pasting="TextBox_PastingHandler"
                                                  TextAlignment="Right" VerticalContentAlignment="Center"
                                                  MaxLength="15"/>
                                     </Grid>
@@ -2336,7 +2422,7 @@
                                     </Grid>
 
                                     <!--거점투자기안-->
-                                    <Grid Grid.Row="10" Grid.Column="3" Grid.ColumnSpan="3" Margin="1.5,0,0,0">
+                                    <Grid x:Name="hideGridForWorkTeam2" Grid.Row="10" Grid.Column="3" Grid.ColumnSpan="3" Margin="1.5,0,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="76.2*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -2385,6 +2471,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtCorpAcptNo" Grid.Row="4" Grid.Column="1" Text="{Binding corpAcptNo}"
+                                                   InputMethod.IsInputMethodEnabled="False"
                                                   PreviewKeyDown="TextBox_PreventCopyPaste"
                                                     PreviewTextInput="TextBox_NumberValidation"
                                                     DataObject.Pasting="TextBox_PastingHandler"
@@ -2621,6 +2708,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtLocalGovPermissionNo" Grid.Row="4" Grid.Column="1" Text="{Binding localGovPermissionNo}"
+                                                    InputMethod.IsInputMethodEnabled="False"
                                                   PreviewKeyDown="TextBox_PreventCopyPaste"
                                                     PreviewTextInput="TextBox_NumberValidation"
                                                     DataObject.Pasting="TextBox_PastingHandler"
@@ -2858,6 +2946,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtKepInstallLocationCount" Grid.Row="4" Grid.Column="1" Text="{Binding kepInstallLocationCount}"
+                                                    InputMethod.IsInputMethodEnabled="False"
                                                    PreviewKeyDown="TextBox_PreventCopyPaste"
                                                     PreviewTextInput="TextBox_NumberValidation"
                                                     DataObject.Pasting="TextBox_PastingHandler"
@@ -2920,6 +3009,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtKepInfraPayAmount" Grid.Row="4" Grid.Column="1" Text="{Binding kepInfraPayAmount}"
+                                                    InputMethod.IsInputMethodEnabled="False"
                                                   PreviewKeyDown="TextBox_PreventCopyPaste"
                                                     PreviewTextInput="TextBox_NumberValidation"
                                                     DataObject.Pasting="TextBox_PastingHandler"
@@ -2988,9 +3078,54 @@
                                                       SelectedDate="{Binding kepManageInfraPayDate}"/>
                                     </Grid>
 
+                                    <!--(한전)모자분할수전용량 -->
+                                    <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="85*"/>
+                                            <ColumnDefinition Width="105*"/>
+                                            <ColumnDefinition Width="20*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Row="4" Grid.Column="0" 
+                                       Style="{DynamicResource LabelInputArea}">
+                                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                <TextBlock Text="모자분할수전용량" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+
+                                            </Viewbox>
+                                        </Label>
+                                        <TextBox x:Name="txtKepParentChildCapacity" Grid.Row="4" Grid.Column="1" Text="{Binding kepParentChildCapacity}"
+                                     
+                                     TextAlignment="Left" VerticalContentAlignment="Center"
+                                      MaxLength="15"/>
+                                    </Grid>
+
+
+                                    <!--(한전)한전불입수전용량(kw)-->
+                                    <Grid Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="85*"/>
+                                            <ColumnDefinition Width="105*"/>
+                                            <ColumnDefinition Width="20*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Row="4" Grid.Column="0" 
+                                               Style="{DynamicResource LabelInputArea}">
+                                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                <TextBlock Text="한전불입수전용량(kw)" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+
+                                            </Viewbox>
+                                        </Label>
+                                        <TextBox x:Name="txtkepPowerSupplyCapacity" Grid.Row="4" Grid.Column="1" Text="{Binding kepPowerSupplyCapacity}"
+                                                InputMethod.IsInputMethodEnabled="False"
+                                                PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                PreviewTextInput="TextBox_NumberValidation"
+                                                DataObject.Pasting="TextBox_PastingHandler"
+                                             TextAlignment="Right" VerticalContentAlignment="Center"
+                                              MaxLength="15"/>
+                                    </Grid>
 
                                     <!--(한전)인입승인일-->
-                                    <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3">
+                                    <!--<Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="85*"/>
                                             <ColumnDefinition Width="105*"/>
@@ -3008,10 +3143,10 @@
                                         <DatePicker x:Name="dtpKepInApprovalDate" Grid.Row="0" Grid.Column="1" 
                                                       Style="{DynamicResource DatePickerInputArea}" 
                                                       SelectedDate="{Binding kepInApprovalDate}"/>
-                                    </Grid>
+                                    </Grid>-->
 
                                     <!--(한전)인입승인여부-->
-                                    <Grid Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="3">
+                                    <!--<Grid Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="85*"/>
                                             <ColumnDefinition Width="105*"/>
@@ -3025,7 +3160,7 @@
                                         </Label>
                                         <ComboBox x:Name="cboKepInApprovalYN" Grid.Row="3" Grid.Column="1" 
                                                    Style="{DynamicResource ComboBoxInputString}" SelectedValue="{Binding kepInApprovalYN}"/>
-                                    </Grid>
+                                    </Grid>-->
 
 
                                     <!--(한전)계량기설치정보-->
@@ -3398,6 +3533,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtElectrSafeCheckCost" Grid.Row="4" Grid.Column="1" Text="{Binding electrSafeCheckCost}"
+                                                    InputMethod.IsInputMethodEnabled="False"
                                                  PreviewKeyDown="TextBox_PreventCopyPaste"
                                                 PreviewTextInput="TextBox_NumberValidation"
                                                 DataObject.Pasting="TextBox_PastingHandler"
@@ -3584,6 +3720,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtElectrBeforeInspCost" Grid.Row="4" Grid.Column="1" Text="{Binding electrBeforeInspCost}"
+                                                    InputMethod.IsInputMethodEnabled="False"
                                                   PreviewKeyDown="TextBox_PreventCopyPaste"
                                                     PreviewTextInput="TextBox_NumberValidation"
                                                     DataObject.Pasting="TextBox_PastingHandler" 
@@ -4122,6 +4259,7 @@
                                             </Viewbox>
                                         </Label>
                                         <TextBox x:Name="txtSuperSetCost" Grid.Row="4" Grid.Column="1" Text="{Binding superSetCost}"
+                                                    InputMethod.IsInputMethodEnabled="False"
                                                 PreviewKeyDown="TextBox_PreventCopyPaste"
                                                 PreviewTextInput="TextBox_NumberValidation"
                                                 DataObject.Pasting="TextBox_PastingHandler"    
@@ -4904,6 +5042,7 @@
                                                             <DataGridTemplateColumn.CellEditingTemplate>
                                                                 <DataTemplate>
                                                                     <TextBox Text="{Binding column2Amount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Padding="5 0 3 0" 
+                                                                                InputMethod.IsInputMethodEnabled="False"
                                                                              PreviewKeyDown="TextBox_PreventCopyPaste"
                                                                                 PreviewTextInput="TextBox_NumberValidation"
                                                                                 DataObject.Pasting="TextBox_PastingHandler"

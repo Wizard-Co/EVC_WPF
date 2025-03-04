@@ -154,6 +154,57 @@ namespace WizMes_EVC
             InitializeComponent();
             scrollHelpers.Add(new ScrollSyncHelper(dgdAccSV, dgdAcc));
             SetupLastColumnResize(dgdAcc, dgdAccSV, grdAcc);
+            if (!isUserInWorkTeam())
+            {
+                
+                hideGridForWorkTeam1.Visibility = Visibility.Hidden;
+                hideGridForWorkTeam2.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                hideGridForWorkTeam1.Visibility = Visibility.Visible;
+                hideGridForWorkTeam2.Visibility = Visibility.Visible;
+            }
+        }
+
+        //로그인 한 사람이 시공팀 소속인지 
+        private bool isUserInWorkTeam()
+        {
+            bool flag = true;
+
+            string[] sqlList = { "select mp.personID ,md.depart from mt_Person mp " +
+                                 "LEFT JOIN mt_Depart md on md.departID = mp.departID " +
+                                 "where PersonID =  "
+
+            };
+     
+
+            //반복문을 돌다가 걸리면 종료, 경고문 띄우고 false반환
+            for (int i = 0; i < sqlList.Length; i++)
+            {
+                DataSet ds = DataStore.Instance.QueryToDataSet(sqlList[i] + "'"+ MainWindow.CurrentPersonID.Trim()+"'");
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataTable dt = ds.Tables[0];
+                    if (dt.Rows.Count > 0)
+                    {
+                        if (dt.Rows[0][1].ToString().Contains("시공"))
+                        {
+                            flag = false;
+                            break;
+                        }
+                      
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+            }
+
+      
+
+            return flag;
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -318,26 +369,26 @@ namespace WizMes_EVC
             strInspectionNeedYn.Add(strNeedY);
             strInspectionNeedYn.Add(strNeedN);
 
-            //인입승인여부(YN)
+        
             ObservableCollection<CodeView> ovcInspectionNeedYN = ComboBoxUtil.Instance.Direct_SetComboBox(strInspectionNeedYn);
             cboInspectionNeedYN.ItemsSource = ovcInspectionNeedYN;
             cboInspectionNeedYN.DisplayMemberPath = "code_name";
             cboInspectionNeedYN.SelectedValuePath = "code_id";
             cboInspectionNeedYN.SelectedIndex = 0;
 
-            //감리배치여부(YN)
-            List<string[]> strKepInApprove = new List<string[]>();
-            string[] strApprove = { "Y", "Y" };
-            string[] strDenied = { "N", "N" };
-            strKepInApprove.Add(strApprove);
-            strKepInApprove.Add(strDenied);
+            //인입승인여부(YN)
+            //List<string[]> strKepInApprove = new List<string[]>();
+            //string[] strApprove = { "Y", "Y" };
+            //string[] strDenied = { "N", "N" };
+            //strKepInApprove.Add(strApprove);
+            //strKepInApprove.Add(strDenied);
 
-            //감리배치여부
-            ObservableCollection<CodeView> ovcKepInApprove = ComboBoxUtil.Instance.Direct_SetComboBox(strKepInApprove);
-            cboKepInApprovalYN.ItemsSource = ovcKepInApprove;
-            cboKepInApprovalYN.DisplayMemberPath = "code_name";
-            cboKepInApprovalYN.SelectedValuePath = "code_id";
-            cboKepInApprovalYN.SelectedIndex = 0;
+            ////감리배치여부
+            //ObservableCollection<CodeView> ovcKepInApprove = ComboBoxUtil.Instance.Direct_SetComboBox(strKepInApprove);
+            //cboKepInApprovalYN.ItemsSource = ovcKepInApprove;
+            //cboKepInApprovalYN.DisplayMemberPath = "code_name";
+            //cboKepInApprovalYN.SelectedValuePath = "code_id";
+            //cboKepInApprovalYN.SelectedIndex = 0;
 
 
 
@@ -1655,6 +1706,8 @@ namespace WizMes_EVC
 
                                 orderAmount = dr["orderAmount"].ToString(),
                                 installLocationAddComments = dr["installLocationAddComments"].ToString(),
+                                cpoCalcuDate = DateTypeHyphen(dr["cpoCalcuDate"].ToString()),
+                                constrCalcuDate = DateTypeHyphen(dr["constrCalcuDate"].ToString()),
                                 installLocationAddress = dr["installLocationAddress"].ToString(),
                                 houseHoldCount = stringFormatN0(dr["houseHoldCount"]),
 
@@ -1770,10 +1823,12 @@ namespace WizMes_EVC
                                 orderTypeID = dr["orderTypeID"].ToString(),
                                 orderType = dr["orderType"].ToString(),
                                 chargeOrderDate= DateTypeHyphen(dr["chargeOrderDate"].ToString()),
+                                chargeOrderQty = stringFormatN0(dr["chargeOrderQty"]),
                                 chargeInwareDate = DateTypeHyphen(dr["chargeInwareDate"].ToString()),
                                 chargeInwareQty = stringFormatN0(dr["chargeInwareQty"]),
                                 chargeInwareLocation = dr["chargeInwareLocation"].ToString(),
                                 canopyReqCustom = dr["canopyReqCustom"].ToString(),
+                                canopyReqCustomID = dr["canopyReqCustomID"].ToString(),
                                 chargeModelHelmat = dr["chargeModelHelmat"].ToString(),
                                 chargeModelinloc = dr["chargeModelinloc"].ToString(),
                                 chargeModelOneBody = dr["chargeModelOneBody"].ToString(),
@@ -2360,8 +2415,10 @@ namespace WizMes_EVC
                                     //kepManageInfraPayAmount = stringFormatN0(dr["kepManageInfraPayAmount"]),
                                     kepManageInfraPayDate = dr["kepManageInfraPayDate"].ToString(),
                                     kepElectrReqDate = dr["kepElectrReqDate"].ToString(),
-                                    kepInApprovalYN = dr["kepInApprovalYN"].ToString(),
-                                    kepInApprovalDate = dr["kepInApprovalDate"].ToString(),
+                                    //kepInApprovalYN = dr["kepInApprovalYN"].ToString(),
+                                    //kepInApprovalDate = dr["kepInApprovalDate"].ToString(),
+                                    kepParentChildCapacity= dr["kepParentChildCapacity"].ToString(),
+                                    kepPowerSupplyCapacity= stringFormatN0(dr["kepPowerSupplyCapacity"].ToString()),
                                     kepMeterInstallContext = dr["kepMeterInstallContext"].ToString(),
                                     kepDamdangjaPhone = dr["kepDamdangjaPhone"].ToString(),
                                     kepCustomNo = dr["kepCustomNo"].ToString(),
@@ -3034,7 +3091,7 @@ namespace WizMes_EVC
             return DigitsTime;
         }
 
-        private void ShowTooltipMessage(FrameworkElement element, string message, PlacementMode placement = PlacementMode.Bottom)
+        private void ShowTooltipMessage(FrameworkElement element, string message, MessageBoxImage iconType = MessageBoxImage.None, PlacementMode placement = PlacementMode.Bottom)
         {
             // 이미 열려있는 툴팁이 있다면 닫기
             if (currentToolTip != null && currentToolTip.IsOpen)
@@ -3047,10 +3104,79 @@ namespace WizMes_EVC
                 }
             }
 
+            object tooltipContent;
+
+            // 아이콘이 필요 없는 경우
+            if (iconType == MessageBoxImage.None)
+            {
+                tooltipContent = message;
+            }
+            else
+            {
+                // StackPanel 생성
+                var stackPanel = new StackPanel
+                {
+                    Orientation = Orientation.Horizontal
+                };
+
+                // 시스템 아이콘 설정
+                System.Drawing.Icon systemIcon;
+                switch (iconType)
+                {
+                    case MessageBoxImage.Information:
+                        systemIcon = System.Drawing.SystemIcons.Information;
+                        break;
+                    case MessageBoxImage.Warning:
+                        systemIcon = System.Drawing.SystemIcons.Warning;
+                        break;
+                    case MessageBoxImage.Error:
+                        systemIcon = System.Drawing.SystemIcons.Error;
+                        break;
+                    case MessageBoxImage.Question:
+                        systemIcon = System.Drawing.SystemIcons.Question;
+                        break;
+                    default:
+                        systemIcon = null;
+                        break;
+                }
+
+                if (systemIcon != null)
+                {
+                    // System.Drawing에서 아이콘 가져오기
+                    System.Windows.Media.Imaging.BitmapSource iconSource =
+                        System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
+                            systemIcon.Handle,
+                            System.Windows.Int32Rect.Empty,
+                            System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+
+                    // 이미지 생성
+                    var image = new Image
+                    {
+                        Source = iconSource,
+                        Width = 16,
+                        Height = 16,
+                        Margin = new Thickness(0, 0, 5, 0)
+                    };
+
+                    // StackPanel에 추가
+                    stackPanel.Children.Add(image);
+                }
+
+                // 텍스트블록 생성
+                var textBlock = new TextBlock
+                {
+                    Text = message,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+
+                stackPanel.Children.Add(textBlock);
+                tooltipContent = stackPanel;
+            }
+
             // 새 툴팁 생성
             var tooltip = new ToolTip
             {
-                Content = message,
+                Content = tooltipContent,
                 PlacementTarget = element,
                 Placement = placement,
                 IsOpen = true
@@ -3065,13 +3191,12 @@ namespace WizMes_EVC
             {
                 tooltip.Placement = PlacementMode.Bottom;
                 tooltip.VerticalOffset = 5;
-
                 element.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     double offset = element.ActualWidth - tooltip.ActualWidth;
                     tooltip.HorizontalOffset = offset;
                 }));
-            }       
+            }
 
             currentToolTip = tooltip;
 
@@ -3112,7 +3237,7 @@ namespace WizMes_EVC
             if (regex.IsMatch(e.Text))
             {
                 e.Handled = true;
-                ShowTooltipMessage(sender as FrameworkElement, "숫자만 입력 가능합니다.", PlacementMode.Right);
+                ShowTooltipMessage(sender as FrameworkElement, "숫자만 입력 가능합니다.", MessageBoxImage.Error, PlacementMode.Right);
             }
         }
 
@@ -3138,7 +3263,7 @@ namespace WizMes_EVC
             if (regex.IsMatch(e.Text))
             {
                 e.Handled = true;
-                ShowTooltipMessage(sender as FrameworkElement, "숫자형태만 입력 가능합니다.", PlacementMode.Right);
+                ShowTooltipMessage(sender as FrameworkElement, "음수를 포함한 숫자형태만 입력 가능합니다.", MessageBoxImage.Error, PlacementMode.Right);
             }
         }
 
@@ -3297,6 +3422,8 @@ namespace WizMes_EVC
                     sqlParameter.Add("alreadyManageCustom", txtAlreadyManageCustom.Text);
                     sqlParameter.Add("electrCarCount", RemoveComma(txtElectrCarCount.Text, true));
                     sqlParameter.Add("installLocationComments", txtInstallLocationComments.Text);
+                    sqlParameter.Add("cpoCalcuDate",IsDatePickerNull(dtpCpoCalcuDate) ? "" :ConvertDate(dtpCpoCalcuDate));
+                    sqlParameter.Add("constrCalcuDate", IsDatePickerNull(dtpConstrCalcuDate) ? "" : ConvertDate(dtpConstrCalcuDate));
                     sqlParameter.Add("alreadyChargeCount", txtAlReadyChargeCount.Text);
                     sqlParameter.Add("contractFromDate", IsDatePickerNull(dtpContractFromDate) ? "" : ConvertDate(dtpContractFromDate));
                     sqlParameter.Add("contractToDate", IsDatePickerNull(dtpContractToDate) ? "" : ConvertDate(dtpContractToDate));
@@ -3438,8 +3565,10 @@ namespace WizMes_EVC
                         //sqlParameter.Add("kepManageInfraPayAmount",RemoveComma(txtKepManageInfraPayAmount.Text, true)); 운영사 시설부담금 
                         sqlParameter.Add("kepManageInfraPayDate", IsDatePickerNull(dtpKepManageInfraPayDate) ? "" : ConvertDate(dtpKepManageInfraPayDate));
                         sqlParameter.Add("kepElectrReqDate", IsDatePickerNull(dtpKepElectrReqDate) ? "" : ConvertDate(dtpKepElectrReqDate));
-                        sqlParameter.Add("kepInApprovalYN", cboKepInApprovalYN.SelectedValue != null ? cboKepInApprovalYN.SelectedValue.ToString() : "");
-                        sqlParameter.Add("kepInApprovalDate", IsDatePickerNull(dtpKepInApprovalDate) ? "" : ConvertDate(dtpKepInApprovalDate));
+                        //sqlParameter.Add("kepInApprovalYN", cboKepInApprovalYN.SelectedValue != null ? cboKepInApprovalYN.SelectedValue.ToString() : ""); 인입승인여부 2025.02.27 김동호 팀장 요청 제거
+                        //sqlParameter.Add("kepInApprovalDate", IsDatePickerNull(dtpKepInApprovalDate) ? "" : ConvertDate(dtpKepInApprovalDate)); 인입승인일 2025.02.27 김동호 팀장 요청 제거
+                        sqlParameter.Add("kepParentChildCapacity",txtKepParentChildCapacity.Text);
+                        sqlParameter.Add("kepPowerSupplyCapacity",RemoveComma(txtkepPowerSupplyCapacity.Text,true));
                         sqlParameter.Add("kepMeterInstallContext", txtKepMeterInstallContext.Text);
                         sqlParameter.Add("kepDamdangjaPhone", txtKepDamdangjaPhone.Text);
                         sqlParameter.Add("kepCustomNo", txtKepCustomNo.Text);
@@ -3689,7 +3818,8 @@ namespace WizMes_EVC
                             sqlParameter.Add("chargeInwareDate", RemoveHyphen(accItem.chargeInwareDate));
                             sqlParameter.Add("chargeInwareQty", RemoveComma(accItem.chargeInwareQty, true));
                             sqlParameter.Add("chargeInwareLocation", accItem.chargeInwareLocation != null ? accItem.chargeInwareLocation : "");
-                            sqlParameter.Add("canopyReqCustom", accItem.canopyReqCustom != null ? accItem.canopyReqCustom : "");
+                            sqlParameter.Add("canopyReqCustomID", accItem.canopyReqCustomID != null ? accItem.canopyReqCustomID : "");
+                            sqlParameter.Add("chargeOrderQty", RemoveComma(accItem.chargeOrderQty, true));
                             sqlParameter.Add("chargeModelHelmat", accItem.chargeModelHelmat != null ? accItem.chargeModelHelmat : "");
                             sqlParameter.Add("chargeModelinLoc", accItem.chargeModelinloc != null ? accItem.chargeModelinloc : "");
                             sqlParameter.Add("chargeModelOneBody", accItem.chargeModelOneBody != null ? accItem.chargeModelOneBody : "");
@@ -5137,10 +5267,10 @@ namespace WizMes_EVC
                         //    sr.Close();
                         //    return;
                         //}
-                        if (sr.BaseStream.Length > (1024 * 1024 * 100))  // 100MB in bytes
+                        if (sr.BaseStream.Length > (1024 * 1024 * 500))  
                         {
                             //업로드 파일 사이즈범위 초과기
-                            MessageBox.Show("첨부파일 크기는 100Mb 미만 이어야 합니다.");
+                            MessageBox.Show("첨부파일 크기는 500Mb 미만 이어야 합니다.");
                             sr.Close();
                             return;
                         }
@@ -7853,6 +7983,27 @@ namespace WizMes_EVC
             }
         }
 
+        private void TextBox_SearchFirst(object sender, TextCompositionEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox.Tag == null || textBox.Text.Trim() == string.Empty)
+            {
+                ShowTooltipMessage(sender as FrameworkElement, "먼저 엔터 Key를 눌러 검색하세요", MessageBoxImage.Information);
+                e.Handled = true;
+            }
+        }
+
+        private void AccGrid_canopyReqCustom_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                TextBox textbox = sender as TextBox;
+                MainWindow.pf.ReturnCode(textbox, (int)Defind_CodeFind.DCF_CUSTOM, "");
+
+            }
+        }
+
+
 
 
         //    private void btnGoOrderCalendar_Click(object sender, RoutedEventArgs e)
@@ -7958,6 +8109,8 @@ namespace WizMes_EVC
         public string orderAmount { get; set; }
         public string acptDate { get; set; }
         public string installLocationAddComments { get; set; }
+        public string cpoCalcuDate{get;set;}
+        public string constrCalcuDate { get; set; }
         public string installLocationAddress {get;set;}
         public string houseHoldCount {get;set;}
         public string carParkingCount {get;set;}
@@ -8032,11 +8185,13 @@ namespace WizMes_EVC
         public string orderTypeID { get; set; }
         public string orderType { get; set; }
         public string chargeOrderDate {get;set;}
+        public string chargeOrderQty { get; set; }
         public string chargeInwareDate {get;set;}
         public string chargeInwareQty {get;set;}
         public string chargeInwareUnitPrice { get; set; }
         public string chargeInwareLocation {get;set;}
         public string canopyReqCustom {get;set;}
+        public string canopyReqCustomID { get; set; }
         public string chargeModelHelmat {get;set;}
         public string chargeModelinloc {get;set;}
         public string chargeModelOneBody {get;set;}
@@ -8292,6 +8447,8 @@ namespace WizMes_EVC
         public string kepManageInfraPayDate{get;set;}
         public string kepElectrReqDate {get;set;}
         public string kepInApprovalYN {get;set;}
+        public string kepParentChildCapacity{get;set;}
+        public string kepPowerSupplyCapacity { get; set; }
         public string kepInApprovalDate {get;set;}
         public string kepMeterInstallContext {get;set;}
         public string kepDamdangjaPhone {get;set;}

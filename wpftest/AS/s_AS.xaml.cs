@@ -70,11 +70,11 @@ namespace WizMes_EVC
             cboCompleteSrh.SelectedValuePath = "code_id";
             cboCompleteSrh.SelectedIndex = 0;
 
-            ObservableCollection<CodeView> ovcASType = ComboBoxUtil.Instance.Gf_DB_CM_GetComCodeDataset(null, "ASRSNCode", "Y", "", "");
-            cboASTypeSrh.ItemsSource = ovcASType;
-            cboASTypeSrh.DisplayMemberPath = "code_name";
-            cboASTypeSrh.SelectedValuePath = "code_id";
-            cboASTypeSrh.SelectedIndex = 0;
+            //ObservableCollection<CodeView> ovcASType = ComboBoxUtil.Instance.Gf_DB_CM_GetComCodeDataset(null, "ASRSNCode", "Y", "", "");
+            //cboASTypeSrh.ItemsSource = ovcASType;
+            //cboASTypeSrh.DisplayMemberPath = "code_name";
+            //cboASTypeSrh.SelectedValuePath = "code_id";
+            //cboASTypeSrh.SelectedIndex = 0;
         }
 
         #region 상단 검색조건 - 날짜  
@@ -287,31 +287,56 @@ namespace WizMes_EVC
             cboCompleteSrh.IsEnabled = false;
         }
 
-        //처리여부 
-        private void lblASTypeSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        //AS사유 
+        //private void lblASTypeSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    if (chkASTypeSrh.IsChecked == true)
+        //    {
+        //        chkASTypeSrh.IsChecked = false;
+        //    }
+        //    else
+        //    {
+        //        chkASTypeSrh.IsChecked = true;
+        //    }
+        //}
+
+        //private void chkASTypeSrh_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    //cboASTypeSrh.IsEnabled = true;
+        //    //cboASTypeSrh.Focus();
+        //}
+
+        //private void chkASTypeSrh_Unchecked(object sender, RoutedEventArgs e)
+        //{
+        //    //cboASTypeSrh.IsEnabled = false;
+        //}
+
+        //AS 사유 -라벨
+        private void lblAsReasonSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (chkASTypeSrh.IsChecked == true)
+            if (chkAsReasonSrh.IsChecked == true)
             {
-                chkASTypeSrh.IsChecked = false;
+                chkAsReasonSrh.IsChecked = false;
+                txtAsReasonSrh.IsEnabled = false;
             }
             else
             {
-                chkASTypeSrh.IsChecked = true;
+                chkAsReasonSrh.IsChecked = true;
+                txtAsReasonSrh.IsEnabled = true;
             }
         }
 
-        private void chkASTypeSrh_Checked(object sender, RoutedEventArgs e)
+        //AS사유 - 체크박스 -체크
+        private void chkAsReasonSrh_Checked(object sender, RoutedEventArgs e)
         {
-            cboASTypeSrh.IsEnabled = true;
-            cboASTypeSrh.Focus();
+            txtAsReasonSrh.IsEnabled = false;
         }
 
-        private void chkASTypeSrh_Unchecked(object sender, RoutedEventArgs e)
+        //AS사유 - 체크박스 - 언체크
+        private void chkAsReason_Unchecked(object sender, RoutedEventArgs e)
         {
-            cboASTypeSrh.IsEnabled = false;
+            txtAsReasonSrh.IsEnabled = true;
         }
-
-
 
 
         #endregion
@@ -403,9 +428,10 @@ namespace WizMes_EVC
                 sqlParameter.Add("reqTel", chkReqTelSrh.IsChecked == true && txtReqTelSrh.Text != null ? txtReqTelSrh.Text : "");
                 sqlParameter.Add("chkCompleteYN", chkCompleteYNSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("completeYN", chkCompleteYNSrh.IsChecked == true && cboCompleteSrh.SelectedValue != null ? cboCompleteSrh.SelectedValue.ToString() : "");
-                sqlParameter.Add("chkASType", chkASTypeSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("ASTypeID", chkASTypeSrh.IsChecked == true && cboASTypeSrh.SelectedValue != null ? cboASTypeSrh.SelectedValue.ToString() : "");
-  
+                //sqlParameter.Add("chkASType", chkASTypeSrh.IsChecked == true ? 1 : 0);
+                //sqlParameter.Add("ASTypeID", chkASTypeSrh.IsChecked == true && cboASTypeSrh.SelectedValue != null ? cboASTypeSrh.SelectedValue.ToString() : "");
+                sqlParameter.Add("chkAsReason", chkAsReasonSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("asReason", txtAsReasonSrh.Text);
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_AS_sAS", sqlParameter, true, "R");
 
@@ -441,8 +467,10 @@ namespace WizMes_EVC
                                 asDate = DatePickerFormat(dr["asDate"].ToString()),
                                 asCompleteYN = dr["asCompleteYN"].ToString(),
                                 comments = dr["comments"].ToString(),
-                                asType = dr["asType"].ToString(),
-                                asTypeID = dr["asTypeID"].ToString(),
+                                asReason = dr["asReason"].ToString(),
+                                asDepositDate = DatePickerFormat(dr["asDepositDate"].ToString()),
+                                //asType = dr["asType"].ToString(),
+                                //asTypeID = dr["asTypeID"].ToString(),
 
                             };
                             sum.asAmount += item.asAmount;
@@ -518,11 +546,11 @@ namespace WizMes_EVC
             public string comments { get; set; }
             public string asTypeID { get; set; }
             public string asType { get; set; }
+            public string asReason { get; set; }
+            public string asDepositDate { get; set; }
+            
         }
 
-     
-    }
-
-  
+    }  
 
 }

@@ -1232,6 +1232,7 @@
                                                             <TextBox Text="{Binding EstUnitPrice,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"               
                                                                      MaxLength="20"
                                                                      TextAlignment="Right"
+                                                                InputMethod.IsInputMethodEnabled="False"
                                                                 PreviewTextInput="TextBox_NumberValidation"
                                                                 PreviewKeyDown="TextBox_PreventCopyPaste"/>
                                                         </DataTemplate>
@@ -1249,6 +1250,7 @@
                                                             <TextBox Text="{Binding EstQty,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                                      MaxLength="20"
                                                                     TextAlignment="Right"
+                                                                      InputMethod.IsInputMethodEnabled="False"
                                                                      PreviewTextInput="TextBox_NumberValidation"
                                                                     PreviewKeyDown="TextBox_PreventCopyPaste"/>
                                                         </DataTemplate>
@@ -1265,8 +1267,9 @@
                                                         <DataTemplate>
                                                             <TextBox Text="{Binding EstAmount,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                                                                 TextAlignment="Right"
-                                                                                 PreviewTextInput="TextBox_NumberValidation"
-                                                                                    PreviewKeyDown="TextBox_PreventCopyPaste"/>
+                                                                                InputMethod.IsInputMethodEnabled="False"
+                                                                                PreviewTextInput="TextBox_NumberValidation"
+                                                                                PreviewKeyDown="TextBox_PreventCopyPaste"/>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellEditingTemplate>
                                                 </DataGridTemplateColumn>

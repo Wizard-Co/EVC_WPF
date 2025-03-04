@@ -190,23 +190,26 @@
                 <ComboBox Grid.Column="1" x:Name="cboCompleteSrh"></ComboBox>
             </Grid>
 
+            <!--강경단 책임 변경 수정 요구 2025.02.27-->
+            <!--AS요청사유-->
             <Grid Grid.Row="0" Grid.Column="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="75*" />
                     <ColumnDefinition Width="90*" />
                     <ColumnDefinition Width="15*" />
                 </Grid.ColumnDefinitions>
-                <Label x:Name="lblASTypeSrh" Grid.Column="0" MouseLeftButtonUp="lblASTypeSrh_MouseLeftButtonUp" Style="{DynamicResource LabelSearch}">
+                <Label x:Name="lblASTypeSrh" Grid.Column="0" MouseLeftButtonUp="lblAsReasonSrh_MouseLeftButtonUp" Style="{DynamicResource LabelSearch}">
                     <StackPanel Style="{DynamicResource StackPanelInLabel}">
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                            <CheckBox x:Name="chkASTypeSrh" Checked="chkASTypeSrh_Checked" Unchecked="chkASTypeSrh_Unchecked" VerticalAlignment="Center" />
+                            <CheckBox x:Name="chkAsReasonSrh" Checked="chkAsReasonSrh_Checked" Unchecked="chkAsReason_Unchecked" VerticalAlignment="Center" />
                         </Viewbox>
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
                             <TextBlock Text="AS요청사유" Style="{DynamicResource TextBlockInViewBoxSearch}" />
                         </Viewbox>
                     </StackPanel>
                 </Label>
-                <ComboBox Grid.Column="1" x:Name="cboASTypeSrh"></ComboBox>
+                <!--<ComboBox Grid.Column="1" x:Name="cboASTypeSrh"></ComboBox>-->
+                <TextBox x:Name="txtAsReasonSrh" Style="{DynamicResource TextBoxSearch}" Grid.Column="1" IsEnabled="False"/>
             </Grid>
             
             <Grid Grid.Column="4"
@@ -288,19 +291,22 @@
                                             Width="auto" />
                         <DataGridTextColumn Header="현장명" Binding="{Binding asLocation, StringFormat=N0}" CellStyle="{DynamicResource NonNumericDataGridCell}"
                                           Width="auto" />
+                        <DataGridTextColumn Header="완료 여부" Binding="{Binding asCompleteYN}" Width="auto" CellStyle="{DynamicResource DataGridCellAndCentering}" />
                         <DataGridTextColumn Header="시공업체" Binding="{Binding constrCustom}" CellStyle="{DynamicResource NonNumericDataGridCell}"
                                             Width="auto" />
                         <!--<DataGridTextColumn Header="국소명" Binding="{Binding asSmallLocation, StringFormat=N0}" CellStyle="{DynamicResource NonNumericDataGridCell}"
                                             Width="auto" />-->
                         <DataGridTextColumn Header="요청자명" Binding="{Binding asReqUserName, StringFormat=N0}" CellStyle="{DynamicResource DataGridCellAndCentering}" 
                                             Width="auto" />
+                        <DataGridTextColumn Header="AS사유" Binding="{Binding asReason, StringFormat=N0}" CellStyle="{DynamicResource DataGridCellAndCentering}" 
+                          Width="auto" />
                         <DataGridTextColumn Header="요청자 전화번호" Binding="{Binding asReqUserTelNo}" Width="auto" CellStyle="{DynamicResource NonNumericDataGridCell}" />
                         <DataGridTextColumn Header="전기차충전기 번호" Binding="{Binding asChargerMCNo}" Width="auto" CellStyle="{DynamicResource NonNumericDataGridCell}"/>
                         <DataGridTextColumn Header="유/무상" Binding="{Binding costYN}" Width="auto" CellStyle="{DynamicResource DataGridCellAndCentering}" />
                         <DataGridTextColumn Header="금액" Binding="{Binding asAmount, StringFormat=N0}" Width="auto" CellStyle="{DynamicResource NumericDataGridCell}" />
+                        <DataGridTextColumn Header="입금완료일" Binding="{Binding asDepositDate, StringFormat=N0}" Width="auto" CellStyle="{DynamicResource NumericDataGridCell}" />
                         <DataGridTextColumn Header="현장 A/S 담당자" Binding="{Binding asDamDangJa}" Width="auto" />
                         <DataGridTextColumn Header="처리일자" Binding="{Binding asDate}" Width="auto" />
-                        <DataGridTextColumn Header="완료 여부" Binding="{Binding asCompleteYN}" Width="auto" CellStyle="{DynamicResource DataGridCellAndCentering}" />
                         <DataGridTextColumn Header="비고" Binding="{Binding comments}" Width="auto" />
                     </DataGrid.Columns>
                 </DataGrid>

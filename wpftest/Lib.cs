@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -1205,6 +1206,207 @@ namespace WizMes_EVC
             }
 
         }
+
+        #region 스크롤뷰어를 사용한 멀티헤더를 엑셀로 출력
+
+        public bool ExportToExcelWithMultiLevelHeaders(ScrollViewer headerScrollViewer, System.Windows.Controls.DataGrid dataGrid, string tempFileName)
+        {
+            try
+            {
+                // 항상 새로운 Excel 인스턴스 생성
+                excel = new Microsoft.Office.Interop.Excel.Application();
+                excel.DisplayAlerts = false; // 경고 메시지 표시 안 함
+
+                // 새 워크북 추가
+                workBook = excel.Workbooks.Add();
+                workSheet = workBook.Worksheets.get_Item(1) as Microsoft.Office.Interop.Excel.Worksheet;
+
+                // 시트 이름 설정 (31자 제한)
+                workSheet.Name = tempFileName.Length > 31 ? tempFileName.Substring(0, 31) : tempFileName;
+
+                // ScrollViewer에서 모든 DataGridColumnHeader 요소 찾기
+                Grid headerGrid = headerScrollViewer.Content as Grid;
+                if (headerGrid == null)
+                {
+                    MessageBox.Show("헤더 그리드를 찾을 수 없습니다.", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+
+                var headers = FindVisualChildren<DataGridColumnHeader>(headerGrid).ToList();
+                if (headers.Count == 0)
+                {
+                    MessageBox.Show("헤더 요소를 찾을 수 없습니다.", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+
+                // 헤더 정보를 저장할 리스트 생성
+                var headerInfoList = new List<HeaderInfo>();
+
+                // 헤더 정보 추출
+                foreach (var header in headers)
+                {
+                    headerInfoList.Add(new HeaderInfo
+                    {
+                        Row = Grid.GetRow(header),
+                        Column = Grid.GetColumn(header),
+                        RowSpan = Grid.GetRowSpan(header),
+                        ColumnSpan = Grid.GetColumnSpan(header),
+                        Content = header.Content?.ToString() ?? "",
+                        Background = header.Background,
+                        Foreground = header.Foreground
+                    });
+                }
+
+                // 최대 행, 열 계산
+                int maxHeaderRow = headerInfoList.Max(h => h.Row + h.RowSpan - 1);
+                int maxHeaderCol = headerInfoList.Max(h => h.Column + h.ColumnSpan - 1);
+
+                // 헤더를 Excel에 작성 - 간소화된 방식으로 변경
+                foreach (var header in headerInfoList)
+                {
+                    // Excel은 1부터 시작
+                    int excelRow = header.Row + 1;
+                    int excelCol = header.Column + 1;
+
+                    // 내용 작성
+                    workSheet.Cells[excelRow, excelCol].Value = header.Content;
+
+                    // 셀 병합이 필요한 경우
+                    if (header.RowSpan > 1 || header.ColumnSpan > 1)
+                    {
+                        try
+                        {
+                            workSheet.Range[
+                                workSheet.Cells[excelRow, excelCol],
+                                workSheet.Cells[excelRow + header.RowSpan - 1, excelCol + header.ColumnSpan - 1]
+                            ].Merge();
+                        }
+                        catch
+                        {
+                            // 병합 실패 시 무시하고 계속 진행
+                        }
+                    }
+
+                    // 헤더 스타일 적용
+                    try
+                    {
+                        Microsoft.Office.Interop.Excel.Range range = workSheet.Cells[excelRow, excelCol];
+
+                        // 헤더 셀 형식 지정
+                        if (header.Background is SolidColorBrush backgroundBrush)
+                        {
+                            // 헤더의 배경색 사용
+                            System.Windows.Media.Color mediaColor = backgroundBrush.Color;
+                            range.Interior.Color = ColorTranslator.ToOle(
+                                System.Drawing.Color.FromArgb(mediaColor.A, mediaColor.R, mediaColor.G, mediaColor.B));
+                        }
+                        else
+                        {
+                            // 기본 헤더 색상
+                            range.Interior.Color = ColorTranslator.ToOle(System.Drawing.Color.FromArgb(54, 95, 177)); // #365fb1
+                        }
+
+                        // 글꼴 색상 설정
+                        if (header.Foreground is SolidColorBrush foregroundBrush)
+                        {
+                            System.Windows.Media.Color mediaColor = foregroundBrush.Color;
+                            range.Font.Color = ColorTranslator.ToOle(
+                                System.Drawing.Color.FromArgb(mediaColor.A, mediaColor.R, mediaColor.G, mediaColor.B));
+                        }
+                        else
+                        {
+                            range.Font.Color = ColorTranslator.ToOle(System.Drawing.Color.White);
+                        }
+
+                        range.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                        range.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                        range.VerticalAlignment = Microsoft.Office.Interop.Excel.XlVAlign.xlVAlignCenter;
+                        range.Font.Bold = true;
+                    }
+                    catch
+                    {
+                        // 스타일 적용 실패 시 무시하고 계속 진행
+                    }
+                }
+
+                // 기존 메서드를 사용하여 DataGrid에서 데이터 추출
+                System.Data.DataTable dt = DataGridToDTinHidden(dataGrid);
+
+                // 데이터를 Excel에 작성
+                int dataStartRow = maxHeaderRow + 2; // Excel은 1부터 시작, 헤더 다음에 시작
+
+                try
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        for (int j = 0; j < dt.Columns.Count - 1; j++) // 마지막 열은 빈 열이므로 제외
+                        {
+                            workSheet.Cells[dataStartRow + i, j + 1] = dt.Rows[i][j];
+                        }
+                    }
+
+                    // 데이터 셀에 테두리 적용
+                    if (dt.Rows.Count > 0)
+                    {
+                        try
+                        {
+                            Microsoft.Office.Interop.Excel.Range dataRange = workSheet.Range[
+                                workSheet.Cells[dataStartRow, 1],
+                                workSheet.Cells[dataStartRow + dt.Rows.Count - 1, Math.Min(dt.Columns.Count - 1, maxHeaderCol)]
+                            ];
+                            dataRange.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                        }
+                        catch
+                        {
+                            // 테두리 적용 실패 시 무시
+                        }
+                    }
+
+                    // 내용에 맞게 열 너비 자동 조절
+                    try
+                    {
+                        workSheet.UsedRange.Columns.AutoFit();
+                    }
+                    catch
+                    {
+                        // AutoFit 실패 시 무시
+                    }
+                }
+                catch (Exception dataEx)
+                {
+                    MessageBox.Show($"데이터 내보내기 중 오류: {dataEx.Message}", "경고", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    // 데이터 내보내기 실패해도 엑셀은 표시
+                }
+
+                // Excel 창 표시
+                excel.Visible = true;
+                excel.DisplayAlerts = true; // 경고 메시지 다시 활성화      
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Excel 내보내기 오류: " + ex.Message, "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                // 오류 발생 시 정리
+                if (excel != null)
+                {
+                    try
+                    {
+                        excel.Quit();
+                        ReleaseExcelObject(excel);
+                    }
+                    catch
+                    {
+                        // 정리 중 오류 무시
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// 로우헤더, 칼럼헤더가 있는 엑셀 형식
@@ -3274,6 +3476,7 @@ namespace WizMes_EVC
 
             return strReturn;
         }
+
     }
 
     public class TextBoxColumnControl : TextBox
@@ -3292,5 +3495,15 @@ namespace WizMes_EVC
         }
     }
 
-
+    // 멀티헤더 엑셀 내보내기할때 사용할 헤더 클래스
+    public class HeaderInfo
+    {
+        public int Row { get; set; }
+        public int Column { get; set; }
+        public int RowSpan { get; set; } = 1;
+        public int ColumnSpan { get; set; } = 1;
+        public string Content { get; set; } = "";
+        public System.Windows.Media.Brush Background { get; set; }
+        public System.Windows.Media.Brush Foreground { get; set; }
+    }
 }

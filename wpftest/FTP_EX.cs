@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Windows.Media.Imaging;
@@ -403,7 +404,8 @@ namespace WizMes_EVC
                 foreach (string line in lines)
                 {
                     string[] tokens = line.Split(new[] { ' ' }, 9, StringSplitOptions.RemoveEmptyEntries);
-                    string name = tokens[3].ToString(); //배열이 8이었다 3으로 바꿈
+                    //string name = tokens[3].ToString(); //배열이 8이었다 3으로 바꿈
+                    string name = string.Join(" ", tokens.Skip(3)); //기존 name변수가 파일명에 공백이 있는 경우를 고려하지 않아서 변경
                     string permissions = tokens[0].ToString();
 
                     string fileUrl = host + "/" + deleteDirectory + "/" + name;

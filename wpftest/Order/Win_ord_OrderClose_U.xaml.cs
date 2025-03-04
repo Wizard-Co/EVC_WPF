@@ -14,6 +14,22 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Text.RegularExpressions;
 using WizMes_EVC.Order.Pop;
+using System.Threading;
+using System.Windows.Threading;
+
+
+/**************************************************************************************************
+'** 프로그램명 : Win_ord_Close_U
+'** 설명       : 수주등록
+'** 작성일자   : 2024.12.31
+'** 작성자     : 최대현
+'**------------------------------------------------------------------------------------------------
+'**************************************************************************************************
+' 변경일자  , 변경자, 요청자    , 요구사항ID      , 요청 및 작업내용
+'**************************************************************************************************
+' 2025.02.17, 최대현,                              첨부파일 팝업 추가
+' 2025.02.28, 최대현,  김동호 팀장                 CPO정산일, 시공사정산일 컬럼 추가, 정산할때 필요하다고 하고 배경색 따로 줌
+*/
 
 namespace WizMes_EVC
 {
@@ -417,38 +433,47 @@ namespace WizMes_EVC
 
         //엑셀
         private void btnExcel_Click(object sender, RoutedEventArgs e)
-        {
+        {          
             DataTable dt = null;
-
             string[] lst = new string[2];
             lst[0] = "수주조회";
             lst[1] = dgdMain.Name;
             Lib lib = new Lib();
-
             ExportExcelxaml ExpExc = new ExportExcelxaml(lst);
-
             ExpExc.ShowDialog();
+
+            if(dgdMain.Items.Count == 0)
+            {
+                MessageBox.Show("내보낼 데이터가 없습니다.");
+                return;
+            }
 
             if (ExpExc.DialogResult.HasValue)
             {
+                lblMsg.Visibility = Visibility.Visible;
+                UpdateTbkMessage("엑셀을 내보내는 중");
                 if (ExpExc.choice.Equals(dgdMain.Name))
                 {
                     DataStore.Instance.InsertLogByForm(this.GetType().Name, "E");
-                    //MessageBox.Show("대분류");
-                    if (ExpExc.Check.Equals("Y"))
-                        dt = lib.DataGridToDTinHidden(dgdMain);
-                    else
-                        dt = lib.DataGirdToDataTable(dgdMain);
 
-                    Name = dgdMain.Name;
+                    // 임시 파일 이름 생성 (현재 날짜와 시간을 포함)
+                    string tempFileName = $"{dgdMain.Name}_{DateTime.Now:yyyyMMdd_HHmmss}";
 
-                    if (lib.GenerateExcel(dt, Name))
+                    //if (ExpExc.Check.Equals("Y"))
+                    //{
+                     // 다중 헤더 내보내기 새 메서드 사용
+                    if (lib.ExportToExcelWithMultiLevelHeaders(dgdMainHeaderSh, dgdMain, tempFileName))
                     {
-                        lib.excel.Visible = true;
-                        lib.ReleaseExcelObject(lib.excel);
+                        UpdateTbkMessage("내보내기 완료");
+                        MessageBox.Show("엑셀 내보내기가 완료 되었습니다.");
                     }
-                    else
-                        return;
+                    //}
+                    //else
+                    //{
+                    //    // 기존 방식 사용
+                    //    dt = lib.DataGirdToDataTable(dgdMain);
+                    //    lib.GenerateExcel(dt, dgdMain.Name);
+                    //}
                 }
                 else
                 {
@@ -458,7 +483,21 @@ namespace WizMes_EVC
                     }
                 }
             }
+
+            // lib 변수는 해제하되 Excel 객체는 살려둠 (사용자가 계속 작업하기 위해)
             lib = null;
+            lblMsg.Visibility = Visibility.Hidden;
+
+        }
+
+        private void UpdateTbkMessage(string message)
+        {
+            tbkMsg.Text = message;
+            tbkMsg.UpdateLayout();
+            Application.Current.Dispatcher.Invoke(() => { }, DispatcherPriority.Render);
+            // UI 업데이트를 위한 짧은 대기
+            Application.Current.Dispatcher.Invoke(() => { }, DispatcherPriority.Background);
+            Thread.Sleep(10);
         }
 
         //실조회 및 하단 합계
@@ -492,6 +531,15 @@ namespace WizMes_EVC
 
                 sqlParameter.Add("chkInstallLocation", chkInstallLocationSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("InstallLocation", txtInstallLocationSrh.Text);
+
+                sqlParameter.Add("chkCpoCalcuDate", chkCpoCalcuDateSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("CpoCalcuSdate", chkCpoCalcuDateSrh.IsChecked == true ? !IsDatePickerNull(dtpCpoCalcuSdateSrh) ? ConvertDate(dtpCpoCalcuSdateSrh) : "" : "");
+                sqlParameter.Add("CpoCalcuEdate", chkCpoCalcuDateSrh.IsChecked == true ? !IsDatePickerNull(dtpCpoCalcuEdateSrh) ? ConvertDate(dtpCpoCalcuEdateSrh) : "" : "");
+
+                sqlParameter.Add("chkConstrCalcuDate", chkConstrCalcuDateSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("ConstrCalcuSdate", chkConstrCalcuDateSrh.IsChecked == true ? !IsDatePickerNull(dtpConstrCalcuSdateSrh) ? ConvertDate(dtpConstrCalcuSdateSrh) : "" : "");
+                sqlParameter.Add("ConstrCalcuEdate", chkConstrCalcuDateSrh.IsChecked == true ? !IsDatePickerNull(dtpConstrCalcuEdateSrh) ? ConvertDate(dtpConstrCalcuEdateSrh) : "" : "");
+
 
 
                 // 수주상태
@@ -548,6 +596,8 @@ namespace WizMes_EVC
                                 manageCustomConfirmDate = DateTypeHyphen(item["manageCustomConfirmDate"].ToString()),
 
                                 //국소정보
+                                cpoCalcuDate = DateTypeHyphen(item["cpoCalcuDate"].ToString()),
+                                constrCalcuDate = DateTypeHyphen(item["constrCalcuDate"].ToString()),
                                 installLocation = item["installLocation"].ToString(),
                                 installLocationAddress = item["installLocationAddress"].ToString(),
                                 InstallLocationPhone = item["InstallLocationPhone"].ToString(),
@@ -775,6 +825,20 @@ namespace WizMes_EVC
                 sqlParameter.Add("InstallLocation", txtInstallLocationSrh.Text);
 
 
+                sqlParameter.Add("chkCpoCalcuDate", chkCpoCalcuDateSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("CpoCalcuCdate", chkCpoCalcuDateSrh.IsChecked == true ? !IsDatePickerNull(dtpCpoCalcuEdateSrh) ? ConvertDate(dtpCpoCalcuEdateSrh) : "" : "");
+
+                sqlParameter.Add("chkConstrCalcuDate", chkConstrCalcuDateSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("ConstrCalcuDate", chkConstrCalcuDateSrh.IsChecked == true ? !IsDatePickerNull(dtpConstrCalcuEdateSrh) ? ConvertDate(dtpConstrCalcuEdateSrh) : "" : "");
+
+                sqlParameter.Add("chkCpoCalcuDate", chkCpoCalcuDateSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("CpoCalcuSdate", chkCpoCalcuDateSrh.IsChecked == true ? !IsDatePickerNull(dtpCpoCalcuSdateSrh) ? ConvertDate(dtpCpoCalcuSdateSrh) : "" : "");
+                sqlParameter.Add("CpoCalcuEdate", chkCpoCalcuDateSrh.IsChecked == true ? !IsDatePickerNull(dtpCpoCalcuEdateSrh) ? ConvertDate(dtpCpoCalcuEdateSrh) : "" : "");
+
+                sqlParameter.Add("chkConstrCalcuDate", chkConstrCalcuDateSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("ConstrCalcuSdate", chkConstrCalcuDateSrh.IsChecked == true ? !IsDatePickerNull(dtpConstrCalcuSdateSrh) ? ConvertDate(dtpConstrCalcuSdateSrh) : "" : "");
+                sqlParameter.Add("ConstrCalcuEdate", chkConstrCalcuDateSrh.IsChecked == true ? !IsDatePickerNull(dtpConstrCalcuEdateSrh) ? ConvertDate(dtpConstrCalcuEdateSrh) : "" : "");
+
                 // 수주상태
                 sqlParameter.Add("ChkClose", int.Parse(cboOrderStatus.SelectedValue != null ? cboOrderStatus.SelectedValue.ToString() : ""));
 
@@ -914,178 +978,23 @@ namespace WizMes_EVC
             return DigitsDate;
         }
 
-        private void HideColumns()
+
+        private string ConvertDate(DatePicker datePicker)
         {
-            //dgdtpechkChoice.Visibility = Visibility.Hidden;
-
-            //var column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "관리번호");
-            //if (column != null) column.Visibility = Visibility.Hidden;
-
-            //column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "OrderNo");
-            //if (column != null) column.Visibility = Visibility.Hidden;
-
-
-
-            var column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "거래처");
-            if (column != null) column.Visibility = Visibility.Hidden;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "수주수량");
-            if (column != null) column.Visibility = Visibility.Hidden;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "투입수량");
-            if (column != null) column.Visibility = Visibility.Hidden;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "품번");
-            if (column != null) column.Visibility = Visibility.Hidden;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "품명");
-            if (column != null) column.Visibility = Visibility.Hidden;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "차종");
-            if (column != null) column.Visibility = Visibility.Hidden;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "단위");
-            if (column != null) column.Visibility = Visibility.Hidden;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "납기일자");
-            if (column != null) column.Visibility = Visibility.Hidden;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "가공구분");
-            if (column != null) column.Visibility = Visibility.Hidden;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "투입일시");
-            if (column != null) column.Visibility = Visibility.Hidden;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "투입일시");
-            if (column != null) column.Visibility = Visibility.Hidden;
-
-
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "합격");
-            if (column != null) column.Visibility = Visibility.Hidden;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "불량");
-            if (column != null) column.Visibility = Visibility.Hidden;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "제품출고");
-            if (column != null) column.Visibility = Visibility.Hidden;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "과부족");
-            if (column != null) column.Visibility = Visibility.Hidden;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "수주일시");
-            if (column != null) column.Visibility = Visibility.Hidden;
-
-
-            //고정 공정컬럼
-            for (int i = 0; i < 10; i++)
-            {
-                //string columnName = "dgdtxtProcess"  + i;
-                string columnName1 = "dgdtxtProcess" + i + "WorkDateTime";
-                string columnName2 = "dgdtxtProcess" + i + "UnitClss";
-                string columnName3 = "dgdtxtProcess" + i + "WorkQty";
-
-                //var columninner = this.FindName(columnName) as DataGridTextColumn;
-                var columninner1 = this.FindName(columnName1) as DataGridTextColumn;
-                var columninner2 = this.FindName(columnName2) as DataGridTextColumn;
-                var columninner3 = this.FindName(columnName3) as DataGridTextColumn;
-
-                //if (columninner != null)
-                //   columninner.Visibility = Visibility.Visible;
-                if (columninner1 != null)
-                    columninner1.Visibility = Visibility.Visible;
-                if (columninner2 != null)
-                    columninner2.Visibility = Visibility.Visible;
-                if (columninner3 != null)
-                    columninner3.Visibility = Visibility.Visible;
-            }
-
+            if (datePicker.SelectedDate != null)
+                return datePicker.SelectedDate.Value.ToString("yyyMMdd");
+            else
+                return string.Empty;
         }
 
-        private void ShowColumns()
+        private bool IsDatePickerNull(DatePicker datePicker)
         {
-            //dgdtpechkChoice.Visibility = Visibility.Visible;
-
-            //var column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "관리번호");
-            //if (column != null) column.Visibility = Visibility.Visible;
-
-            //column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "OrderNo");
-            //if (column != null) column.Visibility = Visibility.Visible;
-
-            var column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "거래처");
-            if (column != null) column.Visibility = Visibility.Visible;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "품번");
-            if (column != null) column.Visibility = Visibility.Visible;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "수주수량");
-            if (column != null) column.Visibility = Visibility.Visible;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "투입수량");
-            if (column != null) column.Visibility = Visibility.Visible;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "품명");
-            if (column != null) column.Visibility = Visibility.Visible;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "차종");
-            if (column != null) column.Visibility = Visibility.Visible;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "단위");
-            if (column != null) column.Visibility = Visibility.Visible;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "납기일자");
-            if (column != null) column.Visibility = Visibility.Visible;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "가공구분");
-            if (column != null) column.Visibility = Visibility.Visible;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "투입일시");
-            if (column != null) column.Visibility = Visibility.Visible;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "투입일시");
-            if (column != null) column.Visibility = Visibility.Visible;
-
-
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "합격");
-            if (column != null) column.Visibility = Visibility.Visible;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "불량");
-            if (column != null) column.Visibility = Visibility.Visible;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "제품출고");
-            if (column != null) column.Visibility = Visibility.Visible;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "과부족");
-            if (column != null) column.Visibility = Visibility.Visible;
-
-            column = dgdMain.Columns.FirstOrDefault(c => c.Header.ToString() == "수주일시");
-            if (column != null) column.Visibility = Visibility.Visible;
-
-            //고정 공정컬럼     
-
-            for (int i = 0; i < 10; i++)
-            {
-                //string columnName = "dgdtxtProcess" + i;
-                string columnName1 = "dgdtxtProcess" + i + "WorkDateTime";
-                string columnName2 = "dgdtxtProcess" + i + "UnitClss";
-                string columnName3 = "dgdtxtProcess" + i + "WorkQty";
-
-                //var columninner = this.FindName(columnName) as DataGridTextColumn;
-                var columninner1 = this.FindName(columnName1) as DataGridTextColumn;
-                var columninner2 = this.FindName(columnName2) as DataGridTextColumn;
-                var columninner3 = this.FindName(columnName3) as DataGridTextColumn;
-
-                //if (columninner != null)
-                //    columninner.Visibility = Visibility.Hidden;
-                if (columninner1 != null)
-                    columninner1.Visibility = Visibility.Hidden;
-                if (columninner2 != null)
-                    columninner2.Visibility = Visibility.Hidden;
-                if (columninner3 != null)
-                    columninner3.Visibility = Visibility.Hidden;
-            }
+            if (datePicker.SelectedDate == null)
+                return true;
+            else
+                return false;
         }
+
 
         private bool HasNonNullValue(DataRowCollection drc, string propertyName)
         {
@@ -1098,17 +1007,6 @@ namespace WizMes_EVC
             }
             return false;
         }
-
-        #region 동적추가한 것 제거하기
-        ////private void RemoveDynamicColumns()
-        ////{
-        ////    foreach (var column in _dynamicColumns)
-        ////    {
-        ////        dgdMain.Columns.Remove(column);
-        ////    }
-        ////    _dynamicColumns.Clear();
-        ////}
-        #endregion
 
         //전체선택
         private void btnAllCheck_Click(object sender, RoutedEventArgs e)
@@ -1934,6 +1832,73 @@ namespace WizMes_EVC
                 orderID_global = OrderInfo.orderid;
             }
         }
+
+        //CPO정산 - 라벨 클릭
+        private void lblCpoCalcuDateSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if(chkCpoCalcuDateSrh.IsChecked == true)
+            {
+                chkCpoCalcuDateSrh.IsChecked = false;
+                dtpCpoCalcuEdateSrh.IsEnabled = false;
+                dtpCpoCalcuSdateSrh.IsEnabled = false;
+            }
+            else
+            {
+                chkCpoCalcuDateSrh.IsChecked = true;
+                dtpCpoCalcuEdateSrh.IsEnabled = true;
+                dtpCpoCalcuSdateSrh.IsEnabled = true;
+            }
+        }
+
+        //CPO정산 - 체크박스 클릭
+
+        private void chkCpoCalcuDateSrh_Click(object sender, RoutedEventArgs e)
+        {
+            if(chkCpoCalcuDateSrh.IsChecked == true)
+            {
+                chkCpoCalcuDateSrh.IsChecked = true;
+                dtpCpoCalcuEdateSrh.IsEnabled = true;
+                dtpCpoCalcuSdateSrh.IsEnabled = true;
+            }
+            else
+            {
+                chkCpoCalcuDateSrh.IsChecked = false;
+                dtpCpoCalcuEdateSrh.IsEnabled = false;
+                dtpCpoCalcuSdateSrh.IsEnabled = false;
+            }
+        }
+
+        private void lblConstrCalcuDateSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if(chkConstrCalcuDateSrh.IsChecked == true)
+            {
+                chkConstrCalcuDateSrh.IsChecked = false;
+                dtpConstrCalcuEdateSrh.IsEnabled = false;
+                dtpConstrCalcuSdateSrh.IsEnabled = false;
+            }
+            else
+            {
+                chkConstrCalcuDateSrh.IsChecked = true;
+                dtpConstrCalcuEdateSrh.IsEnabled = true;
+                dtpConstrCalcuSdateSrh.IsEnabled = true;
+            }
+        }
+
+        private void chkConstrCalcuDateSrh_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkConstrCalcuDateSrh.IsChecked == true)
+            {
+                chkConstrCalcuDateSrh.IsChecked = true;
+                dtpConstrCalcuEdateSrh.IsEnabled = true;
+                dtpConstrCalcuSdateSrh.IsEnabled = true;
+            }
+            else
+            {
+                chkConstrCalcuDateSrh.IsChecked = false;
+                dtpConstrCalcuEdateSrh.IsEnabled = false;
+                dtpConstrCalcuSdateSrh.IsEnabled = false;
+            }
+        }
     }
 
     class Win_ord_OrderClose_U_CodeView : BaseView
@@ -1959,9 +1924,10 @@ namespace WizMes_EVC
         public string searchCustomID { get; set; }
         public string zoneGbnName { get; set; }
         public string zoneGbnID { get; set; }
-
         public string manageCustomAcptDate { get; set; }
         public string manageCustomConfirmDate { get; set; }
+        public string cpoCalcuDate {get;set;}
+        public string constrCalcuDate { get; set; }
         public string installLocation { get; set; }
         public string installLocationAddress { get; set; }
         public string InstallLocationPhone { get; set; }
