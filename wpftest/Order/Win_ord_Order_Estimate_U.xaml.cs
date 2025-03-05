@@ -148,11 +148,11 @@ namespace WizMes_EVC
             if (!isUserInWorkTeam())
             {
 
-                btnSketch6.Visibility = Visibility.Hidden;
+                grdSketch6.Visibility = Visibility.Hidden;
             }
             else
             {
-                btnSketch6.Visibility = Visibility.Visible;
+                grdSketch6.Visibility = Visibility.Visible;
             }
         }
 
