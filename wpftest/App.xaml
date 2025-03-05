@@ -478,7 +478,7 @@
                 <Setter Property="EnableColumnVirtualization" Value="True"/>
                 <Setter Property="EnableRowVirtualization" Value="True" />
                 <Setter Property="ColumnHeaderHeight" Value="30" />
-                <Setter Property="MinRowHeight" Value="23" />
+                <Setter Property="MinRowHeight" Value="23" />     
                 <EventSetter Event="MouseLeftButtonDown" Handler="MouseLeftDoubleClick"/>
                 <EventSetter Event="SizeChanged" Handler="DataGrid_SizeChanged" />
 
@@ -490,7 +490,7 @@
                         <Setter Property="BorderBrush" Value="White" />
                         <Setter Property="Foreground" Value="White" />
                         <Setter Property="BorderThickness" Value="0.7" />
-                        <Setter Property="FontWeight" Value="Thin" />
+                        <Setter Property="FontWeight" Value="Thin" />           
                         <Setter Property="HorizontalContentAlignment" Value="Center" />
                     </Style>
 
@@ -656,10 +656,32 @@
                 <Setter Property="Background" Value="White"/>
                 <Setter Property="Padding" Value="0"/>
                 <Setter Property="Margin" Value="1, 1, 1, 0" />
-                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>        
                 <!--<EventSetter Event="PreviewKeyDown" Handler="DatePicker_EnterDown"/>	
                 <EventSetter Event="SizeChanged" Handler="DatePicker_SizeChanged"/>	
                 <EventSetter Event="Loaded" Handler="DatePicker_Loaded"/>-->
+            </Style>
+
+            <Style TargetType="{x:Type DatePicker}" x:Key="DatePickerSearch_BigCalander">
+                <Setter Property="IsEnabled" Value="False" />
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="CalendarStyle">
+                    <Setter.Value>
+                        <Style TargetType="{x:Type Calendar}">
+                            <Setter Property="Width" Value="300"/>
+                            <Setter Property="Height" Value="300"/>
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="RenderTransformOrigin" Value="0.5,0"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
             </Style>
 
             <Style TargetType="{x:Type DatePicker}" x:Key="DatePickerMonthYearSearch">
@@ -1484,7 +1506,7 @@
                 <Setter Property="AutoGenerateColumns" Value="False" />
                 <Setter Property="EnableColumnVirtualization" Value="True"/>
                 <Setter Property="EnableRowVirtualization" Value="True" />
-                <Setter Property="ColumnHeaderHeight" Value="40" />
+                <Setter Property="ColumnHeaderHeight" Value="40" />       
 
                 <EventSetter Event="MouseLeftButtonDown" Handler="MouseLeftDoubleClick"/>
                 <EventSetter Event="SizeChanged" Handler="DataGrid_SizeChanged" />
@@ -1497,7 +1519,7 @@
                         <Setter Property="BorderBrush" Value="White" />
                         <Setter Property="Foreground" Value="White" />
                         <Setter Property="BorderThickness" Value="0.7" />
-                        <Setter Property="FontWeight" Value="Thin" />
+                        <Setter Property="FontWeight" Value="Thin" />                   
                         <Setter Property="HorizontalContentAlignment" Value="Center" />
                     </Style>
                     <Style TargetType="DataGridRow">

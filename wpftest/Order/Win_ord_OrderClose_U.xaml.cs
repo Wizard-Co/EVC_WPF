@@ -824,13 +824,6 @@ namespace WizMes_EVC
                 sqlParameter.Add("chkInstallLocation", chkInstallLocationSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("InstallLocation", txtInstallLocationSrh.Text);
 
-
-                sqlParameter.Add("chkCpoCalcuDate", chkCpoCalcuDateSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("CpoCalcuCdate", chkCpoCalcuDateSrh.IsChecked == true ? !IsDatePickerNull(dtpCpoCalcuEdateSrh) ? ConvertDate(dtpCpoCalcuEdateSrh) : "" : "");
-
-                sqlParameter.Add("chkConstrCalcuDate", chkConstrCalcuDateSrh.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("ConstrCalcuDate", chkConstrCalcuDateSrh.IsChecked == true ? !IsDatePickerNull(dtpConstrCalcuEdateSrh) ? ConvertDate(dtpConstrCalcuEdateSrh) : "" : "");
-
                 sqlParameter.Add("chkCpoCalcuDate", chkCpoCalcuDateSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("CpoCalcuSdate", chkCpoCalcuDateSrh.IsChecked == true ? !IsDatePickerNull(dtpCpoCalcuSdateSrh) ? ConvertDate(dtpCpoCalcuSdateSrh) : "" : "");
                 sqlParameter.Add("CpoCalcuEdate", chkCpoCalcuDateSrh.IsChecked == true ? !IsDatePickerNull(dtpCpoCalcuEdateSrh) ? ConvertDate(dtpCpoCalcuEdateSrh) : "" : "");
@@ -882,7 +875,8 @@ namespace WizMes_EVC
                             if (!string.IsNullOrEmpty(Window_OrderClose_DTO.zeroDiffSumCount))
                             {
                                 zeroDiffCount = Convert.ToDouble(Window_OrderClose_DTO.zeroDiffSumCount);
-                                dateDiff = Window_OrderClose_DTO.dateDiffSum != string.Empty ? Convert.ToDouble(Window_OrderClose_DTO.dateDiffSum) / Convert.ToDouble(dgdMain.Items.Count - zeroDiffCount) : 0;
+                                dateDiff = Window_OrderClose_DTO.dateDiffSum != string.Empty ?  Convert.ToDouble(Window_OrderClose_DTO.dateDiffSum) / Convert.ToDouble(dgdMain.Items.Count - zeroDiffCount) : 0;
+                                dateDiff = double.IsNaN(dateDiff) ? 0 : dateDiff;
                             }
 
                             Window_OrderClose_DTO.dateDiffSum = dateDiff.ToString();
