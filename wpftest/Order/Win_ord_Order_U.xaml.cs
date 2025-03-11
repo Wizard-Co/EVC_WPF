@@ -151,6 +151,8 @@ namespace WizMes_EVC
 
         public Win_ord_Order_U()
         {
+
+
             InitializeComponent();
             scrollHelpers.Add(new ScrollSyncHelper(dgdAccSV, dgdAcc));
             SetupLastColumnResize(dgdAcc, dgdAccSV, grdAcc);
@@ -8287,31 +8289,68 @@ namespace WizMes_EVC
         private ScrollViewer _headerScrollViewer;
         private DataGrid _dataGrid;
         private bool _isUpdatingScroll = false;
+        private int _frozenColumnCount = 0;
+        private List<UIElement> _frozenHeaderElements = new List<UIElement>();
+        private ScrollViewer _dataGridScrollViewer = null; // 캐시된 스크롤뷰어 참조
 
-        public ScrollSyncHelper(ScrollViewer headerScrollViewer, DataGrid dataGrid)
+
+        public ScrollSyncHelper(ScrollViewer headerScrollViewer, DataGrid dataGrid, int frozenColumnCount = 0)
         {
             _headerScrollViewer = headerScrollViewer;
             _dataGrid = dataGrid;
+            _frozenColumnCount = frozenColumnCount;
 
-            // 헤더 스크롤뷰어의 이벤트 등록
-            _headerScrollViewer.ScrollChanged += HeaderScrollViewer_ScrollChanged;
+            headerScrollViewer.ScrollChanged += HeaderScrollViewer_ScrollChanged;
+            dataGrid.Loaded += DataGrid_Loaded;
+            LimitHeaderScroll();
 
-            // DataGrid가 로드되면 스크롤뷰어를 찾아서 이벤트 연결
-            _dataGrid.Loaded += DataGrid_Loaded;
+            // 디버깅용 로그
+            Console.WriteLine($"ScrollSyncHelper 생성: DataGrid={dataGrid.Name}, FrozenColumnCount={frozenColumnCount}");
+
+            // 데이터그리드가 이미 로드된 경우 초기화 실행
+            if (dataGrid.IsLoaded)
+            {
+                InitializeScrollViewers();
+            }
         }
 
         private void HeaderScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             if (_isUpdatingScroll) return;
-
             try
             {
                 _isUpdatingScroll = true;
-                var dataGridScrollViewer = FindVisualChild<ScrollViewer>(_dataGrid);
-                if (dataGridScrollViewer != null)
+
+                // 캐시된 스크롤뷰어 사용 또는 필요 시 검색
+                if (_dataGridScrollViewer == null)
                 {
-                    dataGridScrollViewer.ScrollToHorizontalOffset(e.HorizontalOffset);
+                    _dataGridScrollViewer = FindVisualChild<ScrollViewer>(_dataGrid);
                 }
+
+                if (_dataGridScrollViewer != null)
+                {
+                    // 스크롤이 최대치에 가까울 때 특별 처리
+                    double maxScroll = _dataGridScrollViewer.ScrollableWidth;
+                    double offset = e.HorizontalOffset;
+
+                    // 스크롤이 끝에 매우 가까울 때 정확히 최대값으로 고정
+                    if (Math.Abs(offset - maxScroll) < 2 && offset > maxScroll - 5)
+                    {
+                        offset = maxScroll;
+                    }
+
+                    _dataGridScrollViewer.ScrollToHorizontalOffset(offset);
+
+                    // 고정 열 헤더 처리
+                    if (_frozenColumnCount > 0)
+                    {
+                        ApplyFrozenHeaderTransform(offset);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"HeaderScrollViewer_ScrollChanged 오류: {ex.Message}");
             }
             finally
             {
@@ -8322,15 +8361,34 @@ namespace WizMes_EVC
         private void DataGrid_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             if (_isUpdatingScroll) return;
-
             try
             {
                 _isUpdatingScroll = true;
                 var scrollViewer = sender as ScrollViewer;
-                if (scrollViewer != null)
+                if (scrollViewer != null && _headerScrollViewer != null)
                 {
-                    _headerScrollViewer.ScrollToHorizontalOffset(scrollViewer.HorizontalOffset);
+                    // 스크롤이 최대치에 가까울 때 특별 처리
+                    double maxScroll = scrollViewer.ScrollableWidth;
+                    double offset = e.HorizontalOffset;
+
+                    // 스크롤이 끝에 매우 가까울 때 정확히 최대값으로 고정
+                    if (Math.Abs(offset - maxScroll) < 2 && offset > maxScroll - 5)
+                    {
+                        offset = maxScroll;
+                    }
+
+                    _headerScrollViewer.ScrollToHorizontalOffset(offset);
+
+                    // 고정 열 헤더 처리
+                    if (_frozenColumnCount > 0)
+                    {
+                        ApplyFrozenHeaderTransform(offset);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"DataGrid_ScrollChanged 오류: {ex.Message}");
             }
             finally
             {
@@ -8340,22 +8398,372 @@ namespace WizMes_EVC
 
         private void DataGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            var dataGridScrollViewer = FindVisualChild<ScrollViewer>(_dataGrid);
-            if (dataGridScrollViewer != null)
+            InitializeScrollViewers();
+            EnsureHeaderSyncConsistency();
+        }
+
+        private void InitializeScrollViewers()
+        {
+            try
             {
-                dataGridScrollViewer.ScrollChanged += DataGrid_ScrollChanged;
+                // DataGrid의 FrozenColumnCount 설정
+                if (_frozenColumnCount > 0)
+                {
+                    // 최대값 체크 (총 열 개수보다 많으면 안 됨)
+                    int maxColumns = _dataGrid.Columns.Count;
+                    if (_frozenColumnCount > maxColumns - 1) // 최소 하나의 열은 스크롤 가능해야 함
+                    {
+                        _frozenColumnCount = maxColumns - 1;
+                        Console.WriteLine($"FrozenColumnCount 조정됨: {_frozenColumnCount}");
+                    }
+
+                    _dataGrid.FrozenColumnCount = _frozenColumnCount;
+                    Console.WriteLine($"DataGrid.FrozenColumnCount 설정됨: {_frozenColumnCount}");
+
+                    // 고정 헤더 요소 식별 및 초기화
+                    InitializeFrozenHeaderElements();
+                }
+
+                // 스크롤뷰어 찾기 및 이벤트 연결
+                _dataGridScrollViewer = FindVisualChild<ScrollViewer>(_dataGrid);
+                if (_dataGridScrollViewer != null)
+                {
+                    // 기존 이벤트 핸들러 제거 후 다시 추가 (중복 방지)
+                    _dataGridScrollViewer.ScrollChanged -= DataGrid_ScrollChanged;
+                    _dataGridScrollViewer.ScrollChanged += DataGrid_ScrollChanged;
+                }
+                else
+                {
+                    Console.WriteLine("DataGrid의 ScrollViewer를 찾을 수 없음");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"InitializeScrollViewers 오류: {ex.Message}");
             }
         }
 
-        private static T FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
+        // 고정 헤더 요소 초기화
+        private void InitializeFrozenHeaderElements()
+        {
+            _frozenHeaderElements.Clear();
+
+            // ScrollViewer 내용이 Panel인지 확인
+            Panel headerPanel = null;
+
+            if (_headerScrollViewer.Content is Panel panel)
+            {
+                headerPanel = panel;
+            }
+            else if (_headerScrollViewer.Content is Grid grid)
+            {
+                headerPanel = grid;
+            }
+            else
+            {
+                Console.WriteLine($"지원되지 않는 헤더 유형: {_headerScrollViewer.Content?.GetType().Name}");
+                return;
+            }
+
+            // 고정 헤더 요소 식별
+            for (int i = 0; i < _frozenColumnCount && i < headerPanel.Children.Count; i++)
+            {
+                if (headerPanel.Children[i] is UIElement element)
+                {
+                    _frozenHeaderElements.Add(element);
+                    Console.WriteLine($"고정 헤더 요소 추가: {element.GetType().Name}");
+                }
+            }
+
+            foreach (var element in _frozenHeaderElements)
+            {
+                Panel.SetZIndex(element, 100); // Z-Index 설정
+
+                // 오버랩 효과를 위해 약간 넓게 설정
+                if (element is DataGridColumnHeader header)
+                {
+                    // 테두리를 약간 두껍게 하고 오른쪽 여백을 추가
+                    //header.BorderThickness = new Thickness(0, 0, 2, 1); // 오른쪽 테두리 두께 증가
+                    //header.BorderBrush = new SolidColorBrush(Colors.White);
+
+                    // 배경색 설정 (원래 배경색과 동일하게)
+                    if (header.Background is SolidColorBrush brush)
+                    {
+                        SolidColorBrush newBrush = new SolidColorBrush(brush.Color);
+                        header.Background = newBrush;
+                    }
+                    else
+                    {
+                        // 기본 배경색 설정 (테마에 맞게 조정)
+                        header.Background = new SolidColorBrush(Color.FromRgb(51, 102, 204)); // 파란색 계열
+                    }
+
+                    // 마진 약간 변경하여 오버랩 효과
+                    header.Padding = new Thickness(header.Padding.Left, header.Padding.Top,
+                                                 header.Padding.Right + 1, header.Padding.Bottom);
+                }
+            }
+        }
+
+        // 고정 열 헤더에 TranslateTransform 적용
+        private void ApplyFrozenHeaderTransform(double offset)
+        {
+            if (_frozenColumnCount <= 0)
+            {
+                // 고정 열이 없는 경우 변환 명시적으로 Zero로 설정 (null이 아님)
+                foreach (var element in _frozenHeaderElements)
+                {
+                    try
+                    {
+                        // 명시적으로 0으로 설정된 변환 적용
+                        TranslateTransform zeroTransform = new TranslateTransform(0, 0);
+                        element.RenderTransform = zeroTransform;
+                    }
+                    catch (Exception) { }
+                }
+                return;
+            }
+
+            foreach (var element in _frozenHeaderElements)
+            {
+                try
+                {
+                    // TranslateTransform 생성 또는 가져오기
+                    TranslateTransform transform;
+                    if (!(element.RenderTransform is TranslateTransform))
+                    {
+                        transform = new TranslateTransform();
+                        element.RenderTransform = transform;
+                    }
+                    else
+                    {
+                        transform = element.RenderTransform as TranslateTransform;
+                    }
+
+                    transform.X = offset; // 스크롤 오프셋만큼 이동
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"TranslateTransform 적용 오류: {ex.Message}");
+                }
+            }
+        }
+
+        private void EnsureHeaderSyncConsistency()
+        {
+            if (_dataGridScrollViewer == null || _headerScrollViewer == null) return;
+
+            try
+            {
+                // 스크롤 제약 조건 확인
+                double dgMaxScroll = _dataGridScrollViewer.ScrollableWidth;
+                double headerMaxScroll = _headerScrollViewer.ScrollableWidth;
+
+                // 헤더 스크롤뷰어의 최대 스크롤 범위를 데이터그리드와 일치시킴
+                if (Math.Abs(dgMaxScroll - headerMaxScroll) > 0.5)
+                {
+                    // 이를 위해 추가 여백 또는 패딩을 조정해야 할 수 있음
+                    var content = _headerScrollViewer.Content as FrameworkElement;
+                    if (content != null)
+                    {
+                        double requiredWidth = content.ActualWidth + (dgMaxScroll - headerMaxScroll);
+                        if (requiredWidth > content.ActualWidth)
+                        {
+                            content.Width = requiredWidth;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"헤더 동기화 조정 오류: {ex.Message}");
+            }
+        }
+
+        private void LimitHeaderScroll()
+        {
+            _headerScrollViewer.PreviewMouseWheel += (sender, e) => {
+                if (_dataGridScrollViewer == null) return;
+
+                // 현재 스크롤 위치
+                double current = _headerScrollViewer.HorizontalOffset;
+                double max = _dataGridScrollViewer.ScrollableWidth;
+
+                // 끝에 도달했는지 확인
+                if (current >= max - 1)
+                {
+                    // 추가 스크롤 차단
+                    e.Handled = true;
+                }
+            };
+        }
+
+        // FrozenColumnCount 동적 변경 메서드
+        public void SetFrozenColumnCount(int count)
+        {
+            try
+            {
+                EnsureHeaderSyncConsistency();
+
+                if (count < 0) count = 0;
+
+                // 현재 스크롤 위치 저장
+                double currentOffset = 0;
+                var dataGridScrollViewer = FindVisualChild<ScrollViewer>(_dataGrid);
+                if (dataGridScrollViewer != null)
+                {
+                    currentOffset = dataGridScrollViewer.HorizontalOffset;
+                }
+
+                // 이벤트 핸들러 일시적으로 제거 (해제와 설정 모두 동일하게 처리)
+                if (dataGridScrollViewer != null)
+                {
+                    dataGridScrollViewer.ScrollChanged -= DataGrid_ScrollChanged;
+                }
+                if (_headerScrollViewer != null)
+                {
+                    _headerScrollViewer.ScrollChanged -= HeaderScrollViewer_ScrollChanged;
+                }
+
+                // 고정 열 해제 시 특별 처리
+                if (_frozenColumnCount > 0 && count == 0)
+                {
+                    // 고정 열 수 설정
+                    _frozenColumnCount = 0;
+                    _dataGrid.FrozenColumnCount = 0;
+
+                    // 변환 완전히 제거 및 스타일 초기화
+                    foreach (var element in _frozenHeaderElements)
+                    {
+                        // 명시적으로 새 TranslateTransform 생성하여 X=0으로 설정
+                        element.RenderTransform = new TranslateTransform(0, 0);
+
+                        // Z-Index 초기화
+                        Panel.SetZIndex(element, 0);
+
+                        // 헤더인 경우 추가 스타일 초기화
+                        if (element is DataGridColumnHeader header)
+                        {
+                            // 원래 패딩으로 복원
+                            header.ClearValue(Control.PaddingProperty);
+
+                            // 배경 초기화 (필요한 경우)
+                            header.ClearValue(Control.BackgroundProperty);
+
+                            // 테두리 초기화 (필요한 경우)
+                            header.ClearValue(Control.BorderThicknessProperty);
+                            header.ClearValue(Control.BorderBrushProperty);
+                        }
+                    }
+                    _frozenHeaderElements.Clear();
+
+                    // UI 업데이트를 기다린 후 스크롤 위치 강제 동기화
+                    _dataGrid.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        // 스크롤 위치 복원 - 중요: 먼저 헤더를 설정한 다음 데이터그리드를 설정
+                        _headerScrollViewer.ScrollToHorizontalOffset(0);
+                        if (dataGridScrollViewer != null)
+                        {
+                            dataGridScrollViewer.ScrollToHorizontalOffset(0);
+                        }
+
+                        // 그 다음 원래 위치로 다시 스크롤
+                        _headerScrollViewer.ScrollToHorizontalOffset(currentOffset);
+                        if (dataGridScrollViewer != null)
+                        {
+                            dataGridScrollViewer.ScrollToHorizontalOffset(currentOffset);
+                        }
+
+                        // 이벤트 핸들러 다시 연결
+                        _headerScrollViewer.ScrollChanged += HeaderScrollViewer_ScrollChanged;
+                        if (dataGridScrollViewer != null)
+                        {
+                            dataGridScrollViewer.ScrollChanged += DataGrid_ScrollChanged;
+                        }
+                    }), System.Windows.Threading.DispatcherPriority.Render);
+
+                    return; // 여기서 메서드 종료
+                }
+                else if (count > 0)
+                {
+                    // 고정 열 설정 (활성화) 로직
+                    _frozenColumnCount = count; // 이 부분이 누락됨
+
+                    if (_dataGrid != null)
+                    {
+                        _dataGrid.FrozenColumnCount = count;
+
+                        // UI 업데이트를 위한 Dispatcher 사용
+                        _dataGrid.Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            try
+                            {
+                                // 고정 헤더 요소 다시 초기화
+                                InitializeFrozenHeaderElements();
+
+                                // 스크롤 위치 복원을 위한 추가 지연
+                                _dataGrid.Dispatcher.BeginInvoke(new Action(() =>
+                                {
+                                    _isUpdatingScroll = true; // 이벤트 핸들러 순환 방지
+
+                                    try
+                                    {
+                                        // 우선 데이터그리드 스크롤 위치 복원
+                                        if (dataGridScrollViewer != null)
+                                        {
+                                            dataGridScrollViewer.ScrollToHorizontalOffset(currentOffset);
+                                        }
+
+                                        // 헤더 스크롤 위치도 복원
+                                        if (_headerScrollViewer != null)
+                                        {
+                                            _headerScrollViewer.ScrollToHorizontalOffset(currentOffset);
+                                        }
+
+                                        // 고정 헤더에 변환 적용
+                                        ApplyFrozenHeaderTransform(currentOffset);
+
+                                        // 이벤트 핸들러 다시 연결
+                                        _headerScrollViewer.ScrollChanged += HeaderScrollViewer_ScrollChanged;
+                                        if (dataGridScrollViewer != null)
+                                        {
+                                            dataGridScrollViewer.ScrollChanged += DataGrid_ScrollChanged;
+                                        }
+
+                                        Console.WriteLine($"스크롤 위치 복원: {currentOffset}");
+                                    }
+                                    finally
+                                    {
+                                        _isUpdatingScroll = false;
+                                    }
+                                }), System.Windows.Threading.DispatcherPriority.Input);
+
+                                Console.WriteLine($"FrozenColumnCount 변경됨: {count}");
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"Dispatcher 콜백 오류: {ex.Message}");
+                            }
+                        }), System.Windows.Threading.DispatcherPriority.Render);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"SetFrozenColumnCount 오류: {ex.Message}");
+            }
+        }
+
+
+
+
+        public static T FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
         {
             T foundChild = null;
             int childCount = VisualTreeHelper.GetChildrenCount(parent);
-
             for (int i = 0; i < childCount; i++)
             {
                 var child = VisualTreeHelper.GetChild(parent, i);
-
                 if (child is T)
                 {
                     foundChild = (T)child;
@@ -8368,7 +8776,6 @@ namespace WizMes_EVC
                         break;
                 }
             }
-
             return foundChild;
         }
 
@@ -8378,19 +8785,26 @@ namespace WizMes_EVC
             {
                 _headerScrollViewer.ScrollChanged -= HeaderScrollViewer_ScrollChanged;
             }
-
             if (_dataGrid != null)
             {
-                var dataGridScrollViewer = FindVisualChild<ScrollViewer>(_dataGrid);
-                if (dataGridScrollViewer != null)
+                if (_dataGridScrollViewer != null)
                 {
-                    dataGridScrollViewer.ScrollChanged -= DataGrid_ScrollChanged;
+                    _dataGridScrollViewer.ScrollChanged -= DataGrid_ScrollChanged;
+                }
+                else
+                {
+                    var dataGridScrollViewer = FindVisualChild<ScrollViewer>(_dataGrid);
+                    if (dataGridScrollViewer != null)
+                    {
+                        dataGridScrollViewer.ScrollChanged -= DataGrid_ScrollChanged;
+                    }
                 }
                 _dataGrid.Loaded -= DataGrid_Loaded;
             }
-
             _headerScrollViewer = null;
+            _dataGridScrollViewer = null;
             _dataGrid = null;
+            _frozenHeaderElements.Clear();
         }
     }
 

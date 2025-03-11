@@ -11,6 +11,8 @@ using WPF.MDI;
 using System.Windows.Media;
 using System.Text.RegularExpressions;
 using System.Security.RightsManagement;
+using System.Linq;
+using System.Windows.Controls.Primitives;
 
 
 namespace WizMes_EVC
@@ -20,9 +22,12 @@ namespace WizMes_EVC
     /// </summary>
     public partial class Win_ord_TodoList_Q : UserControl
     {
+
+
         public Win_ord_TodoList_Q()
         {
             InitializeComponent();
+            scrollHelpers = new ScrollSyncHelper(dgdMainHeaderSh, dgdMain);
             this.GotFocus += Win_ord_TodoList_Q_GotFocus;
         }
         Lib lib = new Lib();
@@ -42,6 +47,10 @@ namespace WizMes_EVC
         DataTable DT;
 
         string OrderID_global = string.Empty;
+        private ScrollSyncHelper scrollHelpers = null;
+
+        //private List<ScrollSyncHelper> scrollHelpers = new List<ScrollSyncHelper>();
+
 
         // 첫 로드시.
         private void Win_ord_TodoList_Q_Loaded(object sender, RoutedEventArgs e)
@@ -256,6 +265,9 @@ namespace WizMes_EVC
 
                 sqlParameter.Add("ChkCloseYn", chkCloseYN.IsChecked == true ? 1 : 0);
 
+                sqlParameter.Add("ChkKepElecMethod", chkKepDeliMethodSrh.IsChecked == true ? 1 : 0);
+                sqlParameter.Add("KepElecMethod", chkKepDeliMethodSrh.IsChecked == true ? txtKepDeliMethodSrh.Text : "");
+
                 DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_ord_sTodoList", sqlParameter, true, "R");
                 DataTable dt = null;
 
@@ -277,157 +289,7 @@ namespace WizMes_EVC
 
                         foreach (DataRow item in drc)
                         {
-                            i++;
-                            #region orderColumn..
-                            //var dgdCondition = new Win_ord_TodoList_Q_View()
-                            //{
-                            //    Num = i + "",
-
-                            //orderNo = item["orderNo"].ToString(),
-                            //CLoseYn = item["CLoseYn"].ToString(),
-                            //orderid = item["orderid"].ToString(),
-                            //acptDate = DateTypeHyphen(item["acptDate"].ToString()),
-                            //EstID = item["EstID"].ToString(),
-                            //saleCustomName = item["saleCustomName"].ToString(),
-                            //saleCustomID = item["saleCustomID"].ToString(),
-                            //managerCustomName = item["managerCustomName"].ToString(),
-                            //managerCustomID = item["managerCustomID"].ToString(),
-                            //searchCustomName = item["searchCustomName"].ToString(),
-                            //searchCustomID = item["searchCustomID"].ToString(),
-                            //zoneGbnName = item["zoneGbnName"].ToString(),
-                            //zoneGbnID = item["zoneGbnID"].ToString(),
-                            //manageCustomAcptDate = DateTypeHyphen(item["manageCustomAcptDate"].ToString()),
-                            //manageCustomConfirmDate = DateTypeHyphen(item["manageCustomConfirmDate"].ToString()),
-                            //installLocation = item["installLocation"].ToString(),
-                            //installLocationAddress = item["installLocationAddress"].ToString(),
-                            //InstallLocationPhone = item["InstallLocationPhone"].ToString(),
-                            //installLocationPart = item["installLocationPart"].ToString(),
-                            //houseHoldCount = item["houseHoldCount"].ToString(),
-                            //carParkingCount = item["carParkingCount"].ToString(),
-                            //electrCarCount = item["electrCarCount"].ToString(),
-                            //alReadyChargeCount = item["alReadyChargeCount"].ToString(),
-                            //reqChargeCount = item["reqChargeCount"].ToString(),
-                            //alreadyManageCustomName = item["alreadyManageCustomName"].ToString(),
-                            //alreadyManageCustomID = item["alreadyManageCustomID"].ToString(),
-                            //installLocationComments = item["installLocationComments"].ToString(),
-                            //contractFromDate = item["contractFromDate"].ToString(),
-                            //contractToDate = item["contractToDate"].ToString(),
-                            //openReqDate = item["openReqDate"].ToString(),
-                            //openDate = item["openDate"].ToString(),
-                            //damdangjaName = item["damdangjaName"].ToString(),
-                            //damdangjaPhone = item["damdangjaPhone"].ToString(),
-                            //damdangjaEMail = item["damdangjaEMail"].ToString(),
-                            //installLocationAddComments = item["installLocationAddComments"].ToString(),
-                            //saledamdangjaPhone = item["saledamdangjaPhone"].ToString(),
-                            //saleCustomAddWork = item["saleCustomAddWork"].ToString(),
-                            //salegift = item["salegift"].ToString(),
-                            //article = item["article"].ToString(),
-                            //chargeOrderDate = item["chargeOrderDate"].ToString(),
-                            //chargeInwareDate = item["chargeInwareDate"].ToString(),
-                            //chargeInwareQty = item["chargeInwareQty"].ToString(),
-                            //chargeInwareLocation = item["chargeInwareLocation"].ToString(),
-                            //canopyReqCustom = item["canopyReqCustom"].ToString(),
-                            //chargeModelHelmat = item["chargeModelHelmat"].ToString(),
-                            //chargeModelinloc = item["chargeModelinloc"].ToString(),
-                            //chargeModelOneBody = item["chargeModelOneBody"].ToString(),
-                            //chargeStandReqDate = item["chargeStandReqDate"].ToString(),
-                            //chargeStandInwareDate = item["chargeStandInwareDate"].ToString(),
-                            //mtrCanopyInwareInfo = item["mtrCanopyInwareInfo"].ToString(),
-                            //mtrCanopyOrderAmount = item["mtrCanopyOrderAmount"].ToString(),
-                            //comments = item["comments"].ToString(),
-                            //searchReqDate = item["searchReqDate"].ToString(),
-                            //searchDate = item["searchDate"].ToString(),
-                            //searchQty = item["searchQty"].ToString(),
-                            //searchDataAcptDate = item["searchDataAcptDate"].ToString(),
-                            //installLocationCount = item["installLocationCount"].ToString(),
-                            //electrDeliveryMethod = item["electrDeliveryMethod"].ToString(),
-                            //inspectionNeedYN = item["inspectionNeedYN"].ToString(),
-                            //addConstructCostSearch = item["addConstructCostSearch"].ToString(),
-                            //addConstructCost = item["addConstructCost"].ToString(),
-                            //searchComments = item["searchComments"].ToString(),
-                            //corpAcptNo = item["corpAcptNo"].ToString(),
-                            //corpApprovalDate = item["corpApprovalDate"].ToString(),
-                            //corpEndDate = item["corpEndDate"].ToString(),
-                            //corpLastEndDate = item["corpLastEndDate"].ToString(),
-                            //corpComments = item["corpComments"].ToString(),
-                            //kepInstallLocationCount = item["kepInstallLocationCount"].ToString(),
-                            //kepElectrDeliveryMethod = item["kepElectrDeliveryMethod"].ToString(),
-                            //kepOutLineConstructContext = item["kepOutLineConstructContext"].ToString(),
-                            //kepInfraPayAmount = item["kepInfraPayAmount"].ToString(),
-                            //kepManageInfraPayAmount = item["kepManageInfraPayAmount"].ToString(),
-                            //kepElectrReqDate = item["kepElectrReqDate"].ToString(),
-                            //kepInApprovalYN = item["kepInApprovalYN"].ToString(),
-                            //kepInApprovalDate = item["kepInApprovalDate"].ToString(),
-                            //kepMeterInstallContext = item["kepMeterInstallContext"].ToString(),
-                            //kepDamdangjaPhone = item["kepDamdangjaPhone"].ToString(),
-                            //kepCustomNo = item["kepCustomNo"].ToString(),
-                            //kepPaymentDate = item["kepPaymentDate"].ToString(),
-                            //kepMeterInstallDate = item["kepMeterInstallDate"].ToString(),
-                            //kepFaucetComments = item["kepFaucetComments"].ToString(),
-                            //constrCustomName = item["constrCustomName"].ToString(),
-                            //constrCustomID = item["constrCustomID"].ToString(),
-                            //constrOrderDate = item["constrOrderDate"].ToString(),
-                            //constrDate = item["constrDate"].ToString(),
-                            //constrDelyReason = item["constrDelyReason"].ToString(),
-                            //constrCompleteDate = item["constrCompleteDate"].ToString(),
-                            //constrComments = item["constrComments"].ToString(),
-                            //electrSafeCheckDate = item["electrSafeCheckDate"].ToString(),
-                            //electrSafeCheckSuppleContext = item["electrSafeCheckSuppleContext"].ToString(),
-                            //electrSafeCheckLocation = item["electrSafeCheckLocation"].ToString(),
-                            //electrSafeCheckCost = item["electrSafeCheckCost"].ToString(),
-                            //electrSafeCheckCostPayDate = item["electrSafeCheckCostPayDate"].ToString(),
-                            //electrBeforeUseCheckReqDate = item["electrBeforeUseCheckReqDate"].ToString(),
-                            //electrSafeCheckPrintDate = item["electrSafeCheckPrintDate"].ToString(),
-                            //electrBeforeUseCheckSuppleContext = item["electrBeforeUseCheckSuppleContext"].ToString(),
-                            //electrBeforeInspLocation = item["electrBeforeInspLocation"].ToString(),
-                            //electrBeforeInspReqDate = item["electrBeforeInspReqDate"].ToString(),
-                            //electrBeforeInspPrintDate = item["electrBeforeInspPrintDate"].ToString(),
-                            //electrBeforeInspCost = item["electrBeforeInspCost"].ToString(),
-                            //electrBeforeInspCostPayDate = item["electrBeforeInspCostPayDate"].ToString(),
-                            //electrBeforeInspSuppleContext = item["electrBeforeInspSuppleContext"].ToString(),
-                            //electrSafeCheckComments = item["electrSafeCheckComments"].ToString(),
-                            //superCustomName = item["superCustomName"].ToString(),
-                            //superCustomID = item["superCustomID"].ToString(),
-                            //superCostPayCustom = item["superCostPayCustom"].ToString(),
-                            //superCostPayCustomID = item["superCostPayCustomID"].ToString(),
-                            //superCustomPhoneNo = item["superCustomPhoneNo"].ToString(),
-                            //safeManageCustomName = item["safeManageCustomName"].ToString(),
-                            //safeManageCustomID = item["safeManageCustomID"].ToString(),
-                            //safeManageCustomPhoneNo = item["safeManageCustomPhoneNo"].ToString(),
-                            //superSetCost = item["superSetCost"].ToString(),
-                            //superSetTaxPrintDate = item["superSetTaxPrintDate"].ToString(),
-                            //superUseInspPayCustomName = item["superUseInspPayCustomName"].ToString(),
-                            //superUseInspPayCustomID = item["superUseInspPayCustomID"].ToString(),
-                            //superUseInspReqDate = item["superUseInspReqDate"].ToString(),
-                            //superFromUseInspReqDate = item["superFromUseInspReqDate"].ToString(),
-                            //superBeforeUseInspDate = item["superBeforeUseInspDate"].ToString(),
-                            //superComments = item["superComments"].ToString(),
-                            //compReplyDate = item["compReplyDate"].ToString(),
-                            //suppleContext = item["suppleContext"].ToString(),
-                            //suppleCompDate = item["suppleCompDate"].ToString(),
-                            //compSuppleReportContext = item["compSuppleReportContext"].ToString(),
-                            //compSuppleReportDate = item["compSuppleReportDate"].ToString(),
-                            //insurePrintDate = item["insurePrintDate"].ToString(),
-                            //compReportCompDate = item["compReportCompDate"].ToString(),
-                            //compReportComments = item["compReportComments"].ToString(),
-                            //accntMgrWorkPreTaxPrintDate = item["accntMgrWorkPreTaxPrintDate"].ToString(),
-                            //accntMgrWorkPreAmount = item["accntMgrWorkPreAmount"].ToString(),
-                            //accntMgrWorkPreAmountComments = item["accntMgrWorkPreAmountComments"].ToString(),
-                            //accntMgrWorkAfterTaxPrintDate = item["accntMgrWorkAfterTaxPrintDate"].ToString(),
-                            //accntMgrWorkAfterAmount = item["accntMgrWorkAfterAmount"].ToString(),
-                            //accntMgrWorkAfterAmountComments = item["accntMgrWorkAfterAmountComments"].ToString(),
-                            //accntMgrWorkTaxPrintDate = item["accntMgrWorkTaxPrintDate"].ToString(),
-                            //accntMgrWorkAmount = item["accntMgrWorkAmount"].ToString(),
-                            //accntMgrWorkAmountComments = item["accntMgrWorkAmountComments"].ToString(),
-                            //accntWorkTaxPrintDate = item["accntWorkTaxPrintDate"].ToString(),
-                            //accntWorkAmount = item["accntWorkAmount"].ToString(),
-                            //accntWorkAmountComments = item["accntWorkAmountComments"].ToString(),
-                            //accntSalesTaxPrintDate = item["accntSalesTaxPrintDate"].ToString(),
-                            //accntSalesAmount = item["accntSalesAmount"].ToString(),
-                            //accntSalesAmountComments = item["accntSalesAmountComments"].ToString(),
-
-                            //};
-                            #endregion
+                            i++;                 
                             var dgdCondition = new Win_ord_TodoList_Q_View() 
                             { 
                                 Num = i.ToString(), 
@@ -444,41 +306,47 @@ namespace WizMes_EVC
 
 
                             string[] currentDates = {
-                               "manageCustomAcptDate",
-                               "manageCustomConfirmDate",
-                               "chargeStandInwareDate",
-                               "searchReqDate",
-                               "searchDate",
-                               "corpApprovalDate",
-                               "corpEndDate",
-                               "corpLastEndDate",
-                               "localGovBehaviorReportDate",
-                               "kepElectrReqDate",
-                               "kepInApprovalDate",
-                               "kepPaymentDate",
-                               "kepMeterInstallDate",
-                               "constrDate",
-                               "constrCompleteDate",
-                               "electrSafeCheckDate",
-                               "electrSafeCheckCostPayDate",
-                               "electrBeforeUseCheckReqDate",
-                               "electrBeforeUseCheckPrintDate",
-                               "electrBeforeInspReqDate",
-                               "electrBeforeInspPrintDate",
-                               "electrBeforeInspCostPayDate",
-                               "superSetTaxPrintDate",
-                               "superUseInspReqDate",
-                               "superBeforeUseInspDate",
-                               "superBeforeUseInspPrintDate",
-                               "compReplyDate",
-                               "suppleCompDate",
-                               "compSuppleReportDate",
-                               "insurePrintDate",
-                               "compReportCompDate",
-                               "accntMgrWorkPreTaxPrintDate",
-                               "accntMgrSalesPreTaxPrintDate",
-                               "accntWorkPreTaxPrintDate",
-                               "accntSalesPreTaxPrintDate",
+                               "manageCustomAcptDate",                          //운영사접수일
+                               "manageCustomConfirmDate",                       //운영사컨펌완요리
+                               "chargeStandInwareDate",                         //충전기입고일 -> 입고일
+                               "searchReqDate",                                 //실사요청일
+                               "searchDate",                                    //실사일
+
+                               "corpApprovalDate",                              //공단승인일
+                               "corpEndDate",                                   //공기마감일
+                               "corpLastEndDate",                               //공기최종마감일
+                               "localGovBehaviorReportDate",                    //행위신고발급일
+                               "kepElectrReqDate",                              //전기사용신청일
+
+                               "kepInApprovalDate",                             //인입승인일   --제거됨
+                               "kepPaymentDate",                                //한전불입금납부일
+                               "kepMeterInstallDate",                           //계량기부설일
+                               "constrDate",                                    //착공일
+                               "constrCompleteDate",                            //시공완료일
+
+                               "electrSafeCheckDate",                           //전기안전점검요청일
+                               "electrSafeCheckCostPayDate",                    //전기안전점검수수료납부일
+                               "electrBeforeUseCheckReqDate",                   //사용전점검요청일
+                               "electrBeforeUseCheckPrintDate",                 //사용전검검확인증발급일
+                               "electrBeforeInspReqDate",                       //사용전검사 요청일
+
+                               "electrBeforeInspPrintDate",                     //사용전검사 확인증 발급일
+                               "electrBeforeInspCostPayDate",                   //사용전검사수수료납부 납부일
+                               "superSetTaxPrintDate",                          //감리배치계산서발행
+                               "superUseInspReqDate",                           //사용검사신청
+                               "superBeforeUseInspDate",                        //사용전 검사일 --제거됨
+
+                               "superBeforeUseInspPrintDate",                   //사용검사 필증 발급일    
+                               "compReplyDate",                                 //준공서류회신
+                               "suppleCompDate",                                //시공보완완료
+                               "compSuppleReportDate",                          //준공서류보완
+                               "insurePrintDate",                               //하자보증보험발행
+
+                               "compReportCompDate",                            //준공서류완료
+                               "accntMgrWorkPreTaxPrintDate",                   //운영사시공비(선금)
+                               "accntMgrSalesPreTaxPrintDate",                  //운영사영업비(선금)
+                               "accntWorkPreTaxPrintDate",                      //시공팀(선금)
+                               "accntSalesPreTaxPrintDate",                     //영업사원(선금)
                             };
 
                             //string[] nextDates = {
@@ -525,27 +393,143 @@ namespace WizMes_EVC
                             //정상적일 경우 false를 반환할때까지 반복
 
                             //그냥 일자 있으면 전부 녹색불로 변경 2025.02.11
-                            for (int j = 0; j < currentDates.Length; j++)
-                            {
-                                var currentDate = item[currentDates[j]].ToString();
-                                //var nextDate = item[nextDates[j]].ToString();
 
-                                //if (!string.IsNullOrEmpty(currentDate.Trim()) && CheckDays(currentDate, nextDate))
-                                if (!string.IsNullOrEmpty(currentDate.Trim()))
+                            //2025.03.06 김동호
+                            //수전방법에따라서 뭘 보여주고 안 보여줘야된다고 함 -> 녹색, 빨간불 자체가 없도록 해야함 -> 클래스 속성값을 null로 처리하면 안 뜸
+                            //모자분할(옥내/외) : 전기안전점검수수료납부일 , 전기안전점검요청일 활성화 이외 전기안전공사 정보 & 감리 불필요
+                            //한전인입(옥내)수전용량 상관없음: 전기안전공사 진행정보 모두 및 감리 활성화
+                            //한전인입(옥외)수전용량 75KW이하: 사용전점검요청일, 사용전점검확인증발급일 활성화 이외 전기안전공사 정보 & 감리 불필요
+                            //한전인입(옥외)수전용량 75KW이상: 전기안전공사 진행정보 모두 및 감리 활성화
+                            //모자분할(옥내 / 외) + 한전인입(옥내)수전용량 상관없음 : 전기안전공사 진행정보 모두 및 감리 활성화
+                            //모자분할(옥내 / 외) + 한전인입(옥외)수전용량 75KW이하: 사용전검사요청일, 사용전검사수수료납부일, 사용전검사확인증발급일&감리 비활성화
+                            //모자분할(옥내 / 외) + 한전인입(옥외)수전용량 75KW이상: 전기안전공사 진행정보 모두 및 감리 활성화
+
+                            //기본적으로 적힌 숫자의 곱하기7을 한게 전기용량이라하는데 작성할때 곱하기 한 값을 적도록 하고
+                            //서로 차이나는 경우 (모자11 + 한전6) 큰 숫자를 기준으로 함
+                            //3월6일 기준으로 적은 내용은 곱하기 7을 하여야 함. 그런데 그렇게하면 헷갈리니 실제 용량만큼 적는다하였음
+                            //모자11 + 한전 6 -> 모자77 + 한전 42 (아 용량이 75kw가 넘네) -> 전기안전공사 진행정보 모두 및 감리 활성화
+
+                            //<예외처리>
+                            //75이상, 75이하? -> 75미만, 75이상이라함
+                            //옥외 옥내 안 적힌 것도 있는데 이런경우 옥내인가?
+                            //한전 불입이면 전봇대이기때문에 옥외일 가능성이 많고, 모자분리일때는 옥외 옥내 둘다 가능성이 있다함 -> 그럼 옥내 옥외를 정확하게 적어줘야 합니다
+                            //모자분리는 옥내옥외를 가리지 않고, 한전일때만 옥내, 옥외 구분을 하고 용량구분을 함
+                            
+                            //모자분리, 모자분할.. 이라 적은건 모자만 들어가면 되겠고
+                            //한전불입, 인입이라고 적었는데 실제 나뉜건지? 아니면 같은 의미인데 다르게 부르는건지 -> 그냥 같은의미로 알면 된다함                            
+
+
+                            //for (int j = 0; j < currentDates.Length; j++)
+                            //{
+                            //    var currentDate = item[currentDates[j]].ToString();
+                            //    //var nextDate = item[nextDates[j]].ToString();
+
+                            //    //if (!string.IsNullOrEmpty(currentDate.Trim()) && CheckDays(currentDate, nextDate))
+                            //    //모자분할 + 한전인입 
+                            //    if (!string.IsNullOrEmpty(currentDate.Trim()))
+                            //    {
+                            if (dgdCondition.kepElectrDeliveryMethod.Contains("모자"))
+                            {                         
+                                        
+                                if (dgdCondition.kepElectrDeliveryMethod.Contains("한전"))
                                 {
-                                    typeof(Win_ord_TodoList_Q_View).GetProperty(currentDates[j])
-                                        ?.SetValue(dgdCondition, true);
-                                    typeof(Win_ord_TodoList_Q_View).GetProperty(currentDates[j] + "_ToolTip")
-                                        ?.SetValue(dgdCondition, DateTypeHyphen(currentDate));
+                                    int Kepindex = dgdCondition.kepElectrDeliveryMethod.IndexOf("한전");
+                                    string KepString = dgdCondition.kepElectrDeliveryMethod.Substring(Kepindex);
+
+                                    string numbers = new string(KepString.Where(char.IsDigit).ToArray());
+                                    if (KepString.Contains("옥내"))
+                                    {
+                                        Condition2(dgdCondition, currentDates, item);
+                                    }
+                                    else if (KepString.Contains("옥외"))
+                                    {
+                                        if (numbers != "0" && numbers.Length > 0)
+                                        {
+
+                                            //숫자가 있으면 그걸 용량으로 계산
+                                            int kiloWatt = Convert.ToInt32(numbers);
+                                            if (kiloWatt >= 75)
+                                            {
+                                                Condition2(dgdCondition, currentDates,item);
+                                            }
+                                            else if (kiloWatt < 75)
+                                            {
+                                                Condition4(dgdCondition, currentDates,item);
+                                            }
+                                        }
+                                        if(numbers.Trim() == string.Empty)
+                                        {
+                                            Condition4(dgdCondition, currentDates,item);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        dgdCondition.NoKepElectDeliMethodOutOrIn = true;
+                                        dgdCondition.NoKepElectDeliMethodOutOrIn_ToolTip = $"수주번호 :{dgdCondition.orderno} : 옥외 또는 옥내 구분이 없습니다.";
+
+                                    }
+
+                                }
+                                //모자분할만 있는 경우
+                                else if (!dgdCondition.kepElectrDeliveryMethod.Contains("한전"))
+                                {
+                                    Condition1(dgdCondition, currentDates,item);
+                                }
+
+                            }
+                            //한전인입 단독
+                            else if (dgdCondition.kepElectrDeliveryMethod.Contains("한전"))       
+                            {
+                                //전기 옥내일 경우 모두 활성화
+                                if (dgdCondition.kepElectrDeliveryMethod.Contains("옥내"))
+                                {
+                                    Condition2(dgdCondition, currentDates,item);
+                                }
+                                //옥외일경우 용량기준 75kw로 판단
+                                else if (dgdCondition.kepElectrDeliveryMethod.Contains("옥외"))
+                                {
+                                    //글자에서 숫자 추출
+                                    string numbers = new string(dgdCondition.kepElectrDeliveryMethod.Where(char.IsDigit).ToArray());
+                                    if (numbers != "0" && numbers.Length > 0)
+                                    {
+
+                                        //숫자가 있으면 그걸 용량으로 계산
+                                        int kiloWatt = Convert.ToInt32(numbers);
+                                        if (kiloWatt >= 75)
+                                        {
+                                            Condition2(dgdCondition, currentDates,item);
+                                        }
+                                        else if(kiloWatt < 75)
+                                        {
+                                            Condition3(dgdCondition, currentDates,item);
+                                        }
+                                    }
+                                         
                                 }
                                 else
                                 {
-                                    typeof(Win_ord_TodoList_Q_View).GetProperty(currentDates[j])
-                                        ?.SetValue(dgdCondition, false);                                                         
-                                 
+                                    dgdCondition.NoKepElectDeliMethodOutOrIn = true;
+                                    dgdCondition.NoKepElectDeliMethodOutOrIn_ToolTip = $"수주번호 :{dgdCondition.orderno} : 옥외 또는 옥내 구분이 없습니다.";
                                 }
                             }
-                                                 
+                            else
+                            {
+                                dgdCondition.NoElecDeliMethod = true;
+                                dgdCondition.NoElecDeliMethod_ToolTip = $"수주번호 :{dgdCondition.orderno} : 전기조달방법이 입력되지 않았습니다.";
+                            }
+                                        
+                                //    typeof(Win_ord_TodoList_Q_View).GetProperty(currentDates[j])
+                                //        ?.SetValue(dgdCondition, true);
+                                //    typeof(Win_ord_TodoList_Q_View).GetProperty(currentDates[j] + "_ToolTip")
+                                //        ?.SetValue(dgdCondition, DateTypeHyphen(currentDate));
+                                //}
+                                //else
+                                //{
+                                //    typeof(Win_ord_TodoList_Q_View).GetProperty(currentDates[j])
+                                //        ?.SetValue(dgdCondition, false);                                                         
+                                 
+                                //}
+                            //}                                                 
 
                             //메인그리드 열 순서에 따라 이미지를 넣기(수동버전)
 
@@ -557,10 +541,7 @@ namespace WizMes_EVC
                             //{ dgdCondition.manageCustomConfirmDate = true; }
                             //else { dgdCondition.manageCustomConfirmDate = false; dgdMain.Items.Add(dgdCondition); continue; }
 
-
-
                             dgdMain.Items.Add(dgdCondition);
-
 
                         }
 
@@ -578,6 +559,124 @@ namespace WizMes_EVC
             }
         }
         #endregion
+
+        //한전전기조달방법에 모자분할만 있는 경우("모자"글자가 검출되고 "한전"이 없는 경우)        
+        private void Condition1(Win_ord_TodoList_Q_View  dgdCondtion, string[] currentDates, DataRow item)
+        {
+            for (int i = 0; i < currentDates.Length; i++)
+            {
+                string currentDate = currentDates[i];               
+
+                if (currentDates[i].ToString() == "electrBeforeUseCheckReqDate" || currentDates[i].ToString() == "electrBeforeUseCheckPrintDate" ||
+                    currentDates[i].ToString() == "electrBeforeInspReqDate"     || currentDates[i].ToString() == "electrBeforeInspPrintDate"     ||
+                    currentDates[i].ToString() == "electrBeforeInspCostPayDate" || currentDates[i].ToString() == "superSetTaxPrintDate")
+                {
+                    typeof(Win_ord_TodoList_Q_View).GetProperty(currentDate)
+                        ?.SetValue(dgdCondtion, null);
+                }
+                else if (!string.IsNullOrWhiteSpace(item[currentDates[i]].ToString().Trim()))
+                {
+               
+                    typeof(Win_ord_TodoList_Q_View).GetProperty(currentDate)
+                        ?.SetValue(dgdCondtion, true);
+                    var value = item[currentDate].ToString();
+                    typeof(Win_ord_TodoList_Q_View).GetProperty(currentDate + "_ToolTip")
+                        ?.SetValue(dgdCondtion, DateTypeHyphen(value));
+                }
+                else
+                {
+                    typeof(Win_ord_TodoList_Q_View).GetProperty(currentDate)
+                       ?.SetValue(dgdCondtion, false);
+                }
+
+            }
+        }
+
+        //한전전기조당방법에 한전이면서 옥내일때("모자"글자가 미검출되고 "한전"이 있으면서 "옥내"글자가 있는경우)
+        //한전전기조달방법이 한전이면서 옥외, 75KW이상("모자"글자가 미검출되고 "한전"이 있으면서 "옥외"일때 Substring한 글자에 숫자가 검출되어 75이상인경우)
+        //한전전기조달방법이 모자+한전이면서 한전인입 방식이 옥내일 때("모자"글자가 검출되고 "한전"이 있으면서 Substring한 글자에 "옥내"가 검출) 
+        private void Condition2(Win_ord_TodoList_Q_View dgdCondition, string[] currentDates, DataRow item)
+        {
+            for (int i = 0; i < currentDates.Length; i++)
+            {
+                string currentDate = currentDates[i];
+
+                if (!string.IsNullOrWhiteSpace(item[currentDates[i]].ToString().Trim()))
+                {
+                    typeof(Win_ord_TodoList_Q_View).GetProperty(currentDate)
+                        ?.SetValue(dgdCondition, true);
+                    var value = item[currentDate].ToString();
+                    typeof(Win_ord_TodoList_Q_View).GetProperty(currentDate + "_ToolTip")
+                        ?.SetValue(dgdCondition, DateTypeHyphen(value));
+                }
+                else
+                {
+                    typeof(Win_ord_TodoList_Q_View).GetProperty(currentDate)
+                       ?.SetValue(dgdCondition, false);
+                }
+            }
+        }
+
+        //한전전기조달방법이 한전이면서 옥외, 75KW미만("모자"글자가 미검출되고 "한전"이 있으면서 "옥외"일때 Substring한 글자에 숫자가 검출되어 75미만 인경우)
+        private void Condition3(Win_ord_TodoList_Q_View dgdCondition, string[] currentDates, DataRow item)
+        {
+            for (int i = 0; i < currentDates.Length; i++)
+            {
+                string currentDate = currentDates[i];
+
+                if (currentDates[i].ToString() == "electrSafeCheckDate" || currentDates[i].ToString() == "electrSafeCheckCostPayDate" ||
+                 currentDates[i].ToString() == "electrBeforeInspReqDate" || currentDates[i].ToString() == "electrBeforeInspPrintDate" ||
+                 currentDates[i].ToString() == "electrBeforeInspCostPayDate" || currentDates[i].ToString() == "superSetTaxPrintDate")
+                {
+                    typeof(Win_ord_TodoList_Q_View).GetProperty(currentDate)
+                        ?.SetValue(dgdCondition, null);
+                }
+                else if (!string.IsNullOrWhiteSpace(item[currentDates[i]].ToString().Trim()))
+                {
+
+                    typeof(Win_ord_TodoList_Q_View).GetProperty(currentDate)
+                        ?.SetValue(dgdCondition, true);
+                    var value = item[currentDate].ToString();
+                    typeof(Win_ord_TodoList_Q_View).GetProperty(currentDate + "_ToolTip")
+                        ?.SetValue(dgdCondition, DateTypeHyphen(value));
+                }
+                else
+                {
+                    typeof(Win_ord_TodoList_Q_View).GetProperty(currentDate)
+                       ?.SetValue(dgdCondition, false);
+                }
+            }
+        }
+
+        //한전전기조달방법이 모자+한전이면서 수전용량이 75kw 미만일때("모자"글자가 검출되고 "한전"이 있으면서 Substring한 글자에 "옥외"가 검출되고 숫자도 검출되어 75미만 인경우) 
+        private void Condition4(Win_ord_TodoList_Q_View dgdCondition, string[] currentDates, DataRow item)
+        {
+            for (int i = 0; i < currentDates.Length; i++)
+            {
+                string currentDate = currentDates[i];
+
+                if (currentDates[i].ToString() == "electrBeforeInspReqDate" || currentDates[i].ToString() == "electrBeforeInspCostPayDate" ||
+                 currentDates[i].ToString() == "electrBeforeInspPrintDate" || currentDates[i].ToString() == "superSetTaxPrintDate")
+                {
+                    typeof(Win_ord_TodoList_Q_View).GetProperty(currentDate)
+                        ?.SetValue(dgdCondition, null);
+                }
+                else if (!string.IsNullOrWhiteSpace(item[currentDates[i]].ToString().Trim()))
+                {
+
+                    typeof(Win_ord_TodoList_Q_View).GetProperty(currentDate)
+                        ?.SetValue(dgdCondition, true);
+                    var value = item[currentDate].ToString();
+                    typeof(Win_ord_TodoList_Q_View).GetProperty(currentDate + "_ToolTip")
+                        ?.SetValue(dgdCondition, DateTypeHyphen(value));
+                }
+                else
+                {
+                    typeof(Win_ord_TodoList_Q_View).GetProperty(currentDate)
+                       ?.SetValue(dgdCondition, false);
+                }
+            }
+        }
 
         private bool CheckDays(string date, string nextJobDate)
         {
@@ -914,6 +1013,37 @@ namespace WizMes_EVC
 
         }
 
+
+        //전기수전방법 - 검색-  라벨 - 클릭
+        private void lblKepDeliMethodSrh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (chkKepDeliMethodSrh.IsChecked == true)
+            {
+                chkKepDeliMethodSrh.IsChecked = false;
+                txtKepDeliMethodSrh.IsEnabled = false;
+            }
+            else
+            {
+                chkKepDeliMethodSrh.IsChecked = true;
+                txtKepDeliMethodSrh.IsEnabled = true;
+            }
+        }
+
+        //전기수전방법 - 검색-  체크박스 - 클릭
+        private void chkKepDeliMethodSrh_Checked(object sender, RoutedEventArgs e)
+        {
+            if (chkKepDeliMethodSrh.IsChecked == true)
+            {
+                chkKepDeliMethodSrh.IsChecked = true;
+                txtKepDeliMethodSrh.IsEnabled = true;
+            }
+            else
+            {
+                chkKepDeliMethodSrh.IsChecked = false;
+                txtKepDeliMethodSrh.IsEnabled = false;
+            }
+        }
+
         #endregion
 
 
@@ -926,6 +1056,8 @@ namespace WizMes_EVC
             {
                 // DataGrid 스크롤을 헤더 스크롤과 동기화
                 dataGridScrollViewer.ScrollToHorizontalOffset(e.HorizontalOffset);
+
+                //ApplyFrozenColumnsTransform(e.HorizontalOffset);
             }
 
         }
@@ -958,6 +1090,9 @@ namespace WizMes_EVC
 
         private void DataGrid_Loaded(object sender, RoutedEventArgs e)
         {
+            // DataGrid에 FrozenColumnCount 설정
+            dgdMain.FrozenColumnCount = 2;
+
             // DataGrid 내부의 ScrollViewer를 찾아서
             var dataGridScrollViewer = FindChild<ScrollViewer>(dgdMain);
 
@@ -979,8 +1114,50 @@ namespace WizMes_EVC
             {
                 // 헤더의 ScrollViewer와 수평 오프셋을 동기화 
                 dgdMainHeaderSh.ScrollToHorizontalOffset(dataGridScrollViewer.HorizontalOffset);
+
+                // 고정 열 헤더 처리
+                //ApplyFrozenColumnsTransform(dataGridScrollViewer.HorizontalOffset);
             }
         }
+
+
+        // 고정 열 헤더에 TranslateTransform 적용
+        //private void ApplyFrozenColumnsTransform(double offset)
+        //{
+        //    var headerGrid = dgdMainHeaderSh.Content as Grid;
+        //    if (headerGrid != null)
+        //    {
+        //        // 각 고정 열 헤더에 TranslateTransform 적용
+        //        foreach (int columnIndex in _frozenColumnIndexes)
+        //        {
+        //            if (columnIndex < headerGrid.Children.Count)
+        //            {
+        //                var headerElement = headerGrid.Children[columnIndex] as UIElement;
+        //                if (headerElement != null)
+        //                {
+        //                    // TranslateTransform 생성 또는 가져오기
+        //                    if (!(headerElement.RenderTransform is TranslateTransform))
+        //                    {
+        //                        headerElement.RenderTransform = new TranslateTransform();
+        //                    }
+
+        //                    var transform = headerElement.RenderTransform as TranslateTransform;
+        //                    // 스크롤 오프셋만큼 이동시켜 항상 보이게 함
+        //                    transform.X = offset;
+
+        //                    // Z-Index 높게 설정하여 다른 헤더 위에 표시
+        //                    Panel.SetZIndex(headerElement, 1000);
+
+        //                    // 배경색 설정하여 항상 보이게 함
+        //                    if (headerElement is DataGridColumnHeader header)
+        //                    {
+        //                        header.Background = new SolidColorBrush(Color.FromRgb(54, 95, 177)); // #365fb1
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
         #endregion
 
 
@@ -1058,6 +1235,35 @@ namespace WizMes_EVC
             {
                 OrderID_global = OrderInfo.orderId;
             }
+        }
+
+        private void chkColFrozenSrh_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (chkColFrozenSrh.IsChecked == true)
+                {
+                    scrollHelpers.SetFrozenColumnCount(4);
+                }
+                else
+                {
+                 
+                    scrollHelpers.SetFrozenColumnCount(0);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"체크박스 클릭 처리 오류: {ex.Message}");
+            }
+        }
+
+
+        private void lblColFrozenSrh_Click(object sender, MouseButtonEventArgs e)
+        {
+         
+            chkColFrozenSrh.IsChecked = !chkColFrozenSrh.IsChecked;
+
+            chkColFrozenSrh_Click(chkColFrozenSrh, null);
         }
     }
 
@@ -1163,6 +1369,12 @@ namespace WizMes_EVC
         public string accntMgrSalesPreTaxPrintDate_ToolTip{get;set;}
         public string accntWorkPreTaxPrintDate_ToolTip{get;set;}
         public string accntSalesPreTaxPrintDate_ToolTip { get; set; }
+
+        public bool NoElecDeliMethod { get; set; } = false;
+        public string NoElecDeliMethod_ToolTip { get; set; }
+        public bool NoKepElectDeliMethodOutOrIn { get; set; } = false;
+        public string NoKepElectDeliMethodOutOrIn_ToolTip { get; set; }
+
 
 
         #region orderColumn..

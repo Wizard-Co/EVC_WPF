@@ -1965,7 +1965,7 @@
                                                 </DataGridTemplateColumn>
 
 
-                                                <DataGridTemplateColumn Header="비고" x:Name="Comments" Width="*">
+                                                <DataGridTemplateColumn Header="비고" x:Name="Comments" >
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <TextBlock Text="{Binding comments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Center" TextAlignment="Left" Padding="5 0" />
@@ -3089,7 +3089,7 @@
                                         <Label Grid.Row="4" Grid.Column="0" 
                                        Style="{DynamicResource LabelInputArea}">
                                             <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                                <TextBlock Text="모자분할수전용량" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                                <TextBlock Text="모자분할수전용량(kw)" Style="{DynamicResource TextBlockInViewBoxInput}"/>
 
                                             </Viewbox>
                                         </Label>

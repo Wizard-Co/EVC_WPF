@@ -168,9 +168,29 @@
                 
             </Grid>
 
-
-
             <Grid Grid.Column="3" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="63*" />
+                    <ColumnDefinition Width="63*" />
+                    <ColumnDefinition Width="13*" />
+                </Grid.ColumnDefinitions>
+
+                <Label x:Name="lblKepDeliMethodSrh" Grid.Column="0" Grid.Row="0" Style="{DynamicResource LabelSearch}" MouseLeftButtonUp="lblKepDeliMethodSrh_MouseLeftButtonUp">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <CheckBox x:Name="chkKepDeliMethodSrh" Click="chkKepDeliMethodSrh_Checked"/>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <TextBlock Text="전기수전방법" Style="{DynamicResource TextBlockInViewBoxSearch}"/>
+                        </Viewbox>
+
+                    </StackPanel>
+                </Label>
+                <TextBox  x:Name="txtKepDeliMethodSrh" Grid.Column="1" Style="{DynamicResource TextBoxInputArea}" IsEnabled="False" Grid.ColumnSpan="2"/>
+            </Grid>
+
+
+            <Grid Grid.Column="3" Grid.Row="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="63*" />
                     <ColumnDefinition Width="63*" />
@@ -188,7 +208,22 @@
 
                     </StackPanel>
                 </Label>
+
+
+                <Label x:Name="lblColFrozenSrh" Grid.Column="1" Grid.Row="0" Style="{DynamicResource LabelSearch}" MouseLeftButtonUp="lblColFrozenSrh_Click">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <CheckBox x:Name="chkColFrozenSrh" Click="chkColFrozenSrh_Click"/>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <TextBlock Text="열 고정" Style="{DynamicResource TextBlockInViewBoxSearch}"/>
+                        </Viewbox>
+
+                    </StackPanel>
+                </Label>
             </Grid>
+
+       
 
             <Grid Grid.Column="4" Grid.Row="3">
                 <Button Content="수주등록 바로가기"  Click="GoOrderButton_Click" />
@@ -238,7 +273,7 @@
                 <!-- 인쇄 버튼 -->
 
                 <!-- 엑셀 버튼 -->
-                <Grid Grid.Column="1" Grid.Row="1" >
+                <Grid Grid.Column="1" Grid.Row="1" Visibility="Hidden">
                     <Button x:Name="btnExcel"  Margin="1" Click="btnExcel_Click" >
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{DynamicResource btiExcel}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
@@ -258,16 +293,15 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Row="0"  >
-                    <Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>               
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="5*" />
                         <RowDefinition Height="50*" />
-                    </Grid.RowDefinitions>
+                    </Grid.RowDefinitions>               
                     <ScrollViewer  Grid.Column="0" x:Name="dgdMainHeaderSh" HorizontalScrollBarVisibility="Hidden"  
-                              ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Hidden"
-                                ScrollChanged="HeaderScrollViewer_ScrollChanged" >
+                              ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Hidden"  >
                         <Grid>
                             <Grid.Resources>                        
                                 <Style TargetType="DataGridColumnHeader">                      
@@ -332,7 +366,7 @@
 
                                 <ColumnDefinition Width="{Binding ElementName=orderNo16, Path=ActualWidth}" />
                                 <!--전기사용신청-->
-                                <ColumnDefinition Width="{Binding ElementName=orderNo17, Path=ActualWidth}" />
+                                <!--<ColumnDefinition Width="{Binding ElementName=orderNo17, Path=ActualWidth}" />-->
                                 <!--인입승인-->
                                 <ColumnDefinition Width="{Binding ElementName=orderNo18, Path=ActualWidth}" />
                                 <!--한전불입금납부-->
@@ -415,40 +449,40 @@
                             <DataGridColumnHeader Grid.Row="1" Grid.Column="18" Content="사용검사 신청일"/>
                             <DataGridColumnHeader Grid.Row="1" Grid.Column="19" Content="사용검사 필증 발급일"/>
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="20" Grid.ColumnSpan="4" Content="한전수전정보" />
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="20" Grid.ColumnSpan="3" Content="한전수전정보" />
                             <DataGridColumnHeader Grid.Row="1" Grid.Column="20" Content="전기사용신청일"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="21" Content="인입승인일"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="22" Content="한전불입납부일"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="23" Content="계량기부설일"/>
+                            <!--<DataGridColumnHeader Grid.Row="1" Grid.Column="21" Content="인입승인일"/>-->
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="21" Content="한전불입납부일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="22" Content="계량기부설일"/>
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="24" Grid.ColumnSpan="2" Content="시공사 정보" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="24" Content="착공일"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="25" Content="완공일"/>
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="23" Grid.ColumnSpan="2" Content="시공사 정보" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="23" Content="착공일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="24" Content="완공일"/>
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="26" Grid.ColumnSpan="7" Content="전기 안전공사 진행 정보" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="26" Content="전기 안전점검요청일"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="27" Content="전기 안전점검수수료납부일"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="28" Content="사용전점검 요청일"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="29" Content="사용전점검 확인증 발급일"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="30" Content="사용전검사 요청일"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="31" Content="사용전검사 확인증 발급일"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="32" Content="사용전검사 수수료 납부일"/>
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="25" Grid.ColumnSpan="7" Content="전기 안전공사 진행 정보" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="25" Content="전기 안전점검요청일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="26" Content="전기 안전점검수수료납부일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="27" Content="사용전점검 요청일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="28" Content="사용전점검 확인증 발급일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="29" Content="사용전검사 요청일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="30" Content="사용전검사 확인증 발급일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="31" Content="사용전검사 수수료 납부일"/>
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="33" Content="감리" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="33" Content="감리 배치계산서 발행일"/>   
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="32" Content="감리" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="32" Content="감리 배치계산서 발행일"/>   
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="34" Grid.ColumnSpan="5" Content="준공" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="34" Content="준공 서류회신일"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="35" Content="시공보완 완료일"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="36" Content="준공서류 보완일"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="37" Content="하자보증보험 발행일"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="38" Content="준공 서류완료일"/>
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="33" Grid.ColumnSpan="5" Content="준공" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="33" Content="준공 서류회신일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="34" Content="시공보완 완료일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="35" Content="준공서류 보완일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="36" Content="하자보증보험 발행일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="37" Content="준공 서류완료일"/>
 
-                            <DataGridColumnHeader Grid.Row="0" Grid.Column="39" Grid.ColumnSpan="4" Content="정산" />
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="39" Content="운영사시공비(선금)계산서 발행일"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="40" Content="운영사영업비(선금)계산서 발행일"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="41" Content="시공팀(선금)계산서 발행일"/>
-                            <DataGridColumnHeader Grid.Row="1" Grid.Column="42" Content="영업사원(선금)계산서 발행일"/>
+                            <DataGridColumnHeader Grid.Row="0" Grid.Column="38" Grid.ColumnSpan="4" Content="정산" />
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="38" Content="운영사시공비(선금)계산서 발행일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="39" Content="운영사영업비(선금)계산서 발행일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="40" Content="시공팀(선금)계산서 발행일"/>
+                            <DataGridColumnHeader Grid.Row="1" Grid.Column="41" Content="영업사원(선금)계산서 발행일"/>
                             
                         </Grid>
 
@@ -469,8 +503,7 @@
                         <DataGrid x:Name="dgdMain"  Visibility="Visible" 
                                   HeadersVisibility="None"   
                                   Style="{DynamicResource DataGridSetTwoHeaderEdit}" Grid.ColumnSpan="2" IsReadOnly="True" 
-                                  SelectionChanged="dgdMain_SelectionChanged" 
-                                  Loaded="DataGrid_Loaded" Margin="0,0,0,0.2">
+                                  Margin="0,0,0,0.2">
                         
                             <DataGrid.RowStyle>
                                 <Style TargetType="DataGridRow" >
@@ -480,8 +513,19 @@
                                         <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3399FF" />
                                         <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="White"/>
                                     </Style.Resources>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding NoElecDeliMethod}" Value="true">
+                                            <Setter Property="Background" Value="LightPink"/>
+                                            <Setter Property="ToolTip" Value="{Binding NoElecDeliMethod_ToolTip}"/>
+                                            <Setter Property="ToolTipService.InitialShowDelay" Value="100"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding NoKepElectDeliMethodOutOrIn}" Value="true">
+                                            <Setter Property="Background" Value="LightBlue"/>
+                                            <Setter Property="ToolTip" Value="{Binding NoKepElectDeliMethodOutOrIn_ToolTip}"/>
+                                            <Setter Property="ToolTipService.InitialShowDelay" Value="100"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
                                 </Style>
-                                
                             </DataGrid.RowStyle>
                        
 
@@ -937,13 +981,13 @@
                                 </DataGridTemplateColumn>
 
                                 <!--인입승인-->
-                                <DataGridTemplateColumn x:Name="orderNo17" MinWidth="120">
-                                    <!--<DataGridTemplateColumn.CellTemplate>
+                                <!--<DataGridTemplateColumn x:Name="orderNo17" MinWidth="120">
+                                    --><!--<DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding orderNo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Foreground="Black"
                                                         TextAlignment="Center" VerticalAlignment="Center"/>
                                         </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>-->
+                                    </DataGridTemplateColumn.CellTemplate>--><!--
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <Image Width="16" Height="16" ToolTip="{Binding kepInApprovalDate_ToolTip}" ToolTipService.InitialShowDelay="200">
@@ -962,7 +1006,7 @@
                                             </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
+                                </DataGridTemplateColumn>-->
 
                                 <!--한전불입금납부-->
                                 <DataGridTemplateColumn x:Name="orderNo18" MinWidth="120">
@@ -1190,7 +1234,7 @@
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-                                <!--사용전검사요청-->
+                                <!--사용전검사요청일-->
                                 <DataGridTemplateColumn x:Name="orderNo26" MinWidth="120">
                                     <!--<DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
@@ -1218,7 +1262,7 @@
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-                                <!--사용전검사확인-->
+                                <!--사용전검사확인증 발급일-->
                                 <DataGridTemplateColumn x:Name="orderNo27" MinWidth="150">
                                     <!--<DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
@@ -1246,7 +1290,7 @@
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-                                <!--사용전검사수수료납부-->
+                                <!--사용전검사수수료납부일-->
                                 <DataGridTemplateColumn x:Name="orderNo28" MinWidth="140">
                                     <!--<DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
@@ -1275,7 +1319,7 @@
                                 </DataGridTemplateColumn>
 
 
-                                <!--감리배치계산서발행-->
+                                <!--감리배치계산서발행일-->
                                 <DataGridTemplateColumn x:Name="orderNo29" MinWidth="140">
                                     <!--<DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
