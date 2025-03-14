@@ -3067,7 +3067,7 @@ namespace WizMes_EVC
         private string ConvertDate(DatePicker datePicker)
         {
             if (datePicker.SelectedDate != null)
-                return datePicker.SelectedDate.Value.ToString("yyyMMdd");
+                return datePicker.SelectedDate.Value.ToString("yyyyMMdd");
             else
                 return string.Empty;
         }
@@ -6419,6 +6419,10 @@ namespace WizMes_EVC
             }
         }
 
+        //멀티헤더 동기화 사용시에 xaml에서 각 열에 minwidth를 지정해야 하는데
+        //사용자가 화면 로드했을때 나머지 열이 이쁘게 꽉 찼으면 좋겠다 하여 마지막 열의 width="*"를 하면 해결이 되나
+        //스크롤이 생기지 않는 문제가 있음, 아래 코드는 현재 그리드 안의 데이터그리드의 각 열의 minwidth값을 더하고 뺀
+        //나머지 공간을 마지막 열에 할당하는 코드임, 사용할때는 xaml에 마지막 열에 넓이를 지정하지 마세요
         private void SetupLastColumnResize(DataGrid dataGrid, ScrollViewer headerScrollViewer, Grid parentGrid)
         {
             dataGrid.SizeChanged += (s, e) =>
@@ -8284,6 +8288,13 @@ namespace WizMes_EVC
         }
     }
 
+    //멀티헤더 스크롤뷰어와 데이터컬럼헤더 + 데이터그리드(컬럼Visibility = Hidden)
+    //동기화 클래스
+    //사용 방법
+    //클래스 수준변수로 선언
+    //한 화면에 멀티헤더가 여러개 있으면 List로 받고 private List<ScrollSyncHelper> scrollHelpers = new List<ScrollSyncHelper>();
+    //하나면 ScrollSyncHelper scrollHelpers = new ScrollSyncHelper(스크롤뷰어X:Name , 데이터그리드 x:Name,  고정할 열갯수(왼쪽부터 히든컬럼 포함) = 기본 0)로 선언합니다.
+    // InitializeComponent(); 이후에 호출하면 됩니다.
     public class ScrollSyncHelper
     {
         private ScrollViewer _headerScrollViewer;

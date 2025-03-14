@@ -50,20 +50,60 @@ namespace WizMes_EVC.Order.Pop
         private const string FTP_ID = "wizuser";
         private const string FTP_PASS = "wiz9999";
         private const string LOCAL_DOWN_PATH = "C:\\Temp";
-
+        private bool IsUserWorkTeam = false;
 
         public Win_ord_Pop_OrderClose_File_Q(string orderID)
         {
             InitializeComponent();
             this.orderID = orderID;
+            IsUserWorkTeam = isUserInWorkTeam();
         }
 
         private void Win_ord_Pop_dgdFile_Q_Loaded(object sender, RoutedEventArgs e)
         {
-            fillGrid(orderID);
+            fillGrid(orderID, IsUserWorkTeam);
         }
 
 
+        //로그인 한 사람이 시공팀 소속인지 
+        private bool isUserInWorkTeam()
+        {
+            bool flag = true;
+
+            string[] sqlList = { "select mp.personID ,md.depart from mt_Person mp " +
+                                 "LEFT JOIN mt_Depart md on md.departID = mp.departID " +
+                                 "where PersonID =  "
+
+            };
+
+
+            //반복문을 돌다가 걸리면 종료, 경고문 띄우고 false반환
+            for (int i = 0; i < sqlList.Length; i++)
+            {
+                DataSet ds = DataStore.Instance.QueryToDataSet(sqlList[i] + "'" + MainWindow.CurrentPersonID.Trim() + "'");
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataTable dt = ds.Tables[0];
+                    if (dt.Rows.Count > 0)
+                    {
+                        if (dt.Rows[0][1].ToString().Contains("시공"))
+                        {
+                            flag = false;
+                            break;
+                        }
+
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+            }
+
+
+
+            return flag;
+        }
 
 
         // 천마리 콤마, 소수점 두자리
@@ -233,7 +273,7 @@ namespace WizMes_EVC.Order.Pop
         }
 
 
-        private bool fillGrid(string orderID)
+        private bool fillGrid(string orderID, bool isUserWorkTeam)
         {
 
             if (dgdFile.Items.Count > 0) { dgdFile.Items.Clear(); }
@@ -246,6 +286,7 @@ namespace WizMes_EVC.Order.Pop
 
                 sqlParameter.Add("orderID", orderID);
 
+                sqlParameter.Add("isUserWorkTeam", !IsUserWorkTeam ? 1 : 0);
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Order_sOrderTotal_PopUp_File", sqlParameter, false);
 

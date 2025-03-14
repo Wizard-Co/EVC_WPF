@@ -1091,7 +1091,7 @@ namespace WizMes_EVC
         private void DataGrid_Loaded(object sender, RoutedEventArgs e)
         {
             // DataGrid에 FrozenColumnCount 설정
-            dgdMain.FrozenColumnCount = 2;
+
 
             // DataGrid 내부의 ScrollViewer를 찾아서
             var dataGridScrollViewer = FindChild<ScrollViewer>(dgdMain);

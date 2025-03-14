@@ -69,6 +69,72 @@ namespace WizMes_EVC
         {
             InitializeComponent();
             this.GotFocus += Win_ord_OrderClose_U_GotFocus;
+
+            showOrHideColumns(isUserInWorkTeam());
+        }
+
+        //시공팀일때 추가공사비 안 보여줘야 함
+        private void showOrHideColumns(bool flag)
+        {         
+            if(!flag)
+            {
+                foreach (var column in dgdMain.Columns)
+                {
+                    string columnName = column.GetType().GetProperty("Name")?.GetValue(column) as string;
+                    if (!string.IsNullOrEmpty(columnName) && columnName == "addConstructCost")
+                    {
+                        column.Visibility = Visibility.Collapsed;
+                    }
+                }
+
+                // 스크롤뷰어 내부 DataGridColumnHeader 숨기기 - Content로 찾기
+                Grid headerGrid = dgdMainHeaderSh.Content as Grid;
+                if (headerGrid != null)
+                {
+                    DataGridColumnHeader evcCostHeader = null;
+                    DataGridColumnHeader sectionHeader = null;
+
+                    foreach (UIElement element in headerGrid.Children)
+                    {
+                        if (element is DataGridColumnHeader header)
+                        {
+                            string content = header.Content?.ToString();
+
+                            if (content == "추가공사비(EVC)")
+                            {
+                                evcCostHeader = header;
+                                // 이 헤더 숨기기
+                                evcCostHeader.Visibility = Visibility.Collapsed;
+
+                                // 대응하는 ColumnDefinition도 너비 0으로 설정
+                                int columnIndex = Grid.GetColumn(header);
+                                if (columnIndex < headerGrid.ColumnDefinitions.Count)
+                                {
+                                    headerGrid.ColumnDefinitions[columnIndex].Width = new GridLength(0);
+                                }
+                            }
+
+                            // "시공 및 실사정보" 상단 헤더 찾기
+                            //if (content == "시공 및 실사정보")
+                            //{
+                            //    sectionHeader = header;
+                            //}
+                        }
+                    }
+
+                    //주석이 아니라 숨기는 거면 설정 안 해도 되긴 하네요
+                    //if (sectionHeader != null)
+                    //{
+                    //    Grid.SetColumnSpan(sectionHeader, 9);
+                    //}
+
+                    // 데이터그리드의 해당 열도 숨기기
+                    if (dgdMain.Columns.Count > 54) // 추가공사비(EVC)가 55번 열인데 0부터 시작하므로 54
+                    {
+                        dgdMain.Columns[54].Visibility = Visibility.Collapsed;
+                    }
+                }
+            }
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -94,6 +160,45 @@ namespace WizMes_EVC
                     MainWindow.OrderID = item.orderid;
                 }
             }
+        }
+
+        private bool isUserInWorkTeam()
+        {
+            bool flag = true;
+
+            string[] sqlList = { "select mp.personID ,md.depart from mt_Person mp " +
+                                 "LEFT JOIN mt_Depart md on md.departID = mp.departID " +
+                                 "where PersonID =  "
+
+            };
+
+
+            //반복문을 돌다가 걸리면 종료, 경고문 띄우고 false반환
+            for (int i = 0; i < sqlList.Length; i++)
+            {
+                DataSet ds = DataStore.Instance.QueryToDataSet(sqlList[i] + "'" + MainWindow.CurrentPersonID.Trim() + "'");
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    DataTable dt = ds.Tables[0];
+                    if (dt.Rows.Count > 0)
+                    {
+                        if (dt.Rows[0][1].ToString().Contains("시공"))
+                        {
+                            flag = false;
+                            break;
+                        }
+
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+            }
+
+
+
+            return flag;
         }
 
         //콤보박스 세팅
@@ -698,7 +803,7 @@ namespace WizMes_EVC
                                 electrBeforeUseCheckSuppleContext = item["electrBeforeUseCheckSuppleContext"].ToString(),
                                 electrBeforeInspLocation = item["electrBeforeInspLocation"].ToString(),
                                 electrBeforeInspReqDate = DateTypeHyphen(item["electrBeforeInspReqDate"].ToString()),
-                                electrBeforeInspPrintDate = item["electrBeforeInspPrintDate"].ToString(),
+                                electrBeforeInspPrintDate = DateTypeHyphen(item["electrBeforeInspPrintDate"].ToString()),
                                 electrBeforeInspCost = stringFormatN0(item["electrBeforeInspCost"]),
                                 electrBeforeInspCostPayDate = DateTypeHyphen(item["electrBeforeInspCostPayDate"].ToString()),
                                 electrBeforeInspSuppleContext = item["electrBeforeInspSuppleContext"].ToString(),
@@ -768,7 +873,8 @@ namespace WizMes_EVC
                                 //accntSalesAmount = item["accntSalesAmount"].ToString(),
                                 //accntSalesAmountComments = item["accntSalesAmountComments"].ToString(),
 
-                            };
+                            };                           
+
                             dgdMain.Items.Add(Window_OrderClose_DTO);
 
                             i++;
