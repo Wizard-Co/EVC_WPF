@@ -387,17 +387,14 @@
                         <DataGridTextColumn Header="순"
                                             Binding="{Binding num}"
                                             Width="auto" />
-                        <DataGridTextColumn Header="수주번호" CellStyle="{DynamicResource DataGridCellAndCentering}"
-                                            Binding="{Binding orderID}"
-                                            Width="auto" />
+                        <DataGridTextColumn Header="국소명" CellStyle="{DynamicResource DataGridCellAndCentering}"
+                     Binding="{Binding installLocation}"
+                     Width="auto" />
                         <DataGridTextColumn Header="영업회사" CellStyle="{DynamicResource DataGridCellAndCentering}"
                                             Binding="{Binding salesCustom}"
                                             Width="auto" />
                         <DataGridTextColumn Header="실사업체" CellStyle="{DynamicResource DataGridCellAndCentering}"
                                             Binding="{Binding searchCustom}"
-                                            Width="auto" />
-                        <DataGridTextColumn Header="국소명" CellStyle="{DynamicResource DataGridCellAndCentering}"
-                                            Binding="{Binding installLocation}"
                                             Width="auto" />
                         <DataGridTextColumn Header="매입금액" CellStyle="{DynamicResource NumericDataGridCell}"
                                             Binding="{Binding totalBuyAmount, StringFormat=N0}"
@@ -477,7 +474,7 @@
                         <TextBox x:Name="txtOrderID"
                                  Grid.Column="1"
                                  Grid.Row="1"
-                                 Text="{Binding orderID}"
+                                 Text="{Binding orderNo}"
                                  Style="{DynamicResource TextBoxInputNecessary}"
                                  Keyboard.KeyDown="txtOrderID_KeyDown" />
                         <Button x:Name="btnPfOrderID"

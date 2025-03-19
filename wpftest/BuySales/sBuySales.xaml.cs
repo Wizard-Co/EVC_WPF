@@ -411,6 +411,7 @@ namespace WizMes_EVC
                             {
                                 num = i,
                                 orderID = dr["orderID"].ToString(),
+                                orderNo = dr["orderNo"].ToString(),
                                 acptDate = dr["acptDate"].ToString(),
                                 salesCustom = dr["salesCustom"].ToString(),
                                 searchCustom = dr["searchCustom"].ToString(),

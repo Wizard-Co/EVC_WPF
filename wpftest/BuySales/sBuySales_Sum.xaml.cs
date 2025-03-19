@@ -399,6 +399,7 @@ namespace WizMes_EVC
                                 num = i,
                                 cls = dr["cls"].ToString(),
                                 orderID = dr["orderID"].ToString(),
+                                orderNo = dr["orderNo"].ToString(),
                                 month = dr["month"].ToString(),
                                 orderDate = DatePickerFormat(dr["orderDate"].ToString()),
                                 salesCustom = dr["salesCustom"].ToString(),

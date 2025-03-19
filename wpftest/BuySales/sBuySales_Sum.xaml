@@ -226,10 +226,11 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="순" Binding="{Binding num}" CellStyle="{DynamicResource DataGridCellAndCentering}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="수주일" Binding="{Binding orderDate}" CellStyle="{DynamicResource DataGridCellAndCentering}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="수주번호" Binding="{Binding orderID}" CellStyle="{DynamicResource DataGridCellAndCentering}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="수주번호" Binding="{Binding orderNo}" CellStyle="{DynamicResource DataGridCellAndCentering}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="국소명" Binding="{Binding installLocation}" CellStyle="{DynamicResource NonNumericDataGridCell}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="영업회사" Binding="{Binding salesCustom}" CellStyle="{DynamicResource NonNumericDataGridCell}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="실사업체" Binding="{Binding searchCustom}" CellStyle="{DynamicResource NonNumericDataGridCell}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="국소명" Binding="{Binding installLocation}" CellStyle="{DynamicResource NonNumericDataGridCell}"></DataGridTextColumn>
+                               
                                 <DataGridTextColumn Header="매출금액" Binding="{Binding totalSalesAmount, StringFormat=N0}" CellStyle="{DynamicResource NumericDataGridCell}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="매입금액" Binding="{Binding totalBuyAmount, StringFormat=N0}" CellStyle="{DynamicResource NumericDataGridCell}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="매출이익" Binding="{Binding profit, StringFormat=N0}" CellStyle="{DynamicResource NumericDataGridCell}"></DataGridTextColumn>

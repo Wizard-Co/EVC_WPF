@@ -548,6 +548,7 @@ namespace WizMes_EVC
                             {
                                 num = i,
                                 orderID = dr["orderID"].ToString(),
+                                orderNo = dr["orderNo"].ToString(),
                                 salesCustom = dr["salesCustom"].ToString(),
                                 searchCustom = dr["searchCustom"].ToString(),
                                 installLocation = dr["installLocation"].ToString(),
@@ -1125,6 +1126,7 @@ namespace WizMes_EVC
         public int costSeq { get; set; }
         public String acptDate {  get; set; }
         public String orderID { get; set; }
+        public String orderNo { get; set; }
         public string buySalesTypeID { get; set; } // 매입01, 매출02 
         public string buySalesCodeTypeID { get; set; } // 항목 
         public string buySalesCode { get; set; } // 항목 

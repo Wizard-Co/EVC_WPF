@@ -198,11 +198,11 @@
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="{Binding ElementName=num, Path=ActualWidth}" />
-                                    <ColumnDefinition Width="{Binding ElementName=orderDate, Path=ActualWidth}" />
+    
                                     <ColumnDefinition Width="{Binding ElementName=orderID, Path=ActualWidth}" />
+                                    <ColumnDefinition Width="{Binding ElementName=location, Path=ActualWidth}" />
                                     <ColumnDefinition Width="{Binding ElementName=salesCustom, Path=ActualWidth}" />
                                     <ColumnDefinition Width="{Binding ElementName=searchCustom, Path=ActualWidth}" />
-                                    <ColumnDefinition Width="{Binding ElementName=location, Path=ActualWidth}" />
                                     <ColumnDefinition Width="{Binding ElementName=sumSalesAmount, Path=ActualWidth}" />
                                     <ColumnDefinition Width="{Binding ElementName=sales_Sales, Path=ActualWidth}" />
                                     <ColumnDefinition Width="{Binding ElementName=sales_ConstructCost, Path=ActualWidth}" />
@@ -217,28 +217,27 @@
 
                                 </Grid.ColumnDefinitions>
                                 <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Content="순" FontSize="12" />
-                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Content="수주일자" FontSize="12" />
-                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Content="수주번호" FontSize="12" />
+                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Content="수주번호" FontSize="12" />
+                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Content="국소명" FontSize="12" />
                                 <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" Content="영업업체" FontSize="12" />
                                 <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="4" Content="실사업체" FontSize="12" />
-                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="5" Content="국소명" FontSize="12" />
-                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="6" Content="매출합계금액" FontSize="12" />
+                                <DataGridColumnHeader Grid.Row="0" Grid.RowSpan="2" Grid.Column="5" Content="매출합계금액" FontSize="12" />
                            
-                                <DataGridColumnHeader Grid.Row="0" Grid.Column="7" Grid.ColumnSpan="3" Content="매출" FontSize="12" />
-                                <DataGridColumnHeader Grid.Row="1" Grid.Column="7" Content="영업" FontSize="12" />
-                                <DataGridColumnHeader Grid.Row="1" Grid.Column="8" Content="공사" FontSize="12" />
-                                <DataGridColumnHeader Grid.Row="1" Grid.Column="9" Content="기타" FontSize="12" />
+                                <DataGridColumnHeader Grid.Row="0" Grid.Column="6" Grid.ColumnSpan="3" Content="매출" FontSize="12" />
+                                <DataGridColumnHeader Grid.Row="1" Grid.Column="6" Content="영업" FontSize="12" />
+                                <DataGridColumnHeader Grid.Row="1" Grid.Column="7" Content="공사" FontSize="12" />
+                                <DataGridColumnHeader Grid.Row="1" Grid.Column="8" Content="기타" FontSize="12" />
                                 
-                                <DataGridColumnHeader Grid.Row="0" Grid.Column="10" Grid.ColumnSpan="3" Content="매입" FontSize="12" />
-                                <DataGridColumnHeader Grid.Row="1" Grid.Column="10" Content="영업" FontSize="12" />
-                                <DataGridColumnHeader Grid.Row="1" Grid.Column="11" Content="공사" FontSize="12" />
-                                <DataGridColumnHeader Grid.Row="1" Grid.Column="12" Content="기타" FontSize="12" />
+                                <DataGridColumnHeader Grid.Row="0" Grid.Column="9" Grid.ColumnSpan="3" Content="매입" FontSize="12" />
+                                <DataGridColumnHeader Grid.Row="1" Grid.Column="9" Content="영업" FontSize="12" />
+                                <DataGridColumnHeader Grid.Row="1" Grid.Column="10" Content="공사" FontSize="12" />
+                                <DataGridColumnHeader Grid.Row="1" Grid.Column="11" Content="기타" FontSize="12" />
 
-                                <DataGridColumnHeader Grid.Row="0" Grid.Column="13" Grid.ColumnSpan="4" Content="이익" FontSize="12" />
-                                <DataGridColumnHeader Grid.Row="1" Grid.Column="13" Content="영업" FontSize="12" />
-                                <DataGridColumnHeader Grid.Row="1" Grid.Column="14" Content="공사" FontSize="12" />
-                                <DataGridColumnHeader Grid.Row="1" Grid.Column="15" Content="기타" FontSize="12" />
-                                <DataGridColumnHeader Grid.Row="1" Grid.Column="16" Content="합계" FontSize="12" />
+                                <DataGridColumnHeader Grid.Row="0" Grid.Column="12" Grid.ColumnSpan="4" Content="이익" FontSize="12" />
+                                <DataGridColumnHeader Grid.Row="1" Grid.Column="12" Content="영업" FontSize="12" />
+                                <DataGridColumnHeader Grid.Row="1" Grid.Column="13" Content="공사" FontSize="12" />
+                                <DataGridColumnHeader Grid.Row="1" Grid.Column="14" Content="기타" FontSize="12" />
+                                <DataGridColumnHeader Grid.Row="1" Grid.Column="15" Content="합계" FontSize="12" />
 
                             </Grid>
                         </ScrollViewer>
@@ -262,11 +261,11 @@
                         </DataGrid.Resources>
                         <DataGrid.Columns>
                             <DataGridTextColumn x:Name="num" Binding="{Binding num}" Width="auto" CellStyle="{DynamicResource DataGridCellAndCentering}" />
-                            <DataGridTextColumn x:Name="orderDate" Binding="{Binding acptDate}" Width="auto" MinWidth="50" CellStyle="{DynamicResource DataGridCellAndCentering}"/>
-                            <DataGridTextColumn x:Name="orderID" Binding="{Binding orderID}" Width="auto" MinWidth="50" CellStyle="{DynamicResource DataGridCellAndCentering}"/>
+                            <DataGridTextColumn x:Name="orderID" Binding="{Binding orderNo}" Width="auto" MinWidth="50" CellStyle="{DynamicResource DataGridCellAndCentering}"/>
+                            <DataGridTextColumn x:Name="location" Binding="{Binding installLocation}" Width="auto" MinWidth="50" CellStyle="{DynamicResource NonNumericDataGridCell}"/>
                             <DataGridTextColumn x:Name="salesCustom" Binding="{Binding salesCustom}" Width="auto" MinWidth="50" CellStyle="{DynamicResource NonNumericDataGridCell}"/>
                             <DataGridTextColumn x:Name="searchCustom" Binding="{Binding searchCustom}" Width="auto" MinWidth="50" CellStyle="{DynamicResource NonNumericDataGridCell}"/>
-                            <DataGridTextColumn x:Name="location" Binding="{Binding installLocation}" Width="auto" MinWidth="50" CellStyle="{DynamicResource NonNumericDataGridCell}"/>
+                           
                             <DataGridTextColumn x:Name="sumSalesAmount" Binding="{Binding totalSalesAmount, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
                             <DataGridTextColumn x:Name="sales_Sales" Binding="{Binding salesOper, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
                             <DataGridTextColumn x:Name="sales_ConstructCost" Binding="{Binding salesConst, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
