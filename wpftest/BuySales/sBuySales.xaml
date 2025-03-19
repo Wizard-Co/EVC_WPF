@@ -260,23 +260,23 @@
                             </Style>
                         </DataGrid.Resources>
                         <DataGrid.Columns>
-                            <DataGridTextColumn x:Name="num" Binding="{Binding num}" Width="auto" CellStyle="{DynamicResource DataGridCellAndCentering}" />
-                            <DataGridTextColumn x:Name="orderID" Binding="{Binding orderNo}" Width="auto" MinWidth="50" CellStyle="{DynamicResource DataGridCellAndCentering}"/>
-                            <DataGridTextColumn x:Name="location" Binding="{Binding installLocation}" Width="auto" MinWidth="50" CellStyle="{DynamicResource NonNumericDataGridCell}"/>
-                            <DataGridTextColumn x:Name="salesCustom" Binding="{Binding salesCustom}" Width="auto" MinWidth="50" CellStyle="{DynamicResource NonNumericDataGridCell}"/>
-                            <DataGridTextColumn x:Name="searchCustom" Binding="{Binding searchCustom}" Width="auto" MinWidth="50" CellStyle="{DynamicResource NonNumericDataGridCell}"/>
+                            <DataGridTextColumn x:Name="num" Header="num" Binding="{Binding num}" Width="auto" CellStyle="{DynamicResource DataGridCellAndCentering}" />
+                            <DataGridTextColumn x:Name="orderID" Header="수주번호" Binding="{Binding orderNo}" Width="auto" MinWidth="50" CellStyle="{DynamicResource DataGridCellAndCentering}"/>
+                            <DataGridTextColumn x:Name="location" Header="국소명" Binding="{Binding installLocation}" Width="auto" MinWidth="50" CellStyle="{DynamicResource NonNumericDataGridCell}"/>
+                            <DataGridTextColumn x:Name="salesCustom" Header="영업업체" Binding="{Binding salesCustom}" Width="auto" MinWidth="50" CellStyle="{DynamicResource NonNumericDataGridCell}"/>
+                            <DataGridTextColumn x:Name="searchCustom" Header="실사업체" Binding="{Binding searchCustom}" Width="auto" MinWidth="50" CellStyle="{DynamicResource NonNumericDataGridCell}"/>
                            
-                            <DataGridTextColumn x:Name="sumSalesAmount" Binding="{Binding totalSalesAmount, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
-                            <DataGridTextColumn x:Name="sales_Sales" Binding="{Binding salesOper, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
-                            <DataGridTextColumn x:Name="sales_ConstructCost" Binding="{Binding salesConst, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
-                            <DataGridTextColumn x:Name="sales_etc" Binding="{Binding salesEtc, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}" />
-                            <DataGridTextColumn x:Name="buy_Sales" Binding="{Binding buyOper, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
-                            <DataGridTextColumn x:Name="buy_ConstructCost" Binding="{Binding buyConst, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
-                            <DataGridTextColumn x:Name="buy_etc" Binding="{Binding buyEtc, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
-                            <DataGridTextColumn x:Name="profit_Sales" Binding="{Binding profitOper, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
-                            <DataGridTextColumn x:Name="profit_ConstructCost" Binding="{Binding profitConst, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
-                            <DataGridTextColumn x:Name="profit_Etc" Binding="{Binding profitEtc, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
-                            <DataGridTextColumn x:Name="profit_sum" Binding="{Binding profit, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
+                            <DataGridTextColumn x:Name="sumSalesAmount" Header="매출합계금액" Binding="{Binding totalSalesAmount, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
+                            <DataGridTextColumn x:Name="sales_Sales" Header="영업매출" Binding="{Binding salesOper, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
+                            <DataGridTextColumn x:Name="sales_ConstructCost" Header="공사매출" Binding="{Binding salesConst, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
+                            <DataGridTextColumn x:Name="sales_etc" Header="기타매출" Binding="{Binding salesEtc, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}" />
+                            <DataGridTextColumn x:Name="buy_Sales" Header="영업매입" Binding="{Binding buyOper, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
+                            <DataGridTextColumn x:Name="buy_ConstructCost" Header="공사매입" Binding="{Binding buyConst, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
+                            <DataGridTextColumn x:Name="buy_etc" Header="기타매입" Binding="{Binding buyEtc, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
+                            <DataGridTextColumn x:Name="profit_Sales" Header="영업이익" Binding="{Binding profitOper, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
+                            <DataGridTextColumn x:Name="profit_ConstructCost" Header="공사이익" Binding="{Binding profitConst, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
+                            <DataGridTextColumn x:Name="profit_Etc" Header="기타이익" Binding="{Binding profitEtc, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
+                            <DataGridTextColumn x:Name="profit_sum" Header="합계이익" Binding="{Binding profit, StringFormat=N0}" Width="*" CellStyle="{DynamicResource NumericDataGridCell}"/>
 
                         </DataGrid.Columns>
                     </DataGrid>
