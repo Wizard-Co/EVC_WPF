@@ -985,7 +985,7 @@ namespace WizMes_EVC
                                 dateDiff = double.IsNaN(dateDiff) ? 0 : dateDiff;
                             }
 
-                            Window_OrderClose_DTO.dateDiffSum = dateDiff.ToString();
+                            Window_OrderClose_DTO.dateDiffSum = stringFormatN1(dateDiff);
                             //PersonSum = 3 * ConvertInt(Window_OrderClose_DTO.Treat) * ConvertInt(Window_OrderClose_DTO.orderSum);
                             Window_OrderClose_DTO.PersonSum = stringFormatN0(SetJobDoneByPerson());
 
@@ -1497,6 +1497,10 @@ namespace WizMes_EVC
             return string.Format("{0:N0}", obj);
         }
 
+        private string stringFormatN1(object obj)
+        {
+            return string.Format("{0:N1}", obj);
+        }
 
 
 

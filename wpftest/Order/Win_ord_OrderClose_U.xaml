@@ -2535,7 +2535,7 @@
                                         <DataGridTemplateColumn  Header="수주정산소요일(평균)" MinWidth="100">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding dateDiffSum,StringFormat={}{0:#\,#}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="{Binding dateDiffSum}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
