@@ -475,6 +475,7 @@
                                  Grid.Column="1"
                                  Grid.Row="1"
                                  Text="{Binding orderNo}"
+                                 Tag="{Binding orderID}"
                                  Style="{DynamicResource TextBoxInputNecessary}"
                                  Keyboard.KeyDown="txtOrderID_KeyDown" />
                         <Button x:Name="btnPfOrderID"

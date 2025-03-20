@@ -317,6 +317,7 @@ namespace WizMes_EVC
             {
                 if (DeleteData(item.orderID))
                 {
+                    this.DataContext = null;
                     btnSearch_Click(null, null);
                 }
             }
@@ -505,10 +506,19 @@ namespace WizMes_EVC
             if (dgdMain.Items.Count > 0)
             {
                 dgdMain.Items.Clear();
+                this.DataContext = null;
             }
             if (dgdMainSum.Items.Count > 0)
             {
                 dgdMainSum.Items.Clear();
+            }
+            if (dgdSales.Items.Count > 0)
+            {
+                dgdSales.Items.Clear();
+            }
+            if (dgdBuy.Items.Count > 0)
+            {
+                dgdBuy.Items.Clear();
             }
             try
             {
@@ -705,11 +715,23 @@ namespace WizMes_EVC
                 for (int i = 0; i < dgdSales.Items.Count; i++)
                 {
                     var item = dgdSales.Items[i] as BuySales;
+
+                    if(item.buySalesCodeTypeID == null || String.IsNullOrWhiteSpace(item.buySalesCode))
+                    {
+                        MessageBox.Show("매출 항목이 입력되지 않았습니다");
+                        return false;
+                    }
                     SaveData(item);
                 }
                 for (int i = 0; i < dgdBuy.Items.Count; i++)
                 {
                     var item = dgdBuy.Items[i] as BuySales;
+
+                    if(item.buySalesCodeTypeID == null || String.IsNullOrWhiteSpace(item.buySalesCode))
+                    {
+                        MessageBox.Show("매입 항목이 입력되지 않았습니다");
+                        return false;
+                    }
                     SaveData(item);
                 }
                 return true;
@@ -722,7 +744,7 @@ namespace WizMes_EVC
         }
         private bool SaveData(BuySales item)
         {
-            if (item.buySalesCodeTypeID == null) return false;
+            //if (item.buySalesCodeTypeID == null) return false;
 
             List<Procedure> Prolist = new List<Procedure>();
             List<Dictionary<string, object>> ListParameter = new List<Dictionary<string, object>>();
