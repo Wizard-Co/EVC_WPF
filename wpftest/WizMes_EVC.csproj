@@ -1522,6 +1522,8 @@
     <Resource Include="Images\warn_circle.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\wizMES_Largesize_noIcon_extra.jpg" />
+    <Resource Include="Images\wizMES_Largesize_noIcon_extra1.jpg" />
     <Content Include="x64\liblept172.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

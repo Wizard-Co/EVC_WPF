@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Windows.Media.Effects;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,8 +14,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using WizMes_EVC.Order.Pop;
 using WizMes_EVC.PopUp;
@@ -59,6 +62,8 @@ namespace WizMes_EVC
         Lib lib = new Lib();
         PlusFinder pf = new PlusFinder();
 
+        private const double A_AREA_HEIGHT = 88.0;
+
         string strFlag = string.Empty;
         string orderID_global = string.Empty;
         int rowNum = 0;
@@ -73,11 +78,14 @@ namespace WizMes_EVC
 
         private ToolTip currentToolTip;
         private System.Windows.Threading.DispatcherTimer currentTimer;
-
+        private SpeechBubbleAdorner _speechBubble;
+        private bool _speechBubbleMouseEntered = false;
         //Win_ord_Pop_PreOrder preOrder = new Win_ord_Pop_PreOrder();
 
         private Win_ord_Pop_PreOrder_Q preOrder;
         private Win_ord_Pop_PreEstimate_Q preEstimate;
+
+
 
         Win_ord_Order_U_CodeView_dgdMain OrderView = new Win_ord_Order_U_CodeView_dgdMain();
 
@@ -93,6 +101,9 @@ namespace WizMes_EVC
         ObservableCollection<CodeView> ovcOrderTypeAcc = null;
 
         //ArticleData articleData = new ArticleData();
+
+        private bool _isAnimating = false;
+
         string PrimaryKey = string.Empty;
 
         string FullPath1 = string.Empty;
@@ -154,6 +165,7 @@ namespace WizMes_EVC
 
 
             InitializeComponent();
+            this.SizeChanged += UserControl_SizeChanged;
             scrollHelpers.Add(new ScrollSyncHelper(dgdAccSV, dgdAcc));
             SetupLastColumnResize(dgdAcc, dgdAccSV, grdAcc);
             if (!isUserInWorkTeam())
@@ -207,10 +219,28 @@ namespace WizMes_EVC
       
 
             return flag;
+        }    
+
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            // 윈도우 크기 변경 시 토글버튼 위치 업데이트
+            UpdateToggleButtonPosition();
         }
+
+
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+         
+            UpdateToggleButtonPosition();
+
+            if (_speechBubble == null)
+            {
+                _speechBubble = brLine_Top.AddSpeechBubble("체크된 추가 검색 조건이 있습니다.",
+                    BubblePosition.BottomRight, TailDirection.Up, TextAlign.Center, new Thickness(0, 0, 0, 50));
+                _speechBubble.Hide();
+            }
+
             stDate = DateTime.Now.ToString("yyyyMMdd");
             stTime = DateTime.Now.ToString("HHmm");
 
@@ -975,7 +1005,11 @@ namespace WizMes_EVC
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             strFlag = "I";
-            boolCallEst = false;  
+            boolCallEst = false;
+
+            SetExtraSearchGrid_InitialState();
+            HideExtraSearchConditionGrid();
+            //UncheckCheckBox();
 
             //btnPreOrder.IsEnabled = true;
             //tabBasicData.Focus();            
@@ -1029,9 +1063,14 @@ namespace WizMes_EVC
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             //수정시에는 유지추가를 못하도록
+            strFlag = "U";
             chkEoAddSrh.IsChecked = false;
             chkEoAddSrh.IsEnabled = false;
             boolCallEst = false;
+
+            SetExtraSearchGrid_InitialState();
+            HideExtraSearchConditionGrid();
+            //UncheckCheckBox();
 
             OrderView = dgdMain.SelectedItem as Win_ord_Order_U_CodeView_dgdMain;
             //btnPreOrder.IsEnabled = false;
@@ -1042,7 +1081,7 @@ namespace WizMes_EVC
                 //rowNum = dgdMain.SelectedIndex;
                 dgdMain.IsHitTestVisible = false;
                 tbkMsg.Text = "자료 수정 중";
-                strFlag = "U";
+                
                 CantBtnControl();
                 Tab5TextBoxEnable();
                 DatePickerSetToday_EventHandler();
@@ -1199,11 +1238,115 @@ namespace WizMes_EVC
 
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                //로직
-                re_Search(rowNum);
+                if(chkUniversalSearhSrh.IsChecked == true)
+                {
+                    if(txtUniversalSearhSrh.Text.Trim().Length >= 3)
+                    {
+                        Fillgrid_re_Search();
+                    }
+                    else
+                    {
+                        MessageBox.Show("검색어는 3글자 이상 입력하세요", "확인");
+                    }
+                  
+                }
+                else
+                {
+                    re_Search(rowNum);
+                }
+
             }), System.Windows.Threading.DispatcherPriority.Background);
 
             btnSearch.IsEnabled = true;
+        }
+
+        private void Fillgrid_re_Search()
+        {
+            string searchText = txtUniversalSearhSrh.Text.Equals("검색어를 입력하세요") ? string.Empty : txtUniversalSearhSrh.Text;  
+
+            if (string.IsNullOrEmpty(searchText.Trim()))
+            {
+                // 모든 행 보이기
+                ShowAllRows();
+                return;
+            }
+
+            List<string> orderID_List = new List<string>();
+            for (int i = 0; i < dgdMain.Items.Count; i++)
+            {
+                var item = dgdMain.Items[i] as Win_ord_Order_U_CodeView_dgdMain;
+                if (item != null)
+                {
+                    orderID_List.Add(item.orderId);
+                }
+            }
+
+   
+            var keywordMatchedOrders = CheckKeyWordsInTabs(orderID_List, searchText);
+
+            for (int i = 0; i < dgdMain.Items.Count; i++)
+            {
+                var item = dgdMain.Items[i] as Win_ord_Order_U_CodeView_dgdMain;
+                var row = dgdMain.ItemContainerGenerator.ContainerFromIndex(i) as DataGridRow;
+
+                if (item != null && row != null)
+                {
+                    bool isMatch = keywordMatchedOrders.Contains(item.orderId);
+                    row.Visibility = isMatch ? Visibility.Visible : Visibility.Collapsed;
+                }
+            }
+        }
+
+        private HashSet<string> CheckKeyWordsInTabs(List<string> orderid_list, string keywords)
+        {
+            var matchesOrderIDs = new HashSet<string>();
+
+            try
+            {
+
+                Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+                sqlParameter.Clear();
+                sqlParameter.Add("OrderIDs", string.Join(",",orderid_list));
+                sqlParameter.Add("KeyWords", keywords);
+
+                DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_ord_sOrder_KeywordSearch", sqlParameter, true, "R");
+
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    DataTable dt = ds.Tables[0];                    
+
+                    DataRowCollection drc = dt.Rows;
+
+                    foreach (DataRow dr in drc)
+                    {
+                        matchesOrderIDs.Add(dr["orderID"].ToString());                            
+                    }
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("오류 발생 : "+ ex.ToString());
+            }
+            finally
+            {
+                DataStore.Instance.CloseConnection();
+            }
+
+            return matchesOrderIDs;
+        }
+
+
+        private void ShowAllRows()
+        {
+            for (int i = 0; i < dgdMain.Items.Count; i++)
+            {
+                var row = dgdMain.ItemContainerGenerator.ContainerFromIndex(i) as DataGridRow;
+                if (row != null)
+                    row.Visibility = Visibility.Visible;
+            }
         }
 
         private void CheckTabClicked()
@@ -1569,7 +1712,7 @@ namespace WizMes_EVC
         private void re_Search(int selectedIndex)
         {           
             FillGrid();
-
+            strFlag = string.Empty;
             if (dgdMain.Items.Count > 0)
             {                 
                 dgdMain.SelectedIndex = selectedIndex;
@@ -1585,6 +1728,8 @@ namespace WizMes_EVC
             else
                 this.DataContext = new object();
 
+
+            SetExtraSearchGrid_InitialState();
             //CalculGridSum();
         }
 
@@ -1655,10 +1800,132 @@ namespace WizMes_EVC
                 //sqlParameter.Add("InstallLocationAddComments", chkInstallLocationAddCommentsSrh.IsChecked == true ? txtInstallLocationAddCommentsSrh.Text : "");
 
                 //견적제목
-                sqlParameter.Add("chkEstSubject", 0);
-                sqlParameter.Add("EstSubject", "");
+                sqlParameter.Add("chkEstSubject", chkEstSubjectSrh.IsChecked == true ? 1:0);
+                sqlParameter.Add("EstSubject", chkEstSubjectSrh.IsChecked == true ? !string.IsNullOrWhiteSpace(txtEstSubjectSrh.Text) ? txtEstSubjectSrh.Text : string.Empty : string.Empty);
 
-                sqlParameter.Add("orderID", intFlag == 1 ? tblOrderID.Text : "");
+
+              sqlParameter.Add("orderID", intFlag == 1 ? tblOrderID.Text : "");
+
+              sqlParameter.Add("ChkManageCustomConfirmDate", chkManageCustomConfirmDateSrh.IsChecked == true ? 1: 0);
+              sqlParameter.Add("ManageCustomConfirmDateTo", chkManageCustomConfirmDateSrh.IsChecked == true ? !IsDatePickerNull(dtpManageCustomConfirmDateToSrh) ? ConvertDate(dtpManageCustomConfirmDateToSrh) : string.Empty : string.Empty);
+              sqlParameter.Add("ManageCustomConfirmDateEnd",chkManageCustomConfirmDateSrh.IsChecked == true ? !IsDatePickerNull(dtpManageCustomConfirmDateEndSrh) ? ConvertDate(dtpManageCustomConfirmDateEndSrh) : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkInstallLocationAdress", chkInstallLocationAdressSrh.IsChecked == true? 1:0);
+              sqlParameter.Add("InstallLocationAdress", chkInstallLocationAdressSrh.IsChecked == true ? !string.IsNullOrWhiteSpace(txtInstallLocationAdressSrh.Text) ? txtInstallLocationAdressSrh.Text : string.Empty: string.Empty);
+
+              sqlParameter.Add("ChkOpenReqDate", chkOpenReqDateSrh.IsChecked == true ? 1:0);
+              sqlParameter.Add("OpenReqDateTo", chkOpenReqDateSrh.IsChecked == true? !IsDatePickerNull(dtpOpenReqDateToSrh) ? ConvertDate(dtpOpenReqDateToSrh) : string.Empty : string.Empty);
+              sqlParameter.Add("OpenReqDateEnd", chkOpenReqDateSrh.IsChecked ==true ? !IsDatePickerNull(dtpOpenReqDateEndSrh) ? ConvertDate(dtpOpenReqDateEndSrh) : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkOpenDate", chkOpenDateSrh.IsChecked == true ? 1:0);
+              sqlParameter.Add("OpenDateTo", chkOpenDateSrh.IsChecked == true? !IsDatePickerNull(dtpOpenDateToSrh) ? ConvertDate(dtpOpenDateToSrh) : string.Empty : string.Empty );
+              sqlParameter.Add("OpenDateEnd", chkOpenDateSrh.IsChecked == true ? !IsDatePickerNull(dtpOpenDateEndSrh) ? ConvertDate(dtpOpenDateEndSrh) : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkCpoCalcuDate", chkCpoCalcuDateSrh.IsChecked == true ? 1 : 0);
+              sqlParameter.Add("CpoCalcuDateTo", chkCpoCalcuDateSrh.IsChecked == true ? !IsDatePickerNull(dtpCpoCalcuDateToSrh) ? ConvertDate(dtpCpoCalcuDateToSrh) : string.Empty : string.Empty);
+              sqlParameter.Add("CpoCalcuDateEnd", chkCpoCalcuDateSrh.IsChecked == true ? !IsDatePickerNull(dtpCpoCalcuDateEndSrh) ? ConvertDate(dtpCpoCalcuDateEndSrh) : string.Empty : string.Empty );
+
+              sqlParameter.Add("ChkConstrCalcuDate", chkConstrCalcuDateSrh.IsChecked == true ? 1:0);
+              sqlParameter.Add("ConstrCalcuDateTo", chkConstrCalcuDateSrh.IsChecked == true ? !IsDatePickerNull(dtpConstrCalcuDateToSrh) ? ConvertDate(dtpConstrCalcuDateToSrh)  : string.Empty : string.Empty);
+              sqlParameter.Add("ConstrCalcuDateEnd", chkConstrCalcuDateSrh.IsChecked == true ? !IsDatePickerNull(dtpConstrCalcuDateEndSrh) ? ConvertDate(dtpConstrCalcuDateEndSrh) : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkSearchReqDate", chkSearchReqDateSrh.IsChecked == true ? 1:0);
+              sqlParameter.Add("SearchReqDateTo", chkSearchReqDateSrh.IsChecked == true ? !IsDatePickerNull(dtpSearchReqDateToSrh) ? ConvertDate(dtpSearchReqDateToSrh) : string.Empty : string.Empty);
+              sqlParameter.Add("SearchReqDateEnd", chkSearchReqDateSrh.IsChecked == true ? !IsDatePickerNull(dtpSearchReqDateEndSrh) ? ConvertDate(dtpSearchReqDateEndSrh) : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkSearchDate", chkSearchDateSrh.IsChecked == true ? 1:0);
+              sqlParameter.Add("SearchDateTo", chkSearchDateSrh.IsChecked == true ? !IsDatePickerNull(dtpSearchDateToSrh) ? ConvertDate(dtpSearchDateToSrh) : string.Empty : string.Empty);
+              sqlParameter.Add("SearchDateEnd", chkSearchDateSrh.IsChecked == true ? !IsDatePickerNull(dtpSearchDateEndSrh) ? ConvertDate(dtpSearchDateEndSrh) : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkSearchDataAcptDate", chkSearchDataAcptDateSrh.IsChecked == true ? 1:0);
+              sqlParameter.Add("SearchDataAcptDateTo", chkSearchDataAcptDateSrh.IsChecked == true ? !IsDatePickerNull(dtpSearchDataAcptDateToSrh) ? ConvertDate(dtpSearchDataAcptDateToSrh) : string.Empty : string.Empty);
+              sqlParameter.Add("SearchDataAcptDateEnd", chkSearchDataAcptDateSrh.IsChecked == true ? !IsDatePickerNull(dtpSearchDataAcptDateEndSrh) ? ConvertDate(dtpSearchDataAcptDateEndSrh) : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkCorpAcptNo", chkCorpAcptNoSrh.IsChecked == true ? 1:0);
+              sqlParameter.Add("CorpAcptNo", chkCorpAcptNoSrh.IsChecked ==true ? txtCorpAcptNo.Text : string.Empty);
+
+              sqlParameter.Add("ChkCorpApprovalDate", chkCorpApprovalDateSrh.IsChecked == true ? 1:0);
+              sqlParameter.Add("CorpApprovalDateTo", chkCorpApprovalDateSrh.IsChecked == true ? !IsDatePickerNull(dtpCorpApprovalDateToSrh) ? ConvertDate(dtpCorpApprovalDateToSrh) :  string.Empty : string.Empty);
+              sqlParameter.Add("CorpApprovalDateEnd", chkCorpApprovalDateSrh.IsChecked == true ? !IsDatePickerNull(dtpCorpApprovalDateEndSrh) ? ConvertDate(dtpCorpApprovalDateEndSrh) : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkCorpEndDate",chkCorpEndDateSrh.IsChecked == true ? 1:0);
+              sqlParameter.Add("CorpEndDateTo", chkCorpEndDateSrh.IsChecked == true? !IsDatePickerNull(dtpCorpApprovalDateToSrh) ? ConvertDate(dtpCorpApprovalDateEndSrh) : string.Empty : string.Empty);
+              sqlParameter.Add("CorpEndDateEnd", chkCorpEndDateSrh.IsChecked == true ? !IsDatePickerNull(dtpCorpApprovalDateEndSrh) ? ConvertDate(dtpCorpApprovalDateEndSrh) : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkSuperUseInspReqDate", chkSuperUseInspReqDateSrh.IsChecked == true ?  1:0);
+              sqlParameter.Add("SuperUseInspReqDateTo", chkSuperUseInspReqDateSrh.IsChecked == true ? !IsDatePickerNull(dtpSuperUseInspReqDateToSrh) ? ConvertDate(dtpSuperUseInspReqDateToSrh) : string.Empty : string.Empty);
+              sqlParameter.Add("SuperUseInspReqDateEnd", chkSuperUseInspReqDateSrh.IsChecked == true ? !IsDatePickerNull(dtpSuperUseInspReqDateEndSrh) ? ConvertDate(dtpSuperUseInspReqDateEndSrh) : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkSuperBeforeUseInspPrintDate",chkSuperBeforeUseInspPrintDateSrh.IsChecked == true ? 1:0);
+              sqlParameter.Add("SuperBeforeUseInspPrintDateTo", chkSuperBeforeUseInspPrintDateSrh.IsChecked == true ? !IsDatePickerNull(dtpSuperUseInspReqDateToSrh) ? ConvertDate(dtpSuperUseInspReqDateToSrh) : string.Empty : string.Empty);
+              sqlParameter.Add("SuperBeforeUseInspPrintDateEnd", chkSuperBeforeUseInspPrintDateSrh.IsChecked == true ? !IsDatePickerNull(dtpSuperUseInspReqDateEndSrh) ? ConvertDate(dtpSuperUseInspReqDateEndSrh) : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkKepOutLineConstructContext", chkKepOutLineConstructContextSrh.IsChecked == true ? 1:0);
+              sqlParameter.Add("KepOutLineConstructContext", chkKepOutLineConstructContextSrh.IsChecked == true? txtKepOutLineConstructContextSrh.Text : string.Empty);
+
+              sqlParameter.Add("ChkKepElectrReqDate", chkKepElectrReqDateSrh.IsChecked == true ? 1:0);
+              sqlParameter.Add("KepElectrReqDateTo", chkKepElectrReqDateSrh.IsChecked == true? !IsDatePickerNull(dtpKepElectrReqDateToSrh) ? ConvertDate(dtpKepElectrReqDateEndSrh) : string.Empty : string.Empty);
+              sqlParameter.Add("KepElectrReqDateEnd", chkKepElectrReqDateSrh.IsChecked == true? !IsDatePickerNull(dtpKepElectrReqDateEndSrh) ? ConvertDate(dtpKepElectrReqDateEndSrh) : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkKepParentChildCapacity", chkKepParentChildCapacitySrh.IsChecked == true ? 1:0);
+              sqlParameter.Add("KepParentChildCapacityTo", chkKepParentChildCapacitySrh.IsChecked == true ? lib.RemoveComma(txtKepParentChildCapacityToSrh.Text,0) : 0);
+              sqlParameter.Add("KepParentChildCapacityEnd",chkKepParentChildCapacitySrh.IsChecked == true ? lib.RemoveComma(txtKepParentChildCapacityEndSrh.Text,0) : 0);
+
+              sqlParameter.Add("ChkKepPowerSupplyCapacity", chkKepPowerSupplyCapacitySrh.IsChecked ==true ? 1:0);
+              sqlParameter.Add("KepPowerSupplyCapacityTo", chkKepPowerSupplyCapacitySrh.IsChecked == true ?lib.RemoveComma(txtKepPowerSupplyCapacityToSrh.Text,0) : 0);
+              sqlParameter.Add("KepPowerSupplyCapacityEnd", chkKepPowerSupplyCapacitySrh.IsChecked == true ? lib.RemoveComma(txtKepPowerSupplyCapacityEndSrh.Text, 0) : 0);
+
+              sqlParameter.Add("ChkKepCustomNo", chkKepCustomNoSrh.IsChecked == true ? 1:0);
+              sqlParameter.Add("KepCustomNo", chkKepCustomNoSrh.IsChecked == true ? txtKepCustomNoSrh.Text : string.Empty);
+
+              sqlParameter.Add("ChkConstrDate", chkConstrDateSrh.IsChecked == true ? 1:0);
+              sqlParameter.Add("ConstrDateTo", chkConstrDateSrh.IsChecked == true? !IsDatePickerNull(dtpConstrDateToSrh) ? ConvertDate(dtpConstrDateToSrh) : string.Empty : string.Empty);
+              sqlParameter.Add("ConstrDateEnd", chkConstrDateSrh.IsChecked == true ? !IsDatePickerNull(dtpConstrDateEndSrh) ? ConvertDate(dtpConstrDateEndSrh) : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkConstrCompleteDate", chkConstrCompleteDateSrh.IsChecked == true ? 1:0);
+              sqlParameter.Add("ConstrCompleteDateTo", chkConstrCompleteDateSrh.IsChecked == true ? !IsDatePickerNull(dtpConstrCompleteDateToSrh) ? ConvertDate(dtpConstrCompleteDateToSrh) : string.Empty : string.Empty);
+              sqlParameter.Add("ConstrCompleteDateEnd", chkConstrCompleteDateSrh.IsChecked == true ? !IsDatePickerNull(dtpConstrCompleteDateEndSrh) ? ConvertDate(dtpConstrCompleteDateEndSrh) : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkElectrSafeCheckPrintDate", chkElectrSafeCheckPrintDateSrh.IsChecked == true? 1:0);
+              sqlParameter.Add("ElectrSafeCheckPrintDateTo", chkElectrSafeCheckPrintDateSrh.IsChecked == true ? !IsDatePickerNull(dtpElectrSafeCheckPrintDateToSrh) ? ConvertDate(dtpElectrSafeCheckPrintDateToSrh) : string.Empty : string.Empty);
+              sqlParameter.Add("ElectrSafeCheckPrintDateEnd", chkElectrSafeCheckPrintDateSrh.IsChecked == true ? !IsDatePickerNull(dtpElectrSafeCheckPrintDateEndSrh) ? ConvertDate(dtpElectrSafeCheckPrintDateEndSrh) : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkElectrBeforeUseCheckPrintDate", chkElectrBeforeUseCheckPrintDateSrh.IsChecked == true ? 1:0);
+              sqlParameter.Add("ElectrBeforeUseCheckPrintDateTo", chkElectrBeforeUseCheckPrintDateSrh.IsChecked ==  true ? !IsDatePickerNull(dtpElectrBeforeUseCheckPrintDateToSrh) ? ConvertDate(dtpElectrBeforeUseCheckPrintDateToSrh) : string.Empty : string.Empty);
+              sqlParameter.Add("ElectrBeforeUseCheckPrintDateEnd", chkElectrBeforeUseCheckPrintDateSrh.IsChecked == true ? !IsDatePickerNull(dtpElectrBeforeUseCheckPrintDateEndSrh) ? ConvertDate(dtpElectrBeforeUseCheckPrintDateEndSrh) : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkElectrBeforeInspPrintDate", chkElectrBeforeInspPrintDateSrh.IsChecked == true ? 1:0);
+              sqlParameter.Add("ElectrBeforeInspPrintDateTo", chkElectrBeforeInspPrintDateSrh.IsChecked == true ? !IsDatePickerNull(dtpElectrBeforeInspPrintDateToSrh) ? ConvertDate(dtpElectrBeforeInspPrintDateToSrh) : string.Empty : string.Empty);
+              sqlParameter.Add("ElectrBeforeInspPrintDateEnd", chkElectrBeforeInspPrintDateSrh.IsChecked == true ? !IsDatePickerNull(dtpElectrBeforeInspPrintDateEndSrh) ? ConvertDate(dtpElectrBeforeInspPrintDateEndSrh) : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkSuperCustomID", chkSuperCustomIDSrh.IsChecked == true?1:0);
+              sqlParameter.Add("SuperCustomID", chkSuperCustomIDSrh.IsChecked == true ? txtSuperCustomIDSrh.Tag != null? txtSuperCustomIDSrh.Tag.ToString() : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkSafeManageCustomID", chkSafeManageCustomIDSrh.IsChecked == true? 1:0);
+              sqlParameter.Add("SafeManageCustomID", chkSafeManageCustomIDSrh.IsChecked == true ? txtSuperCustomIDSrh.Tag != null? txtSuperCustomIDSrh.Tag.ToString() : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkSuperUseInspPayCustomID", chkSuperUseInspPayCustomIDSrh.IsChecked ==true ? 1:0);
+              sqlParameter.Add("SuperUseInspPayCustomID", chkSuperUseInspPayCustomIDSrh.IsChecked == true ? txtSuperUseInspPayCustomIDSrh.Tag != null? txtSuperUseInspPayCustomIDSrh.Tag.ToString() : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkSuperSetTaxPrintDate", chkSuperSetTaxPrintDateSrh.IsChecked == true? 1:0);
+              sqlParameter.Add("SuperSetTaxPrintDateTo", chkSuperSetTaxPrintDateSrh.IsChecked == true ? !IsDatePickerNull(dtpSuperSetTaxPrintDateToSrh) ? ConvertDate(dtpSuperSetTaxPrintDateToSrh) : string.Empty : string.Empty);
+              sqlParameter.Add("SuperSetTaxPrintDateEnd", chkSuperSetTaxPrintDateSrh.IsChecked == true ? !IsDatePickerNull(dtpSuperSetTaxPrintDateEndSrh) ? ConvertDate(dtpSuperSetTaxPrintDateEndSrh) : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkCompReplyDate", chkCompReplyDateSrh.IsChecked == true? 1:0);
+              sqlParameter.Add("CompReplyDateTo", chkCompReplyDateSrh.IsChecked == true ? !IsDatePickerNull(dtpCompReplyDateToSrh) ? ConvertDate(dtpCompReplyDateToSrh) : string.Empty : string.Empty);
+              sqlParameter.Add("CompReplyDateEnd", chkCompReplyDateSrh.IsChecked == true ? !IsDatePickerNull(dtpCompReplyDateEndSrh) ? ConvertDate(dtpCompReplyDateEndSrh) :  string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkSuppleCompDate", chkSuppleCompDateSrh.IsChecked == true ? 1:0);
+              sqlParameter.Add("SuppleCompDateTo", chkSuppleCompDateSrh.IsChecked == true ? !IsDatePickerNull(dtpSuppleCompDateToSrh) ? ConvertDate(dtpSuppleCompDateToSrh) : string.Empty : string.Empty);
+              sqlParameter.Add("SuppleCompDateEnd", chkSuppleCompDateSrh.IsChecked == true ? !IsDatePickerNull(dtpSuppleCompDateEndSrh) ? ConvertDate(dtpSuppleCompDateEndSrh) : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkCompSuppleReportDate", chkCompSuppleReportDateSrh.IsChecked == true ? 1 : 0);
+              sqlParameter.Add("CompSuppleReportDateTo", chkCompSuppleReportDateSrh.IsChecked == true ? !IsDatePickerNull(dtpCompSuppleReportDateToSrh) ? ConvertDate(dtpCompSuppleReportDateToSrh) : string.Empty : string.Empty);
+              sqlParameter.Add("CompSuppleReportDateEnd", chkCompSuppleReportDateSrh.IsChecked == true ? !IsDatePickerNull(dtpCompSuppleReportDateEndSrh) ? ConvertDate(dtpCompSuppleReportDateEndSrh) : string.Empty : string.Empty);
+
+              sqlParameter.Add("ChkInsurePrintDate", chkInsurePrintDateSrh.IsChecked == true ? 1:0);
+              sqlParameter.Add("InsurePrintDateTo", chkInsurePrintDateSrh.IsChecked ==true? !IsDatePickerNull(dtpInsurePrintDateToSrh) ? ConvertDate(dtpInsurePrintDateEndSrh) : string.Empty : string.Empty);
+              sqlParameter.Add("InsurePrintDateEnd", chkInsurePrintDateSrh.IsChecked == true ? !IsDatePickerNull(dtpInsurePrintDateEndSrh) ? ConvertDate(dtpInsurePrintDateEndSrh) : string.Empty : string.Empty);
 
                 DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_ord_sOrder", sqlParameter, true, "R");
 
@@ -1688,6 +1955,7 @@ namespace WizMes_EVC
                                 acptDate = DateTypeHyphen(dr["acptDate"].ToString()),
                                 estSubject = dr["estSubject"].ToString(),                               
                                 estID = dr["estID"].ToString(),
+                                orderType = dr["orderType"].ToString(),
                                 orderTypeID = dr["orderTypeID"].ToString(),
                                 orderNo = dr["orderNo"].ToString(),
                                 saleCustom = dr["saleCustom"].ToString(),
@@ -1706,7 +1974,7 @@ namespace WizMes_EVC
                                 articleList = dr["articleList"].ToString(),
                                 closeYn = dr["closeYn"].ToString(),
 
-                                orderAmount = dr["orderAmount"].ToString(),
+                                orderAmount = stringFormatN0(dr["orderAmount"]),
                                 installLocationAddComments = dr["installLocationAddComments"].ToString(),
                                 cpoCalcuDate = DateTypeHyphen(dr["cpoCalcuDate"].ToString()),
                                 constrCalcuDate = DateTypeHyphen(dr["constrCalcuDate"].ToString()),
@@ -1739,6 +2007,7 @@ namespace WizMes_EVC
                                 mtrAmount = stringFormatN0(dr["mtrAmount"]),
                                 mtrShippingCharge = stringFormatN0(dr["mtrShippingCharge"]),
                                 mtrPriceUnitClss = dr["mtrPriceUnitClss"].ToString(),
+                                mtrPriceUnit = dr["mtrPriceUnit"].ToString(),
 
                                 mtrCanopyInwareInfo = dr["mtrCanopyInwareInfo"].ToString(),
                                 mtrCanopyOrderAmount = stringFormatN0(dr["mtrCanopyOrderAmount"]),
@@ -3093,6 +3362,19 @@ namespace WizMes_EVC
             return DigitsTime;
         }
 
+        private void CloseToolTip()
+        {
+            if (currentToolTip != null && currentToolTip.IsOpen)
+            {
+                currentToolTip.IsOpen = false;
+                if (currentTimer != null)
+                {
+                    currentTimer.Stop();
+                    currentTimer = null;
+                }
+            }
+        }
+
         private void ShowTooltipMessage(FrameworkElement element, string message, MessageBoxImage iconType = MessageBoxImage.None, PlacementMode placement = PlacementMode.Bottom)
         {
             // 이미 열려있는 툴팁이 있다면 닫기
@@ -3225,21 +3507,86 @@ namespace WizMes_EVC
         //셀에 복사 붙여넣기 방지
         private void TextBox_PreventCopyPaste(object sender, KeyEventArgs e)
         {
+            TextBox textBox = sender as TextBox;
+            if (textBox != null)
+            {
+                // IME 비활성화
+                InputMethod.SetIsInputMethodEnabled(textBox, false);
+            }
+
             //컨트롤키와 V키가 입력되었는지 확인
             if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control && e.Key == Key.V)
             {
                 e.Handled = true;
             }
         }
-
         //셀에 숫자만 입력
         private void TextBox_NumberValidation(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9]+");
-            if (regex.IsMatch(e.Text))
+            // 입력된 텍스트가 숫자인지 확인 (간단한 방법)
+            foreach (char c in e.Text)
             {
-                e.Handled = true;
-                ShowTooltipMessage(sender as FrameworkElement, "숫자만 입력 가능합니다.", MessageBoxImage.Error, PlacementMode.Right);
+                if (!char.IsDigit(c))
+                {
+                    e.Handled = true;
+                    ShowTooltipMessage(sender as FrameworkElement, "숫자만 입력 가능합니다.", MessageBoxImage.Error, PlacementMode.Bottom);
+                    break;
+                }
+            }
+                       
+        }
+
+        private void CheckElectrTextboxValue(TextBox currentTextbox, int currentValue)
+        {
+            string currentName = currentTextbox.Name ?? "";
+
+            // 이웃 TextBox 찾기
+            var siblingTextBox = lib.FindSiblingControl<TextBox>(currentTextbox);
+            if (siblingTextBox == null || string.IsNullOrEmpty(siblingTextBox.Text))
+                return;
+
+            if (!int.TryParse(siblingTextBox.Text, out int siblingValue))
+                return;
+
+            // End 텍스트박스 (끝값) - 시작값보다 이하로 입력 불가
+            if (currentName.Contains("End"))
+            {
+                if (currentValue < siblingValue)
+                {
+                    ShowTooltipMessage(currentTextbox,
+                        $"기준점 시작 {siblingValue}보다 아래로 입력할 수 없습니다.",
+                        MessageBoxImage.Warning, PlacementMode.Bottom);
+
+                    // 잘못된 값을 시작값으로 자동 수정
+                    currentTextbox.Text = siblingValue.ToString();
+                    currentTextbox.SelectAll();
+                }
+            }
+            // To 텍스트박스 (시작값) - 끝값보다 초과로 입력 불가
+            else if (currentName.Contains("To"))
+            {
+                if (currentValue > siblingValue)
+                {
+                    ShowTooltipMessage(currentTextbox,
+                        $"기준점 끝 {siblingValue}보다 위로 입력할 수 없습니다.",
+                        MessageBoxImage.Warning, PlacementMode.Bottom);
+
+                    // 잘못된 값을 끝값으로 자동 수정
+                    currentTextbox.Text = siblingValue.ToString();
+                    currentTextbox.SelectAll();
+                }
+            }
+        }
+
+        private void ElectrTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox currentTextbox = sender as TextBox;
+            if (currentTextbox != null && !string.IsNullOrEmpty(currentTextbox.Text))
+            {
+                if (int.TryParse(currentTextbox.Text, out int currentValue))
+                {
+                    CheckElectrTextboxValue(currentTextbox, currentValue);
+                }
             }
         }
 
@@ -4831,6 +5178,61 @@ namespace WizMes_EVC
 
                 });
             }           
+        }
+
+        private void UncheckCheckBox()
+        {
+            List<Grid> grids = new List<Grid> {grdExtraSearchCondtions};
+            foreach (Grid grd in grids)
+            {
+                FindUiObject(grd, child =>
+                {
+                    if(child is TextBox txtBox)
+                    {
+                        txtBox.Text = string.Empty;
+                        txtBox.Tag = null;
+                    }
+                    else if(child is CheckBox chk)
+                    {
+                        chk.IsChecked = false;
+                    }
+                });
+            }
+
+        }
+
+        private void DisablekCheckBox()
+        {
+            List<Grid> grids = new List<Grid> { grdExtraSearchCondtions, grdSearchConditionsTop};
+            foreach (Grid grd in grids)
+            {
+                FindUiObject(grd, child =>
+                {
+                    if(child is CheckBox checkbox)
+                    {
+                        if(!checkbox.Name.Equals("chkUniversalSearhSrh"))
+                        checkbox.IsEnabled = false;
+                    }
+                });
+            }
+
+        }
+
+        private void EnablekCheckBox()
+        {
+            List<Grid> grids = new List<Grid> { grdExtraSearchCondtions, grdSearchConditionsTop };
+            foreach (Grid grd in grids)
+            {
+                FindUiObject(grd, child =>
+                {
+                    if (child is CheckBox checkbox)
+                    {
+                        if (!checkbox.Name.Equals("chkUniversalSearhSrh"))
+                            checkbox.IsEnabled = true;
+                    }
+                });
+            }
+
         }
 
         private void addLstFile_FTP()
@@ -8009,6 +8411,437 @@ namespace WizMes_EVC
             }
         }
 
+        //걍 버전
+        //private void SearchToggleButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    ToggleButton toggleButton = sender as ToggleButton;
+        //    if (toggleButton == null) return;
+
+        //    if (toggleButton.IsChecked == true)
+        //    {
+        //        grdExtraSearchCondtions.Visibility = Visibility.Visible;
+        //        brLine_Bottom.Visibility = Visibility.Visible;
+        //        brLine_Top.Visibility = Visibility.Hidden;
+        //        this.Dispatcher.BeginInvoke(new Acㅇtion(() =>
+        //        {
+        //            UpdateToggleButtonPosition();
+        //        }), DispatcherPriority.Loaded);
+        //    }
+        //    else
+        //    {
+        //        grdExtraSearchCondtions.Visibility = Visibility.Hidden;
+        //        brLine_Bottom.Visibility = Visibility.Hidden;
+        //        brLine_Top.Visibility = Visibility.Visible;
+        //        UpdateToggleButtonPosition();
+        //    }
+        //}
+
+        //애니메이션 접기펼치기
+        private void SearchToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleButton toggleButton = sender as ToggleButton;
+            if (toggleButton == null || _isAnimating) return;
+     
+
+            if (toggleButton.IsChecked == true)
+            {
+                _speechBubble.Hide();
+
+                grdExtraSearchCondtions.BeginAnimation(FrameworkElement.MaxHeightProperty, null); 
+
+                grdExtraSearchCondtions.Visibility = Visibility.Visible;
+                brLine_Bottom.Visibility = Visibility.Visible;
+                brLine_Top.Visibility = Visibility.Hidden;
+
+                grdExtraSearchCondtions.MaxHeight = double.PositiveInfinity;
+                grdExtraSearchCondtions.UpdateLayout();
+                double targetHeight = grdExtraSearchCondtions.ActualHeight;
+
+                grdExtraSearchCondtions.MaxHeight = 0;
+
+                var heightAnimation = new DoubleAnimation
+                {
+                    From = 0,
+                    To = targetHeight,
+                    Duration = TimeSpan.FromMilliseconds(500),
+                    EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
+                };
+
+                _isAnimating = true;
+                CompositionTarget.Rendering += OnRenderingDuringAnimation; //렌더링중에 지속적으로 발생되는 이벤트
+
+                heightAnimation.Completed += (s, args) =>
+                {
+                    _isAnimating = false;
+                    CompositionTarget.Rendering -= OnRenderingDuringAnimation;
+
+                    grdExtraSearchCondtions.BeginAnimation(FrameworkElement.MaxHeightProperty, null);
+                    grdExtraSearchCondtions.MaxHeight = double.PositiveInfinity;
+
+                    this.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        UpdateToggleButtonPosition();
+                    }), DispatcherPriority.Loaded);
+                    
+                };
+
+                grdExtraSearchCondtions.BeginAnimation(FrameworkElement.MaxHeightProperty, heightAnimation);
+            }
+            else
+            {
+                grdExtraSearchCondtions.BeginAnimation(FrameworkElement.MaxHeightProperty, null);
+                CloseToolTip();
+
+                double currentHeight = grdExtraSearchCondtions.ActualHeight;
+
+                var heightAnimation = new DoubleAnimation
+                {
+                    From = currentHeight,
+                    To = 0,
+                    Duration = TimeSpan.FromMilliseconds(350),
+                    EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseIn }
+                };
+
+                _isAnimating = true;
+                CompositionTarget.Rendering += OnRenderingDuringAnimation;
+
+                heightAnimation.Completed += (s, args) =>
+                {
+                    _isAnimating = false;
+                    CompositionTarget.Rendering -= OnRenderingDuringAnimation;
+
+                    grdExtraSearchCondtions.BeginAnimation(FrameworkElement.MaxHeightProperty, null);
+
+                    grdExtraSearchCondtions.Visibility = Visibility.Hidden;
+                    brLine_Bottom.Visibility = Visibility.Hidden;
+                    brLine_Top.Visibility = Visibility.Visible;
+
+                    grdExtraSearchCondtions.MaxHeight = double.PositiveInfinity;
+
+                    this.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        UpdateToggleButtonPosition();
+                    }), DispatcherPriority.Loaded);
+
+                    ShowSpeechBubble();
+                };
+
+                grdExtraSearchCondtions.BeginAnimation(FrameworkElement.MaxHeightProperty, heightAnimation);                
+            }
+
+   
+        }
+
+        //추가 검색조건 체크했을 때 사용자에게 알려주느 말풍선
+        private void ShowSpeechBubble()
+        {
+
+            if (_speechBubble != null && (strFlag.Equals("I") || strFlag.Equals("U")))
+                _speechBubble.Hide();
+
+            if (CheckCheckBoxAddtionalCondtions() && (!strFlag.Equals("I") && !strFlag.Equals("U")))
+            {    
+                if (_speechBubble != null)
+    
+                _speechBubble.Show();
+                if (!_speechBubbleMouseEntered)
+                {
+                    _speechBubble.Container.MouseEnter += OnSpeechBubbleMouseEnter;
+                    _speechBubble.Container.MouseLeave += OnSpeechBubbleMouseLeave;
+                    _speechBubbleMouseEntered = true;
+                }
+
+            }
+            else
+            {
+                if(_speechBubble != null)
+                _speechBubble.Hide();
+            }
+   
+        }
+
+        //Hidden또는 Hide를 해버리면 코드 무한 반복이라 투명도로 해결
+        private void OnSpeechBubbleMouseEnter(object sender, MouseEventArgs e)
+        {
+            _speechBubble.Container.Opacity = 0;
+        }
+
+        private void OnSpeechBubbleMouseLeave(object sender, MouseEventArgs e)
+        {
+            _speechBubble.Container.Opacity = 1;
+        }
+
+        private bool CheckCheckBoxAddtionalCondtions()
+        {
+            bool flag = false;
+
+            FindUiObject(grdExtraSearchCondtions, child =>
+            {
+                if (child is CheckBox checkBox)
+                {
+                    if (checkBox.IsChecked == true)
+                        flag = true;
+                }
+            });
+
+            return flag;
+            
+        }
+        
+
+        private void OnRenderingDuringAnimation(object sender, EventArgs e)
+        {
+            if (_isAnimating)
+            {
+                UpdateToggleButtonPosition();
+            }
+        }
+
+        private void UpdateToggleButtonPosition()
+        {
+            if (!IsLoaded) return;
+
+            double topMargin = 0;
+            double leftMargin = 169; 
+
+            if (grdExtraSearchCondtions.Visibility == Visibility.Visible)
+            {
+
+                grdExtraSearchCondtions.UpdateLayout();
+         
+                var border = grdExtraSearchCondtions.Children.OfType<Border>().FirstOrDefault();
+                if (border != null)
+                {
+                    topMargin = border.ActualHeight;
+
+                    var grid = border.Child as Grid;
+                    if (grid != null && grid.ColumnDefinitions.Count > 0)
+                    {
+                        // 첫 번째 컬럼의 실제 너비 계산
+                        leftMargin = grid.ColumnDefinitions[0].ActualWidth;
+                    }
+                }
+                else
+                {
+                    // grdExtraSearchCondtions이 숨겨졌을 때의 기본 leftMargin
+                    leftMargin = 169;
+                }
+
+            }
+
+            tgnExtraSearchConditions.Margin = new Thickness(0, topMargin, 0, 0);
+            brLine_Bottom.Margin = new Thickness(leftMargin, 0, 0, 0);
+
+
+        }
+
+
+    
+        public void ToggleExpandedSearch()
+        {
+            tgnExtraSearchConditions.IsChecked = !tgnExtraSearchConditions.IsChecked;
+            SearchToggleButton_Click(tgnExtraSearchConditions, new RoutedEventArgs());
+        }
+  
+        public bool IsExpandedSearchOpen => tgnExtraSearchConditions.IsChecked == true;
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+           
+            if (e.Key == Key.Escape && IsExpandedSearchOpen)
+            {
+                ToggleExpandedSearch();
+                e.Handled = true;
+                return;
+            }
+     
+            base.OnKeyDown(e); 
+        }
+
+        private void grdSearConditionsTop_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (grdSearchConditionsTop.IsFocused)
+            {
+                tgnExtraSearchConditions.Visibility = Visibility.Visible;
+                UpdateToggleButtonPosition();
+            }
+        }
+
+        private void grdSearConditionsTop_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if(tgnExtraSearchConditions.Visibility == Visibility.Visible)
+            {
+                tgnExtraSearchConditions.Visibility = Visibility.Hidden;
+                tgnExtraSearchConditions.IsChecked = false;
+                SearchToggleButton_Click(null,null);
+                UpdateToggleButtonPosition();
+            }
+        }
+
+        private void MainGrid_Click(object sender, MouseButtonEventArgs e)
+        {
+            Grid grd = sender as Grid;
+            if(grd != null)
+            {
+                //MessageBox.Show("입력 공간 클릭");
+                SetExtraSearchGrid_InitialState();
+                HideExtraSearchConditionGrid();
+                CloseToolTip();
+            }
+        }
+
+        private void SearchGrid_Click(object sender, MouseButtonEventArgs e)
+        {
+            Grid grd = sender as Grid;
+            if (grd != null)
+            {
+                //MessageBox.Show("검색 공간 클릭");
+                ShowExtraSearchConditionGrid();
+            }
+        }
+
+        private void ShowExtraSearchConditionGrid()
+        {
+            if(!strFlag.Equals("I") && !strFlag.Equals("U"))
+            {
+                SetExtraSearchGrid_InitialState();
+            }
+        }
+
+        private void SetExtraSearchGrid_InitialState()
+        {         
+            brLine_Top.Visibility = Visibility.Visible;
+            tgnExtraSearchConditions.Visibility = Visibility.Visible;
+
+            tgnExtraSearchConditions.IsChecked = false;
+            grdExtraSearchCondtions.Visibility = Visibility.Hidden;
+            brLine_Bottom.Visibility = Visibility.Hidden;
+            UpdateToggleButtonPosition();
+            ShowSpeechBubble();
+         
+        }
+
+        private void HideExtraSearchConditionGrid()
+        {
+            brLine_Top.Visibility = Visibility.Hidden;
+            tgnExtraSearchConditions.Visibility = Visibility.Hidden;
+            ShowSpeechBubble();
+        }
+
+        private void CommonControl_Click(object sender, MouseButtonEventArgs e)
+        {
+            Label label = sender as Label;
+            //var datePicker = FindChild<DatePicker>(parentContainer);
+            CheckBox checkbox = FindChild<CheckBox>(label);
+            List<DatePicker> dtps = lib.FindAllSiblingControls<DatePicker>(label);
+
+            lib.CommonControl_Click(sender, e);
+
+            if (checkbox != null && checkbox.IsChecked == true && checkbox.Name.Equals("chkUniversalSearhSrh"))
+            {
+                DisablekCheckBox();
+                ShowTooltipMessage(sender as FrameworkElement, "기존 검색된 내용에서 키워드 재검색 합니다.", MessageBoxImage.Information, PlacementMode.Bottom);
+            }
+            else if (checkbox != null && checkbox.IsChecked == false && checkbox.Name.Equals("chkUniversalSearhSrh"))
+            {
+                EnablekCheckBox();
+            }
+
+            foreach(DatePicker dtp in dtps)
+            {
+                if (dtp != null && dtp.SelectedDate == null)
+                {
+                    dtp.SelectedDate = DateTime.Today;
+                }
+            }
+
+        }
+
+        private void CommonControl_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox checkbox = sender as CheckBox;
+            List<DatePicker> dtps = lib.FindAllSiblingControls<DatePicker>(checkbox);
+
+            lib.CommonControl_Click(sender, e);          
+            
+            if(checkbox != null && checkbox.IsChecked == true && checkbox.Name.Equals("chkUniversalSearhSrh"))
+            {
+                DisablekCheckBox();
+                ShowTooltipMessage(sender as FrameworkElement, "기존 검색된 내용에서 키워드 재검색 합니다.", MessageBoxImage.Information, PlacementMode.Bottom);
+            }
+            else if(checkbox != null && checkbox.IsChecked == false && checkbox.Name.Equals("chkUniversalSearhSrh"))
+            {
+                EnablekCheckBox();
+            }
+
+            foreach (DatePicker dtp in dtps)
+            {
+                if (dtp != null && dtp.SelectedDate == null)
+                {
+                    dtp.SelectedDate = DateTime.Today;
+                }
+            }
+        }
+
+        private void txtSuperCustomIDSrh_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                MainWindow.pf.ReturnCode(txtSuperCustomIDSrh, 5104, "");
+        }
+
+        private void btnSuperCustomIDSrh_Click(object sender, RoutedEventArgs e)
+        {
+           
+             MainWindow.pf.ReturnCode(txtSuperCustomIDSrh, 5104, "");
+        }
+
+        private void txtSafeManageCustomIDSrh_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                MainWindow.pf.ReturnCode(txtSafeManageCustomIDSrh, 0, "");
+        }
+
+        private void btnSafeManageCustomIDSrh_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.pf.ReturnCode(txtSafeManageCustomIDSrh, 0, "");
+        }
+
+        private void txtSuperUseInspPayCustomIDSrh_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                MainWindow.pf.ReturnCode(txtSuperUseInspPayCustomIDSrh, 0, "");
+        }
+
+        private void btnSuperUseInspPayCustomIDSrh_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.pf.ReturnCode(txtSuperUseInspPayCustomIDSrh, 0, "");
+
+        }
+
+        //통합검색 텍스트박스 - 포커스
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            if (tb.Text == "검색어를 입력하세요")
+            {
+                tb.Text = "";
+                tb.Foreground = Brushes.Black;
+                tb.FontStyle = FontStyles.Normal;
+
+            }
+        }
+
+        //통합검색 텍스트박스 - 포커스
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            if (string.IsNullOrWhiteSpace(tb.Text))
+            {
+                tb.Text = "검색어를 입력하세요";
+                tb.Foreground = Brushes.Gray;
+                tb.FontStyle = FontStyles.Italic;
+            }
+        }
 
 
 
@@ -8097,6 +8930,7 @@ namespace WizMes_EVC
         public string orderId {get;set;}
         public string estSubject { get; set; }
         public string estID { get; set; }
+        public string orderType { get; set; }
         public string orderTypeID { get; set; }
         public string orderNo { get; set; }
         public string saleCustom { get; set; }
@@ -8142,6 +8976,7 @@ namespace WizMes_EVC
         public string mtrAmount{get;set;}
         public string mtrShippingCharge{get;set;}
         public string mtrPriceUnitClss{get;set;}
+        public string mtrPriceUnit { get; set; }
         public string mtrCanopyInwareInfo{get;set;}
         public string mtrCanopyOrderAmount { get; set; }
         public string contractFileName { get; set; }
@@ -8287,6 +9122,432 @@ namespace WizMes_EVC
             };
         }
     }
+
+
+    #region 말풍선
+
+    public enum BubblePosition
+    {
+        TopLeft,
+        TopCenter,
+        TopRight,
+        LeftCenter,
+        Center,
+        RightCenter,
+        BottomLeft,
+        BottomCenter,
+        BottomRight
+    }
+
+    public enum TailDirection
+    {
+        None,
+        Up,
+        UpLeft,
+        UpRight,
+        Down,
+        DownLeft,
+        DownRight,
+        Left,
+        LeftUp,
+        LeftDown,
+        Right,
+        RightUp,
+        RightDown
+    }
+
+    public enum TextAlign
+    {
+        Auto,      // 꼬리 방향에 따라 자동 조정
+        Center,    // 강제 중앙
+        Left,      // 왼쪽 정렬
+        Right,     // 오른쪽 정렬
+        Top,       // 위쪽 정렬
+        Bottom     // 아래쪽 정렬
+    }
+
+    //어도너는 zindex 설정할 필요없이 항상 보이는 화면 가장 위에 표시된다고 합니다.
+    //드래그앤드롭, 말풍선에 활용..
+    public class SpeechBubbleAdorner : Adorner
+    {
+        private readonly VisualCollection _children;
+        private readonly Grid _container;
+        private readonly System.Windows.Shapes.Path _speechBubblePath;
+        private readonly TextBlock _textBlock;
+
+        private BubblePosition _position = BubblePosition.TopCenter;
+        private TailDirection _tailDirection = TailDirection.Down;
+        private TextAlign _textAlign = TextAlign.Auto;
+        private Thickness _margin;
+        private string _text = "";
+        private bool _isVisible = true;
+
+        public Grid Container => _container;
+
+        public SpeechBubbleAdorner(UIElement adornedElement) : base(adornedElement)
+        {
+            _children = new VisualCollection(this);
+
+            // 예쁜 말풍선 Path
+            _speechBubblePath = new System.Windows.Shapes.Path
+            {
+                Fill = Brushes.White,
+                Stroke = new SolidColorBrush(Color.FromRgb(200, 200, 200)),
+                StrokeThickness = 1,
+                Effect = new DropShadowEffect
+                {
+                    Color = Colors.Gray,
+                    Opacity = 0.3,
+                    ShadowDepth = 2,
+                    BlurRadius = 4
+                }
+            };
+
+            // 텍스트 (Grid에서 자동 중앙 정렬)
+            _textBlock = new TextBlock
+            {
+                FontSize = 12,
+                Foreground = Brushes.Black,
+                TextAlignment = TextAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                TextWrapping = TextWrapping.Wrap
+            };
+
+            // Grid 컨테이너 (자동 중앙 정렬)
+            _container = new Grid();
+            _container.Children.Add(_speechBubblePath);
+            _container.Children.Add(_textBlock);
+
+            _children.Add(_container);
+
+            // 기본 말풍선 모양 설정
+            UpdateBubbleShape();
+        }
+
+        public SpeechBubbleAdorner SetText(string text)
+        {
+            _text = text ?? "빈 텍스트"; // null 방지
+            _textBlock.Text = _text;
+
+            // 즉시 업데이트해서 디버깅
+            //System.Diagnostics.Debug.WriteLine($"SetText called: '{_text}'");
+
+            UpdateBubbleShape();
+            InvalidateArrange();
+            return this;
+        }
+
+        public SpeechBubbleAdorner SetPosition(BubblePosition position, TailDirection tailDirection = TailDirection.Down)
+        {
+            _position = position;
+            _tailDirection = tailDirection;
+            UpdateBubbleShape();
+            InvalidateArrange();
+            return this;
+        }
+
+        public SpeechBubbleAdorner SetTextAlign(TextAlign textAlign)
+        {
+            _textAlign = textAlign;
+            UpdateBubbleShape(); // Canvas 위치 재계산 필요
+            return this;
+        }
+
+        public SpeechBubbleAdorner SetMargin(Thickness margin)
+        {
+            _margin = margin;
+            InvalidateArrange();
+            return this;
+        }
+
+        public SpeechBubbleAdorner Show()
+        {
+            _isVisible = true;
+            _container.Visibility = Visibility.Visible;
+            return this;
+        }
+
+        public SpeechBubbleAdorner Hide()
+        {
+            _isVisible = false;
+            _container.Visibility = Visibility.Collapsed;
+            return this;
+        }
+
+        public SpeechBubbleAdorner Configure(string text, BubblePosition position, TailDirection tailDirection = TailDirection.Down, TextAlign textAlign = TextAlign.Auto, Thickness? margin = null)
+        {
+            _text = text ?? "";
+            _position = position;
+            _tailDirection = tailDirection;
+            _textAlign = textAlign;
+            if (margin.HasValue)
+                _margin = margin.Value;
+
+            _textBlock.Text = _text;
+            UpdateBubbleShape();
+            InvalidateArrange();
+            return this;
+        }
+
+        private void UpdateBubbleShape()
+        {
+            // 텍스트 크기 측정
+            _textBlock.Measure(new Size(300, double.PositiveInfinity));
+            var textSize = _textBlock.DesiredSize;
+
+            // 최소 크기 보장
+            var estimatedWidth = _text.Length * 12;
+            if (textSize.Width < estimatedWidth) textSize.Width = estimatedWidth;
+
+            double bubbleWidth = Math.Max(textSize.Width + 30, 100);
+            double bubbleHeight = Math.Max(textSize.Height + 10, 40);
+
+            // 꼬리에 따른 여백
+            double extraWidth = _tailDirection == TailDirection.None ? 0 : 20;
+            double extraHeight = _tailDirection == TailDirection.None ? 0 : 20;
+
+            // 말풍선 Path 생성
+            string pathData = GeneratePathData(bubbleWidth, bubbleHeight);
+            _speechBubblePath.Data = Geometry.Parse(pathData);
+
+            // 텍스트 마진 조정 (꼬리 피하기)
+            UpdateTextMargin();
+
+            // 컨테이너 크기 설정
+            _container.Width = bubbleWidth + extraWidth;
+            _container.Height = bubbleHeight + extraHeight;
+        }
+
+        //꼬리때문에 패딩이 특정 방향으로 더 생겨서 
+        private void UpdateTextMargin()
+        {
+            double leftMargin = 15;
+            double topMargin = 10;
+            double rightMargin = 15;
+            double bottomMargin = 10;
+
+            
+            switch (_tailDirection)
+            {
+                case TailDirection.Up:
+                case TailDirection.UpLeft:
+                case TailDirection.UpRight:
+                    /*topMargin += 5;*/ 
+                    break;
+
+                case TailDirection.Down:
+                case TailDirection.DownLeft:
+                case TailDirection.DownRight:
+                    //bottomMargin += 10; // 아래쪽 꼬리 길이만큼
+                    break;
+
+                case TailDirection.Left:
+                case TailDirection.LeftUp:
+                case TailDirection.LeftDown:
+                    //leftMargin += 10; // 왼쪽 꼬리 길이만큼
+                    break;
+
+                case TailDirection.Right:
+                case TailDirection.RightUp:
+                case TailDirection.RightDown:
+                    //rightMargin += 10; // 오른쪽 꼬리 길이만큼
+                    break;
+            }
+
+            // 강제 정렬 적용
+            if (_textAlign != TextAlign.Auto)
+            {
+                switch (_textAlign)
+                {
+                    case TextAlign.Left:
+                        _textBlock.HorizontalAlignment = HorizontalAlignment.Left;
+                        leftMargin += 10;
+                        break;
+                    case TextAlign.Right:
+                        _textBlock.HorizontalAlignment = HorizontalAlignment.Right;
+                        rightMargin += 10;
+                        break;
+                    case TextAlign.Top:
+                        _textBlock.VerticalAlignment = VerticalAlignment.Top;
+                        topMargin += 5;
+                        break;
+                    case TextAlign.Bottom:
+                        _textBlock.VerticalAlignment = VerticalAlignment.Bottom;
+                        bottomMargin += 5;
+                        break;
+                    case TextAlign.Center:
+                        _textBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                        _textBlock.VerticalAlignment = VerticalAlignment.Center;
+                        break;
+                }
+            }
+            else
+            {
+                // Auto 모드에서는 중앙 정렬
+                _textBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                _textBlock.VerticalAlignment = VerticalAlignment.Center;
+            }
+
+            _textBlock.Margin = new Thickness(leftMargin, topMargin, rightMargin, bottomMargin);
+        }
+
+        private string GeneratePathData(double bubbleWidth, double bubbleHeight)
+        {
+            double tailSize = 12;
+            double cornerRadius = 8;
+
+            // 모든 말풍선 몸체를 동일한 위치(10, 10)에서 시작하도록 통일
+            double baseX = 10;
+            double baseY = 10;
+
+            switch (_tailDirection)
+            {
+                case TailDirection.None:
+                    return $"M {baseX + cornerRadius},5 L {baseX + bubbleWidth - cornerRadius},5 Q {baseX + bubbleWidth - 5},5 {baseX + bubbleWidth - 5},{5 + cornerRadius} L {baseX + bubbleWidth - 5},{bubbleHeight - 5 - cornerRadius} Q {baseX + bubbleWidth - 5},{bubbleHeight - 5} {baseX + bubbleWidth - cornerRadius},{bubbleHeight - 5} L {baseX + cornerRadius},{bubbleHeight - 5} Q {baseX + 5},{bubbleHeight - 5} {baseX + 5},{bubbleHeight - 5 - cornerRadius} L {baseX + 5},{5 + cornerRadius} Q {baseX + 5},5 {baseX + cornerRadius},5 Z";
+
+                // Up 계열 (꼬리가 위로) - 몸체는 baseY 위치에, 꼬리만 위로
+                case TailDirection.Up:
+                    return $"M {baseX + cornerRadius},{baseY} L {baseX + bubbleWidth / 2 - 6},{baseY} L {baseX + bubbleWidth / 2},{baseY - 10} L {baseX + bubbleWidth / 2 + 6},{baseY} L {baseX + bubbleWidth - cornerRadius},{baseY} Q {baseX + bubbleWidth - 5},{baseY} {baseX + bubbleWidth - 5},{baseY + cornerRadius} L {baseX + bubbleWidth - 5},{baseY + bubbleHeight - cornerRadius} Q {baseX + bubbleWidth - 5},{baseY + bubbleHeight} {baseX + bubbleWidth - cornerRadius},{baseY + bubbleHeight} L {baseX + cornerRadius},{baseY + bubbleHeight} Q {baseX + 5},{baseY + bubbleHeight} {baseX + 5},{baseY + bubbleHeight - cornerRadius} L {baseX + 5},{baseY + cornerRadius} Q {baseX + 5},{baseY} {baseX + cornerRadius},{baseY} Z";
+
+                case TailDirection.UpLeft:
+                    return $"M {baseX + cornerRadius},{baseY} L {baseX + bubbleWidth / 3 - 6},{baseY} L {baseX + bubbleWidth / 3},{baseY - 10} L {baseX + bubbleWidth / 3 + 6},{baseY} L {baseX + bubbleWidth - cornerRadius},{baseY} Q {baseX + bubbleWidth - 5},{baseY} {baseX + bubbleWidth - 5},{baseY + cornerRadius} L {baseX + bubbleWidth - 5},{baseY + bubbleHeight - cornerRadius} Q {baseX + bubbleWidth - 5},{baseY + bubbleHeight} {baseX + bubbleWidth - cornerRadius},{baseY + bubbleHeight} L {baseX + cornerRadius},{baseY + bubbleHeight} Q {baseX + 5},{baseY + bubbleHeight} {baseX + 5},{baseY + bubbleHeight - cornerRadius} L {baseX + 5},{baseY + cornerRadius} Q {baseX + 5},{baseY} {baseX + cornerRadius},{baseY} Z";
+
+                case TailDirection.UpRight:
+                    return $"M {baseX + cornerRadius},{baseY} L {baseX + bubbleWidth * 2 / 3 - 6},{baseY} L {baseX + bubbleWidth * 2 / 3},{baseY - 10} L {baseX + bubbleWidth * 2 / 3 + 6},{baseY} L {baseX + bubbleWidth - cornerRadius},{baseY} Q {baseX + bubbleWidth - 5},{baseY} {baseX + bubbleWidth - 5},{baseY + cornerRadius} L {baseX + bubbleWidth - 5},{baseY + bubbleHeight - cornerRadius} Q {baseX + bubbleWidth - 5},{baseY + bubbleHeight} {baseX + bubbleWidth - cornerRadius},{baseY + bubbleHeight} L {baseX + cornerRadius},{baseY + bubbleHeight} Q {baseX + 5},{baseY + bubbleHeight} {baseX + 5},{baseY + bubbleHeight - cornerRadius} L {baseX + 5},{baseY + cornerRadius} Q {baseX + 5},{baseY} {baseX + cornerRadius},{baseY} Z";
+
+                // Down 계열 (꼬리가 아래로) - 몸체는 baseY 위치에, 꼬리만 아래로
+                case TailDirection.Down:
+                    return $"M {baseX + cornerRadius},{baseY} L {baseX + bubbleWidth - cornerRadius},{baseY} Q {baseX + bubbleWidth - 5},{baseY} {baseX + bubbleWidth - 5},{baseY + cornerRadius} L {baseX + bubbleWidth - 5},{baseY + bubbleHeight - cornerRadius} Q {baseX + bubbleWidth - 5},{baseY + bubbleHeight} {baseX + bubbleWidth - cornerRadius},{baseY + bubbleHeight} L {baseX + bubbleWidth / 2 + 6},{baseY + bubbleHeight} L {baseX + bubbleWidth / 2},{baseY + bubbleHeight + 10} L {baseX + bubbleWidth / 2 - 6},{baseY + bubbleHeight} L {baseX + cornerRadius},{baseY + bubbleHeight} Q {baseX + 5},{baseY + bubbleHeight} {baseX + 5},{baseY + bubbleHeight - cornerRadius} L {baseX + 5},{baseY + cornerRadius} Q {baseX + 5},{baseY} {baseX + cornerRadius},{baseY} Z";
+
+                case TailDirection.DownLeft:
+                    return $"M {baseX + cornerRadius},{baseY} L {baseX + bubbleWidth - cornerRadius},{baseY} Q {baseX + bubbleWidth - 5},{baseY} {baseX + bubbleWidth - 5},{baseY + cornerRadius} L {baseX + bubbleWidth - 5},{baseY + bubbleHeight - cornerRadius} Q {baseX + bubbleWidth - 5},{baseY + bubbleHeight} {baseX + bubbleWidth - cornerRadius},{baseY + bubbleHeight} L {baseX + bubbleWidth / 3 + 6},{baseY + bubbleHeight} L {baseX + bubbleWidth / 3},{baseY + bubbleHeight + 10} L {baseX + bubbleWidth / 3 - 6},{baseY + bubbleHeight} L {baseX + cornerRadius},{baseY + bubbleHeight} Q {baseX + 5},{baseY + bubbleHeight} {baseX + 5},{baseY + bubbleHeight - cornerRadius} L {baseX + 5},{baseY + cornerRadius} Q {baseX + 5},{baseY} {baseX + cornerRadius},{baseY} Z";
+
+                case TailDirection.DownRight:
+                    return $"M {baseX + cornerRadius},{baseY} L {baseX + bubbleWidth - cornerRadius},{baseY} Q {baseX + bubbleWidth - 5},{baseY} {baseX + bubbleWidth - 5},{baseY + cornerRadius} L {baseX + bubbleWidth - 5},{baseY + bubbleHeight - cornerRadius} Q {baseX + bubbleWidth - 5},{baseY + bubbleHeight} {baseX + bubbleWidth - cornerRadius},{baseY + bubbleHeight} L {baseX + bubbleWidth * 2 / 3 + 6},{baseY + bubbleHeight} L {baseX + bubbleWidth * 2 / 3},{baseY + bubbleHeight + 10} L {baseX + bubbleWidth * 2 / 3 - 6},{baseY + bubbleHeight} L {baseX + cornerRadius},{baseY + bubbleHeight} Q {baseX + 5},{baseY + bubbleHeight} {baseX + 5},{baseY + bubbleHeight - cornerRadius} L {baseX + 5},{baseY + cornerRadius} Q {baseX + 5},{baseY} {baseX + cornerRadius},{baseY} Z";
+
+                // Left 계열 (꼬리가 왼쪽으로) - 몸체는 baseX 위치에, 꼬리만 왼쪽으로
+                case TailDirection.Left:
+                    return $"M {baseX + cornerRadius},{baseY} L {baseX + bubbleWidth - cornerRadius},{baseY} Q {baseX + bubbleWidth - 5},{baseY} {baseX + bubbleWidth - 5},{baseY + cornerRadius} L {baseX + bubbleWidth - 5},{baseY + bubbleHeight - cornerRadius} Q {baseX + bubbleWidth - 5},{baseY + bubbleHeight} {baseX + bubbleWidth - cornerRadius},{baseY + bubbleHeight} L {baseX + cornerRadius},{baseY + bubbleHeight} Q {baseX + 5},{baseY + bubbleHeight} {baseX + 5},{baseY + bubbleHeight - cornerRadius} L {baseX + 5},{baseY + bubbleHeight / 2 + 6} L {baseX - 5},{baseY + bubbleHeight / 2} L {baseX + 5},{baseY + bubbleHeight / 2 - 6} L {baseX + 5},{baseY + cornerRadius} Q {baseX + 5},{baseY} {baseX + cornerRadius},{baseY} Z";
+
+                case TailDirection.LeftUp:
+                    return $"M {baseX + cornerRadius},{baseY} L {baseX + bubbleWidth - cornerRadius},{baseY} Q {baseX + bubbleWidth - 5},{baseY} {baseX + bubbleWidth - 5},{baseY + cornerRadius} L {baseX + bubbleWidth - 5},{baseY + bubbleHeight - cornerRadius} Q {baseX + bubbleWidth - 5},{baseY + bubbleHeight} {baseX + bubbleWidth - cornerRadius},{baseY + bubbleHeight} L {baseX + cornerRadius},{baseY + bubbleHeight} Q {baseX + 5},{baseY + bubbleHeight} {baseX + 5},{baseY + bubbleHeight - cornerRadius} L {baseX + 5},{baseY + bubbleHeight / 3 + 6} L {baseX - 5},{baseY + bubbleHeight / 3} L {baseX + 5},{baseY + bubbleHeight / 3 - 6} L {baseX + 5},{baseY + cornerRadius} Q {baseX + 5},{baseY} {baseX + cornerRadius},{baseY} Z";
+
+                case TailDirection.LeftDown:
+                    return $"M {baseX + cornerRadius},{baseY} L {baseX + bubbleWidth - cornerRadius},{baseY} Q {baseX + bubbleWidth - 5},{baseY} {baseX + bubbleWidth - 5},{baseY + cornerRadius} L {baseX + bubbleWidth - 5},{baseY + bubbleHeight - cornerRadius} Q {baseX + bubbleWidth - 5},{baseY + bubbleHeight} {baseX + bubbleWidth - cornerRadius},{baseY + bubbleHeight} L {baseX + cornerRadius},{baseY + bubbleHeight} Q {baseX + 5},{baseY + bubbleHeight} {baseX + 5},{baseY + bubbleHeight - cornerRadius} L {baseX + 5},{baseY + bubbleHeight * 2 / 3 + 6} L {baseX - 5},{baseY + bubbleHeight * 2 / 3} L {baseX + 5},{baseY + bubbleHeight * 2 / 3 - 6} L {baseX + 5},{baseY + cornerRadius} Q {baseX + 5},{baseY} {baseX + cornerRadius},{baseY} Z";
+
+                // Right 계열 (꼬리가 오른쪽으로) - 몸체는 baseX 위치에, 꼬리만 오른쪽으로
+                case TailDirection.Right:
+                    return $"M {baseX + cornerRadius},{baseY} L {baseX + bubbleWidth - cornerRadius},{baseY} Q {baseX + bubbleWidth - 5},{baseY} {baseX + bubbleWidth - 5},{baseY + cornerRadius} L {baseX + bubbleWidth - 5},{baseY + bubbleHeight / 2 - 6} L {baseX + bubbleWidth + 5},{baseY + bubbleHeight / 2} L {baseX + bubbleWidth - 5},{baseY + bubbleHeight / 2 + 6} L {baseX + bubbleWidth - 5},{baseY + bubbleHeight - cornerRadius} Q {baseX + bubbleWidth - 5},{baseY + bubbleHeight} {baseX + bubbleWidth - cornerRadius},{baseY + bubbleHeight} L {baseX + cornerRadius},{baseY + bubbleHeight} Q {baseX + 5},{baseY + bubbleHeight} {baseX + 5},{baseY + bubbleHeight - cornerRadius} L {baseX + 5},{baseY + cornerRadius} Q {baseX + 5},{baseY} {baseX + cornerRadius},{baseY} Z";
+
+                case TailDirection.RightUp:
+                    return $"M {baseX + cornerRadius},{baseY} L {baseX + bubbleWidth - cornerRadius},{baseY} Q {baseX + bubbleWidth - 5},{baseY} {baseX + bubbleWidth - 5},{baseY + cornerRadius} L {baseX + bubbleWidth - 5},{baseY + bubbleHeight / 3 - 6} L {baseX + bubbleWidth + 5},{baseY + bubbleHeight / 3} L {baseX + bubbleWidth - 5},{baseY + bubbleHeight / 3 + 6} L {baseX + bubbleWidth - 5},{baseY + bubbleHeight - cornerRadius} Q {baseX + bubbleWidth - 5},{baseY + bubbleHeight} {baseX + bubbleWidth - cornerRadius},{baseY + bubbleHeight} L {baseX + cornerRadius},{baseY + bubbleHeight} Q {baseX + 5},{baseY + bubbleHeight} {baseX + 5},{baseY + bubbleHeight - cornerRadius} L {baseX + 5},{baseY + cornerRadius} Q {baseX + 5},{baseY} {baseX + cornerRadius},{baseY} Z";
+
+                case TailDirection.RightDown:
+                    return $"M {baseX + cornerRadius},{baseY} L {baseX + bubbleWidth - cornerRadius},{baseY} Q {baseX + bubbleWidth - 5},{baseY} {baseX + bubbleWidth - 5},{baseY + cornerRadius} L {baseX + bubbleWidth - 5},{baseY + bubbleHeight * 2 / 3 - 6} L {baseX + bubbleWidth + 5},{baseY + bubbleHeight * 2 / 3} L {baseX + bubbleWidth - 5},{baseY + bubbleHeight * 2 / 3 + 6} L {baseX + bubbleWidth - 5},{baseY + bubbleHeight - cornerRadius} Q {baseX + bubbleWidth - 5},{baseY + bubbleHeight} {baseX + bubbleWidth - cornerRadius},{baseY + bubbleHeight} L {baseX + cornerRadius},{baseY + bubbleHeight} Q {baseX + 5},{baseY + bubbleHeight} {baseX + 5},{baseY + bubbleHeight - cornerRadius} L {baseX + 5},{baseY + cornerRadius} Q {baseX + 5},{baseY} {baseX + cornerRadius},{baseY} Z";
+
+                default:
+                    return $"M {baseX + cornerRadius},{baseY} L {baseX + bubbleWidth - cornerRadius},{baseY} Q {baseX + bubbleWidth - 5},{baseY} {baseX + bubbleWidth - 5},{baseY + cornerRadius} L {baseX + bubbleWidth - 5},{baseY + bubbleHeight - cornerRadius} Q {baseX + bubbleWidth - 5},{baseY + bubbleHeight} {baseX + bubbleWidth - cornerRadius},{baseY + bubbleHeight} L {baseX + cornerRadius},{baseY + bubbleHeight} Q {baseX + 5},{baseY + bubbleHeight} {baseX + 5},{baseY + bubbleHeight - cornerRadius} L {baseX + 5},{baseY + cornerRadius} Q {baseX + 5},{baseY} {baseX + cornerRadius},{baseY} Z";
+            }
+        }
+
+        protected override Size ArrangeOverride(Size finalSize)
+        {
+            if (!_isVisible) return finalSize;
+
+            var elementBounds = AdornedElement.RenderSize;
+            var containerSize = new Size(_container.Width, _container.Height);
+
+            // AdornedElement의 실제 화면 위치를 구함
+            var adornerLayer = AdornerLayer.GetAdornerLayer(AdornedElement);
+            var elementPosition = AdornedElement.TranslatePoint(new Point(0, 0), adornerLayer);
+
+            // 위치 계산 (실제 element 위치 기준)
+            var relativePosition = CalculateRelativePosition(elementBounds, containerSize);
+
+            // 절대 위치 계산
+            var absoluteX = elementPosition.X + relativePosition.X + _margin.Left - _margin.Right;
+            var absoluteY = elementPosition.Y + relativePosition.Y + _margin.Top - _margin.Bottom;
+
+            // 컨테이너 배치
+            _container.Arrange(new Rect(absoluteX, absoluteY, containerSize.Width, containerSize.Height));
+
+            return finalSize;
+        }
+
+        private Point CalculateRelativePosition(Size elementBounds, Size containerSize)
+        {
+            double x = 0, y = 0;
+            const double offset = 10;
+
+            switch (_position)
+            {
+                case BubblePosition.TopLeft:
+                    x = -containerSize.Width - offset;
+                    y = -containerSize.Height - offset;
+                    break;
+                case BubblePosition.TopCenter:
+                    x = (elementBounds.Width - containerSize.Width) / 2;
+                    y = -containerSize.Height - offset;
+                    break;
+                case BubblePosition.TopRight:
+                    x = elementBounds.Width - containerSize.Width - offset;
+                    y = -containerSize.Height - offset;
+                    break;
+                case BubblePosition.LeftCenter:
+                    x = -containerSize.Width - offset;
+                    y = (elementBounds.Height - containerSize.Height) / 2;
+                    break;
+                case BubblePosition.Center:
+                    x = (elementBounds.Width - containerSize.Width) / 2;
+                    y = (elementBounds.Height - containerSize.Height) / 2;
+                    break;
+                case BubblePosition.RightCenter:
+                    x = elementBounds.Width - containerSize.Width - offset;
+                    y = (elementBounds.Height - containerSize.Height) / 2;
+                    break;
+                case BubblePosition.BottomLeft:
+                    x = -containerSize.Width - offset;
+                    y = elementBounds.Height + offset;
+                    break;
+                case BubblePosition.BottomCenter:
+                    x = (elementBounds.Width - containerSize.Width) / 2;
+                    y = elementBounds.Height + offset;
+                    break;
+                case BubblePosition.BottomRight:
+                    x = elementBounds.Width - containerSize.Width - offset;
+                    y = elementBounds.Height - containerSize.Height - offset;
+                    break;
+            }
+
+            return new Point(x, y);
+        }
+
+        protected override int VisualChildrenCount => _children.Count;
+        protected override Visual GetVisualChild(int index) => _children[index];
+    }
+
+    // 확장 메서드 (체이닝 지원)
+    public static class AdornerExtensions
+    {
+        public static SpeechBubbleAdorner AddSpeechBubble(this UIElement element, string text,
+            BubblePosition position = BubblePosition.TopCenter,
+            TailDirection tailDirection = TailDirection.Down,
+            TextAlign textAlign = TextAlign.Auto,
+            Thickness? margin = null)
+        {
+            var adorner = new SpeechBubbleAdorner(element);
+            adorner.Configure(text, position, tailDirection, textAlign, margin);
+
+            var adornerLayer = AdornerLayer.GetAdornerLayer(element);
+            adornerLayer?.Add(adorner);
+
+            return adorner;
+        }
+    }
+
+
+    #endregion
 
     //멀티헤더 스크롤뷰어와 데이터컬럼헤더 + 데이터그리드(컬럼Visibility = Hidden)
     //동기화 클래스

@@ -16,7 +16,7 @@
                 <RowDefinition Height="88*" />
                 <RowDefinition Height="532*" />
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Background="{DynamicResource WizMes_EVC}" Margin="1">
+            <Grid x:Name="grdSearchConditionsTop" Grid.Row="0" Background="{DynamicResource WizMes_EVC}" Margin="1,1,0,0" MouseLeftButtonDown="SearchGrid_Click">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100*" />
                     <ColumnDefinition Width="160*" />
@@ -29,7 +29,6 @@
                     <RowDefinition Height="10*" />
                     <RowDefinition Height="10*" />
                     <RowDefinition Height="10*" />
-                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Grid.Column="1">
                     <Grid.ColumnDefinitions>
@@ -77,7 +76,7 @@
                 </Grid>
 
                 <!--운영회사-->
-                <Grid Grid.Row="0" Grid.Column="2">
+                <Grid x:Name="grdCondition1" Grid.Row="0" Grid.Column="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="75*" />
                         <ColumnDefinition Width="90*" />
@@ -620,11 +619,12 @@
                         </Label>
                     </Grid>
                 </Grid>
-            </Grid>
+            </Grid>     
 
-            <Grid Grid.Row="1">
+
+            <Grid Grid.Row="1" MouseLeftButtonDown="MainGrid_Click">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="10*" />
+                    <ColumnDefinition Width="8.4*" />
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="60*" />
                 </Grid.ColumnDefinitions>
@@ -637,7 +637,7 @@
 
                     <DataGrid x:Name="dgdMain" Grid.Row="0" Margin="1" IsReadOnly="True" Style="{DynamicResource DataGridSet1}"
                              SelectionChanged="DataGridMain_SelectionChanged"                     
-                              SizeChanged="DataGrid_SizeChange" >
+                              SizeChanged="DataGrid_SizeChange">
                         <DataGrid.RowStyle>
                             <Style TargetType="DataGridRow">
                                 <Style.Resources>
@@ -3093,8 +3093,12 @@
 
                                             </Viewbox>
                                         </Label>
-                                        <TextBox x:Name="txtKepParentChildCapacity" Grid.Row="4" Grid.Column="1" Text="{Binding kepParentChildCapacity}"
-                                     
+                                        <TextBox x:Name="txtKepParentChildCapacity" Grid.Row="4" Grid.Column="1" 
+                                                 Text="{Binding kepParentChildCapacity}"
+                                                   InputMethod.IsInputMethodEnabled="False"
+                                                    PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                    PreviewTextInput="TextBox_NumberValidation"
+                                                    DataObject.Pasting="TextBox_PastingHandler"                                     
                                      TextAlignment="Left" VerticalContentAlignment="Center"
                                       MaxLength="15"/>
                                     </Grid>
@@ -5862,7 +5866,1023 @@
                     </Grid>
                 </Grid>
             </Grid>
-        </Grid>
 
+
+            <Grid Grid.Row="1"  Margin="1,0,1,0">
+                <Border x:Name="brLine_Top" VerticalAlignment="Top" 
+                 Height="8">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="#F7FAFC" Offset="0"/>
+                            <GradientStop Color="#E2E8F0" Offset="0.5"/>
+                            <GradientStop Color="#CBD5E0" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border.Effect>
+                        <DropShadowEffect Color="#4A5568" 
+                                        Opacity="0.4" 
+                                        ShadowDepth="2" 
+                                        BlurRadius="4"/>
+                    </Border.Effect>
+                </Border>
+
+                <Grid x:Name="grdExtraSearchCondtions" Visibility="Hidden"
+                     VerticalAlignment="Top"
+                     Panel.ZIndex="10">
+  
+                    <!-- 확장 검색 조건 박스 -->
+                    <Border >              
+
+                        <Grid Height="{Binding ElementName=grdSearchCondition_Top, Path=ActualHeight}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100*"/>
+                                <ColumnDefinition Width="160*" />
+                                <ColumnDefinition Width="180*" />
+                                <ColumnDefinition Width="180*" />
+                                <ColumnDefinition Width="200*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                            </Grid.RowDefinitions>
+
+                            <Border Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="12" 
+                                  Background="{DynamicResource WizMes_EVCNoIconExtra1}"
+                                    BorderBrush="Gray"
+                                    BorderThickness="1,0,0,0">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="#4A5568" 
+                                        Opacity="0.4" 
+                                        ShadowDepth="2" 
+                                        BlurRadius="4"/>
+                                </Border.Effect>
+                                <Grid Margin="5,0,5,0" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="160*"/>
+                                        <ColumnDefinition Width="160*" />
+                                        <ColumnDefinition Width="160*" />
+                                        <ColumnDefinition Width="160*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                        <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                        <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                        <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                        <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                        <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                        <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                        <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                        <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                        <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                        <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                        <RowDefinition Height="{Binding ElementName=grdCondition1, Path=ActualHeight}"/>
+                                    </Grid.RowDefinitions>
+                                    <!--기본정보 검색조건 타이틀 -->
+                                    <Grid Grid.Row="0" Grid.Column="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="90*"/>
+                                            <ColumnDefinition Width="15*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="[기본정보]" FontWeight="ExtraBlack" VerticalAlignment="Bottom"/>
+                                    </Grid>
+
+                                    <!--견적번호-->
+                                    <Grid Grid.Row="1" Grid.Column="0" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="90*"/>
+                                            <ColumnDefinition Width="15*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label x:Name="lblEstSubject" Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkEstSubjectSrh"  VerticalAlignment="Center" 
+                                                        Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="견적번호" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <TextBox x:Name="txtEstSubjectSrh" Grid.Column="1" VerticalContentAlignment="Center" IsEnabled="False"/>
+                                    </Grid>
+
+                                    <!--운영사 컨펌일-->
+                                    <Grid Grid.Row="2" Grid.Column="0" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkManageCustomConfirmDateSrh"  VerticalAlignment="Center" 
+                                                Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="운영사컨펌일" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpManageCustomConfirmDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpManageCustomConfirmDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+
+                                    <!--현장 주소-->
+                                    <Grid Grid.Row="3" Grid.Column="0" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="90*"/>
+                                            <ColumnDefinition Width="15*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkInstallLocationAdressSrh"  VerticalAlignment="Center" 
+                                                      Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="현장주소" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <TextBox x:Name="txtInstallLocationAdressSrh" Grid.Column="1" Style="{DynamicResource TextBoxSearch}"/>
+                                    </Grid>
+
+                                    <!--개통 요청일-->
+                                    <Grid Grid.Row="4" Grid.Column="0" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkOpenReqDateSrh"  VerticalAlignment="Center" 
+                                                Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="개통요청일" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpOpenReqDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpOpenReqDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+
+                                    <!--개통일-->
+                                    <Grid Grid.Row="5" Grid.Column="0" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkOpenDateSrh"  VerticalAlignment="Center" 
+                                Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="개통일" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpOpenDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpOpenDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+
+                                    <!--CPO 정산일-->
+                                    <Grid Grid.Row="6" Grid.Column="0" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}" Background="Aquamarine">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkCpoCalcuDateSrh"  VerticalAlignment="Center" 
+                             Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="CPO정산일" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpCpoCalcuDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpCpoCalcuDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+
+                                    <!--시공사정산일-->
+                                    <Grid Grid.Row="7" Grid.Column="0" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}" Background="Cornsilk">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkConstrCalcuDateSrh"  VerticalAlignment="Center" 
+                                                             Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="시공사정산일" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpConstrCalcuDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpConstrCalcuDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+                                    
+                                    
+
+                                    <!--시공사&지자체 검색조건 타이틀 -->
+                                    <Grid Grid.Row="0" Grid.Column="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="[시공사&amp;지자체]" FontWeight="ExtraBlack" VerticalAlignment="Bottom"/>
+                                    </Grid>
+
+                                    <!--실사요청일-->
+                                    <Grid Grid.Row="1" Grid.Column="1" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkSearchReqDateSrh"  VerticalAlignment="Center" 
+                                                      Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="실사요청일" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpSearchReqDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpSearchReqDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+
+                                    <!--실사일-->
+                                    <Grid Grid.Row="2" Grid.Column="1" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkSearchDateSrh"  VerticalAlignment="Center" 
+                                       Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="실사일" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpSearchDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpSearchDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+
+                                    <!--실사자료접수일-->
+                                    <Grid Grid.Row="3" Grid.Column="1" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkSearchDataAcptDateSrh"  VerticalAlignment="Center" 
+                                                    Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="실사자료접수일" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpSearchDataAcptDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpSearchDataAcptDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+
+
+                                    <!--공단접수번호-->
+                                    <Grid Grid.Row="4" Grid.Column="1" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="90*"/>
+                                            <ColumnDefinition Width="15*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkCorpAcptNoSrh"  VerticalAlignment="Center" 
+                                                    Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="공단접수번호" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <TextBox x:Name="txtCorpAcptNoSrh" Grid.Column="1" Style="{DynamicResource TextBoxSearch}"/>
+                                    </Grid>
+
+                                    <!--공단승인일-->
+                                    <Grid Grid.Row="5" Grid.Column="1" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkCorpApprovalDateSrh"  VerticalAlignment="Center" 
+                                               Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="공단승인일" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpCorpApprovalDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpCorpApprovalDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+
+
+                                    <!--공기마감일-->
+                                    <Grid Grid.Row="6" Grid.Column="1" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkCorpEndDateSrh"  VerticalAlignment="Center" 
+                                               Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="공기마감일" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpCorpEndDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpCorpEndDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+
+                                    <!--사용검사신청일-->
+                                    <Grid Grid.Row="7" Grid.Column="1" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkSuperUseInspReqDateSrh"  VerticalAlignment="Center" 
+                                 Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="사용검사신청일" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpSuperUseInspReqDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpSuperUseInspReqDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+
+                                    <!--사용검사 필증발급일-->
+                                    <Grid Grid.Row="8" Grid.Column="1" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkSuperBeforeUseInspPrintDateSrh"  VerticalAlignment="Center" 
+                              Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="사용검사필증발급" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpSuperBeforeUseInspPrintDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpSuperBeforeUseInspPrintDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+
+                                    <!--한전&전기공사 검색조건 타이틀 -->
+                                    <Grid Grid.Row="0" Grid.Column="2" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="[한전&amp;전기공사]" FontWeight="ExtraBlack" VerticalAlignment="Bottom"/>
+                                    </Grid>
+
+                                    <!--외선공사내용-->
+                                    <Grid Grid.Row="1" Grid.Column="2" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="90*"/>
+                                            <ColumnDefinition Width="15*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkKepOutLineConstructContextSrh"  VerticalAlignment="Center" 
+                                   Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="외선공사내용" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <TextBox x:Name="txtKepOutLineConstructContextSrh" Grid.Column="1" Style="{DynamicResource TextBoxSearch}"/>
+                                    </Grid>
+
+
+                                    <!--전기사용신청일-->
+                                    <Grid Grid.Row="2" Grid.Column="2" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkKepElectrReqDateSrh"  VerticalAlignment="Center" 
+                                                    Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="전기사용신청일" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpKepElectrReqDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpKepElectrReqDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+
+                                    <!--모자분할수전용량-->
+                                    <Grid Grid.Row="3" Grid.Column="2" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkKepParentChildCapacitySrh"  VerticalAlignment="Center" 
+                                                              Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="모자분할수전용량" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+
+                                        <TextBox x:Name="txtKepParentChildCapacityToSrh" Grid.Column="1" Style="{DynamicResource TextBoxSearch}"
+                                                 PreviewTextInput="TextBox_NumberValidation"
+                                                 PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                 LostFocus="ElectrTextBox_LostFocus"/>
+                                        <TextBox x:Name="txtKepParentChildCapacityEndSrh" Grid.Column="2" Style="{DynamicResource TextBoxSearch}"
+                                                 PreviewTextInput="TextBox_NumberValidation"
+                                                 PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                 LostFocus="ElectrTextBox_LostFocus"/>
+
+                                    </Grid>
+
+                                    <!--한전불입수전용량-->
+                                    <Grid Grid.Row="4" Grid.Column="2" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkKepPowerSupplyCapacitySrh"  VerticalAlignment="Center" 
+                                         Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="한전불입수전용량" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>                                     
+                                        <TextBox x:Name="txtKepPowerSupplyCapacityToSrh" Grid.Column="1" Style="{DynamicResource TextBoxSearch}"
+                                                    PreviewTextInput="TextBox_NumberValidation"
+                                                    PreviewKeyDown="TextBox_PreventCopyPaste"
+                                                    LostFocus="ElectrTextBox_LostFocus"/>
+                                        <TextBox x:Name="txtKepPowerSupplyCapacityEndSrh" Grid.Column="2" Style="{DynamicResource TextBoxSearch}"
+                                         PreviewTextInput="TextBox_NumberValidation"
+                                         PreviewKeyDown="TextBox_PreventCopyPaste"
+                                         LostFocus="ElectrTextBox_LostFocus"/>
+
+                                    </Grid>
+
+                                    <!--접수증-->
+                                    <Grid Grid.Row="5" Grid.Column="2" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="90*"/>
+                                            <ColumnDefinition Width="15*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkKepCustomNoSrh"  VerticalAlignment="Center" 
+                                                      Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="접수증(고객번호)" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <TextBox x:Name="txtKepCustomNoSrh" Grid.Column="1" Style="{DynamicResource TextBoxSearch}"/>
+                                    </Grid>
+
+                                    <!--착공일-->
+                                    <Grid Grid.Row="6" Grid.Column="2" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkConstrDateSrh"  VerticalAlignment="Center" 
+                                                      Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="착공일" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpConstrDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpConstrDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+
+                                    <!--완공일-->
+                                    <Grid Grid.Row="7" Grid.Column="2" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkConstrCompleteDateSrh"  VerticalAlignment="Center" 
+                                  Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="완공일" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpConstrCompleteDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpConstrCompleteDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+
+                                    <!--전기안점점검확인증발급일-->
+                                    <Grid Grid.Row="8" Grid.Column="2" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox MaxHeight="35" MinHeight="25" VerticalAlignment="Center" Stretch="Uniform">
+                                                    <CheckBox x:Name="chkElectrSafeCheckPrintDateSrh" VerticalAlignment="Center" 
+                                                       Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox MaxHeight="20" MinHeight="15" VerticalAlignment="Center" Stretch="Uniform" Margin="-6,0,0,0" >
+                                                    <TextBlock Text="전기안점점검확인증발급일" Style="{DynamicResource TextBlockInViewBoxSearch}">
+                                                        <TextBlock.LayoutTransform>
+                                                            <ScaleTransform ScaleX="1.2" ScaleY="1.1"/>
+                                                        </TextBlock.LayoutTransform>
+                                                    </TextBlock>
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpElectrSafeCheckPrintDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpElectrSafeCheckPrintDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+
+                                    <!--사용전점검확인증발급일-->
+                                    <Grid Grid.Row="9" Grid.Column="2" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox MaxHeight="35" MinHeight="25" VerticalAlignment="Center" Stretch="Uniform">
+                                                    <CheckBox x:Name="chkElectrBeforeUseCheckPrintDateSrh" VerticalAlignment="Center" 
+                                                        Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox MaxHeight="20" MinHeight="15" VerticalAlignment="Center" Stretch="Uniform" Margin="-6,0,0,0">
+                                                    <TextBlock Text="사용전점검확인증발급일" Style="{DynamicResource TextBlockInViewBoxSearch}">
+                                                        <TextBlock.LayoutTransform>
+                                                            <ScaleTransform ScaleX="1.2" ScaleY="1.1"/>
+                                                        </TextBlock.LayoutTransform>
+                                                    </TextBlock>
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpElectrBeforeUseCheckPrintDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpElectrBeforeUseCheckPrintDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+
+                                    <!--사용전검사확인증발급일-->
+                                    <Grid Grid.Row="10" Grid.Column="2" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox MaxHeight="35" MinHeight="25" VerticalAlignment="Center" Stretch="Uniform">
+                                                    <CheckBox x:Name="chkElectrBeforeInspPrintDateSrh" VerticalAlignment="Center" 
+                                     Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox MaxHeight="20" MinHeight="15" VerticalAlignment="Center" Stretch="Uniform" Margin="-6,0,0,0">
+                                                    <TextBlock Text="사용전검사확인증발급일" Style="{DynamicResource TextBlockInViewBoxSearch}">
+                                                        <TextBlock.LayoutTransform>
+                                                            <ScaleTransform ScaleX="1.2" ScaleY="1.1"/>
+                                                        </TextBlock.LayoutTransform>
+                                                    </TextBlock>
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpElectrBeforeInspPrintDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpElectrBeforeInspPrintDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+
+                                    <!--감리&준공&경리 검색조건 타이틀 -->
+                                    <Grid Grid.Row="0" Grid.Column="3" >
+                                        <TextBlock Text="[감리&amp;준공&amp;경리]" FontWeight="ExtraBlack" VerticalAlignment="Bottom"/>
+                                    </Grid>
+
+                                    <!--감리업체명-->
+                                    <Grid Grid.Row="1" Grid.Column="3" Width="{Binding ElementName=grdCondition1, Path=ActualWidth}" HorizontalAlignment="Left">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*" />
+                                            <ColumnDefinition Width="90*" />
+                                            <ColumnDefinition Width="15*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0"
+                                        MouseLeftButtonUp="CommonControl_Click" Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkSuperCustomIDSrh" Click="CommonControl_Click"  VerticalAlignment="Center"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="감리업체명" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+
+                                            </StackPanel>
+                                        </Label>
+                                        <TextBox x:Name="txtSuperCustomIDSrh" Grid.Column="1" Padding="0" IsEnabled="False"  Style="{DynamicResource TextBoxSearch}"
+                                          Keyboard.KeyDown="txtSuperCustomIDSrh_KeyDown"/>
+                                        <Button x:Name="btnSuperCustomIDSrh" Grid.Column="2" IsEnabled="False"
+                                                Click="btnSuperCustomIDSrh_Click" >
+                                            <Image Source="{DynamicResource btiPlusFind}"   />
+                                        </Button>
+                                    </Grid>
+
+                                    <!--안전관리업체명-->
+                                    <Grid Grid.Row="2" Grid.Column="3" Width="{Binding ElementName=grdCondition1, Path=ActualWidth}" HorizontalAlignment="Left">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*" />
+                                            <ColumnDefinition Width="90*" />
+                                            <ColumnDefinition Width="15*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0"
+                           MouseLeftButtonUp="CommonControl_Click" Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkSafeManageCustomIDSrh" Click="CommonControl_Click"  VerticalAlignment="Center"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="안전관리업체명" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+
+                                            </StackPanel>
+                                        </Label>
+                                        <TextBox x:Name="txtSafeManageCustomIDSrh" Grid.Column="1" Padding="0" IsEnabled="False"  Style="{DynamicResource TextBoxSearch}"
+                             Keyboard.KeyDown="txtSafeManageCustomIDSrh_KeyDown"/>
+                                        <Button x:Name="btnSafeManageCustomIDSrh" Grid.Column="2" IsEnabled="False"
+                                   Click="btnSafeManageCustomIDSrh_Click" >
+                                            <Image Source="{DynamicResource btiPlusFind}"   />
+                                        </Button>
+                                    </Grid>
+
+                                    <!--사용검사(감리)지출업체 txtSuperUseInspPayCustomID-->
+                                    <Grid Grid.Row="3" Grid.Column="3" Width="{Binding ElementName=grdCondition1, Path=ActualWidth}" HorizontalAlignment="Left">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="90*"/>
+                                            <ColumnDefinition Width="15*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox MaxHeight="35" MinHeight="25" VerticalAlignment="Center" Stretch="Uniform">
+                                                    <CheckBox x:Name="chkSuperUseInspPayCustomIDSrh" VerticalAlignment="Center" 
+                                                 Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox MaxHeight="20" MinHeight="15" VerticalAlignment="Center" Stretch="Uniform" Margin="-6,0,0,0">
+                                                    <TextBlock Text="사용검사(감리)지출업체" Style="{DynamicResource TextBlockInViewBoxSearch}">
+                                                        <TextBlock.LayoutTransform>
+                                                            <ScaleTransform ScaleX="1.2" ScaleY="1.1"/>
+                                                        </TextBlock.LayoutTransform>
+                                                    </TextBlock>
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <TextBox x:Name="txtSuperUseInspPayCustomIDSrh" Grid.Column="1" Padding="0" IsEnabled="False"  Style="{DynamicResource TextBoxSearch}"
+                                             Keyboard.KeyDown="txtSuperUseInspPayCustomIDSrh_KeyDown"/>
+                                        <Button x:Name="btnSuperUseInspPayCustomIDSrh" Grid.Column="2" IsEnabled="False"
+                                              Click="btnSuperUseInspPayCustomIDSrh_Click" >
+                                            <Image Source="{DynamicResource btiPlusFind}"   />
+                                        </Button>
+                                    </Grid>
+
+
+                                    <!--감리배치계산서발행일-->
+                                    <Grid Grid.Row="4" Grid.Column="3" Width="{Binding ElementName=grdCondition1, Path=ActualWidth}" HorizontalAlignment="Left">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox MaxHeight="35" MinHeight="25" VerticalAlignment="Center" Stretch="Uniform">
+                                                    <CheckBox x:Name="chkSuperSetTaxPrintDateSrh" VerticalAlignment="Center" 
+                                                      Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox MaxHeight="20" MinHeight="15" VerticalAlignment="Center" Stretch="Uniform" Margin="-6,0,0,0">
+                                                    <TextBlock Text="감리배치계산서발행일" Style="{DynamicResource TextBlockInViewBoxSearch}">
+                                                        <TextBlock.LayoutTransform>
+                                                            <ScaleTransform ScaleX="1.2" ScaleY="1.1"/>
+                                                        </TextBlock.LayoutTransform>
+                                                    </TextBlock>
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpSuperSetTaxPrintDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpSuperSetTaxPrintDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+
+                                    <!--준공서류회신일-->
+                                    <Grid Grid.Row="5" Grid.Column="3"  Width="{Binding ElementName=grdCondition1, Path=ActualWidth}" HorizontalAlignment="Left">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkCompReplyDateSrh"  VerticalAlignment="Center" 
+                                                      Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="준공서류회신일" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpCompReplyDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpCompReplyDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+
+                                    <!--시공보완완료일-->
+                                    <Grid Grid.Row="6" Grid.Column="3"  Width="{Binding ElementName=grdCondition1, Path=ActualWidth}" HorizontalAlignment="Left">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkSuppleCompDateSrh"  VerticalAlignment="Center" 
+                                     Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="시공보완완료일" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpSuppleCompDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpSuppleCompDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+
+                                    <!--준공서류보완일-->
+                                    <Grid Grid.Row="7" Grid.Column="3"  Width="{Binding ElementName=grdCondition1, Path=ActualWidth}" HorizontalAlignment="Left">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkCompSuppleReportDateSrh"  VerticalAlignment="Center" 
+                                  Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="준공서류보완일" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpCompSuppleReportDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpCompSuppleReportDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+
+                                    <!--하자보증보험발행일-->
+                                    <Grid Grid.Row="8" Grid.Column="3"  Width="{Binding ElementName=grdCondition1, Path=ActualWidth}" HorizontalAlignment="Left">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="75*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                            <ColumnDefinition Width="52.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkInsurePrintDateSrh" VerticalAlignment="Center" 
+                                                      Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox  Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="하자보증보험발행" Style="{DynamicResource TextBlockInViewBoxSearch}">
+                                                        <!--<TextBlock.LayoutTransform>
+                                                            <ScaleTransform ScaleX="1.2" ScaleY="1.1"/>
+                                                        </TextBlock.LayoutTransform>-->
+                                                    </TextBlock>
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <DatePicker x:Name="dtpInsurePrintDateToSrh" Grid.Column="1" Style="{DynamicResource DatePickerSearch}"/>
+                                        <DatePicker x:Name="dtpInsurePrintDateEndSrh" Grid.Column="2" Style="{DynamicResource DatePickerSearch}"/>
+                                    </Grid>
+
+
+                                    <Grid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="{Binding ElementName=lblEstSubject, Path=ActualWidth}"/>
+                                            <ColumnDefinition Width="90*"/>
+                                            <ColumnDefinition Width="5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" MouseLeftButtonDown="CommonControl_Click"  Style="{DynamicResource LabelSearch}">
+                                            <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <CheckBox x:Name="chkUniversalSearhSrh"  VerticalAlignment="Center" 
+                                                          Click="CommonControl_Click"/>
+                                                </Viewbox>
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="결과내 재검색" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                                                </Viewbox>
+                                            </StackPanel>
+                                        </Label>
+                                        <TextBox x:Name="txtUniversalSearhSrh" Grid.Column="1" 
+                                         Text="검색어를 입력하세요"
+                                         Foreground="Gray"
+                                         FontStyle="Italic"
+                                         GotFocus="TextBox_GotFocus"
+                                         LostFocus="TextBox_LostFocus"
+                                         Style="{DynamicResource TextBoxSearch}" />
+
+
+                                    </Grid>
+
+                                </Grid>
+
+                            </Border>
+                         
+                        </Grid>
+                    </Border>
+
+                    <Border x:Name="brLine_Bottom" VerticalAlignment="Bottom"
+                            Height="8" Margin="169,0,0,0">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#F7FAFC" Offset="0"/>
+                                <GradientStop Color="#E2E8F0" Offset="0.5"/>
+                                <GradientStop Color="#CBD5E0" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.Effect>
+                            <DropShadowEffect Color="#4A5568" 
+                            Opacity="0.4" 
+                            ShadowDepth="2" 
+                            BlurRadius="4"/>
+                        </Border.Effect>
+                    </Border>
+                  
+                </Grid>
+
+            
+                <!--<Border x:Name="SpeechBubble" 
+                         VerticalAlignment="top" 
+                         HorizontalAlignment="Right"
+                         Margin="30, 10 , 0, 0"
+                         Background="White"
+                         BorderBrush="Gray"
+                         BorderThickness="1"
+                         CornerRadius="5"
+                         Padding="10">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="2" BlurRadius="4"/>
+                    </Border.Effect>
+                    <StackPanel>
+                        <TextBlock x:Name="tblNoticeCondtions" FontSize="12"/>
+                    </StackPanel>
+                </Border>-->
+
+                <ToggleButton x:Name="tgnExtraSearchConditions"
+                     Width="32" 
+                     Height="16"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Top"
+                     Margin="0,0,0,0"
+                     Panel.ZIndex="30"
+                     IsChecked="False"
+                     Click="SearchToggleButton_Click">
+                    <ToggleButton.Template>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border BorderBrush="#7A8BA3"
+                         BorderThickness="1,0,1,1"
+                         CornerRadius="0,0,4,4">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="#FFFFFF" Offset="0"/>
+                                        <GradientStop Color="#F5F7FA" Offset="0.3"/>
+                                        <GradientStop Color="#E8EDF5" Offset="0.7"/>
+                                        <GradientStop Color="#D0DAE8" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.Effect>
+                                    <DropShadowEffect Color="#4A5568" 
+                                         Opacity="0.25" 
+                                         ShadowDepth="1" 
+                                         BlurRadius="2"/>
+                                </Border.Effect>
+                                <TextBlock x:Name="ArrowIcon"
+                               Text="▼" 
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="8"
+                               FontWeight="Bold"
+                               Foreground="#4A5568"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="ArrowIcon" Property="Text" Value="▲"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+
+            </Grid>
+
+            <!-- 토글 버튼 (떠다니는 버튼) -->
+        </Grid>
+        
+        
+ 
     </Grid>
 </UserControl>

@@ -304,6 +304,8 @@
             <!-- 백 그라운드에 넣을 이미지 키값으로 지정 -->
             <ImageBrush x:Key="WizMes_EVC" ImageSource="Images/wizmes.jpg" />
             <ImageBrush x:Key="WizMes_EVCNoIcon" ImageSource="Images/wizMES_Largesize_noIcon.jpg" />
+            <ImageBrush x:Key="WizMes_EVCNoIconExtra" ImageSource="/Images/wizMES_Largesize_noIcon_extra.jpg" />
+            <ImageBrush x:Key="WizMes_EVCNoIconExtra1" ImageSource="/Images/wizMES_Largesize_noIcon_extra1.jpg" />
 
 
             <!--2019.05.08 NEW 4M용 스타일-->

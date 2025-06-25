@@ -16,6 +16,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Media3D;
 using System.Windows.Threading;
 using WPF.MDI;
 
@@ -470,6 +471,147 @@ namespace WizMes_EVC
 
             return strValue;
         }
+
+        #endregion
+
+        #region 콤마 제거 오버로딩 함수들
+
+
+        // 문자열 반환 (콤마 제거만)
+        public string RemoveComma(object obj)
+        {
+            if (obj == null) return "0";
+
+            string result = obj.ToString().Trim().Replace(",", "");
+            return string.IsNullOrEmpty(result) ? "0" : result;
+        }
+
+        // int 반환
+        public int RemoveComma(object obj, int defaultValue, bool showErrorMessage = true)
+        {
+            if (obj == null) return defaultValue;
+
+            string digits = obj.ToString().Trim().Replace(",", "");
+            if (string.IsNullOrEmpty(digits)) return defaultValue;
+
+            if (!decimal.TryParse(digits, out decimal parsedValue))
+            {
+                if (showErrorMessage)
+                    MessageBox.Show($"'{obj}'는 올바른 숫자 형식이 아닙니다.", "입력 오류");
+                return defaultValue;
+            }
+
+            if (parsedValue > int.MaxValue || parsedValue < int.MinValue)
+            {
+                if (showErrorMessage)
+                    ShowRangeError("정수", int.MinValue, int.MaxValue);
+                return defaultValue;
+            }
+
+            return (int)parsedValue;
+        }
+
+        // long 반환
+        public long RemoveComma(object obj, long defaultValue, bool showErrorMessage = true)
+        {
+            if (obj == null) return defaultValue;
+
+            string digits = obj.ToString().Trim().Replace(",", "");
+            if (string.IsNullOrEmpty(digits)) return defaultValue;
+
+            if (!decimal.TryParse(digits, out decimal parsedValue))
+            {
+                if (showErrorMessage)
+                    MessageBox.Show($"'{obj}'는 올바른 숫자 형식이 아닙니다.", "입력 오류");
+                return defaultValue;
+            }
+
+            if (parsedValue > long.MaxValue || parsedValue < long.MinValue)
+            {
+                if (showErrorMessage)
+                    ShowRangeError("정수", long.MinValue, long.MaxValue);
+                return defaultValue;
+            }
+
+            return (long)parsedValue;
+        }
+
+        // decimal 반환
+        public decimal RemoveComma(object obj, decimal defaultValue, bool showErrorMessage = true)
+        {
+            if (obj == null) return defaultValue;
+
+            string digits = obj.ToString().Trim().Replace(",", "");
+            if (string.IsNullOrEmpty(digits)) return defaultValue;
+
+            if (!decimal.TryParse(digits, out decimal parsedValue))
+            {
+                if (showErrorMessage)
+                    MessageBox.Show($"'{obj}'는 올바른 숫자 형식이 아닙니다.", "입력 오류");
+                return defaultValue;
+            }
+
+            return parsedValue;
+        }
+
+        // double 반환
+        public double RemoveComma(object obj, double defaultValue, bool showErrorMessage = true)
+        {
+            if (obj == null) return defaultValue;
+
+            string digits = obj.ToString().Trim().Replace(",", "");
+            if (string.IsNullOrEmpty(digits)) return defaultValue;
+
+            if (!decimal.TryParse(digits, out decimal parsedValue))
+            {
+                if (showErrorMessage)
+                    MessageBox.Show($"'{obj}'는 올바른 숫자 형식이 아닙니다.", "입력 오류");
+                return defaultValue;
+            }
+
+            double doubleVal = (double)parsedValue;
+            if (double.IsInfinity(doubleVal))
+            {
+                if (showErrorMessage)
+                    MessageBox.Show("입력한 값이 너무 큽니다.", "범위 초과");
+                return defaultValue;
+            }
+
+            return doubleVal;
+        }
+
+        // float 반환
+        public float RemoveComma(object obj, float defaultValue, bool showErrorMessage = true)
+        {
+            if (obj == null) return defaultValue;
+
+            string digits = obj.ToString().Trim().Replace(",", "");
+            if (string.IsNullOrEmpty(digits)) return defaultValue;
+
+            if (!decimal.TryParse(digits, out decimal parsedValue))
+            {
+                if (showErrorMessage)
+                    MessageBox.Show($"'{obj}'는 올바른 숫자 형식이 아닙니다.", "입력 오류");
+                return defaultValue;
+            }
+
+            float floatVal = (float)parsedValue;
+            if (float.IsInfinity(floatVal))
+            {
+                if (showErrorMessage)
+                    MessageBox.Show("입력한 값이 너무 큽니다.", "범위 초과");
+                return defaultValue;
+            }
+
+            return floatVal;
+        }
+
+        public void ShowRangeError(string type, object min, object max)
+        {
+            MessageBox.Show($"입력한 값이 {type} 처리 가능한 범위를 벗어났습니다.\n(범위: {min:N0} ~ {max:N0})",
+                            "범위 초과");
+        }
+
 
         #endregion
 
@@ -3477,7 +3619,222 @@ namespace WizMes_EVC
             return strReturn;
         }
 
+        //사용하려면 같은 그리드로 묶어주세요
+        //<Grid><Label/><CheckBox/></Grid>
+        public void CommonControl_Click(object sender, EventArgs e)
+        {
+            CheckBox checkBox = null;
+            DependencyObject parentGrid = null;
+
+            if (sender is Label label)
+            {
+                // 라벨의 부모 그리드 찾기
+                parentGrid = FindVisualParent<Grid>(label);
+                if (parentGrid != null)
+                {
+                    // 같은 그리드 내에서 체크박스 찾기
+                    checkBox = FindChild<CheckBox>(parentGrid);
+                    if (checkBox != null)
+                    {
+                        // 체크박스 상태 토글
+                        checkBox.IsChecked = !checkBox.IsChecked;
+                    }
+                }
+            }
+            else if (sender is CheckBox clickedCheckBox)
+            {
+                // 클릭된 것이 체크박스인 경우
+                checkBox = clickedCheckBox;
+                parentGrid = FindVisualParent<Grid>(checkBox);
+            }
+
+            // 체크박스와 부모 그리드가 있으면 컨트롤 활성화/비활성화 처리
+            if (checkBox != null && parentGrid != null)
+            {
+                List<Control> controlsToToggle = new List<Control>();
+
+                // 그리드 내 모든 Control 찾기 (체크박스 제외)
+                FindUiObject(parentGrid, obj => {
+                    if (obj is Control control && obj != checkBox && !(obj is Label) && !(obj is CheckBox))
+                    {
+                        controlsToToggle.Add(control);
+                    }
+                });
+
+                // 컨트롤 활성화/비활성화
+                foreach (var control in controlsToToggle)
+                {
+                    control.IsEnabled = checkBox.IsChecked == true;
+                }
+            }
+        }
+
+        //컨트롤 안 특정 타입의 자식 컨트롤을 찾는 함수 (그리드내에서)
+        //var parentContainer = VisualTreeHelper.GetParent(checkbox);
+        //var datePicker = FindChild<DatePicker>(parentContainer);
+        private T FindChild<T>(DependencyObject parent) where T : DependencyObject
+        {
+            int childCount = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < childCount; i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                if (child is T typedChild)
+                {
+                    return typedChild;
+                }
+
+                // 재귀적으로 자식의 자식들도 검색
+                var result = FindChild<T>(child);
+                if (result != null)
+                    return result;
+            }
+            return null;
+        }
+
+        // 자식요소 안에서 부모요서 찾기
+        //DataGridRow row = FindVisualParent<DataGridRow>(checkBox); 데이터그리드안의 행속 체크박스의 부모행 찾기
+        //DataGrid parentGrid = FindVisualParent<DataGrid>(row); 데이터그리드 행의 부모 데이터그리드 찾기
+        private T FindVisualParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null)
+                return null;
+
+            T parent = parentObject as T;
+            if (parent != null)
+                return parent;
+            else
+                return FindVisualParent<T>(parentObject);
+        }
+
+        //UI컨트롤 요소찾기 
+        //StackPanel같이 다중 트리로 되어있는 UI들도 깊게 탐색
+        private void FindUiObject(DependencyObject parent, Action<DependencyObject> action)
+        {
+            if (parent == null) return;
+
+            var visited = new HashSet<DependencyObject>();
+            var queue = new Queue<DependencyObject>();
+
+            queue.Enqueue(parent);
+
+            while (queue.Count > 0 && visited.Count < 2000)
+            {
+                var current = queue.Dequeue();
+                if (current == null || visited.Contains(current)) continue;
+
+                visited.Add(current);
+                action?.Invoke(current);
+
+                // 1. 비쥬얼트리 자식들 추가
+                if (current is Visual || current is Visual3D)
+                {
+                    try
+                    {
+                        int childCount = VisualTreeHelper.GetChildrenCount(current);
+                        for (int i = 0; i < childCount; i++)
+                        {
+                            var child = VisualTreeHelper.GetChild(current, i);
+                            if (child != null && !visited.Contains(child))
+                            {
+                                queue.Enqueue(child);
+                            }
+                        }
+                    }
+                    catch { }
+                }
+
+                // 2. LogicalTree 자식들도 추가
+                try
+                {
+                    foreach (object logicalChild in LogicalTreeHelper.GetChildren(current))
+                    {
+                        if (logicalChild is DependencyObject child && !visited.Contains(child))
+                        {
+                            queue.Enqueue(child);
+                        }
+                    }
+                }
+                catch { }
+
+                // 3. 그외
+                switch (current)
+                {
+                    case ContentPresenter cp when cp.Content is DependencyObject content:
+                        if (!visited.Contains(content))
+                            queue.Enqueue(content);
+                        break;
+
+                    case ContentControl cc when cc.Content is DependencyObject controlContent:
+                        if (!visited.Contains(controlContent))
+                            queue.Enqueue(controlContent);
+                        break;
+
+                    case Decorator decorator when decorator.Child != null:
+                        if (!visited.Contains(decorator.Child))
+                            queue.Enqueue(decorator.Child);
+                        break;
+                }
+            }
+        }
+
+        //같은 그리드안에 이웃한 요소 한개를 반환(현재 선택값과 비교가능) 
+        public T FindSiblingControl<T>(UIElement currentElement) where T : UIElement
+        {
+            var parentGrid = FindVisualParent<Grid>(currentElement);
+            if (parentGrid == null) return null;
+
+            int currentColumn = Grid.GetColumn(currentElement);
+            int currentRow = Grid.GetRow(currentElement);
+
+            foreach (UIElement child in parentGrid.Children)
+            {
+                if (child is T targetControl && child != currentElement)
+                {
+                    int childColumn = Grid.GetColumn(child);
+                    int childRow = Grid.GetRow(child);
+
+                    // 같은 Row이면서 다른 Column인 컨트롤
+                    if (childRow == currentRow && childColumn != currentColumn)
+                    {
+                        return targetControl;
+                    }
+                }
+            }
+            return null;
+        }
+
+        //같은 그리드안에 이웃한 요소 여러개를  리스트로 반환(현재 선택값과 비교가능) 단, 반복문으로
+        public List<T> FindAllSiblingControls<T>(UIElement currentElement) where T : UIElement
+        {
+            var siblings = new List<T>();
+            var parentGrid = FindVisualParent<Grid>(currentElement);
+            if (parentGrid == null) return siblings;
+
+            int currentColumn = Grid.GetColumn(currentElement);
+            int currentRow = Grid.GetRow(currentElement);
+
+            foreach (UIElement child in parentGrid.Children)
+            {
+                if (child is T targetControl && child != currentElement)
+                {
+                    int childColumn = Grid.GetColumn(child);
+                    int childRow = Grid.GetRow(child);
+
+                    // 같은 Row이면서 다른 Column인 컨트롤
+                    if (childRow == currentRow && childColumn != currentColumn)
+                    {
+                        siblings.Add(targetControl);
+                    }
+                }
+            }
+            return siblings;
+        }
+
     }
+
+
 
     public class TextBoxColumnControl : TextBox
     {
